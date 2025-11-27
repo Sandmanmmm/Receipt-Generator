@@ -116,34 +116,304 @@ class RetailDataGenerator:
             Faker.seed(seed)
             random.seed(seed)
         
-        # Retail product categories
-        self.grocery_items = [
-            "Organic Bananas", "Milk 2%", "Whole Wheat Bread", "Free Range Eggs",
-            "Greek Yogurt", "Avocados", "Cherry Tomatoes", "Baby Spinach",
-            "Orange Juice", "Cheddar Cheese", "Ground Beef", "Chicken Breast"
+        # Retail product categories (optimized for Shopify use cases)
+        # Expanded to 50+ items per category for production readiness
+        self.fashion_items = [
+            # Tops
+            "Cotton T-Shirt", "V-Neck Tee", "Tank Top", "Crop Top", "Blouse",
+            "Button-Down Shirt", "Polo Shirt", "Henley Shirt", "Tunic Top",
+            "Sweater", "Cardigan", "Hoodie", "Pullover Sweatshirt",
+            # Bottoms
+            "Denim Jeans", "Skinny Jeans", "Wide Leg Pants", "Yoga Pants", "Leggings",
+            "Cargo Pants", "Chinos", "Shorts", "Denim Shorts", "Maxi Skirt",
+            "Mini Skirt", "Pencil Skirt", "Pleated Skirt",
+            # Dresses & Jumpsuits
+            "Floral Dress", "Maxi Dress", "Midi Dress", "Wrap Dress", "Shirt Dress",
+            "Jumpsuit", "Romper",
+            # Outerwear
+            "Leather Jacket", "Denim Jacket", "Blazer", "Trench Coat", "Parka",
+            "Windbreaker", "Bomber Jacket", "Puffer Vest",
+            # Activewear
+            "Sports Bra", "Athletic Shorts", "Running Tights", "Track Pants",
+            "Performance Tank", "Training Hoodie",
+            # Sleepwear & Loungewear
+            "Pajama Set", "Nightgown", "Lounge Pants", "Sleep Shirt", "Robe"
+        ]
+        
+        self.accessories_items = [
+            # Bags
+            "Leather Handbag", "Canvas Tote Bag", "Crossbody Bag", "Backpack",
+            "Messenger Bag", "Clutch Purse", "Weekender Bag", "Laptop Bag",
+            "Beach Bag", "Diaper Bag", "Fanny Pack", "Drawstring Bag",
+            # Hats & Headwear
+            "Baseball Cap", "Beanie", "Fedora", "Wide Brim Hat", "Bucket Hat",
+            "Sun Hat", "Beret", "Trucker Hat",
+            # Scarves & Wraps
+            "Silk Scarf", "Infinity Scarf", "Blanket Scarf", "Pashmina Shawl",
+            # Belts & Wallets
+            "Leather Belt", "Canvas Belt", "Chain Belt", "Leather Wallet",
+            "Card Holder", "Money Clip", "Coin Purse",
+            # Eyewear
+            "Sunglasses", "Reading Glasses", "Blue Light Glasses", "Sports Sunglasses",
+            # Hair Accessories
+            "Hair Clips Set", "Headband", "Scrunchie Set", "Hair Ties Pack",
+            "Bobby Pins", "Barrettes",
+            # Watches
+            "Stainless Steel Watch", "Leather Watch", "Smart Watch", "Sport Watch",
+            # Other
+            "Umbrella", "Keychain", "Phone Charm", "Luggage Tag", "Bandana"
+        ]
+        
+        self.jewelry_items = [
+            # Necklaces
+            "Sterling Silver Necklace", "Gold Chain Necklace", "Rose Gold Pendant",
+            "Layered Necklace", "Choker Necklace", "Pearl Necklace", "Locket Necklace",
+            "Bar Necklace", "Name Necklace", "Cross Necklace",
+            # Earrings
+            "Gold Hoop Earrings", "Gemstone Stud Earrings", "Drop Earrings",
+            "Dangle Earrings", "Huggie Hoops", "Pearl Studs", "Crystal Earrings",
+            "Threader Earrings", "Ear Cuffs",
+            # Bracelets
+            "Pearl Bracelet", "Charm Bracelet", "Cuff Bracelet", "Bangle Set",
+            "Tennis Bracelet", "Chain Bracelet", "Leather Bracelet", "Beaded Bracelet",
+            "Friendship Bracelet", "Anklet",
+            # Rings
+            "Diamond Ring", "Engagement Ring", "Wedding Band", "Stackable Rings",
+            "Statement Ring", "Midi Ring", "Signet Ring", "Birthstone Ring",
+            "Promise Ring", "Eternity Band",
+            # Sets
+            "Jewelry Set", "Bridal Set", "Necklace & Earring Set",
+            # Body Jewelry
+            "Belly Ring", "Nose Ring", "Toe Ring", "Body Chain",
+            # Other
+            "Brooch Pin", "Lapel Pin", "Cufflinks", "Tie Clip"
+        ]
+        
+        self.beauty_items = [
+            # Skincare
+            "Organic Face Serum", "Hydrating Moisturizer", "Vitamin C Serum",
+            "Retinol Cream", "Hyaluronic Acid Serum", "Facial Cleanser", "Toner",
+            "Face Mask Set", "Sheet Mask", "Eye Cream", "Night Cream", "Day Cream",
+            "Sunscreen SPF 50", "Exfoliating Scrub", "Micellar Water", "Essence",
+            # Makeup - Face
+            "BB Cream", "CC Cream", "Foundation", "Concealer", "Powder",
+            "Blush", "Bronzer", "Highlighter", "Setting Spray", "Primer",
+            # Makeup - Eyes
+            "Eye Shadow Palette", "Mascara", "Eyeliner", "Eyebrow Pencil",
+            "Brow Gel", "Eye Primer", "False Lashes",
+            # Makeup - Lips
+            "Matte Lipstick", "Lip Gloss", "Lip Liner", "Liquid Lipstick",
+            "Lip Balm", "Lip Stain", "Lip Scrub",
+            # Tools & Brushes
+            "Makeup Brush Set", "Beauty Blender", "Eyelash Curler", "Tweezers",
+            "Makeup Sponge", "Brush Cleaner",
+            # Nails
+            "Nail Polish", "Gel Polish", "Nail File Set", "Cuticle Oil",
+            # Haircare
+            "Hair Styling Cream", "Hair Mask", "Dry Shampoo", "Hair Oil",
+            "Leave-In Conditioner",
+            # Fragrance
+            "Perfume 50ml", "Body Spray", "Cologne", "Roll-On Perfume"
+        ]
+        
+        self.home_garden_items = [
+            # Decor
+            "Throw Pillow", "Decorative Pillow", "Cushion Cover", "Throw Blanket",
+            "Wall Art Print", "Canvas Wall Art", "Metal Wall Art", "Tapestry",
+            "Decorative Mirror", "Picture Frame", "Photo Collage Frame",
+            "Scented Candle", "Candle Holder", "Tea Light Set", "Diffuser",
+            "Ceramic Vase", "Glass Vase", "Artificial Plant", "Succulent Set",
+            "String Lights", "Fairy Lights", "LED Strip Lights", "Table Lamp",
+            "Floor Lamp", "Desk Lamp", "Night Light",
+            # Textiles
+            "Bath Towel Set", "Hand Towel", "Washcloth Set", "Bath Mat",
+            "Shower Curtain", "Table Runner", "Placemats Set", "Napkin Set",
+            "Area Rug", "Door Mat", "Kitchen Towel Set",
+            # Storage & Organization
+            "Storage Basket", "Storage Bin", "Shelf Organizer", "Drawer Divider",
+            "Jewelry Box", "Makeup Organizer", "Closet Organizer",
+            # Garden
+            "Plant Pot", "Planter Box", "Watering Can", "Garden Tools Set",
+            "Plant Stand", "Hanging Planter", "Seed Starter Kit", "Garden Gloves"
+        ]
+        
+        self.sports_fitness_items = [
+            # Equipment
+            "Yoga Mat", "Exercise Mat", "Foam Roller", "Resistance Bands",
+            "Resistance Loop Bands", "Jump Rope", "Exercise Ball", "Medicine Ball",
+            "Dumbbells 10lb", "Dumbbells 20lb", "Kettlebell", "Weight Set",
+            "Pull Up Bar", "Push Up Bars", "Ab Wheel", "Balance Ball",
+            "Yoga Blocks", "Yoga Strap", "Massage Ball",
+            # Apparel
+            "Gym Bag", "Duffle Bag", "Workout Gloves", "Lifting Straps",
+            "Compression Socks", "Compression Sleeves", "Sweatband Set",
+            "Athletic Headband", "Workout Towel",
+            # Nutrition
+            "Protein Powder", "Protein Bar Box", "Pre-Workout", "BCAA Powder",
+            "Creatine", "Protein Shaker", "Pill Organizer", "Supplement Container",
+            # Hydration
+            "Water Bottle", "Insulated Water Bottle", "Sport Water Bottle",
+            "Hydration Pack", "Electrolyte Powder",
+            # Tech & Accessories
+            "Fitness Tracker", "Heart Rate Monitor", "Stopwatch", "Pedometer",
+            "Armband Phone Holder", "Workout Timer", "Bluetooth Earbuds",
+            # Recovery
+            "Ice Pack", "Heating Pad", "Massage Gun", "Kinesiology Tape"
+        ]
+        
+        self.pet_supplies_items = [
+            # Food & Treats
+            "Dog Food", "Cat Food", "Dog Treats", "Cat Treats", "Dental Chews",
+            "Bully Sticks", "Rawhide Bones", "Freeze-Dried Treats",
+            # Bowls & Feeders
+            "Food Bowl Set", "Water Bowl", "Elevated Feeder", "Automatic Feeder",
+            "Slow Feeder Bowl", "Travel Bowl",
+            # Toys
+            "Cat Toy", "Dog Toy", "Chew Toys", "Rope Toy", "Plush Toy",
+            "Interactive Toy", "Puzzle Toy", "Ball Launcher", "Catnip Toys",
+            "Feather Wand", "Laser Pointer",
+            # Beds & Furniture
+            "Pet Bed", "Dog Bed", "Cat Bed", "Pet Blanket", "Pet Mat",
+            "Cat Tree", "Scratching Post", "Pet Stairs", "Pet Ramp",
+            # Leashes & Collars
+            "Dog Collar", "Cat Collar", "Leash", "Retractable Leash", "Harness",
+            "ID Tag", "Collar Charm",
+            # Grooming
+            "Pet Shampoo", "Grooming Brush", "Nail Clippers", "Pet Wipes",
+            "Deshedding Tool", "Toothbrush Set", "Ear Cleaner",
+            # Litter & Cleanup
+            "Cat Litter", "Litter Box", "Litter Scoop", "Waste Bags", "Pet Odor Spray",
+            # Travel & Carriers
+            "Pet Carrier", "Travel Crate", "Car Seat Cover", "Pet Seatbelt"
+        ]
+        
+        self.books_media_items = [
+            # Books
+            "Hardcover Book", "Paperback Book", "Comic Book", "Graphic Novel",
+            "Coloring Book", "Activity Book", "Cookbook", "Self-Help Book",
+            "Children's Book", "Young Adult Novel", "Fantasy Novel", "Mystery Book",
+            # Journals & Notebooks
+            "Journal", "Bullet Journal", "Travel Journal", "Gratitude Journal",
+            "Notebook", "Sketchbook", "Composition Notebook", "Spiral Notebook",
+            "Planner", "Daily Planner", "Weekly Planner", "Agenda",
+            # Art & Prints
+            "Art Print", "Poster", "Canvas Print", "Framed Print",
+            "Photography Print", "Vintage Poster",
+            # Stationery
+            "Pen Set", "Pencil Set", "Marker Set", "Highlighter Set",
+            "Sticky Notes", "Washi Tape", "Sticker Pack", "Bookmark Set",
+            "Greeting Cards", "Thank You Cards", "Note Cards",
+            # Accessories
+            "Book Light", "Reading Light", "Book Stand", "Bookends",
+            "Book Sleeve", "Page Markers",
+            # Subscriptions & Media
+            "Magazine Subscription", "Digital Download", "E-Book", "Audiobook"
+        ]
+        
+        self.toys_games_items = [
+            # Puzzles
+            "Puzzle 1000pc", "Puzzle 500pc", "3D Puzzle", "Jigsaw Puzzle",
+            "Brain Teaser", "Puzzle Mat",
+            # Board Games & Cards
+            "Board Game", "Strategy Game", "Party Game", "Family Game",
+            "Card Game", "Playing Cards", "Trivia Game", "Chess Set",
+            "Checkers", "Backgammon", "Dice Set",
+            # Action Figures & Dolls
+            "Action Figure", "Doll", "Fashion Doll", "Baby Doll",
+            "Doll House", "Action Figure Set", "Collectible Figure",
+            # Building & Construction
+            "Building Blocks", "LEGO Set", "Construction Set", "Marble Run",
+            "Magnetic Tiles", "Wooden Blocks",
+            # Stuffed Animals
+            "Stuffed Animal", "Plush Toy", "Teddy Bear", "Unicorn Plush",
+            # Remote Control & Tech
+            "Remote Control Car", "RC Truck", "Drone", "Robot Toy",
+            # Arts & Crafts
+            "Art Supplies", "Craft Kit", "Paint Set", "Crayon Set",
+            "Play-Doh Set", "Modeling Clay", "Bead Kit", "Sewing Kit",
+            "Origami Paper", "Coloring Set", "Watercolor Set",
+            # Outdoor & Active
+            "Toy Car", "Toy Train", "Toy Kitchen", "Play Tent",
+            "Water Toys", "Sand Toys", "Bubble Machine", "Kite",
+            # Educational
+            "STEM Kit", "Science Kit", "Learning Toy", "Flash Cards"
+        ]
+        
+        self.food_beverage_items = [
+            # Coffee & Tea
+            "Organic Coffee Beans", "Ground Coffee", "Instant Coffee", "Cold Brew",
+            "Specialty Tea", "Green Tea", "Herbal Tea", "Black Tea",
+            "Tea Sampler", "Matcha Powder", "Chai Tea", "Kombucha",
+            # Chocolate & Sweets
+            "Artisan Chocolate", "Dark Chocolate Bar", "Milk Chocolate", "Truffles",
+            "Chocolate Gift Box", "Fudge", "Caramels", "Gourmet Candy",
+            # Oils & Condiments
+            "Gourmet Olive Oil", "Avocado Oil", "Coconut Oil", "Truffle Oil",
+            "Balsamic Vinegar", "Apple Cider Vinegar", "Craft Hot Sauce",
+            "BBQ Sauce", "Salsa", "Mustard", "Pesto", "Jam Preserves",
+            # Snacks
+            "Protein Bar Box", "Energy Bars", "Granola Bars", "Trail Mix",
+            "Premium Nuts", "Roasted Almonds", "Cashews", "Mixed Nuts",
+            "Dried Fruit", "Dried Mango", "Fruit Chips", "Veggie Chips",
+            "Popcorn", "Rice Cakes", "Crackers", "Pretzels",
+            # Sweeteners & Spreads
+            "Raw Honey", "Maple Syrup", "Agave Nectar", "Nut Butter",
+            "Almond Butter", "Peanut Butter", "Tahini",
+            # Other
+            "Organic Granola", "Protein Powder", "Spice Set", "Seasoning Blend",
+            "Vanilla Extract", "Baking Mix"
+        ]
+        
+        self.health_wellness_items = [
+            # Vitamins
+            "Multivitamin", "Vitamin D3", "Vitamin C", "Vitamin B Complex",
+            "Vitamin E", "Vitamin K2", "Prenatal Vitamins", "Men's Multivitamin",
+            "Women's Multivitamin", "Kids Vitamins",
+            # Minerals
+            "Magnesium", "Calcium", "Zinc", "Iron Supplement", "Potassium",
+            # Supplements
+            "Omega-3 Fish Oil", "Probiotics", "Collagen Powder", "Biotin",
+            "Turmeric Supplement", "Ashwagandha", "Glucosamine", "CoQ10",
+            "Apple Cider Vinegar Pills", "Green Tea Extract", "Spirulina",
+            "Fiber Supplement", "Digestive Enzymes",
+            # Protein & Fitness
+            "Protein Shake", "Protein Powder", "Pre-Workout", "Creatine",
+            "BCAA", "Mass Gainer", "Meal Replacement Shake",
+            # Sleep & Relaxation
+            "Melatonin", "Valerian Root", "Sleep Aid", "Stress Relief",
+            # CBD & Natural
+            "CBD Oil", "CBD Gummies", "Hemp Oil", "Essential Oil Set",
+            "Lavender Oil", "Peppermint Oil", "Tea Tree Oil",
+            # Herbal Teas & Drinks
+            "Herbal Tea", "Detox Tea", "Slim Tea", "Energy Drink Mix",
+            # Other
+            "Electrolyte Powder", "Immune Support", "Joint Support", "Hair Growth"
         ]
         
         self.electronics_items = [
-            "USB-C Cable", "Wireless Mouse", "Bluetooth Headphones", "Phone Case",
-            "Screen Protector", "Portable Charger", "HDMI Cable", "Keyboard",
-            "Webcam", "Memory Card 64GB", "Laptop Stand", "Cable Organizer"
-        ]
-        
-        self.clothing_items = [
-            "Cotton T-Shirt", "Denim Jeans", "Running Shoes", "Hoodie",
-            "Baseball Cap", "Socks Pack", "Polo Shirt", "Shorts",
-            "Sneakers", "Jacket", "Dress Shirt", "Belt"
-        ]
-        
-        self.pharmacy_items = [
-            "Ibuprofen 200mg", "Vitamin D3", "Band-Aids", "Hand Sanitizer",
-            "Face Masks", "Multivitamin", "Pain Relief Cream", "Cough Syrup",
-            "Allergy Medicine", "First Aid Kit", "Thermometer", "Lip Balm"
-        ]
-        
-        self.fuel_items = [
-            "Unleaded Regular", "Unleaded Premium", "Diesel", "Car Wash Basic",
-            "Windshield Fluid", "Motor Oil 5W-30", "Air Freshener", "Energy Drink"
+            # Cables & Chargers
+            "USB-C Cable", "Lightning Cable", "Micro USB Cable", "HDMI Cable",
+            "Aux Cable", "Ethernet Cable", "Extension Cord", "Power Strip",
+            "Portable Charger", "Wall Charger", "Car Charger", "Wireless Charger",
+            "Charging Station", "USB Hub", "Cable Organizer",
+            # Audio
+            "Wireless Earbuds", "Wired Earbuds", "Bluetooth Headphones",
+            "Over-Ear Headphones", "Gaming Headset", "Bluetooth Speaker",
+            "Portable Speaker", "Microphone",
+            # Phone Accessories
+            "Phone Case", "Clear Phone Case", "Wallet Phone Case", "Phone Grip",
+            "Screen Protector", "Tempered Glass", "Pop Socket", "Phone Stand",
+            "Car Phone Mount", "Phone Ring Holder", "Armband Phone Holder",
+            # Computer & Laptop
+            "Laptop Sleeve", "Laptop Stand", "Laptop Bag", "Mouse Pad",
+            "Wireless Mouse", "Wired Mouse", "Keyboard", "Webcam",
+            "USB Flash Drive", "External Hard Drive", "SD Card", "Card Reader",
+            # Smart Watch Accessories
+            "Smart Watch Band", "Watch Screen Protector", "Watch Charging Cable",
+            # Camera & Photography
+            "Ring Light", "LED Light", "Selfie Stick", "Tripod", "Phone Lens Kit",
+            # Other
+            "Stylus Pen", "Tablet Case", "Tablet Stand", "Cable Clips"
         ]
         
         # Payment methods (PAYMENT_METHOD)
@@ -152,36 +422,62 @@ class RetailDataGenerator:
             "Debit Card", "Cash", "Gift Card", "Apple Pay", "Google Pay"
         ]
         
-        # Store types
+        # Store types (optimized for Shopify merchants)
         self.store_types = {
-            'grocery': ['Fresh Market', 'Save-A-Lot', 'QuickMart', 'Daily Grocers'],
-            'electronics': ['Tech World', 'Gadget Hub', 'Electronics Plus', 'Digital Store'],
-            'clothing': ['Fashion Boutique', 'Style Shop', 'Trendy Threads', 'Apparel Co'],
-            'pharmacy': ['HealthCare Pharmacy', 'MedPlus', 'WellRx', 'Community Pharmacy'],
-            'fuel': ['QuickFuel', 'Gas & Go', 'FuelMart', 'Express Station'],
-            'qsr': ["Joe's Diner", 'Burger Palace', 'Pizza Corner', 'Taco Express'],
-            'retail': ['MegaMart', 'SuperStore', 'Value Shop', 'Discount Depot']
+            'fashion': ['Trendy Threads', 'Style Boutique', 'Modern Wardrobe', 'Chic Apparel'],
+            'accessories': ['Accessory Bar', 'The Handbag Shop', 'Urban Accessories', 'Style Co'],
+            'jewelry': ['Gem & Gold', 'Sparkle Jewelry', 'Luxe Jewelers', 'Diamond District'],
+            'beauty': ['Glow Beauty', 'Pure Cosmetics', 'Beauty Haven', 'Radiance Shop'],
+            'home_garden': ['Home Style', 'Garden & Decor', 'Cozy Living', 'Interior Luxe'],
+            'sports_fitness': ['Fit Life', 'Active Gear', 'Fitness Hub', 'Sport Zone'],
+            'pet_supplies': ['Pet Paradise', 'Pawfect Pets', 'Animal Care', 'Furry Friends'],
+            'books_media': ['Book Nook', 'Page Turner', 'The Reading Room', 'Literary Corner'],
+            'toys_games': ['Play Time', 'Toy Box', 'Game Central', 'Kids Paradise'],
+            'food_beverage': ['Artisan Foods', 'Gourmet Market', 'Specialty Eats', 'Fresh & Pure'],
+            'health_wellness': ['Wellness Shop', 'Healthy Living', 'Vitality Store', 'Pure Health'],
+            'electronics': ['Tech Essentials', 'Gadget Box', 'Digital Life', 'Mobile Gear']
         }
     
-    def generate_line_item(self, category: str = 'grocery') -> RetailLineItem:
+    def generate_line_item(self, category: str = 'fashion') -> RetailLineItem:
         """Generate a single line item with complete entity coverage"""
         
-        # Select product based on category
-        if category == 'grocery':
-            description = random.choice(self.grocery_items)
-            unit = random.choice(['ea', 'lb', 'oz', 'gal', 'pkg'])
+        # Select product based on category (Shopify-focused)
+        if category == 'fashion':
+            description = random.choice(self.fashion_items)
+            unit = 'ea'
+        elif category == 'accessories':
+            description = random.choice(self.accessories_items)
+            unit = 'ea'
+        elif category == 'jewelry':
+            description = random.choice(self.jewelry_items)
+            unit = 'ea'
+        elif category == 'beauty':
+            description = random.choice(self.beauty_items)
+            unit = random.choice(['ea', 'ml', 'oz'])
+        elif category == 'home_garden':
+            description = random.choice(self.home_garden_items)
+            unit = 'ea'
+        elif category == 'sports_fitness':
+            description = random.choice(self.sports_fitness_items)
+            unit = random.choice(['ea', 'lb', 'oz'])
+        elif category == 'pet_supplies':
+            description = random.choice(self.pet_supplies_items)
+            unit = random.choice(['ea', 'lb', 'oz'])
+        elif category == 'books_media':
+            description = random.choice(self.books_media_items)
+            unit = 'ea'
+        elif category == 'toys_games':
+            description = random.choice(self.toys_games_items)
+            unit = 'ea'
+        elif category == 'food_beverage':
+            description = random.choice(self.food_beverage_items)
+            unit = random.choice(['ea', 'lb', 'oz', 'pkg'])
+        elif category == 'health_wellness':
+            description = random.choice(self.health_wellness_items)
+            unit = random.choice(['ea', 'capsules', 'oz'])
         elif category == 'electronics':
             description = random.choice(self.electronics_items)
             unit = 'ea'
-        elif category == 'clothing':
-            description = random.choice(self.clothing_items)
-            unit = 'ea'
-        elif category == 'pharmacy':
-            description = random.choice(self.pharmacy_items)
-            unit = 'ea'
-        elif category == 'fuel':
-            description = random.choice(self.fuel_items)
-            unit = 'gal'
         else:
             description = self.fake.word().title() + " Product"
             unit = 'ea'
@@ -209,9 +505,9 @@ class RetailDataGenerator:
         # LOT_NUMBER, SERIAL_NUMBER (for applicable items)
         lot_number = None
         serial_number = None
-        if category == 'pharmacy' and random.random() < 0.5:
+        if category in ['beauty', 'health_wellness', 'food_beverage'] and random.random() < 0.4:
             lot_number = self.fake.bothify(text='LOT##??####')
-        if category == 'electronics' and random.random() < 0.3:
+        if category in ['electronics', 'jewelry'] and random.random() < 0.3:
             serial_number = self.fake.bothify(text='SN##########')
         
         # WEIGHT (for applicable items)
@@ -238,7 +534,7 @@ class RetailDataGenerator:
         )
     
     def generate_pos_receipt(self, 
-                            store_type: str = 'grocery',
+                            store_type: str = 'fashion',
                             min_items: int = 3,
                             max_items: int = 8) -> RetailReceiptData:
         """Generate a complete POS receipt with ALL 37 entities"""
@@ -252,7 +548,7 @@ class RetailDataGenerator:
         # ORDER_DATE typically not on POS receipts
         
         # Merchant information
-        receipt.supplier_name = random.choice(self.store_types.get(store_type, self.store_types['retail']))
+        receipt.supplier_name = random.choice(self.store_types.get(store_type, self.store_types['fashion']))
         receipt.supplier_address = self.fake.address().replace('\n', ', ')
         receipt.supplier_phone = self.fake.phone_number()
         receipt.supplier_email = self.fake.company_email()
@@ -345,10 +641,10 @@ class RetailDataGenerator:
         
         return receipt
     
-    def generate_online_order(self,
-                             store_type: str = 'electronics',
+    def generate_online_order(self, 
+                             store_type: str = 'fashion',
                              min_items: int = 2,
-                             max_items: int = 6) -> RetailReceiptData:
+                             max_items: int = 5) -> RetailReceiptData:
         """Generate an online order/invoice with ALL 37 entities"""
         
         receipt = self.generate_pos_receipt(store_type=store_type, min_items=min_items, max_items=max_items)
@@ -476,11 +772,11 @@ class RetailDataGenerator:
 
 
 if __name__ == '__main__':
-    # Test generation
+    # Test generation with Shopify-focused categories
     generator = RetailDataGenerator(seed=42)
     
-    print("=== POS Receipt ===")
-    pos_receipt = generator.generate_pos_receipt(store_type='grocery', min_items=5, max_items=8)
+    print("=== POS Receipt (Fashion Store) ===")
+    pos_receipt = generator.generate_pos_receipt(store_type='fashion', min_items=3, max_items=6)
     print(f"Receipt: {pos_receipt.invoice_number}")
     print(f"Store: {pos_receipt.supplier_name}")
     print(f"Register: {pos_receipt.register_number}, Cashier: {pos_receipt.cashier_id}")
@@ -490,8 +786,8 @@ if __name__ == '__main__':
     print(f"Total: ${pos_receipt.total_amount:.2f}")
     print(f"Payment: {pos_receipt.payment_method} - {pos_receipt.payment_terms}")
     
-    print("\n=== Online Order ===")
-    online_order = generator.generate_online_order(store_type='electronics', min_items=3, max_items=5)
+    print("\n=== Online Order (Beauty Store) ===")
+    online_order = generator.generate_online_order(store_type='beauty', min_items=2, max_items=4)
     print(f"Order: {online_order.invoice_number}")
     print(f"Customer: {online_order.buyer_name}")
     print(f"Tracking: {online_order.tracking_number}")

@@ -262,36 +262,94 @@ class OCRAnnotator:
 
 
 class EntityLabeler:
-    """Labels bounding boxes with entity types"""
+    """Labels bounding boxes with entity types using retail schema"""
     
-    def __init__(self):
-        """Initialize entity labeler with rules"""
+    def __init__(self, label_schema_path: Optional[str] = None):
+        """
+        Initialize entity labeler with retail-specific rules
+        
+        Args:
+            label_schema_path: Optional path to load label schema
+        """
+        if label_schema_path:
+            self._load_from_schema(label_schema_path)
+        else:
+            self._init_retail_patterns()
+    
+    def _init_retail_patterns(self):
+        """Initialize retail-specific entity patterns"""
         self.entity_patterns = {
-            'invoice_number': [
-                r'INV[-\s]?\d+',
-                r'Invoice\s*#\s*\d+',
-                r'#\s*\d{4,}'
+            # Document metadata
+            'INVOICE_NUMBER': [
+                r'(?:Receipt|Invoice|Order)\s*[#:No.]+\s*[A-Z0-9-]+',
+                r'Receipt\s*[#:]\s*\d+',
+                r'Transaction\s*[#:]\s*\d+'
             ],
-            'date': [
+            'INVOICE_DATE': [
+                r'Date:\s*\d{2}/\d{2}/\d{4}',
                 r'\d{4}-\d{2}-\d{2}',
-                r'\d{2}/\d{2}/\d{4}',
-                r'\d{1,2}\s+[A-Za-z]+\s+\d{4}'
+                r'\d{2}/\d{2}/\d{4}'
             ],
-            'total': [
-                r'Total:?\s*[$£€¥]\s*[\d,]+\.?\d*',
-                r'Grand\s+Total',
-                r'Amount\s+Due'
+            # Merchant info
+            'SUPPLIER_NAME': [],  # Position-based
+            'SUPPLIER_PHONE': [
+                r'\+?\d{1,3}[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}'
             ],
-            'company_name': [],  # Often at top of document
-            'address': [],
-            'phone': [
-                r'\+?\d{1,3}[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}',
-                r'\(\d{3}\)\s*\d{3}-\d{4}'
-            ],
-            'email': [
+            'SUPPLIER_EMAIL': [
                 r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+            ],
+            # Financial totals
+            'TOTAL_AMOUNT': [
+                r'(?:Total|TOTAL)[:=\s]*[$£€¥]\s*[\d,]+\.?\d*',
+                r'Grand\s+Total[:=\s]*[$£€¥]\s*[\d,]+\.?\d*'
+            ],
+            'SUBTOTAL': [
+                r'Subtotal[:=\s]*[$£€¥]\s*[\d,]+\.?\d*'
+            ],
+            'TAX_AMOUNT': [
+                r'Tax[:=\s]*[$£€¥]\s*[\d,]+\.?\d*'
+            ],
+            'DISCOUNT': [
+                r'(?:Discount|Savings)[:=\s]*-?[$£€¥]\s*[\d,]+\.?\d*'
+            ],
+            # Payment info
+            'PAYMENT_METHOD': [
+                r'(?:Visa|Mastercard|Amex|Discover|Cash|Debit|Credit)',
+                r'Payment\s+Method:\s*[A-Za-z\s]+'
+            ],
+            'PAYMENT_TERMS': [
+                r'ending\s+in\s+\d{4}',
+                r'Approval\s+Code:\s*[A-Z0-9]+',
+                r'Auth\s*[#:]?\s*[A-Z0-9]+'
+            ],
+            # Retail identifiers
+            'REGISTER_NUMBER': [
+                r'Register[:=\s]*\d+'
+            ],
+            'CASHIER_ID': [
+                r'Cashier[:=\s]*[A-Z0-9]+'
+            ],
+            # Line items
+            'ITEM_QTY': [
+                r'\d+\s*@\s*[$£€¥]'
+            ],
+            'ITEM_SKU': [
+                r'(?:UPC|SKU)[:=\s]*[A-Z0-9-]+'
             ]
         }
+    
+    def _load_from_schema(self, schema_path: str):
+        """Load patterns from label schema YAML"""
+        import yaml
+        with open(schema_path, 'r', encoding='utf-8') as f:
+            schema = yaml.safe_load(f)
+        
+        # Extract entity names from label_list
+        self.entity_patterns = {}
+        for label in schema.get('label_list', []):
+            if label.startswith('B-'):
+                entity = label[2:]  # Remove B- prefix
+                self.entity_patterns[entity] = []  # Will use default patterns
     
     def label_boxes(self, annotation: InvoiceAnnotation) -> InvoiceAnnotation:
         """
@@ -311,18 +369,20 @@ class EntityLabeler:
             # Check patterns for each entity type
             for entity_type, patterns in self.entity_patterns.items():
                 for pattern in patterns:
-                    if re.search(pattern, text, re.IGNORECASE):
+                    if pattern and re.search(pattern, text, re.IGNORECASE):
                         box.label = entity_type
                         break
                 if box.label:
                     break
             
-            # Position-based heuristics
+            # Position-based heuristics for SUPPLIER_NAME
             if not box.label:
-                # Top of document likely company name
+                # Top 15% of document likely contains supplier name
                 if box.y < annotation.image_height * 0.15:
-                    if not any(b.label == 'company_name' for b in annotation.boxes):
-                        box.label = 'company_name'
+                    if not any(b.label == 'SUPPLIER_NAME' for b in annotation.boxes):
+                        # Check if text looks like a business name (not a number or single word)
+                        if len(text.split()) >= 2 and not text.replace('.', '').isdigit():
+                            box.label = 'SUPPLIER_NAME'
         
         return annotation
 
@@ -349,15 +409,27 @@ class AnnotationVisualizer:
         # Load image
         image = cv2.imread(image_path)
         
-        # Colors for different entity types
+        # Colors for retail entity types (BGR format for OpenCV)
         colors = {
-            'invoice_number': (255, 0, 0),      # Blue
-            'date': (0, 255, 0),                # Green
-            'total': (0, 0, 255),               # Red
-            'company_name': (255, 165, 0),      # Orange
-            'address': (255, 255, 0),           # Cyan
-            'phone': (255, 0, 255),             # Magenta
-            'email': (0, 255, 255),             # Yellow
+            'INVOICE_NUMBER': (255, 0, 0),      # Blue
+            'INVOICE_DATE': (0, 255, 0),        # Green
+            'TOTAL_AMOUNT': (0, 0, 255),        # Red
+            'SUPPLIER_NAME': (0, 165, 255),     # Orange
+            'SUPPLIER_ADDRESS': (255, 255, 0),  # Cyan
+            'SUPPLIER_PHONE': (255, 0, 255),    # Magenta
+            'SUPPLIER_EMAIL': (0, 255, 255),    # Yellow
+            'PAYMENT_METHOD': (147, 20, 255),   # Deep Pink
+            'PAYMENT_TERMS': (230, 216, 173),   # Light Blue
+            'SUBTOTAL': (0, 128, 255),          # Light Orange
+            'TAX_AMOUNT': (128, 0, 128),        # Purple
+            'DISCOUNT': (0, 255, 0),            # Lime
+            'ITEM_DESCRIPTION': (203, 192, 255), # Pink
+            'ITEM_QTY': (42, 42, 165),          # Brown
+            'ITEM_UNIT_COST': (92, 92, 205),    # Indian Red
+            'ITEM_TOTAL_COST': (0, 140, 255),   # Dark Orange
+            'ITEM_SKU': (140, 230, 240),        # Khaki
+            'REGISTER_NUMBER': (180, 105, 255), # Hot Pink
+            'CASHIER_ID': (255, 191, 0),        # Deep Sky Blue
             None: (128, 128, 128)               # Gray for unlabeled
         }
         

@@ -325,51 +325,60 @@ removed_entities:
   # Removed 23 entities to focus on retail dominance
   
   payment_tracking_removed:
-    - DUE_DATE: "Not used in retail (B2B invoices only)"
-    - PURCHASE_ORDER_NUMBER: "Not used in retail (B2B only)"
-    - AMOUNT_PAID: "Rare in retail (5% - layaway, installments)"
-    - BALANCE_DUE: "Rare in retail (3% - installments)"
     reason: "Retail is pay-at-purchase. No credit terms."
+    entities:
+      - DUE_DATE: "Not used in retail (B2B invoices only)"
+      - PURCHASE_ORDER_NUMBER: "Not used in retail (B2B only)"
+      - AMOUNT_PAID: "Rare in retail (5% - layaway, installments)"
+      - BALANCE_DUE: "Rare in retail (3% - installments)"
   
   saas_subscription_removed:
-    - SUBSCRIPTION_ID: "Not retail (SaaS only)"
-    - BILLING_PERIOD: "Not retail (subscription only)"
-    - LICENSE_COUNT: "Not retail (SaaS only)"
-    - PLAN_NAME: "Not retail (subscription only)"
-    - USAGE_CHARGE: "Not retail (metered billing only)"
     reason: "0% usage in POS/e-commerce receipts"
+    entities:
+      - SUBSCRIPTION_ID: "Not retail (SaaS only)"
+      - BILLING_PERIOD: "Not retail (subscription only)"
+      - LICENSE_COUNT: "Not retail (SaaS only)"
+      - PLAN_NAME: "Not retail (subscription only)"
+      - USAGE_CHARGE: "Not retail (metered billing only)"
   
   telecom_removed:
-    - SERVICE_NUMBER: "Not retail (telecom only)"
-    - DATA_USAGE: "Not retail (telecom only)"
-    - ROAMING_CHARGE: "Not retail (telecom only)"
-    - EQUIPMENT_CHARGE: "Not retail (telecom only)"
     reason: "0% usage in retail receipts"
+    entities:
+      - SERVICE_NUMBER: "Not retail (telecom only)"
+      - DATA_USAGE: "Not retail (telecom only)"
+      - ROAMING_CHARGE: "Not retail (telecom only)"
+      - EQUIPMENT_CHARGE: "Not retail (telecom only)"
   
   logistics_b2b_removed:
-    - ORIGIN: "Not needed (use SUPPLIER_ADDRESS)"
-    - DESTINATION: "Not needed (use BUYER_ADDRESS)"
     reason: "Logistics waybills not retail"
+    entities:
+      - ORIGIN: "Not needed (use SUPPLIER_ADDRESS)"
+      - DESTINATION: "Not needed (use BUYER_ADDRESS)"
   
   utilities_removed:
-    - METER_NUMBER: "Not retail (utility bills only)"
     reason: "0% usage in retail receipts"
+    entities:
+      - METER_NUMBER: "Not retail (utility bills only)"
   
   healthcare_removed:
-    - INSURANCE_CLAIM_NUMBER: "Rare (<1% - pharmacy only, use GENERIC_LABEL)"
     reason: "Minimal retail usage"
+    entities:
+      - INSURANCE_CLAIM_NUMBER: "Rare (<1% - pharmacy only, use GENERIC_LABEL)"
   
   banking_removed:
-    - BANK_ACCOUNT: "Not retail (wire transfers, B2B payments)"
     reason: "Retail uses cards, not bank accounts"
+    entities:
+      - BANK_ACCOUNT: "Not retail (wire transfers, B2B payments)"
   
   accounting_removed:
-    - PROJECT_CODE: "Not retail (B2B accounting only)"
     reason: "0% usage in retail receipts"
+    entities:
+      - PROJECT_CODE: "Not retail (B2B accounting only)"
   
   multi_page_removed:
-    - PAGE_NUMBER: "Rare (<1% - receipts are single-page)"
     reason: "POS receipts and e-commerce orders are single-page"
+    entities:
+      - PAGE_NUMBER: "Rare (<1% - receipts are single-page)"
 
 
 # =============================================================================

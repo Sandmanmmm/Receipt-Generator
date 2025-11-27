@@ -24,57 +24,141 @@ class LabelMapper:
             self._init_default_rules()
     
     def _init_default_rules(self):
-        """Initialize default labeling rules"""
+        """Initialize retail-specific labeling rules for POS/e-commerce receipts"""
         self.entity_patterns = {
+            # Document metadata
             'INVOICE_NUMBER': [
-                r'INV[-\s]?\d+',
-                r'Invoice\s*[#:]\s*\d+',
-                r'#\s*\d{4,}'
-            ],
-            'PURCHASE_ORDER_NUMBER': [
-                r'PO[-\s]?\d+',
-                r'Purchase\s*Order\s*[#:]\s*\d+',
-                r'Order\s*[#:]\s*\d+'
+                r'(?:Receipt|Invoice|Order)\s*[#:No.]+\s*[A-Z0-9-]+',
+                r'Receipt\s*[#:]\s*\d+',
+                r'Transaction\s*[#:]\s*\d+',
+                r'Order\s*[#:]\s*[A-Z0-9-]+'
             ],
             'INVOICE_DATE': [
                 r'\d{4}-\d{2}-\d{2}',
                 r'\d{2}/\d{2}/\d{4}',
-                r'\d{1,2}\s+[A-Za-z]+\s+\d{4}'
+                r'\d{1,2}\s+[A-Za-z]+\s+\d{4}',
+                r'Date:\s*\d{2}/\d{2}/\d{4}'
             ],
-            'DUE_DATE': [
-                r'Due:?\s*\d{4}-\d{2}-\d{2}',
-                r'Due\s+Date:?\s*\d{2}/\d{2}/\d{4}'
+            'ORDER_DATE': [
+                r'Order\s+Date:\s*\d{2}/\d{2}/\d{4}',
+                r'Ordered:\s*\d{2}/\d{2}/\d{4}'
             ],
-            'TOTAL_AMOUNT': [
-                r'Total:?\s*[$£€¥]\s*[\d,]+\.?\d*',
-                r'Grand\s+Total:?\s*[$£€¥]',
-                r'Amount\s+Due:?\s*[$£€¥]'
-            ],
-            'TAX_AMOUNT': [
-                r'Tax:?\s*[$£€¥]\s*[\d,]+\.?\d*',
-                r'VAT:?\s*[$£€¥]'
-            ],
-            'SUBTOTAL': [
-                r'Subtotal:?\s*[$£€¥]\s*[\d,]+\.?\d*',
-                r'Sub\s+Total:?\s*[$£€¥]'
-            ],
+            
+            # Merchant information
             'SUPPLIER_NAME': [
                 # Usually at top of document, detected by position
             ],
-            'SUPPLIER_VAT': [
-                r'VAT\s+No\.?:?\s*[A-Z]{2}\d{9,12}',
-                r'Tax\s+ID:?\s*\d{9,11}'
+            'SUPPLIER_ADDRESS': [
+                r'\d+\s+[A-Za-z\s]+(?:Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd)',
+                r'[A-Za-z\s]+,\s*[A-Z]{2}\s+\d{5}'
             ],
             'SUPPLIER_PHONE': [
                 r'\+?\d{1,3}[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}',
-                r'\(\d{3}\)\s*\d{3}-\d{4}'
+                r'\(\d{3}\)\s*\d{3}-\d{4}',
+                r'Phone:\s*\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}'
             ],
             'SUPPLIER_EMAIL': [
                 r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
             ],
+            
+            # Financial totals
+            'TOTAL_AMOUNT': [
+                r'(?:Total|TOTAL|Amount\s+Due)[:=\s]*[$£€¥]\s*[\d,]+\.?\d*',
+                r'Grand\s+Total[:=\s]*[$£€¥]\s*[\d,]+\.?\d*',
+                r'Balance[:=\s]*[$£€¥]\s*[\d,]+\.?\d*'
+            ],
+            'SUBTOTAL': [
+                r'Subtotal[:=\s]*[$£€¥]\s*[\d,]+\.?\d*',
+                r'Sub\s+Total[:=\s]*[$£€¥]\s*[\d,]+\.?\d*',
+                r'Item\s+Total[:=\s]*[$£€¥]\s*[\d,]+\.?\d*'
+            ],
+            'TAX_AMOUNT': [
+                r'(?:Tax|VAT|GST|Sales\s+Tax)[:=\s]*[$£€¥]\s*[\d,]+\.?\d*',
+                r'Tax\s*\(\d+\.?\d*%\)[:=\s]*[$£€¥]\s*[\d,]+\.?\d*'
+            ],
+            'TAX_RATE': [
+                r'\d+\.?\d*%',
+                r'Tax:\s*\d+\.?\d*%'
+            ],
+            'DISCOUNT': [
+                r'(?:Discount|Savings|Promo)[:=\s]*-?[$£€¥]\s*[\d,]+\.?\d*',
+                r'Total\s+Savings[:=\s]*-?[$£€¥]\s*[\d,]+\.?\d*'
+            ],
             'CURRENCY': [
                 r'\b(USD|GBP|EUR|JPY|CNY|CAD|AUD)\b',
                 r'[$£€¥]'
+            ],
+            
+            # Payment information
+            'PAYMENT_METHOD': [
+                r'(?:Visa|Mastercard|MasterCard|Amex|American\s+Express|Discover|Debit|Credit)',
+                r'(?:Cash|Check|Gift\s+Card|Apple\s+Pay|Google\s+Pay|PayPal)',
+                r'Payment\s+Method:\s*[A-Za-z\s]+',
+                r'(?:Card|Credit\s+Card|Debit\s+Card)'
+            ],
+            'PAYMENT_TERMS': [
+                r'ending\s+in\s+\d{4}',
+                r'xxxx\s*-?\s*\d{4}',
+                r'Approval\s+Code:\s*[A-Z0-9]+',
+                r'Auth\s*[#:]?\s*[A-Z0-9]+',
+                r'Transaction\s+ID:\s*[A-Z0-9-]+'
+            ],
+            
+            # Line items
+            'ITEM_DESCRIPTION': [
+                # Detected by table structure and position
+            ],
+            'ITEM_QTY': [
+                r'\d+\s*@\s*[$£€¥]',  # "2 @ $5.99"
+                r'(?:Qty|Quantity)[:=\s]*\d+',
+                r'x\s*\d+',  # "x 3"
+            ],
+            'ITEM_UNIT_COST': [
+                r'@\s*[$£€¥]\s*[\d,]+\.?\d*',  # "@ $5.99"
+                r'(?:Unit\s+Price|Price)[:=\s]*[$£€¥]\s*[\d,]+\.?\d*'
+            ],
+            'ITEM_TOTAL_COST': [
+                r'[$£€¥]\s*[\d,]+\.?\d*$',  # Amount at end of line
+            ],
+            'ITEM_SKU': [
+                r'(?:UPC|SKU|Item\s*#)[:=\s]*[A-Z0-9-]+',
+                r'\b\d{12,13}\b',  # UPC barcode
+                r'\b[A-Z0-9]{6,12}\b'  # Generic SKU
+            ],
+            'ITEM_DISCOUNT': [
+                r'(?:Promo|Discount|Sale)[:=\s]*-?[$£€¥]\s*[\d,]+\.?\d*',
+                r'-\s*[$£€¥]\s*[\d,]+\.?\d*'
+            ],
+            
+            # Retail identifiers
+            'REGISTER_NUMBER': [
+                r'Register[:=\s]*\d+',
+                r'Reg\s*[#:]\s*\d+',
+                r'Terminal[:=\s]*\d+'
+            ],
+            'CASHIER_ID': [
+                r'Cashier[:=\s]*[A-Z0-9]+',
+                r'Operator[:=\s]*[A-Z0-9]+',
+                r'Clerk[:=\s]*[A-Z0-9]+'
+            ],
+            'TRACKING_NUMBER': [
+                r'Tracking[:=\s]*[A-Z0-9-]+',
+                r'(?:UPS|FedEx|USPS)[:=\s]*\d[A-Z0-9\s]+',
+                r'Ship\s+Track[:=\s]*[A-Z0-9]+'
+            ],
+            'ACCOUNT_NUMBER': [
+                r'Account\s*[#:]\s*[A-Z0-9-]+',
+                r'Member\s*[#:]\s*\d+'
+            ],
+            
+            # Product tracking
+            'LOT_NUMBER': [
+                r'Lot[:=\s]*[A-Z0-9-]+',
+                r'Batch[:=\s]*[A-Z0-9-]+'
+            ],
+            'SERIAL_NUMBER': [
+                r'Serial[:=\s]*[A-Z0-9-]+',
+                r'S/N[:=\s]*[A-Z0-9-]+'
             ],
         }
         

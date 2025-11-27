@@ -392,20 +392,239 @@ def generate_test_samples(
     output_dir: Path
 ) -> List[Dict]:
     """
-    Generate test samples using actual pipeline
-    Returns list of annotations
+    Generate test samples using retail data generator
+    Returns list of annotations with simulated OCR tokens
     """
-    logger.info(f"Generating {n_samples} test samples...")
+    logger.info(f"Generating {n_samples} retail-focused test samples...")
     
-    # TODO: Import and use actual generators
-    # from generators.template_renderer import TemplateRenderer
-    # from annotation.annotator import Annotator
+    try:
+        from generators.retail_data_generator import RetailDataGenerator
+    except ImportError:
+        logger.warning("Retail data generator not found, using mock data")
+        return _generate_mock_samples(n_samples, templates, output_dir)
     
-    # For now, return mock data structure
+    generator = RetailDataGenerator(seed=42)
     annotations = []
     
+    # Store types matching templates
+    store_types = {
+        'pos_receipt': 'grocery',
+        'pos_receipt_dense': 'retail',
+        'pos_receipt_wide': 'retail',
+        'pos_receipt_premium': 'retail',
+        'pos_receipt_qsr': 'qsr',
+        'pos_receipt_fuel': 'fuel',
+        'pos_receipt_pharmacy': 'pharmacy',
+        'pos_receipt_wholesale': 'retail',
+        'online_order': 'electronics',
+        'online_order_fashion': 'clothing',
+        'online_order_electronics': 'electronics',
+        'online_order_grocery': 'grocery',
+        'online_order_home_improvement': 'retail',
+        'online_order_digital': 'electronics',
+        'online_order_marketplace': 'retail',
+        'online_order_wholesale': 'retail'
+    }
+    
     for i in range(n_samples):
-        # Mock annotation structure
+        template = templates[i % len(templates)]
+        store_type = store_types.get(template, 'retail')
+        
+        # Generate retail data
+        if 'online_order' in template:
+            receipt = generator.generate_online_order(store_type=store_type, min_items=3, max_items=6)
+        else:
+            receipt = generator.generate_pos_receipt(store_type=store_type, min_items=3, max_items=8)
+        
+        # Simulate OCR tokens and labels for all entities
+        tokens, labels, bboxes = _extract_entities_from_receipt(receipt, i)
+        
+        ann = {
+            'id': f'sample_{i:04d}',
+            'template': template,
+            'tokens': tokens,
+            'labels': labels,
+            'bboxes': bboxes,
+            'image': str(output_dir / f'sample_{i:04d}.png'),
+            'metadata': {
+                'store_type': store_type,
+                'payment_method': receipt.payment_method,
+                'num_items': len(receipt.line_items)
+            }
+        }
+        annotations.append(ann)
+    
+    logger.info(f"Generated {len(annotations)} samples with real retail data")
+    return annotations
+
+
+def _extract_entities_from_receipt(receipt, sample_idx: int) -> tuple:
+    """Extract tokens, labels, and bboxes from RetailReceiptData"""
+    tokens = []
+    labels = []
+    bboxes = []
+    
+    y_pos = 10
+    x_pos = 10
+    
+    def add_entity(text: str, entity_type: str, x: int, y: int):
+        """Add entity with proper BIO tagging"""
+        words = str(text).split()
+        for i, word in enumerate(words):
+            tokens.append(word)
+            labels.append(f"B-{entity_type}" if i == 0 else f"I-{entity_type}")
+            bboxes.append([x + i * 50, y, x + (i + 1) * 50, y + 20])
+    
+    # Document metadata
+    add_entity(receipt.doc_type, "DOC_TYPE", x_pos, y_pos)
+    y_pos += 25
+    add_entity(receipt.invoice_number, "INVOICE_NUMBER", x_pos, y_pos)
+    y_pos += 25
+    add_entity(receipt.invoice_date, "INVOICE_DATE", x_pos, y_pos)
+    y_pos += 25
+    if receipt.order_date:
+        add_entity(receipt.order_date, "ORDER_DATE", x_pos, y_pos)
+        y_pos += 25
+    
+    # Merchant info
+    add_entity(receipt.supplier_name, "SUPPLIER_NAME", x_pos, y_pos)
+    y_pos += 25
+    add_entity(receipt.supplier_address[:30], "SUPPLIER_ADDRESS", x_pos, y_pos)
+    y_pos += 25
+    add_entity(receipt.supplier_phone, "SUPPLIER_PHONE", x_pos, y_pos)
+    y_pos += 25
+    add_entity(receipt.supplier_email, "SUPPLIER_EMAIL", x_pos, y_pos)
+    y_pos += 25
+    
+    # Customer info (if present)
+    if receipt.buyer_name:
+        add_entity(receipt.buyer_name, "BUYER_NAME", x_pos, y_pos)
+        y_pos += 25
+    if receipt.buyer_address:
+        add_entity(receipt.buyer_address[:30], "BUYER_ADDRESS", x_pos, y_pos)
+        y_pos += 25
+    if receipt.buyer_phone:
+        add_entity(receipt.buyer_phone, "BUYER_PHONE", x_pos, y_pos)
+        y_pos += 25
+    if receipt.buyer_email:
+        add_entity(receipt.buyer_email, "BUYER_EMAIL", x_pos, y_pos)
+        y_pos += 25
+    
+    # Retail identifiers
+    if receipt.register_number:
+        add_entity(f"Register {receipt.register_number}", "REGISTER_NUMBER", x_pos, y_pos)
+        y_pos += 25
+    if receipt.cashier_id:
+        add_entity(f"Cashier {receipt.cashier_id}", "CASHIER_ID", x_pos, y_pos)
+        y_pos += 25
+    if receipt.tracking_number:
+        add_entity(receipt.tracking_number, "TRACKING_NUMBER", x_pos, y_pos)
+        y_pos += 25
+    if receipt.account_number:
+        add_entity(f"Member {receipt.account_number}", "ACCOUNT_NUMBER", x_pos, y_pos)
+        y_pos += 25
+    
+    # Line items (TABLE marker)
+    tokens.append("ITEMS")
+    labels.append("B-TABLE")
+    bboxes.append([x_pos, y_pos, x_pos + 100, y_pos + 20])
+    y_pos += 25
+    
+    for item in receipt.line_items[:3]:  # First 3 items to keep tokens manageable
+        # PO_LINE_ITEM (line number)
+        line_num = receipt.line_items.index(item) + 1
+        add_entity(str(line_num), "PO_LINE_ITEM", x_pos, y_pos)
+        y_pos += 20
+        
+        # ITEM_DESCRIPTION
+        add_entity(item.description, "ITEM_DESCRIPTION", x_pos, y_pos)
+        y_pos += 20
+        
+        # ITEM_SKU
+        add_entity(item.upc, "ITEM_SKU", x_pos, y_pos)
+        
+        # ITEM_QTY
+        add_entity(str(item.quantity), "ITEM_QTY", x_pos + 150, y_pos)
+        
+        # ITEM_UNIT
+        add_entity(item.unit, "ITEM_UNIT", x_pos + 180, y_pos)
+        
+        # ITEM_UNIT_COST
+        add_entity(f"${item.unit_price:.2f}", "ITEM_UNIT_COST", x_pos + 220, y_pos)
+        
+        # ITEM_TOTAL_COST
+        add_entity(f"${item.total:.2f}", "ITEM_TOTAL_COST", x_pos + 300, y_pos)
+        y_pos += 20
+        
+        # ITEM_TAX (if present)
+        if item.tax_amount > 0:
+            add_entity(f"${item.tax_amount:.2f}", "ITEM_TAX", x_pos + 200, y_pos)
+            y_pos += 20
+        
+        # ITEM_DISCOUNT (if present)
+        if item.discount > 0:
+            add_entity(f"-${item.discount:.2f}", "ITEM_DISCOUNT", x_pos + 200, y_pos)
+            y_pos += 20
+        
+        # WEIGHT (if present)
+        if item.weight:
+            add_entity(f"{item.weight}{item.unit}", "WEIGHT", x_pos, y_pos)
+            y_pos += 20
+        
+        # LOT_NUMBER, SERIAL_NUMBER (if present)
+        if item.lot_number:
+            add_entity(item.lot_number, "LOT_NUMBER", x_pos, y_pos)
+            y_pos += 20
+        if item.serial_number:
+            add_entity(item.serial_number, "SERIAL_NUMBER", x_pos, y_pos)
+            y_pos += 20
+        
+        y_pos += 10
+    
+    # Financial totals
+    add_entity(f"${receipt.subtotal:.2f}", "SUBTOTAL", x_pos + 250, y_pos)
+    y_pos += 25
+    add_entity(f"{receipt.tax_rate}%", "TAX_RATE", x_pos + 250, y_pos)
+    y_pos += 25
+    add_entity(f"${receipt.tax_amount:.2f}", "TAX_AMOUNT", x_pos + 250, y_pos)
+    y_pos += 25
+    if receipt.discount > 0:
+        add_entity(f"-${receipt.discount:.2f}", "DISCOUNT", x_pos + 250, y_pos)
+        y_pos += 25
+    add_entity(f"${receipt.total_amount:.2f}", "TOTAL_AMOUNT", x_pos + 250, y_pos)
+    y_pos += 25
+    
+    # Currency
+    tokens.append("$")
+    labels.append("B-CURRENCY")
+    bboxes.append([x_pos + 240, y_pos, x_pos + 250, y_pos + 20])
+    
+    # Payment info
+    add_entity(receipt.payment_method, "PAYMENT_METHOD", x_pos, y_pos)
+    y_pos += 25
+    if receipt.payment_terms:
+        add_entity(receipt.payment_terms, "PAYMENT_TERMS", x_pos, y_pos)
+        y_pos += 25
+    
+    # Miscellaneous
+    if receipt.note:
+        add_entity(receipt.note, "NOTE", x_pos, y_pos)
+        y_pos += 25
+    if receipt.terms_and_conditions:
+        add_entity(receipt.terms_and_conditions[:50], "TERMS_AND_CONDITIONS", x_pos, y_pos)
+        y_pos += 25
+    
+    # GENERIC_LABEL (add one for miscellaneous text)
+    if sample_idx % 10 == 0:  # 10% of samples
+        add_entity("See store for details", "GENERIC_LABEL", x_pos, y_pos)
+    
+    return tokens, labels, bboxes
+
+
+def _generate_mock_samples(n_samples: int, templates: List[str], output_dir: Path) -> List[Dict]:
+    """Fallback mock data generation"""
+    annotations = []
+    for i in range(n_samples):
         ann = {
             'id': f'sample_{i:04d}',
             'template': templates[i % len(templates)],
@@ -415,7 +634,6 @@ def generate_test_samples(
             'image': str(output_dir / f'sample_{i:04d}.png')
         }
         annotations.append(ann)
-    
     return annotations
 
 

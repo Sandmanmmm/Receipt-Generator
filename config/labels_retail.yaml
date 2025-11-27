@@ -1,5 +1,5 @@
 # RETAIL-SPECIALIZED Label Set for POS/E-Commerce Receipts
-# Optimized: 36 entity types (73 BIO labels)
+# Optimized: 37 entity types (75 BIO labels)
 # Domain: POS receipts, online orders, retail e-commerce only
 # Coverage: 100% retail, 0% non-retail (strategic focus)
 
@@ -20,7 +20,7 @@
 # Trade-off: Cannot handle B2B invoices, subscription billing, telecom bills
 
 # =============================================================================
-# CORE ENTITIES (36 entities)
+# CORE ENTITIES (37 entities)
 # =============================================================================
 
 label_list:
@@ -64,7 +64,7 @@ label_list:
   - "I-BUYER_EMAIL"
   
   # -------------------------------------------------------------------------
-  # FINANCIAL TOTALS (7 entities)
+  # FINANCIAL TOTALS (8 entities)
   # -------------------------------------------------------------------------
   - "B-CURRENCY"
   - "I-CURRENCY"
@@ -78,6 +78,8 @@ label_list:
   - "I-TOTAL_AMOUNT"
   - "B-DISCOUNT"
   - "I-DISCOUNT"
+  - "B-PAYMENT_METHOD"
+  - "I-PAYMENT_METHOD"
   - "B-PAYMENT_TERMS"
   - "I-PAYMENT_TERMS"
   
@@ -149,7 +151,7 @@ label_list:
   - "I-TABLE"
 
 # =============================================================================
-# TOTAL: 36 entity types × 2 (B-/I-) + 1 (O) = 73 labels
+# TOTAL: 37 entity types × 2 (B-/I-) + 1 (O) = 75 labels
 # =============================================================================
 
 
@@ -176,14 +178,15 @@ label_descriptions:
   BUYER_PHONE: "Customer phone (delivery contact, order confirmation)"
   BUYER_EMAIL: "Customer email (digital receipt, order updates)"
   
-  # Financial Totals (7 entities)
+  # Financial Totals (8 entities)
   CURRENCY: "Currency code (USD, EUR, GBP, CAD, etc.)"
   SUBTOTAL: "Subtotal before tax (also covers pre-discount subtotal)"
   TAX_AMOUNT: "Total sales tax, VAT, GST"
   TAX_RATE: "Tax rate percentage (e.g., 8.25%, 13% HST)"
   TOTAL_AMOUNT: "Final total including tax (amount charged)"
   DISCOUNT: "Total discounts (sales, coupons, member savings, promotions)"
-  PAYMENT_TERMS: "Payment method (Visa, Cash, Apple Pay, Gift Card, etc.)"
+  PAYMENT_METHOD: "Payment method type (Visa, MasterCard, Cash, Debit, Gift Card, Apple Pay, split payment)"
+  PAYMENT_TERMS: "Payment details (card last 4 digits, approval code, auth #, transaction ID)"
   
   # Line Items (9 entities)
   PO_LINE_ITEM: "Line item block marker (table row)"
@@ -248,6 +251,7 @@ entity_groups:
     - TAX_RATE
     - TOTAL_AMOUNT
     - DISCOUNT
+    - PAYMENT_METHOD
     - PAYMENT_TERMS
   
   line_items:
@@ -416,6 +420,7 @@ migration_mapping:
     - TAX_RATE
     - TOTAL_AMOUNT
     - DISCOUNT
+    - PAYMENT_METHOD
     - PAYMENT_TERMS
     - PO_LINE_ITEM
     - ITEM_DESCRIPTION
@@ -454,7 +459,8 @@ usage_guidelines:
     - "INVOICE_DATE covers: Transaction date, purchase date, order date"
     - "SUPPLIER_NAME covers: Store name, retailer brand, merchant name"
     - "BUYER_NAME covers: Customer name, account holder, delivery recipient"
-    - "PAYMENT_TERMS covers: Payment method (Visa, Cash, PayPal, etc.)"
+    - "PAYMENT_METHOD covers: Payment type (Visa, MasterCard, Cash, Debit, Gift Card, Apple Pay)"
+    - "PAYMENT_TERMS covers: Payment details (last 4 digits, approval code, auth #, transaction ID)"
     - "ITEM_UNIT covers: ea, lb, kg, oz, case, pallet, box, 12-pack"
     - "ITEM_QTY covers: Quantity in any unit (units, cases, pallets, weight)"
     - "DISCOUNT covers: Sales, coupons, member savings, promotional discounts"
@@ -464,6 +470,8 @@ usage_guidelines:
   
   pos_receipt_specifics:
     - "Use REGISTER_NUMBER and CASHIER_ID for in-store transactions"
+    - "Use PAYMENT_METHOD for card type (Visa, MasterCard, Debit, Cash, Gift Card)"
+    - "Use PAYMENT_TERMS for card last 4, approval codes, auth numbers, transaction IDs"
     - "Use ACCOUNT_NUMBER for loyalty programs (e.g., CVS ExtraCare, Target Circle)"
     - "Use LOT_NUMBER for pharmacy prescriptions and food products"
     - "Use SERIAL_NUMBER for electronics with warranty registration"
@@ -491,7 +499,7 @@ performance_targets:
   training_time: "38 GPU hours (vs 160 hours with general schema)"
   training_cost: "$47.50 (vs $200 with general schema)"
   inference_speed: "1.4× faster than general schema"
-  model_head_size: "73 labels (vs 119 with general schema)"
+  model_head_size: "75 labels (vs 119 with general schema)"
   dataset_needed: "150K samples (vs 250K with general schema)"
   
   improvement_summary:
@@ -597,12 +605,13 @@ version:
   optimization_goal: "Dominate POS/e-commerce receipts with maximum F1 and speed"
   domain_focus: "Retail only (POS receipts + online orders)"
   entities_removed: 23
-  entities_kept: 36
+  entities_kept: 37
   status: "Recommended for retail-specialized production deployment"
   
   changelog:
     v3.0_retail:
       - "Removed 23 non-retail entities (SaaS, telecom, utilities, logistics)"
+      - "Added PAYMENT_METHOD for granular POS payment tracking"
       - "Focused on 75% of dataset (POS + e-commerce)"
       - "Optimized for thermal printer OCR"
       - "Target: 92-95% retail F1 score"
@@ -617,13 +626,13 @@ version:
 # =============================================================================
 
 compatibility:
-  from_original_73: "36 entities preserved from original 36 (removed 0)"
-  from_reduced_119: "36 entities kept from 59-entity schema (removed 23)"
+  from_original_73: "36 entities preserved from original 36 + 1 new (PAYMENT_METHOD)"
+  from_reduced_119: "36 entities kept from 59-entity schema + 1 new (removed 23)"
   backward_compatible: false
   migration_required: true
   note: "Models trained on 59 or 119 labels need retraining. Retail-only focus."
   
   use_cases:
-    retail_specialist: "Use labels_retail.yaml (36 entities) ← RECOMMENDED"
+    retail_specialist: "Use labels_retail.yaml (37 entities) ← RECOMMENDED"
     general_purpose: "Use labels_reduced.yaml (59 entities)"
     maximum_coverage: "Use labels_enhanced.yaml (80 entities)"

@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  # InvoiceGen API Service
+  invoicegen-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: invoicegen-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+      - ./outputs:/app/outputs
+    environment:
+      - MODEL_PATH=/app/models/checkpoint
+      - LOG_LEVEL=INFO
+      - MAX_BATCH_SIZE=16
+    restart: unless-stopped
+    networks:
+      - invoicegen-network
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+        reservations:
+          cpus: '2'
+          memory: 4G
+  
+  # Training Service (Optional)
+  invoicegen-training:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: invoicegen-training
+    command: python scripts/run_training.py --config config/training_config.yaml
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./outputs:/app/outputs
+    environment:
+      - CUDA_VISIBLE_DEVICES=0
+      - WANDB_API_KEY=${WANDB_API_KEY}
+    restart: "no"
+    networks:
+      - invoicegen-network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  
+  # Annotation Service
+  invoicegen-annotation:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: invoicegen-annotation
+    command: python scripts/build_training_set.py --num-samples 1000
+    volumes:
+      - ./data:/app/data
+      - ./templates:/app/templates
+    environment:
+      - OCR_ENGINE=paddleocr
+      - NUM_WORKERS=4
+    restart: "no"
+    networks:
+      - invoicegen-network
+
+networks:
+  invoicegen-network:
+    driver: bridge
+
+volumes:
+  models:
+  data:
+  outputs:

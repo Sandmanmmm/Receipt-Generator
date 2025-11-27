@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Purchase Receipt</title>
+    <link rel="stylesheet" href="../css/online_order_digital.css">
+</head>
+<body>
+    <div class="digital-invoice">
+        <!-- Header -->
+        <div class="invoice-header">
+            <div class="company-branding">
+                <div class="logo-digital">
+                    <span class="logo-icon">💻</span>
+                </div>
+                <div class="company-details">
+                    <h1 class="company-name">{{ supplier_name }}</h1>
+                    <p class="company-tagline">{{ tagline }}</p>
+                </div>
+            </div>
+            <div class="invoice-info">
+                <div class="invoice-badge">DIGITAL PURCHASE</div>
+                <div class="order-number">Order #{{ order_number }}</div>
+                <div class="purchase-date">{{ purchase_date }}</div>
+            </div>
+        </div>
+
+        <!-- Instant Access Banner -->
+        <div class="access-banner">
+            <div class="banner-icon">⚡</div>
+            <div class="banner-content">
+                <div class="banner-title">Instant Access Available</div>
+                <div class="banner-text">Your digital products are ready to download and activate</div>
+            </div>
+        </div>
+
+        <!-- Customer Information -->
+        <div class="customer-section">
+            <div class="customer-card">
+                <h3 class="card-title">Account Information</h3>
+                <p class="customer-name">{{ buyer_name }}</p>
+                <p class="customer-email">{{ buyer_email }}</p>
+                {% if account_id %}
+                <div class="account-id">
+                    <span class="account-label">Account ID:</span>
+                    <span class="account-value">{{ account_id }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Digital Products -->
+        <div class="products-section">
+            <h2 class="section-heading">
+                <span class="heading-icon">📦</span>
+                Your Digital Products
+            </h2>
+
+            {% for item in digital_items %}
+            <div class="digital-product-card">
+                <div class="product-header">
+                    <div class="product-icon-box">
+                        {% if item.product_type == 'software' %}
+                        <span class="product-icon">💿</span>
+                        {% elif item.product_type == 'game' %}
+                        <span class="product-icon">🎮</span>
+                        {% elif item.product_type == 'ebook' %}
+                        <span class="product-icon">📖</span>
+                        {% elif item.product_type == 'music' %}
+                        <span class="product-icon">🎵</span>
+                        {% elif item.product_type == 'video' %}
+                        <span class="product-icon">🎬</span>
+                        {% elif item.product_type == 'course' %}
+                        <span class="product-icon">🎓</span>
+                        {% else %}
+                        <span class="product-icon">📄</span>
+                        {% endif %}
+                    </div>
+                    <div class="product-main-info">
+                        <h3 class="product-name">{{ item.description }}</h3>
+                        {% if item.version %}
+                        <div class="product-version">Version {{ item.version }}</div>
+                        {% endif %}
+                        {% if item.platform %}
+                        <div class="product-platform">
+                            <span class="platform-label">Platform:</span>
+                            <span class="platform-value">{{ item.platform }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="product-price">{{ item.total }}</div>
+                </div>
+
+                <div class="product-details">
+                    <!-- License Key -->
+                    {% if item.license_key %}
+                    <div class="license-section">
+                        <div class="license-header">
+                            <span class="license-icon">🔑</span>
+                            <span class="license-title">License Key</span>
+                        </div>
+                        <div class="license-key-box">
+                            <code class="license-key">{{ item.license_key }}</code>
+                            <button class="copy-button">Copy</button>
+                        </div>
+                        {% if item.license_type %}
+                        <div class="license-type">{{ item.license_type }}</div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Activation Code -->
+                    {% if item.activation_code %}
+                    <div class="activation-section">
+                        <div class="activation-header">
+                            <span class="activation-icon">✅</span>
+                            <span class="activation-title">Activation Code</span>
+                        </div>
+                        <div class="activation-code-box">
+                            <code class="activation-code">{{ item.activation_code }}</code>
+                            <button class="copy-button">Copy</button>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Download Information -->
+                    {% if item.download_url %}
+                    <div class="download-section">
+                        <div class="download-header">
+                            <span class="download-icon">⬇️</span>
+                            <span class="download-title">Download</span>
+                        </div>
+                        <div class="download-info">
+                            {% if item.file_size %}
+                            <div class="download-detail">
+                                <span class="detail-label">File Size:</span>
+                                <span class="detail-value">{{ item.file_size }}</span>
+                            </div>
+                            {% endif %}
+                            {% if item.system_requirements %}
+                            <div class="download-detail">
+                                <span class="detail-label">Requirements:</span>
+                                <span class="detail-value">{{ item.system_requirements }}</span>
+                            </div>
+                            {% endif %}
+                            <a href="{{ item.download_url }}" class="download-button">
+                                <span class="download-btn-icon">⬇️</span>
+                                <span class="download-btn-text">Download Now</span>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Access Information (Streaming/Cloud) -->
+                    {% if item.access_url %}
+                    <div class="access-section">
+                        <div class="access-header">
+                            <span class="access-icon">🌐</span>
+                            <span class="access-title">Online Access</span>
+                        </div>
+                        <a href="{{ item.access_url }}" class="access-button">
+                            <span class="access-btn-text">Access Now</span>
+                            <span class="access-btn-icon">→</span>
+                        </a>
+                    </div>
+                    {% endif %}
+
+                    <!-- Subscription Information -->
+                    {% if item.subscription_period %}
+                    <div class="subscription-info">
+                        <div class="sub-detail">
+                            <span class="sub-icon">📅</span>
+                            <span class="sub-label">Subscription:</span>
+                            <span class="sub-value">{{ item.subscription_period }}</span>
+                        </div>
+                        {% if item.renewal_date %}
+                        <div class="sub-detail">
+                            <span class="sub-icon">🔄</span>
+                            <span class="sub-label">Renews:</span>
+                            <span class="sub-value">{{ item.renewal_date }}</span>
+                        </div>
+                        {% endif %}
+                        {% if item.auto_renew %}
+                        <div class="auto-renew-badge">Auto-Renew Enabled</div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <!-- License Terms -->
+                    {% if item.license_seats %}
+                    <div class="license-terms">
+                        <div class="license-seats">
+                            <span class="seats-icon">👥</span>
+                            <span class="seats-text">{{ item.license_seats }} user license</span>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Expiry Information -->
+                    {% if item.expiry_date %}
+                    <div class="expiry-notice">
+                        <span class="expiry-icon">⏰</span>
+                        <span class="expiry-text">License expires: {{ item.expiry_date }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Order Summary -->
+        <div class="totals-section">
+            <div class="totals-container">
+                <h3 class="totals-title">Order Summary</h3>
+                <div class="totals-table">
+                    <div class="total-row">
+                        <span class="total-label">Subtotal ({{ total_items }} items):</span>
+                        <span class="total-value">{{ subtotal }}</span>
+                    </div>
+                    {% if coupon_code %}
+                    <div class="total-row discount-row">
+                        <span class="total-label">🎟️ Promo Code ({{ coupon_code }}):</span>
+                        <span class="total-value discount-value">-{{ coupon_discount }}</span>
+                    </div>
+                    {% endif %}
+                    {% if tax_amount > 0 %}
+                    <div class="total-row">
+                        <span class="total-label">Tax:</span>
+                        <span class="total-value">{{ tax_amount }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="total-row final-total">
+                        <span class="total-label">Total:</span>
+                        <span class="total-value">{{ total_amount }}</span>
+                    </div>
+                </div>
+                
+                <div class="no-shipping-notice">
+                    <span class="notice-icon">✓</span>
+                    <span class="notice-text">No shipping charges for digital products</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Information -->
+        <div class="payment-section">
+            <h3 class="section-heading">
+                <span class="heading-icon">💳</span>
+                Payment Method
+            </h3>
+            <div class="payment-card">
+                <div class="payment-details">
+                    <span class="payment-icon">💳</span>
+                    <span class="payment-method">{{ payment_method }}</span>
+                    <span class="card-info">{{ card_type }} •••• {{ card_last_four }}</span>
+                </div>
+                <div class="payment-status">
+                    <span class="status-badge paid">PAID</span>
+                </div>
+            </div>
+            {% if transaction_id %}
+            <div class="transaction-details">
+                <span class="trans-label">Transaction ID:</span>
+                <span class="trans-id">{{ transaction_id }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Account Management -->
+        <div class="account-section">
+            <h3 class="account-title">Manage Your Purchases</h3>
+            <div class="account-actions">
+                <div class="action-card">
+                    <div class="action-icon">📚</div>
+                    <div class="action-content">
+                        <div class="action-name">My Library</div>
+                        <div class="action-desc">View all your digital products</div>
+                    </div>
+                </div>
+                <div class="action-card">
+                    <div class="action-icon">🔑</div>
+                    <div class="action-content">
+                        <div class="action-name">License Manager</div>
+                        <div class="action-desc">View and manage licenses</div>
+                    </div>
+                </div>
+                <div class="action-card">
+                    <div class="action-icon">⬇️</div>
+                    <div class="action-content">
+                        <div class="action-name">Downloads</div>
+                        <div class="action-desc">Re-download purchases anytime</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Section -->
+        <div class="support-section">
+            <div class="support-grid">
+                <div class="support-card">
+                    <h4 class="support-heading">Need Help?</h4>
+                    <div class="support-content">
+                        <p><strong>Technical Support:</strong></p>
+                        <p>Email: {{ support_email }}</p>
+                        <p>Phone: {{ support_phone }}</p>
+                        <p>Available 24/7</p>
+                    </div>
+                </div>
+                <div class="support-card">
+                    <h4 class="support-heading">Installation Guide</h4>
+                    <div class="support-content">
+                        <p>Visit our knowledge base for:</p>
+                        <ul>
+                            <li>Step-by-step installation guides</li>
+                            <li>Troubleshooting tips</li>
+                            <li>Video tutorials</li>
+                            <li>FAQ</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Refund Policy -->
+        <div class="policy-section">
+            <h3 class="policy-title">Digital Products Refund Policy</h3>
+            <div class="policy-content">
+                <p>Digital products may be eligible for refund within {{ refund_window }} days of purchase if:</p>
+                <ul class="policy-list">
+                    <li>The product has not been downloaded or activated</li>
+                    <li>You've encountered technical issues we couldn't resolve</li>
+                    <li>The product was purchased by mistake</li>
+                </ul>
+                <p class="policy-note">Note: Once a license key is revealed or product is downloaded, the purchase is considered final unless technical issues prevent use.</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>{{ supplier_name }}</h4>
+                    <p>{{ supplier_address }}</p>
+                    <p>{{ supplier_city }}, {{ supplier_state }} {{ supplier_zip }}</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Customer Support</h4>
+                    <p>Email: {{ support_email }}</p>
+                    <p>Phone: {{ support_phone }}</p>
+                    <p>24/7 Support Available</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <p>My Account | Order History</p>
+                    <p>Download Center | Support</p>
+                    <p>Terms of Service | Privacy</p>
+                </div>
+            </div>
+            <div class="footer-legal">
+                <p>This is your digital purchase receipt. Please save this email for your records.</p>
+                <p>License keys and activation codes are unique to your purchase and should not be shared.</p>
+                <p>Thank you for your purchase from {{ supplier_name }}!</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

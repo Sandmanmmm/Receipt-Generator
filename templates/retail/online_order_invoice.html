@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Invoice</title>
+    <link rel="stylesheet" href="../css/online_order_invoice.css">
+</head>
+<body>
+    <div class="online-invoice">
+        <!-- Header -->
+        <div class="invoice-header">
+            <div class="company-logo">
+                <h1 class="company-name">{{ supplier_name }}</h1>
+                <p class="tagline">{{ tagline }}</p>
+            </div>
+            <div class="invoice-badge">
+                <span class="invoice-label">ORDER INVOICE</span>
+            </div>
+        </div>
+
+        <!-- Order Information -->
+        <div class="order-info-section">
+            <div class="info-card order-card">
+                <h3>📦 Order Details</h3>
+                <div class="info-row">
+                    <span class="label">Order Number:</span>
+                    <span class="value order-number">{{ order_number }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Order Date:</span>
+                    <span class="value">{{ order_date }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Invoice Date:</span>
+                    <span class="value">{{ invoice_date }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Payment Status:</span>
+                    <span class="value status-paid">{{ payment_status }}</span>
+                </div>
+            </div>
+
+            <div class="info-card customer-card">
+                <h3>👤 Customer</h3>
+                <p class="customer-name">{{ buyer_name }}</p>
+                <p class="customer-email">{{ buyer_email }}</p>
+                <p class="customer-phone">{{ buyer_phone }}</p>
+                {% if customer_id %}
+                <p class="customer-id">Member ID: {{ customer_id }}</p>
+                {% endif %}
+            </div>
+
+            <div class="info-card shipping-card">
+                <h3>🚚 Shipping Address</h3>
+                <p class="shipping-name">{{ shipping_name }}</p>
+                <p class="shipping-address">{{ shipping_address }}</p>
+                {% if tracking_number %}
+                <p class="tracking-info">
+                    <strong>Tracking:</strong> {{ tracking_number }}<br>
+                    <strong>Carrier:</strong> {{ carrier_name }}
+                </p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Order Items -->
+        <div class="items-section">
+            <h3>Order Items</h3>
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="item-col">Item</th>
+                        <th class="qty-col">Qty</th>
+                        <th class="price-col">Price</th>
+                        <th class="total-col">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in line_items %}
+                    <tr class="item-row">
+                        <td class="item-info">
+                            <div class="item-name">{{ item.description }}</div>
+                            {% if item.variant %}
+                            <div class="item-variant">{{ item.variant }}</div>
+                            {% endif %}
+                            {% if item.sku %}
+                            <div class="item-sku">SKU: {{ item.sku }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="item-quantity">{{ item.quantity }}</td>
+                        <td class="item-price">{{ item.unit_price }}</td>
+                        <td class="item-total">{{ item.total }}</td>
+                    </tr>
+                    {% if item.discount > 0 %}
+                    <tr class="discount-row">
+                        <td class="discount-info" colspan="3">
+                            🎁 {{ item.discount_description }}
+                        </td>
+                        <td class="discount-amount">-{{ item.discount }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="summary-section">
+            <div class="summary-card">
+                <div class="summary-row">
+                    <span class="summary-label">Subtotal:</span>
+                    <span class="summary-value">{{ subtotal }}</span>
+                </div>
+                {% if coupon_discount > 0 %}
+                <div class="summary-row discount-row">
+                    <span class="summary-label">🎟️ Coupon ({{ coupon_code }}):</span>
+                    <span class="summary-value">-{{ coupon_discount }}</span>
+                </div>
+                {% endif %}
+                {% if loyalty_discount > 0 %}
+                <div class="summary-row discount-row">
+                    <span class="summary-label">⭐ Loyalty Discount:</span>
+                    <span class="summary-value">-{{ loyalty_discount }}</span>
+                </div>
+                {% endif %}
+                <div class="summary-row">
+                    <span class="summary-label">Shipping ({{ shipping_method }}):</span>
+                    <span class="summary-value">{{ shipping_charge }}</span>
+                </div>
+                {% if gift_wrap_charge > 0 %}
+                <div class="summary-row">
+                    <span class="summary-label">🎁 Gift Wrapping:</span>
+                    <span class="summary-value">{{ gift_wrap_charge }}</span>
+                </div>
+                {% endif %}
+                <div class="summary-row">
+                    <span class="summary-label">Tax ({{ tax_rate }}%):</span>
+                    <span class="summary-value">{{ tax_amount }}</span>
+                </div>
+                <div class="summary-row total-row">
+                    <span class="summary-label">Total:</span>
+                    <span class="summary-value">{{ total_amount }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Information -->
+        <div class="payment-section">
+            <h3>💳 Payment Method</h3>
+            <div class="payment-details">
+                <p><strong>{{ payment_method }}</strong></p>
+                {% if card_type %}
+                <p>{{ card_type }} ending in {{ card_last_four }}</p>
+                {% endif %}
+                {% if transaction_id %}
+                <p class="transaction-id">Transaction ID: {{ transaction_id }}</p>
+                {% endif %}
+                <p class="payment-date">Paid on {{ payment_date }}</p>
+            </div>
+        </div>
+
+        <!-- Rewards & Points -->
+        {% if loyalty_points_earned or loyalty_points_balance %}
+        <div class="rewards-section">
+            <h3>⭐ Rewards Program</h3>
+            <div class="rewards-info">
+                {% if loyalty_points_earned %}
+                <p class="points-earned">Points Earned: <strong>+{{ loyalty_points_earned }}</strong></p>
+                {% endif %}
+                {% if loyalty_points_balance %}
+                <p class="points-balance">Your Balance: <strong>{{ loyalty_points_balance }} points</strong></p>
+                {% endif %}
+                {% if next_reward_threshold %}
+                <p class="next-reward">{{ next_reward_threshold }} points to next reward!</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Return Policy -->
+        <div class="policy-section">
+            <h3>📋 Return & Refund Policy</h3>
+            <p class="policy-text">{{ return_policy }}</p>
+            {% if return_deadline %}
+            <p class="policy-deadline">Return deadline: <strong>{{ return_deadline }}</strong></p>
+            {% endif %}
+        </div>
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="support-info">
+                <p><strong>Need Help?</strong></p>
+                <p>Email: {{ support_email }} | Phone: {{ support_phone }}</p>
+                <p>Visit: {{ website }}</p>
+            </div>
+            <div class="social-links">
+                <p>Follow us: {{ social_media }}</p>
+            </div>
+            <div class="footer-message">
+                <p>{{ footer_message }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,206 @@
+# Label Disambiguation Resolution Matrix
+# Resolves ambiguity between overlapping label pairs
+
+disambiguation_rules:
+  # Rule 1: ORIGIN vs SUPPLIER_ADDRESS
+  - ambiguous_pair: ["ORIGIN", "SUPPLIER_ADDRESS"]
+    context: "Logistics waybills vs invoices"
+    resolution_logic:
+      - condition: "document_type == 'WAYBILL'"
+        use_label: "ORIGIN"
+        explanation: "Waybills describe shipment origin (pickup location)"
+      - condition: "document_type in ['INVOICE', 'RECEIPT']"
+        use_label: "SUPPLIER_ADDRESS"
+        explanation: "Invoices use supplier address (billing entity)"
+      - condition: "section == 'shipping_details'"
+        use_label: "ORIGIN"
+      - condition: "section == 'supplier_info'"
+        use_label: "SUPPLIER_ADDRESS"
+    examples:
+      - text: "From: 123 Warehouse St, Seattle"
+        document_type: "WAYBILL"
+        correct_label: "ORIGIN"
+      - text: "Acme Corp\n456 Main St, Portland"
+        document_type: "INVOICE"
+        correct_label: "SUPPLIER_ADDRESS"
+
+  # Rule 2: SERVICE_PERIOD vs BILLING_PERIOD
+  - ambiguous_pair: ["SERVICE_PERIOD", "BILLING_PERIOD"]
+    context: "Subscription/telecom billing"
+    resolution_logic:
+      - condition: "contains_text('usage', 'service rendered', 'coverage')"
+        use_label: "SERVICE_PERIOD"
+        explanation: "Describes when service was actually used/provided"
+      - condition: "contains_text('billing cycle', 'invoice period', 'due date')"
+        use_label: "BILLING_PERIOD"
+        explanation: "Describes accounting period for this invoice"
+      - condition: "near_label('USAGE_CHARGE')"
+        use_label: "SERVICE_PERIOD"
+      - condition: "near_label('INVOICE_DATE')"
+        use_label: "BILLING_PERIOD"
+    examples:
+      - text: "Service Period: Jan 1-31, 2024"
+        context: "Near usage charges"
+        correct_label: "SERVICE_PERIOD"
+      - text: "Billing Cycle: Jan 2024"
+        context: "Near invoice date"
+        correct_label: "BILLING_PERIOD"
+
+  # Rule 3: LOT_NUMBER vs BATCH_NUMBER vs SERIAL_NUMBER
+  - ambiguous_pair: ["LOT_NUMBER", "BATCH_NUMBER", "SERIAL_NUMBER"]
+    context: "Manufacturing tracking IDs"
+    resolution_logic:
+      - condition: "format_matches('[A-Z]{2}\\d{10}')"  # Unique per unit
+        use_label: "SERIAL_NUMBER"
+        explanation: "Serial numbers are unique per individual unit"
+      - condition: "format_matches('LOT-\\d+')"
+        use_label: "LOT_NUMBER"
+        explanation: "Lot numbers identify production batches"
+      - condition: "format_matches('BATCH-\\d+')"
+        use_label: "BATCH_NUMBER"
+        explanation: "Batch numbers identify manufacturing runs"
+      - condition: "context_contains('individual unit', 'each item')"
+        use_label: "SERIAL_NUMBER"
+      - condition: "context_contains('production lot', 'lot number')"
+        use_label: "LOT_NUMBER"
+    hierarchy: "SERIAL_NUMBER > LOT_NUMBER >= BATCH_NUMBER"
+    examples:
+      - text: "S/N: AB1234567890"
+        correct_label: "SERIAL_NUMBER"
+      - text: "Lot: LOT-2024-01-15"
+        correct_label: "LOT_NUMBER"
+      - text: "Batch: BATCH-45621"
+        correct_label: "BATCH_NUMBER"
+
+  # Rule 4: TRACKING_NUMBER vs WAYBILL_NUMBER
+  - ambiguous_pair: ["TRACKING_NUMBER", "WAYBILL_NUMBER"]
+    context: "Shipping document identifiers"
+    resolution_logic:
+      - condition: "is_primary_document_id() and document_type == 'WAYBILL'"
+        use_label: "WAYBILL_NUMBER"
+        explanation: "Waybill number is the document ID itself"
+      - condition: "in_section('carrier_details') or near_label('CARRIER_NAME')"
+        use_label: "TRACKING_NUMBER"
+        explanation: "Tracking number is carrier's shipment reference"
+      - condition: "format_matches('1Z[A-Z0-9]{16}')"  # UPS format
+        use_label: "TRACKING_NUMBER"
+      - condition: "labeled_as('waybill', 'bill of lading')"
+        use_label: "WAYBILL_NUMBER"
+    examples:
+      - text: "Waybill No: WB-2024-001234"
+        position: "top_of_document"
+        correct_label: "WAYBILL_NUMBER"
+      - text: "UPS Tracking: 1Z999AA10123456784"
+        correct_label: "TRACKING_NUMBER"
+
+  # Rule 5: CARRIED_FORWARD vs PREVIOUS_BALANCE
+  - ambiguous_pair: ["CARRIED_FORWARD", "PREVIOUS_BALANCE"]
+    context: "Balance tracking"
+    resolution_logic:
+      - condition: "on_page_boundary() or near_label('PAGE_NUMBER')"
+        use_label: "CARRIED_FORWARD"
+        explanation: "Amount carried from previous page"
+      - condition: "in_section('payment_history') or near_label('PAYMENT_DUE')"
+        use_label: "PREVIOUS_BALANCE"
+        explanation: "Unpaid amount from previous billing period"
+      - condition: "context_contains('page total', 'subtotal forward')"
+        use_label: "CARRIED_FORWARD"
+      - condition: "context_contains('outstanding', 'past due', 'arrears')"
+        use_label: "PREVIOUS_BALANCE"
+    examples:
+      - text: "Carried Forward: $1,250.00"
+        position: "top_of_page_2"
+        correct_label: "CARRIED_FORWARD"
+      - text: "Previous Balance: $450.00"
+        section: "account_summary"
+        correct_label: "PREVIOUS_BALANCE"
+
+  # Rule 6: ACCOUNT_NUMBER vs INVOICE_NUMBER
+  - ambiguous_pair: ["ACCOUNT_NUMBER", "INVOICE_NUMBER"]
+    context: "Document and customer identifiers"
+    resolution_logic:
+      - condition: "is_primary_document_id()"
+        use_label: "INVOICE_NUMBER"
+        explanation: "Invoice number is unique per document"
+      - condition: "in_section('customer_info') or near_label('BUYER_NAME')"
+        use_label: "ACCOUNT_NUMBER"
+        explanation: "Account number identifies customer"
+      - condition: "labeled_as('invoice', 'inv', 'bill')"
+        use_label: "INVOICE_NUMBER"
+      - condition: "labeled_as('account', 'customer', 'acct')"
+        use_label: "ACCOUNT_NUMBER"
+    examples:
+      - text: "Invoice #: INV-2024-001234"
+        position: "document_header"
+        correct_label: "INVOICE_NUMBER"
+      - text: "Account: ACCT-789456"
+        section: "buyer_info"
+        correct_label: "ACCOUNT_NUMBER"
+
+  # Rule 7: PROJECT_CODE vs CONTRACT_NUMBER
+  - ambiguous_pair: ["PROJECT_CODE", "CONTRACT_NUMBER"]
+    context: "Government and enterprise invoices"
+    resolution_logic:
+      - condition: "format_matches('[A-Z]{2,4}-\\d{4}')"  # Short alphanumeric
+        use_label: "PROJECT_CODE"
+        explanation: "Project codes are typically short identifiers"
+      - condition: "format_matches('\\d{8,}')"  # Long numeric
+        use_label: "CONTRACT_NUMBER"
+        explanation: "Contract numbers are typically longer"
+      - condition: "labeled_as('project', 'work order', 'task')"
+        use_label: "PROJECT_CODE"
+      - condition: "labeled_as('contract', 'agreement', 'PO')"
+        use_label: "CONTRACT_NUMBER"
+    examples:
+      - text: "Project: PROJ-2024"
+        correct_label: "PROJECT_CODE"
+      - text: "Contract: 123456789012"
+        correct_label: "CONTRACT_NUMBER"
+
+  # Rule 8: DESTINATION vs BUYER_ADDRESS
+  - ambiguous_pair: ["DESTINATION", "BUYER_ADDRESS"]
+    context: "Delivery vs billing addresses"
+    resolution_logic:
+      - condition: "document_type == 'WAYBILL'"
+        use_label: "DESTINATION"
+        explanation: "Waybills describe delivery destination"
+      - condition: "document_type in ['INVOICE', 'RECEIPT']"
+        use_label: "BUYER_ADDRESS"
+        explanation: "Invoices use buyer/billing address"
+      - condition: "in_section('shipping_details') or labeled_as('ship to', 'deliver to')"
+        use_label: "DESTINATION"
+      - condition: "in_section('buyer_info') or labeled_as('bill to', 'customer')"
+        use_label: "BUYER_ADDRESS"
+    examples:
+      - text: "Deliver To:\nABC Corp\n789 Market St"
+        document_type: "WAYBILL"
+        correct_label: "DESTINATION"
+      - text: "Bill To:\nXYZ Inc\n321 Office Blvd"
+        document_type: "INVOICE"
+        correct_label: "BUYER_ADDRESS"
+
+# Priority order for resolution
+resolution_priority:
+  1: "Document type (WAYBILL, INVOICE, RECEIPT, etc.)"
+  2: "Explicit text labels ('Ship To', 'Bill To', etc.)"
+  3: "Section/position (header, footer, shipping_details, etc.)"
+  4: "Domain context (manufacturing, logistics, healthcare, etc.)"
+  5: "Format patterns (regex matching)"
+  6: "Default rule (use most common label for domain)"
+
+# Annotation guidelines
+annotation_guidelines:
+  - Always check document type first
+  - Look for explicit label text near the field
+  - Consider the section context
+  - When in doubt, use the resolution matrix
+  - Add new examples to this file as you encounter edge cases
+  - Validate with domain experts for new industries
+
+# Validation
+validation_checks:
+  - Each document should have at most one INVOICE_NUMBER
+  - ORIGIN and DESTINATION should both appear on waybills
+  - SUPPLIER_ADDRESS and BUYER_ADDRESS should both appear on invoices
+  - SERVICE_PERIOD and BILLING_PERIOD may overlap but have different semantic meanings
+  - SERIAL_NUMBER implies individual unit tracking (use sparingly)

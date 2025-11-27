@@ -1,0 +1,575 @@
+# ENHANCED Label Set for Production Invoice/PO Token Classification
+# Extended from 36 → 80 entity types (73 → 161 BIO labels)
+# Covers: All invoice types, SaaS, telecom, logistics, utilities, healthcare, government
+
+# =============================================================================
+# CORE ENTITIES (Original 36 - PRESERVED)
+# =============================================================================
+
+label_list:
+  # Outside entity
+  - "O"
+  
+  # Document Metadata (6 entities)
+  - "B-DOC_TYPE"
+  - "I-DOC_TYPE"
+  - "B-INVOICE_NUMBER"
+  - "I-INVOICE_NUMBER"
+  - "B-PURCHASE_ORDER_NUMBER"
+  - "I-PURCHASE_ORDER_NUMBER"
+  - "B-INVOICE_DATE"
+  - "I-INVOICE_DATE"
+  - "B-DUE_DATE"
+  - "I-DUE_DATE"
+  - "B-ORDER_DATE"
+  - "I-ORDER_DATE"
+  
+  # Supplier Information (5 entities)
+  - "B-SUPPLIER_NAME"
+  - "I-SUPPLIER_NAME"
+  - "B-SUPPLIER_VAT"
+  - "I-SUPPLIER_VAT"
+  - "B-SUPPLIER_ADDRESS"
+  - "I-SUPPLIER_ADDRESS"
+  - "B-SUPPLIER_PHONE"
+  - "I-SUPPLIER_PHONE"
+  - "B-SUPPLIER_EMAIL"
+  - "I-SUPPLIER_EMAIL"
+  
+  # Buyer Information (4 entities)
+  - "B-BUYER_NAME"
+  - "I-BUYER_NAME"
+  - "B-BUYER_ADDRESS"
+  - "I-BUYER_ADDRESS"
+  - "B-BUYER_PHONE"
+  - "I-BUYER_PHONE"
+  - "B-BUYER_EMAIL"
+  - "I-BUYER_EMAIL"
+  
+  # Financial Totals (7 entities)
+  - "B-CURRENCY"
+  - "I-CURRENCY"
+  - "B-TOTAL_AMOUNT"
+  - "I-TOTAL_AMOUNT"
+  - "B-TAX_AMOUNT"
+  - "I-TAX_AMOUNT"
+  - "B-SUBTOTAL"
+  - "I-SUBTOTAL"
+  - "B-DISCOUNT"
+  - "I-DISCOUNT"
+  - "B-TAX_RATE"
+  - "I-TAX_RATE"
+  - "B-PAYMENT_TERMS"
+  - "I-PAYMENT_TERMS"
+  
+  # Line Items (10 entities)
+  - "B-PO_LINE_ITEM"
+  - "I-PO_LINE_ITEM"
+  - "B-ITEM_DESCRIPTION"
+  - "I-ITEM_DESCRIPTION"
+  - "B-ITEM_SKU"
+  - "I-ITEM_SKU"
+  - "B-ITEM_QTY"
+  - "I-ITEM_QTY"
+  - "B-ITEM_UNIT"
+  - "I-ITEM_UNIT"
+  - "B-ITEM_UNIT_COST"
+  - "I-ITEM_UNIT_COST"
+  - "B-ITEM_TOTAL_COST"
+  - "I-ITEM_TOTAL_COST"
+  - "B-ITEM_PACK_SIZE"
+  - "I-ITEM_PACK_SIZE"
+  - "B-ITEM_TAX"
+  - "I-ITEM_TAX"
+  - "B-ITEM_DISCOUNT"
+  - "I-ITEM_DISCOUNT"
+  
+  # Miscellaneous (3 entities)
+  - "B-TERMS_AND_CONDITIONS"
+  - "I-TERMS_AND_CONDITIONS"
+  - "B-NOTE"
+  - "I-NOTE"
+  - "B-GENERIC_LABEL"
+  - "I-GENERIC_LABEL"
+  
+  # Structural (1 entity)
+  - "B-TABLE"
+  - "I-TABLE"
+
+# =============================================================================
+# PHASE 1: CRITICAL ADDITIONS (18 entities = 36 BIO labels)
+# Coverage: SaaS, Telecom, Logistics, Utilities
+# =============================================================================
+
+  # SaaS/Subscription Invoices (7 entities)
+  - "B-SUBSCRIPTION_ID"
+  - "I-SUBSCRIPTION_ID"
+  - "B-BILLING_PERIOD"
+  - "I-BILLING_PERIOD"
+  - "B-LICENSE_COUNT"
+  - "I-LICENSE_COUNT"
+  - "B-PLAN_NAME"
+  - "I-PLAN_NAME"
+  - "B-USAGE_CHARGE"
+  - "I-USAGE_CHARGE"
+  - "B-RECURRING_AMOUNT"
+  - "I-RECURRING_AMOUNT"
+  - "B-PRORATION"
+  - "I-PRORATION"
+  
+  # Telecom Bills (5 entities)
+  - "B-ACCOUNT_NUMBER"
+  - "I-ACCOUNT_NUMBER"
+  - "B-SERVICE_NUMBER"
+  - "I-SERVICE_NUMBER"
+  - "B-SERVICE_PERIOD"
+  - "I-SERVICE_PERIOD"
+  - "B-PREVIOUS_BALANCE"
+  - "I-PREVIOUS_BALANCE"
+  - "B-PAYMENT_RECEIVED"
+  - "I-PAYMENT_RECEIVED"
+  
+  # Logistics/Freight (5 entities)
+  - "B-WAYBILL_NUMBER"
+  - "I-WAYBILL_NUMBER"
+  - "B-SHIPPER_NAME"
+  - "I-SHIPPER_NAME"
+  - "B-CONSIGNEE_NAME"
+  - "I-CONSIGNEE_NAME"
+  - "B-ORIGIN"
+  - "I-ORIGIN"
+  - "B-DESTINATION"
+  - "I-DESTINATION"
+  
+  # Utility Bills (1 entity)
+  - "B-METER_NUMBER"
+  - "I-METER_NUMBER"
+
+# =============================================================================
+# PHASE 2: ENHANCED COVERAGE (12 entities = 24 BIO labels)
+# Coverage: Payments, Multi-Currency, Healthcare, Government
+# =============================================================================
+
+  # Payment Tracking (4 entities)
+  - "B-AMOUNT_PAID"
+  - "I-AMOUNT_PAID"
+  - "B-BALANCE_DUE"
+  - "I-BALANCE_DUE"
+  - "B-CREDIT_MEMO_NUMBER"
+  - "I-CREDIT_MEMO_NUMBER"
+  - "B-REFUND_AMOUNT"
+  - "I-REFUND_AMOUNT"
+  
+  # Multi-Currency (2 entities)
+  - "B-EXCHANGE_RATE"
+  - "I-EXCHANGE_RATE"
+  - "B-BASE_CURRENCY"
+  - "I-BASE_CURRENCY"
+  
+  # Healthcare (3 entities)
+  - "B-PATIENT_ID"
+  - "I-PATIENT_ID"
+  - "B-PROCEDURE_CODE"
+  - "I-PROCEDURE_CODE"
+  - "B-INSURANCE_CLAIM_NUMBER"
+  - "I-INSURANCE_CLAIM_NUMBER"
+  
+  # Government (2 entities)
+  - "B-CONTRACT_NUMBER"
+  - "I-CONTRACT_NUMBER"
+  - "B-CAGE_CODE"
+  - "I-CAGE_CODE"
+  
+  # Shipping (1 entity)
+  - "B-TRACKING_NUMBER"
+  - "I-TRACKING_NUMBER"
+
+# =============================================================================
+# PHASE 3: STRUCTURAL & EDGE CASES (8 entities = 16 BIO labels)
+# Coverage: Nested items, multi-page, visual elements
+# =============================================================================
+
+  # Hierarchical Line Items (2 entities)
+  - "B-ITEM_GROUP_HEADER"
+  - "I-ITEM_GROUP_HEADER"
+  - "B-ITEM_GROUP_SUBTOTAL"
+  - "I-ITEM_GROUP_SUBTOTAL"
+  
+  # Multi-Page Support (2 entities)
+  - "B-PAGE_NUMBER"
+  - "I-PAGE_NUMBER"
+  - "B-CARRIED_FORWARD"
+  - "I-CARRIED_FORWARD"
+  
+  # Visual Elements (4 entities)
+  - "B-SIGNATURE"
+  - "I-SIGNATURE"
+  - "B-STAMP_TEXT"
+  - "I-STAMP_TEXT"
+  - "B-HANDWRITTEN_NOTE"
+  - "I-HANDWRITTEN_NOTE"
+  - "B-WATERMARK"
+  - "I-WATERMARK"
+
+# =============================================================================
+# PHASE 4: BANKING & COMPLIANCE (6 entities = 12 BIO labels)
+# Coverage: Payment details, project tracking, accounting
+# =============================================================================
+
+  # Banking (3 entities)
+  - "B-BANK_ACCOUNT"
+  - "I-BANK_ACCOUNT"
+  - "B-IBAN"
+  - "I-IBAN"
+  - "B-SWIFT_CODE"
+  - "I-SWIFT_CODE"
+  
+  # Project/Accounting (3 entities)
+  - "B-PROJECT_CODE"
+  - "I-PROJECT_CODE"
+  - "B-COST_CENTER"
+  - "I-COST_CENTER"
+  - "B-GL_CODE"
+  - "I-GL_CODE"
+
+# =============================================================================
+# PHASE 5: SPECIALIZED FIELDS (18 entities = 36 BIO labels)
+# Coverage: Manufacturing, utilities, telecom extended, POS
+# =============================================================================
+
+  # Manufacturing Extended (3 entities)
+  - "B-LOT_NUMBER"
+  - "I-LOT_NUMBER"
+  - "B-BATCH_NUMBER"
+  - "I-BATCH_NUMBER"
+  - "B-SERIAL_NUMBER"
+  - "I-SERIAL_NUMBER"
+  
+  # Utilities Extended (7 entities)
+  - "B-METER_READING_CURRENT"
+  - "I-METER_READING_CURRENT"
+  - "B-METER_READING_PREVIOUS"
+  - "I-METER_READING_PREVIOUS"
+  - "B-CONSUMPTION"
+  - "I-CONSUMPTION"
+  - "B-RATE_PER_UNIT"
+  - "I-RATE_PER_UNIT"
+  - "B-SUPPLY_CHARGE"
+  - "I-SUPPLY_CHARGE"
+  - "B-PEAK_CHARGE"
+  - "I-PEAK_CHARGE"
+  - "B-OFF_PEAK_CHARGE"
+  - "I-OFF_PEAK_CHARGE"
+  
+  # Telecom Extended (3 entities)
+  - "B-DATA_USAGE"
+  - "I-DATA_USAGE"
+  - "B-ROAMING_CHARGE"
+  - "I-ROAMING_CHARGE"
+  - "B-EQUIPMENT_CHARGE"
+  - "I-EQUIPMENT_CHARGE"
+  
+  # Logistics Extended (3 entities)
+  - "B-WEIGHT"
+  - "I-WEIGHT"
+  - "B-VOLUME"
+  - "I-VOLUME"
+  - "B-INCOTERMS"
+  - "I-INCOTERMS"
+  
+  # POS/Retail (2 entities)
+  - "B-REGISTER_NUMBER"
+  - "I-REGISTER_NUMBER"
+  - "B-CASHIER_ID"
+  - "I-CASHIER_ID"
+
+# =============================================================================
+# TOTAL: 80 entity types × 2 (B-/I-) + 1 (O) = 161 labels
+# =============================================================================
+
+
+# =============================================================================
+# LABEL DESCRIPTIONS
+# =============================================================================
+
+label_descriptions:
+  # Core (Original 36 entities)
+  DOC_TYPE: "Document type (Invoice, Purchase Order, Credit Note, Receipt, Waybill)"
+  INVOICE_NUMBER: "Unique invoice identifier"
+  PURCHASE_ORDER_NUMBER: "PO number reference"
+  INVOICE_DATE: "Invoice issue date"
+  DUE_DATE: "Payment due date"
+  ORDER_DATE: "Purchase order date"
+  SUPPLIER_NAME: "Supplier/vendor company name"
+  SUPPLIER_VAT: "Supplier VAT/Tax ID"
+  SUPPLIER_ADDRESS: "Supplier business address"
+  SUPPLIER_PHONE: "Supplier phone"
+  SUPPLIER_EMAIL: "Supplier email"
+  BUYER_NAME: "Buyer/customer company name"
+  BUYER_ADDRESS: "Buyer address"
+  BUYER_PHONE: "Buyer phone"
+  BUYER_EMAIL: "Buyer email"
+  CURRENCY: "Currency code (USD, EUR, GBP)"
+  TOTAL_AMOUNT: "Total amount including tax"
+  TAX_AMOUNT: "Total tax"
+  SUBTOTAL: "Subtotal before tax"
+  DISCOUNT: "Discount amount or percentage"
+  TAX_RATE: "Tax rate percentage"
+  PAYMENT_TERMS: "Payment terms (Net 30, etc.)"
+  PO_LINE_ITEM: "Line item block marker"
+  ITEM_DESCRIPTION: "Product/service description"
+  ITEM_SKU: "SKU/product code"
+  ITEM_QTY: "Quantity"
+  ITEM_UNIT: "Unit of measure (ea, kg, etc.)"
+  ITEM_UNIT_COST: "Price per unit"
+  ITEM_TOTAL_COST: "Line item total"
+  ITEM_PACK_SIZE: "Pack size"
+  ITEM_TAX: "Line item tax"
+  ITEM_DISCOUNT: "Line item discount"
+  TERMS_AND_CONDITIONS: "Legal terms"
+  NOTE: "Additional notes"
+  GENERIC_LABEL: "Fallback for unlisted fields"
+  TABLE: "Table structure marker"
+  
+  # Phase 1: SaaS/Telecom/Logistics/Utilities (18 entities)
+  SUBSCRIPTION_ID: "Subscription identifier (e.g., sub_abc123)"
+  BILLING_PERIOD: "Billing period (e.g., Jan 1-31, 2025)"
+  LICENSE_COUNT: "Number of licenses/users"
+  PLAN_NAME: "Subscription plan name (e.g., Enterprise)"
+  USAGE_CHARGE: "Usage-based charges (overage, metered)"
+  RECURRING_AMOUNT: "Recurring subscription charge (MRR/ARR)"
+  PRORATION: "Prorated charges for mid-period changes"
+  ACCOUNT_NUMBER: "Account number (telecom, utilities)"
+  SERVICE_NUMBER: "Service number (phone, mobile, meter)"
+  SERVICE_PERIOD: "Service period"
+  PREVIOUS_BALANCE: "Previous balance carried forward"
+  PAYMENT_RECEIVED: "Payments received"
+  WAYBILL_NUMBER: "Waybill/tracking number"
+  SHIPPER_NAME: "Shipper name"
+  CONSIGNEE_NAME: "Consignee name"
+  ORIGIN: "Origin location"
+  DESTINATION: "Destination location"
+  METER_NUMBER: "Utility meter number"
+  
+  # Phase 2: Payments/Multi-Currency/Healthcare/Government (12 entities)
+  AMOUNT_PAID: "Amount already paid"
+  BALANCE_DUE: "Remaining balance due"
+  CREDIT_MEMO_NUMBER: "Credit memo number"
+  REFUND_AMOUNT: "Refund amount"
+  EXCHANGE_RATE: "Currency exchange rate"
+  BASE_CURRENCY: "Base currency for conversion"
+  PATIENT_ID: "Patient identifier"
+  PROCEDURE_CODE: "Medical procedure code (CPT/ICD)"
+  INSURANCE_CLAIM_NUMBER: "Insurance claim number"
+  CONTRACT_NUMBER: "Government contract number"
+  CAGE_CODE: "Commercial and Government Entity Code"
+  TRACKING_NUMBER: "Shipment tracking number"
+  
+  # Phase 3: Structural/Visual (8 entities)
+  ITEM_GROUP_HEADER: "Line item group/category header"
+  ITEM_GROUP_SUBTOTAL: "Subtotal for item group"
+  PAGE_NUMBER: "Page number (e.g., Page 2 of 5)"
+  CARRIED_FORWARD: "Amount carried forward from previous page"
+  SIGNATURE: "Signature field or authorized signatory name"
+  STAMP_TEXT: "Stamp text (PAID, APPROVED, RECEIVED)"
+  HANDWRITTEN_NOTE: "Handwritten annotation"
+  WATERMARK: "Watermark text (COPY, DRAFT)"
+  
+  # Phase 4: Banking/Compliance (6 entities)
+  BANK_ACCOUNT: "Bank account number"
+  IBAN: "International Bank Account Number"
+  SWIFT_CODE: "SWIFT/BIC code"
+  PROJECT_CODE: "Project code/identifier"
+  COST_CENTER: "Cost center code"
+  GL_CODE: "General Ledger account code"
+  
+  # Phase 5: Specialized (18 entities)
+  LOT_NUMBER: "Manufacturing lot number"
+  BATCH_NUMBER: "Batch number"
+  SERIAL_NUMBER: "Serial number"
+  METER_READING_CURRENT: "Current meter reading"
+  METER_READING_PREVIOUS: "Previous meter reading"
+  CONSUMPTION: "Consumption amount (kWh, m³)"
+  RATE_PER_UNIT: "Rate per consumption unit"
+  SUPPLY_CHARGE: "Fixed supply charge"
+  PEAK_CHARGE: "Peak period charge"
+  OFF_PEAK_CHARGE: "Off-peak period charge"
+  DATA_USAGE: "Data usage (GB, TB)"
+  ROAMING_CHARGE: "Roaming charges"
+  EQUIPMENT_CHARGE: "Equipment/device charges"
+  WEIGHT: "Shipment weight"
+  VOLUME: "Shipment volume"
+  INCOTERMS: "International Commercial Terms (FOB, CIF, etc.)"
+  REGISTER_NUMBER: "POS register number"
+  CASHIER_ID: "Cashier identifier"
+
+
+# =============================================================================
+# ENTITY GROUPINGS FOR EVALUATION
+# =============================================================================
+
+entity_groups:
+  document_metadata:
+    - DOC_TYPE
+    - INVOICE_NUMBER
+    - PURCHASE_ORDER_NUMBER
+    - INVOICE_DATE
+    - DUE_DATE
+    - ORDER_DATE
+    - PAGE_NUMBER
+  
+  supplier_info:
+    - SUPPLIER_NAME
+    - SUPPLIER_VAT
+    - SUPPLIER_ADDRESS
+    - SUPPLIER_PHONE
+    - SUPPLIER_EMAIL
+  
+  buyer_info:
+    - BUYER_NAME
+    - BUYER_ADDRESS
+    - BUYER_PHONE
+    - BUYER_EMAIL
+  
+  financial_totals:
+    - CURRENCY
+    - BASE_CURRENCY
+    - TOTAL_AMOUNT
+    - TAX_AMOUNT
+    - SUBTOTAL
+    - DISCOUNT
+    - TAX_RATE
+    - PAYMENT_TERMS
+    - AMOUNT_PAID
+    - BALANCE_DUE
+    - PREVIOUS_BALANCE
+    - PAYMENT_RECEIVED
+    - EXCHANGE_RATE
+  
+  line_items:
+    - PO_LINE_ITEM
+    - ITEM_DESCRIPTION
+    - ITEM_SKU
+    - ITEM_QTY
+    - ITEM_UNIT
+    - ITEM_UNIT_COST
+    - ITEM_TOTAL_COST
+    - ITEM_PACK_SIZE
+    - ITEM_TAX
+    - ITEM_DISCOUNT
+    - ITEM_GROUP_HEADER
+    - ITEM_GROUP_SUBTOTAL
+  
+  subscription_saas:
+    - SUBSCRIPTION_ID
+    - BILLING_PERIOD
+    - LICENSE_COUNT
+    - PLAN_NAME
+    - USAGE_CHARGE
+    - RECURRING_AMOUNT
+    - PRORATION
+  
+  telecom:
+    - ACCOUNT_NUMBER
+    - SERVICE_NUMBER
+    - SERVICE_PERIOD
+    - DATA_USAGE
+    - ROAMING_CHARGE
+    - EQUIPMENT_CHARGE
+  
+  logistics:
+    - WAYBILL_NUMBER
+    - SHIPPER_NAME
+    - CONSIGNEE_NAME
+    - ORIGIN
+    - DESTINATION
+    - TRACKING_NUMBER
+    - WEIGHT
+    - VOLUME
+    - INCOTERMS
+  
+  utilities:
+    - METER_NUMBER
+    - METER_READING_CURRENT
+    - METER_READING_PREVIOUS
+    - CONSUMPTION
+    - RATE_PER_UNIT
+    - SUPPLY_CHARGE
+    - PEAK_CHARGE
+    - OFF_PEAK_CHARGE
+  
+  healthcare:
+    - PATIENT_ID
+    - PROCEDURE_CODE
+    - INSURANCE_CLAIM_NUMBER
+  
+  government:
+    - CONTRACT_NUMBER
+    - CAGE_CODE
+  
+  manufacturing:
+    - LOT_NUMBER
+    - BATCH_NUMBER
+    - SERIAL_NUMBER
+  
+  banking:
+    - BANK_ACCOUNT
+    - IBAN
+    - SWIFT_CODE
+  
+  accounting:
+    - PROJECT_CODE
+    - COST_CENTER
+    - GL_CODE
+  
+  refunds:
+    - CREDIT_MEMO_NUMBER
+    - REFUND_AMOUNT
+  
+  structural:
+    - TABLE
+    - CARRIED_FORWARD
+  
+  visual_elements:
+    - SIGNATURE
+    - STAMP_TEXT
+    - HANDWRITTEN_NOTE
+    - WATERMARK
+  
+  retail_pos:
+    - REGISTER_NUMBER
+    - CASHIER_ID
+  
+  miscellaneous:
+    - TERMS_AND_CONDITIONS
+    - NOTE
+    - GENERIC_LABEL
+
+
+# =============================================================================
+# COMPATIBILITY NOTES
+# =============================================================================
+
+compatibility:
+  backward_compatible: true
+  original_labels: "First 73 labels (36 entities) preserved exactly"
+  migration_required: false
+  note: "Models trained on 73 labels can continue to work. New models use all 161 labels."
+
+
+# =============================================================================
+# USAGE GUIDELINES
+# =============================================================================
+
+usage_guidelines:
+  - "Use GENERIC_LABEL for fields not covered by specific entity types"
+  - "STAMP_TEXT captures printed stamps (PAID, APPROVED, etc.)"
+  - "SIGNATURE captures signatory names or 'Authorized Signature' text"
+  - "HANDWRITTEN_NOTE requires handwriting-capable OCR (Google Vision, AWS Textract)"
+  - "WATERMARK should be filtered during preprocessing when possible"
+  - "For multi-page invoices, annotate PAGE_NUMBER and CARRIED_FORWARD separately"
+  - "Use ITEM_GROUP_HEADER/SUBTOTAL for nested line items"
+  - "BASE_CURRENCY + EXCHANGE_RATE for dual-currency invoices"
+  - "Healthcare: PROCEDURE_CODE typically contains CPT or ICD codes"
+  - "Logistics: INCOTERMS contains FOB, CIF, DAP, DDP, etc."
+

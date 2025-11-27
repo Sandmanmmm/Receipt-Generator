@@ -1,0 +1,1054 @@
+/* Electronics E-commerce Order Invoice Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.5;
+    color: #1f2937;
+    background: #ffffff;
+}
+
+.electronics-invoice {
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 10mm;
+    background: #ffffff;
+}
+
+/* Header */
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 6mm;
+    border-bottom: 3px solid #2563eb;
+    margin-bottom: 6mm;
+}
+
+.company-section {
+    display: flex;
+    gap: 4mm;
+    align-items: center;
+}
+
+.company-logo-box {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-icon {
+    font-size: 24pt;
+    color: #ffffff;
+}
+
+.company-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1mm;
+}
+
+.company-name {
+    font-size: 20pt;
+    font-weight: 700;
+    color: #1f2937;
+    letter-spacing: -0.5px;
+}
+
+.company-tagline {
+    font-size: 9pt;
+    color: #6b7280;
+    font-weight: 400;
+}
+
+.company-contact {
+    font-size: 8.5pt;
+    color: #9ca3af;
+}
+
+.invoice-header-right {
+    text-align: right;
+}
+
+.invoice-badge {
+    display: inline-block;
+    background: #eff6ff;
+    color: #1e40af;
+    padding: 2mm 4mm;
+    border-radius: 6px;
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 3mm;
+}
+
+.order-number-display {
+    margin-bottom: 2mm;
+}
+
+.order-label {
+    display: block;
+    font-size: 9pt;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.order-value {
+    display: block;
+    font-size: 16pt;
+    font-weight: 700;
+    color: #2563eb;
+    font-family: 'Courier New', monospace;
+}
+
+.invoice-date {
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+/* Status Timeline */
+.status-timeline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8mm;
+    padding: 5mm;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    position: relative;
+}
+
+.status-timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 60px;
+    right: 60px;
+    height: 2px;
+    background: #d1d5db;
+    transform: translateY(-50%);
+    z-index: 0;
+}
+
+.timeline-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+
+.step-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16pt;
+    font-weight: 600;
+    margin-bottom: 2mm;
+}
+
+.timeline-step.completed .step-icon {
+    background: #10b981;
+    color: #ffffff;
+}
+
+.timeline-step.active .step-icon {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.step-label {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 1mm;
+}
+
+.step-date {
+    font-size: 8pt;
+    color: #6b7280;
+}
+
+/* Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5mm;
+    margin-bottom: 8mm;
+}
+
+.info-panel {
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 5mm;
+    background: #ffffff;
+}
+
+.panel-title {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 4mm;
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    padding-bottom: 3mm;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.panel-icon {
+    font-size: 13pt;
+}
+
+.panel-content p {
+    font-size: 9.5pt;
+    color: #374151;
+    margin-bottom: 1.5mm;
+    line-height: 1.4;
+}
+
+.customer-name {
+    font-weight: 600;
+    font-size: 10.5pt;
+    color: #1f2937;
+}
+
+.customer-email {
+    color: #2563eb;
+}
+
+.customer-member-badge {
+    margin-top: 3mm;
+    padding: 2mm 3mm;
+    background: #fef3c7;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 2mm;
+}
+
+.badge-icon {
+    font-size: 11pt;
+}
+
+.badge-text {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #92400e;
+}
+
+.shipping-name {
+    font-weight: 600;
+    font-size: 10.5pt;
+    color: #1f2937;
+}
+
+.shipping-method-box {
+    margin-top: 3mm;
+    padding: 2mm 3mm;
+    background: #eff6ff;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+}
+
+.method-icon {
+    font-size: 11pt;
+}
+
+.method-text {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #1e40af;
+}
+
+.tracking-box {
+    margin-top: 3mm;
+    padding: 3mm;
+    background: #fef3c7;
+    border-left: 3px solid #f59e0b;
+    border-radius: 4px;
+}
+
+.tracking-header {
+    font-size: 8.5pt;
+    font-weight: 600;
+    color: #92400e;
+    margin-bottom: 1.5mm;
+}
+
+.tracking-number {
+    font-size: 11pt;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    color: #000000;
+    margin-bottom: 1mm;
+}
+
+.carrier-name {
+    font-size: 8.5pt;
+    color: #78350f;
+}
+
+/* Products Section */
+.products-section {
+    margin-bottom: 8mm;
+}
+
+.section-heading {
+    font-size: 14pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 5mm;
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    padding-bottom: 3mm;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.heading-icon {
+    font-size: 16pt;
+}
+
+.product-card {
+    display: grid;
+    grid-template-columns: 100px 1fr 140px;
+    gap: 5mm;
+    padding: 5mm;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 5mm;
+    background: #f9fafb;
+}
+
+.product-image-box {
+    display: flex;
+    align-items: flex-start;
+}
+
+.product-image-placeholder {
+    width: 100px;
+    height: 100px;
+    background: #ffffff;
+    border: 2px solid #d1d5db;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-icon {
+    font-size: 32pt;
+    color: #d1d5db;
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5mm;
+}
+
+.product-name {
+    font-size: 12pt;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 2mm;
+}
+
+.product-brand {
+    font-size: 9.5pt;
+    color: #6b7280;
+}
+
+.product-model {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    font-size: 9pt;
+}
+
+.model-label {
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.model-value {
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.product-sku {
+    font-size: 8.5pt;
+    font-family: 'Courier New', monospace;
+    color: #9ca3af;
+}
+
+.serial-number-box {
+    margin-top: 2mm;
+    padding: 2.5mm;
+    background: #ffffff;
+    border: 1px solid #fbbf24;
+    border-left: 3px solid #f59e0b;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+}
+
+.serial-icon {
+    font-size: 12pt;
+}
+
+.serial-label {
+    font-size: 9pt;
+    font-weight: 500;
+    color: #92400e;
+}
+
+.serial-value {
+    font-family: 'Courier New', monospace;
+    font-size: 10pt;
+    font-weight: 700;
+    color: #000000;
+}
+
+/* Technical Specifications */
+.tech-specs {
+    margin-top: 3mm;
+    padding: 3mm;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+}
+
+.specs-header {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    margin-bottom: 2.5mm;
+    padding-bottom: 2mm;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.specs-icon {
+    font-size: 11pt;
+}
+
+.specs-title {
+    font-size: 9.5pt;
+    font-weight: 600;
+    color: #374151;
+}
+
+.specs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2mm;
+}
+
+.spec-item {
+    font-size: 8.5pt;
+    line-height: 1.4;
+}
+
+.spec-key {
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.spec-value {
+    color: #1f2937;
+    margin-left: 1mm;
+}
+
+/* Warranty Box */
+.warranty-box {
+    margin-top: 3mm;
+    padding: 3mm;
+    background: #ecfdf5;
+    border: 1px solid #10b981;
+    border-left: 3px solid #059669;
+    border-radius: 6px;
+}
+
+.warranty-header {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    margin-bottom: 2mm;
+}
+
+.warranty-icon {
+    font-size: 12pt;
+}
+
+.warranty-title {
+    font-size: 9.5pt;
+    font-weight: 600;
+    color: #065f46;
+}
+
+.warranty-details {
+    font-size: 8.5pt;
+    color: #047857;
+}
+
+.warranty-period {
+    margin-bottom: 1mm;
+}
+
+.warranty-expiry {
+    color: #059669;
+}
+
+.extended-warranty {
+    margin-top: 2mm;
+    padding-top: 2mm;
+    border-top: 1px solid #6ee7b7;
+}
+
+.extended-badge {
+    display: inline-block;
+    background: #059669;
+    color: #ffffff;
+    padding: 1mm 2mm;
+    border-radius: 3px;
+    font-size: 7.5pt;
+    font-weight: 700;
+    margin-right: 2mm;
+}
+
+/* Configuration */
+.configuration-box {
+    margin-top: 2mm;
+    padding: 2mm;
+    background: #dbeafe;
+    border-radius: 4px;
+}
+
+.config-header {
+    font-size: 8.5pt;
+    font-weight: 600;
+    color: #1e40af;
+    margin-bottom: 1mm;
+}
+
+.config-details {
+    font-size: 8.5pt;
+    color: #1e3a8a;
+}
+
+/* Accessories */
+.accessories-box {
+    margin-top: 2mm;
+    padding: 2.5mm;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+}
+
+.accessories-header {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 2mm;
+    display: flex;
+    align-items: center;
+    gap: 1.5mm;
+}
+
+.accessories-icon {
+    font-size: 10pt;
+}
+
+.accessories-list {
+    list-style: none;
+    padding: 0;
+}
+
+.accessories-list li {
+    font-size: 8.5pt;
+    color: #4b5563;
+    padding-left: 4mm;
+    position: relative;
+    margin-bottom: 1mm;
+}
+
+.accessories-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #10b981;
+    font-weight: 600;
+}
+
+/* Product Pricing */
+.product-pricing {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5mm;
+    text-align: right;
+}
+
+.pricing-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 9pt;
+}
+
+.pricing-label {
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.pricing-value {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.discount-row .pricing-value {
+    color: #dc2626;
+}
+
+.discount-amount {
+    font-weight: 700;
+}
+
+.discount-badge {
+    padding: 1.5mm;
+    background: #fee2e2;
+    color: #991b1b;
+    border-radius: 4px;
+    font-size: 8pt;
+    font-weight: 600;
+    text-align: center;
+}
+
+.total-row {
+    margin-top: 2mm;
+    padding-top: 2mm;
+    border-top: 2px solid #d1d5db;
+}
+
+.item-total-amount {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* Protection Plans */
+.protection-section {
+    margin-bottom: 6mm;
+    padding: 4mm;
+    background: #f0fdf4;
+    border: 2px solid #10b981;
+    border-radius: 8px;
+}
+
+.protection-title {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #065f46;
+    margin-bottom: 3mm;
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+}
+
+.protection-icon {
+    font-size: 13pt;
+}
+
+.protection-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3mm;
+    background: #ffffff;
+    border-radius: 6px;
+}
+
+.protection-name {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1mm;
+}
+
+.protection-coverage {
+    font-size: 9pt;
+    color: #4b5563;
+    margin-bottom: 1mm;
+}
+
+.protection-duration {
+    font-size: 8.5pt;
+    color: #6b7280;
+}
+
+.protection-price {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #059669;
+}
+
+/* Totals Section */
+.totals-section {
+    margin-bottom: 8mm;
+}
+
+.totals-container {
+    max-width: 450px;
+    margin-left: auto;
+}
+
+.totals-title {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 4mm;
+}
+
+.totals-table {
+    padding: 4mm;
+    background: #f9fafb;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2mm 0;
+    font-size: 10pt;
+    border-top: none;
+}
+
+.total-row:not(:last-child) {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.total-label {
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.total-value {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.discount-row {
+    color: #059669;
+}
+
+.discount-value {
+    color: #059669;
+    font-weight: 700;
+}
+
+.final-total-row {
+    margin-top: 3mm;
+    padding-top: 3mm;
+    border-top: 3px solid #1f2937 !important;
+    font-size: 12pt;
+}
+
+.final-label {
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.final-value {
+    font-size: 16pt;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+.savings-highlight {
+    margin-top: 3mm;
+    padding: 3mm;
+    background: #dcfce7;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.savings-icon {
+    font-size: 14pt;
+    margin-right: 2mm;
+}
+
+.savings-text {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #166534;
+}
+
+/* Payment Section */
+.payment-section {
+    margin-bottom: 8mm;
+    padding: 5mm;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+.payment-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.payment-type {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 2mm;
+}
+
+.card-details {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    font-size: 9.5pt;
+}
+
+.card-type-badge {
+    padding: 1mm 2mm;
+    background: #1f2937;
+    color: #ffffff;
+    border-radius: 3px;
+    font-size: 8pt;
+    font-weight: 600;
+}
+
+.card-number {
+    font-family: 'Courier New', monospace;
+    color: #6b7280;
+}
+
+.payment-status .status-badge.paid {
+    background: #dcfce7;
+    color: #166534;
+    padding: 2mm 4mm;
+    border-radius: 6px;
+    font-size: 9pt;
+    font-weight: 700;
+}
+
+.payment-date {
+    font-size: 8.5pt;
+    color: #6b7280;
+    margin-top: 1mm;
+}
+
+.transaction-reference {
+    margin-top: 3mm;
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+.transaction-label {
+    font-weight: 500;
+}
+
+.transaction-id,
+.approval-code {
+    font-family: 'Courier New', monospace;
+    color: #1f2937;
+    font-weight: 600;
+    margin-left: 2mm;
+}
+
+/* Support Section */
+.support-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5mm;
+    margin-bottom: 8mm;
+}
+
+.support-box {
+    padding: 5mm;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: #f9fafb;
+}
+
+.support-title {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 3mm;
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+}
+
+.support-icon {
+    font-size: 13pt;
+}
+
+.support-content {
+    font-size: 9pt;
+    line-height: 1.6;
+}
+
+.support-text {
+    color: #4b5563;
+    margin-bottom: 2mm;
+}
+
+.support-contact {
+    font-weight: 600;
+    color: #2563eb;
+    margin-bottom: 1mm;
+}
+
+.support-hours {
+    color: #6b7280;
+    margin-bottom: 2mm;
+}
+
+.support-link {
+    color: #2563eb;
+    font-weight: 500;
+}
+
+.support-note {
+    color: #dc2626;
+    font-weight: 500;
+    margin: 2mm 0;
+}
+
+.return-deadline {
+    padding: 2mm;
+    background: #fef3c7;
+    border-radius: 4px;
+    color: #92400e;
+    margin: 2mm 0;
+}
+
+/* Rewards Banner */
+.rewards-banner {
+    margin-bottom: 8mm;
+    padding: 5mm;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 2px solid #f59e0b;
+    border-radius: 8px;
+}
+
+.rewards-content {
+    display: flex;
+    align-items: center;
+    gap: 4mm;
+}
+
+.rewards-icon {
+    font-size: 32pt;
+}
+
+.rewards-earned {
+    font-size: 11pt;
+    color: #78350f;
+    margin-bottom: 1mm;
+}
+
+.rewards-earned strong {
+    font-weight: 700;
+    color: #92400e;
+    font-size: 12pt;
+}
+
+.rewards-balance {
+    font-size: 9pt;
+    color: #92400e;
+    margin-bottom: 1mm;
+}
+
+.rewards-progress-text {
+    font-size: 8.5pt;
+    color: #a16207;
+}
+
+/* Footer */
+.invoice-footer {
+    padding-top: 6mm;
+    border-top: 3px solid #2563eb;
+    margin-top: 8mm;
+}
+
+.footer-columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5mm;
+    margin-bottom: 5mm;
+}
+
+.footer-column h4 {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 2mm;
+}
+
+.footer-column p {
+    font-size: 9pt;
+    color: #6b7280;
+    line-height: 1.4;
+    margin-bottom: 1mm;
+}
+
+.footer-legal {
+    padding-top: 4mm;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 8.5pt;
+    color: #9ca3af;
+    line-height: 1.5;
+}
+
+.footer-legal p {
+    margin-bottom: 1.5mm;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .electronics-invoice {
+        max-width: 100%;
+        margin: 0;
+        padding: 5mm;
+    }
+    
+    .product-card {
+        page-break-inside: avoid;
+    }
+}

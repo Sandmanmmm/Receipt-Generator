@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuel Receipt</title>
+    <link rel="stylesheet" href="../css/pos_receipt_fuel.css">
+</head>
+<body>
+    <div class="fuel-receipt">
+        <!-- Gas Station Fuel Receipt -->
+        
+        <!-- Station Header -->
+        <div class="station-header">
+            <h1 class="station-name">{{ supplier_name }}</h1>
+            <p class="station-location">{{ store_location }}</p>
+            <p class="station-address">{{ supplier_address }}</p>
+            <p class="station-phone">{{ supplier_phone }}</p>
+            {% if station_number %}
+            <p class="station-id">STATION #{{ station_number }}</p>
+            {% endif %}
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Transaction Info -->
+        <div class="transaction-info">
+            <div class="info-line">
+                <span class="label">RECEIPT #:</span>
+                <span class="value">{{ invoice_number }}</span>
+            </div>
+            <div class="info-line">
+                <span class="label">DATE:</span>
+                <span class="value">{{ invoice_date }}</span>
+            </div>
+            <div class="info-line">
+                <span class="label">TIME:</span>
+                <span class="value">{{ transaction_time }}</span>
+            </div>
+            {% if pump_number %}
+            <div class="info-line">
+                <span class="label">PUMP:</span>
+                <span class="value pump-number">{{ pump_number }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="divider-double"></div>
+
+        <!-- Fuel Purchase - Prominent Display -->
+        {% for item in line_items %}
+        {% if item.is_fuel %}
+        <div class="fuel-section">
+            <div class="fuel-header">
+                <h2 class="fuel-type">{{ item.fuel_grade }}</h2>
+                {% if item.octane_rating %}
+                <span class="octane-badge">{{ item.octane_rating }}</span>
+                {% endif %}
+            </div>
+            
+            <div class="fuel-details">
+                <div class="fuel-row">
+                    <span class="fuel-label">GALLONS:</span>
+                    <span class="fuel-value">{{ item.gallons }}</span>
+                </div>
+                <div class="fuel-row">
+                    <span class="fuel-label">PRICE/GAL:</span>
+                    <span class="fuel-value">{{ item.price_per_gallon }}</span>
+                </div>
+                <div class="fuel-row total-fuel">
+                    <span class="fuel-label">FUEL TOTAL:</span>
+                    <span class="fuel-value">{{ item.total }}</span>
+                </div>
+            </div>
+            
+            {% if item.rewards_discount %}
+            <div class="fuel-savings">
+                <span class="savings-icon">💰</span>
+                <span class="savings-text">YOU SAVED {{ item.rewards_discount }}/GAL</span>
+                <span class="savings-total">-{{ item.total_savings }}</span>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        <div class="divider-double"></div>
+
+        <!-- Convenience Store Items -->
+        {% set store_items = line_items | selectattr('is_fuel', 'false') | list %}
+        {% if store_items %}
+        <div class="store-items-section">
+            <h3 class="section-title">IN-STORE PURCHASES</h3>
+            
+            {% for item in store_items %}
+            <div class="store-item-line">
+                <span class="item-name">{{ item.description }}</span>
+                <span class="item-total">{{ item.total }}</span>
+            </div>
+            {% if item.upc %}
+            <div class="item-upc">UPC: {{ item.upc }}</div>
+            {% endif %}
+            {% if item.promotion %}
+            <div class="item-promo">
+                <span class="promo-icon">🏷️</span>
+                <span class="promo-text">{{ item.promotion }}</span>
+                <span class="promo-discount">-{{ item.discount }}</span>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="divider"></div>
+        {% endif %}
+
+        <!-- Totals -->
+        <div class="totals-section">
+            <div class="total-line">
+                <span class="total-label">SUBTOTAL:</span>
+                <span class="total-value">{{ subtotal }}</span>
+            </div>
+            {% if total_discount > 0 %}
+            <div class="total-line savings-line">
+                <span class="total-label">TOTAL SAVINGS:</span>
+                <span class="total-value">-{{ total_discount }}</span>
+            </div>
+            {% endif %}
+            <div class="total-line">
+                <span class="total-label">TAX:</span>
+                <span class="total-value">{{ tax_amount }}</span>
+            </div>
+            <div class="total-line grand-total">
+                <span class="total-label">TOTAL:</span>
+                <span class="total-value">{{ total_amount }}</span>
+            </div>
+        </div>
+
+        <div class="divider-double"></div>
+
+        <!-- Payment Info -->
+        <div class="payment-section">
+            <div class="payment-line">
+                <span class="payment-label">PAYMENT METHOD:</span>
+                <span class="payment-value">{{ payment_method }}</span>
+            </div>
+            {% if payment_method != "Cash" %}
+            <div class="payment-line">
+                <span class="payment-label">CARD TYPE:</span>
+                <span class="payment-value">{{ card_type }}</span>
+            </div>
+            <div class="payment-line">
+                <span class="payment-label">CARD NUMBER:</span>
+                <span class="payment-value">************{{ card_last_four }}</span>
+            </div>
+            {% if approval_code %}
+            <div class="payment-line">
+                <span class="payment-label">APPROVAL CODE:</span>
+                <span class="payment-value">{{ approval_code }}</span>
+            </div>
+            {% endif %}
+            {% if transaction_id %}
+            <div class="payment-line">
+                <span class="payment-label">TRANSACTION ID:</span>
+                <span class="payment-value">{{ transaction_id }}</span>
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="payment-line">
+                <span class="payment-label">CASH TENDERED:</span>
+                <span class="payment-value">{{ cash_tendered }}</span>
+            </div>
+            <div class="payment-line">
+                <span class="payment-label">CHANGE:</span>
+                <span class="payment-value">{{ change_amount }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Rewards Program -->
+        {% if loyalty_points_earned or loyalty_points_balance %}
+        <div class="divider"></div>
+        
+        <div class="rewards-section">
+            <h3 class="rewards-title">REWARDS PROGRAM</h3>
+            {% if customer_id %}
+            <div class="rewards-line">
+                <span class="rewards-label">MEMBER #:</span>
+                <span class="rewards-value">{{ customer_id }}</span>
+            </div>
+            {% endif %}
+            {% if loyalty_points_earned %}
+            <div class="rewards-line">
+                <span class="rewards-label">POINTS EARNED:</span>
+                <span class="rewards-value points-earned">+{{ loyalty_points_earned }}</span>
+            </div>
+            {% endif %}
+            {% if loyalty_points_balance %}
+            <div class="rewards-line">
+                <span class="rewards-label">POINTS BALANCE:</span>
+                <span class="rewards-value">{{ loyalty_points_balance }}</span>
+            </div>
+            {% endif %}
+            {% if fuel_savings_total %}
+            <div class="rewards-line highlight">
+                <span class="rewards-label">FUEL SAVINGS THIS MONTH:</span>
+                <span class="rewards-value">{{ fuel_savings_total }}</span>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="divider"></div>
+
+        <!-- Odometer (optional for fleet cards) -->
+        {% if odometer_reading %}
+        <div class="fleet-info">
+            <div class="fleet-line">
+                <span class="fleet-label">ODOMETER:</span>
+                <span class="fleet-value">{{ odometer_reading }}</span>
+            </div>
+            {% if vehicle_id %}
+            <div class="fleet-line">
+                <span class="fleet-label">VEHICLE ID:</span>
+                <span class="fleet-value">{{ vehicle_id }}</span>
+            </div>
+            {% endif %}
+            {% if driver_id %}
+            <div class="fleet-line">
+                <span class="fleet-label">DRIVER ID:</span>
+                <span class="fleet-value">{{ driver_id }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="divider"></div>
+        {% endif %}
+
+        <!-- Promotions/Offers -->
+        {% if current_promotions %}
+        <div class="promotions-section">
+            <h4 class="promo-header">CURRENT OFFERS</h4>
+            {% for promo in current_promotions %}
+            <p class="promo-item">{{ promo.text }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="divider"></div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="footer-section">
+            <p class="footer-line">{{ return_policy }}</p>
+            {% if survey_url %}
+            <p class="footer-line">RATE YOUR VISIT:</p>
+            <p class="footer-line survey-url">{{ survey_url }}</p>
+            <p class="footer-line">CODE: {{ survey_code }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Barcode -->
+        {% if barcode_value %}
+        <div class="barcode-section">
+            <div class="barcode">|||| |||| |||| |||| ||||</div>
+            <p class="barcode-number">{{ barcode_value }}</p>
+        </div>
+        {% endif %}
+
+        <div class="thank-you">
+            <p>THANK YOU FOR YOUR BUSINESS!</p>
+            <p>DRIVE SAFELY</p>
+        </div>
+    </div>
+</body>
+</html>

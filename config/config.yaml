@@ -1,0 +1,197 @@
+# Project Configuration
+
+## General Settings
+project_name: "InvoiceGen"
+version: "1.0.0"
+description: "Synthetic Invoice Generator with LayoutLMv3 Training"
+
+## Directories
+directories:
+  templates: "templates"
+  data:
+    raw: "data/raw"
+    processed: "data/processed"
+    annotations: "data/annotations"
+    layoutlmv3: "data/layoutlmv3"
+  models: "models"
+  outputs: "outputs"
+  logs: "logs"
+
+## Generation Settings
+generation:
+  min_items: 1
+  max_items: 10
+  include_shipping: true
+  include_discount: true
+  include_tax: true
+  locales:
+    - "en_US"
+    - "en_GB"
+    - "de_DE"
+    - "fr_FR"
+  
+  # Templates to use
+  templates:
+    - "modern_invoice.html"
+    - "classic_invoice.html"
+  
+  # Rendering settings
+  rendering:
+    formats: ["html", "pdf", "png"]
+    pdf_backend: "weasyprint"  # or "wkhtmltopdf"
+    png_dpi: 150
+    page_size: "A4"
+
+## Augmentation Settings
+augmentation:
+  enabled: true
+  copies_per_image: 3
+  
+  noise:
+    enabled: true
+    probability: 0.5
+    intensity_range: [0.01, 0.05]
+  
+  blur:
+    enabled: true
+    probability: 0.3
+    kernel_size_range: [3, 7]
+  
+  compression:
+    enabled: true
+    probability: 0.4
+    jpeg_quality_range: [60, 95]
+  
+  rotation:
+    enabled: true
+    probability: 0.6
+    angle_range: [-5.0, 5.0]
+  
+  perspective:
+    enabled: true
+    probability: 0.3
+    strength_range: [0.01, 0.05]
+  
+  brightness:
+    enabled: true
+    probability: 0.5
+    range: [0.7, 1.3]
+  
+  contrast:
+    enabled: true
+    probability: 0.5
+    range: [0.8, 1.2]
+  
+  stains:
+    enabled: true
+    probability: 0.2
+    count_range: [1, 3]
+  
+  shadow:
+    enabled: true
+    probability: 0.3
+  
+  crease:
+    enabled: true
+    probability: 0.2
+
+## OCR Settings
+ocr:
+  engine: "paddleocr"  # paddleocr, tesseract, or easyocr
+  language: "en"
+  use_angle_cls: true
+  show_log: false
+
+## Training Settings
+training:
+  model_name: "microsoft/layoutlmv3-base"
+  output_dir: "models/layoutlmv3-invoice"
+  
+  # Data splits
+  train_ratio: 0.8
+  val_ratio: 0.1
+  test_ratio: 0.1
+  
+  # Hyperparameters
+  num_epochs: 10
+  batch_size: 4
+  learning_rate: 5e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  
+  # Early stopping
+  early_stopping_patience: 3
+  early_stopping_threshold: 0.001
+  
+  # Hardware
+  use_fp16: true
+  num_workers: 4
+  
+  # Evaluation
+  evaluation_strategy: "epoch"
+  save_strategy: "epoch"
+  load_best_model: true
+  metric_for_best_model: "f1"
+
+## Entity Labels
+entity_labels:
+  - "O"
+  - "B-INVOICE_NUMBER"
+  - "I-INVOICE_NUMBER"
+  - "B-DATE"
+  - "I-DATE"
+  - "B-TOTAL"
+  - "I-TOTAL"
+  - "B-COMPANY_NAME"
+  - "I-COMPANY_NAME"
+  - "B-ADDRESS"
+  - "I-ADDRESS"
+  - "B-PHONE"
+  - "I-PHONE"
+  - "B-EMAIL"
+  - "I-EMAIL"
+  - "B-CLIENT_NAME"
+  - "I-CLIENT_NAME"
+  - "B-ITEM_DESCRIPTION"
+  - "I-ITEM_DESCRIPTION"
+  - "B-QUANTITY"
+  - "I-QUANTITY"
+  - "B-RATE"
+  - "I-RATE"
+  - "B-AMOUNT"
+  - "I-AMOUNT"
+  - "B-SUBTOTAL"
+  - "I-SUBTOTAL"
+  - "B-TAX"
+  - "I-TAX"
+  - "B-DISCOUNT"
+  - "I-DISCOUNT"
+
+## Deployment Settings
+deployment:
+  api:
+    host: "0.0.0.0"
+    port: 8000
+    workers: 4
+    reload: false
+  
+  model:
+    device: "cuda"  # cuda or cpu
+    batch_size: 8
+    max_length: 512
+  
+  cache:
+    enabled: true
+    ttl: 3600  # seconds
+
+## Vast.ai Settings
+vastai:
+  instance_type: "gpu"
+  gpu_name: "RTX 4090"
+  disk_space: 50  # GB
+  image: "pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime"
+  
+  # Generation scale
+  target_samples: 10000
+  batch_size: 100
+  concurrent_jobs: 4

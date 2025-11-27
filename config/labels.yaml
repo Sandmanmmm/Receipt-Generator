@@ -1,0 +1,171 @@
+# Production-Ready Label Set for Invoice/PO Token Classification
+# BIO tagging scheme for LayoutLMv3 token-level NER
+# Covers: Purchase Orders, Invoices, Line Items, Supplier/Buyer data
+
+label_list:
+  - "O"
+  - "B-DOC_TYPE"
+  - "I-DOC_TYPE"
+  - "B-INVOICE_NUMBER"
+  - "I-INVOICE_NUMBER"
+  - "B-PURCHASE_ORDER_NUMBER"
+  - "I-PURCHASE_ORDER_NUMBER"
+  - "B-INVOICE_DATE"
+  - "I-INVOICE_DATE"
+  - "B-DUE_DATE"
+  - "I-DUE_DATE"
+  - "B-ORDER_DATE"
+  - "I-ORDER_DATE"
+  - "B-SUPPLIER_NAME"
+  - "I-SUPPLIER_NAME"
+  - "B-SUPPLIER_VAT"
+  - "I-SUPPLIER_VAT"
+  - "B-SUPPLIER_ADDRESS"
+  - "I-SUPPLIER_ADDRESS"
+  - "B-SUPPLIER_PHONE"
+  - "I-SUPPLIER_PHONE"
+  - "B-SUPPLIER_EMAIL"
+  - "I-SUPPLIER_EMAIL"
+  - "B-BUYER_NAME"
+  - "I-BUYER_NAME"
+  - "B-BUYER_ADDRESS"
+  - "I-BUYER_ADDRESS"
+  - "B-BUYER_PHONE"
+  - "I-BUYER_PHONE"
+  - "B-BUYER_EMAIL"
+  - "I-BUYER_EMAIL"
+  - "B-CURRENCY"
+  - "I-CURRENCY"
+  - "B-TOTAL_AMOUNT"
+  - "I-TOTAL_AMOUNT"
+  - "B-TAX_AMOUNT"
+  - "I-TAX_AMOUNT"
+  - "B-SUBTOTAL"
+  - "I-SUBTOTAL"
+  - "B-DISCOUNT"
+  - "I-DISCOUNT"
+  - "B-TAX_RATE"
+  - "I-TAX_RATE"
+  - "B-PAYMENT_TERMS"
+  - "I-PAYMENT_TERMS"
+  - "B-PO_LINE_ITEM"
+  - "I-PO_LINE_ITEM"
+  - "B-ITEM_DESCRIPTION"
+  - "I-ITEM_DESCRIPTION"
+  - "B-ITEM_SKU"
+  - "I-ITEM_SKU"
+  - "B-ITEM_QTY"
+  - "I-ITEM_QTY"
+  - "B-ITEM_UNIT"
+  - "I-ITEM_UNIT"
+  - "B-ITEM_UNIT_COST"
+  - "I-ITEM_UNIT_COST"
+  - "B-ITEM_TOTAL_COST"
+  - "I-ITEM_TOTAL_COST"
+  - "B-ITEM_PACK_SIZE"
+  - "I-ITEM_PACK_SIZE"
+  - "B-ITEM_TAX"
+  - "I-ITEM_TAX"
+  - "B-ITEM_DISCOUNT"
+  - "I-ITEM_DISCOUNT"
+  - "B-TERMS_AND_CONDITIONS"
+  - "I-TERMS_AND_CONDITIONS"
+  - "B-NOTE"
+  - "I-NOTE"
+  - "B-GENERIC_LABEL"
+  - "I-GENERIC_LABEL"
+  - "B-TABLE"
+  - "I-TABLE"
+
+# Label descriptions and usage notes
+label_descriptions:
+  DOC_TYPE: "Document type identifier (Invoice, Purchase Order, Credit Note)"
+  INVOICE_NUMBER: "Unique invoice identifier"
+  PURCHASE_ORDER_NUMBER: "PO number reference"
+  INVOICE_DATE: "Invoice issue date"
+  DUE_DATE: "Payment due date"
+  ORDER_DATE: "Purchase order date"
+  SUPPLIER_NAME: "Supplier/vendor company name"
+  SUPPLIER_VAT: "Supplier VAT/Tax ID number"
+  SUPPLIER_ADDRESS: "Supplier business address"
+  SUPPLIER_PHONE: "Supplier contact phone"
+  SUPPLIER_EMAIL: "Supplier contact email"
+  BUYER_NAME: "Buyer/merchant company name"
+  BUYER_ADDRESS: "Buyer business address"
+  BUYER_PHONE: "Buyer contact phone"
+  BUYER_EMAIL: "Buyer contact email"
+  CURRENCY: "Currency code (USD, GBP, EUR, etc.)"
+  TOTAL_AMOUNT: "Total invoice/PO amount including tax"
+  TAX_AMOUNT: "Total tax amount"
+  SUBTOTAL: "Subtotal before tax"
+  DISCOUNT: "Discount amount or percentage"
+  TAX_RATE: "Tax rate percentage"
+  PAYMENT_TERMS: "Payment terms (Net 30, Due on receipt, etc.)"
+  PO_LINE_ITEM: "Line item block marker (optional)"
+  ITEM_DESCRIPTION: "Product/service description"
+  ITEM_SKU: "SKU/product code"
+  ITEM_QTY: "Quantity ordered/invoiced"
+  ITEM_UNIT: "Unit of measure (ea, kg, box, etc.)"
+  ITEM_UNIT_COST: "Price per unit"
+  ITEM_TOTAL_COST: "Line item total (qty × unit cost)"
+  ITEM_PACK_SIZE: "Pack size (e.g., 10kg carton)"
+  ITEM_TAX: "Line item tax amount"
+  ITEM_DISCOUNT: "Line item discount"
+  TERMS_AND_CONDITIONS: "Legal terms and conditions text"
+  NOTE: "Additional notes or comments"
+  GENERIC_LABEL: "Fallback for unlisted fields"
+  TABLE: "Table structure markers for line item detection"
+
+# Entity groupings for evaluation
+entity_groups:
+  document_metadata:
+    - DOC_TYPE
+    - INVOICE_NUMBER
+    - PURCHASE_ORDER_NUMBER
+    - INVOICE_DATE
+    - DUE_DATE
+    - ORDER_DATE
+  
+  supplier_info:
+    - SUPPLIER_NAME
+    - SUPPLIER_VAT
+    - SUPPLIER_ADDRESS
+    - SUPPLIER_PHONE
+    - SUPPLIER_EMAIL
+  
+  buyer_info:
+    - BUYER_NAME
+    - BUYER_ADDRESS
+    - BUYER_PHONE
+    - BUYER_EMAIL
+  
+  financial_totals:
+    - CURRENCY
+    - TOTAL_AMOUNT
+    - TAX_AMOUNT
+    - SUBTOTAL
+    - DISCOUNT
+    - TAX_RATE
+    - PAYMENT_TERMS
+  
+  line_items:
+    - PO_LINE_ITEM
+    - ITEM_DESCRIPTION
+    - ITEM_SKU
+    - ITEM_QTY
+    - ITEM_UNIT
+    - ITEM_UNIT_COST
+    - ITEM_TOTAL_COST
+    - ITEM_PACK_SIZE
+    - ITEM_TAX
+    - ITEM_DISCOUNT
+  
+  structural:
+    - TABLE
+  
+  miscellaneous:
+    - TERMS_AND_CONDITIONS
+    - NOTE
+    - GENERIC_LABEL
+
+# Total: 73 labels (1 O + 72 BIO entity labels = 36 entity types × 2)

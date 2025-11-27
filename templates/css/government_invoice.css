@@ -1,0 +1,710 @@
+/* Government Contract Invoice Styling */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Times New Roman', 'Georgia', serif;
+    font-size: 10pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #ffffff;
+}
+
+.government-invoice {
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 15mm;
+    background: #ffffff;
+}
+
+/* Header */
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #1e40af;
+    border-radius: 6px;
+    color: #ffffff;
+    border: 3px solid #1e3a8a;
+}
+
+.contractor-name {
+    font-size: 20pt;
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.contractor-address {
+    font-size: 9pt;
+    margin-bottom: 3px;
+    opacity: 0.9;
+}
+
+.contractor-contact {
+    font-size: 9pt;
+    margin-bottom: 5px;
+    opacity: 0.9;
+}
+
+.cage-code {
+    font-size: 10pt;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 5px;
+    font-family: 'Courier New', monospace;
+}
+
+.invoice-meta {
+    text-align: right;
+}
+
+.doc-type {
+    font-size: 14pt;
+    font-weight: 800;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 5px;
+}
+
+.invoice-meta p {
+    font-size: 9pt;
+    margin: 4px 0;
+}
+
+.invoice-meta strong {
+    font-weight: 700;
+}
+
+/* Contract Information Section */
+.contract-info-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #eff6ff;
+    border: 2px solid #1e40af;
+    border-radius: 6px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background: #ffffff;
+    border-radius: 4px;
+    border: 1px solid #bfdbfe;
+}
+
+.contract-item {
+    border: 2px solid #1e40af;
+    background: #dbeafe;
+}
+
+.info-item .label {
+    font-size: 8pt;
+    font-weight: 700;
+    color: #1e40af;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+
+.info-item .value {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    font-family: 'Courier New', monospace;
+}
+
+.contract-number,
+.project-code {
+    font-size: 11pt;
+    color: #1e40af;
+}
+
+/* Agency Information */
+.agency-info-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.agency-box,
+.officer-box,
+.payment-box {
+    padding: 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 6px;
+    background: #f9fafb;
+}
+
+.agency-box {
+    border-left: 4px solid #1e40af;
+}
+
+.officer-box {
+    border-left: 4px solid #059669;
+}
+
+.payment-box {
+    border-left: 4px solid #f59e0b;
+}
+
+.agency-box h3,
+.officer-box h3,
+.payment-box h3 {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.agency-name {
+    font-weight: 700;
+    color: #1e40af;
+    margin-bottom: 5px;
+}
+
+.agency-info-section p {
+    font-size: 9pt;
+    color: #374151;
+    margin: 3px 0;
+}
+
+.agency-info-section strong {
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+/* Line Items Section */
+.line-items-section {
+    margin-bottom: 20px;
+}
+
+.line-items-section h3 {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    border-bottom: 3px solid #1e40af;
+    padding-bottom: 5px;
+}
+
+.line-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+    background: #ffffff;
+}
+
+.line-items-table thead {
+    background: #1e40af;
+    color: #ffffff;
+}
+
+.line-items-table th {
+    padding: 10px 8px;
+    text-align: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 8pt;
+    letter-spacing: 0.5px;
+}
+
+.line-items-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.line-items-table tbody tr:hover {
+    background: #eff6ff;
+}
+
+.line-items-table td {
+    padding: 10px 8px;
+    color: #374151;
+}
+
+.clin {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: #1e40af;
+    background: #eff6ff;
+    padding: 4px 6px;
+    border-radius: 3px;
+}
+
+.item-description {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.deliverable {
+    font-size: 8pt;
+    color: #6b7280;
+}
+
+.quantity {
+    text-align: center;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+}
+
+.unit-price,
+.line-total {
+    text-align: right;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+}
+
+/* Labor Section */
+.labor-section {
+    margin-bottom: 20px;
+}
+
+.labor-section h3 {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #059669;
+    padding-bottom: 5px;
+}
+
+.labor-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+}
+
+.labor-table thead {
+    background: #059669;
+    color: #ffffff;
+}
+
+.labor-table th {
+    padding: 8px;
+    text-align: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 8pt;
+}
+
+.labor-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.labor-table tbody tr:hover:not(.labor-subtotal) {
+    background: #f0fdf4;
+}
+
+.labor-table td {
+    padding: 8px;
+    color: #374151;
+}
+
+.labor-category {
+    font-weight: 600;
+}
+
+.hours,
+.rate,
+.labor-total {
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+}
+
+.labor-subtotal {
+    background: #d1fae5;
+    border-top: 2px solid #059669;
+}
+
+.labor-subtotal-amount {
+    font-size: 11pt;
+    color: #059669;
+}
+
+/* ODC Section */
+.odc-section {
+    margin-bottom: 20px;
+}
+
+.odc-section h3 {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #f59e0b;
+    padding-bottom: 5px;
+}
+
+.odc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+}
+
+.odc-table thead {
+    background: #f59e0b;
+    color: #ffffff;
+}
+
+.odc-table th {
+    padding: 8px;
+    text-align: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 8pt;
+}
+
+.odc-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.odc-table tbody tr:hover:not(.odc-subtotal) {
+    background: #fffbeb;
+}
+
+.odc-table td {
+    padding: 8px;
+    color: #374151;
+}
+
+.unit-cost,
+.odc-total {
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+}
+
+.odc-subtotal {
+    background: #fef3c7;
+    border-top: 2px solid #f59e0b;
+}
+
+.odc-subtotal-amount {
+    font-size: 11pt;
+    color: #f59e0b;
+}
+
+/* Indirect Costs Section */
+.indirect-costs-section {
+    margin-bottom: 20px;
+}
+
+.indirect-costs-section h3 {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #6b7280;
+    padding-bottom: 5px;
+}
+
+.indirect-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+    background: #f9fafb;
+}
+
+.indirect-table tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.indirect-table td {
+    padding: 10px;
+    color: #374151;
+}
+
+.cost-description {
+    font-weight: 700;
+}
+
+.cost-base {
+    text-align: center;
+    font-family: 'Courier New', monospace;
+}
+
+.cost-amount {
+    text-align: right;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+}
+
+/* Invoice Summary */
+.invoice-summary-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f9fafb;
+    border: 2px solid #1e40af;
+    border-radius: 6px;
+}
+
+.invoice-summary-section h3 {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+}
+
+.summary-table tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.summary-table td {
+    padding: 10px;
+}
+
+.summary-label {
+    font-weight: 600;
+    color: #374151;
+}
+
+.summary-value {
+    text-align: right;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    color: #1a1a1a;
+}
+
+.retention,
+.previous-payments {
+    color: #dc2626;
+}
+
+.subtotal-row {
+    background: #eff6ff;
+    border-top: 2px solid #1e40af;
+}
+
+.total-row {
+    background: #1e40af;
+    color: #ffffff;
+    border-top: 3px solid #1e3a8a;
+    border-bottom: 3px solid #1e3a8a;
+}
+
+.total-row td {
+    padding: 12px 10px;
+    font-size: 12pt;
+    font-weight: 800;
+}
+
+.total-amount {
+    font-size: 16pt;
+}
+
+/* Certification Section */
+.certification-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+    border-radius: 6px;
+}
+
+.certification-section h3 {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.certification-text p {
+    font-size: 9pt;
+    color: #374151;
+    margin-bottom: 10px;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+.signature-area {
+    margin-top: 20px;
+}
+
+.signature-box {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.signature-line {
+    height: 60px;
+    border-bottom: 2px solid #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.signature-label {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.signer-name {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 2px;
+}
+
+.signer-title {
+    font-size: 9pt;
+    color: #6b7280;
+    margin-bottom: 5px;
+}
+
+.signature-date {
+    font-size: 8pt;
+    color: #6b7280;
+}
+
+/* Payment Instructions */
+.payment-instructions-section {
+    margin-bottom: 20px;
+}
+
+.payment-instructions-section h3 {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #1e40af;
+    padding-bottom: 5px;
+}
+
+.payment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.payment-method-box,
+.payment-contact-box {
+    padding: 12px;
+    background: #f9fafb;
+    border: 2px solid #e5e7eb;
+    border-radius: 6px;
+}
+
+.payment-method-box h4,
+.payment-contact-box h4 {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #1e40af;
+    margin-bottom: 8px;
+}
+
+.payment-method-box p,
+.payment-contact-box p {
+    font-size: 9pt;
+    color: #374151;
+    margin: 5px 0;
+}
+
+.prompt-payment-notice {
+    padding: 12px;
+    background: #fee2e2;
+    border-left: 4px solid #dc2626;
+    border-radius: 4px;
+}
+
+.prompt-payment-notice p {
+    font-size: 9pt;
+    color: #991b1b;
+    font-weight: 600;
+}
+
+/* Footer */
+.invoice-footer {
+    padding: 15px;
+    background: #f9fafb;
+    border-radius: 6px;
+    border-top: 3px solid #1e40af;
+}
+
+.footer-info {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.footer-info p {
+    font-size: 9pt;
+    color: #374151;
+    margin: 5px 0;
+}
+
+.footer-legal {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 10px;
+}
+
+.footer-legal p {
+    font-size: 8pt;
+    color: #6b7280;
+    margin: 5px 0;
+    line-height: 1.6;
+}
+
+.terms-conditions {
+    font-style: italic;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .government-invoice {
+        max-width: 100%;
+        padding: 10mm;
+    }
+
+    .invoice-header {
+        page-break-after: avoid;
+    }
+
+    .line-items-section,
+    .invoice-summary-section {
+        page-break-inside: avoid;
+    }
+
+    .certification-section {
+        page-break-before: auto;
+    }
+}

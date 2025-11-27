@@ -1,0 +1,576 @@
+/* Telecom Bill Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', 'Arial', sans-serif;
+    font-size: 10pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #ffffff;
+}
+
+.bill-container {
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 20mm;
+    background: #ffffff;
+}
+
+/* Header */
+.bill-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 4px solid #e11d48;
+}
+
+.provider-info {
+    flex: 1;
+}
+
+.provider-name {
+    font-size: 26pt;
+    font-weight: 900;
+    color: #e11d48;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.provider-tagline {
+    font-size: 9pt;
+    color: #6b7280;
+    font-style: italic;
+    margin-bottom: 8px;
+}
+
+.provider-contact {
+    font-size: 9pt;
+    color: #4b5563;
+}
+
+.bill-meta {
+    text-align: right;
+    flex: 1;
+}
+
+.doc-type {
+    font-size: 18pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 10px;
+}
+
+.bill-meta p {
+    margin: 5px 0;
+    font-size: 9.5pt;
+}
+
+/* Account Summary */
+.account-summary {
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #fecdd3 0%, #fda4af 100%);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.summary-header {
+    background: #e11d48;
+    color: #ffffff;
+    padding: 12px 20px;
+}
+
+.summary-header h3 {
+    font-size: 12pt;
+    font-weight: 700;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    padding: 20px;
+    background: #ffffff;
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.summary-item .label {
+    font-size: 8.5pt;
+    color: #6b7280;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.summary-item .value {
+    font-size: 10pt;
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.summary-item.highlight {
+    background: #fef3c7;
+    padding: 10px;
+    border-radius: 6px;
+    border-left: 4px solid #f59e0b;
+}
+
+.summary-item.highlight .value {
+    font-size: 12pt;
+    font-weight: 700;
+}
+
+.account-number {
+    font-family: 'Courier New', monospace;
+    color: #e11d48;
+}
+
+.service-number {
+    font-family: 'Courier New', monospace;
+    color: #0891b2;
+}
+
+.amount-due {
+    color: #dc2626;
+}
+
+/* Customer Section */
+.customer-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f9fafb;
+    border-left: 4px solid #e11d48;
+}
+
+.customer-section h3 {
+    font-size: 10pt;
+    color: #e11d48;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.buyer-name {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 3px 0;
+}
+
+.buyer-address,
+.buyer-email {
+    font-size: 9pt;
+    color: #6b7280;
+    margin: 2px 0;
+}
+
+/* Plan Section */
+.plan-section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #ecfdf5;
+    border-radius: 8px;
+    border: 2px solid #6ee7b7;
+}
+
+.plan-section h3 {
+    font-size: 11pt;
+    color: #059669;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.plan-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.plan-name-box {
+    background: #ffffff;
+    padding: 15px 20px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.plan-label {
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+.plan-name {
+    font-size: 14pt;
+    font-weight: 700;
+    color: #059669;
+}
+
+.plan-stats {
+    display: flex;
+    gap: 20px;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 10px 15px;
+    background: #ffffff;
+    border-radius: 6px;
+}
+
+.stat-label {
+    display: block;
+    font-size: 8pt;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 12pt;
+    font-weight: 700;
+    color: #059669;
+}
+
+/* Usage Table */
+.usage-section {
+    margin-bottom: 20px;
+}
+
+.usage-section h3 {
+    font-size: 11pt;
+    color: #1f2937;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.usage-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.usage-table thead {
+    background: #374151;
+    color: #ffffff;
+}
+
+.usage-table th {
+    padding: 10px;
+    text-align: left;
+    font-size: 9pt;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.usage-table th:last-child,
+.usage-table td:last-child {
+    text-align: right;
+}
+
+.usage-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.usage-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.usage-table td {
+    padding: 10px;
+    font-size: 9.5pt;
+}
+
+.service-name {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.allowance {
+    color: #6b7280;
+}
+
+.usage {
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+}
+
+.data-usage {
+    color: #3b82f6;
+}
+
+.overage {
+    color: #dc2626;
+    font-weight: 600;
+}
+
+.charges {
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+}
+
+.roaming-row {
+    background: #fef3c7;
+}
+
+.roaming-charge {
+    color: #d97706;
+    font-weight: 700;
+}
+
+/* Charges Table */
+.charges-section {
+    margin-bottom: 20px;
+}
+
+.charges-section h3 {
+    font-size: 11pt;
+    color: #1f2937;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.charges-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.charges-table thead {
+    background: #1f2937;
+    color: #ffffff;
+}
+
+.charges-table th {
+    padding: 10px;
+    text-align: left;
+    font-size: 9pt;
+    font-weight: 600;
+}
+
+.charges-table th:last-child {
+    text-align: right;
+}
+
+.charges-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.charges-table td {
+    padding: 10px;
+    font-size: 9.5pt;
+}
+
+.item-description {
+    font-weight: 500;
+}
+
+.service-period {
+    color: #6b7280;
+    font-size: 8.5pt;
+}
+
+.line-total {
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+}
+
+.recurring-amount {
+    color: #059669;
+}
+
+.equipment-charge {
+    color: #3b82f6;
+}
+
+.proration-row {
+    background: #dbeafe;
+}
+
+.proration {
+    color: #2563eb;
+}
+
+/* Totals */
+.totals-section {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.totals-grid {
+    width: 50%;
+    min-width: 300px;
+    background: #f9fafb;
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid #e5e7eb;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 10pt;
+}
+
+.total-row:not(:last-child) {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.total-label {
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.total-value {
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+}
+
+.previous-balance {
+    color: #d97706;
+}
+
+.payments {
+    color: #059669;
+}
+
+.tax {
+    color: #4b5563;
+}
+
+.grand-total {
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top: 3px solid #e11d48 !important;
+    font-size: 12pt;
+}
+
+.grand-total .total-label {
+    color: #1f2937;
+    font-weight: 700;
+}
+
+.grand-total .amount-due {
+    color: #e11d48;
+    font-size: 16pt;
+    font-weight: 900;
+}
+
+.due-date-row {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+}
+
+.due-label {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.due-value {
+    color: #dc2626;
+    font-weight: 700;
+}
+
+/* Payment Section */
+.payment-section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #eff6ff;
+    border-radius: 8px;
+    border: 1px solid #bfdbfe;
+}
+
+.payment-section h3 {
+    font-size: 11pt;
+    color: #1e40af;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.payment-methods {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+}
+
+.payment-method {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+}
+
+.payment-method h4 {
+    font-size: 10pt;
+    color: #3b82f6;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.payment-method p {
+    font-size: 8.5pt;
+    color: #6b7280;
+    margin: 4px 0;
+}
+
+/* Footer */
+.bill-footer {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 2px solid #e5e7eb;
+}
+
+.footer-notice {
+    background: #fef3c7;
+    padding: 15px;
+    border-radius: 6px;
+    border-left: 4px solid #f59e0b;
+    margin-bottom: 15px;
+}
+
+.footer-notice p {
+    font-size: 8.5pt;
+    color: #92400e;
+    margin: 4px 0;
+}
+
+.footer-contact p {
+    font-size: 9pt;
+    color: #4b5563;
+    margin: 5px 0;
+}
+
+.terms-conditions {
+    font-size: 7.5pt;
+    color: #9ca3af;
+    margin-top: 10px;
+    line-height: 1.4;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .bill-container {
+        padding: 0;
+        max-width: 100%;
+    }
+}

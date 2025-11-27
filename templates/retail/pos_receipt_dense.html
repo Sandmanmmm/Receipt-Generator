@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt - Dense Thermal</title>
+    <link rel="stylesheet" href="../css/pos_receipt_dense.css">
+</head>
+<body>
+    <div class="thermal-receipt">
+        <!-- Ultra-compact header (CVS/Walgreens style) -->
+        <div class="store-header">
+            <div class="store-name">{{ supplier_name }}</div>
+            <div class="store-info">{{ supplier_address }}</div>
+            <div class="store-info">{{ supplier_phone }}</div>
+            {% if store_number %}
+            <div class="store-info">STORE #{{ store_number }}</div>
+            {% endif %}
+            {% if store_manager %}
+            <div class="store-info">MGR: {{ store_manager }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Transaction header - ultra condensed -->
+        <div class="txn-header">
+            <div class="txn-line">{{ invoice_date }} {{ transaction_time }}</div>
+            <div class="txn-line">SALE REG {{ register_number }} CSH {{ cashier_id }} TRN {{ transaction_number }}</div>
+            {% if customer_id %}
+            <div class="txn-line">MEMBER #{{ customer_id }}</div>
+            {% endif %}
+        </div>
+
+        <div class="divider-line"></div>
+
+        <!-- Items - ultra dense format (40-50 lines per page) -->
+        <div class="items-section">
+            {% for item in line_items %}
+            <div class="item-block">
+                <div class="item-name-line">{{ item.description|upper }}</div>
+                <div class="item-detail-line">
+                    <span class="upc-code">{{ item.upc }}</span>
+                </div>
+                <div class="item-price-line">
+                    <span class="qty-price">{{ item.quantity }} @ {{ item.unit_price }}</span>
+                    <span class="item-total">{{ item.total }}{% if item.tax_indicator %} {{ item.tax_indicator }}{% endif %}</span>
+                </div>
+                {% if item.promotion %}
+                <div class="promo-line">  {{ item.promotion }}</div>
+                <div class="discount-line">
+                    <span>SALE</span>
+                    <span class="discount-amt">-{{ item.discount }}</span>
+                </div>
+                {% endif %}
+                {% if item.rewards_earned %}
+                <div class="rewards-line">  EARNED {{ item.rewards_earned }} PTS</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="divider-line"></div>
+
+        <!-- Totals - compact format -->
+        <div class="totals-section">
+            <div class="total-line">
+                <span class="total-label">*** SUBTOTAL</span>
+                <span class="total-value">{{ subtotal }}</span>
+            </div>
+            {% if total_discount > 0 %}
+            <div class="total-line savings">
+                <span class="total-label">*** YOU SAVED</span>
+                <span class="total-value">{{ total_discount }}</span>
+            </div>
+            {% endif %}
+            <div class="total-line">
+                <span class="total-label">*** TAX</span>
+                <span class="total-value">{{ tax_amount }}</span>
+            </div>
+            {% if tip_amount > 0 %}
+            <div class="total-line">
+                <span class="total-label">*** TIP</span>
+                <span class="total-value">{{ tip_amount }}</span>
+            </div>
+            {% endif %}
+            <div class="total-line grand">
+                <span class="total-label">*** TOTAL</span>
+                <span class="total-value">{{ total_amount }}</span>
+            </div>
+        </div>
+
+        <div class="divider-line"></div>
+
+        <!-- Payment info - compact -->
+        <div class="payment-section">
+            {% if payment_method == "Cash" %}
+            <div class="pay-line">CASH {{ total_amount }}</div>
+            <div class="pay-line">CASH TEND {{ cash_tendered }}</div>
+            <div class="pay-line">CHANGE {{ change_amount }}</div>
+            {% else %}
+            <div class="pay-line">{{ payment_method|upper }}</div>
+            <div class="pay-line">{{ card_type|upper }} ************{{ card_last_four }}</div>
+            {% if approval_code %}
+            <div class="pay-line">AUTH# {{ approval_code }}</div>
+            {% endif %}
+            {% if transaction_id %}
+            <div class="pay-line">AID: {{ transaction_id }}</div>
+            {% endif %}
+            {% endif %}
+        </div>
+
+        {% if loyalty_points_earned or loyalty_points_balance %}
+        <div class="divider-line"></div>
+        <div class="loyalty-section">
+            {% if loyalty_points_earned %}
+            <div class="loyalty-line">REWARDS EARNED: {{ loyalty_points_earned }} PTS</div>
+            {% endif %}
+            {% if loyalty_points_balance %}
+            <div class="loyalty-line">BALANCE: {{ loyalty_points_balance }} PTS</div>
+            {% endif %}
+            {% if loyalty_rewards_available %}
+            <div class="loyalty-line">{{ loyalty_rewards_available }} REWARDS AVAILABLE!</div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="divider-line"></div>
+
+        <!-- Return policy - abbreviated -->
+        <div class="footer-section">
+            <div class="footer-line">{{ return_policy|truncate(60) }}</div>
+            {% if survey_url %}
+            <div class="footer-line">FEEDBACK: {{ survey_url }}</div>
+            <div class="footer-line">CODE: {{ survey_code }}</div>
+            {% endif %}
+        </div>
+
+        <div class="divider-line"></div>
+
+        <!-- Barcode for returns -->
+        {% if barcode_value %}
+        <div class="barcode-section">
+            <div class="barcode-display">|||||| |||| |||||| |||| ||||||</div>
+            <div class="barcode-text">{{ barcode_value }}</div>
+        </div>
+        {% endif %}
+
+        <div class="footer-message">
+            <div class="footer-line">{{ footer_message|upper }}</div>
+            <div class="footer-line">THANK YOU!</div>
+        </div>
+    </div>
+</body>
+</html>

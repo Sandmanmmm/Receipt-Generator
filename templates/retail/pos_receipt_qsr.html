@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt - QSR</title>
+    <link rel="stylesheet" href="../css/pos_receipt_qsr.css">
+</head>
+<body>
+    <div class="qsr-receipt">
+        <!-- Quick Service Restaurant / Fast Food Style -->
+        
+        <!-- Restaurant Header -->
+        <div class="restaurant-header">
+            <h1 class="restaurant-name">{{ supplier_name }}</h1>
+            <p class="restaurant-location">{{ store_location }}</p>
+            <p class="restaurant-address">{{ supplier_address }}</p>
+            <p class="restaurant-phone">{{ supplier_phone }}</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Order Info -->
+        <div class="order-info">
+            <div class="order-row">
+                <span class="label">Order #</span>
+                <span class="value order-number">{{ order_number }}</span>
+            </div>
+            <div class="order-row">
+                <span class="label">Date:</span>
+                <span class="value">{{ invoice_date }}</span>
+            </div>
+            <div class="order-row">
+                <span class="label">Time:</span>
+                <span class="value">{{ transaction_time }}</span>
+            </div>
+            <div class="order-row">
+                <span class="label">Cashier:</span>
+                <span class="value">{{ cashier_name }}</span>
+            </div>
+            {% if order_type %}
+            <div class="order-row">
+                <span class="label">Type:</span>
+                <span class="value order-type">{{ order_type }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="divider-thick"></div>
+
+        <!-- Order Items with Modifiers -->
+        <div class="items-section">
+            {% for item in line_items %}
+            <div class="item-group">
+                <div class="item-line">
+                    <span class="item-qty">{{ item.quantity }}</span>
+                    <span class="item-name">{{ item.description }}</span>
+                    <span class="item-price">{{ item.total }}</span>
+                </div>
+                
+                <!-- Modifiers (common in QSR) -->
+                {% if item.modifiers %}
+                <div class="modifiers">
+                    {% for modifier in item.modifiers %}
+                    <div class="modifier-line">
+                        <span class="modifier-icon">→</span>
+                        <span class="modifier-name">{{ modifier.description }}</span>
+                        {% if modifier.price > 0 %}
+                        <span class="modifier-price">+{{ modifier.price }}</span>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Special Instructions -->
+                {% if item.special_instructions %}
+                <div class="special-instructions">
+                    <span class="instruction-icon">*</span>
+                    <span class="instruction-text">{{ item.special_instructions }}</span>
+                </div>
+                {% endif %}
+                
+                <!-- Combo/Meal Badge -->
+                {% if item.is_combo %}
+                <div class="combo-badge">
+                    <span class="badge-text">COMBO MEAL</span>
+                    {% if item.combo_savings %}
+                    <span class="combo-savings">SAVE {{ item.combo_savings }}</span>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="divider-thick"></div>
+
+        <!-- Order Summary -->
+        <div class="summary-section">
+            <div class="summary-row">
+                <span class="summary-label">Subtotal:</span>
+                <span class="summary-value">{{ subtotal }}</span>
+            </div>
+            
+            {% if total_discount > 0 %}
+            <div class="summary-row discount-row">
+                <span class="summary-label">Discounts:</span>
+                <span class="summary-value">-{{ total_discount }}</span>
+            </div>
+            {% endif %}
+            
+            <div class="summary-row">
+                <span class="summary-label">Tax:</span>
+                <span class="summary-value">{{ tax_amount }}</span>
+            </div>
+            
+            {% if tip_amount > 0 %}
+            <div class="summary-row">
+                <span class="summary-label">Tip:</span>
+                <span class="summary-value">{{ tip_amount }}</span>
+            </div>
+            {% endif %}
+            
+            <div class="summary-row total-row">
+                <span class="summary-label">TOTAL:</span>
+                <span class="summary-value">{{ total_amount }}</span>
+            </div>
+        </div>
+
+        <div class="divider-thick"></div>
+
+        <!-- Payment -->
+        <div class="payment-section">
+            <div class="payment-row">
+                <span class="payment-label">Payment Method:</span>
+                <span class="payment-value">{{ payment_method }}</span>
+            </div>
+            
+            {% if payment_method != "Cash" %}
+            <div class="payment-row">
+                <span class="payment-label">Card:</span>
+                <span class="payment-value">{{ card_type }} ****{{ card_last_four }}</span>
+            </div>
+            {% if approval_code %}
+            <div class="payment-row">
+                <span class="payment-label">Approval:</span>
+                <span class="payment-value">{{ approval_code }}</span>
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="payment-row">
+                <span class="payment-label">Cash Tendered:</span>
+                <span class="payment-value">{{ cash_tendered }}</span>
+            </div>
+            <div class="payment-row">
+                <span class="payment-label">Change:</span>
+                <span class="payment-value">{{ change_amount }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if loyalty_points_earned or loyalty_points_balance %}
+        <div class="divider"></div>
+        
+        <!-- Loyalty Program -->
+        <div class="loyalty-section">
+            <div class="loyalty-header">🌟 REWARDS MEMBER 🌟</div>
+            {% if loyalty_points_earned %}
+            <div class="loyalty-row">
+                <span>Points Earned:</span>
+                <span class="points-earned">+{{ loyalty_points_earned }}</span>
+            </div>
+            {% endif %}
+            {% if loyalty_points_balance %}
+            <div class="loyalty-row">
+                <span>Total Points:</span>
+                <span class="points-balance">{{ loyalty_points_balance }}</span>
+            </div>
+            {% endif %}
+            {% if loyalty_rewards_available %}
+            <div class="loyalty-available">
+                {{ loyalty_rewards_available }} Free Item(s) Available!
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="divider-thick"></div>
+
+        <!-- Feedback Section (QSR standard) -->
+        {% if survey_url %}
+        <div class="survey-section">
+            <div class="survey-header">TELL US HOW WE DID!</div>
+            <div class="survey-info">
+                <p>Complete our survey for a chance to win:</p>
+                <p class="survey-prize">{{ survey_prize }}</p>
+            </div>
+            <div class="survey-details">
+                <p class="survey-url">{{ survey_url }}</p>
+                <p class="survey-code">Code: <strong>{{ survey_code }}</strong></p>
+                <p class="survey-expire">Valid for {{ survey_valid_days }} days</p>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        {% endif %}
+
+        <!-- Receipt Barcode -->
+        {% if barcode_value %}
+        <div class="barcode-section">
+            <div class="barcode-lines">|||| |||| |||| |||| ||||</div>
+            <div class="barcode-number">{{ barcode_value }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Footer Message -->
+        <div class="footer-section">
+            <p class="thank-you">THANK YOU!</p>
+            <p class="visit-again">{{ footer_message }}</p>
+            {% if franchise_number %}
+            <p class="franchise">Franchise #{{ franchise_number }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Order Type Reminder -->
+        {% if order_type == "DINE-IN" %}
+        <div class="order-type-notice dine-in">
+            <p>🍽️ DINE-IN ORDER</p>
+            <p>Enjoy your meal!</p>
+        </div>
+        {% elif order_type == "TAKE-OUT" %}
+        <div class="order-type-notice takeout">
+            <p>🥡 TAKE-OUT ORDER</p>
+            <p>Please check your order before leaving</p>
+        </div>
+        {% elif order_type == "DRIVE-THRU" %}
+        <div class="order-type-notice drive-thru">
+            <p>🚗 DRIVE-THRU ORDER</p>
+            <p>Thank you for your visit!</p>
+        </div>
+        {% elif order_type == "DELIVERY" %}
+        <div class="order-type-notice delivery">
+            <p>🚚 DELIVERY ORDER</p>
+            <p>Delivered by: {{ delivery_driver }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Contract Invoice</title>
+    <link rel="stylesheet" href="../css/government_invoice.css">
+</head>
+<body>
+    <div class="government-invoice">
+        <!-- Header with Government Seal -->
+        <div class="invoice-header">
+            <div class="contractor-info">
+                <h1 class="contractor-name">{{ supplier_name }}</h1>
+                <p class="contractor-address">{{ supplier_address }}</p>
+                <p class="contractor-contact">{{ supplier_phone }} | {{ supplier_email }}</p>
+                <p class="cage-code"><strong>CAGE Code:</strong> {{ cage_code }}</p>
+            </div>
+            <div class="invoice-meta">
+                <h2 class="doc-type">GOVERNMENT CONTRACT INVOICE</h2>
+                <p><strong>Invoice Number:</strong> {{ invoice_number }}</p>
+                <p><strong>Invoice Date:</strong> {{ invoice_date }}</p>
+                <p><strong>Due Date:</strong> {{ due_date }}</p>
+            </div>
+        </div>
+
+        <!-- Contract Information -->
+        <div class="contract-info-section">
+            <div class="info-grid">
+                <div class="info-item contract-item">
+                    <span class="label">Contract Number</span>
+                    <span class="value contract-number">{{ contract_number }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Purchase Order</span>
+                    <span class="value">{{ purchase_order_number }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Project Code</span>
+                    <span class="value project-code">{{ project_code }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Task Order</span>
+                    <span class="value">{{ task_order_number }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">NAICS Code</span>
+                    <span class="value">{{ naics_code }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Period of Performance</span>
+                    <span class="value">{{ performance_period }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agency Information -->
+        <div class="agency-info-section">
+            <div class="agency-box">
+                <h3>Government Agency</h3>
+                <p class="agency-name">{{ buyer_name }}</p>
+                <p class="agency-address">{{ buyer_address }}</p>
+                <p class="agency-contact">{{ buyer_phone }} | {{ buyer_email }}</p>
+            </div>
+            <div class="officer-box">
+                <h3>Contracting Officer</h3>
+                <p><strong>Name:</strong> {{ contracting_officer }}</p>
+                <p><strong>Phone:</strong> {{ officer_phone }}</p>
+                <p><strong>Email:</strong> {{ officer_email }}</p>
+            </div>
+            <div class="payment-box">
+                <h3>Payment Office</h3>
+                <p><strong>Office:</strong> {{ payment_office }}</p>
+                <p><strong>DUNS:</strong> {{ duns_number }}</p>
+                <p><strong>Prompt Payment Terms:</strong> Net {{ payment_terms }}</p>
+            </div>
+        </div>
+
+        <!-- Line Items / Contract Deliverables -->
+        <div class="line-items-section">
+            <h3>Contract Line Items</h3>
+            <table class="line-items-table">
+                <thead>
+                    <tr>
+                        <th>CLIN</th>
+                        <th>Description</th>
+                        <th>Deliverable/Milestone</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in line_items %}
+                    <tr>
+                        <td class="clin">{{ item.clin }}</td>
+                        <td class="item-description">{{ item.description }}</td>
+                        <td class="deliverable">{{ item.deliverable }}</td>
+                        <td class="quantity">{{ item.quantity }}</td>
+                        <td class="unit-price">{{ item.unit_price }}</td>
+                        <td class="line-total">{{ item.total }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Labor Hours (if applicable) -->
+        {% if labor_hours %}
+        <div class="labor-section">
+            <h3>Labor Hours Breakdown</h3>
+            <table class="labor-table">
+                <thead>
+                    <tr>
+                        <th>Labor Category</th>
+                        <th>Employee Name</th>
+                        <th>Hours Worked</th>
+                        <th>Hourly Rate</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for labor in labor_hours %}
+                    <tr>
+                        <td class="labor-category">{{ labor.category }}</td>
+                        <td class="employee-name">{{ labor.employee }}</td>
+                        <td class="hours">{{ labor.hours }}</td>
+                        <td class="rate">{{ labor.rate }}</td>
+                        <td class="labor-total">{{ labor.total }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr class="labor-subtotal">
+                        <td colspan="4"><strong>Total Labor</strong></td>
+                        <td class="labor-subtotal-amount"><strong>{{ labor_subtotal }}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Materials & Other Direct Costs (ODC) -->
+        {% if materials_odc %}
+        <div class="odc-section">
+            <h3>Materials & Other Direct Costs (ODC)</h3>
+            <table class="odc-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Receipt Date</th>
+                        <th>Quantity</th>
+                        <th>Unit Cost</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for odc in materials_odc %}
+                    <tr>
+                        <td class="odc-category">{{ odc.category }}</td>
+                        <td class="odc-description">{{ odc.description }}</td>
+                        <td class="receipt-date">{{ odc.receipt_date }}</td>
+                        <td class="quantity">{{ odc.quantity }}</td>
+                        <td class="unit-cost">{{ odc.unit_cost }}</td>
+                        <td class="odc-total">{{ odc.total }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr class="odc-subtotal">
+                        <td colspan="5"><strong>Total ODC</strong></td>
+                        <td class="odc-subtotal-amount"><strong>{{ odc_subtotal }}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Indirect Costs & Fee -->
+        <div class="indirect-costs-section">
+            <h3>Indirect Costs & Fee</h3>
+            <table class="indirect-table">
+                <tbody>
+                    {% if overhead_rate %}
+                    <tr>
+                        <td class="cost-description">Overhead ({{ overhead_rate }}%)</td>
+                        <td class="cost-base">{{ overhead_base }}</td>
+                        <td class="cost-amount">{{ overhead_amount }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if ga_rate %}
+                    <tr>
+                        <td class="cost-description">G&A ({{ ga_rate }}%)</td>
+                        <td class="cost-base">{{ ga_base }}</td>
+                        <td class="cost-amount">{{ ga_amount }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if profit_fee %}
+                    <tr>
+                        <td class="cost-description">Profit/Fee</td>
+                        <td class="cost-base">-</td>
+                        <td class="cost-amount">{{ profit_fee }}</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Invoice Summary -->
+        <div class="invoice-summary-section">
+            <h3>Invoice Summary</h3>
+            <table class="summary-table">
+                <tbody>
+                    <tr>
+                        <td class="summary-label">Total Direct Labor</td>
+                        <td class="summary-value">{{ labor_subtotal }}</td>
+                    </tr>
+                    <tr>
+                        <td class="summary-label">Total Materials & ODC</td>
+                        <td class="summary-value">{{ odc_subtotal }}</td>
+                    </tr>
+                    <tr>
+                        <td class="summary-label">Total Indirect Costs</td>
+                        <td class="summary-value">{{ total_indirect }}</td>
+                    </tr>
+                    <tr>
+                        <td class="summary-label">Profit/Fee</td>
+                        <td class="summary-value">{{ profit_fee }}</td>
+                    </tr>
+                    <tr class="subtotal-row">
+                        <td class="summary-label">Subtotal</td>
+                        <td class="summary-value">{{ subtotal }}</td>
+                    </tr>
+                    {% if retention_amount > 0 %}
+                    <tr>
+                        <td class="summary-label">Retention ({{ retention_rate }}%)</td>
+                        <td class="summary-value retention">-{{ retention_amount }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if previous_payments > 0 %}
+                    <tr>
+                        <td class="summary-label">Previous Payments</td>
+                        <td class="summary-value previous-payments">-{{ previous_payments }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr class="total-row">
+                        <td class="summary-label"><strong>AMOUNT DUE THIS INVOICE</strong></td>
+                        <td class="summary-value total-amount"><strong>{{ total_amount }}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Certification & Compliance -->
+        <div class="certification-section">
+            <h3>Certification</h3>
+            <div class="certification-text">
+                <p>I certify that the amounts invoiced herein have not been previously paid by the Government
+                   and that payment thereof is due and owing, that the invoice is in accordance with the
+                   contract terms, and that all supplies or services have been delivered or performed in
+                   accordance with the contract, task order, or purchase order noted above.</p>
+                <p><strong>Contract Compliance:</strong> This invoice complies with FAR 52.232-25 (Prompt Payment)
+                   and all other applicable Federal Acquisition Regulations.</p>
+            </div>
+            <div class="signature-area">
+                <div class="signature-box">
+                    <div class="signature-line"></div>
+                    <p class="signature-label">Authorized Signature</p>
+                    <p class="signer-name">{{ authorized_signer }}</p>
+                    <p class="signer-title">{{ signer_title }}</p>
+                    <p class="signature-date">Date: {{ invoice_date }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Instructions -->
+        <div class="payment-instructions-section">
+            <h3>Payment Instructions</h3>
+            <div class="payment-grid">
+                <div class="payment-method-box">
+                    <h4>ACH/Wire Transfer (Preferred)</h4>
+                    <p><strong>Bank Name:</strong> {{ bank_name }}</p>
+                    <p><strong>Routing Number:</strong> {{ routing_number }}</p>
+                    <p><strong>Account Number:</strong> {{ account_number }}</p>
+                    <p><strong>Account Name:</strong> {{ supplier_name }}</p>
+                </div>
+                <div class="payment-contact-box">
+                    <h4>Payment Inquiries</h4>
+                    <p><strong>Contact:</strong> {{ payment_contact }}</p>
+                    <p><strong>Phone:</strong> {{ payment_phone }}</p>
+                    <p><strong>Email:</strong> {{ payment_email }}</p>
+                </div>
+            </div>
+            <div class="prompt-payment-notice">
+                <p><strong>⚠ Prompt Payment Act Notice:</strong> Payment is due within {{ payment_terms }} days
+                   from receipt of a proper invoice. Interest penalties accrue after the due date per FAR 52.232-25.</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="footer-info">
+                <p><strong>{{ supplier_name }}</strong> | CAGE Code: {{ cage_code }} | DUNS: {{ duns_number }}</p>
+                <p>{{ supplier_address }} | {{ supplier_phone }} | {{ supplier_email }}</p>
+            </div>
+            <div class="footer-legal">
+                <p class="terms-conditions">{{ terms_conditions }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

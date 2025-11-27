@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electronics Order Invoice</title>
+    <link rel="stylesheet" href="../css/online_order_electronics.css">
+</head>
+<body>
+    <div class="electronics-invoice">
+        <!-- Header -->
+        <div class="invoice-header">
+            <div class="company-section">
+                <div class="company-logo-box">
+                    <span class="logo-icon">🔌</span>
+                </div>
+                <div class="company-info">
+                    <h1 class="company-name">{{ supplier_name }}</h1>
+                    <p class="company-tagline">{{ tagline }}</p>
+                    <p class="company-contact">{{ supplier_phone }} | {{ supplier_email }}</p>
+                </div>
+            </div>
+            <div class="invoice-header-right">
+                <div class="invoice-badge">ORDER INVOICE</div>
+                <div class="order-number-display">
+                    <span class="order-label">Order #</span>
+                    <span class="order-value">{{ order_number }}</span>
+                </div>
+                <div class="invoice-date">{{ invoice_date }}</div>
+            </div>
+        </div>
+
+        <!-- Status Timeline -->
+        <div class="status-timeline">
+            <div class="timeline-step completed">
+                <div class="step-icon">✓</div>
+                <div class="step-label">Order Placed</div>
+                <div class="step-date">{{ order_date }}</div>
+            </div>
+            <div class="timeline-step {{ payment_status_class }}">
+                <div class="step-icon">💳</div>
+                <div class="step-label">Payment Confirmed</div>
+                <div class="step-date">{{ payment_date }}</div>
+            </div>
+            <div class="timeline-step {{ shipping_status_class }}">
+                <div class="step-icon">📦</div>
+                <div class="step-label">In Transit</div>
+                <div class="step-date">{{ ship_date }}</div>
+            </div>
+            <div class="timeline-step {{ delivery_status_class }}">
+                <div class="step-icon">🏠</div>
+                <div class="step-label">Delivered</div>
+                <div class="step-date">{{ expected_delivery }}</div>
+            </div>
+        </div>
+
+        <!-- Customer & Shipping Grid -->
+        <div class="info-grid">
+            <div class="info-panel customer-panel">
+                <h3 class="panel-title">
+                    <span class="panel-icon">👤</span>
+                    Customer Information
+                </h3>
+                <div class="panel-content">
+                    <p class="customer-name">{{ buyer_name }}</p>
+                    <p class="customer-email">{{ buyer_email }}</p>
+                    <p class="customer-phone">{{ buyer_phone }}</p>
+                    {% if customer_id %}
+                    <div class="customer-member-badge">
+                        <span class="badge-icon">⭐</span>
+                        <span class="badge-text">Member ID: {{ customer_id }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="info-panel shipping-panel">
+                <h3 class="panel-title">
+                    <span class="panel-icon">🚚</span>
+                    Shipping & Delivery
+                </h3>
+                <div class="panel-content">
+                    <p class="shipping-name">{{ shipping_name }}</p>
+                    <p class="shipping-address">{{ shipping_address }}</p>
+                    <p class="shipping-city">{{ shipping_city }}, {{ shipping_state }} {{ shipping_zip }}</p>
+                    <div class="shipping-method-box">
+                        <span class="method-icon">📦</span>
+                        <span class="method-text">{{ shipping_method }}</span>
+                    </div>
+                    {% if tracking_number %}
+                    <div class="tracking-box">
+                        <div class="tracking-header">Track Your Package</div>
+                        <div class="tracking-number">{{ tracking_number }}</div>
+                        <div class="carrier-name">via {{ carrier_name }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Section -->
+        <div class="products-section">
+            <h2 class="section-heading">
+                <span class="heading-icon">📱</span>
+                Order Items
+            </h2>
+
+            {% for item in line_items %}
+            <div class="product-card">
+                <div class="product-image-box">
+                    <div class="product-image-placeholder">
+                        <span class="image-icon">📷</span>
+                    </div>
+                </div>
+
+                <div class="product-details">
+                    <h3 class="product-name">{{ item.description }}</h3>
+                    
+                    {% if item.brand %}
+                    <div class="product-brand">Brand: <strong>{{ item.brand }}</strong></div>
+                    {% endif %}
+
+                    {% if item.model_number %}
+                    <div class="product-model">
+                        <span class="model-label">Model:</span>
+                        <span class="model-value">{{ item.model_number }}</span>
+                    </div>
+                    {% endif %}
+
+                    {% if item.sku %}
+                    <div class="product-sku">SKU: {{ item.sku }}</div>
+                    {% endif %}
+
+                    {% if item.serial_number %}
+                    <div class="serial-number-box">
+                        <span class="serial-icon">🔢</span>
+                        <span class="serial-label">Serial Number:</span>
+                        <span class="serial-value">{{ item.serial_number }}</span>
+                    </div>
+                    {% endif %}
+
+                    <!-- Technical Specifications -->
+                    {% if item.tech_specs %}
+                    <div class="tech-specs">
+                        <div class="specs-header">
+                            <span class="specs-icon">⚙️</span>
+                            <span class="specs-title">Technical Specifications</span>
+                        </div>
+                        <div class="specs-grid">
+                            {% for spec_key, spec_value in item.tech_specs.items() %}
+                            <div class="spec-item">
+                                <span class="spec-key">{{ spec_key }}:</span>
+                                <span class="spec-value">{{ spec_value }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Warranty Information -->
+                    {% if item.warranty_period %}
+                    <div class="warranty-box">
+                        <div class="warranty-header">
+                            <span class="warranty-icon">🛡️</span>
+                            <span class="warranty-title">Warranty Coverage</span>
+                        </div>
+                        <div class="warranty-details">
+                            <div class="warranty-period">
+                                <strong>{{ item.warranty_period }}</strong> Manufacturer Warranty
+                            </div>
+                            {% if item.warranty_expiry %}
+                            <div class="warranty-expiry">Valid until: {{ item.warranty_expiry }}</div>
+                            {% endif %}
+                            {% if item.extended_warranty %}
+                            <div class="extended-warranty">
+                                <span class="extended-badge">EXTENDED</span>
+                                {{ item.extended_warranty_period }} Extended Warranty Included
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Configuration Options -->
+                    {% if item.configuration %}
+                    <div class="configuration-box">
+                        <div class="config-header">Configuration:</div>
+                        <div class="config-details">{{ item.configuration }}</div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Included Accessories -->
+                    {% if item.accessories %}
+                    <div class="accessories-box">
+                        <div class="accessories-header">
+                            <span class="accessories-icon">📦</span>
+                            Included in Box:
+                        </div>
+                        <ul class="accessories-list">
+                            {% for accessory in item.accessories %}
+                            <li>{{ accessory }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="product-pricing">
+                    <div class="pricing-row quantity-row">
+                        <span class="pricing-label">Quantity:</span>
+                        <span class="pricing-value">{{ item.quantity }}</span>
+                    </div>
+                    <div class="pricing-row unit-price-row">
+                        <span class="pricing-label">Unit Price:</span>
+                        <span class="pricing-value">{{ item.unit_price }}</span>
+                    </div>
+                    {% if item.discount > 0 %}
+                    <div class="pricing-row discount-row">
+                        <span class="pricing-label">Discount:</span>
+                        <span class="pricing-value discount-amount">-{{ item.discount }}</span>
+                    </div>
+                    <div class="discount-badge">{{ item.discount_description }}</div>
+                    {% endif %}
+                    <div class="pricing-row total-row">
+                        <span class="pricing-label">Item Total:</span>
+                        <span class="pricing-value item-total-amount">{{ item.total }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Protection Plans & Add-ons -->
+        {% if protection_plan %}
+        <div class="protection-section">
+            <h3 class="protection-title">
+                <span class="protection-icon">🛡️</span>
+                Protection Plan
+            </h3>
+            <div class="protection-card">
+                <div class="protection-details">
+                    <div class="protection-name">{{ protection_plan_name }}</div>
+                    <div class="protection-coverage">{{ protection_plan_coverage }}</div>
+                    <div class="protection-duration">Valid for {{ protection_plan_duration }}</div>
+                </div>
+                <div class="protection-price">{{ protection_plan_price }}</div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Order Totals -->
+        <div class="totals-section">
+            <div class="totals-container">
+                <h3 class="totals-title">Order Summary</h3>
+                
+                <div class="totals-table">
+                    <div class="total-row">
+                        <span class="total-label">Subtotal ({{ total_items }} items):</span>
+                        <span class="total-value">{{ subtotal }}</span>
+                    </div>
+                    
+                    {% if item_discounts > 0 %}
+                    <div class="total-row discount-row">
+                        <span class="total-label">Product Discounts:</span>
+                        <span class="total-value discount-value">-{{ item_discounts }}</span>
+                    </div>
+                    {% endif %}
+                    
+                    {% if coupon_code %}
+                    <div class="total-row discount-row">
+                        <span class="total-label">Coupon ({{ coupon_code }}):</span>
+                        <span class="total-value discount-value">-{{ coupon_discount }}</span>
+                    </div>
+                    {% endif %}
+                    
+                    {% if loyalty_discount > 0 %}
+                    <div class="total-row discount-row">
+                        <span class="total-label">Rewards Discount:</span>
+                        <span class="total-value discount-value">-{{ loyalty_discount }}</span>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="total-row">
+                        <span class="total-label">Shipping ({{ shipping_method }}):</span>
+                        <span class="total-value">{{ shipping_charge }}</span>
+                    </div>
+                    
+                    {% if installation_fee %}
+                    <div class="total-row">
+                        <span class="total-label">Installation Service:</span>
+                        <span class="total-value">{{ installation_fee }}</span>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="total-row">
+                        <span class="total-label">Tax:</span>
+                        <span class="total-value">{{ tax_amount }}</span>
+                    </div>
+                    
+                    <div class="total-row final-total-row">
+                        <span class="total-label final-label">Order Total:</span>
+                        <span class="total-value final-value">{{ total_amount }}</span>
+                    </div>
+                    
+                    {% if total_savings > 0 %}
+                    <div class="savings-highlight">
+                        <span class="savings-icon">💰</span>
+                        <span class="savings-text">Total Savings: {{ total_savings }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Details -->
+        <div class="payment-section">
+            <h3 class="section-heading">
+                <span class="heading-icon">💳</span>
+                Payment Information
+            </h3>
+            <div class="payment-card">
+                <div class="payment-method">
+                    <div class="payment-type">{{ payment_method }}</div>
+                    <div class="card-details">
+                        <span class="card-type-badge">{{ card_type }}</span>
+                        <span class="card-number">•••• {{ card_last_four }}</span>
+                    </div>
+                </div>
+                <div class="payment-status">
+                    <span class="status-badge paid">PAID</span>
+                    <div class="payment-date">{{ payment_date }}</div>
+                </div>
+            </div>
+            {% if transaction_id %}
+            <div class="transaction-reference">
+                <span class="transaction-label">Transaction ID:</span>
+                <span class="transaction-id">{{ transaction_id }}</span>
+            </div>
+            {% endif %}
+            {% if approval_code %}
+            <div class="transaction-reference">
+                <span class="transaction-label">Approval Code:</span>
+                <span class="approval-code">{{ approval_code }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Tech Support & Returns -->
+        <div class="support-section">
+            <div class="support-box">
+                <h3 class="support-title">
+                    <span class="support-icon">🔧</span>
+                    Technical Support
+                </h3>
+                <div class="support-content">
+                    <p class="support-text">Need help setting up your device?</p>
+                    <p class="support-contact">Call: {{ tech_support_phone }}</p>
+                    <p class="support-hours">Available 24/7</p>
+                    <p class="support-link">Online Support: {{ support_url }}</p>
+                </div>
+            </div>
+
+            <div class="support-box">
+                <h3 class="support-title">
+                    <span class="support-icon">🔄</span>
+                    Returns & Exchanges
+                </h3>
+                <div class="support-content">
+                    <p class="support-text">{{ return_window }} day return policy on most items</p>
+                    {% if return_deadline %}
+                    <p class="return-deadline">Return by: <strong>{{ return_deadline }}</strong></p>
+                    {% endif %}
+                    <p class="support-note">Original packaging required for electronics returns</p>
+                    <p class="support-link">Start Return: {{ returns_url }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rewards Program -->
+        {% if loyalty_points_earned %}
+        <div class="rewards-banner">
+            <div class="rewards-content">
+                <div class="rewards-icon">⭐</div>
+                <div class="rewards-info">
+                    <div class="rewards-earned">You earned <strong>{{ loyalty_points_earned }}</strong> reward points!</div>
+                    <div class="rewards-balance">New balance: {{ loyalty_points_balance }} points</div>
+                    {% if next_reward_threshold %}
+                    <div class="rewards-progress-text">{{ points_to_reward }} points until your next ${{ next_reward_value }} reward</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h4>Customer Service</h4>
+                    <p>Phone: {{ supplier_phone }}</p>
+                    <p>Email: {{ supplier_email }}</p>
+                    <p>Hours: Mon-Sun 8AM-10PM</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Company Information</h4>
+                    <p>{{ supplier_name }}</p>
+                    <p>{{ supplier_address }}</p>
+                    <p>{{ supplier_city }}, {{ supplier_state }} {{ supplier_zip }}</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Follow Us</h4>
+                    <p>Twitter | Facebook | Instagram</p>
+                    <p>YouTube | TikTok</p>
+                </div>
+            </div>
+            <div class="footer-legal">
+                <p>This invoice serves as your receipt and warranty registration confirmation.</p>
+                <p>Please retain this document for your records. Serial numbers listed above are required for warranty service.</p>
+                <p>Thank you for your purchase from {{ supplier_name }}!</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

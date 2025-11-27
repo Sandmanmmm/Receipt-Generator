@@ -1,0 +1,876 @@
+/* Grocery Delivery Order Invoice Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.5;
+    color: #1f2937;
+    background: #ffffff;
+}
+
+.grocery-invoice {
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 10mm;
+    background: #ffffff;
+}
+
+/* Header */
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 6mm;
+    border-bottom: 2px solid #10b981;
+    margin-bottom: 6mm;
+}
+
+.company-branding {
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+}
+
+.logo-container {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-icon {
+    font-size: 28pt;
+    color: #ffffff;
+}
+
+.company-name {
+    font-size: 20pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 1mm;
+}
+
+.company-tagline {
+    font-size: 9pt;
+    color: #6b7280;
+    font-weight: 400;
+}
+
+.order-info {
+    text-align: right;
+}
+
+.order-badge {
+    display: inline-block;
+    background: #d1fae5;
+    color: #065f46;
+    padding: 2mm 4mm;
+    border-radius: 6px;
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 2mm;
+}
+
+.order-number {
+    font-size: 14pt;
+    font-weight: 700;
+    color: #10b981;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 1mm;
+}
+
+.order-date {
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+/* Delivery Banner */
+.delivery-banner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3mm;
+    margin-bottom: 6mm;
+    padding: 4mm;
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border: 2px solid #10b981;
+    border-radius: 8px;
+}
+
+.banner-section {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+}
+
+.banner-icon {
+    font-size: 18pt;
+}
+
+.banner-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.banner-label {
+    font-size: 8.5pt;
+    color: #065f46;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.banner-value {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #047857;
+}
+
+.status-active {
+    color: #10b981;
+}
+
+/* Info Section */
+.info-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5mm;
+    margin-bottom: 8mm;
+}
+
+.info-card {
+    padding: 4mm;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: #f9fafb;
+}
+
+.card-title {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 3mm;
+    padding-bottom: 2mm;
+    border-bottom: 1px solid #d1d5db;
+}
+
+.customer-name,
+.delivery-name {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1.5mm;
+}
+
+.customer-contact,
+.customer-email,
+.delivery-address,
+.delivery-city {
+    font-size: 9.5pt;
+    color: #4b5563;
+    margin-bottom: 1.5mm;
+}
+
+.customer-email {
+    color: #10b981;
+}
+
+.loyalty-badge {
+    margin-top: 3mm;
+    padding: 2mm 3mm;
+    background: #fef3c7;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5mm;
+}
+
+.loyalty-star {
+    font-size: 11pt;
+}
+
+.loyalty-text {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #92400e;
+}
+
+.delivery-notes {
+    margin-top: 3mm;
+    padding: 3mm;
+    background: #fef3c7;
+    border-left: 3px solid #f59e0b;
+    border-radius: 4px;
+    display: flex;
+    align-items: flex-start;
+    gap: 2mm;
+}
+
+.notes-icon {
+    font-size: 11pt;
+}
+
+.notes-label {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #92400e;
+}
+
+.notes-text {
+    font-size: 9pt;
+    color: #78350f;
+}
+
+/* Items Section */
+.items-section {
+    margin-bottom: 8mm;
+}
+
+.section-title {
+    font-size: 14pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 5mm;
+    padding-bottom: 2mm;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+/* Temperature Zones */
+.temperature-zone {
+    margin-bottom: 5mm;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.zone-header {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    padding: 3mm 4mm;
+    font-weight: 600;
+    font-size: 11pt;
+}
+
+.zone-icon {
+    font-size: 14pt;
+}
+
+.zone-count {
+    margin-left: auto;
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+.frozen-zone .zone-header {
+    background: #dbeafe;
+    color: #1e40af;
+    border-bottom: 2px solid #3b82f6;
+}
+
+.refrigerated-zone .zone-header {
+    background: #e0f2fe;
+    color: #0c4a6e;
+    border-bottom: 2px solid #0ea5e9;
+}
+
+.pantry-zone .zone-header {
+    background: #fef3c7;
+    color: #92400e;
+    border-bottom: 2px solid #f59e0b;
+}
+
+.produce-zone .zone-header {
+    background: #dcfce7;
+    color: #166534;
+    border-bottom: 2px solid #22c55e;
+}
+
+.zone-items {
+    padding: 3mm 4mm;
+    background: #ffffff;
+}
+
+/* Grocery Items */
+.grocery-item {
+    display: grid;
+    grid-template-columns: 1fr 80px 100px;
+    gap: 4mm;
+    padding: 3mm 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.grocery-item:last-child {
+    border-bottom: none;
+}
+
+.item-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5mm;
+}
+
+.item-name {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.item-brand {
+    font-size: 9pt;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.item-size {
+    font-size: 8.5pt;
+    color: #9ca3af;
+}
+
+.item-upc {
+    font-size: 8pt;
+    font-family: 'Courier New', monospace;
+    color: #d1d5db;
+}
+
+.substitution-notice {
+    margin-top: 2mm;
+    padding: 2mm;
+    background: #fef3c7;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 1.5mm;
+}
+
+.sub-icon {
+    font-size: 10pt;
+}
+
+.sub-text {
+    font-size: 8.5pt;
+    color: #92400e;
+    font-weight: 500;
+}
+
+.expiration-date {
+    display: flex;
+    align-items: center;
+    gap: 1.5mm;
+    padding: 1.5mm;
+    background: #fee2e2;
+    border-radius: 4px;
+}
+
+.exp-icon {
+    font-size: 9pt;
+}
+
+.exp-text {
+    font-size: 8.5pt;
+    color: #991b1b;
+    font-weight: 500;
+}
+
+.organic-badge {
+    display: inline-block;
+    padding: 1mm 2mm;
+    background: #dcfce7;
+    color: #166534;
+    border-radius: 4px;
+    font-size: 8pt;
+    font-weight: 700;
+}
+
+.local-badge {
+    display: inline-block;
+    padding: 1mm 2mm;
+    background: #fef3c7;
+    color: #92400e;
+    border-radius: 4px;
+    font-size: 8pt;
+    font-weight: 700;
+}
+
+.sale-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 1mm;
+    padding: 1mm 2mm;
+    background: #fee2e2;
+    color: #991b1b;
+    border-radius: 4px;
+    font-size: 8pt;
+    font-weight: 700;
+}
+
+.sale-icon {
+    font-size: 9pt;
+}
+
+.produce-weight {
+    display: flex;
+    align-items: center;
+    gap: 1.5mm;
+}
+
+.weight-icon {
+    font-size: 9pt;
+}
+
+.weight-text {
+    font-size: 8.5pt;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.item-quantity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.qty-label {
+    font-size: 8.5pt;
+    color: #9ca3af;
+    margin-bottom: 1mm;
+}
+
+.qty-value {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.item-pricing {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+}
+
+.unit-price {
+    font-size: 9pt;
+    color: #6b7280;
+    margin-bottom: 1mm;
+}
+
+.price-per-unit {
+    font-size: 8pt;
+    color: #9ca3af;
+    margin-bottom: 1mm;
+}
+
+.item-weight {
+    font-size: 8.5pt;
+    color: #9ca3af;
+    margin-bottom: 1mm;
+}
+
+.item-discount {
+    font-size: 8.5pt;
+    color: #dc2626;
+    font-weight: 600;
+    margin-bottom: 1mm;
+}
+
+.item-total {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* Substitutions Section */
+.substitutions-section {
+    margin-bottom: 8mm;
+    padding: 5mm;
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+    border-radius: 8px;
+}
+
+.substitutions-header {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    margin-bottom: 4mm;
+}
+
+.substitutions-header .sub-icon {
+    font-size: 16pt;
+}
+
+.sub-title {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #92400e;
+}
+
+.substitution-item {
+    display: grid;
+    grid-template-columns: 2fr auto 2fr 3fr;
+    gap: 3mm;
+    align-items: center;
+    padding: 3mm;
+    background: #ffffff;
+    border-radius: 6px;
+    margin-bottom: 3mm;
+}
+
+.substitution-item:last-child {
+    margin-bottom: 0;
+}
+
+.sub-original,
+.sub-replacement {
+    display: flex;
+    flex-direction: column;
+}
+
+.substitution-item .sub-label {
+    font-size: 8.5pt;
+    color: #92400e;
+    font-weight: 600;
+    margin-bottom: 1mm;
+}
+
+.sub-product {
+    font-size: 9.5pt;
+    color: #1f2937;
+    font-weight: 500;
+}
+
+.sub-arrow {
+    font-size: 16pt;
+    color: #f59e0b;
+    font-weight: 700;
+}
+
+.sub-reason {
+    font-size: 8.5pt;
+    color: #78350f;
+    font-style: italic;
+}
+
+/* Totals Section */
+.totals-section {
+    margin-bottom: 8mm;
+}
+
+.totals-container {
+    max-width: 450px;
+    margin-left: auto;
+}
+
+.totals-title {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 4mm;
+}
+
+.totals-table {
+    padding: 4mm;
+    background: #f9fafb;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2mm 0;
+    font-size: 10pt;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.total-row:last-child {
+    border-bottom: none;
+}
+
+.total-label {
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.total-value {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.discount-row {
+    color: #059669;
+}
+
+.discount-value {
+    color: #059669;
+    font-weight: 700;
+}
+
+.tip-row .total-value {
+    color: #10b981;
+    font-weight: 700;
+}
+
+.final-total {
+    margin-top: 3mm;
+    padding-top: 3mm;
+    border-top: 3px solid #1f2937 !important;
+    font-size: 12pt;
+}
+
+.final-total .total-label {
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.final-total .total-value {
+    font-size: 16pt;
+    font-weight: 700;
+    color: #10b981;
+}
+
+.savings-banner {
+    margin-top: 3mm;
+    padding: 3mm;
+    background: #dcfce7;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.savings-icon {
+    font-size: 14pt;
+    margin-right: 2mm;
+}
+
+.savings-text {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #166534;
+}
+
+/* Payment Section */
+.payment-section {
+    margin-bottom: 8mm;
+    padding: 5mm;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+.payment-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.payment-info {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    font-size: 9.5pt;
+}
+
+.payment-icon {
+    font-size: 14pt;
+}
+
+.payment-method {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.card-type {
+    color: #6b7280;
+}
+
+.card-number {
+    font-family: 'Courier New', monospace;
+    color: #9ca3af;
+}
+
+.payment-status .status-badge.paid {
+    background: #dcfce7;
+    color: #166534;
+    padding: 2mm 4mm;
+    border-radius: 6px;
+    font-size: 9pt;
+    font-weight: 700;
+}
+
+.transaction-info {
+    margin-top: 3mm;
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+.transaction-label {
+    font-weight: 500;
+}
+
+.transaction-id {
+    font-family: 'Courier New', monospace;
+    color: #1f2937;
+    font-weight: 600;
+    margin-left: 2mm;
+}
+
+/* Rewards Section */
+.rewards-section {
+    margin-bottom: 8mm;
+}
+
+.rewards-card {
+    padding: 5mm;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 2px solid #f59e0b;
+    border-radius: 8px;
+}
+
+.rewards-title {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #92400e;
+    margin-bottom: 4mm;
+}
+
+.rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4mm;
+}
+
+.rewards-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.rewards-label {
+    font-size: 9pt;
+    color: #92400e;
+    font-weight: 500;
+    margin-bottom: 1.5mm;
+}
+
+.rewards-value {
+    font-size: 12pt;
+    font-weight: 700;
+}
+
+.rewards-value.earned {
+    color: #16a34a;
+}
+
+.rewards-value.balance {
+    color: #78350f;
+}
+
+.rewards-value.next {
+    color: #ea580c;
+}
+
+/* Feedback Section */
+.feedback-section {
+    margin-bottom: 8mm;
+    padding: 5mm;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: #f9fafb;
+}
+
+.feedback-title {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 3mm;
+}
+
+.feedback-text {
+    font-size: 9.5pt;
+    color: #4b5563;
+    margin-bottom: 3mm;
+}
+
+.feedback-link {
+    display: inline-block;
+    padding: 2mm 4mm;
+    background: #10b981;
+    color: #ffffff;
+    border-radius: 6px;
+    font-size: 9.5pt;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Footer */
+.invoice-footer {
+    padding-top: 6mm;
+    border-top: 2px solid #10b981;
+    margin-top: 8mm;
+}
+
+.footer-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5mm;
+    margin-bottom: 5mm;
+}
+
+.footer-section h4 {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 2mm;
+}
+
+.footer-section p {
+    font-size: 9pt;
+    color: #6b7280;
+    line-height: 1.4;
+    margin-bottom: 1mm;
+}
+
+.footer-legal {
+    padding-top: 4mm;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 8.5pt;
+    color: #9ca3af;
+    line-height: 1.5;
+}
+
+.footer-legal p {
+    margin-bottom: 1.5mm;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .grocery-invoice {
+        max-width: 100%;
+        margin: 0;
+        padding: 5mm;
+    }
+    
+    .temperature-zone {
+        page-break-inside: avoid;
+    }
+}

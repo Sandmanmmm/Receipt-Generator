@@ -1,0 +1,244 @@
+# Production Training Configuration for LayoutLMv3
+# Multi-task: Token-level NER (BIO) + Table Detection
+# Optimized for invoice/PO extraction with CRF layer
+
+seed: 42
+
+model:
+  pretrained_name: "microsoft/layoutlmv3-base"  # Use layoutlmv3-large for better accuracy
+  use_crf: true  # Enables CRF layer for stable BIO transitions
+  crf_lr_multiplier: 1.0  # CRF-specific learning rate multiplier
+  dropout: 0.1
+  attention_dropout: 0.1
+
+data:
+  train_json: "data/processed/train.jsonl"
+  val_json: "data/processed/val.jsonl"
+  test_json: "data/processed/test.jsonl"
+  label_list_path: "config/labels.yaml"
+  max_seq_length: 1024  # Max tokens per document
+  image_size: 224  # Image patch size for visual features
+  ocr_engine: "paddleocr"  # Options: paddleocr, tesseract, easyocr
+  
+  # Data augmentation settings
+  augmentations:
+    - type: "blur"
+      prob: 0.2
+      kernel_range: [3, 7]
+    - type: "noise"
+      prob: 0.15
+      intensity_range: [0.01, 0.03]
+    - type: "rotation"
+      max_angle: 3.0
+      prob: 0.1
+    - type: "brightness"
+      prob: 0.2
+      range: [0.8, 1.2]
+    - type: "contrast"
+      prob: 0.2
+      range: [0.8, 1.2]
+  
+  # Preprocessing
+  normalize_boxes: true  # Normalize bbox to 0-1000 range
+  include_image: true
+  cache_features: true
+  cache_dir: "data/cache"
+
+training:
+  # Batch settings
+  batch_size: 4  # Per device batch size
+  eval_batch_size: 4
+  grad_accumulation_steps: 4  # Effective batch size = 4 × 4 = 16
+  
+  # Training duration
+  num_epochs: 20
+  max_steps: -1  # -1 means use num_epochs
+  
+  # Optimizer settings
+  learning_rate: 3e-5  # Base LR for LayoutLMv3
+  weight_decay: 0.01
+  adam_epsilon: 1e-8
+  max_grad_norm: 1.0
+  
+  # Learning rate schedule
+  lr_scheduler: "cosine"  # Options: linear, cosine, polynomial
+  warmup_ratio: 0.06  # 6% warmup
+  warmup_steps: -1  # -1 means use warmup_ratio
+  
+  # Mixed precision
+  fp16: true  # Enable for GPU with FP16 support
+  fp16_opt_level: "O1"
+  fp16_full_eval: false
+  
+  # Gradient checkpointing (saves memory)
+  gradient_checkpointing: false
+  
+  # Early stopping
+  early_stopping:
+    enabled: true
+    patience: 3
+    metric: "eval_f1"
+    mode: "max"  # Maximize F1 score
+  
+  # Checkpointing
+  save_best_only: true
+  save_total_limit: 3  # Keep only best 3 checkpoints
+  checkpoint_dir: "models/checkpoints"
+  save_steps: 500
+  eval_steps: 500
+  logging_steps: 50
+
+optimizer:
+  type: "AdamW"
+  betas: [0.9, 0.999]
+  
+  # Layer-wise learning rate decay (optional)
+  layerwise_lr_decay: 0.95
+  layerwise_lr_decay_enabled: false
+
+# Multi-task learning weights
+multi_task:
+  ner_loss_weight: 1.0  # Primary task: NER
+  table_loss_weight: 0.7  # Secondary: Table detection
+  structure_loss_weight: 0.5  # Tertiary: Cell structure attributes
+  
+  # Task-specific settings
+  ner:
+    use_focal_loss: false  # Use focal loss for class imbalance
+    focal_alpha: 0.25
+    focal_gamma: 2.0
+    label_smoothing: 0.0
+  
+  table:
+    enabled: true
+    num_labels: 3  # O, B-TABLE, I-TABLE
+    loss_type: "cross_entropy"
+  
+  structure:
+    enabled: true
+    num_attributes: 3  # qty, price, description probabilities
+    loss_type: "bce"  # Binary cross-entropy with logits
+
+# Logging and monitoring
+logging:
+  # TensorBoard
+  tb_logdir: "logs/tensorboard"
+  tb_enabled: true
+  
+  # Weights & Biases
+  wandb:
+    project: "layoutlmv3-invoice-extraction"
+    entity: null  # Your W&B username/team
+    name: null  # Run name (auto-generated if null)
+    enabled: false
+    log_model: true
+    log_gradients: false
+    log_predictions: 10  # Log N validation predictions per epoch
+  
+  # Console logging
+  log_level: "INFO"
+  log_on_each_node: true
+  
+  # Report metrics
+  report_to: ["tensorboard"]  # Options: tensorboard, wandb, all, none
+
+# Evaluation settings
+evaluation:
+  # Metrics to compute
+  metrics:
+    - "token_f1"  # Token-level F1
+    - "seq_f1"  # Sequence-level F1
+    - "entity_f1"  # Entity-level F1 (strict)
+    - "entity_f1_relaxed"  # Relaxed entity matching
+    - "table_f1"  # Table detection F1
+    - "precision"
+    - "recall"
+    - "accuracy"
+  
+  # Per-entity group metrics
+  compute_entity_groups: true
+  entity_groups:
+    - "document_metadata"
+    - "supplier_info"
+    - "buyer_info"
+    - "financial_totals"
+    - "line_items"
+  
+  # Prediction saving
+  save_predictions_dir: "models/predictions"
+  save_predictions_format: "jsonl"  # jsonl or json
+  save_misclassifications: true
+  
+  # Confusion matrix
+  compute_confusion_matrix: true
+  confusion_matrix_path: "evaluation/confusion_matrix.png"
+
+# Inference settings
+inference:
+  batch_size: 8
+  device: "cuda"  # cuda or cpu
+  num_workers: 4
+  
+  # Post-processing
+  use_crf_decoding: true  # Use CRF Viterbi decoding if CRF enabled
+  confidence_threshold: 0.5
+  
+  # Table reconstruction
+  table_reconstruction:
+    enabled: true
+    row_gap_threshold: 15  # px vertical gap to separate rows
+    column_detection_method: "histogram"  # histogram or kmeans
+    min_column_width: 50  # px
+    merge_adjacent_cells: true
+  
+  # Output format
+  output_format: "structured_json"  # Options: tokens, structured_json, both
+  include_confidence_scores: true
+  include_bounding_boxes: true
+
+# Hardware settings
+hardware:
+  # GPU
+  cuda_visible_devices: null  # Set to specific GPU IDs if needed
+  num_gpus: 1
+  
+  # CPU
+  dataloader_num_workers: 4
+  dataloader_pin_memory: true
+  
+  # Distributed training
+  distributed:
+    enabled: false
+    backend: "nccl"  # nccl for GPU, gloo for CPU
+    world_size: 1
+    rank: 0
+    local_rank: 0
+
+# Reproducibility
+reproducibility:
+  deterministic: true
+  benchmark: false  # Set true for faster training if input sizes are fixed
+
+# Debug settings
+debug:
+  enabled: false
+  max_train_samples: 100
+  max_eval_samples: 50
+  overfit_batches: 0  # Set > 0 to test overfitting on N batches
+
+# Advanced settings
+advanced:
+  # Tokenizer settings
+  tokenizer_max_length: 512
+  tokenizer_padding: "max_length"
+  tokenizer_truncation: true
+  
+  # Visual features
+  use_visual_features: true
+  visual_feature_extraction: "patch"  # patch or roi
+  
+  # Position embeddings
+  max_2d_position_embeddings: 1024
+  
+  # Memory optimization
+  empty_cache_steps: 100  # Clear CUDA cache every N steps

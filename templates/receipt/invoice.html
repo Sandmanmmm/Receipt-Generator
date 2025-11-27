@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt #{{ invoice_number }}</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="receipt-container">
+        <!-- Header -->
+        <div class="receipt-header">
+            <h1 class="store-name">{{ company_name }}</h1>
+            <p class="store-address">{{ company_address }}</p>
+            <p class="store-contact">{{ company_phone }}</p>
+            {% if company_tax_id %}
+            <p class="tax-id">Tax ID: {{ company_tax_id }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Receipt Info -->
+        <div class="receipt-info">
+            <p><strong>Receipt #:</strong> {{ invoice_number }}</p>
+            <p><strong>Date:</strong> {{ invoice_date }}</p>
+            <p><strong>Cashier:</strong> {{ cashier | default('N/A') }}</p>
+        </div>
+
+        <!-- Items -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td class="item-desc">{{ item.description }}</td>
+                        <td class="item-qty">{{ item.quantity }}</td>
+                        <td class="item-price">{{ currency }}{{ "%.2f"|format(item.unit_cost) }}</td>
+                        <td class="item-total">{{ currency }}{{ "%.2f"|format(item.quantity * item.unit_cost) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Totals -->
+        <div class="totals-section">
+            <div class="total-line">
+                <span>Subtotal:</span>
+                <span>{{ currency }}{{ "%.2f"|format(subtotal) }}</span>
+            </div>
+            {% if tax_rate %}
+            <div class="total-line">
+                <span>Tax ({{ tax_rate }}%):</span>
+                <span>{{ currency }}{{ "%.2f"|format(tax_amount) }}</span>
+            </div>
+            {% endif %}
+            {% if discount %}
+            <div class="total-line discount">
+                <span>Discount:</span>
+                <span>-{{ currency }}{{ "%.2f"|format(discount) }}</span>
+            </div>
+            {% endif %}
+            <div class="total-line grand-total">
+                <span><strong>TOTAL:</strong></span>
+                <span><strong>{{ currency }}{{ "%.2f"|format(total_amount) }}</strong></span>
+            </div>
+        </div>
+
+        <!-- Payment Info -->
+        <div class="payment-info">
+            <p><strong>Payment Method:</strong> {{ payment_method | default('Cash') }}</p>
+            {% if amount_tendered %}
+            <p><strong>Amount Tendered:</strong> {{ currency }}{{ "%.2f"|format(amount_tendered) }}</p>
+            <p><strong>Change:</strong> {{ currency }}{{ "%.2f"|format(amount_tendered - total_amount) }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Footer -->
+        <div class="receipt-footer">
+            <p>Thank you for your business!</p>
+            {% if return_policy %}
+            <p class="policy">{{ return_policy }}</p>
+            {% endif %}
+            {% if website %}
+            <p class="website">{{ website }}</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

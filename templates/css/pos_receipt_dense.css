@@ -1,0 +1,270 @@
+/* Dense Thermal Receipt CSS - CVS/Walgreens Style */
+/* Ultra-compact 40-50 lines per page, monospace font, minimal spacing */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    line-height: 1.1;
+    background: #ffffff;
+    color: #000000;
+}
+
+.thermal-receipt {
+    width: 80mm; /* Standard thermal receipt width */
+    max-width: 80mm;
+    margin: 0 auto;
+    padding: 2mm 3mm;
+    background: #ffffff;
+    color: #000000;
+}
+
+/* Store Header - Ultra Compact */
+.store-header {
+    text-align: center;
+    margin-bottom: 1mm;
+}
+
+.store-name {
+    font-size: 11pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5mm;
+}
+
+.store-info {
+    font-size: 8pt;
+    line-height: 1.0;
+    margin-bottom: 0;
+}
+
+/* Transaction Header - Condensed */
+.txn-header {
+    margin: 1mm 0;
+    font-size: 8pt;
+    line-height: 1.0;
+}
+
+.txn-line {
+    margin-bottom: 0;
+    text-transform: uppercase;
+}
+
+/* Divider Line */
+.divider-line {
+    border-top: 1px dashed #333;
+    margin: 1mm 0;
+    height: 0;
+}
+
+/* Items Section - Ultra Dense */
+.items-section {
+    margin: 1mm 0;
+}
+
+.item-block {
+    margin-bottom: 0.5mm;
+    page-break-inside: avoid;
+}
+
+.item-name-line {
+    font-size: 9pt;
+    font-weight: normal;
+    line-height: 1.0;
+    text-transform: uppercase;
+    word-wrap: break-word;
+    margin-bottom: 0;
+}
+
+.item-detail-line {
+    font-size: 7pt;
+    color: #444;
+    line-height: 1.0;
+    margin-bottom: 0;
+}
+
+.upc-code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    letter-spacing: 0.5px;
+}
+
+.item-price-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 8pt;
+    line-height: 1.0;
+    margin-bottom: 0;
+}
+
+.qty-price {
+    text-align: left;
+}
+
+.item-total {
+    text-align: right;
+    font-weight: bold;
+}
+
+.promo-line {
+    font-size: 8pt;
+    color: #000;
+    line-height: 1.0;
+    margin-bottom: 0;
+    text-indent: 2mm;
+}
+
+.discount-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 8pt;
+    font-weight: bold;
+    line-height: 1.0;
+    margin-bottom: 0;
+    text-indent: 2mm;
+}
+
+.discount-amt {
+    text-align: right;
+}
+
+.rewards-line {
+    font-size: 7pt;
+    line-height: 1.0;
+    margin-bottom: 0;
+    text-indent: 2mm;
+}
+
+/* Totals Section - Compact */
+.totals-section {
+    margin: 1mm 0;
+}
+
+.total-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9pt;
+    line-height: 1.1;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.total-line.savings {
+    font-weight: bold;
+}
+
+.total-line.grand {
+    font-size: 10pt;
+    margin-top: 0.5mm;
+}
+
+.total-label {
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.total-value {
+    text-align: right;
+}
+
+/* Payment Section - Compact */
+.payment-section {
+    margin: 1mm 0;
+    font-size: 8pt;
+    line-height: 1.0;
+}
+
+.pay-line {
+    margin-bottom: 0;
+    text-transform: uppercase;
+}
+
+/* Loyalty Section */
+.loyalty-section {
+    margin: 1mm 0;
+    font-size: 8pt;
+    line-height: 1.0;
+}
+
+.loyalty-line {
+    margin-bottom: 0;
+    text-transform: uppercase;
+}
+
+/* Footer Section - Compact */
+.footer-section {
+    margin: 1mm 0;
+    font-size: 7pt;
+    line-height: 1.0;
+    text-align: center;
+}
+
+.footer-line {
+    margin-bottom: 0;
+}
+
+/* Barcode Section */
+.barcode-section {
+    margin: 2mm 0;
+    text-align: center;
+}
+
+.barcode-display {
+    font-family: 'Courier New', monospace;
+    font-size: 14pt;
+    letter-spacing: 1px;
+    margin-bottom: 0.5mm;
+}
+
+.barcode-text {
+    font-size: 8pt;
+    letter-spacing: 1px;
+}
+
+/* Footer Message */
+.footer-message {
+    text-align: center;
+    margin-top: 2mm;
+    font-size: 8pt;
+    line-height: 1.0;
+}
+
+.footer-message .footer-line {
+    margin-bottom: 0;
+}
+
+/* Print Optimization */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .thermal-receipt {
+        margin: 0;
+        padding: 2mm 3mm;
+        box-shadow: none;
+    }
+    
+    .divider-line {
+        border-color: #000;
+    }
+    
+    @page {
+        size: 80mm auto;
+        margin: 0;
+    }
+}
+
+/* Thermal printer characteristics */
+@media (max-width: 80mm) {
+    .thermal-receipt {
+        width: 100%;
+        padding: 1mm 2mm;
+    }
+}

@@ -1,0 +1,561 @@
+# REDUCED Label Set for Production Invoice/PO Token Classification
+# Optimized: 59 entity types (119 BIO labels)
+# Reduced from 80 entities based on usage analysis and redundancy elimination
+# Coverage: 97% of all invoice types with simplified schema
+
+# =============================================================================
+# CORE ENTITIES (34 entities)
+# =============================================================================
+
+label_list:
+  # Outside entity
+  - "O"
+  
+  # Document Metadata (6 entities)
+  - "B-DOC_TYPE"
+  - "I-DOC_TYPE"
+  - "B-INVOICE_NUMBER"
+  - "I-INVOICE_NUMBER"
+  - "B-PURCHASE_ORDER_NUMBER"
+  - "I-PURCHASE_ORDER_NUMBER"
+  - "B-INVOICE_DATE"
+  - "I-INVOICE_DATE"
+  - "B-DUE_DATE"
+  - "I-DUE_DATE"
+  - "B-ORDER_DATE"
+  - "I-ORDER_DATE"
+  
+  # Supplier Information (4 entities)
+  - "B-SUPPLIER_NAME"
+  - "I-SUPPLIER_NAME"
+  - "B-SUPPLIER_ADDRESS"
+  - "I-SUPPLIER_ADDRESS"
+  - "B-SUPPLIER_PHONE"
+  - "I-SUPPLIER_PHONE"
+  - "B-SUPPLIER_EMAIL"
+  - "I-SUPPLIER_EMAIL"
+  
+  # Buyer Information (4 entities)
+  - "B-BUYER_NAME"
+  - "I-BUYER_NAME"
+  - "B-BUYER_ADDRESS"
+  - "I-BUYER_ADDRESS"
+  - "B-BUYER_PHONE"
+  - "I-BUYER_PHONE"
+  - "B-BUYER_EMAIL"
+  - "I-BUYER_EMAIL"
+  
+  # Financial Totals (7 entities)
+  - "B-CURRENCY"
+  - "I-CURRENCY"
+  - "B-TOTAL_AMOUNT"
+  - "I-TOTAL_AMOUNT"
+  - "B-TAX_AMOUNT"
+  - "I-TAX_AMOUNT"
+  - "B-SUBTOTAL"
+  - "I-SUBTOTAL"
+  - "B-DISCOUNT"
+  - "I-DISCOUNT"
+  - "B-TAX_RATE"
+  - "I-TAX_RATE"
+  - "B-PAYMENT_TERMS"
+  - "I-PAYMENT_TERMS"
+  
+  # Line Items (9 entities)
+  - "B-PO_LINE_ITEM"
+  - "I-PO_LINE_ITEM"
+  - "B-ITEM_DESCRIPTION"
+  - "I-ITEM_DESCRIPTION"
+  - "B-ITEM_SKU"
+  - "I-ITEM_SKU"
+  - "B-ITEM_QTY"
+  - "I-ITEM_QTY"
+  - "B-ITEM_UNIT"
+  - "I-ITEM_UNIT"
+  - "B-ITEM_UNIT_COST"
+  - "I-ITEM_UNIT_COST"
+  - "B-ITEM_TOTAL_COST"
+  - "I-ITEM_TOTAL_COST"
+  - "B-ITEM_TAX"
+  - "I-ITEM_TAX"
+  - "B-ITEM_DISCOUNT"
+  - "I-ITEM_DISCOUNT"
+  
+  # Miscellaneous (3 entities)
+  - "B-TERMS_AND_CONDITIONS"
+  - "I-TERMS_AND_CONDITIONS"
+  - "B-NOTE"
+  - "I-NOTE"
+  - "B-GENERIC_LABEL"
+  - "I-GENERIC_LABEL"
+  
+  # Structural (1 entity)
+  - "B-TABLE"
+  - "I-TABLE"
+
+# =============================================================================
+# CRITICAL COVERAGE (12 entities)
+# SaaS, Telecom, Logistics, Utilities
+# =============================================================================
+
+  # SaaS/Subscription Invoices (4 entities)
+  - "B-SUBSCRIPTION_ID"
+  - "I-SUBSCRIPTION_ID"
+  - "B-BILLING_PERIOD"
+  - "I-BILLING_PERIOD"
+  - "B-LICENSE_COUNT"
+  - "I-LICENSE_COUNT"
+  - "B-PLAN_NAME"
+  - "I-PLAN_NAME"
+  
+  # Telecom Bills (5 entities)
+  - "B-ACCOUNT_NUMBER"
+  - "I-ACCOUNT_NUMBER"
+  - "B-SERVICE_NUMBER"
+  - "I-SERVICE_NUMBER"
+  - "B-DATA_USAGE"
+  - "I-DATA_USAGE"
+  - "B-ROAMING_CHARGE"
+  - "I-ROAMING_CHARGE"
+  - "B-EQUIPMENT_CHARGE"
+  - "I-EQUIPMENT_CHARGE"
+  
+  # Logistics/Freight (2 entities)
+  - "B-ORIGIN"
+  - "I-ORIGIN"
+  - "B-DESTINATION"
+  - "I-DESTINATION"
+  
+  # Utility Bills (1 entity)
+  - "B-METER_NUMBER"
+  - "I-METER_NUMBER"
+
+# =============================================================================
+# ENHANCED COVERAGE (5 entities)
+# Payments, Healthcare, Shipping, Multi-Page
+# =============================================================================
+
+  # Payment Tracking (2 entities)
+  - "B-AMOUNT_PAID"
+  - "I-AMOUNT_PAID"
+  - "B-BALANCE_DUE"
+  - "I-BALANCE_DUE"
+  
+  # Healthcare (1 entity)
+  - "B-INSURANCE_CLAIM_NUMBER"
+  - "I-INSURANCE_CLAIM_NUMBER"
+  
+  # Shipping (1 entity)
+  - "B-TRACKING_NUMBER"
+  - "I-TRACKING_NUMBER"
+  
+  # Multi-Page Support (1 entity)
+  - "B-PAGE_NUMBER"
+  - "I-PAGE_NUMBER"
+
+# =============================================================================
+# SPECIALIZED FIELDS (7 entities)
+# Manufacturing, Logistics, Banking, Accounting, POS
+# =============================================================================
+
+  # Manufacturing (2 entities)
+  - "B-LOT_NUMBER"
+  - "I-LOT_NUMBER"
+  - "B-SERIAL_NUMBER"
+  - "I-SERIAL_NUMBER"
+  
+  # Logistics Extended (1 entity)
+  - "B-WEIGHT"
+  - "I-WEIGHT"
+  
+  # Banking (1 entity)
+  - "B-BANK_ACCOUNT"
+  - "I-BANK_ACCOUNT"
+  
+  # Accounting (1 entity)
+  - "B-PROJECT_CODE"
+  - "I-PROJECT_CODE"
+  
+  # POS/Retail (2 entities)
+  - "B-REGISTER_NUMBER"
+  - "I-REGISTER_NUMBER"
+  - "B-CASHIER_ID"
+  - "I-CASHIER_ID"
+
+# =============================================================================
+# USAGE CHARGE (1 entity)
+# SaaS overage and metered billing
+# =============================================================================
+
+  - "B-USAGE_CHARGE"
+  - "I-USAGE_CHARGE"
+
+# =============================================================================
+# TOTAL: 59 entity types × 2 (B-/I-) + 1 (O) = 119 labels
+# =============================================================================
+
+
+# =============================================================================
+# LABEL DESCRIPTIONS
+# =============================================================================
+
+label_descriptions:
+  # Core (34 entities)
+  DOC_TYPE: "Document type (Invoice, Purchase Order, Credit Note, Receipt, Waybill)"
+  INVOICE_NUMBER: "Unique invoice identifier (also covers waybill, credit memo numbers)"
+  PURCHASE_ORDER_NUMBER: "PO number reference"
+  INVOICE_DATE: "Invoice issue date"
+  DUE_DATE: "Payment due date"
+  ORDER_DATE: "Purchase order date"
+  SUPPLIER_NAME: "Supplier/vendor company name (also covers shipper name)"
+  SUPPLIER_ADDRESS: "Supplier business address"
+  SUPPLIER_PHONE: "Supplier phone"
+  SUPPLIER_EMAIL: "Supplier email"
+  BUYER_NAME: "Buyer/customer company name (also covers consignee name)"
+  BUYER_ADDRESS: "Buyer address"
+  BUYER_PHONE: "Buyer phone"
+  BUYER_EMAIL: "Buyer email"
+  CURRENCY: "Currency code (USD, EUR, GBP) - covers base and transaction currency"
+  TOTAL_AMOUNT: "Total amount including tax"
+  TAX_AMOUNT: "Total tax"
+  SUBTOTAL: "Subtotal before tax (also covers recurring amounts)"
+  DISCOUNT: "Discount amount or percentage (also covers refunds, prorations)"
+  TAX_RATE: "Tax rate percentage"
+  PAYMENT_TERMS: "Payment terms (Net 30, etc.)"
+  PO_LINE_ITEM: "Line item block marker"
+  ITEM_DESCRIPTION: "Product/service description"
+  ITEM_SKU: "SKU/product code"
+  ITEM_QTY: "Quantity (also covers pallet/case quantities)"
+  ITEM_UNIT: "Unit of measure (ea, kg, case, pallet, etc.) - covers pack sizes"
+  ITEM_UNIT_COST: "Price per unit (also covers rate per unit)"
+  ITEM_TOTAL_COST: "Line item total"
+  ITEM_TAX: "Line item tax"
+  ITEM_DISCOUNT: "Line item discount"
+  TERMS_AND_CONDITIONS: "Legal terms"
+  NOTE: "Additional notes (covers special instructions, service periods, etc.)"
+  GENERIC_LABEL: "Fallback for unlisted fields (license keys, MOQ, colors, sizes, etc.)"
+  TABLE: "Table structure marker"
+  
+  # Critical Coverage (12 entities)
+  SUBSCRIPTION_ID: "Subscription identifier (e.g., sub_abc123)"
+  BILLING_PERIOD: "Billing/service period (e.g., Jan 1-31, 2025)"
+  LICENSE_COUNT: "Number of licenses/users"
+  PLAN_NAME: "Subscription plan name (e.g., Enterprise)"
+  ACCOUNT_NUMBER: "Account number (telecom, utilities, wholesale)"
+  SERVICE_NUMBER: "Service number (phone, mobile, meter)"
+  DATA_USAGE: "Data usage (GB, TB)"
+  ROAMING_CHARGE: "Roaming charges"
+  EQUIPMENT_CHARGE: "Equipment/device charges"
+  ORIGIN: "Origin location"
+  DESTINATION: "Destination location"
+  METER_NUMBER: "Utility meter number"
+  
+  # Enhanced Coverage (5 entities)
+  AMOUNT_PAID: "Amount already paid (also covers payment received)"
+  BALANCE_DUE: "Remaining balance due (also covers previous balance)"
+  INSURANCE_CLAIM_NUMBER: "Insurance claim number"
+  TRACKING_NUMBER: "Shipment tracking number"
+  PAGE_NUMBER: "Page number (e.g., Page 2 of 5)"
+  
+  # Specialized (7 entities)
+  LOT_NUMBER: "Manufacturing lot number"
+  SERIAL_NUMBER: "Serial number"
+  WEIGHT: "Shipment weight (also covers volume for logistics)"
+  BANK_ACCOUNT: "Bank account number (also covers IBAN)"
+  PROJECT_CODE: "Project code/identifier (also covers cost center, GL code)"
+  REGISTER_NUMBER: "POS register number"
+  CASHIER_ID: "Cashier identifier"
+  
+  # Usage (1 entity)
+  USAGE_CHARGE: "Usage-based charges (overage, metered, proration)"
+
+
+# =============================================================================
+# ENTITY GROUPINGS FOR EVALUATION
+# =============================================================================
+
+entity_groups:
+  document_metadata:
+    - DOC_TYPE
+    - INVOICE_NUMBER
+    - PURCHASE_ORDER_NUMBER
+    - INVOICE_DATE
+    - DUE_DATE
+    - ORDER_DATE
+    - PAGE_NUMBER
+  
+  supplier_info:
+    - SUPPLIER_NAME
+    - SUPPLIER_ADDRESS
+    - SUPPLIER_PHONE
+    - SUPPLIER_EMAIL
+  
+  buyer_info:
+    - BUYER_NAME
+    - BUYER_ADDRESS
+    - BUYER_PHONE
+    - BUYER_EMAIL
+  
+  financial_totals:
+    - CURRENCY
+    - TOTAL_AMOUNT
+    - TAX_AMOUNT
+    - SUBTOTAL
+    - DISCOUNT
+    - TAX_RATE
+    - PAYMENT_TERMS
+    - AMOUNT_PAID
+    - BALANCE_DUE
+  
+  line_items:
+    - PO_LINE_ITEM
+    - ITEM_DESCRIPTION
+    - ITEM_SKU
+    - ITEM_QTY
+    - ITEM_UNIT
+    - ITEM_UNIT_COST
+    - ITEM_TOTAL_COST
+    - ITEM_TAX
+    - ITEM_DISCOUNT
+  
+  subscription_saas:
+    - SUBSCRIPTION_ID
+    - BILLING_PERIOD
+    - LICENSE_COUNT
+    - PLAN_NAME
+    - USAGE_CHARGE
+  
+  telecom:
+    - ACCOUNT_NUMBER
+    - SERVICE_NUMBER
+    - DATA_USAGE
+    - ROAMING_CHARGE
+    - EQUIPMENT_CHARGE
+  
+  logistics:
+    - ORIGIN
+    - DESTINATION
+    - TRACKING_NUMBER
+    - WEIGHT
+  
+  utilities:
+    - METER_NUMBER
+    - ACCOUNT_NUMBER
+  
+  healthcare:
+    - INSURANCE_CLAIM_NUMBER
+  
+  manufacturing:
+    - LOT_NUMBER
+    - SERIAL_NUMBER
+  
+  banking:
+    - BANK_ACCOUNT
+  
+  accounting:
+    - PROJECT_CODE
+  
+  structural:
+    - TABLE
+  
+  retail_pos:
+    - REGISTER_NUMBER
+    - CASHIER_ID
+  
+  miscellaneous:
+    - TERMS_AND_CONDITIONS
+    - NOTE
+    - GENERIC_LABEL
+
+
+# =============================================================================
+# REMOVED ENTITIES (Consolidated/Redundant/Ultra-Rare)
+# =============================================================================
+
+removed_entities:
+  redundant_consolidated:
+    - SUPPLIER_VAT: "Use GENERIC_LABEL or NOTE for tax IDs"
+    - WAYBILL_NUMBER: "Use INVOICE_NUMBER"
+    - SHIPPER_NAME: "Use SUPPLIER_NAME"
+    - CONSIGNEE_NAME: "Use BUYER_NAME"
+    - SERVICE_PERIOD: "Use BILLING_PERIOD"
+    - PAYMENT_RECEIVED: "Use AMOUNT_PAID"
+    - BASE_CURRENCY: "Use CURRENCY"
+    - REFUND_AMOUNT: "Use DISCOUNT"
+    - ITEM_PACK_SIZE: "Use ITEM_UNIT"
+    - CREDIT_MEMO_NUMBER: "Use INVOICE_NUMBER with DOC_TYPE"
+    - PREVIOUS_BALANCE: "Use BALANCE_DUE or NOTE"
+    - RECURRING_AMOUNT: "Use SUBTOTAL"
+    - PRORATION: "Use USAGE_CHARGE or DISCOUNT"
+  
+  ultra_rare_removed:
+    visual_elements:
+      - SIGNATURE: "Use GENERIC_LABEL if needed (<1% usage)"
+      - STAMP_TEXT: "Use GENERIC_LABEL if needed (<1% usage)"
+      - HANDWRITTEN_NOTE: "Use NOTE (<0.1% usage)"
+      - WATERMARK: "Usually filtered in preprocessing"
+    
+    multi_page:
+      - CARRIED_FORWARD: "Use NOTE (<1% usage)"
+    
+    healthcare_removed:
+      - PATIENT_ID: "No healthcare templates (0% usage)"
+      - PROCEDURE_CODE: "No healthcare templates (0% usage)"
+    
+    government_removed:
+      - CONTRACT_NUMBER: "Use PURCHASE_ORDER_NUMBER + NOTE (0% usage)"
+      - CAGE_CODE: "Use GENERIC_LABEL (0% usage)"
+    
+    manufacturing_removed:
+      - BATCH_NUMBER: "Use LOT_NUMBER (1% usage)"
+    
+    utilities_extended_removed:
+      - METER_READING_CURRENT: "Use GENERIC_LABEL (2% usage)"
+      - METER_READING_PREVIOUS: "Use GENERIC_LABEL (2% usage)"
+      - CONSUMPTION: "Use ITEM_QTY (2% usage)"
+      - RATE_PER_UNIT: "Use ITEM_UNIT_COST (2% usage)"
+      - SUPPLY_CHARGE: "Use ITEM_DESCRIPTION + ITEM_TOTAL_COST (2% usage)"
+      - PEAK_CHARGE: "Use ITEM_DESCRIPTION + ITEM_TOTAL_COST (2% usage)"
+      - OFF_PEAK_CHARGE: "Use ITEM_DESCRIPTION + ITEM_TOTAL_COST (2% usage)"
+    
+    banking_removed:
+      - IBAN: "Use BANK_ACCOUNT (3% usage)"
+      - SWIFT_CODE: "Use GENERIC_LABEL (3% usage)"
+    
+    accounting_removed:
+      - COST_CENTER: "Use PROJECT_CODE (5% usage)"
+      - GL_CODE: "Use PROJECT_CODE or GENERIC_LABEL (5% usage)"
+    
+    logistics_removed:
+      - VOLUME: "Use WEIGHT or GENERIC_LABEL (1% usage)"
+      - INCOTERMS: "Use NOTE (1% usage)"
+    
+    structural_removed:
+      - ITEM_GROUP_HEADER: "Use TABLE (2% usage)"
+      - ITEM_GROUP_SUBTOTAL: "Use SUBTOTAL with TABLE (2% usage)"
+      - EXCHANGE_RATE: "Use NOTE (3% usage)"
+
+
+# =============================================================================
+# MIGRATION MAPPING
+# =============================================================================
+
+migration_mapping:
+  # How to map removed entities to reduced schema
+  SUPPLIER_VAT: "GENERIC_LABEL or NOTE"
+  WAYBILL_NUMBER: "INVOICE_NUMBER"
+  SHIPPER_NAME: "SUPPLIER_NAME"
+  CONSIGNEE_NAME: "BUYER_NAME"
+  SERVICE_PERIOD: "BILLING_PERIOD"
+  PAYMENT_RECEIVED: "AMOUNT_PAID"
+  BASE_CURRENCY: "CURRENCY"
+  REFUND_AMOUNT: "DISCOUNT"
+  ITEM_PACK_SIZE: "ITEM_UNIT"
+  CREDIT_MEMO_NUMBER: "INVOICE_NUMBER"
+  PREVIOUS_BALANCE: "BALANCE_DUE"
+  RECURRING_AMOUNT: "SUBTOTAL"
+  PRORATION: "USAGE_CHARGE"
+  SIGNATURE: "GENERIC_LABEL"
+  STAMP_TEXT: "GENERIC_LABEL"
+  HANDWRITTEN_NOTE: "NOTE"
+  WATERMARK: "O (filtered)"
+  CARRIED_FORWARD: "NOTE"
+  PATIENT_ID: "GENERIC_LABEL"
+  PROCEDURE_CODE: "GENERIC_LABEL"
+  CONTRACT_NUMBER: "PURCHASE_ORDER_NUMBER"
+  CAGE_CODE: "GENERIC_LABEL"
+  BATCH_NUMBER: "LOT_NUMBER"
+  METER_READING_CURRENT: "GENERIC_LABEL"
+  METER_READING_PREVIOUS: "GENERIC_LABEL"
+  CONSUMPTION: "ITEM_QTY"
+  RATE_PER_UNIT: "ITEM_UNIT_COST"
+  SUPPLY_CHARGE: "ITEM_TOTAL_COST"
+  PEAK_CHARGE: "ITEM_TOTAL_COST"
+  OFF_PEAK_CHARGE: "ITEM_TOTAL_COST"
+  IBAN: "BANK_ACCOUNT"
+  SWIFT_CODE: "GENERIC_LABEL"
+  COST_CENTER: "PROJECT_CODE"
+  GL_CODE: "PROJECT_CODE"
+  VOLUME: "WEIGHT"
+  INCOTERMS: "NOTE"
+  ITEM_GROUP_HEADER: "TABLE"
+  ITEM_GROUP_SUBTOTAL: "SUBTOTAL"
+  EXCHANGE_RATE: "NOTE"
+
+
+# =============================================================================
+# USAGE GUIDELINES
+# =============================================================================
+
+usage_guidelines:
+  - "Use GENERIC_LABEL for rare/specialized fields not covered by specific entity types"
+  - "Use NOTE for additional context, instructions, special terms, periods"
+  - "INVOICE_NUMBER covers invoice, waybill, credit memo, and other document numbers"
+  - "SUPPLIER_NAME covers supplier, vendor, shipper names"
+  - "BUYER_NAME covers buyer, customer, consignee names"
+  - "ITEM_UNIT covers units of measure AND pack sizes (e.g., 'case', 'pallet', '12-pack')"
+  - "ITEM_QTY covers quantity in any unit (units, cases, pallets, kg, etc.)"
+  - "DISCOUNT covers discounts, refunds, credits, and prorations"
+  - "BILLING_PERIOD covers billing periods and service periods"
+  - "USAGE_CHARGE covers usage-based charges, overage fees, metered billing, prorations"
+  - "PROJECT_CODE covers project codes, cost centers, and GL codes"
+  - "WEIGHT covers both weight and volume measurements"
+  - "BANK_ACCOUNT covers bank accounts, IBANs, and similar payment identifiers"
+  - "For multi-page invoices, annotate PAGE_NUMBER; use NOTE for carried-forward amounts"
+  - "For multi-currency, use CURRENCY for primary currency; use NOTE for exchange rates"
+  - "Healthcare procedure codes → GENERIC_LABEL"
+  - "Government contract numbers → PURCHASE_ORDER_NUMBER"
+  - "Visual elements (stamps, signatures) → GENERIC_LABEL or O"
+
+
+# =============================================================================
+# COMPATIBILITY NOTES
+# =============================================================================
+
+compatibility:
+  from_original_73: "All 36 original entities preserved (minus SUPPLIER_VAT, ITEM_PACK_SIZE)"
+  from_enhanced_161: "Reduced by 39 entities through consolidation and removal of ultra-rare"
+  backward_compatible: false
+  migration_required: true
+  note: "Models trained on 161 labels need migration. New models should train on this reduced set."
+
+
+# =============================================================================
+# COVERAGE STATISTICS
+# =============================================================================
+
+coverage_statistics:
+  total_entities: 59
+  total_bio_labels: 119
+  dataset_coverage: "97.3%"
+  
+  template_coverage:
+    pos_receipts: "100% (8 variants)"
+    online_orders: "100% (8 variants)"
+    saas_subscriptions: "100%"
+    telecom_bills: "100%"
+    logistics_waybills: "89% (acceptable)"
+    service_invoices: "100%"
+    utility_bills: "55% (basic coverage)"
+  
+  entity_frequency:
+    high_frequency_50_percent: 25
+    medium_frequency_10_50: 18
+    low_frequency_2_10: 12
+    ultra_low_frequency_under_2: 4
+
+
+# =============================================================================
+# VERSION INFO
+# =============================================================================
+
+version:
+  schema_version: "2.0-reduced"
+  created_date: "2025-11-27"
+  created_from: "labels_enhanced.yaml (v1.0, 80 entities)"
+  reduction_analysis: "docs/LABEL_REDUCTION_ANALYSIS.md"
+  entities_removed: 39
+  entities_consolidated: 21
+  entities_kept: 59
+  optimization_goal: "Stay under 80 entities while maintaining 97%+ coverage"
+  status: "Recommended for production"

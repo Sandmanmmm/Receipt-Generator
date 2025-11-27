@@ -1,0 +1,501 @@
+/* Premium Receipt CSS - Luxury Retail Style */
+/* Spacious layout, elegant typography, high-end aesthetic */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.6;
+    background: #f8f8f8;
+    color: #2d2d2d;
+}
+
+.premium-receipt {
+    width: 180mm;
+    max-width: 180mm;
+    margin: 15mm auto;
+    padding: 15mm 20mm;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Brand Header - Elegant, Spacious */
+.brand-header {
+    text-align: center;
+    margin-bottom: 15mm;
+}
+
+.brand-logo-space {
+    margin-bottom: 5mm;
+}
+
+.logo-mark {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 2px solid #2d2d2d;
+    border-radius: 50%;
+    line-height: 46px;
+    text-align: center;
+    font-size: 18pt;
+    font-weight: 300;
+    letter-spacing: 1px;
+    color: #2d2d2d;
+}
+
+.brand-name {
+    font-size: 26pt;
+    font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 2mm;
+    color: #1a1a1a;
+}
+
+.brand-location {
+    font-size: 10pt;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: #666;
+    text-transform: uppercase;
+}
+
+/* Elegant Dividers */
+.elegant-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #d0d0d0 20%, #d0d0d0 80%, transparent);
+    margin: 10mm 0;
+}
+
+.subtle-divider {
+    height: 1px;
+    background: #e8e8e8;
+    margin: 8mm 0;
+}
+
+/* Transaction Details - Spacious Two-Column */
+.transaction-details {
+    display: flex;
+    justify-content: space-between;
+    gap: 15mm;
+    margin: 8mm 0;
+}
+
+.detail-group {
+    flex: 1;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3mm;
+    padding-bottom: 2mm;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.detail-label {
+    font-size: 9pt;
+    font-weight: 400;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-value {
+    font-size: 10pt;
+    font-weight: 500;
+    color: #2d2d2d;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 11pt;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5mm;
+    color: #2d2d2d;
+}
+
+/* Items Section - Card-Based, Spacious */
+.items-section {
+    margin: 10mm 0;
+}
+
+.item-card {
+    padding: 5mm 0;
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 4mm;
+}
+
+.item-card:last-child {
+    border-bottom: none;
+}
+
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2mm;
+}
+
+.item-name {
+    font-size: 12pt;
+    font-weight: 500;
+    color: #1a1a1a;
+    flex: 1;
+    margin-right: 10mm;
+}
+
+.item-amount {
+    font-size: 12pt;
+    font-weight: 600;
+    color: #2d2d2d;
+    white-space: nowrap;
+}
+
+.item-details {
+    display: flex;
+    gap: 5mm;
+    font-size: 9pt;
+    color: #888;
+    margin-bottom: 2mm;
+}
+
+.item-sku {
+    font-family: 'Courier New', monospace;
+    font-size: 8pt;
+}
+
+.item-quantity,
+.item-price {
+    font-weight: 400;
+}
+
+/* Item Promotion - Elegant Badge Style */
+.item-promotion {
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    padding: 2mm 3mm;
+    background: #fafaf5;
+    border-left: 3px solid #d4af37;
+    margin-top: 2mm;
+}
+
+.promo-badge {
+    font-size: 7pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #d4af37;
+}
+
+.promo-text {
+    font-size: 9pt;
+    color: #666;
+    flex: 1;
+}
+
+.promo-savings {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #d4af37;
+}
+
+/* Item Rewards - Subtle */
+.item-rewards {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    margin-top: 2mm;
+    font-size: 9pt;
+    color: #888;
+}
+
+.rewards-badge {
+    font-size: 10pt;
+    color: #d4af37;
+}
+
+.rewards-text {
+    font-weight: 400;
+}
+
+/* Summary Section - Right-Aligned Box */
+.summary-section {
+    display: flex;
+    justify-content: flex-end;
+    margin: 10mm 0;
+}
+
+.summary-box {
+    width: 80mm;
+    padding: 5mm;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3mm;
+    font-size: 10pt;
+}
+
+.summary-row.savings-highlight {
+    background: #fafaf5;
+    margin: 2mm -5mm;
+    padding: 2mm 5mm;
+}
+
+.summary-label {
+    font-weight: 400;
+    color: #666;
+}
+
+.summary-value {
+    font-weight: 500;
+    color: #2d2d2d;
+    text-align: right;
+}
+
+.summary-value.savings {
+    color: #d4af37;
+    font-weight: 600;
+}
+
+.summary-divider {
+    height: 1px;
+    background: #d0d0d0;
+    margin: 4mm 0;
+}
+
+.summary-row.total-row {
+    margin-top: 3mm;
+    padding-top: 3mm;
+    font-size: 14pt;
+    border-top: 2px solid #2d2d2d;
+}
+
+.summary-row.total-row .summary-label {
+    font-weight: 500;
+    color: #2d2d2d;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.summary-row.total-row .summary-value {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+/* Payment Section - Clean Layout */
+.payment-section {
+    margin: 10mm 0;
+}
+
+.payment-info {
+    padding-left: 5mm;
+}
+
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    max-width: 100mm;
+    margin-bottom: 2mm;
+    padding-bottom: 2mm;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.payment-label {
+    font-size: 9pt;
+    font-weight: 400;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.payment-value {
+    font-size: 10pt;
+    font-weight: 500;
+    color: #2d2d2d;
+}
+
+/* Rewards Section - Premium Card */
+.rewards-section {
+    margin: 10mm 0;
+}
+
+.rewards-summary-card {
+    padding: 5mm;
+    background: linear-gradient(135deg, #fafaf5 0%, #ffffff 100%);
+    border: 1px solid #e8e8e8;
+}
+
+.rewards-earned {
+    display: flex;
+    align-items: center;
+    gap: 4mm;
+    margin-bottom: 4mm;
+    padding-bottom: 4mm;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.rewards-icon {
+    font-size: 20pt;
+    color: #d4af37;
+}
+
+.rewards-content {
+    flex: 1;
+}
+
+.rewards-amount {
+    font-size: 14pt;
+    font-weight: 600;
+    color: #2d2d2d;
+    margin-bottom: 1mm;
+}
+
+.rewards-subtext {
+    font-size: 9pt;
+    color: #888;
+}
+
+.rewards-balance {
+    margin-bottom: 3mm;
+}
+
+.balance-label {
+    font-size: 9pt;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1mm;
+}
+
+.balance-amount {
+    font-size: 12pt;
+    font-weight: 600;
+    color: #d4af37;
+}
+
+.rewards-available {
+    padding-top: 3mm;
+    border-top: 1px solid #f0f0f0;
+}
+
+.rewards-message {
+    font-size: 10pt;
+    color: #666;
+    font-style: italic;
+}
+
+/* Store Footer */
+.store-footer {
+    text-align: center;
+    margin: 10mm 0 5mm;
+}
+
+.footer-info p {
+    font-size: 9pt;
+    color: #888;
+    margin-bottom: 1mm;
+    letter-spacing: 0.3px;
+}
+
+.store-website {
+    font-weight: 500;
+    color: #666;
+}
+
+/* Policy Section */
+.policy-section {
+    margin: 8mm 0;
+    padding: 4mm 5mm;
+    background: #fafafa;
+    border-left: 3px solid #d0d0d0;
+}
+
+.policy-title {
+    font-size: 9pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2mm;
+    color: #666;
+}
+
+.policy-text {
+    font-size: 8pt;
+    line-height: 1.5;
+    color: #888;
+}
+
+/* Thank You Section - Elegant */
+.thank-you-section {
+    text-align: center;
+    margin: 12mm 0 8mm;
+}
+
+.thank-you-message {
+    font-size: 12pt;
+    font-weight: 300;
+    letter-spacing: 1px;
+    color: #2d2d2d;
+    margin-bottom: 2mm;
+}
+
+.visit-again {
+    font-size: 10pt;
+    font-weight: 400;
+    color: #888;
+    font-style: italic;
+}
+
+/* Barcode Area - Minimal */
+.barcode-area {
+    text-align: center;
+    margin-top: 10mm;
+    padding-top: 5mm;
+    border-top: 1px solid #e8e8e8;
+}
+
+.barcode-visual {
+    font-family: 'Courier New', monospace;
+    font-size: 14pt;
+    letter-spacing: 2px;
+    color: #2d2d2d;
+    margin-bottom: 2mm;
+}
+
+.barcode-number {
+    font-family: 'Courier New', monospace;
+    font-size: 9pt;
+    letter-spacing: 1px;
+    color: #888;
+}
+
+/* Print Optimization */
+@media print {
+    body {
+        background: #fff;
+    }
+    
+    .premium-receipt {
+        margin: 0;
+        box-shadow: none;
+        page-break-inside: avoid;
+    }
+    
+    @page {
+        size: 180mm 297mm;
+        margin: 10mm;
+    }
+}

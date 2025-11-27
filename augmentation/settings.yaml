@@ -1,0 +1,136 @@
+# Augmentation Settings
+# Configuration for image augmentation pipeline
+
+# Enable/disable augmentation
+enabled: true
+
+# Random seed for reproducibility
+seed: 42
+
+# Augmentation probability (0.0 to 1.0)
+# Probability that any augmentation will be applied to an image
+augmentation_probability: 0.8
+
+# Geometric Transformations
+geometric:
+  rotation:
+    enabled: true
+    probability: 0.5
+    angle_range: [-5, 5]  # degrees
+  
+  perspective:
+    enabled: true
+    probability: 0.3
+    distortion_scale: 0.2
+  
+  shear:
+    enabled: true
+    probability: 0.3
+    shear_range: [-10, 10]  # degrees
+  
+  scale:
+    enabled: true
+    probability: 0.4
+    scale_range: [0.9, 1.1]
+
+# Color Augmentations
+color:
+  brightness:
+    enabled: true
+    probability: 0.6
+    factor_range: [0.8, 1.2]
+  
+  contrast:
+    enabled: true
+    probability: 0.6
+    factor_range: [0.8, 1.2]
+  
+  saturation:
+    enabled: true
+    probability: 0.5
+    factor_range: [0.7, 1.3]
+  
+  hue:
+    enabled: true
+    probability: 0.3
+    shift_range: [-0.05, 0.05]
+
+# Noise and Blur
+noise:
+  gaussian_noise:
+    enabled: true
+    probability: 0.4
+    mean: 0
+    std_range: [0.01, 0.03]
+  
+  salt_pepper:
+    enabled: true
+    probability: 0.2
+    amount: 0.005
+  
+  gaussian_blur:
+    enabled: true
+    probability: 0.3
+    kernel_size: [3, 5, 7]
+    sigma_range: [0.5, 2.0]
+  
+  motion_blur:
+    enabled: true
+    probability: 0.2
+    kernel_size: [5, 7, 9]
+
+# Document-Specific Augmentations
+document:
+  jpeg_compression:
+    enabled: true
+    probability: 0.5
+    quality_range: [60, 95]
+  
+  fold_lines:
+    enabled: true
+    probability: 0.2
+    num_folds: [1, 3]
+  
+  wrinkles:
+    enabled: true
+    probability: 0.2
+    intensity_range: [0.1, 0.3]
+  
+  shadows:
+    enabled: true
+    probability: 0.3
+    intensity_range: [0.1, 0.4]
+  
+  stains:
+    enabled: true
+    probability: 0.2
+    num_stains: [1, 5]
+    size_range: [10, 50]
+
+# Text-Specific (preserve text legibility)
+text_preservation:
+  enabled: true
+  min_contrast_ratio: 3.0  # Minimum contrast for text readability
+  max_blur_for_text: 1.5   # Maximum blur sigma for text regions
+
+# Output settings
+output:
+  format: 'PNG'
+  quality: 95
+  preserve_metadata: true
+
+# Batch processing
+batch:
+  batch_size: 32
+  num_workers: 4
+  cache_preprocessed: false
+
+# Validation
+validation:
+  # Validate augmented images don't break OCR
+  validate_ocr: true
+  min_ocr_confidence: 0.5
+  
+  # Ensure bounding boxes remain valid
+  validate_boxes: true
+  min_box_area: 100  # pixels

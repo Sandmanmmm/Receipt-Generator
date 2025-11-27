@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Delivery Order</title>
+    <link rel="stylesheet" href="../css/online_order_grocery.css">
+</head>
+<body>
+    <div class="grocery-invoice">
+        <!-- Header -->
+        <div class="invoice-header">
+            <div class="company-branding">
+                <div class="logo-container">
+                    <span class="logo-icon">🛒</span>
+                </div>
+                <div class="company-details">
+                    <h1 class="company-name">{{ supplier_name }}</h1>
+                    <p class="company-tagline">{{ tagline }}</p>
+                </div>
+            </div>
+            <div class="order-info">
+                <div class="order-badge">GROCERY ORDER</div>
+                <div class="order-number">Order #{{ order_number }}</div>
+                <div class="order-date">{{ order_date }}</div>
+            </div>
+        </div>
+
+        <!-- Delivery Window Banner -->
+        <div class="delivery-banner">
+            <div class="banner-section delivery-window">
+                <span class="banner-icon">🚚</span>
+                <div class="banner-content">
+                    <span class="banner-label">Delivery Window</span>
+                    <span class="banner-value">{{ delivery_window }}</span>
+                </div>
+            </div>
+            <div class="banner-section delivery-status">
+                <span class="banner-icon">📍</span>
+                <div class="banner-content">
+                    <span class="banner-label">Status</span>
+                    <span class="banner-value status-active">{{ delivery_status }}</span>
+                </div>
+            </div>
+            <div class="banner-section shopper-info">
+                <span class="banner-icon">👤</span>
+                <div class="banner-content">
+                    <span class="banner-label">Your Shopper</span>
+                    <span class="banner-value">{{ shopper_name }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer & Delivery Address -->
+        <div class="info-section">
+            <div class="info-card customer-card">
+                <h3 class="card-title">Customer Information</h3>
+                <p class="customer-name">{{ buyer_name }}</p>
+                <p class="customer-contact">{{ buyer_phone }}</p>
+                <p class="customer-email">{{ buyer_email }}</p>
+                {% if loyalty_member %}
+                <div class="loyalty-badge">
+                    <span class="loyalty-star">⭐</span>
+                    <span class="loyalty-text">Rewards Member</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="info-card delivery-card">
+                <h3 class="card-title">Delivery Address</h3>
+                <p class="delivery-name">{{ delivery_recipient }}</p>
+                <p class="delivery-address">{{ delivery_address }}</p>
+                <p class="delivery-city">{{ delivery_city }}, {{ delivery_state }} {{ delivery_zip }}</p>
+                {% if delivery_instructions %}
+                <div class="delivery-notes">
+                    <span class="notes-icon">📝</span>
+                    <span class="notes-label">Instructions:</span>
+                    <span class="notes-text">{{ delivery_instructions }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Items by Temperature Zone -->
+        <div class="items-section">
+            <h2 class="section-title">Your Grocery Items</h2>
+
+            {% if frozen_items %}
+            <!-- Frozen Items -->
+            <div class="temperature-zone frozen-zone">
+                <div class="zone-header">
+                    <span class="zone-icon">❄️</span>
+                    <span class="zone-title">Frozen Items</span>
+                    <span class="zone-count">({{ frozen_items|length }} items)</span>
+                </div>
+                <div class="zone-items">
+                    {% for item in frozen_items %}
+                    <div class="grocery-item">
+                        <div class="item-main">
+                            <div class="item-name">{{ item.description }}</div>
+                            {% if item.brand %}
+                            <div class="item-brand">{{ item.brand }}</div>
+                            {% endif %}
+                            {% if item.size %}
+                            <div class="item-size">{{ item.size }}</div>
+                            {% endif %}
+                            {% if item.upc %}
+                            <div class="item-upc">UPC: {{ item.upc }}</div>
+                            {% endif %}
+                            {% if item.substituted %}
+                            <div class="substitution-notice">
+                                <span class="sub-icon">🔄</span>
+                                <span class="sub-text">Substituted: {{ item.original_item }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="item-quantity">
+                            <span class="qty-label">Qty:</span>
+                            <span class="qty-value">{{ item.quantity }}</span>
+                        </div>
+                        <div class="item-pricing">
+                            <div class="unit-price">{{ item.unit_price }}</div>
+                            {% if item.weight %}
+                            <div class="item-weight">{{ item.weight }} {{ item.weight_unit }}</div>
+                            {% endif %}
+                            <div class="item-total">{{ item.total }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if refrigerated_items %}
+            <!-- Refrigerated Items -->
+            <div class="temperature-zone refrigerated-zone">
+                <div class="zone-header">
+                    <span class="zone-icon">🧊</span>
+                    <span class="zone-title">Refrigerated Items</span>
+                    <span class="zone-count">({{ refrigerated_items|length }} items)</span>
+                </div>
+                <div class="zone-items">
+                    {% for item in refrigerated_items %}
+                    <div class="grocery-item">
+                        <div class="item-main">
+                            <div class="item-name">{{ item.description }}</div>
+                            {% if item.brand %}
+                            <div class="item-brand">{{ item.brand }}</div>
+                            {% endif %}
+                            {% if item.size %}
+                            <div class="item-size">{{ item.size }}</div>
+                            {% endif %}
+                            {% if item.expiration_date %}
+                            <div class="expiration-date">
+                                <span class="exp-icon">📅</span>
+                                <span class="exp-text">Best by: {{ item.expiration_date }}</span>
+                            </div>
+                            {% endif %}
+                            {% if item.organic %}
+                            <div class="organic-badge">🌱 ORGANIC</div>
+                            {% endif %}
+                        </div>
+                        <div class="item-quantity">
+                            <span class="qty-label">Qty:</span>
+                            <span class="qty-value">{{ item.quantity }}</span>
+                        </div>
+                        <div class="item-pricing">
+                            <div class="unit-price">{{ item.unit_price }}</div>
+                            {% if item.price_per_unit %}
+                            <div class="price-per-unit">({{ item.price_per_unit }}/{{ item.unit_measure }})</div>
+                            {% endif %}
+                            <div class="item-total">{{ item.total }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if pantry_items %}
+            <!-- Pantry Items -->
+            <div class="temperature-zone pantry-zone">
+                <div class="zone-header">
+                    <span class="zone-icon">🏺</span>
+                    <span class="zone-title">Pantry & Household</span>
+                    <span class="zone-count">({{ pantry_items|length }} items)</span>
+                </div>
+                <div class="zone-items">
+                    {% for item in pantry_items %}
+                    <div class="grocery-item">
+                        <div class="item-main">
+                            <div class="item-name">{{ item.description }}</div>
+                            {% if item.brand %}
+                            <div class="item-brand">{{ item.brand }}</div>
+                            {% endif %}
+                            {% if item.size %}
+                            <div class="item-size">{{ item.size }}</div>
+                            {% endif %}
+                            {% if item.on_sale %}
+                            <div class="sale-badge">
+                                <span class="sale-icon">🏷️</span>
+                                <span class="sale-text">ON SALE</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="item-quantity">
+                            <span class="qty-label">Qty:</span>
+                            <span class="qty-value">{{ item.quantity }}</span>
+                        </div>
+                        <div class="item-pricing">
+                            <div class="unit-price">{{ item.unit_price }}</div>
+                            {% if item.discount > 0 %}
+                            <div class="item-discount">Save {{ item.discount }}</div>
+                            {% endif %}
+                            <div class="item-total">{{ item.total }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            {% if produce_items %}
+            <!-- Fresh Produce -->
+            <div class="temperature-zone produce-zone">
+                <div class="zone-header">
+                    <span class="zone-icon">🥬</span>
+                    <span class="zone-title">Fresh Produce</span>
+                    <span class="zone-count">({{ produce_items|length }} items)</span>
+                </div>
+                <div class="zone-items">
+                    {% for item in produce_items %}
+                    <div class="grocery-item">
+                        <div class="item-main">
+                            <div class="item-name">{{ item.description }}</div>
+                            {% if item.organic %}
+                            <div class="organic-badge">🌱 ORGANIC</div>
+                            {% endif %}
+                            {% if item.locally_grown %}
+                            <div class="local-badge">🌾 LOCAL</div>
+                            {% endif %}
+                            {% if item.weight %}
+                            <div class="produce-weight">
+                                <span class="weight-icon">⚖️</span>
+                                <span class="weight-text">{{ item.weight }} {{ item.weight_unit }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="item-quantity">
+                            <span class="qty-label">Qty:</span>
+                            <span class="qty-value">{{ item.quantity }}</span>
+                        </div>
+                        <div class="item-pricing">
+                            <div class="unit-price">{{ item.price_per_weight }}/{{ item.weight_unit }}</div>
+                            <div class="item-total">{{ item.total }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Substitutions Summary -->
+        {% if substitutions_made %}
+        <div class="substitutions-section">
+            <div class="substitutions-header">
+                <span class="sub-icon">🔄</span>
+                <h3 class="sub-title">Substitutions Made</h3>
+            </div>
+            <div class="substitutions-list">
+                {% for sub in substitutions_made %}
+                <div class="substitution-item">
+                    <div class="sub-original">
+                        <span class="sub-label">Requested:</span>
+                        <span class="sub-product">{{ sub.original }}</span>
+                    </div>
+                    <span class="sub-arrow">→</span>
+                    <div class="sub-replacement">
+                        <span class="sub-label">Received:</span>
+                        <span class="sub-product">{{ sub.replacement }}</span>
+                    </div>
+                    <div class="sub-reason">{{ sub.reason }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Order Totals -->
+        <div class="totals-section">
+            <div class="totals-container">
+                <h3 class="totals-title">Order Summary</h3>
+                <div class="totals-table">
+                    <div class="total-row">
+                        <span class="total-label">Items Subtotal ({{ total_items }} items):</span>
+                        <span class="total-value">{{ items_subtotal }}</span>
+                    </div>
+                    {% if item_discounts > 0 %}
+                    <div class="total-row discount-row">
+                        <span class="total-label">🏷️ Item Savings:</span>
+                        <span class="total-value discount-value">-{{ item_discounts }}</span>
+                    </div>
+                    {% endif %}
+                    {% if coupon_discount > 0 %}
+                    <div class="total-row discount-row">
+                        <span class="total-label">🎟️ Coupon ({{ coupon_code }}):</span>
+                        <span class="total-value discount-value">-{{ coupon_discount }}</span>
+                    </div>
+                    {% endif %}
+                    {% if loyalty_discount > 0 %}
+                    <div class="total-row discount-row">
+                        <span class="total-label">⭐ Rewards Savings:</span>
+                        <span class="total-value discount-value">-{{ loyalty_discount }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="total-row">
+                        <span class="total-label">Delivery Fee:</span>
+                        <span class="total-value">{{ delivery_fee }}</span>
+                    </div>
+                    {% if service_fee > 0 %}
+                    <div class="total-row">
+                        <span class="total-label">Service Fee:</span>
+                        <span class="total-value">{{ service_fee }}</span>
+                    </div>
+                    {% endif %}
+                    {% if shopper_tip > 0 %}
+                    <div class="total-row tip-row">
+                        <span class="total-label">💚 Shopper Tip:</span>
+                        <span class="total-value">{{ shopper_tip }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="total-row">
+                        <span class="total-label">Tax:</span>
+                        <span class="total-value">{{ tax_amount }}</span>
+                    </div>
+                    <div class="total-row final-total">
+                        <span class="total-label">Order Total:</span>
+                        <span class="total-value">{{ total_amount }}</span>
+                    </div>
+                    {% if total_savings > 0 %}
+                    <div class="savings-banner">
+                        <span class="savings-icon">💰</span>
+                        <span class="savings-text">You saved {{ total_savings }} on this order!</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Information -->
+        <div class="payment-section">
+            <h3 class="section-title">Payment Method</h3>
+            <div class="payment-card">
+                <div class="payment-info">
+                    <span class="payment-icon">💳</span>
+                    <span class="payment-method">{{ payment_method }}</span>
+                    <span class="card-type">{{ card_type }}</span>
+                    <span class="card-number">•••• {{ card_last_four }}</span>
+                </div>
+                <div class="payment-status">
+                    <span class="status-badge paid">PAID</span>
+                </div>
+            </div>
+            {% if transaction_id %}
+            <div class="transaction-info">
+                <span class="transaction-label">Transaction ID:</span>
+                <span class="transaction-id">{{ transaction_id }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Rewards Program -->
+        {% if loyalty_points_earned %}
+        <div class="rewards-section">
+            <div class="rewards-card">
+                <h3 class="rewards-title">⭐ Rewards Update</h3>
+                <div class="rewards-grid">
+                    <div class="rewards-item">
+                        <span class="rewards-label">Points Earned:</span>
+                        <span class="rewards-value earned">+{{ loyalty_points_earned }}</span>
+                    </div>
+                    <div class="rewards-item">
+                        <span class="rewards-label">Current Balance:</span>
+                        <span class="rewards-value balance">{{ loyalty_points_balance }} pts</span>
+                    </div>
+                    {% if next_reward %}
+                    <div class="rewards-item">
+                        <span class="rewards-label">Next Reward:</span>
+                        <span class="rewards-value next">{{ points_to_reward }} pts away</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Shopper Feedback -->
+        <div class="feedback-section">
+            <h3 class="feedback-title">How was your experience?</h3>
+            <div class="feedback-content">
+                <p class="feedback-text">Rate your shopper {{ shopper_name }} and share feedback about your order.</p>
+                <div class="feedback-link">Leave Feedback →</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="footer-info">
+                <div class="footer-section">
+                    <h4>Customer Support</h4>
+                    <p>Phone: {{ support_phone }}</p>
+                    <p>Email: {{ support_email }}</p>
+                    <p>Available 7 days a week</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Delivery Information</h4>
+                    <p>Standard delivery windows available</p>
+                    <p>Same-day delivery in select areas</p>
+                    <p>Free delivery on orders over {{ free_delivery_threshold }}</p>
+                </div>
+                <div class="footer-section">
+                    <h4>{{ supplier_name }}</h4>
+                    <p>{{ supplier_address }}</p>
+                    <p>{{ supplier_city }}, {{ supplier_state }}</p>
+                </div>
+            </div>
+            <div class="footer-legal">
+                <p>Thank you for shopping with {{ supplier_name }}! Please refrigerate perishable items immediately.</p>
+                <p>Questions about your order? Contact us at {{ support_phone }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+# Core dependencies
+numpy>=1.21.0
+pillow>=9.0.0
+opencv-python>=4.5.0
+jinja2>=3.0.0
+faker>=18.0.0
+
+# Deep Learning
+torch>=2.0.0
+torchvision>=0.15.0
+transformers>=4.30.0
+datasets>=2.10.0
+pytorch-crf>=0.7.2
+
+# OCR
+paddleocr>=2.6.0
+paddlepaddle>=2.4.0
+pytesseract>=0.3.10
+easyocr>=1.6.0
+
+# PDF/Image processing
+pdf2image>=1.16.0
+weasyprint>=59.0
+reportlab>=4.0.0
+
+# Training utilities
+seqeval>=1.2.2
+scikit-learn>=1.2.0
+tensorboard>=2.12.0
+wandb>=0.15.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# API/Deployment
+fastapi>=0.100.0
+uvicorn>=0.23.0
+pydantic>=2.0.0
+python-multipart>=0.0.6
+
+# Utilities
+tqdm>=4.65.0
+pyyaml>=6.0
+python-dotenv>=1.0.0
+click>=8.1.0
+
+# Development
+pytest>=7.3.0
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.4.0
+
+# Optional: For wkhtmltopdf (alternative to weasyprint)
+# Note: wkhtmltopdf needs to be installed separately
+# Download from: https://wkhtmltopdf.org/downloads.html
+
+# Optional: Poppler for pdf2image
+# Windows: https://github.com/oschwartz10612/poppler-windows/releases/
+# Linux: sudo apt-get install poppler-utils
+# Mac: brew install poppler

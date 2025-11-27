@@ -1,0 +1,95 @@
+# .gitignore for InvoiceGen
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Data directories
+data/raw/*
+data/processed/*
+data/annotations/*
+data/layoutlmv3/*
+!data/.gitkeep
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/annotations/.gitkeep
+!data/layoutlmv3/.gitkeep
+
+# Models
+models/*
+!models/.gitkeep
+*.pth
+*.pt
+*.bin
+*.safetensors
+
+# Outputs
+outputs/*
+!outputs/.gitkeep
+
+# Logs
+logs/
+*.log
+tensorboard/
+wandb/
+
+# Evaluation
+evaluation/results/
+evaluation/*.json
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment
+.env
+.env.local
+
+# Vast.ai
+vast_instances.json
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# OS
+Thumbs.db
+.DS_Store

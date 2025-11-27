@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Invoice - Marketplace</title>
+    <link rel="stylesheet" href="../css/online_order_marketplace.css">
+</head>
+<body>
+    <div class="marketplace-invoice">
+        <!-- eBay/Etsy Style - Seller-focused, marketplace branding -->
+        
+        <!-- Marketplace Header -->
+        <div class="marketplace-header">
+            <div class="marketplace-brand">
+                <div class="brand-logo">{{ marketplace_name }}</div>
+                <p class="brand-tagline">{{ marketplace_tagline }}</p>
+            </div>
+            <div class="invoice-badge">
+                <span class="badge-label">ORDER RECEIPT</span>
+                <span class="order-number">{{ order_number }}</span>
+            </div>
+        </div>
+
+        <!-- Order Status Banner -->
+        <div class="status-banner {{ order_status|lower }}">
+            <span class="status-icon">{{ status_icon }}</span>
+            <span class="status-text">{{ order_status }}</span>
+            <span class="status-date">{{ status_date }}</span>
+        </div>
+
+        <!-- Order Details Grid -->
+        <div class="details-grid">
+            <div class="detail-card">
+                <h3 class="card-title">Order Information</h3>
+                <div class="detail-row">
+                    <span class="label">Order Date:</span>
+                    <span class="value">{{ order_date }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Invoice Date:</span>
+                    <span class="value">{{ invoice_date }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Payment Status:</span>
+                    <span class="value status-{{ payment_status|lower }}">{{ payment_status }}</span>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <h3 class="card-title">Buyer</h3>
+                <p class="buyer-username">{{ buyer_username }}</p>
+                <p class="buyer-name">{{ buyer_name }}</p>
+                <p class="buyer-email">{{ buyer_email }}</p>
+            </div>
+
+            <div class="detail-card">
+                <h3 class="card-title">Seller</h3>
+                <p class="seller-name">{{ seller_name }}</p>
+                <p class="seller-username">@{{ seller_username }}</p>
+                {% if seller_rating %}
+                <p class="seller-rating">⭐ {{ seller_rating }} ({{ seller_reviews }} reviews)</p>
+                {% endif %}
+            </div>
+
+            <div class="detail-card">
+                <h3 class="card-title">Shipping</h3>
+                <p class="shipping-address">{{ shipping_name }}</p>
+                <p class="shipping-address">{{ shipping_address }}</p>
+                {% if tracking_number %}
+                <p class="tracking-info">
+                    <strong>Tracking:</strong><br>
+                    {{ carrier_name }}: {{ tracking_number }}
+                </p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Items Section - Marketplace Style -->
+        <div class="items-section">
+            <h2 class="section-title">Order Items</h2>
+            
+            {% for item in line_items %}
+            <div class="item-card">
+                <div class="item-image-placeholder">
+                    <!-- Product image placeholder -->
+                    <div class="image-box">📦</div>
+                </div>
+                
+                <div class="item-details">
+                    <h3 class="item-title">{{ item.description }}</h3>
+                    
+                    {% if item.seller_sku %}
+                    <p class="item-sku">SKU: {{ item.seller_sku }}</p>
+                    {% endif %}
+                    
+                    {% if item.variant %}
+                    <p class="item-variant">{{ item.variant }}</p>
+                    {% endif %}
+                    
+                    {% if item.condition %}
+                    <p class="item-condition">
+                        <span class="condition-badge">{{ item.condition }}</span>
+                    </p>
+                    {% endif %}
+                    
+                    <div class="item-seller">
+                        <span class="seller-label">Sold by:</span>
+                        <span class="seller-link">{{ item.seller_name }}</span>
+                    </div>
+                </div>
+                
+                <div class="item-pricing">
+                    <div class="price-row">
+                        <span class="price-label">Item Price:</span>
+                        <span class="price-value">{{ item.unit_price }}</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="price-label">Quantity:</span>
+                        <span class="price-value">{{ item.quantity }}</span>
+                    </div>
+                    {% if item.discount > 0 %}
+                    <div class="price-row discount">
+                        <span class="price-label">Discount:</span>
+                        <span class="price-value">-{{ item.discount }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="price-row total">
+                        <span class="price-label">Item Total:</span>
+                        <span class="price-value">{{ item.total }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Order Summary -->
+        <div class="summary-section">
+            <div class="summary-box">
+                <h2 class="summary-title">Order Summary</h2>
+                
+                <div class="summary-row">
+                    <span class="summary-label">Item(s) Subtotal:</span>
+                    <span class="summary-value">{{ subtotal }}</span>
+                </div>
+                
+                {% if seller_shipping_charge > 0 %}
+                <div class="summary-row">
+                    <span class="summary-label">Shipping & Handling:</span>
+                    <span class="summary-value">{{ seller_shipping_charge }}</span>
+                </div>
+                {% endif %}
+                
+                {% if marketplace_fee > 0 %}
+                <div class="summary-row">
+                    <span class="summary-label">Marketplace Fee:</span>
+                    <span class="summary-value">{{ marketplace_fee }}</span>
+                </div>
+                {% endif %}
+                
+                {% if coupon_discount > 0 %}
+                <div class="summary-row discount">
+                    <span class="summary-label">Coupon Discount:</span>
+                    <span class="summary-value">-{{ coupon_discount }}</span>
+                </div>
+                {% endif %}
+                
+                <div class="summary-row">
+                    <span class="summary-label">Tax:</span>
+                    <span class="summary-value">{{ tax_amount }}</span>
+                </div>
+                
+                <div class="summary-divider"></div>
+                
+                <div class="summary-row total">
+                    <span class="summary-label">Order Total:</span>
+                    <span class="summary-value">{{ total_amount }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="payment-section">
+            <h2 class="section-title">Payment Method</h2>
+            <div class="payment-card">
+                <div class="payment-method-icon">💳</div>
+                <div class="payment-details">
+                    <p class="payment-type">{{ card_type }}</p>
+                    <p class="payment-number">•••• •••• •••• {{ card_last_four }}</p>
+                    {% if transaction_id %}
+                    <p class="transaction-id">Transaction: {{ transaction_id }}</p>
+                    {% endif %}
+                </div>
+                <div class="payment-amount">{{ total_amount }}</div>
+            </div>
+        </div>
+
+        <!-- Buyer Protection -->
+        <div class="protection-section">
+            <div class="protection-badge">🛡️</div>
+            <div class="protection-content">
+                <h3>{{ marketplace_name }} Buyer Protection</h3>
+                <p>Your purchase is covered by our Money Back Guarantee. Report issues within {{ protection_days }} days.</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="marketplace-footer">
+            <div class="footer-links">
+                <a href="#">Help Center</a>
+                <span class="separator">|</span>
+                <a href="#">Contact Seller</a>
+                <span class="separator">|</span>
+                <a href="#">Leave Feedback</a>
+            </div>
+            <div class="footer-info">
+                <p>{{ marketplace_name }} • {{ marketplace_address }}</p>
+                <p>Order placed on {{ order_date }} • Invoice generated on {{ invoice_date }}</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

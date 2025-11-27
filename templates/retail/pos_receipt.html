@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt</title>
+    <link rel="stylesheet" href="../css/pos_receipt.css">
+</head>
+<body>
+    <div class="pos-receipt">
+        <!-- Store Header -->
+        <div class="receipt-header">
+            <h1 class="store-name">{{ supplier_name }}</h1>
+            <p class="store-address">{{ supplier_address }}</p>
+            <p class="store-contact">{{ supplier_phone }}</p>
+            {% if store_website %}
+            <p class="store-website">{{ store_website }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Transaction Info -->
+        <div class="transaction-info">
+            <div class="info-row">
+                <span class="label">Receipt #:</span>
+                <span class="value">{{ invoice_number }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Date:</span>
+                <span class="value">{{ invoice_date }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Time:</span>
+                <span class="value">{{ transaction_time }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Register:</span>
+                <span class="value register-number">{{ register_number }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Cashier:</span>
+                <span class="value cashier-id">{{ cashier_id }}</span>
+            </div>
+            {% if customer_id %}
+            <div class="info-row">
+                <span class="label">Member #:</span>
+                <span class="value">{{ customer_id }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Divider -->
+        <div class="receipt-divider"></div>
+
+        <!-- Items Purchased -->
+        <div class="items-section">
+            <table class="items-table">
+                <tbody>
+                    {% for item in line_items %}
+                    <tr class="item-row">
+                        <td class="item-name" colspan="3">{{ item.description }}</td>
+                    </tr>
+                    <tr class="item-details">
+                        <td class="item-sku">UPC: {{ item.upc }}</td>
+                        <td class="item-quantity">{{ item.quantity }} @ {{ item.unit_price }}</td>
+                        <td class="item-total">{{ item.total }}</td>
+                    </tr>
+                    {% if item.promotion %}
+                    <tr class="promotion-row">
+                        <td class="promotion-label" colspan="2">🏷️ {{ item.promotion }}</td>
+                        <td class="discount-amount">-{{ item.discount }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if item.rewards_earned %}
+                    <tr class="rewards-row">
+                        <td colspan="3" class="rewards-label">⭐ {{ item.rewards_earned }} pts</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Divider -->
+        <div class="receipt-divider"></div>
+
+        <!-- Totals -->
+        <div class="totals-section">
+            <div class="total-row">
+                <span class="total-label">Subtotal:</span>
+                <span class="total-value">{{ subtotal }}</span>
+            </div>
+            {% if total_discount > 0 %}
+            <div class="total-row discount-total">
+                <span class="total-label">Total Savings:</span>
+                <span class="total-value">-{{ total_discount }}</span>
+            </div>
+            {% endif %}
+            <div class="total-row">
+                <span class="total-label">Tax ({{ tax_rate }}%):</span>
+                <span class="total-value">{{ tax_amount }}</span>
+            </div>
+            {% if tip_amount > 0 %}
+            <div class="total-row">
+                <span class="total-label">Tip:</span>
+                <span class="total-value">{{ tip_amount }}</span>
+            </div>
+            {% endif %}
+            <div class="total-row grand-total">
+                <span class="total-label">TOTAL:</span>
+                <span class="total-value">{{ total_amount }}</span>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="receipt-divider"></div>
+
+        <!-- Payment Information -->
+        <div class="payment-section">
+            <h3 class="section-title">Payment Method</h3>
+            <div class="payment-row">
+                <span class="payment-label">{{ payment_method }}</span>
+                <span class="payment-value">{{ total_amount }}</span>
+            </div>
+            {% if payment_method == "Card" or payment_method == "Credit Card" or payment_method == "Debit Card" %}
+            <div class="card-details">
+                <p class="card-type">{{ card_type }} ending in {{ card_last_four }}</p>
+                {% if approval_code %}
+                <p class="approval-code">Approval Code: {{ approval_code }}</p>
+                {% endif %}
+                {% if transaction_id %}
+                <p class="transaction-id">Transaction ID: {{ transaction_id }}</p>
+                {% endif %}
+            </div>
+            {% endif %}
+            {% if payment_method == "Cash" %}
+            <div class="cash-details">
+                <div class="payment-row">
+                    <span class="payment-label">Cash Tendered:</span>
+                    <span class="payment-value">{{ cash_tendered }}</span>
+                </div>
+                <div class="payment-row change-row">
+                    <span class="payment-label">Change:</span>
+                    <span class="payment-value">{{ change_amount }}</span>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Loyalty/Rewards Info -->
+        {% if loyalty_points_earned or loyalty_points_balance %}
+        <div class="receipt-divider"></div>
+        <div class="loyalty-section">
+            <h3 class="section-title">Rewards Program</h3>
+            {% if loyalty_points_earned %}
+            <p class="loyalty-info">Points Earned: <strong>{{ loyalty_points_earned }}</strong></p>
+            {% endif %}
+            {% if loyalty_points_balance %}
+            <p class="loyalty-info">Points Balance: <strong>{{ loyalty_points_balance }}</strong></p>
+            {% endif %}
+            {% if loyalty_rewards_available %}
+            <p class="loyalty-rewards">🎁 You have {{ loyalty_rewards_available }} rewards available!</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Divider -->
+        <div class="receipt-divider"></div>
+
+        <!-- Return Policy -->
+        <div class="return-policy-section">
+            <h3 class="section-title">Return Policy</h3>
+            <p class="policy-text">{{ return_policy }}</p>
+        </div>
+
+        <!-- Divider -->
+        <div class="receipt-divider"></div>
+
+        <!-- Survey/Feedback -->
+        {% if survey_url %}
+        <div class="survey-section">
+            <h3 class="section-title">We Value Your Feedback!</h3>
+            <p class="survey-text">Complete our survey for a chance to win!</p>
+            <p class="survey-url">{{ survey_url }}</p>
+            <p class="survey-code">Survey Code: {{ survey_code }}</p>
+        </div>
+        <div class="receipt-divider"></div>
+        {% endif %}
+
+        <!-- Barcode -->
+        {% if barcode_value %}
+        <div class="barcode-section">
+            <div class="barcode">
+                <img src="{{ barcode_image }}" alt="Barcode" class="barcode-image">
+            </div>
+            <p class="barcode-value">{{ barcode_value }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Footer Message -->
+        <div class="receipt-footer">
+            <p class="footer-message">{{ footer_message }}</p>
+            <p class="footer-thank-you">Thank You For Your Business!</p>
+            <p class="footer-visit-again">Please Visit Again!</p>
+        </div>
+    </div>
+</body>
+</html>

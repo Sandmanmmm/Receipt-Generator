@@ -1,0 +1,730 @@
+/* Wholesale Receipt Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-size: 9pt;
+    line-height: 1.3;
+    color: #000000;
+    background: #ffffff;
+}
+
+.wholesale-receipt {
+    max-width: 80mm;
+    margin: 0 auto;
+    padding: 3mm;
+    background: #ffffff;
+}
+
+/* Header */
+.receipt-header {
+    text-align: center;
+    margin-bottom: 4mm;
+}
+
+.store-name {
+    font-size: 14pt;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 1mm;
+}
+
+.store-type {
+    font-size: 11pt;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5mm;
+}
+
+.member-services {
+    font-size: 8pt;
+    margin-bottom: 2mm;
+}
+
+.store-address,
+.store-location {
+    font-size: 8.5pt;
+    margin-bottom: 0.5mm;
+}
+
+.store-contact {
+    font-size: 8pt;
+    margin-top: 1mm;
+}
+
+/* Member Banner */
+.member-banner {
+    display: flex;
+    flex-direction: column;
+    gap: 2mm;
+    padding: 3mm;
+    background: #f3f4f6;
+    border: 2px solid #000000;
+    margin-bottom: 3mm;
+}
+
+.member-info-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.member-label {
+    font-size: 8pt;
+    font-weight: 700;
+}
+
+.member-number {
+    font-size: 11pt;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 1px;
+}
+
+.member-name {
+    font-size: 10pt;
+    font-weight: 700;
+}
+
+.member-tier-badge {
+    padding: 2mm;
+    text-align: center;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border: 2px solid #000000;
+    margin-top: 1mm;
+}
+
+.member-tier-badge.executive,
+.member-tier-badge.business,
+.member-tier-badge.platinum {
+    background: #000000;
+    color: #ffffff;
+}
+
+.member-tier-badge.gold {
+    background: #fbbf24;
+    color: #000000;
+}
+
+.member-tier-badge.standard {
+    background: #ffffff;
+    color: #000000;
+}
+
+/* Business Account Section */
+.business-account-section {
+    padding: 3mm;
+    border: 2px dashed #000000;
+    margin-bottom: 3mm;
+    background: #fffbeb;
+}
+
+.business-header {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    margin-bottom: 2mm;
+    padding-bottom: 1.5mm;
+    border-bottom: 1px solid #000000;
+}
+
+.business-icon {
+    font-size: 11pt;
+}
+
+.business-title {
+    font-size: 9.5pt;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.business-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1mm;
+}
+
+.business-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 8.5pt;
+}
+
+.business-label {
+    font-weight: 700;
+}
+
+.business-value {
+    font-family: 'Courier New', monospace;
+}
+
+/* Transaction Info */
+.transaction-info {
+    margin-bottom: 3mm;
+    font-size: 8.5pt;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5mm;
+}
+
+.info-label {
+    font-weight: 700;
+}
+
+.info-value {
+    font-family: 'Courier New', monospace;
+}
+
+/* Dividers */
+.section-divider {
+    border-top: 2px solid #000000;
+    margin: 3mm 0;
+}
+
+.section-divider-thin {
+    border-top: 1px solid #000000;
+    margin: 2mm 0;
+}
+
+/* Items Section */
+.items-section {
+    margin-bottom: 3mm;
+}
+
+.items-header {
+    font-size: 10pt;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 1px;
+    padding: 2mm 0;
+    border-top: 2px solid #000000;
+    border-bottom: 2px solid #000000;
+    margin-bottom: 3mm;
+}
+
+/* Item Block */
+.item-block {
+    margin-bottom: 4mm;
+    padding-bottom: 3mm;
+    border-bottom: 1px dashed #999999;
+}
+
+.item-block:last-child {
+    border-bottom: none;
+}
+
+.item-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5mm;
+}
+
+.item-name {
+    flex: 1;
+    font-size: 9.5pt;
+    font-weight: 700;
+    padding-right: 2mm;
+    line-height: 1.3;
+}
+
+.item-total-price {
+    font-size: 10pt;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.item-details-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 8pt;
+    color: #4b5563;
+    margin-bottom: 2mm;
+}
+
+.item-sku {
+    font-family: 'Courier New', monospace;
+}
+
+.item-brand {
+    font-weight: 600;
+}
+
+/* Bulk Quantity Display */
+.bulk-quantity-row {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5mm;
+    margin-bottom: 2mm;
+    padding: 2mm;
+    background: #f9fafb;
+    border-left: 3px solid #000000;
+}
+
+.case-info,
+.pallet-info,
+.unit-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5mm;
+    font-size: 9pt;
+}
+
+.quantity-icon {
+    font-size: 11pt;
+}
+
+.quantity-text {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.case-detail,
+.pallet-detail {
+    font-size: 8pt;
+    color: #6b7280;
+}
+
+/* Pricing Row */
+.pricing-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5mm;
+    font-size: 8.5pt;
+}
+
+.unit-price {
+    display: flex;
+    gap: 1.5mm;
+}
+
+.price-label {
+    font-weight: 600;
+}
+
+.price-value {
+    font-weight: 700;
+}
+
+.tiered-savings {
+    display: flex;
+    align-items: center;
+    gap: 1mm;
+    font-size: 8pt;
+    color: #059669;
+}
+
+.savings-icon {
+    font-size: 10pt;
+}
+
+.savings-text {
+    font-weight: 700;
+}
+
+/* Member Savings Row */
+.member-savings-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5mm;
+    background: #dcfce7;
+    border: 1px solid #059669;
+    margin-bottom: 1.5mm;
+}
+
+.savings-badge {
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #065f46;
+}
+
+.savings-amount {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #059669;
+}
+
+/* Weight Info */
+.weight-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 8pt;
+    margin-bottom: 1mm;
+}
+
+.weight-label {
+    font-weight: 600;
+}
+
+.weight-value {
+    font-weight: 700;
+}
+
+/* Deposit Info */
+.deposit-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 8pt;
+    color: #6b7280;
+    margin-bottom: 1mm;
+}
+
+.deposit-label {
+    font-weight: 600;
+}
+
+.deposit-value {
+    font-weight: 700;
+}
+
+/* Expiry Info */
+.expiry-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5mm;
+    font-size: 8pt;
+    color: #dc2626;
+    margin-bottom: 1mm;
+}
+
+.expiry-icon {
+    font-size: 10pt;
+}
+
+.expiry-text {
+    font-weight: 600;
+}
+
+/* Origin Info */
+.origin-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 8pt;
+    color: #6b7280;
+}
+
+.origin-label {
+    font-weight: 600;
+}
+
+.origin-value {
+    font-weight: 700;
+}
+
+/* Totals Section */
+.totals-section {
+    margin-bottom: 3mm;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5mm 0;
+    font-size: 9.5pt;
+}
+
+.total-label {
+    font-weight: 700;
+}
+
+.total-value {
+    font-weight: 700;
+}
+
+.savings-row {
+    color: #059669;
+}
+
+.savings-row .total-value {
+    font-weight: 700;
+}
+
+.tax-exempt-row {
+    font-style: italic;
+}
+
+.tax-exempt-notice {
+    font-size: 7.5pt;
+    text-align: right;
+    color: #6b7280;
+    margin-top: 0.5mm;
+    margin-bottom: 1.5mm;
+}
+
+.grand-total {
+    font-size: 12pt;
+    padding: 3mm 0;
+    border-top: 2px solid #000000;
+    border-bottom: 2px solid #000000;
+}
+
+/* Payment Section */
+.payment-section {
+    margin-bottom: 3mm;
+}
+
+.payment-header {
+    font-size: 9.5pt;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-align: center;
+    padding: 1.5mm 0;
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+    margin-bottom: 2mm;
+}
+
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 1mm 0;
+    font-size: 9.5pt;
+}
+
+.payment-label {
+    font-weight: 700;
+}
+
+.payment-value {
+    font-weight: 700;
+}
+
+.payment-details {
+    margin-top: 1.5mm;
+    padding-top: 1.5mm;
+    border-top: 1px dashed #999999;
+    font-size: 8pt;
+}
+
+.card-info {
+    font-family: 'Courier New', monospace;
+    margin-bottom: 0.5mm;
+}
+
+.approval-info {
+    font-size: 7.5pt;
+    color: #6b7280;
+}
+
+/* Rewards Section */
+.rewards-section {
+    margin-bottom: 3mm;
+    padding: 3mm;
+    background: #fef3c7;
+    border: 2px solid #fbbf24;
+}
+
+.rewards-header {
+    font-size: 9.5pt;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.5px;
+    margin-bottom: 2mm;
+    padding-bottom: 1.5mm;
+    border-bottom: 1px solid #f59e0b;
+}
+
+.rewards-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 1mm 0;
+    font-size: 9pt;
+}
+
+.rewards-label {
+    font-weight: 600;
+}
+
+.rewards-value {
+    font-weight: 700;
+}
+
+.rewards-row.balance {
+    margin-top: 1.5mm;
+    padding-top: 1.5mm;
+    border-top: 1px dashed #f59e0b;
+    font-size: 9.5pt;
+}
+
+.rewards-row.balance .rewards-label,
+.rewards-row.balance .rewards-value {
+    font-weight: 700;
+}
+
+/* Savings Summary */
+.savings-summary {
+    margin-bottom: 3mm;
+    padding: 4mm;
+    background: #000000;
+    color: #ffffff;
+    text-align: center;
+}
+
+.savings-summary-header {
+    font-size: 10pt;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 2mm;
+}
+
+.savings-summary-amount {
+    font-size: 18pt;
+    font-weight: 700;
+    margin-bottom: 2mm;
+}
+
+.savings-summary-text {
+    font-size: 9pt;
+    letter-spacing: 0.5px;
+}
+
+/* Policy Section */
+.policy-section {
+    margin-bottom: 3mm;
+    padding: 2.5mm;
+    border: 1px solid #d1d5db;
+    background: #f9fafb;
+}
+
+.policy-title {
+    font-size: 9pt;
+    font-weight: 700;
+    margin-bottom: 1.5mm;
+    text-align: center;
+}
+
+.policy-text {
+    font-size: 7.5pt;
+    line-height: 1.4;
+    color: #4b5563;
+    margin-bottom: 1mm;
+}
+
+/* Benefits Section */
+.benefits-section {
+    margin-bottom: 3mm;
+    padding: 2.5mm;
+    background: #ede9fe;
+    border: 1px solid #a78bfa;
+}
+
+.benefits-title {
+    font-size: 9pt;
+    font-weight: 700;
+    margin-bottom: 1.5mm;
+    text-align: center;
+}
+
+.benefits-text {
+    font-size: 7.5pt;
+    line-height: 1.5;
+    color: #4c1d95;
+}
+
+/* Contact Section */
+.contact-section {
+    margin-bottom: 3mm;
+    text-align: center;
+}
+
+.contact-title {
+    font-size: 9pt;
+    font-weight: 700;
+    margin-bottom: 1.5mm;
+}
+
+.contact-text {
+    font-size: 8pt;
+    line-height: 1.4;
+}
+
+/* Barcode */
+.barcode-section {
+    text-align: center;
+    margin-bottom: 3mm;
+}
+
+.barcode-image {
+    font-family: 'Libre Barcode 128', 'Libre Barcode 39', monospace;
+    font-size: 40pt;
+    letter-spacing: -2px;
+    margin-bottom: 1mm;
+}
+
+.barcode-number {
+    font-size: 9pt;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+}
+
+/* Footer Message */
+.footer-message {
+    text-align: center;
+    font-size: 9.5pt;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+    margin-bottom: 3mm;
+}
+
+/* Survey Section */
+.survey-section {
+    text-align: center;
+    padding: 2.5mm;
+    border: 2px dashed #000000;
+    margin-bottom: 2mm;
+}
+
+.survey-text {
+    font-size: 9.5pt;
+    font-weight: 700;
+    margin-bottom: 1mm;
+}
+
+.survey-url {
+    font-size: 8pt;
+    margin-bottom: 1mm;
+}
+
+.survey-code {
+    font-size: 9pt;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    margin-bottom: 1.5mm;
+}
+
+.survey-incentive {
+    font-size: 7.5pt;
+    color: #6b7280;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .wholesale-receipt {
+        max-width: 100%;
+        margin: 0;
+        padding: 2mm;
+    }
+    
+    .section-divider {
+        border-top: 1px solid #000000;
+    }
+}

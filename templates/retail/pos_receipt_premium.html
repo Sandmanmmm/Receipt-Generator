@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt - Premium</title>
+    <link rel="stylesheet" href="../css/pos_receipt_premium.css">
+</head>
+<body>
+    <div class="premium-receipt">
+        <!-- Luxury retail style - spacious, branded, high-end aesthetic -->
+        
+        <!-- Brand Header with Logo Space -->
+        <div class="brand-header">
+            <div class="brand-logo-space">
+                <!-- Logo placeholder -->
+                <div class="logo-mark">{{ supplier_initials }}</div>
+            </div>
+            <h1 class="brand-name">{{ supplier_name }}</h1>
+            <p class="brand-location">{{ store_location }}</p>
+        </div>
+
+        <!-- Elegant divider -->
+        <div class="elegant-divider"></div>
+
+        <!-- Transaction Details - Spacious Layout -->
+        <div class="transaction-details">
+            <div class="detail-group">
+                <div class="detail-item">
+                    <span class="detail-label">Receipt Number</span>
+                    <span class="detail-value">{{ invoice_number }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Date</span>
+                    <span class="detail-value">{{ invoice_date }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Time</span>
+                    <span class="detail-value">{{ transaction_time }}</span>
+                </div>
+            </div>
+            
+            <div class="detail-group">
+                <div class="detail-item">
+                    <span class="detail-label">Sales Associate</span>
+                    <span class="detail-value">{{ cashier_name }}</span>
+                </div>
+                {% if customer_id %}
+                <div class="detail-item">
+                    <span class="detail-label">Member</span>
+                    <span class="detail-value">{{ customer_name }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Elegant divider -->
+        <div class="elegant-divider"></div>
+
+        <!-- Items Section - Spacious, Clean -->
+        <div class="items-section">
+            <h2 class="section-title">Items Purchased</h2>
+            
+            {% for item in line_items %}
+            <div class="item-card">
+                <div class="item-header">
+                    <h3 class="item-name">{{ item.description }}</h3>
+                    <span class="item-amount">{{ item.total }}</span>
+                </div>
+                
+                <div class="item-details">
+                    {% if item.sku %}
+                    <span class="item-sku">{{ item.sku }}</span>
+                    {% endif %}
+                    <span class="item-quantity">Quantity: {{ item.quantity }}</span>
+                    <span class="item-price">{{ item.unit_price }} each</span>
+                </div>
+                
+                {% if item.promotion %}
+                <div class="item-promotion">
+                    <span class="promo-badge">SPECIAL OFFER</span>
+                    <span class="promo-text">{{ item.promotion }}</span>
+                    <span class="promo-savings">Save {{ item.discount }}</span>
+                </div>
+                {% endif %}
+                
+                {% if item.rewards_earned %}
+                <div class="item-rewards">
+                    <span class="rewards-badge">✦</span>
+                    <span class="rewards-text">{{ item.rewards_earned }} rewards points earned</span>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Elegant divider -->
+        <div class="elegant-divider"></div>
+
+        <!-- Summary Section - Right-Aligned, Spacious -->
+        <div class="summary-section">
+            <div class="summary-box">
+                <div class="summary-row">
+                    <span class="summary-label">Subtotal</span>
+                    <span class="summary-value">{{ subtotal }}</span>
+                </div>
+                
+                {% if total_discount > 0 %}
+                <div class="summary-row savings-highlight">
+                    <span class="summary-label">Total Savings</span>
+                    <span class="summary-value savings">{{ total_discount }}</span>
+                </div>
+                {% endif %}
+                
+                <div class="summary-row">
+                    <span class="summary-label">Tax</span>
+                    <span class="summary-value">{{ tax_amount }}</span>
+                </div>
+                
+                {% if tip_amount > 0 %}
+                <div class="summary-row">
+                    <span class="summary-label">Gratuity</span>
+                    <span class="summary-value">{{ tip_amount }}</span>
+                </div>
+                {% endif %}
+                
+                <div class="summary-divider"></div>
+                
+                <div class="summary-row total-row">
+                    <span class="summary-label">Total</span>
+                    <span class="summary-value">{{ total_amount }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Elegant divider -->
+        <div class="elegant-divider"></div>
+
+        <!-- Payment Information - Clean Layout -->
+        <div class="payment-section">
+            <h2 class="section-title">Payment</h2>
+            
+            <div class="payment-info">
+                {% if payment_method == "Cash" %}
+                <div class="payment-row">
+                    <span class="payment-label">Payment Method</span>
+                    <span class="payment-value">Cash</span>
+                </div>
+                <div class="payment-row">
+                    <span class="payment-label">Amount Tendered</span>
+                    <span class="payment-value">{{ cash_tendered }}</span>
+                </div>
+                <div class="payment-row">
+                    <span class="payment-label">Change</span>
+                    <span class="payment-value">{{ change_amount }}</span>
+                </div>
+                {% else %}
+                <div class="payment-row">
+                    <span class="payment-label">Payment Method</span>
+                    <span class="payment-value">{{ card_type }}</span>
+                </div>
+                <div class="payment-row">
+                    <span class="payment-label">Card Number</span>
+                    <span class="payment-value">•••• •••• •••• {{ card_last_four }}</span>
+                </div>
+                {% if approval_code %}
+                <div class="payment-row">
+                    <span class="payment-label">Approval Code</span>
+                    <span class="payment-value">{{ approval_code }}</span>
+                </div>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Rewards Program - If Applicable -->
+        {% if loyalty_points_earned or loyalty_points_balance %}
+        <div class="subtle-divider"></div>
+        
+        <div class="rewards-section">
+            <h2 class="section-title">Rewards Program</h2>
+            
+            <div class="rewards-summary-card">
+                {% if loyalty_points_earned %}
+                <div class="rewards-earned">
+                    <span class="rewards-icon">✦</span>
+                    <div class="rewards-content">
+                        <p class="rewards-amount">{{ loyalty_points_earned }} Points</p>
+                        <p class="rewards-subtext">Earned with this purchase</p>
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if loyalty_points_balance %}
+                <div class="rewards-balance">
+                    <p class="balance-label">Total Balance</p>
+                    <p class="balance-amount">{{ loyalty_points_balance }} Points</p>
+                </div>
+                {% endif %}
+                
+                {% if loyalty_rewards_available %}
+                <div class="rewards-available">
+                    <p class="rewards-message">You have {{ loyalty_rewards_available }} reward{{ 's' if loyalty_rewards_available != 1 else '' }} available!</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Elegant divider -->
+        <div class="elegant-divider"></div>
+
+        <!-- Store Information Footer -->
+        <div class="store-footer">
+            <div class="footer-info">
+                <p class="store-address">{{ supplier_address }}</p>
+                <p class="store-contact">{{ supplier_phone }} • {{ supplier_email }}</p>
+                {% if store_website %}
+                <p class="store-website">{{ store_website }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Return Policy - Clean, Readable -->
+        <div class="policy-section">
+            <h3 class="policy-title">Return Policy</h3>
+            <p class="policy-text">{{ return_policy }}</p>
+        </div>
+
+        <!-- Thank You Message - Elegant -->
+        <div class="thank-you-section">
+            <p class="thank-you-message">Thank you for your purchase</p>
+            <p class="visit-again">We look forward to serving you again</p>
+        </div>
+
+        <!-- Barcode (if needed) -->
+        {% if barcode_value %}
+        <div class="barcode-area">
+            <div class="barcode-visual">|||| |||| |||| |||| ||||</div>
+            <p class="barcode-number">{{ barcode_value }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

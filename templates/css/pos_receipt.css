@@ -1,0 +1,377 @@
+/* POS Receipt Styling - Thermal Printer Style */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-size: 10pt;
+    line-height: 1.4;
+    color: #000000;
+    background: #ffffff;
+}
+
+.pos-receipt {
+    max-width: 80mm;
+    margin: 0 auto;
+    padding: 5mm;
+    background: #ffffff;
+}
+
+/* Header */
+.receipt-header {
+    text-align: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px dashed #000000;
+}
+
+.store-name {
+    font-size: 16pt;
+    font-weight: 800;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.store-address {
+    font-size: 9pt;
+    margin-bottom: 3px;
+}
+
+.store-contact {
+    font-size: 9pt;
+    margin-bottom: 3px;
+}
+
+.store-website {
+    font-size: 8pt;
+    margin-top: 5px;
+}
+
+/* Transaction Info */
+.transaction-info {
+    margin-bottom: 12px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9pt;
+    margin: 3px 0;
+}
+
+.info-row .label {
+    font-weight: 700;
+}
+
+.info-row .value {
+    font-weight: 700;
+}
+
+.register-number,
+.cashier-id {
+    font-weight: 800;
+}
+
+/* Divider */
+.receipt-divider {
+    border-bottom: 1px dashed #000000;
+    margin: 10px 0;
+}
+
+/* Items Section */
+.items-section {
+    margin-bottom: 12px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.item-row td {
+    padding: 5px 0 2px 0;
+}
+
+.item-name {
+    font-weight: 700;
+    font-size: 10pt;
+}
+
+.item-details td {
+    font-size: 8pt;
+    padding: 0 0 8px 0;
+}
+
+.item-sku {
+    color: #555555;
+}
+
+.item-quantity {
+    text-align: center;
+    color: #555555;
+}
+
+.item-total {
+    text-align: right;
+    font-weight: 700;
+}
+
+.discount-row td {
+    font-size: 8pt;
+    padding: 2px 0;
+    font-style: italic;
+}
+
+.discount-label {
+    color: #555555;
+}
+
+.discount-amount {
+    text-align: right;
+    font-weight: 700;
+}
+
+.tax-exempt-row td {
+    font-size: 7pt;
+    padding: 2px 0;
+    font-style: italic;
+    color: #555555;
+}
+
+/* Totals Section */
+.totals-section {
+    margin-bottom: 12px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10pt;
+    margin: 5px 0;
+}
+
+.total-label {
+    font-weight: 600;
+}
+
+.total-value {
+    font-weight: 700;
+}
+
+.discount-total {
+    font-style: italic;
+}
+
+.discount-total .total-value {
+    font-weight: 700;
+}
+
+.grand-total {
+    font-size: 14pt;
+    font-weight: 800;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 2px solid #000000;
+}
+
+.grand-total .total-label {
+    font-weight: 800;
+}
+
+.grand-total .total-value {
+    font-weight: 800;
+}
+
+/* Payment Section */
+.payment-section {
+    margin-bottom: 12px;
+}
+
+.section-title {
+    font-size: 10pt;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10pt;
+    margin: 5px 0;
+}
+
+.payment-label {
+    font-weight: 700;
+}
+
+.payment-value {
+    font-weight: 700;
+}
+
+.card-details {
+    margin-top: 8px;
+}
+
+.card-details p {
+    font-size: 8pt;
+    margin: 3px 0;
+    color: #555555;
+}
+
+.card-type {
+    font-weight: 700;
+    color: #000000;
+}
+
+.approval-code,
+.transaction-id {
+    font-family: 'Courier New', monospace;
+}
+
+.cash-details {
+    margin-top: 8px;
+}
+
+.change-row {
+    font-size: 12pt;
+    font-weight: 800;
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid #000000;
+}
+
+/* Loyalty Section */
+.loyalty-section {
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.loyalty-info {
+    font-size: 9pt;
+    margin: 5px 0;
+}
+
+.loyalty-rewards {
+    font-size: 10pt;
+    font-weight: 700;
+    margin-top: 8px;
+}
+
+/* Return Policy */
+.return-policy-section {
+    margin-bottom: 12px;
+}
+
+.policy-text {
+    font-size: 7pt;
+    line-height: 1.5;
+    text-align: center;
+    color: #555555;
+}
+
+/* Survey Section */
+.survey-section {
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.survey-text {
+    font-size: 9pt;
+    margin: 5px 0;
+}
+
+.survey-url {
+    font-size: 9pt;
+    font-weight: 700;
+    margin: 8px 0;
+}
+
+.survey-code {
+    font-size: 10pt;
+    font-weight: 800;
+    margin: 5px 0;
+    letter-spacing: 2px;
+}
+
+/* Barcode Section */
+.barcode-section {
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.barcode {
+    margin: 10px 0;
+}
+
+.barcode-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.barcode-value {
+    font-size: 9pt;
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+}
+
+/* Footer */
+.receipt-footer {
+    text-align: center;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 2px dashed #000000;
+}
+
+.footer-message {
+    font-size: 8pt;
+    margin-bottom: 8px;
+    color: #555555;
+}
+
+.footer-thank-you {
+    font-size: 12pt;
+    font-weight: 800;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.footer-visit-again {
+    font-size: 10pt;
+    font-weight: 700;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .pos-receipt {
+        max-width: 80mm;
+        padding: 5mm;
+    }
+
+    /* Prevent page breaks in critical sections */
+    .receipt-header,
+    .transaction-info {
+        page-break-after: avoid;
+    }
+
+    .totals-section,
+    .payment-section {
+        page-break-inside: avoid;
+    }
+
+    .receipt-footer {
+        page-break-before: auto;
+    }
+}

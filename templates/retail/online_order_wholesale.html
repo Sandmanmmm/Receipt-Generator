@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wholesale Order</title>
+    <link rel="stylesheet" href="../css/online_order_wholesale.css">
+</head>
+<body>
+    <div class="wholesale-invoice">
+        <!-- Header -->
+        <div class="invoice-header">
+            <div class="company-branding">
+                <div class="logo-wholesale">
+                    <span class="logo-icon">🏭</span>
+                </div>
+                <div class="company-info">
+                    <div class="company-name">{{ company_name }}</div>
+                    <div class="company-tagline">{{ tagline }}</div>
+                </div>
+            </div>
+            <div class="invoice-info">
+                <div class="invoice-badge">WHOLESALE ORDER</div>
+                <div class="order-number">{{ order_number }}</div>
+                <div class="order-date">{{ order_date }}</div>
+            </div>
+        </div>
+
+        <!-- Business Account Banner -->
+        <div class="business-banner">
+            <div class="banner-icon">🏢</div>
+            <div class="banner-content">
+                <div class="banner-title">Business Account Order</div>
+                <div class="banner-subtitle">Account #{{ account_number }} • {{ account_status }} Status</div>
+            </div>
+            {% if credit_line %}
+            <div class="credit-info">
+                <span class="credit-label">Credit Line:</span>
+                <span class="credit-amount">{{ credit_line }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Customer Information -->
+        <div class="customer-section">
+            <div class="section-row">
+                <!-- Billing Address -->
+                <div class="address-card">
+                    <div class="card-title">Billing Information</div>
+                    <div class="customer-name">{{ billing_company_name }}</div>
+                    <div class="customer-contact">{{ billing_contact_person }}</div>
+                    <div class="customer-address">{{ billing_street_address }}</div>
+                    <div class="customer-city">{{ billing_city }}, {{ billing_state }} {{ billing_zip }}</div>
+                    <div class="customer-email">{{ billing_email }}</div>
+                    <div class="customer-phone">{{ billing_phone }}</div>
+                    <div class="tax-id-info">
+                        <div class="tax-row">
+                            <span class="tax-label">Tax ID:</span>
+                            <span class="tax-value">{{ tax_id }}</span>
+                        </div>
+                        {% if resale_certificate %}
+                        <div class="tax-row">
+                            <span class="tax-label">Resale Cert:</span>
+                            <span class="tax-value">{{ resale_certificate }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Shipping Address -->
+                <div class="address-card">
+                    <div class="card-title">Shipping Information</div>
+                    <div class="customer-name">{{ shipping_company_name }}</div>
+                    <div class="customer-contact">{{ shipping_contact_person }}</div>
+                    <div class="customer-address">{{ shipping_street_address }}</div>
+                    <div class="customer-city">{{ shipping_city }}, {{ shipping_state }} {{ shipping_zip }}</div>
+                    <div class="customer-email">{{ shipping_email }}</div>
+                    <div class="customer-phone">{{ shipping_phone }}</div>
+                    {% if warehouse_location %}
+                    <div class="warehouse-info">
+                        <span class="warehouse-icon">📍</span>
+                        <span class="warehouse-text">Warehouse: {{ warehouse_location }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Details -->
+        <div class="order-details-section">
+            <div class="details-row">
+                <div class="detail-item">
+                    <div class="detail-label">PO Number</div>
+                    <div class="detail-value">{{ po_number }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Order Date</div>
+                    <div class="detail-value">{{ order_date }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Ship Date</div>
+                    <div class="detail-value">{{ ship_date }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Delivery Method</div>
+                    <div class="detail-value">{{ delivery_method }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Payment Terms</div>
+                    <div class="detail-value payment-terms">{{ payment_terms }}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Sales Rep</div>
+                    <div class="detail-value">{{ sales_rep }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Section -->
+        <div class="products-section">
+            <div class="section-heading">
+                <span class="heading-icon">📦</span>
+                <span>Order Items</span>
+            </div>
+
+            <!-- Product Table -->
+            <div class="product-table">
+                <div class="table-header">
+                    <div class="col-product">Product</div>
+                    <div class="col-sku">SKU</div>
+                    <div class="col-quantity">Quantity</div>
+                    <div class="col-unit-price">Unit Price</div>
+                    <div class="col-discount">Discount</div>
+                    <div class="col-total">Total</div>
+                </div>
+
+                {% for item in items %}
+                <div class="product-row">
+                    <div class="product-cell">
+                        <div class="product-main">
+                            <div class="product-name">{{ item.name }}</div>
+                            {% if item.description %}
+                            <div class="product-description">{{ item.description }}</div>
+                            {% endif %}
+                            {% if item.brand %}
+                            <div class="product-brand">Brand: {{ item.brand }}</div>
+                            {% endif %}
+                            {% if item.manufacturer %}
+                            <div class="product-manufacturer">Mfr: {{ item.manufacturer }}</div>
+                            {% endif %}
+                            
+                            <!-- Product Attributes -->
+                            <div class="product-attributes">
+                                {% if item.country_of_origin %}
+                                <span class="attribute-badge">
+                                    <span class="attribute-icon">🌍</span>
+                                    <span class="attribute-text">Origin: {{ item.country_of_origin }}</span>
+                                </span>
+                                {% endif %}
+                                {% if item.weight %}
+                                <span class="attribute-badge">
+                                    <span class="attribute-icon">⚖️</span>
+                                    <span class="attribute-text">{{ item.weight }} {{ item.weight_unit }}</span>
+                                </span>
+                                {% endif %}
+                                {% if item.dimensions %}
+                                <span class="attribute-badge">
+                                    <span class="attribute-icon">📏</span>
+                                    <span class="attribute-text">{{ item.dimensions }}</span>
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sku-cell">
+                        <div class="sku-value">{{ item.sku }}</div>
+                        {% if item.upc %}
+                        <div class="upc-value">UPC: {{ item.upc }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="quantity-cell">
+                        <!-- Bulk Quantity Display -->
+                        <div class="quantity-display">
+                            {% if item.pallet_quantity %}
+                            <div class="pallet-quantity">
+                                <span class="qty-icon">🚛</span>
+                                <span class="qty-number">{{ item.pallet_quantity }}</span>
+                                <span class="qty-unit">Pallet{{ 's' if item.pallet_quantity > 1 else '' }}</span>
+                            </div>
+                            <div class="qty-breakdown">
+                                {{ item.cases_per_pallet }} cases/pallet × {{ item.units_per_case }} units/case
+                            </div>
+                            <div class="qty-total">
+                                = {{ item.total_units }} total units
+                            </div>
+                            {% elif item.case_quantity %}
+                            <div class="case-quantity">
+                                <span class="qty-icon">📦</span>
+                                <span class="qty-number">{{ item.case_quantity }}</span>
+                                <span class="qty-unit">Case{{ 's' if item.case_quantity > 1 else '' }}</span>
+                            </div>
+                            <div class="qty-breakdown">
+                                {{ item.units_per_case }} units/case
+                            </div>
+                            <div class="qty-total">
+                                = {{ item.total_units }} total units
+                            </div>
+                            {% else %}
+                            <div class="unit-quantity">
+                                <span class="qty-number">{{ item.quantity }}</span>
+                                <span class="qty-unit">Unit{{ 's' if item.quantity > 1 else '' }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- MOQ Notice -->
+                        {% if item.moq %}
+                        <div class="moq-notice">
+                            <span class="moq-icon">ℹ️</span>
+                            <span class="moq-text">MOQ: {{ item.moq }} units</span>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="unit-price-cell">
+                        {% if item.pallet_quantity %}
+                        <div class="price-display">{{ item.price_per_pallet }}</div>
+                        <div class="price-unit">/pallet</div>
+                        {% elif item.case_quantity %}
+                        <div class="price-display">{{ item.price_per_case }}</div>
+                        <div class="price-unit">/case</div>
+                        {% else %}
+                        <div class="price-display">{{ item.unit_price }}</div>
+                        <div class="price-unit">/unit</div>
+                        {% endif %}
+
+                        <!-- Tiered Pricing Info -->
+                        {% if item.tiered_pricing %}
+                        <div class="tiered-pricing-info">
+                            <div class="tier-badge">Tier {{ item.price_tier }}</div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="discount-cell">
+                        {% if item.volume_discount_percentage %}
+                        <div class="discount-percentage">{{ item.volume_discount_percentage }}%</div>
+                        <div class="discount-amount">-{{ item.volume_discount_amount }}</div>
+                        <div class="discount-label">Volume</div>
+                        {% elif item.promotional_discount %}
+                        <div class="discount-amount">-{{ item.promotional_discount }}</div>
+                        <div class="discount-label">Promo</div>
+                        {% else %}
+                        <div class="no-discount">—</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="total-cell">
+                        <div class="item-total">{{ item.line_total }}</div>
+                    </div>
+                </div>
+
+                <!-- Tiered Pricing Table (expanded view) -->
+                {% if item.show_tiered_pricing_table %}
+                <div class="tiered-pricing-table">
+                    <div class="tier-table-title">Volume Pricing Tiers</div>
+                    <div class="tier-table-header">
+                        <div class="tier-col-qty">Quantity</div>
+                        <div class="tier-col-price">Price per Unit</div>
+                        <div class="tier-col-savings">Savings</div>
+                    </div>
+                    {% for tier in item.pricing_tiers %}
+                    <div class="tier-row {{ 'active' if tier.is_current else '' }}">
+                        <div class="tier-qty">{{ tier.min_quantity }}+ units</div>
+                        <div class="tier-price">{{ tier.unit_price }}</div>
+                        <div class="tier-savings">{{ tier.savings_percentage }}%</div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Stock & Lead Time Info -->
+                {% if item.stock_status or item.lead_time %}
+                <div class="stock-info-row">
+                    {% if item.stock_status %}
+                    <div class="stock-status {{ item.stock_status|lower }}">
+                        <span class="status-icon">
+                            {% if item.stock_status == 'In Stock' %}✓{% elif item.stock_status == 'Low Stock' %}⚠️{% else %}⏰{% endif %}
+                        </span>
+                        <span class="status-text">{{ item.stock_status }}</span>
+                        {% if item.available_quantity %}
+                        <span class="status-qty">({{ item.available_quantity }} available)</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    {% if item.lead_time %}
+                    <div class="lead-time-info">
+                        <span class="lead-icon">🚚</span>
+                        <span class="lead-text">Lead Time: {{ item.lead_time }} days</span>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <div class="totals-container">
+                <div class="totals-title">Order Summary</div>
+                
+                <div class="totals-table">
+                    <div class="total-row">
+                        <span class="total-label">Subtotal</span>
+                        <span class="total-value">{{ subtotal }}</span>
+                    </div>
+
+                    {% if volume_discount %}
+                    <div class="total-row discount-row">
+                        <span class="total-label">Volume Discount</span>
+                        <span class="total-value">-{{ volume_discount }}</span>
+                    </div>
+                    {% endif %}
+
+                    {% if account_discount %}
+                    <div class="total-row discount-row">
+                        <span class="total-label">Account Discount ({{ account_discount_percentage }}%)</span>
+                        <span class="total-value">-{{ account_discount }}</span>
+                    </div>
+                    {% endif %}
+
+                    {% if promotional_discount %}
+                    <div class="total-row discount-row">
+                        <span class="total-label">Promotional Discount</span>
+                        <span class="total-value">-{{ promotional_discount }}</span>
+                    </div>
+                    {% endif %}
+
+                    {% if early_payment_discount %}
+                    <div class="total-row discount-row">
+                        <span class="total-label">Early Payment Discount ({{ early_payment_terms }})</span>
+                        <span class="total-value">-{{ early_payment_discount }}</span>
+                    </div>
+                    {% endif %}
+
+                    <div class="total-row subtotal-after-discount">
+                        <span class="total-label">Subtotal After Discounts</span>
+                        <span class="total-value">{{ subtotal_after_discount }}</span>
+                    </div>
+
+                    {% if tax_exempt %}
+                    <div class="total-row tax-exempt-row">
+                        <span class="total-label">Sales Tax</span>
+                        <span class="total-value">EXEMPT</span>
+                    </div>
+                    <div class="tax-exempt-notice">
+                        Tax Exempt • Resale Certificate: {{ resale_certificate }}
+                    </div>
+                    {% else %}
+                    <div class="total-row">
+                        <span class="total-label">Sales Tax ({{ tax_rate }}%)</span>
+                        <span class="total-value">{{ sales_tax }}</span>
+                    </div>
+                    {% endif %}
+
+                    <!-- Shipping/Freight -->
+                    <div class="total-row">
+                        <span class="total-label">
+                            Freight Shipping
+                            {% if freight_class %}(Class {{ freight_class }}){% endif %}
+                        </span>
+                        <span class="total-value">{{ freight_cost }}</span>
+                    </div>
+
+                    {% if handling_fee %}
+                    <div class="total-row">
+                        <span class="total-label">Handling Fee</span>
+                        <span class="total-value">{{ handling_fee }}</span>
+                    </div>
+                    {% endif %}
+
+                    {% if fuel_surcharge %}
+                    <div class="total-row">
+                        <span class="total-label">Fuel Surcharge</span>
+                        <span class="total-value">{{ fuel_surcharge }}</span>
+                    </div>
+                    {% endif %}
+
+                    {% if liftgate_fee %}
+                    <div class="total-row">
+                        <span class="total-label">Liftgate Service</span>
+                        <span class="total-value">{{ liftgate_fee }}</span>
+                    </div>
+                    {% endif %}
+
+                    <div class="total-row grand-total">
+                        <span class="total-label">Total Amount</span>
+                        <span class="total-value">{{ total_amount }}</span>
+                    </div>
+
+                    <!-- Payment Terms Notice -->
+                    <div class="payment-terms-notice">
+                        <div class="terms-row">
+                            <span class="terms-label">Payment Terms:</span>
+                            <span class="terms-value">{{ payment_terms }}</span>
+                        </div>
+                        <div class="terms-row">
+                            <span class="terms-label">Due Date:</span>
+                            <span class="terms-value">{{ due_date }}</span>
+                        </div>
+                        {% if early_payment_terms %}
+                        <div class="terms-incentive">
+                            💰 {{ early_payment_discount_percentage }}% discount if paid within {{ early_payment_days }} days
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shipping Details -->
+        <div class="shipping-section">
+            <div class="section-heading">
+                <span class="heading-icon">🚚</span>
+                <span>Shipping Details</span>
+            </div>
+            
+            <div class="shipping-details-grid">
+                <div class="shipping-card">
+                    <div class="shipping-label">Carrier</div>
+                    <div class="shipping-value">{{ carrier_name }}</div>
+                </div>
+                <div class="shipping-card">
+                    <div class="shipping-label">Service</div>
+                    <div class="shipping-value">{{ shipping_service }}</div>
+                </div>
+                <div class="shipping-card">
+                    <div class="shipping-label">Estimated Delivery</div>
+                    <div class="shipping-value">{{ estimated_delivery_date }}</div>
+                </div>
+                {% if tracking_number %}
+                <div class="shipping-card">
+                    <div class="shipping-label">Tracking #</div>
+                    <div class="shipping-value tracking">{{ tracking_number }}</div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Freight Info -->
+            <div class="freight-info-section">
+                <div class="freight-row">
+                    <span class="freight-label">Total Weight:</span>
+                    <span class="freight-value">{{ total_weight }} lbs</span>
+                </div>
+                {% if pallet_count %}
+                <div class="freight-row">
+                    <span class="freight-label">Pallet Count:</span>
+                    <span class="freight-value">{{ pallet_count }} pallet{{ 's' if pallet_count > 1 else '' }}</span>
+                </div>
+                {% endif %}
+                {% if requires_liftgate %}
+                <div class="freight-row">
+                    <span class="freight-icon">🏗️</span>
+                    <span class="freight-text">Liftgate required for delivery</span>
+                </div>
+                {% endif %}
+                {% if requires_appointment %}
+                <div class="freight-row">
+                    <span class="freight-icon">📅</span>
+                    <span class="freight-text">Appointment required for delivery</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Special Instructions -->
+            {% if shipping_instructions %}
+            <div class="shipping-instructions">
+                <div class="instructions-title">Special Instructions</div>
+                <div class="instructions-text">{{ shipping_instructions }}</div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Account Information -->
+        <div class="account-section">
+            <div class="section-heading">
+                <span class="heading-icon">💼</span>
+                <span>Account Information</span>
+            </div>
+            
+            <div class="account-details-grid">
+                <div class="account-card">
+                    <div class="account-label">Account Manager</div>
+                    <div class="account-value">{{ account_manager_name }}</div>
+                    <div class="account-contact">{{ account_manager_email }}</div>
+                    <div class="account-contact">{{ account_manager_phone }}</div>
+                </div>
+                
+                <div class="account-card">
+                    <div class="account-label">Credit Status</div>
+                    <div class="account-value">{{ credit_status }}</div>
+                    <div class="credit-line-display">
+                        <div class="credit-used">Used: {{ credit_used }}</div>
+                        <div class="credit-available">Available: {{ credit_available }}</div>
+                    </div>
+                </div>
+
+                <div class="account-card">
+                    <div class="account-label">YTD Purchases</div>
+                    <div class="account-value">{{ ytd_purchases }}</div>
+                    <div class="account-tier">{{ account_tier }} Tier Status</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terms and Conditions -->
+        <div class="terms-section">
+            <div class="section-heading">
+                <span class="heading-icon">📋</span>
+                <span>Terms & Conditions</span>
+            </div>
+            
+            <div class="terms-content">
+                <h4>Payment Terms</h4>
+                <ul>
+                    <li>Payment is due per agreed terms: {{ payment_terms }}</li>
+                    <li>Late payments subject to {{ late_fee_percentage }}% monthly interest charge</li>
+                    <li>Early payment discount: {{ early_payment_discount_percentage }}% if paid within {{ early_payment_days }} days</li>
+                </ul>
+
+                <h4>Shipping & Delivery</h4>
+                <ul>
+                    <li>All shipments FOB {{ fob_point }}</li>
+                    <li>Freight charges are based on actual weight and distance</li>
+                    <li>Delivery times are estimates and not guaranteed</li>
+                    <li>Customer responsible for inspection upon delivery</li>
+                </ul>
+
+                <h4>Returns & Refunds</h4>
+                <ul>
+                    <li>Returns must be authorized within {{ return_window }} days</li>
+                    <li>Restocking fee of {{ restocking_fee }}% applies to non-defective returns</li>
+                    <li>Custom orders are non-returnable</li>
+                    <li>Damaged goods must be reported within 48 hours of receipt</li>
+                </ul>
+
+                <h4>Order Modifications</h4>
+                <ul>
+                    <li>Orders can be modified up to 24 hours before shipment</li>
+                    <li>Contact your account manager for changes</li>
+                    <li>Cancellation fees may apply to orders already in production</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Customer Service</h4>
+                    <p>Phone: {{ customer_service_phone }}</p>
+                    <p>Email: {{ customer_service_email }}</p>
+                    <p>Hours: {{ business_hours }}</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Company Information</h4>
+                    <p>{{ company_name }}</p>
+                    <p>{{ company_address }}</p>
+                    <p>{{ company_city }}, {{ company_state }} {{ company_zip }}</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Online Resources</h4>
+                    <p>Order Portal: {{ portal_url }}</p>
+                    <p>Track Order: {{ tracking_url }}</p>
+                    <p>Website: {{ website }}</p>
+                </div>
+            </div>
+            
+            <div class="footer-legal">
+                <p>&copy; {{ current_year }} {{ company_name }}. All rights reserved.</p>
+                <p>This invoice is a commercial document. Please retain for your records.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

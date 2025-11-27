@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Order Invoice</title>
+    <link rel="stylesheet" href="../css/online_order_fashion.css">
+</head>
+<body>
+    <div class="fashion-invoice">
+        <!-- Header with Brand Identity -->
+        <div class="invoice-header">
+            <div class="brand-section">
+                <div class="logo-mark">{{ supplier_initials }}</div>
+                <h1 class="brand-name">{{ supplier_name }}</h1>
+                <p class="brand-tagline">{{ tagline }}</p>
+            </div>
+            <div class="invoice-type">
+                <span class="type-label">ORDER CONFIRMATION</span>
+                <span class="order-number">Order #{{ order_number }}</span>
+            </div>
+        </div>
+
+        <!-- Order Summary Banner -->
+        <div class="order-banner">
+            <div class="banner-item">
+                <span class="banner-label">Order Date</span>
+                <span class="banner-value">{{ order_date }}</span>
+            </div>
+            <div class="banner-item">
+                <span class="banner-label">Expected Delivery</span>
+                <span class="banner-value delivery-date">{{ expected_delivery }}</span>
+            </div>
+            <div class="banner-item">
+                <span class="banner-label">Order Status</span>
+                <span class="banner-value status-badge">{{ order_status }}</span>
+            </div>
+        </div>
+
+        <!-- Customer & Shipping Info -->
+        <div class="info-container">
+            <div class="info-box customer-box">
+                <h3 class="box-title">👤 Customer Information</h3>
+                <div class="customer-details">
+                    <p class="customer-name">{{ buyer_name }}</p>
+                    <p class="customer-email">{{ buyer_email }}</p>
+                    <p class="customer-phone">{{ buyer_phone }}</p>
+                    {% if customer_id %}
+                    <p class="loyalty-member">
+                        <span class="loyalty-icon">⭐</span>
+                        <span class="loyalty-text">Rewards Member #{{ customer_id }}</span>
+                    </p>
+                    <p class="loyalty-points">{{ loyalty_points_balance }} points available</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="info-box shipping-box">
+                <h3 class="box-title">🚚 Shipping Details</h3>
+                <div class="shipping-details">
+                    <p class="shipping-recipient">{{ shipping_name }}</p>
+                    <p class="shipping-address">{{ shipping_address }}</p>
+                    <p class="shipping-city">{{ shipping_city }}, {{ shipping_state }} {{ shipping_zip }}</p>
+                    <div class="shipping-method">
+                        <span class="method-label">Method:</span>
+                        <span class="method-value">{{ shipping_method }}</span>
+                    </div>
+                    {% if tracking_number %}
+                    <div class="tracking-info">
+                        <span class="tracking-label">Track Your Order:</span>
+                        <span class="tracking-number">{{ tracking_number }}</span>
+                        <span class="carrier">via {{ carrier_name }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Items with Fashion Details -->
+        <div class="items-section">
+            <h3 class="section-title">Your Order</h3>
+            {% for item in line_items %}
+            <div class="fashion-item-card">
+                <div class="item-image-placeholder">
+                    <span class="image-icon">🖼️</span>
+                </div>
+                <div class="item-details">
+                    <h4 class="item-name">{{ item.description }}</h4>
+                    <div class="item-attributes">
+                        {% if item.brand %}
+                        <span class="attribute-badge brand-badge">{{ item.brand }}</span>
+                        {% endif %}
+                        {% if item.color %}
+                        <span class="attribute-badge color-badge">Color: {{ item.color }}</span>
+                        {% endif %}
+                        {% if item.size %}
+                        <span class="attribute-badge size-badge">Size: {{ item.size }}</span>
+                        {% endif %}
+                        {% if item.style %}
+                        <span class="attribute-badge style-badge">Style: {{ item.style }}</span>
+                        {% endif %}
+                    </div>
+                    {% if item.fit %}
+                    <div class="item-fit">
+                        <span class="fit-label">Fit:</span>
+                        <span class="fit-value">{{ item.fit }}</span>
+                    </div>
+                    {% endif %}
+                    {% if item.material %}
+                    <div class="item-material">
+                        <span class="material-label">Material:</span>
+                        <span class="material-value">{{ item.material }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="item-sku">SKU: {{ item.sku }}</div>
+                    {% if item.care_instructions %}
+                    <div class="care-instructions">
+                        <span class="care-icon">🧺</span>
+                        <span class="care-text">{{ item.care_instructions }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="item-pricing">
+                    <div class="quantity">Qty: {{ item.quantity }}</div>
+                    <div class="unit-price">{{ item.unit_price }} each</div>
+                    {% if item.original_price and item.original_price != item.unit_price %}
+                    <div class="original-price">Was: {{ item.original_price }}</div>
+                    <div class="savings">You save: {{ item.savings }}</div>
+                    {% endif %}
+                    <div class="item-total">{{ item.total }}</div>
+                </div>
+            </div>
+            {% if item.personalization %}
+            <div class="personalization-note">
+                <span class="personalization-icon">✏️</span>
+                <span class="personalization-text">Personalized: {{ item.personalization }}</span>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Size Guide Reference -->
+        {% if has_size_chart %}
+        <div class="size-guide-section">
+            <div class="size-guide-note">
+                <span class="guide-icon">📏</span>
+                <span class="guide-text">Not sure about sizing? View our size chart at {{ size_chart_url }}</span>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <h3 class="summary-title">Order Summary</h3>
+            <div class="summary-table">
+                <div class="summary-row">
+                    <span class="summary-label">Subtotal ({{ total_items }} items):</span>
+                    <span class="summary-value">{{ subtotal }}</span>
+                </div>
+                {% if item_discounts > 0 %}
+                <div class="summary-row discount-row">
+                    <span class="summary-label">🏷️ Item Discounts:</span>
+                    <span class="summary-value discount-value">-{{ item_discounts }}</span>
+                </div>
+                {% endif %}
+                {% if coupon_code %}
+                <div class="summary-row discount-row">
+                    <span class="summary-label">🎟️ Coupon ({{ coupon_code }}):</span>
+                    <span class="summary-value discount-value">-{{ coupon_discount }}</span>
+                </div>
+                {% endif %}
+                {% if loyalty_discount > 0 %}
+                <div class="summary-row discount-row">
+                    <span class="summary-label">⭐ Rewards Discount:</span>
+                    <span class="summary-value discount-value">-{{ loyalty_discount }}</span>
+                </div>
+                {% endif %}
+                <div class="summary-row">
+                    <span class="summary-label">Shipping ({{ shipping_method }}):</span>
+                    <span class="summary-value">{{ shipping_charge }}</span>
+                </div>
+                {% if gift_wrap %}
+                <div class="summary-row">
+                    <span class="summary-label">🎁 Gift Wrapping:</span>
+                    <span class="summary-value">{{ gift_wrap_charge }}</span>
+                </div>
+                {% endif %}
+                <div class="summary-row">
+                    <span class="summary-label">Tax:</span>
+                    <span class="summary-value">{{ tax_amount }}</span>
+                </div>
+                <div class="summary-row total-row">
+                    <span class="summary-label total-label">Total:</span>
+                    <span class="summary-value total-value">{{ total_amount }}</span>
+                </div>
+                {% if total_savings > 0 %}
+                <div class="savings-banner">
+                    <span class="savings-icon">💰</span>
+                    <span class="savings-text">You saved {{ total_savings }} on this order!</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Payment Information -->
+        <div class="payment-section">
+            <h3 class="section-title">Payment Method</h3>
+            <div class="payment-details">
+                <div class="payment-method">
+                    <span class="payment-icon">💳</span>
+                    <span class="payment-type">{{ payment_method }}</span>
+                    <span class="card-type">{{ card_type }}</span>
+                    <span class="card-number">ending in {{ card_last_four }}</span>
+                </div>
+                <div class="payment-status">
+                    <span class="status-badge paid">PAID</span>
+                </div>
+            </div>
+            {% if transaction_id %}
+            <div class="transaction-info">
+                <span class="transaction-label">Transaction ID:</span>
+                <span class="transaction-value">{{ transaction_id }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Rewards Program -->
+        {% if loyalty_points_earned %}
+        <div class="rewards-section">
+            <div class="rewards-card">
+                <h3 class="rewards-title">⭐ Rewards Update</h3>
+                <div class="rewards-content">
+                    <div class="rewards-row">
+                        <span class="rewards-label">Points Earned:</span>
+                        <span class="rewards-value earned">+{{ loyalty_points_earned }} pts</span>
+                    </div>
+                    <div class="rewards-row">
+                        <span class="rewards-label">New Balance:</span>
+                        <span class="rewards-value balance">{{ loyalty_points_balance }} pts</span>
+                    </div>
+                    {% if next_reward_threshold %}
+                    <div class="rewards-progress">
+                        <span class="progress-text">{{ points_to_reward }} pts until next ${{ next_reward_value }} reward!</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: {{ reward_progress }}%;"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Returns & Exchanges -->
+        <div class="returns-section">
+            <h3 class="section-title">Returns & Exchanges</h3>
+            <div class="returns-policy">
+                <p class="policy-text">
+                    <span class="policy-icon">🔄</span>
+                    Free returns and exchanges within {{ return_window }} days of delivery.
+                    Items must have original tags attached and be unworn/unwashed.
+                </p>
+                {% if return_deadline %}
+                <p class="return-deadline">Return by: <strong>{{ return_deadline }}</strong></p>
+                {% endif %}
+                <p class="policy-link">Visit {{ returns_url }} to start your return.</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="footer-section">
+                <h4>Need Help?</h4>
+                <p>Customer Service: {{ supplier_phone }}</p>
+                <p>Email: {{ supplier_email }}</p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <p class="social-links">
+                    Instagram | Facebook | Pinterest | TikTok
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Company Info</h4>
+                <p>{{ supplier_name }}</p>
+                <p>{{ supplier_address }}</p>
+            </div>
+        </div>
+
+        <!-- Legal -->
+        <div class="legal-text">
+            <p>This is your order confirmation and receipt. Please keep for your records.</p>
+            <p>Thank you for shopping with {{ supplier_name }}!</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Invoice</title>
+    <link rel="stylesheet" href="../css/consumer_service_invoice.css">
+</head>
+<body>
+    <div class="service-invoice">
+        <!-- Header -->
+        <div class="invoice-header">
+            <div class="company-info">
+                <h1 class="company-name">{{ supplier_name }}</h1>
+                <p class="service-category">{{ service_category }}</p>
+                <p class="company-contact">{{ supplier_phone }} | {{ supplier_email }}</p>
+            </div>
+            <div class="invoice-meta">
+                <div class="invoice-badge">SERVICE INVOICE</div>
+                <p class="invoice-number">{{ invoice_number }}</p>
+                <p class="invoice-date">{{ invoice_date }}</p>
+            </div>
+        </div>
+
+        <!-- Customer & Service Information -->
+        <div class="info-section">
+            <div class="customer-card">
+                <h3>👤 Customer Information</h3>
+                <p class="customer-name">{{ buyer_name }}</p>
+                <p class="customer-detail">{{ buyer_email }}</p>
+                <p class="customer-detail">{{ buyer_phone }}</p>
+                <p class="customer-address">{{ buyer_address }}</p>
+                {% if customer_id %}
+                <p class="member-id">Member ID: {{ customer_id }}</p>
+                {% endif %}
+            </div>
+
+            <div class="service-card">
+                <h3>🔧 Service Details</h3>
+                <div class="service-row">
+                    <span class="label">Service Type:</span>
+                    <span class="value">{{ service_type }}</span>
+                </div>
+                <div class="service-row">
+                    <span class="label">Service Date:</span>
+                    <span class="value">{{ service_date }}</span>
+                </div>
+                {% if service_location %}
+                <div class="service-row">
+                    <span class="label">Location:</span>
+                    <span class="value">{{ service_location }}</span>
+                </div>
+                {% endif %}
+                {% if technician_name %}
+                <div class="service-row">
+                    <span class="label">Technician:</span>
+                    <span class="value">{{ technician_name }}</span>
+                </div>
+                {% endif %}
+                {% if appointment_time %}
+                <div class="service-row">
+                    <span class="label">Time:</span>
+                    <span class="value">{{ appointment_time }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Services Rendered -->
+        <div class="services-section">
+            <h3>Services Rendered</h3>
+            <table class="services-table">
+                <thead>
+                    <tr>
+                        <th class="service-col">Service Description</th>
+                        <th class="duration-col">Duration/Qty</th>
+                        <th class="rate-col">Rate</th>
+                        <th class="amount-col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in services_rendered %}
+                    <tr>
+                        <td class="service-description">
+                            <div class="service-name">{{ service.description }}</div>
+                            {% if service.notes %}
+                            <div class="service-notes">{{ service.notes }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="service-duration">{{ service.duration }}</td>
+                        <td class="service-rate">{{ service.rate }}</td>
+                        <td class="service-amount">{{ service.amount }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Materials/Parts (if applicable) -->
+        {% if materials_used %}
+        <div class="materials-section">
+            <h3>Materials & Parts</h3>
+            <table class="materials-table">
+                <thead>
+                    <tr>
+                        <th class="item-col">Item</th>
+                        <th class="qty-col">Qty</th>
+                        <th class="price-col">Price</th>
+                        <th class="amount-col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for material in materials_used %}
+                    <tr>
+                        <td class="material-name">
+                            {{ material.description }}
+                            {% if material.part_number %}
+                            <span class="part-number">Part #{{ material.part_number }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="material-qty">{{ material.quantity }}</td>
+                        <td class="material-price">{{ material.unit_price }}</td>
+                        <td class="material-amount">{{ material.total }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Summary -->
+        <div class="summary-section">
+            <div class="summary-box">
+                <div class="summary-row">
+                    <span class="label">Labor Charges:</span>
+                    <span class="value">{{ labor_charges }}</span>
+                </div>
+                {% if materials_total > 0 %}
+                <div class="summary-row">
+                    <span class="label">Materials & Parts:</span>
+                    <span class="value">{{ materials_total }}</span>
+                </div>
+                {% endif %}
+                {% if trip_charge > 0 %}
+                <div class="summary-row">
+                    <span class="label">Trip/Service Charge:</span>
+                    <span class="value">{{ trip_charge }}</span>
+                </div>
+                {% endif %}
+                <div class="summary-row subtotal">
+                    <span class="label">Subtotal:</span>
+                    <span class="value">{{ subtotal }}</span>
+                </div>
+                {% if discount > 0 %}
+                <div class="summary-row discount">
+                    <span class="label">Discount ({{ discount_description }}):</span>
+                    <span class="value">-{{ discount }}</span>
+                </div>
+                {% endif %}
+                <div class="summary-row">
+                    <span class="label">Tax ({{ tax_rate }}%):</span>
+                    <span class="value">{{ tax_amount }}</span>
+                </div>
+                <div class="summary-row total">
+                    <span class="label">Total Amount:</span>
+                    <span class="value">{{ total_amount }}</span>
+                </div>
+                {% if amount_paid > 0 %}
+                <div class="summary-row paid">
+                    <span class="label">Amount Paid:</span>
+                    <span class="value">-{{ amount_paid }}</span>
+                </div>
+                <div class="summary-row balance">
+                    <span class="label">Balance Due:</span>
+                    <span class="value">{{ balance_due }}</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Payment Information -->
+        <div class="payment-section">
+            <h3>💳 Payment Information</h3>
+            <div class="payment-details">
+                {% if payment_method %}
+                <p><strong>Payment Method:</strong> {{ payment_method }}</p>
+                {% if card_type %}
+                <p>{{ card_type }} ending in {{ card_last_four }}</p>
+                {% endif %}
+                {% if transaction_id %}
+                <p class="transaction-id">Transaction: {{ transaction_id }}</p>
+                {% endif %}
+                {% endif %}
+                {% if payment_terms %}
+                <p class="payment-terms"><strong>Payment Terms:</strong> {{ payment_terms }}</p>
+                {% endif %}
+                {% if due_date %}
+                <p class="due-date">Due Date: <strong>{{ due_date }}</strong></p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Service Guarantee / Warranty -->
+        {% if warranty_info or service_guarantee %}
+        <div class="guarantee-section">
+            <h3>✅ Service Guarantee & Warranty</h3>
+            {% if service_guarantee %}
+            <p class="guarantee-text">{{ service_guarantee }}</p>
+            {% endif %}
+            {% if warranty_info %}
+            <p class="warranty-text"><strong>Warranty:</strong> {{ warranty_info }}</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Additional Notes -->
+        {% if notes or special_instructions %}
+        <div class="notes-section">
+            <h3>📝 Notes</h3>
+            {% if notes %}
+            <p class="notes-text">{{ notes }}</p>
+            {% endif %}
+            {% if special_instructions %}
+            <p class="special-text"><strong>Special Instructions:</strong> {{ special_instructions }}</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Customer Signature (for on-site services) -->
+        {% if requires_signature %}
+        <div class="signature-section">
+            <h3>Customer Acknowledgment</h3>
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <p class="signature-label">Customer Signature</p>
+            </div>
+            <div class="signature-date">
+                <div class="date-line"></div>
+                <p class="signature-label">Date</p>
+            </div>
+            <p class="acknowledgment-text">
+                I acknowledge that the services described above have been completed to my satisfaction.
+            </p>
+        </div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="footer-contact">
+                <p><strong>{{ supplier_name }}</strong></p>
+                <p>{{ supplier_address }}</p>
+                <p>{{ supplier_phone }} | {{ supplier_email }}</p>
+                {% if website %}
+                <p>{{ website }}</p>
+                {% endif %}
+            </div>
+            <div class="footer-message">
+                <p>{{ footer_message }}</p>
+            </div>
+            {% if license_number %}
+            <div class="footer-license">
+                <p>License #{{ license_number }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

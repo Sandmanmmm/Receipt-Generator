@@ -1,0 +1,1095 @@
+/* Wholesale Order Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    font-size: 10pt;
+    line-height: 1.5;
+    color: #1f2937;
+    background: #ffffff;
+}
+
+.wholesale-invoice {
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 10mm;
+    background: #ffffff;
+}
+
+/* Header */
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 6mm;
+    border-bottom: 3px solid #1f2937;
+    margin-bottom: 6mm;
+}
+
+.company-branding {
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+}
+
+.logo-wholesale {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-icon {
+    font-size: 26pt;
+    color: #ffffff;
+}
+
+.company-name {
+    font-size: 20pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 1mm;
+}
+
+.company-tagline {
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+.invoice-info {
+    text-align: right;
+}
+
+.invoice-badge {
+    display: inline-block;
+    background: #1f2937;
+    color: #ffffff;
+    padding: 2mm 4mm;
+    border-radius: 4px;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 2mm;
+}
+
+.order-number {
+    font-size: 14pt;
+    font-weight: 700;
+    color: #1f2937;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 1mm;
+}
+
+.order-date {
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+/* Business Banner */
+.business-banner {
+    display: flex;
+    align-items: center;
+    gap: 3mm;
+    padding: 5mm;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 2px solid #f59e0b;
+    border-radius: 8px;
+    margin-bottom: 6mm;
+}
+
+.banner-icon {
+    font-size: 28pt;
+}
+
+.banner-content {
+    flex: 1;
+}
+
+.banner-title {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #92400e;
+    margin-bottom: 1mm;
+}
+
+.banner-subtitle {
+    font-size: 10pt;
+    color: #b45309;
+}
+
+.credit-info {
+    padding: 2mm 4mm;
+    background: #ffffff;
+    border: 1px solid #f59e0b;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.credit-label {
+    font-size: 9pt;
+    color: #92400e;
+    font-weight: 600;
+}
+
+.credit-amount {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #92400e;
+    margin-left: 1.5mm;
+}
+
+/* Customer Section */
+.customer-section {
+    margin-bottom: 6mm;
+}
+
+.section-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5mm;
+}
+
+.address-card {
+    padding: 4mm;
+    border: 2px solid #e5e7eb;
+    border-radius: 6px;
+    background: #f9fafb;
+}
+
+.card-title {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 3mm;
+    padding-bottom: 2mm;
+    border-bottom: 2px solid #d1d5db;
+}
+
+.customer-name {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 1.5mm;
+}
+
+.customer-contact {
+    font-size: 9.5pt;
+    color: #4b5563;
+    margin-bottom: 1mm;
+}
+
+.customer-address,
+.customer-city {
+    font-size: 9.5pt;
+    color: #4b5563;
+    margin-bottom: 1mm;
+}
+
+.customer-email,
+.customer-phone {
+    font-size: 9pt;
+    color: #6b7280;
+    margin-bottom: 1mm;
+}
+
+.tax-id-info {
+    margin-top: 3mm;
+    padding-top: 3mm;
+    border-top: 1px solid #d1d5db;
+}
+
+.tax-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9pt;
+    margin-bottom: 1mm;
+}
+
+.tax-label {
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.tax-value {
+    font-family: 'Courier New', monospace;
+    color: #1f2937;
+    font-weight: 700;
+}
+
+.warehouse-info {
+    margin-top: 2mm;
+    padding: 2mm;
+    background: #dbeafe;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 1.5mm;
+}
+
+.warehouse-icon {
+    font-size: 11pt;
+}
+
+.warehouse-text {
+    font-size: 9pt;
+    color: #1e40af;
+    font-weight: 600;
+}
+
+/* Order Details Section */
+.order-details-section {
+    margin-bottom: 6mm;
+    padding: 4mm;
+    background: #f9fafb;
+    border: 2px solid #e5e7eb;
+    border-radius: 6px;
+}
+
+.details-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4mm;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1mm;
+}
+
+.detail-label {
+    font-size: 8.5pt;
+    color: #6b7280;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.detail-value {
+    font-size: 10pt;
+    color: #1f2937;
+    font-weight: 700;
+}
+
+.payment-terms {
+    color: #dc2626;
+    font-weight: 700;
+}
+
+/* Products Section */
+.products-section {
+    margin-bottom: 8mm;
+}
+
+.section-heading {
+    font-size: 14pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 5mm;
+    padding-bottom: 2mm;
+    border-bottom: 2px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+}
+
+.heading-icon {
+    font-size: 16pt;
+}
+
+/* Product Table */
+.product-table {
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 2fr 0.8fr 1.2fr 0.8fr 0.8fr 0.8fr;
+    gap: 3mm;
+    padding: 3mm 4mm;
+    background: #1f2937;
+    color: #ffffff;
+    font-size: 9pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.col-product { grid-column: 1; }
+.col-sku { grid-column: 2; }
+.col-quantity { grid-column: 3; }
+.col-unit-price { grid-column: 4; text-align: right; }
+.col-discount { grid-column: 5; text-align: right; }
+.col-total { grid-column: 6; text-align: right; }
+
+/* Product Row */
+.product-row {
+    display: grid;
+    grid-template-columns: 2fr 0.8fr 1.2fr 0.8fr 0.8fr 0.8fr;
+    gap: 3mm;
+    padding: 4mm;
+    border-bottom: 1px solid #e5e7eb;
+    align-items: start;
+}
+
+.product-row:last-of-type {
+    border-bottom: none;
+}
+
+.product-cell {
+    grid-column: 1;
+}
+
+.product-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5mm;
+}
+
+.product-name {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #1f2937;
+    line-height: 1.3;
+}
+
+.product-description {
+    font-size: 9pt;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+.product-brand,
+.product-manufacturer {
+    font-size: 8.5pt;
+    color: #9ca3af;
+}
+
+.product-attributes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2mm;
+    margin-top: 2mm;
+}
+
+.attribute-badge {
+    display: flex;
+    align-items: center;
+    gap: 1mm;
+    padding: 1mm 2mm;
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 8pt;
+}
+
+.attribute-icon {
+    font-size: 9pt;
+}
+
+.attribute-text {
+    color: #4b5563;
+}
+
+/* SKU Cell */
+.sku-cell {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 1mm;
+}
+
+.sku-value {
+    font-family: 'Courier New', monospace;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.upc-value {
+    font-family: 'Courier New', monospace;
+    font-size: 8pt;
+    color: #9ca3af;
+}
+
+/* Quantity Cell */
+.quantity-cell {
+    grid-column: 3;
+}
+
+.quantity-display {
+    display: flex;
+    flex-direction: column;
+    gap: 2mm;
+}
+
+.pallet-quantity,
+.case-quantity,
+.unit-quantity {
+    display: flex;
+    align-items: center;
+    gap: 1.5mm;
+    padding: 2mm;
+    background: #f3f4f6;
+    border-left: 3px solid #1f2937;
+    border-radius: 4px;
+}
+
+.qty-icon {
+    font-size: 12pt;
+}
+
+.qty-number {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.qty-unit {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.qty-breakdown,
+.qty-total {
+    font-size: 8pt;
+    color: #9ca3af;
+    padding-left: 2mm;
+}
+
+.qty-total {
+    font-weight: 700;
+    color: #4b5563;
+}
+
+.moq-notice {
+    display: flex;
+    align-items: center;
+    gap: 1mm;
+    padding: 1.5mm;
+    background: #dbeafe;
+    border-radius: 4px;
+    margin-top: 2mm;
+}
+
+.moq-icon {
+    font-size: 9pt;
+}
+
+.moq-text {
+    font-size: 8pt;
+    color: #1e40af;
+    font-weight: 600;
+}
+
+/* Unit Price Cell */
+.unit-price-cell {
+    grid-column: 4;
+    text-align: right;
+}
+
+.price-display {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5mm;
+}
+
+.price-unit {
+    font-size: 8pt;
+    color: #9ca3af;
+}
+
+.tiered-pricing-info {
+    margin-top: 2mm;
+}
+
+.tier-badge {
+    display: inline-block;
+    padding: 1mm 2mm;
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #22c55e;
+    border-radius: 4px;
+    font-size: 7.5pt;
+    font-weight: 700;
+}
+
+/* Discount Cell */
+.discount-cell {
+    grid-column: 5;
+    text-align: right;
+}
+
+.discount-percentage {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #059669;
+    margin-bottom: 0.5mm;
+}
+
+.discount-amount {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #059669;
+}
+
+.discount-label {
+    font-size: 7.5pt;
+    color: #6b7280;
+    text-transform: uppercase;
+    margin-top: 0.5mm;
+}
+
+.no-discount {
+    font-size: 12pt;
+    color: #d1d5db;
+}
+
+/* Total Cell */
+.total-cell {
+    grid-column: 6;
+    text-align: right;
+}
+
+.item-total {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* Tiered Pricing Table */
+.tiered-pricing-table {
+    grid-column: 1 / -1;
+    padding: 4mm;
+    background: #f0fdf4;
+    border: 2px solid #86efac;
+    border-radius: 6px;
+    margin-top: 3mm;
+}
+
+.tier-table-title {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #166534;
+    margin-bottom: 3mm;
+    text-align: center;
+}
+
+.tier-table-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3mm;
+    padding: 2mm;
+    background: #dcfce7;
+    border-radius: 4px;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #166534;
+    margin-bottom: 2mm;
+}
+
+.tier-col-qty { text-align: left; }
+.tier-col-price { text-align: right; }
+.tier-col-savings { text-align: right; }
+
+.tier-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3mm;
+    padding: 2mm;
+    font-size: 9pt;
+    border-bottom: 1px solid #bbf7d0;
+}
+
+.tier-row.active {
+    background: #dcfce7;
+    border: 2px solid #22c55e;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+.tier-qty {
+    text-align: left;
+    color: #166534;
+}
+
+.tier-price {
+    text-align: right;
+    color: #166534;
+    font-weight: 700;
+}
+
+.tier-savings {
+    text-align: right;
+    color: #059669;
+    font-weight: 700;
+}
+
+/* Stock Info Row */
+.stock-info-row {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 4mm;
+    margin-top: 2mm;
+}
+
+.stock-status {
+    display: flex;
+    align-items: center;
+    gap: 1.5mm;
+    padding: 2mm 3mm;
+    border-radius: 4px;
+    font-size: 9pt;
+    font-weight: 600;
+}
+
+.stock-status.in-stock {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #22c55e;
+}
+
+.stock-status.low-stock {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fbbf24;
+}
+
+.stock-status.out-of-stock,
+.stock-status.backorder {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #f87171;
+}
+
+.status-icon {
+    font-size: 11pt;
+}
+
+.status-qty {
+    font-size: 8pt;
+    color: #6b7280;
+}
+
+.lead-time-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5mm;
+    padding: 2mm 3mm;
+    background: #dbeafe;
+    border: 1px solid #60a5fa;
+    border-radius: 4px;
+    font-size: 8.5pt;
+    color: #1e40af;
+}
+
+.lead-icon {
+    font-size: 11pt;
+}
+
+/* Totals Section */
+.totals-section {
+    margin-bottom: 8mm;
+}
+
+.totals-container {
+    max-width: 450px;
+    margin-left: auto;
+}
+
+.totals-title {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 4mm;
+}
+
+.totals-table {
+    padding: 4mm;
+    background: #f9fafb;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2mm 0;
+    font-size: 10pt;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.total-row:last-child {
+    border-bottom: none;
+}
+
+.total-label {
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.total-value {
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.discount-row {
+    color: #059669;
+}
+
+.discount-row .total-value {
+    color: #059669;
+    font-weight: 700;
+}
+
+.subtotal-after-discount {
+    margin-top: 2mm;
+    padding-top: 2mm;
+    border-top: 2px solid #d1d5db !important;
+}
+
+.tax-exempt-row {
+    font-style: italic;
+}
+
+.tax-exempt-row .total-value {
+    color: #dc2626;
+    font-weight: 700;
+}
+
+.tax-exempt-notice {
+    font-size: 8.5pt;
+    text-align: right;
+    color: #6b7280;
+    margin-top: 1mm;
+    margin-bottom: 2mm;
+}
+
+.grand-total {
+    margin-top: 3mm;
+    padding-top: 3mm;
+    border-top: 3px solid #1f2937 !important;
+    font-size: 12pt;
+}
+
+.grand-total .total-label {
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.grand-total .total-value {
+    font-size: 16pt;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* Payment Terms Notice */
+.payment-terms-notice {
+    margin-top: 4mm;
+    padding: 3mm;
+    background: #fef2f2;
+    border: 2px solid #fca5a5;
+    border-radius: 6px;
+}
+
+.terms-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9.5pt;
+    margin-bottom: 1.5mm;
+}
+
+.terms-label {
+    color: #991b1b;
+    font-weight: 700;
+}
+
+.terms-value {
+    color: #dc2626;
+    font-weight: 700;
+}
+
+.terms-incentive {
+    margin-top: 2mm;
+    padding-top: 2mm;
+    border-top: 1px solid #fca5a5;
+    font-size: 9pt;
+    color: #059669;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Shipping Section */
+.shipping-section {
+    margin-bottom: 8mm;
+    padding: 5mm;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+.shipping-details-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3mm;
+    margin-bottom: 4mm;
+}
+
+.shipping-card {
+    padding: 3mm;
+    background: #f9fafb;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+}
+
+.shipping-label {
+    font-size: 8.5pt;
+    color: #6b7280;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 1.5mm;
+}
+
+.shipping-value {
+    font-size: 10pt;
+    color: #1f2937;
+    font-weight: 700;
+}
+
+.shipping-value.tracking {
+    font-family: 'Courier New', monospace;
+    font-size: 9pt;
+}
+
+/* Freight Info */
+.freight-info-section {
+    padding: 3mm;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 6px;
+    margin-bottom: 4mm;
+}
+
+.freight-row {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    margin-bottom: 1.5mm;
+    font-size: 9pt;
+}
+
+.freight-label {
+    font-weight: 700;
+    color: #166534;
+}
+
+.freight-value {
+    font-weight: 700;
+    color: #166534;
+}
+
+.freight-icon {
+    font-size: 11pt;
+}
+
+.freight-text {
+    color: #166534;
+    font-weight: 600;
+}
+
+/* Shipping Instructions */
+.shipping-instructions {
+    padding: 3mm;
+    background: #fef3c7;
+    border: 1px solid #fbbf24;
+    border-radius: 6px;
+}
+
+.instructions-title {
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: #92400e;
+    margin-bottom: 2mm;
+}
+
+.instructions-text {
+    font-size: 9pt;
+    color: #78350f;
+    line-height: 1.5;
+}
+
+/* Account Section */
+.account-section {
+    margin-bottom: 8mm;
+    padding: 5mm;
+    background: #eff6ff;
+    border: 2px solid #93c5fd;
+    border-radius: 8px;
+}
+
+.account-details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4mm;
+}
+
+.account-card {
+    padding: 4mm;
+    background: #ffffff;
+    border: 1px solid #bfdbfe;
+    border-radius: 6px;
+}
+
+.account-label {
+    font-size: 9pt;
+    color: #1e40af;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 2mm;
+}
+
+.account-value {
+    font-size: 11pt;
+    color: #1e3a8a;
+    font-weight: 700;
+    margin-bottom: 1mm;
+}
+
+.account-contact {
+    font-size: 9pt;
+    color: #3b82f6;
+    margin-bottom: 0.5mm;
+}
+
+.credit-line-display {
+    margin-top: 2mm;
+    padding-top: 2mm;
+    border-top: 1px solid #bfdbfe;
+    font-size: 9pt;
+}
+
+.credit-used,
+.credit-available {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1mm;
+    color: #1e40af;
+}
+
+.account-tier {
+    margin-top: 2mm;
+    padding: 1.5mm;
+    background: #fbbf24;
+    color: #78350f;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 8.5pt;
+    font-weight: 700;
+}
+
+/* Terms Section */
+.terms-section {
+    margin-bottom: 8mm;
+    padding: 5mm;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    background: #f9fafb;
+}
+
+.terms-content h4 {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-top: 3mm;
+    margin-bottom: 2mm;
+}
+
+.terms-content h4:first-child {
+    margin-top: 0;
+}
+
+.terms-content ul {
+    margin-left: 5mm;
+    margin-bottom: 3mm;
+}
+
+.terms-content li {
+    font-size: 9pt;
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 1.5mm;
+}
+
+/* Footer */
+.invoice-footer {
+    padding-top: 6mm;
+    border-top: 3px solid #1f2937;
+    margin-top: 8mm;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5mm;
+    margin-bottom: 5mm;
+}
+
+.footer-section h4 {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 2mm;
+}
+
+.footer-section p {
+    font-size: 9pt;
+    color: #6b7280;
+    line-height: 1.4;
+    margin-bottom: 1mm;
+}
+
+.footer-legal {
+    padding-top: 4mm;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    font-size: 8.5pt;
+    color: #9ca3af;
+    line-height: 1.5;
+}
+
+.footer-legal p {
+    margin-bottom: 1.5mm;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .wholesale-invoice {
+        max-width: 100%;
+        margin: 0;
+        padding: 5mm;
+    }
+    
+    .product-row,
+    .tiered-pricing-table,
+    .terms-section {
+        page-break-inside: avoid;
+    }
+}

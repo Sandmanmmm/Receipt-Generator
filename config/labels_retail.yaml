@@ -1,8 +1,21 @@
 # RETAIL-SPECIALIZED Label Set for POS/E-Commerce Receipts
-# Optimized: 37 entity types (75 BIO labels)
+# Optimized: 40 entity types (81 BIO labels)
 # Domain: POS receipts, online orders, retail e-commerce only
 # Coverage: 100% retail, 0% non-retail (strategic focus)
 
+# =============================================================================
+# METADATA
+# =============================================================================
+
+metadata:
+  name: "Retail Specialized Schema"
+  version: "1.0.0"
+  domain: "retail"
+  num_entities: 40
+  num_bio_labels: 80
+  total_labels: 81
+  last_updated: "2025-11-27"
+  
 # =============================================================================
 # DESIGN PHILOSOPHY
 # =============================================================================
@@ -156,10 +169,10 @@ label_list:
 
 
 # =============================================================================
-# LABEL DESCRIPTIONS
+# ENTITY DESCRIPTIONS
 # =============================================================================
 
-label_descriptions:
+entity_descriptions:
   # Document Metadata (4 entities)
   DOC_TYPE: "Document type (Receipt, Invoice, Order Confirmation, Packing Slip)"
   INVOICE_NUMBER: "Unique receipt/order identifier (Transaction #, Receipt #, Order #)"

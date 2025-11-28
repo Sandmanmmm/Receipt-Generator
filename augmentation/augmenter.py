@@ -60,6 +60,40 @@ class AugmentationConfig:
     # Folds/Creases
     add_crease: bool = True
     crease_probability: float = 0.2
+    
+    # Thermal printer fade
+    add_thermal_fade: bool = True
+    thermal_fade_probability: float = 0.3
+    fade_intensity: Tuple[float, float] = (0.2, 0.6)
+    
+    # Wrinkles
+    add_wrinkle: bool = True
+    wrinkle_probability: float = 0.25
+    wrinkle_count: Tuple[int, int] = (2, 5)
+    
+    # Coffee stains (enhanced)
+    add_coffee_stain: bool = True
+    coffee_stain_probability: float = 0.15
+    
+    # Skewed camera angle
+    add_skew: bool = True
+    skew_probability: float = 0.4
+    skew_angle: Tuple[float, float] = (-8.0, 8.0)
+    
+    # Poor alignment (shifted)
+    add_misalignment: bool = True
+    misalignment_probability: float = 0.3
+    
+    # Over/Under contrast
+    extreme_contrast: bool = True
+    extreme_contrast_probability: float = 0.2
+    over_contrast_range: Tuple[float, float] = (1.5, 2.2)
+    under_contrast_range: Tuple[float, float] = (0.3, 0.6)
+    
+    # Faint printing
+    add_faint_print: bool = True
+    faint_print_probability: float = 0.25
+    faint_intensity: Tuple[float, float] = (0.4, 0.7)
 
 
 class ImageAugmenter:
@@ -300,6 +334,182 @@ class ImageAugmenter:
         
         return output
     
+    def add_thermal_fade(self, image: np.ndarray, intensity: float = 0.4) -> np.ndarray:
+        """Simulate thermal printer fade (gradual darkening/lightening)"""
+        height, width = image.shape[:2]
+        output = image.copy().astype(np.float32)
+        
+        # Create fade gradient (top to bottom or left to right)
+        fade_direction = random.choice(['vertical', 'horizontal', 'diagonal'])
+        
+        if fade_direction == 'vertical':
+            # Fade from top to bottom
+            gradient = np.linspace(1.0, 1.0 - intensity, height)
+            gradient = np.tile(gradient.reshape(-1, 1), (1, width))
+        elif fade_direction == 'horizontal':
+            # Fade from left to right
+            gradient = np.linspace(1.0, 1.0 - intensity, width)
+            gradient = np.tile(gradient.reshape(1, -1), (height, 1))
+        else:  # diagonal
+            # Fade diagonally
+            gradient_v = np.linspace(1.0, 1.0 - intensity, height)
+            gradient_h = np.linspace(1.0, 1.0 - intensity, width)
+            gradient = np.outer(gradient_v, gradient_h) / 2 + 0.5
+        
+        # Apply gradient to all channels
+        for c in range(3):
+            output[:, :, c] = output[:, :, c] * gradient
+        
+        # Add noise to fade for realism
+        noise = np.random.randn(height, width) * 5
+        for c in range(3):
+            output[:, :, c] += noise
+        
+        return np.clip(output, 0, 255).astype(np.uint8)
+    
+    def add_wrinkle(self, image: np.ndarray) -> np.ndarray:
+        """Add wrinkle effect (random wavy distortion)"""
+        height, width = image.shape[:2]
+        output = image.copy()
+        
+        # Create wavy distortion
+        amplitude = random.randint(5, 15)
+        frequency = random.uniform(0.01, 0.03)
+        
+        # Create displacement maps
+        x_displacement = np.zeros((height, width), dtype=np.float32)
+        y_displacement = np.zeros((height, width), dtype=np.float32)
+        
+        for i in range(height):
+            for j in range(width):
+                x_displacement[i, j] = amplitude * np.sin(2 * np.pi * frequency * i)
+                y_displacement[i, j] = amplitude * np.sin(2 * np.pi * frequency * j)
+        
+        # Create mesh grid
+        x, y = np.meshgrid(np.arange(width), np.arange(height))
+        x = (x + x_displacement).astype(np.float32)
+        y = (y + y_displacement).astype(np.float32)
+        
+        # Remap image
+        output = cv2.remap(image, x, y, cv2.INTER_LINEAR, borderMode=cv2.BORDER_REPLICATE)
+        
+        return output
+    
+    def add_coffee_stain(self, image: np.ndarray) -> np.ndarray:
+        """Add realistic coffee stain"""
+        height, width = image.shape[:2]
+        output = image.copy()
+        
+        # Random position (favor edges and corners)
+        if random.random() < 0.6:
+            # Edge/corner stain
+            corner = random.choice(['top-left', 'top-right', 'bottom-left', 'bottom-right'])
+            if corner == 'top-left':
+                x = random.randint(0, width // 4)
+                y = random.randint(0, height // 4)
+            elif corner == 'top-right':
+                x = random.randint(3 * width // 4, width - 100)
+                y = random.randint(0, height // 4)
+            elif corner == 'bottom-left':
+                x = random.randint(0, width // 4)
+                y = random.randint(3 * height // 4, height - 100)
+            else:  # bottom-right
+                x = random.randint(3 * width // 4, width - 100)
+                y = random.randint(3 * height // 4, height - 100)
+        else:
+            # Center stain
+            x = random.randint(width // 4, 3 * width // 4)
+            y = random.randint(height // 4, 3 * height // 4)
+        
+        # Create irregular coffee stain shape
+        size = random.randint(60, 150)
+        stain = np.ones((size, size, 3), dtype=np.uint8) * 255
+        
+        # Brown coffee color with variation
+        brown_base = random.randint(150, 190)
+        for _ in range(random.randint(3, 6)):
+            # Multiple overlapping ellipses for irregular shape
+            ellipse_x = random.randint(0, size)
+            ellipse_y = random.randint(0, size)
+            ellipse_w = random.randint(size // 4, size // 2)
+            ellipse_h = random.randint(size // 4, size // 2)
+            brown = random.randint(brown_base - 20, brown_base + 20)
+            cv2.ellipse(
+                stain,
+                (ellipse_x, ellipse_y),
+                (ellipse_w, ellipse_h),
+                random.randint(0, 360),
+                0, 360,
+                (brown - 40, brown - 20, brown),
+                -1
+            )
+        
+        # Heavy blur for realistic spread
+        stain = cv2.GaussianBlur(stain, (41, 41), 0)
+        
+        # Blend with image
+        alpha = random.uniform(0.15, 0.35)
+        x_end = min(x + size, width)
+        y_end = min(y + size, height)
+        
+        roi = output[y:y_end, x:x_end]
+        stain_roi = stain[:y_end-y, :x_end-x]
+        
+        blended = cv2.addWeighted(roi, 1-alpha, stain_roi, alpha, 0)
+        output[y:y_end, x:x_end] = blended
+        
+        return output
+    
+    def add_skew(self, image: np.ndarray, angle: float) -> np.ndarray:
+        """Add skewed camera angle effect"""
+        return self.rotate_image(image, angle)
+    
+    def add_misalignment(self, image: np.ndarray) -> np.ndarray:
+        """Simulate poor scan alignment (shifted/cropped)"""
+        height, width = image.shape[:2]
+        
+        # Random shifts
+        shift_x = random.randint(-50, 50)
+        shift_y = random.randint(-30, 30)
+        
+        # Create translation matrix
+        M = np.float32([[1, 0, shift_x], [0, 1, shift_y]])
+        
+        # Apply translation with white border
+        output = cv2.warpAffine(
+            image, M, (width, height),
+            borderMode=cv2.BORDER_CONSTANT,
+            borderValue=(255, 255, 255)
+        )
+        
+        return output
+    
+    def apply_extreme_contrast(self, image: np.ndarray, is_over: bool = True) -> np.ndarray:
+        """Apply over-contrast or under-contrast"""
+        pil_image = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+        
+        if is_over:
+            # Over-contrast: harsh blacks and whites
+            contrast = random.uniform(*self.config.over_contrast_range)
+        else:
+            # Under-contrast: washed out, gray
+            contrast = random.uniform(*self.config.under_contrast_range)
+        
+        enhancer = ImageEnhance.Contrast(pil_image)
+        pil_image = enhancer.enhance(contrast)
+        
+        return cv2.cvtColor(np.array(pil_image), cv2.COLOR_RGB2BGR)
+    
+    def add_faint_printing(self, image: np.ndarray, intensity: float = 0.5) -> np.ndarray:
+        """Simulate faint/weak printing"""
+        # Increase brightness to wash out the text
+        output = image.astype(np.float32)
+        
+        # Push toward white
+        output = output + (255 - output) * intensity
+        
+        return np.clip(output, 0, 255).astype(np.uint8)
+    
     def augment(self, image: np.ndarray, seed: Optional[int] = None) -> np.ndarray:
         """
         Apply full augmentation pipeline
@@ -372,6 +582,40 @@ class ImageAugmenter:
         # Crease
         if self.config.add_crease and random.random() < self.config.crease_probability:
             output = self.add_crease(output)
+        
+        # Thermal printer fade
+        if self.config.add_thermal_fade and random.random() < self.config.thermal_fade_probability:
+            fade_intensity = random.uniform(*self.config.fade_intensity)
+            output = self.add_thermal_fade(output, fade_intensity)
+        
+        # Wrinkles
+        if self.config.add_wrinkle and random.random() < self.config.wrinkle_probability:
+            num_wrinkles = random.randint(*self.config.wrinkle_count)
+            for _ in range(num_wrinkles):
+                output = self.add_wrinkle(output)
+        
+        # Coffee stains
+        if self.config.add_coffee_stain and random.random() < self.config.coffee_stain_probability:
+            output = self.add_coffee_stain(output)
+        
+        # Skewed camera angle
+        if self.config.add_skew and random.random() < self.config.skew_probability:
+            angle = random.uniform(*self.config.skew_angle)
+            output = self.add_skew(output, angle)
+        
+        # Poor alignment
+        if self.config.add_misalignment and random.random() < self.config.misalignment_probability:
+            output = self.add_misalignment(output)
+        
+        # Extreme contrast (over or under)
+        if self.config.extreme_contrast and random.random() < self.config.extreme_contrast_probability:
+            is_over = random.random() > 0.5
+            output = self.apply_extreme_contrast(output, is_over)
+        
+        # Faint printing
+        if self.config.add_faint_print and random.random() < self.config.faint_print_probability:
+            intensity = random.uniform(*self.config.faint_intensity)
+            output = self.add_faint_printing(output, intensity)
         
         # Compression (last step)
         if self.config.add_compression and random.random() < self.config.compression_probability:

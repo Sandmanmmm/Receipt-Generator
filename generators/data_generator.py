@@ -34,13 +34,13 @@ class InvoiceData:
     company_tax_id: Optional[str] = None
     
     # Invoice info
-    invoice_number: str
-    invoice_date: str
+    invoice_number: str = ""
+    invoice_date: str = ""
     due_date: Optional[str] = None
     
     # Client info
-    client_name: str
-    client_address: str
+    client_name: str = ""
+    client_address: str = ""
     client_phone: Optional[str] = None
     client_email: Optional[str] = None
     
@@ -97,17 +97,76 @@ class SyntheticDataGenerator:
             Faker.seed(seed)
             random.seed(seed)
         
-        # Product/service descriptions
+        # Product/service descriptions for B2B wholesale invoices
+        # Aligned with retail categories (fashion, accessories, jewelry, beauty, 
+        # home_garden, sports_fitness, pet_supplies, books_media, toys_games, 
+        # food_beverage, health_wellness, electronics) plus general B2B services
         self.products = [
-            "Web Development Services", "Graphic Design", "Content Writing",
-            "SEO Optimization", "Social Media Management", "Consulting Hours",
-            "Software License", "Cloud Hosting", "Domain Registration",
-            "Email Marketing Campaign", "Logo Design", "Website Maintenance",
-            "Mobile App Development", "Database Management", "UI/UX Design",
-            "Video Production", "Photography Services", "Copywriting",
-            "Translation Services", "Technical Support", "Training Session",
-            "Project Management", "Data Analysis", "Network Setup",
-            "Security Audit", "Code Review", "API Integration"
+            # Fashion & Apparel Wholesale
+            "T-Shirts - 50 units", "Denim Jeans Assortment", "Hoodies (S-XL)", 
+            "Dresses - Mixed Styles", "Activewear Bundle", "Sweaters - 25 pcs",
+            "Leggings - 100 units", "Jackets Wholesale Lot", "Socks - 200 pairs",
+            
+            # Accessories Wholesale
+            "Handbags Assortment", "Sunglasses - 50 pcs", "Belts - Mixed Sizes",
+            "Hats & Caps Lot", "Scarves Bundle", "Wallets - 30 units",
+            "Backpacks - 20 pcs", "Watch Straps Lot", "Hair Accessories Kit",
+            
+            # Jewelry Wholesale
+            "Necklaces Assortment", "Earrings - 100 pairs", "Bracelets Lot",
+            "Rings - Assorted Sizes", "Jewelry Display Materials", "Packaging Boxes",
+            "Sterling Silver Findings", "Gold Plated Chains",
+            
+            # Beauty & Cosmetics Wholesale
+            "Skincare Product Line", "Lipstick Collection", "Mascara - 50 units",
+            "Foundation Shades Set", "Nail Polish Lot", "Makeup Brush Sets",
+            "Organic Face Masks", "Hair Care Products", "Fragrance Samples",
+            
+            # Home & Garden Wholesale
+            "Decorative Pillows Lot", "Candles - 100 units", "Vases Assortment",
+            "Throw Blankets - 25 pcs", "Picture Frames Lot", "LED String Lights",
+            "Bath Towel Sets", "Area Rugs - Mixed Sizes", "Plant Pots Bulk",
+            
+            # Sports & Fitness Wholesale
+            "Yoga Mats - 50 units", "Resistance Bands Lot", "Water Bottles Bulk",
+            "Gym Bags - 30 pcs", "Fitness Trackers", "Protein Shaker Bottles",
+            "Dumbbells Set", "Jump Ropes - 100 pcs", "Exercise Equipment",
+            
+            # Pet Supplies Wholesale
+            "Pet Food - Bulk Order", "Dog Toys Assortment", "Cat Treats Lot",
+            "Pet Beds - 20 units", "Leashes & Collars Bulk", "Pet Grooming Kit",
+            "Pet Bowls - 50 sets", "Pet Carriers", "Litter Supplies",
+            
+            # Books & Media Wholesale
+            "Paperback Books Lot", "Journals - 100 units", "Notebooks Assortment",
+            "Coloring Books Bundle", "Planners & Agendas", "Greeting Cards Pack",
+            "Art Prints Collection", "Stationery Supplies", "Pen Sets Bulk",
+            
+            # Toys & Games Wholesale
+            "Plush Toys Lot", "Board Games Assortment", "Building Blocks Set",
+            "Action Figures Bundle", "Puzzles - 50 units", "Educational Toys",
+            "Art & Craft Kits", "Outdoor Toys Lot", "RC Vehicles",
+            
+            # Food & Beverage Wholesale
+            "Specialty Coffee Beans", "Organic Tea Collection", "Chocolate Bars Lot",
+            "Gourmet Snacks Bundle", "Olive Oil - 24 bottles", "Hot Sauce Variety",
+            "Honey Jars - 50 units", "Protein Bars Case", "Dried Fruit Mix",
+            
+            # Health & Wellness Wholesale
+            "Vitamins Assortment", "Supplements Bundle", "Protein Powder Lot",
+            "Essential Oils Set", "Herbal Tea Collection", "First Aid Supplies",
+            "CBD Products Line", "Collagen Powder Bulk", "Probiotics - 100 units",
+            
+            # Electronics & Accessories Wholesale
+            "Phone Cases - 200 units", "USB Cables Lot", "Wireless Earbuds Bulk",
+            "Power Banks - 50 pcs", "Screen Protectors Lot", "Bluetooth Speakers",
+            "Charging Cables Assortment", "LED Lights Bulk", "Tech Accessories Kit",
+            
+            # General B2B Services
+            "Fulfillment Services", "Warehousing Monthly", "Shipping & Handling",
+            "Packaging Materials", "Custom Labeling", "Product Photography",
+            "Marketing Services", "Inventory Management", "Quality Inspection",
+            "Customs & Import Fees", "Insurance Coverage", "Rush Order Processing"
         ]
         
         # Payment methods

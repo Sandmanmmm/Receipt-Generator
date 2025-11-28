@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Minimal Invoice</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 60px;
+            color: #000;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .header {
+            margin-bottom: 60px;
+        }
+        .company-name {
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+        .meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        .meta-group {
+            margin-bottom: 20px;
+        }
+        .label {
+            text-transform: uppercase;
+            font-size: 10px;
+            color: #888;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        .value {
+            font-size: 14px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+        th {
+            text-align: left;
+            font-weight: normal;
+            text-transform: uppercase;
+            font-size: 10px;
+            color: #888;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #000;
+            letter-spacing: 1px;
+        }
+        td {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .col-desc { width: 60%; }
+        .col-qty { width: 10%; text-align: center; }
+        .col-price { width: 15%; text-align: right; }
+        .col-total { width: 15%; text-align: right; }
+        
+        .totals {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .totals-box {
+            width: 250px;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .total-row.final {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #000;
+            font-size: 16px;
+        }
+        .footer {
+            position: absolute;
+            bottom: 60px;
+            left: 60px;
+            right: 60px;
+            font-size: 10px;
+            color: #888;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="company-name">{{ company_name }}</div>
+        <div>{{ company_address }}</div>
+        <div>{{ company_city }}</div>
+    </div>
+
+    <div class="meta-grid">
+        <div>
+            <div class="meta-group">
+                <div class="label">Billed To</div>
+                <div class="value">
+                    {{ client_name }}<br>
+                    {{ client_address }}<br>
+                    {{ client_city }}
+                </div>
+            </div>
+        </div>
+        <div style="text-align: right;">
+            <div class="meta-group">
+                <div class="label">Invoice Number</div>
+                <div class="value">#{{ invoice_number }}</div>
+            </div>
+            <div class="meta-group">
+                <div class="label">Date of Issue</div>
+                <div class="value">{{ invoice_date }}</div>
+            </div>
+            <div class="meta-group">
+                <div class="label">Amount Due</div>
+                <div class="value">{{ currency_symbol }}{{ "%.2f"|format(total) }}</div>
+            </div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th class="col-desc">Description</th>
+                <th class="col-qty">Qty</th>
+                <th class="col-price">Price</th>
+                <th class="col-total">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.description }}</td>
+                <td style="text-align: center;">{{ item.quantity }}</td>
+                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price) }}</td>
+                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.amount) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="totals">
+        <div class="totals-box">
+            <div class="total-row">
+                <span>Subtotal</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(subtotal) }}</span>
+            </div>
+            <div class="total-row">
+                <span>Tax ({{ tax_rate }})</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(tax) }}</span>
+            </div>
+            <div class="total-row final">
+                <span>Total</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(total) }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        {{ company_name }} &bull; {{ company_email }} &bull; {{ company_phone }}
+    </div>
+</body>
+</html>

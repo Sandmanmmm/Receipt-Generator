@@ -34,10 +34,10 @@ class OCREngine:
         """Initialize PaddleOCR"""
         try:
             from paddleocr import PaddleOCR
+            # Note: use_angle_cls is deprecated, use use_textline_orientation
             self.engine = PaddleOCR(
-                use_angle_cls=self.kwargs.get('use_angle_cls', True),
-                lang=self.kwargs.get('lang', 'en'),
-                show_log=self.kwargs.get('show_log', False)
+                use_textline_orientation=self.kwargs.get('use_textline_orientation', True),
+                lang=self.kwargs.get('lang', 'en')
             )
         except ImportError:
             raise ImportError("PaddleOCR not installed. Install with: pip install paddleocr")
@@ -84,21 +84,33 @@ class OCREngine:
             return []
     
     def _extract_paddleocr(self, image_path: str) -> List[BoundingBox]:
-        """Extract with PaddleOCR"""
-        result = self.engine.ocr(image_path, cls=True)
+        """Extract with PaddleOCR (updated for v5+ API)"""
+        # Use predict() instead of deprecated ocr()
+        result = self.engine.predict(image_path)
         boxes = []
         
-        if not result or not result[0]:
+        if not result:
             return boxes
         
-        for line in result[0]:
-            coords = line[0]  # [[x1,y1], [x2,y2], [x3,y3], [x4,y4]]
-            text = line[1][0]
-            confidence = line[1][1]
-            
-            # Convert coords to bbox format
-            x_coords = [p[0] for p in coords]
-            y_coords = [p[1] for p in coords]
+        # Result is a list of OCRResult objects (dict-like)
+        ocr_result = result[0]
+        
+        # Get recognized texts, scores, and polygons
+        rec_texts = ocr_result.get('rec_texts', [])
+        rec_scores = ocr_result.get('rec_scores', [])
+        rec_polys = ocr_result.get('rec_polys', [])
+        
+        if not rec_texts:
+            return boxes
+        
+        for i, (text, confidence, poly) in enumerate(zip(rec_texts, rec_scores, rec_polys)):
+            if not text:
+                continue
+                
+            # Convert polygon coords to bbox format
+            # poly is numpy array of shape (N, 2) with points
+            x_coords = [p[0] for p in poly]
+            y_coords = [p[1] for p in poly]
             
             x = int(min(x_coords))
             y = int(min(y_coords))

@@ -105,6 +105,9 @@ class RetailReceiptData:
     # Barcode
     barcode_value: Optional[str] = None
     barcode_image: Optional[str] = None
+    
+    # Locale for formatting
+    locale: str = 'en_US'
 
 
 class RetailDataGenerator:
@@ -536,15 +539,31 @@ class RetailDataGenerator:
     def generate_pos_receipt(self, 
                             store_type: str = 'fashion',
                             min_items: int = 3,
-                            max_items: int = 8) -> RetailReceiptData:
+                            max_items: int = 8,
+                            locale: Optional[str] = None) -> RetailReceiptData:
         """Generate a complete POS receipt with ALL 37 entities"""
         
         receipt = RetailReceiptData()
         
+        # Randomly select locale if not provided
+        if locale is None:
+            locale_weights = {
+                'en_US': 0.40, 'en_GB': 0.15, 'en_CA': 0.10, 'en_AU': 0.08,
+                'fr_CA': 0.07, 'fr_FR': 0.05, 'es_ES': 0.05, 'es_MX': 0.04,
+                'de_DE': 0.04, 'zh_CN': 0.02
+            }
+            locales = list(locale_weights.keys())
+            weights = list(locale_weights.values())
+            locale = random.choices(locales, weights=weights)[0]
+        
+        # Store locale in receipt data for rendering
+        receipt.locale = locale
+        
         # Document metadata
         receipt.doc_type = "Receipt"
         receipt.invoice_number = self.fake.bothify(text='REC-######')
-        receipt.invoice_date = self.fake.date_this_year().strftime('%m/%d/%Y')
+        # Keep date in ISO format - will be formatted during rendering
+        receipt.invoice_date = self.fake.date_this_year().strftime('%Y-%m-%d')
         # ORDER_DATE typically not on POS receipts
         
         # Merchant information
@@ -644,19 +663,20 @@ class RetailDataGenerator:
     def generate_online_order(self, 
                              store_type: str = 'fashion',
                              min_items: int = 2,
-                             max_items: int = 5) -> RetailReceiptData:
+                             max_items: int = 5,
+                             locale: Optional[str] = None) -> RetailReceiptData:
         """Generate an online order/invoice with ALL 37 entities"""
         
-        receipt = self.generate_pos_receipt(store_type=store_type, min_items=min_items, max_items=max_items)
+        receipt = self.generate_pos_receipt(store_type=store_type, min_items=min_items, max_items=max_items, locale=locale)
         
         # Override for online orders
         receipt.doc_type = "Invoice"
         receipt.invoice_number = self.fake.bothify(text='ORD-######')
         
-        # ORDER_DATE (for online orders)
+        # ORDER_DATE (for online orders) - keep in ISO format
         order_date = self.fake.date_between(start_date='-30d', end_date='today')
-        receipt.order_date = order_date.strftime('%m/%d/%Y')
-        receipt.invoice_date = (order_date + timedelta(days=random.randint(0, 2))).strftime('%m/%d/%Y')
+        receipt.order_date = order_date.strftime('%Y-%m-%d')
+        receipt.invoice_date = (order_date + timedelta(days=random.randint(0, 2))).strftime('%Y-%m-%d')
         
         # Customer information (REQUIRED for online orders)
         receipt.buyer_name = self.fake.name()
@@ -678,6 +698,9 @@ class RetailDataGenerator:
     def to_dict(self, receipt: RetailReceiptData) -> Dict[str, Any]:
         """Convert RetailReceiptData to dictionary for template rendering"""
         return {
+            # Locale for formatting
+            'locale': receipt.locale,
+            
             # Document metadata
             'doc_type': receipt.doc_type,
             'invoice_number': receipt.invoice_number,

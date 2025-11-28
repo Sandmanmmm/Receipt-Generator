@@ -16,7 +16,7 @@ data:
   val_json: "data/processed/val.jsonl"
   test_json: "data/processed/test.jsonl"
   label_list_path: "config/labels.yaml"
-  max_seq_length: 1024  # Max tokens per document
+  max_seq_length: 512  # Max tokens per document (reduced from 1024 for memory efficiency)
   image_size: 224  # Image patch size for visual features
   ocr_engine: "paddleocr"  # Options: paddleocr, tesseract, easyocr
   

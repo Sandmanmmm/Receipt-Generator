@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice #{{ invoice_number }}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            font-size: 11pt;
+            line-height: 1.4;
+            color: #333;
+            background: white;
+        }
+        
+        .invoice-container {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            margin: 0 auto;
+            background: white;
+        }
+        
+        /* Header Section */
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid {{ brand_primary_color|default('#2563eb') }};
+        }
+        
+        .company-info {
+            flex: 1;
+        }
+        
+        .company-logo {
+            width: 120px;
+            height: 60px;
+            background: {{ brand_primary_color|default('#2563eb') }};
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24pt;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .company-name {
+            font-size: 24pt;
+            font-weight: bold;
+            color: {{ brand_primary_color|default('#2563eb') }};
+            margin-bottom: 8px;
+        }
+        
+        .company-details {
+            font-size: 9pt;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .invoice-meta {
+            text-align: right;
+        }
+        
+        .invoice-title {
+            font-size: 36pt;
+            font-weight: bold;
+            color: {{ brand_primary_color|default('#2563eb') }};
+            margin-bottom: 10px;
+        }
+        
+        .invoice-number {
+            font-size: 13pt;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .invoice-date {
+            font-size: 10pt;
+            color: #666;
+        }
+        
+        .due-date {
+            font-size: 10pt;
+            color: #dc2626;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        /* Billing Section */
+        .billing-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            gap: 30px;
+        }
+        
+        .bill-to, .ship-to {
+            flex: 1;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 6px;
+            border-left: 4px solid {{ brand_primary_color|default('#2563eb') }};
+        }
+        
+        .section-title {
+            font-size: 11pt;
+            font-weight: bold;
+            color: {{ brand_primary_color|default('#2563eb') }};
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .client-name {
+            font-size: 13pt;
+            font-weight: bold;
+            color: #111;
+            margin-bottom: 5px;
+        }
+        
+        .client-details {
+            font-size: 9pt;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Items Table */
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        .items-table thead {
+            background: {{ brand_primary_color|default('#2563eb') }};
+            color: white;
+        }
+        
+        .items-table thead th {
+            padding: 12px 10px;
+            text-align: left;
+            font-size: 10pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .items-table thead th:last-child {
+            text-align: right;
+        }
+        
+        .items-table tbody tr {
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .items-table tbody tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        
+        .items-table tbody tr:hover {
+            background: #f3f4f6;
+        }
+        
+        .items-table tbody td {
+            padding: 12px 10px;
+            font-size: 10pt;
+            vertical-align: top;
+        }
+        
+        .items-table tbody td:last-child {
+            text-align: right;
+            font-weight: bold;
+        }
+        
+        .item-description {
+            font-weight: 600;
+            color: #111;
+        }
+        
+        .item-code {
+            font-size: 8pt;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+        
+        .col-description { width: 40%; }
+        .col-quantity { width: 10%; text-align: center; }
+        .col-rate { width: 15%; text-align: right; }
+        .col-tax { width: 10%; text-align: center; }
+        .col-amount { width: 15%; text-align: right; }
+        
+        /* Totals Section */
+        .totals-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 30px;
+        }
+        
+        .totals-content {
+            width: 300px;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 15px;
+            font-size: 10pt;
+        }
+        
+        .total-row.subtotal {
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .total-row.grand-total {
+            background: {{ brand_primary_color|default('#2563eb') }};
+            color: white;
+            font-size: 14pt;
+            font-weight: bold;
+            margin-top: 5px;
+            border-radius: 4px;
+        }
+        
+        .total-label {
+            font-weight: 600;
+        }
+        
+        .total-value {
+            font-weight: bold;
+        }
+        
+        /* Payment Info */
+        .payment-section {
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            border-radius: 4px;
+        }
+        
+        .payment-section .section-title {
+            color: #92400e;
+            margin-bottom: 8px;
+        }
+        
+        .payment-details {
+            font-size: 9pt;
+            line-height: 1.8;
+            color: #78350f;
+        }
+        
+        /* Notes Section */
+        .notes-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f0f9ff;
+            border-radius: 4px;
+        }
+        
+        .notes-section .section-title {
+            margin-bottom: 8px;
+        }
+        
+        .notes-text {
+            font-size: 9pt;
+            color: #1e40af;
+            line-height: 1.6;
+        }
+        
+        /* Terms Section */
+        .terms-section {
+            margin-bottom: 20px;
+            padding: 12px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+        }
+        
+        .terms-section .section-title {
+            font-size: 9pt;
+            margin-bottom: 6px;
+        }
+        
+        .terms-text {
+            font-size: 8pt;
+            color: #6b7280;
+            line-height: 1.5;
+        }
+        
+        /* Footer */
+        .invoice-footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+            font-size: 9pt;
+            color: #9ca3af;
+        }
+        
+        .footer-highlight {
+            color: {{ brand_primary_color|default('#2563eb') }};
+            font-weight: bold;
+        }
+        
+        /* Print Styles */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            
+            .invoice-container {
+                margin: 0;
+                padding: 20mm;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <!-- Header Section -->
+        <div class="invoice-header">
+            <div class="company-info">
+                {% if company_logo_text %}
+                <div class="company-logo">{{ company_logo_text }}</div>
+                {% endif %}
+                <h1 class="company-name">{{ company_name }}</h1>
+                <div class="company-details">
+                    {{ company_address }}<br>
+                    {% if company_city and company_state and company_zip %}
+                    {{ company_city }}, {{ company_state }} {{ company_zip }}<br>
+                    {% endif %}
+                    Phone: {{ company_phone }}<br>
+                    Email: {{ company_email }}<br>
+                    {% if company_website %}
+                    Web: {{ company_website }}<br>
+                    {% endif %}
+                    {% if company_tax_id %}
+                    Tax ID: {{ company_tax_id }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="invoice-meta">
+                <h2 class="invoice-title">INVOICE</h2>
+                <div class="invoice-number">#{{ invoice_number }}</div>
+                <div class="invoice-date">Date: {{ invoice_date }}</div>
+                {% if due_date %}
+                <div class="due-date">Due: {{ due_date }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Billing Section -->
+        <div class="billing-section">
+            <div class="bill-to">
+                <h3 class="section-title">Bill To</h3>
+                <div class="client-name">{{ client_name }}</div>
+                <div class="client-details">
+                    {{ client_address }}<br>
+                    {% if client_city and client_state and client_zip %}
+                    {{ client_city }}, {{ client_state }} {{ client_zip }}<br>
+                    {% endif %}
+                    {% if client_phone %}
+                    Phone: {{ client_phone }}<br>
+                    {% endif %}
+                    {% if client_email %}
+                    Email: {{ client_email }}
+                    {% endif %}
+                </div>
+            </div>
+            {% if ship_to_name %}
+            <div class="ship-to">
+                <h3 class="section-title">Ship To</h3>
+                <div class="client-name">{{ ship_to_name }}</div>
+                <div class="client-details">
+                    {{ ship_to_address }}<br>
+                    {% if ship_to_city and ship_to_state and ship_to_zip %}
+                    {{ ship_to_city }}, {{ ship_to_state }} {{ ship_to_zip }}
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-description">Description</th>
+                    <th class="col-quantity">Qty</th>
+                    <th class="col-rate">Unit Price</th>
+                    {% if show_tax_column %}
+                    <th class="col-tax">Tax</th>
+                    {% endif %}
+                    <th class="col-amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>
+                        <div class="item-description">{{ item.description }}</div>
+                        {% if item.sku %}
+                        <div class="item-code">SKU: {{ item.sku }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="col-quantity">{{ item.quantity }}</td>
+                    <td class="col-rate">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price) }}</td>
+                    {% if show_tax_column %}
+                    <td class="col-tax">{{ item.tax_rate|default(0) }}%</td>
+                    {% endif %}
+                    <td class="col-amount">{{ currency_symbol }}{{ "%.2f"|format(item.amount) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <div class="totals-content">
+                <div class="total-row subtotal">
+                    <span class="total-label">Subtotal:</span>
+                    <span class="total-value">{{ currency_symbol }}{{ "%.2f"|format(subtotal) }}</span>
+                </div>
+                {% if discount and discount > 0 %}
+                <div class="total-row">
+                    <span class="total-label">Discount ({{ discount_percent|default(0) }}%):</span>
+                    <span class="total-value">-{{ currency_symbol }}{{ "%.2f"|format(discount) }}</span>
+                </div>
+                {% endif %}
+                {% if tax and tax > 0 %}
+                <div class="total-row">
+                    <span class="total-label">Tax ({{ tax_rate|default(0) }}%):</span>
+                    <span class="total-value">{{ currency_symbol }}{{ "%.2f"|format(tax) }}</span>
+                </div>
+                {% endif %}
+                {% if shipping and shipping > 0 %}
+                <div class="total-row">
+                    <span class="total-label">Shipping:</span>
+                    <span class="total-value">{{ currency_symbol }}{{ "%.2f"|format(shipping) }}</span>
+                </div>
+                {% endif %}
+                <div class="total-row grand-total">
+                    <span class="total-label">TOTAL:</span>
+                    <span class="total-value">{{ currency_symbol }}{{ "%.2f"|format(total) }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Info -->
+        {% if payment_terms or payment_method %}
+        <div class="payment-section">
+            <h3 class="section-title">Payment Information</h3>
+            <div class="payment-details">
+                {% if payment_terms %}
+                <strong>Payment Terms:</strong> {{ payment_terms }}<br>
+                {% endif %}
+                {% if payment_method %}
+                <strong>Method:</strong> {{ payment_method }}<br>
+                {% endif %}
+                {% if payment_account %}
+                <strong>Account:</strong> {{ payment_account }}<br>
+                {% endif %}
+                {% if payment_instructions %}
+                {{ payment_instructions }}
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Notes -->
+        {% if notes %}
+        <div class="notes-section">
+            <h3 class="section-title">Notes</h3>
+            <p class="notes-text">{{ notes }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Terms & Conditions -->
+        {% if terms %}
+        <div class="terms-section">
+            <h3 class="section-title">Terms & Conditions</h3>
+            <p class="terms-text">{{ terms }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <p>Thank you for your business! Questions? Contact us at {{ company_email }}</p>
+            <p class="footer-highlight">{{ company_name }}</p>
+        </div>
+    </div>
+</body>
+</html>

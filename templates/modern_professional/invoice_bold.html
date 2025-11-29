@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bold Modern Invoice</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        body {
+            font-family: 'Arial Black', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #1a1a1a;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        .header-banner {
+            background: linear-gradient(135deg, {{ brand_primary_color }} 0%, #2c3e50 100%);
+            color: white;
+            padding: 50px 40px;
+        }
+        .invoice-title {
+            font-size: 48px;
+            font-weight: 900;
+            margin: 0 0 10px 0;
+            letter-spacing: -1px;
+        }
+        .invoice-subtitle {
+            font-size: 16px;
+            font-weight: normal;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 40px;
+        }
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-left: 5px solid {{ brand_primary_color }};
+        }
+        .card-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .card-value {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        thead {
+            background: #1a1a1a;
+            color: white;
+        }
+        th {
+            text-align: left;
+            padding: 15px 10px;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+        td {
+            padding: 15px 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .totals-section {
+            background: #f8f9fa;
+            padding: 30px;
+            margin-top: 20px;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+        .total-row.grand {
+            border-top: 3px solid {{ brand_primary_color }};
+            margin-top: 15px;
+            padding-top: 15px;
+            font-size: 24px;
+            font-weight: 900;
+        }
+        .footer-bar {
+            background: #1a1a1a;
+            color: white;
+            padding: 30px 40px;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-banner">
+        <div class="invoice-title">INVOICE</div>
+        <div class="invoice-subtitle">#{{ invoice_number }}</div>
+    </div>
+
+    <div class="content">
+        <div class="info-cards">
+            <div class="card">
+                <div class="card-label">From</div>
+                <div class="card-value">
+                    {{ company_name }}<br>
+                    <span style="font-weight: normal; font-size: 12px;">
+                        {{ company_address }}<br>
+                        {{ company_email }}
+                    </span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-label">Bill To</div>
+                <div class="card-value">
+                    {{ client_name }}<br>
+                    <span style="font-weight: normal; font-size: 12px;">
+                        {{ client_address }}<br>
+                        {{ client_city }}
+                    </span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-label">Invoice Date</div>
+                <div class="card-value">{{ invoice_date }}</div>
+                <div class="card-label" style="margin-top: 15px;">Due Date</div>
+                <div class="card-value">{{ due_date }}</div>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 50%;">Description</th>
+                    <th style="width: 15%; text-align: center;">Qty</th>
+                    <th style="width: 17%; text-align: right;">Unit Price</th>
+                    <th style="width: 18%; text-align: right;">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td><strong>{{ item.description }}</strong></td>
+                    <td style="text-align: center;">{{ item.quantity }}</td>
+                    <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price) }}</td>
+                    <td style="text-align: right;"><strong>{{ currency_symbol }}{{ "%.2f"|format(item.amount) }}</strong></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="totals-section">
+            <div class="total-row">
+                <span>Subtotal</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(subtotal) }}</span>
+            </div>
+            <div class="total-row">
+                <span>Tax ({{ tax_rate }})</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(tax) }}</span>
+            </div>
+            <div class="total-row grand">
+                <span>TOTAL DUE</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(total) }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bar">
+        Thank you for your business! Payment is due by {{ due_date }}.
+    </div>
+</body>
+</html>

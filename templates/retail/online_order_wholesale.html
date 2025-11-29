@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wholesale Order</title>
+    <title>Wholesale Order{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <link rel="stylesheet" href="../css/online_order_wholesale.css">
 </head>
 <body>
     <div class="wholesale-invoice">
+        {% if _is_first_page|default(true) %}
         <!-- Header -->
         <div class="invoice-header">
             <div class="company-branding">
@@ -115,8 +116,22 @@
                 </div>
             </div>
         </div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header" style="padding: 20px; background: #f8f9fa; border-bottom: 3px solid #2c5aa0; margin-bottom: 30px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-size: 24px; font-weight: bold; color: #2c5aa0;">{{ company_name }}</div>
+                    <div style="color: #666; margin-top: 5px;">Order {{ order_number }} (Continued)</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 16px; color: #666;">Page {{ _page_number }} of {{ _total_pages }}</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
 
-        <!-- Products Section -->
+        <!-- Items Section -->
         <div class="products-section">
             <div class="section-heading">
                 <span class="heading-icon">📦</span>
@@ -308,6 +323,7 @@
             </div>
         </div>
 
+        {% if _is_last_page|default(true) %}
         <!-- Totals Section -->
         <div class="totals-section">
             <div class="totals-container">
@@ -585,6 +601,12 @@
                 <p>This invoice is a commercial document. Please retain for your records.</p>
             </div>
         </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer" style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-top: 2px solid #ddd; text-align: center;">
+            <div style="color: #666; font-size: 14px;">Continued on page {{ (_page_number|default(1)) + 1 }}...</div>
+        </div>
+        {% endif %}
     </div>
 </body>
 </html>

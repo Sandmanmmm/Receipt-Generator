@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sidebar Invoice</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            font-size: 13px;
+            line-height: 1.6;
+            display: flex;
+        }
+        .sidebar {
+            width: 280px;
+            background: {{ brand_primary_color }};
+            color: white;
+            padding: 40px 30px;
+            min-height: 1123px;
+        }
+        .sidebar h1 {
+            font-size: 32px;
+            margin: 0 0 40px 0;
+            font-weight: 300;
+        }
+        .sidebar-section {
+            margin-bottom: 35px;
+        }
+        .sidebar-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+        .sidebar-value {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .qr-placeholder {
+            width: 150px;
+            height: 150px;
+            background: white;
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .qr-placeholder img {
+            max-width: 140px;
+            max-height: 140px;
+        }
+        .main-content {
+            flex: 1;
+            padding: 40px 50px;
+        }
+        .invoice-header {
+            margin-bottom: 40px;
+        }
+        .invoice-number {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .company-name {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+        thead {
+            border-bottom: 2px solid {{ brand_primary_color }};
+        }
+        th {
+            text-align: left;
+            padding: 12px 8px;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #666;
+            font-weight: 600;
+        }
+        td {
+            padding: 15px 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .item-description {
+            font-weight: 500;
+        }
+        .summary-box {
+            float: right;
+            width: 300px;
+            margin-top: 20px;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+        .summary-row.total {
+            border-top: 2px solid {{ brand_primary_color }};
+            margin-top: 10px;
+            padding-top: 15px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .notes {
+            clear: both;
+            margin-top: 80px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid {{ brand_primary_color }};
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h1>INVOICE</h1>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-label">Invoice Number</div>
+            <div class="sidebar-value">{{ invoice_number }}</div>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-label">Issue Date</div>
+            <div class="sidebar-value">{{ invoice_date }}</div>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-label">Due Date</div>
+            <div class="sidebar-value">{{ due_date }}</div>
+        </div>
+        
+        <div class="sidebar-section">
+            <div class="sidebar-label">Bill To</div>
+            <div class="sidebar-value">
+                {{ client_name }}<br>
+                {{ client_address }}<br>
+                {{ client_city }}
+            </div>
+        </div>
+        
+        {% if qr_code %}
+        <div class="qr-placeholder">
+            <img src="{{ qr_code }}" alt="QR Code">
+        </div>
+        {% endif %}
+        
+        <div class="sidebar-section" style="margin-top: 40px;">
+            <div class="sidebar-label">Amount Due</div>
+            <div class="sidebar-value" style="font-size: 24px; font-weight: 600;">
+                {{ currency_symbol }}{{ "%.2f"|format(total) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="invoice-header">
+            <div class="invoice-number">From</div>
+            <div class="company-name">{{ company_name }}</div>
+            <div>{{ company_address }}</div>
+            <div>{{ company_city }}</div>
+            <div>{{ company_email }} • {{ company_phone }}</div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 55%;">Description</th>
+                    <th style="width: 15%; text-align: center;">Quantity</th>
+                    <th style="width: 15%; text-align: right;">Unit Price</th>
+                    <th style="width: 15%; text-align: right;">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td class="item-description">{{ item.description }}</td>
+                    <td style="text-align: center;">{{ item.quantity }}</td>
+                    <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price) }}</td>
+                    <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.amount) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="summary-box">
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(subtotal) }}</span>
+            </div>
+            <div class="summary-row">
+                <span>Tax ({{ tax_rate }})</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(tax) }}</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(total) }}</span>
+            </div>
+        </div>
+
+        <div class="notes">
+            <strong>Payment Terms:</strong> {{ payment_terms }}<br>
+            {{ notes }}
+        </div>
+    </div>
+</body>
+</html>

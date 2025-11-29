@@ -41,11 +41,16 @@ class TokenAnnotator:
             'supplier_address': 'SUPPLIER_ADDRESS',
             'supplier_phone': 'SUPPLIER_PHONE',
             'supplier_email': 'SUPPLIER_EMAIL',
+            'store_website': 'SUPPLIER_EMAIL',  # Sometimes rendered as contact info
             
             # Document identifiers
             'invoice_number': 'INVOICE_NUMBER',
             'invoice_date': 'INVOICE_DATE',
+            'date': 'INVOICE_DATE',  # Alternative field name
             'order_date': 'ORDER_DATE',
+            'doc_type': 'DOC_TYPE',
+            'transaction_id': 'INVOICE_NUMBER',  # Alternative identifier
+            'transaction_number': 'INVOICE_NUMBER',  # Alternative identifier
             
             # Customer info (schema uses BUYER_*)
             'buyer_name': 'BUYER_NAME',
@@ -53,25 +58,47 @@ class TokenAnnotator:
             'buyer_phone': 'BUYER_PHONE',
             'buyer_email': 'BUYER_EMAIL',
             'account_number': 'ACCOUNT_NUMBER',
+            'customer_id': 'ACCOUNT_NUMBER',  # Alternative field name
             
-            # Financial totals
+            # Financial totals (support both field name variants)
             'currency': 'CURRENCY',
             'subtotal': 'SUBTOTAL',
+            'tax': 'TAX_AMOUNT',  # Alternative field name
             'tax_amount': 'TAX_AMOUNT',
             'tax_rate': 'TAX_RATE',
+            'total': 'TOTAL_AMOUNT',  # Alternative field name
             'total_amount': 'TOTAL_AMOUNT',
             'discount': 'DISCOUNT',
             'total_discount': 'DISCOUNT',
+            'tip_amount': 'GENERIC_LABEL',  # Tip (restaurants, delivery)
+            'cash_tendered': 'PAYMENT_TERMS',  # Cash transactions
+            'change_amount': 'PAYMENT_TERMS',  # Change given
             
             # Payment info
             'payment_method': 'PAYMENT_METHOD',
             'payment_terms': 'PAYMENT_TERMS',
             'card_type': 'PAYMENT_METHOD',
+            'card_last_four': 'PAYMENT_TERMS',  # Last 4 of card
+            'approval_code': 'PAYMENT_TERMS',  # Transaction approval code
             
             # Retail-specific
             'register_number': 'REGISTER_NUMBER',
             'cashier_id': 'CASHIER_ID',
+            'cashier_name': 'CASHIER_ID',  # Cashier name variant
             'tracking_number': 'TRACKING_NUMBER',
+            'transaction_time': 'GENERIC_LABEL',  # Transaction timestamp
+            
+            # Loyalty & Survey
+            'loyalty_points_earned': 'NOTE',  # Loyalty info
+            'loyalty_points_balance': 'NOTE',  # Loyalty info
+            'survey_code': 'NOTE',  # Survey codes
+            'survey_url': 'NOTE',  # Survey URLs
+            
+            # Terms & Notes
+            'terms_and_conditions': 'TERMS_AND_CONDITIONS',
+            'note': 'NOTE',
+            'return_policy': 'TERMS_AND_CONDITIONS',
+            'footer_message': 'NOTE',
         }
     
     def normalize_text(self, text: str) -> str:
@@ -119,6 +146,78 @@ class TokenAnnotator:
             token_span = ' '.join(tokens[i:i+len(entity_words)])
             if self.normalize_text(token_span) == entity_normalized:
                 return (i, i + len(entity_words))
+        
+        # For date values, try different date formats
+        # Handle: 2025-07-01 vs 07/01/2025 vs 26/04/2025 vs July 1, 2025
+        date_pattern = r'(\d{4})[/-](\d{1,2})[/-](\d{1,2})|(\d{1,2})[/-](\d{1,2})[/-](\d{4})'
+        entity_date_match = re.search(date_pattern, str(entity_text))
+        if entity_date_match:
+            # Extract date components from entity
+            if entity_date_match.group(1):  # YYYY-MM-DD or YYYY/MM/DD
+                e_year, e_month, e_day = entity_date_match.group(1, 2, 3)
+                e_month, e_day = int(e_month), int(e_day)
+            else:  # DD/MM/YYYY or MM/DD/YYYY (ambiguous)
+                part1, part2, e_year = entity_date_match.group(4, 5, 6)
+                part1, part2 = int(part1), int(part2)
+                # Try both interpretations
+                e_variants = []
+                if part1 <= 12:  # Could be MM/DD
+                    e_variants.append((part1, part2))  # month, day
+                if part2 <= 12:  # Could be DD/MM
+                    e_variants.append((part2, part1))  # month, day
+                if not e_variants:  # Neither interpretation valid
+                    e_variants.append((part1, part2))  # Default to first interpretation
+            
+            # Try to find matching date in tokens
+            for i in range(start_idx, len(tokens)):
+                token_date_match = re.search(date_pattern, str(tokens[i]))
+                if token_date_match:
+                    if token_date_match.group(1):  # YYYY-MM-DD format in token
+                        t_year, t_month, t_day = token_date_match.group(1, 2, 3)
+                        t_month, t_day = int(t_month), int(t_day)
+                        t_variants = [(t_month, t_day)]
+                    else:  # DD/MM/YYYY or MM/DD/YYYY in token
+                        t_part1, t_part2, t_year = token_date_match.group(4, 5, 6)
+                        t_part1, t_part2 = int(t_part1), int(t_part2)
+                        # Try both interpretations
+                        t_variants = []
+                        if t_part1 <= 12:
+                            t_variants.append((t_part1, t_part2))
+                        if t_part2 <= 12:
+                            t_variants.append((t_part2, t_part1))
+                        if not t_variants:
+                            t_variants.append((t_part1, t_part2))
+                    
+                    # Match if year matches and any month/day variant matches
+                    if e_year == t_year:
+                        # Check if entity came from YYYY-MM-DD (unambiguous)
+                        if entity_date_match.group(1):
+                            for t_month, t_day in t_variants:
+                                if e_month == t_month and e_day == t_day:
+                                    return (i, i + 1)
+                        else:  # Entity was ambiguous, check all variants
+                            for e_month, e_day in e_variants:
+                                for t_month, t_day in t_variants:
+                                    if e_month == t_month and e_day == t_day:
+                                        return (i, i + 1)
+        
+        # For numeric values (prices, amounts), try formatted variations
+        # Handle currency formatting: 1234.56 vs $1234.56 vs $1,234.56
+        try:
+            numeric_value = float(re.sub(r'[^\d.]', '', str(entity_text)))
+            
+            for i in range(start_idx, len(tokens)):
+                token_clean = re.sub(r'[^\d.]', '', str(tokens[i]))
+                if token_clean:
+                    try:
+                        token_value = float(token_clean)
+                        # Match if values are equal within rounding tolerance
+                        if abs(token_value - numeric_value) < 0.02:
+                            return (i, i + 1)
+                    except ValueError:
+                        continue
+        except (ValueError, TypeError):
+            pass  # Not a numeric value, continue with text matching
         
         # Try fuzzy match for single-word entities
         if len(entity_words) == 1:
@@ -255,6 +354,118 @@ class TokenAnnotator:
                                 for i in range(start_idx + 1, end_idx):
                                     if 'I-ITEM_TOTAL_COST' in self.label2id:
                                         labels[i] = 'I-ITEM_TOTAL_COST'
+                                        labeled_indices.add(i)
+                
+                # Item SKU/UPC (schema: ITEM_SKU)
+                for sku_field in ['sku', 'upc']:
+                    if sku_field in item and item[sku_field]:
+                        sku_str = str(item[sku_field])
+                        span = self.find_entity_span(sku_str, tokens)
+                        if span:
+                            start_idx, end_idx = span
+                            if not any(i in labeled_indices for i in range(start_idx, end_idx)):
+                                if 'B-ITEM_SKU' in self.label2id:
+                                    labels[start_idx] = 'B-ITEM_SKU'
+                                    labeled_indices.add(start_idx)
+                                    for i in range(start_idx + 1, end_idx):
+                                        if 'I-ITEM_SKU' in self.label2id:
+                                            labels[i] = 'I-ITEM_SKU'
+                                            labeled_indices.add(i)
+                                break
+                
+                # Item discount (schema: ITEM_DISCOUNT)
+                if 'discount' in item and item['discount']:
+                    disc_str = str(item['discount'])
+                    # Skip if discount is 0 or empty
+                    try:
+                        if float(disc_str.replace('$', '').replace(',', '')) > 0:
+                            span = self.find_entity_span(disc_str, tokens)
+                            if span:
+                                start_idx, end_idx = span
+                                if not any(i in labeled_indices for i in range(start_idx, end_idx)):
+                                    if 'B-ITEM_DISCOUNT' in self.label2id:
+                                        labels[start_idx] = 'B-ITEM_DISCOUNT'
+                                        labeled_indices.add(start_idx)
+                                        for i in range(start_idx + 1, end_idx):
+                                            if 'I-ITEM_DISCOUNT' in self.label2id:
+                                                labels[i] = 'I-ITEM_DISCOUNT'
+                                                labeled_indices.add(i)
+                    except (ValueError, AttributeError):
+                        pass
+                
+                # Item tax (schema: ITEM_TAX)
+                if 'tax_amount' in item and item['tax_amount']:
+                    tax_str = str(item['tax_amount'])
+                    span = self.find_entity_span(tax_str, tokens)
+                    if span:
+                        start_idx, end_idx = span
+                        if not any(i in labeled_indices for i in range(start_idx, end_idx)):
+                            if 'B-ITEM_TAX' in self.label2id:
+                                labels[start_idx] = 'B-ITEM_TAX'
+                                labeled_indices.add(start_idx)
+                                for i in range(start_idx + 1, end_idx):
+                                    if 'I-ITEM_TAX' in self.label2id:
+                                        labels[i] = 'I-ITEM_TAX'
+                                        labeled_indices.add(i)
+                
+                # Item unit (schema: ITEM_UNIT)
+                if 'unit' in item and item['unit']:
+                    unit_str = str(item['unit'])
+                    span = self.find_entity_span(unit_str, tokens)
+                    if span:
+                        start_idx, end_idx = span
+                        if not any(i in labeled_indices for i in range(start_idx, end_idx)):
+                            if 'B-ITEM_UNIT' in self.label2id:
+                                labels[start_idx] = 'B-ITEM_UNIT'
+                                labeled_indices.add(start_idx)
+                                for i in range(start_idx + 1, end_idx):
+                                    if 'I-ITEM_UNIT' in self.label2id:
+                                        labels[i] = 'I-ITEM_UNIT'
+                                        labeled_indices.add(i)
+                
+                # Item lot number (schema: LOT_NUMBER)
+                if 'lot_number' in item and item['lot_number']:
+                    lot_str = str(item['lot_number'])
+                    span = self.find_entity_span(lot_str, tokens)
+                    if span:
+                        start_idx, end_idx = span
+                        if not any(i in labeled_indices for i in range(start_idx, end_idx)):
+                            if 'B-LOT_NUMBER' in self.label2id:
+                                labels[start_idx] = 'B-LOT_NUMBER'
+                                labeled_indices.add(start_idx)
+                                for i in range(start_idx + 1, end_idx):
+                                    if 'I-LOT_NUMBER' in self.label2id:
+                                        labels[i] = 'I-LOT_NUMBER'
+                                        labeled_indices.add(i)
+                
+                # Item serial number (schema: SERIAL_NUMBER)
+                if 'serial_number' in item and item['serial_number']:
+                    serial_str = str(item['serial_number'])
+                    span = self.find_entity_span(serial_str, tokens)
+                    if span:
+                        start_idx, end_idx = span
+                        if not any(i in labeled_indices for i in range(start_idx, end_idx)):
+                            if 'B-SERIAL_NUMBER' in self.label2id:
+                                labels[start_idx] = 'B-SERIAL_NUMBER'
+                                labeled_indices.add(start_idx)
+                                for i in range(start_idx + 1, end_idx):
+                                    if 'I-SERIAL_NUMBER' in self.label2id:
+                                        labels[i] = 'I-SERIAL_NUMBER'
+                                        labeled_indices.add(i)
+                
+                # Item weight (schema: WEIGHT)
+                if 'weight' in item and item['weight']:
+                    weight_str = str(item['weight'])
+                    span = self.find_entity_span(weight_str, tokens)
+                    if span:
+                        start_idx, end_idx = span
+                        if not any(i in labeled_indices for i in range(start_idx, end_idx)):
+                            if 'B-WEIGHT' in self.label2id:
+                                labels[start_idx] = 'B-WEIGHT'
+                                labeled_indices.add(start_idx)
+                                for i in range(start_idx + 1, end_idx):
+                                    if 'I-WEIGHT' in self.label2id:
+                                        labels[i] = 'I-WEIGHT'
                                         labeled_indices.add(i)
         
         # Convert labels to IDs

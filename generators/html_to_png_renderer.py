@@ -295,6 +295,466 @@ class HTMLToPNGRenderer:
             except:
                 pass
     
+    def render_multipage_html(self, html_content: str, output_path: str,
+                               data: dict, template_name: str,
+                               page_width: int = 816, page_height: int = 1056,
+                               items_per_page: int = 8,
+                               apply_augmentation: Optional[bool] = None) -> bool:
+        """
+        Render HTML content as multi-page document with proper page breaks.
+        Splits line items across pages while preserving header/footer styling.
+        
+        Args:
+            html_content: Original HTML content (used for styling extraction)
+            output_path: Base path for output (will create _page1.png, _page2.png, etc.)
+            data: Data dictionary with line_items to split
+            template_name: Name of template for structure detection
+            page_width: Page width in pixels
+            page_height: Page height in pixels  
+            items_per_page: Maximum items per page
+            apply_augmentation: Force augmentation on/off
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        from pathlib import Path
+        import re
+        
+        output_file = Path(output_path)
+        output_dir = output_file.parent
+        base_name = output_file.stem
+        
+        # Get line items from data
+        line_items = data.get('line_items', [])
+        num_items = len(line_items)
+        
+        # Calculate number of pages needed
+        if num_items <= items_per_page:
+            # Single page - use normal render
+            return self.render(html_content, output_path, page_width, page_height, apply_augmentation)
+        
+        num_pages = (num_items + items_per_page - 1) // items_per_page
+        
+        # Extract CSS from the HTML content
+        css_match = re.search(r'<style[^>]*>(.*?)</style>', html_content, re.DOTALL)
+        embedded_css = css_match.group(1) if css_match else ""
+        
+        # Create pages
+        pages_created = []
+        
+        for page_num in range(num_pages):
+            start_idx = page_num * items_per_page
+            end_idx = min(start_idx + items_per_page, num_items)
+            page_items = line_items[start_idx:end_idx]
+            
+            # Create page data with subset of items
+            page_data = data.copy()
+            page_data['line_items'] = page_items
+            page_data['items'] = page_items  # Alias
+            page_data['_page_number'] = page_num + 1
+            page_data['_total_pages'] = num_pages
+            page_data['_is_first_page'] = (page_num == 0)
+            page_data['_is_last_page'] = (page_num == num_pages - 1)
+            
+            # Only show totals on last page
+            if not page_data['_is_last_page']:
+                page_data['_hide_totals'] = True
+            
+            # Generate page HTML
+            page_html = self._generate_multipage_html(
+                page_data, template_name, embedded_css, page_width, page_height
+            )
+            
+            # Render this page
+            page_path = output_dir / f"{base_name}_page{page_num + 1}.png"
+            success = self.render(page_html, str(page_path), page_width, page_height, apply_augmentation)
+            
+            if success:
+                pages_created.append(str(page_path))
+            else:
+                print(f"Failed to render page {page_num + 1}")
+                return False
+        
+        # Create multipage marker file
+        marker_path = output_dir / f"{base_name}_MULTIPAGE.txt"
+        with open(marker_path, 'w') as f:
+            f.write(f"Total pages: {num_pages}\n")
+            for i, page_path in enumerate(pages_created, 1):
+                f.write(f"Page {i}: {page_path}\n")
+        
+        return True
+    
+    def _generate_multipage_html(self, page_data: dict, template_name: str,
+                                  css_content: str, page_width: int, page_height: int) -> str:
+        """
+        Generate HTML for a single page of a multi-page document.
+        Creates a standardized layout that works across different template styles.
+        """
+        page_num = page_data.get('_page_number', 1)
+        total_pages = page_data.get('_total_pages', 1)
+        is_first = page_data.get('_is_first_page', True)
+        is_last = page_data.get('_is_last_page', True)
+        hide_totals = page_data.get('_hide_totals', False)
+        
+        # Extract brand color
+        brand_color = page_data.get('brand_primary_color', '#2c3e50')
+        
+        # Build HTML
+        html_parts = [f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page {page_num} of {total_pages}</title>
+    <style>
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        body {{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 12px;
+            line-height: 1.4;
+            color: #333;
+            width: {page_width}px;
+            min-height: {page_height}px;
+            padding: 30px;
+            background: white;
+        }}
+        .page-header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 3px solid {brand_color};
+            margin-bottom: 20px;
+        }}
+        .company-info h1 {{
+            font-size: 22px;
+            color: {brand_color};
+            margin-bottom: 5px;
+        }}
+        .company-info p {{
+            font-size: 11px;
+            color: #666;
+        }}
+        .page-indicator {{
+            text-align: right;
+            font-size: 11px;
+            color: #888;
+        }}
+        .page-indicator .page-num {{
+            font-size: 16px;
+            font-weight: bold;
+            color: {brand_color};
+        }}
+        .doc-info {{
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }}
+        .doc-info-item {{
+            font-size: 11px;
+        }}
+        .doc-info-item .label {{
+            color: #888;
+            text-transform: uppercase;
+            font-size: 9px;
+            letter-spacing: 0.5px;
+        }}
+        .doc-info-item .value {{
+            font-weight: 600;
+            margin-top: 3px;
+        }}
+        .addresses {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }}
+        .address-box {{
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 3px solid {brand_color};
+        }}
+        .address-box h3 {{
+            font-size: 10px;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 8px;
+        }}
+        .address-box p {{
+            font-size: 12px;
+            line-height: 1.5;
+        }}
+        .items-table {{
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }}
+        .items-table thead {{
+            background: {brand_color};
+            color: white;
+        }}
+        .items-table th {{
+            padding: 12px 10px;
+            text-align: left;
+            font-size: 10px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }}
+        .items-table td {{
+            padding: 12px 10px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 11px;
+        }}
+        .items-table tr:hover {{
+            background: #f8f9fa;
+        }}
+        .item-desc {{
+            font-weight: 500;
+        }}
+        .item-sku {{
+            font-size: 9px;
+            color: #888;
+        }}
+        .totals-section {{
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+        }}
+        .totals-box {{
+            width: 280px;
+            border: 2px solid {brand_color};
+            padding: 15px;
+        }}
+        .total-row {{
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 12px;
+        }}
+        .total-row.subtotal {{
+            border-bottom: 1px solid #e0e0e0;
+        }}
+        .total-row.grand {{
+            border-top: 2px solid {brand_color};
+            margin-top: 10px;
+            padding-top: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: {brand_color};
+        }}
+        .page-footer {{
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            font-size: 10px;
+            color: #888;
+        }}
+        .continuation-notice {{
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 10px;
+            text-align: center;
+            font-size: 11px;
+            color: #856404;
+            margin-top: 20px;
+        }}
+    </style>
+</head>
+<body>
+''']
+        
+        # Page header (all pages)
+        supplier_name = page_data.get('supplier_name', page_data.get('company_name', 'Company'))
+        supplier_address = page_data.get('supplier_address', page_data.get('company_address', ''))
+        supplier_phone = page_data.get('supplier_phone', page_data.get('company_phone', ''))
+        
+        html_parts.append(f'''
+    <div class="page-header">
+        <div class="company-info">
+            <h1>{supplier_name}</h1>
+            <p>{supplier_address}</p>
+            <p>{supplier_phone}</p>
+        </div>
+        <div class="page-indicator">
+            <div>Page</div>
+            <div class="page-num">{page_num} / {total_pages}</div>
+        </div>
+    </div>
+''')
+        
+        # Document info (first page only - full, other pages - minimal)
+        invoice_num = page_data.get('invoice_number', page_data.get('order_number', 'N/A'))
+        invoice_date = page_data.get('invoice_date', page_data.get('order_date', ''))
+        
+        if is_first:
+            html_parts.append(f'''
+    <div class="doc-info">
+        <div class="doc-info-item">
+            <div class="label">Invoice/Order #</div>
+            <div class="value">{invoice_num}</div>
+        </div>
+        <div class="doc-info-item">
+            <div class="label">Date</div>
+            <div class="value">{invoice_date}</div>
+        </div>
+        <div class="doc-info-item">
+            <div class="label">Payment Method</div>
+            <div class="value">{page_data.get('payment_method', 'N/A')}</div>
+        </div>
+    </div>
+''')
+            
+            # Addresses (first page only)
+            buyer_name = page_data.get('buyer_name', page_data.get('client_name', ''))
+            buyer_address = page_data.get('buyer_address', page_data.get('client_address', ''))
+            
+            html_parts.append(f'''
+    <div class="addresses">
+        <div class="address-box">
+            <h3>Bill To</h3>
+            <p><strong>{buyer_name}</strong></p>
+            <p>{buyer_address}</p>
+        </div>
+        <div class="address-box">
+            <h3>Ship To</h3>
+            <p><strong>{page_data.get('shipping_name', buyer_name)}</strong></p>
+            <p>{page_data.get('shipping_address', buyer_address)}</p>
+        </div>
+    </div>
+''')
+        else:
+            # Minimal info for continuation pages
+            html_parts.append(f'''
+    <div class="doc-info" style="grid-template-columns: 1fr 1fr;">
+        <div class="doc-info-item">
+            <div class="label">Invoice/Order #</div>
+            <div class="value">{invoice_num}</div>
+        </div>
+        <div class="doc-info-item">
+            <div class="label">Date</div>
+            <div class="value">{invoice_date}</div>
+        </div>
+    </div>
+''')
+        
+        # Items table
+        currency = page_data.get('currency', page_data.get('currency_symbol', '$'))
+        
+        html_parts.append('''
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th style="width: 45%;">Description</th>
+                <th style="width: 15%;">SKU</th>
+                <th style="width: 10%; text-align: center;">Qty</th>
+                <th style="width: 15%; text-align: right;">Unit Price</th>
+                <th style="width: 15%; text-align: right;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+''')
+        
+        for item in page_data.get('line_items', []):
+            desc = item.get('description', '')
+            sku = item.get('sku', item.get('upc', ''))
+            qty = item.get('quantity', 1)
+            
+            # Parse unit_price and total - handle both string ($5.99) and numeric formats
+            unit_price_val = item.get('unit_price', item.get('rate', 0))
+            if isinstance(unit_price_val, str):
+                try:
+                    unit_price_val = float(unit_price_val.replace('$', '').replace(',', ''))
+                except (ValueError, AttributeError):
+                    unit_price_val = 0.0
+            unit_price = float(unit_price_val)
+            
+            total_val = item.get('total', item.get('amount', unit_price * qty))
+            if isinstance(total_val, str):
+                try:
+                    total_val = float(total_val.replace('$', '').replace(',', ''))
+                except (ValueError, AttributeError):
+                    total_val = unit_price * qty
+            total = float(total_val)
+            
+            html_parts.append(f'''
+            <tr>
+                <td class="item-desc">{desc}</td>
+                <td class="item-sku">{sku}</td>
+                <td style="text-align: center;">{qty}</td>
+                <td style="text-align: right;">{currency}{unit_price:.2f}</td>
+                <td style="text-align: right;"><strong>{currency}{total:.2f}</strong></td>
+            </tr>
+''')
+        
+        html_parts.append('''
+        </tbody>
+    </table>
+''')
+        
+        # Continuation notice or totals
+        if not is_last:
+            html_parts.append(f'''
+    <div class="continuation-notice">
+        Continued on page {page_num + 1}...
+    </div>
+''')
+        else:
+            # Totals section (last page only)
+            # Parse currency strings to floats
+            def parse_amount(val, default=0.0):
+                if val is None:
+                    return default
+                if isinstance(val, (int, float)):
+                    return float(val)
+                if isinstance(val, str):
+                    try:
+                        return float(val.replace('$', '').replace(',', ''))
+                    except (ValueError, AttributeError):
+                        return default
+                return default
+            
+            subtotal = parse_amount(page_data.get('subtotal'))
+            tax = parse_amount(page_data.get('tax', page_data.get('tax_amount', 0)))
+            total = parse_amount(page_data.get('total', page_data.get('total_amount')))
+            if total == 0:
+                total = subtotal + tax
+            tax_rate = page_data.get('tax_rate', '')
+            
+            html_parts.append(f'''
+    <div class="totals-section">
+        <div class="totals-box">
+            <div class="total-row subtotal">
+                <span>Subtotal</span>
+                <span>{currency}{subtotal:.2f}</span>
+            </div>
+            <div class="total-row">
+                <span>Tax ({tax_rate})</span>
+                <span>{currency}{tax:.2f}</span>
+            </div>
+            <div class="total-row grand">
+                <span>TOTAL</span>
+                <span>{currency}{total:.2f}</span>
+            </div>
+        </div>
+    </div>
+''')
+        
+        # Footer
+        notes = page_data.get('notes', page_data.get('footer_message', 'Thank you for your business!'))
+        html_parts.append(f'''
+    <div class="page-footer">
+        <p>{notes}</p>
+        <p style="margin-top: 5px;">{supplier_name} • {supplier_phone}</p>
+    </div>
+</body>
+</html>
+''')
+        
+        return ''.join(html_parts)
+
     def render_file(self, html_path: str, output_path: str,
                     custom_width: Optional[int] = None,
                     custom_height: Optional[int] = None) -> bool:
@@ -3647,7 +4107,7 @@ class SimplePNGRenderer:
     def _should_use_multipage(self, receipt_data: dict) -> bool:
         """
         Determine if receipt should use multi-page rendering
-        Based on receipt type and number of line items
+        Based on receipt type, number of line items, and estimated content length
         
         IMPORTANT DISTINCTION:
         - Retail/POS receipts: Always single continuous roll (thermal paper)
@@ -3677,15 +4137,40 @@ class SimplePNGRenderer:
         line_items = receipt_data.get('line_items', [])
         num_items = len(line_items)
         
-        # Always use multi-page for large orders (>15 items) - made more aggressive
+        # Estimate total content lines to detect if we'll overflow single page
+        # Letter size page can fit approximately 50-55 lines comfortably (with 20px line spacing)
+        estimated_lines = 0
+        
+        # Header section: 10-20 lines depending on style
+        estimated_lines += 15
+        
+        # Transaction/buyer/metadata sections: 5-15 lines
+        estimated_lines += 10
+        
+        # Line items: Each item is ~2-4 lines depending on table format
+        estimated_lines += num_items * 3
+        
+        # Totals section: 8-15 lines
+        estimated_lines += 12
+        
+        # Payment, footer, barcode sections: 10-20 lines
+        estimated_lines += 15
+        
+        # CRITICAL: If estimated content exceeds single page capacity, FORCE multi-page
+        # This must happen BEFORE random logic to prevent overflow
+        if estimated_lines > 52:
+            return True
+        
+        # Always use multi-page for large orders (>15 items)
         if num_items > 15:
             return True
         
-        # Medium orders (10-15 items): 60% chance (increased from 40%)
+        # For smaller orders that fit on one page, use random distribution
+        # Medium orders (10-15 items): 60% chance
         if num_items >= 10:
             return random.random() < 0.6
         
-        # Small-medium orders (7-9 items): 30% chance (increased from 10%)
+        # Small-medium orders (7-9 items): 30% chance
         if num_items >= 7:
             return random.random() < 0.3
         

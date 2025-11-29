@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Invoice</title>
+    <title>Order Invoice{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <link rel="stylesheet" href="../css/online_order_invoice.css">
 </head>
 <body>
     <div class="online-invoice">
+        {% if _is_first_page|default(true) %}
         <!-- Header -->
         <div class="invoice-header">
             <div class="company-logo">
@@ -63,6 +64,20 @@
                 {% endif %}
             </div>
         </div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header" style="padding: 20px; background: #f9f9f9; border-bottom: 3px solid #333; margin-bottom: 30px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-size: 24px; font-weight: bold; color: #333;">{{ supplier_name }}</div>
+                    <div style="color: #666; margin-top: 5px;">Order {{ order_number }} (Continued)</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 16px; color: #666;">Page {{ _page_number }} of {{ _total_pages }}</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
 
         <!-- Order Items -->
         <div class="items-section">
@@ -105,6 +120,7 @@
             </table>
         </div>
 
+        {% if _is_last_page|default(true) %}
         <!-- Order Summary -->
         <div class="summary-section">
             <div class="summary-card">
@@ -136,7 +152,7 @@
                 {% endif %}
                 <div class="summary-row">
                     <span class="summary-label">Tax ({{ tax_rate }}%):</span>
-                    <span class="summary-value">{{ tax_amount }}</span>
+                    <span class="summary-value">${{ "%.2f"|format(tax_amount) }}</span>
                 </div>
                 <div class="summary-row total-row">
                     <span class="summary-label">Total:</span>
@@ -201,6 +217,12 @@
                 <p>{{ footer_message }}</p>
             </div>
         </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer" style="margin-top: 30px; padding: 20px; background: #f9f9f9; border-top: 2px solid #ddd; text-align: center;">
+            <div style="color: #666; font-size: 14px;">Continued on page {{ (_page_number|default(1)) + 1 }}...</div>
+        </div>
+        {% endif %}
     </div>
 </body>
 </html>

@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Invoice - Marketplace</title>
+    <title>Order Invoice - Marketplace{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <link rel="stylesheet" href="../css/online_order_marketplace.css">
 </head>
 <body>
     <div class="marketplace-invoice">
+        {% if _is_first_page|default(true) %}
         <!-- eBay/Etsy Style - Seller-focused, marketplace branding -->
         
         <!-- Marketplace Header -->
@@ -133,7 +134,22 @@
             </div>
             {% endfor %}
         </div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header" style="padding: 20px; background: #f5f5f5; border-bottom: 3px solid #ff6b35; margin-bottom: 30px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-size: 24px; font-weight: bold; color: #333;">{{ marketplace_name }}</div>
+                    <div style="color: #666; margin-top: 5px;">Order {{ order_number }} (Continued)</div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 16px; color: #666;">Page {{ _page_number }} of {{ _total_pages }}</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
 
+        {% if _is_last_page|default(true) %}
         <!-- Order Summary -->
         <div class="summary-section">
             <div class="summary-box">
@@ -167,7 +183,7 @@
                 
                 <div class="summary-row">
                     <span class="summary-label">Tax:</span>
-                    <span class="summary-value">{{ tax_amount }}</span>
+                    <span class="summary-value">${{ "%.2f"|format(tax_amount) }}</span>
                 </div>
                 
                 <div class="summary-divider"></div>
@@ -218,6 +234,12 @@
                 <p>Order placed on {{ order_date }} • Invoice generated on {{ invoice_date }}</p>
             </div>
         </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer" style="margin-top: 30px; padding: 20px; background: #f5f5f5; border-top: 2px solid #ddd; text-align: center;">
+            <div style="color: #666; font-size: 14px;">Continued on page {{ (_page_number|default(1)) + 1 }}...</div>
+        </div>
+        {% endif %}
     </div>
 </body>
 </html>

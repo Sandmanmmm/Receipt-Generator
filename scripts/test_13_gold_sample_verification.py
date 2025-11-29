@@ -40,7 +40,7 @@ import re
 from pathlib import Path
 from typing import Dict, List, Tuple, Any
 from decimal import Decimal, ROUND_HALF_UP
-from datetime import datetime
+from datetime import datetime, timedelta
 import shutil
 from jinja2 import Environment, FileSystemLoader
 
@@ -395,16 +395,60 @@ def generate_gold_sample(
     
     try:
         if is_invoice:
-            # Generate Invoice
-            data = invoice_gen.generate_modern_invoice()
-            
-            # Templates
+            # Templates - expanded with more visual variety
+            # Multi-page templates have '_multipage' suffix and will get more items
+            # Weight multipage templates higher to test pagination
             invoice_templates = [
                 "modern_professional/invoice_ecommerce.html",
                 "modern_professional/invoice_minimal.html",
-                "modern_professional/invoice_a4.html"
+                "modern_professional/invoice_minimal_multipage.html",  # Multi-page variant
+                "modern_professional/invoice_minimal_multipage.html",  # Multi-page variant (duplicate for higher chance)
+                "modern_professional/invoice_a4.html",
+                "modern_professional/invoice_bold.html",
+                "modern_professional/invoice_sidebar.html",
+                "modern_professional/invoice_compact.html",
+                "modern_professional/invoice_compact_multipage.html",  # Multi-page variant
+                "modern_professional/invoice_compact_multipage.html",  # Multi-page variant (duplicate for higher chance)
+                "modern_professional/invoice_elegant.html",
+                "classic/invoice.html",
+                "modern/invoice.html"
             ]
             template_name = random.choice(invoice_templates)
+            
+            # Force multi-page templates to get enough items to trigger pagination
+            if '_multipage' in template_name:
+                # For invoices, we need 12+ items to trigger multi-page (items_per_page = 12)
+                # Generate 15-25 items to ensure 2-3 pages
+                min_invoice_items = 15
+                max_invoice_items = 25
+            else:
+                min_invoice_items = 3
+                max_invoice_items = 8
+            
+            # Generate invoice with appropriate item count
+            data = invoice_gen.generate_modern_invoice(min_items=min_invoice_items, max_items=max_invoice_items)
+            
+            # Add compatibility fields for classic/modern templates
+            # Convert items to support both 'unit_price' and 'rate' field names
+            for item in data.get('items', []):
+                if 'unit_price' in item and 'rate' not in item:
+                    item['rate'] = item['unit_price']
+            
+            # Add optional fields for classic templates
+            if 'company_tax_id' not in data:
+                data['company_tax_id'] = None
+            if 'client_phone' not in data:
+                data['client_phone'] = data.get('client_contact', None)
+            if 'client_email' not in data:
+                data['client_email'] = data.get('client_contact', None)
+            
+            # Structure payment_info as nested object for classic/modern templates
+            if 'payment_info' not in data:
+                data['payment_info'] = {
+                    'method': data.get('payment_method'),
+                    'account': data.get('account_number'),
+                    'instructions': f"Bank: {data.get('bank_name')} | Routing: {data.get('routing_number')}"
+                }
             
             # Page settings
             page_size = 'A4'
@@ -426,14 +470,52 @@ def generate_gold_sample(
             ]
             store_type = random.choice(store_types)
             
-            # Size distribution
-            rand_val = random.random()
-            if rand_val < 0.2:
-                min_items, max_items = 25, 45 # Large
-            elif rand_val < 0.3:
-                min_items, max_items = 12, 20 # Medium
+            # Templates - expanded to use all retail variations
+            receipt_templates = [
+                # Standard POS receipts
+                "retail/pos_receipt.html",
+                "retail/pos_receipt_dense.html",
+                "retail/pos_receipt_wide.html",
+                "retail/pos_receipt_premium.html",
+                
+                # Specialty POS receipts
+                "retail/pos_receipt_fuel.html",
+                "retail/pos_receipt_pharmacy.html",
+                "retail/pos_receipt_qsr.html",
+                "retail/pos_receipt_wholesale.html",
+                
+                # Online/E-commerce orders (these can trigger multi-page)
+                "retail/online_order_digital.html",
+                "retail/online_order_electronics.html",
+                "retail/online_order_fashion.html",
+                "retail/online_order_grocery.html",
+                "retail/online_order_home_improvement.html",
+                "retail/online_order_marketplace.html",
+                "retail/online_order_wholesale.html",
+                "retail/online_order_invoice.html",
+                
+                # Service invoices
+                "retail/consumer_service_invoice.html"
+            ]
+            template_name = random.choice(receipt_templates)
+            
+            # Size distribution - force online_order templates to have more items
+            if 'online_order' in template_name:
+                # Online orders need 10+ items to trigger multi-page (items_per_page = 10)
+                # 70% chance of multi-page (12-20 items), 30% chance single page (6-9 items)
+                if random.random() < 0.7:
+                    min_items, max_items = 12, 20  # Multi-page
+                else:
+                    min_items, max_items = 6, 9    # Single page
             else:
-                min_items, max_items = 3, 8   # Normal
+                # Standard POS receipts - size distribution
+                rand_val = random.random()
+                if rand_val < 0.2:
+                    min_items, max_items = 25, 45 # Large
+                elif rand_val < 0.3:
+                    min_items, max_items = 12, 20 # Medium
+                else:
+                    min_items, max_items = 3, 8   # Normal
             
             receipt_obj = retail_gen.generate_pos_receipt(
                 store_type=store_type,
@@ -449,13 +531,6 @@ def generate_gold_sample(
             
             if data.get('barcode_image'): sample.has_barcode = True
             
-            # Templates
-            receipt_templates = [
-                "retail/pos_receipt.html",
-                "retail/pos_receipt_dense.html"
-            ]
-            template_name = random.choice(receipt_templates)
-            
             # Page settings - receipts use render_receipt_with_data for multipage support
             page_size = None
             orientation = None
@@ -466,16 +541,151 @@ def generate_gold_sample(
         sample.data_dict['id'] = sample.sample_id
         sample.template_name = template_name
         
+        # Add compatibility fields for online_order templates
+        if 'online_order' in template_name or 'consumer_service' in template_name:
+            # Calculate item_discounts from individual item discounts (numeric for comparison)
+            item_discounts = 0.0
+            for item in data.get('line_items', []):
+                discount_str = item.get('discount')
+                if discount_str and isinstance(discount_str, str):
+                    try:
+                        item_discounts += float(discount_str.replace('$', '').replace(',', ''))
+                    except ValueError:
+                        pass
+                elif isinstance(discount_str, (int, float)):
+                    item_discounts += float(discount_str)
+            # Template expects numeric value for comparison but displays formatted
+            # Keep as string formatted with $ for display (templates check > 0 with strings sometimes)
+            data['item_discounts'] = item_discounts  # Numeric for comparison
+            
+            # Generate order_number from invoice_number
+            data['order_number'] = data.get('invoice_number', f"ORD-{random.randint(100000, 999999)}")
+            
+            # Generate supplier_initials from supplier_name
+            supplier_name = data.get('supplier_name', 'Store')
+            data['supplier_initials'] = ''.join([w[0].upper() for w in supplier_name.split()[:2]])
+            
+            # Order dates and status
+            data['order_date'] = data.get('order_date', data.get('invoice_date'))
+            data['order_status'] = random.choice(['Confirmed', 'Processing', 'Shipped', 'Delivered'])
+            
+            # Expected delivery (3-7 days from order date)
+            order_date_str = data.get('order_date', data.get('invoice_date'))
+            if order_date_str:
+                try:
+                    for fmt in ['%Y-%m-%d', '%m/%d/%Y', '%d/%m/%Y']:
+                        try:
+                            order_date = datetime.strptime(order_date_str, fmt)
+                            delivery_date = order_date + timedelta(days=random.randint(3, 7))
+                            data['expected_delivery'] = delivery_date.strftime('%B %d, %Y')
+                            break
+                        except ValueError:
+                            continue
+                except Exception:
+                    data['expected_delivery'] = 'Within 5-7 business days'
+            else:
+                data['expected_delivery'] = 'Within 5-7 business days'
+            
+            # Shipping info
+            data['shipping_name'] = data.get('buyer_name') or 'Customer'
+            data['shipping_address'] = data.get('buyer_address') or '123 Main St'
+            buyer_address = data.get('buyer_address') or ''
+            shipping_parts = buyer_address.split(', ') if buyer_address else []
+            if len(shipping_parts) >= 2:
+                data['shipping_city'] = shipping_parts[0]
+                state_zip = shipping_parts[-1].split(' ')
+                data['shipping_state'] = state_zip[0] if state_zip else ''
+                data['shipping_zip'] = state_zip[-1] if len(state_zip) > 1 else ''
+            else:
+                data['shipping_city'] = 'Anytown'
+                data['shipping_state'] = 'CA'
+                data['shipping_zip'] = '90210'
+            
+            data['shipping_method'] = random.choice(['Standard', 'Express', '2-Day', 'Next Day'])
+            data['shipping_charge'] = f"${random.choice([0, 4.99, 7.99, 12.99]):.2f}"
+            data['carrier_name'] = random.choice(['FedEx', 'UPS', 'USPS', 'DHL'])
+            data['tracking_number'] = f"1Z{random.randint(10000000, 99999999)}"
+            
+            # Tagline and branding
+            taglines = [
+                'Style Delivered', 'Quality Guaranteed', 'Shop with Confidence',
+                'Your Satisfaction, Our Priority', 'Fast & Reliable Service'
+            ]
+            data['tagline'] = random.choice(taglines)
+            
+            # Total items count
+            data['total_items'] = len(data.get('line_items', []))
+            
+            # Optional fields that templates may use (set to None/0 if not present)
+            # These must be numeric for > 0 comparisons in templates
+            data.setdefault('coupon_code', None)
+            data.setdefault('coupon_discount', 0)
+            data.setdefault('loyalty_discount', 0)
+            data.setdefault('gift_wrap', False)
+            data.setdefault('gift_wrap_charge', 0)
+            data.setdefault('total_savings', 0)
+            data.setdefault('has_size_chart', False)
+            data.setdefault('size_chart_url', None)
+            
+            # Additional numeric fields for various online order templates
+            data.setdefault('service_fee', 0)
+            data.setdefault('shopper_tip', 0)
+            data.setdefault('seller_shipping_charge', 0)
+            data.setdefault('marketplace_fee', 0)
+            data.setdefault('installation_total', 0)
+            data.setdefault('rental_total', 0)
+            data.setdefault('haul_away_fee', 0)
+            data.setdefault('materials_subtotal', data.get('subtotal', '$0.00'))
+            
+            # Convert string financial fields to numeric for template comparisons
+            # But keep formatted versions for display
+            def parse_currency(val):
+                if val is None:
+                    return 0.0
+                if isinstance(val, (int, float)):
+                    return float(val)
+                if isinstance(val, str):
+                    try:
+                        return float(val.replace('$', '').replace(',', ''))
+                    except ValueError:
+                        return 0.0
+                return 0.0
+            
+            # tax_amount needs to be numeric for comparison in digital template
+            # For online_order templates, we convert to numeric since they format in template
+            tax_amount_orig = data.get('tax_amount', 0)
+            data['tax_amount'] = parse_currency(tax_amount_orig)
+            
+            # Ensure item discounts are numeric for comparisons
+            for item in data.get('line_items', []):
+                if item.get('discount') is None:
+                    item['discount'] = 0
+                elif isinstance(item.get('discount'), str):
+                    try:
+                        item['discount'] = float(item['discount'].replace('$', '').replace(',', ''))
+                    except (ValueError, AttributeError):
+                        item['discount'] = 0
+        
         # Render to PNG
         image_path = output_dir / 'images' / f"{sample.sample_id}.png"
         image_path.parent.mkdir(parents=True, exist_ok=True)
         
-        if not is_invoice and use_receipt_renderer:
-            # Use SimplePNGRenderer for receipts - supports multipage
+        # Determine if this is a modern-style HTML template that needs dynamic height
+        is_modern_template = (
+            'online_order' in template_name or 
+            'consumer_service' in template_name or
+            'invoice' in template_name
+        )
+        
+        if not is_invoice and use_receipt_renderer and not is_modern_template:
+            # Use SimplePNGRenderer for traditional POS receipts - supports multipage
             success = receipt_renderer.render_receipt_dict(data, str(image_path))
         else:
-            # Use HTMLToPNGRenderer for invoices (with Jinja2 templates)
-            template = env.get_template(template_name)
+            # Use HTMLToPNGRenderer for invoices and modern-style receipts (with Jinja2 templates)
+            try:
+                template = env.get_template(template_name)
+            except Exception as e:
+                raise Exception(f"Failed to load template '{template_name}': {e}")
             html = template.render(**data)
             
             # Embed CSS
@@ -494,12 +704,208 @@ def generate_gold_sample(
             
             html = re.sub(r'<link\s+rel="stylesheet"\s+href="([^"]+)"\s*>', replace_css_link, html)
             
-            success = html_renderer.render(
-                html, str(image_path),
-                page_size=page_size,
-                orientation=orientation,
-                custom_width=custom_width
-            )
+            # Calculate dynamic height based on line items to prevent overflow
+            # Base components (in pixels at standard DPI):
+            # - Header (logo, company info, invoice title): ~200px
+            # - Address sections: ~150px
+            # - Metadata (dates, PO, invoice#): ~100px
+            # - Table header: ~50px
+            # - Each line item row: ~45-50px
+            # - Totals section (subtotal, tax, total): ~120px
+            # - Payment/terms/notes section: ~100px
+            # - Footer (thank you message, QR code, etc.): ~150px
+            # - Margins and padding: ~150px extra buffer
+            num_items = len(data.get('line_items', []))
+            
+            # Smart height calculation based on template characteristics
+            # Different templates have very different item densities
+            
+            # Determine template-specific parameters based on actual template structure
+            template_name_lower = template_name.lower()
+            
+            if 'online_order' in template_name_lower or 'consumer_service' in template_name_lower:
+                # Modern e-commerce receipts - very spacious with lots of metadata per item
+                base_height = 1200  # Header, customer info, shipping, status timeline
+                item_height = 80    # Items include images, attributes, descriptions, SKUs
+                footer_height = 500  # Shipping details, return policy, customer service
+                items_per_page = 10   # Conservative for complex layouts
+                
+            elif 'invoice' in template_name_lower:
+                # Business invoices - moderate density
+                base_height = 900   # Header, addresses, invoice details
+                item_height = 50    # Standard table rows
+                footer_height = 400  # Totals, payment terms, notes
+                items_per_page = 12
+                
+            elif any(kw in template_name_lower for kw in ['pos_receipt_dense', 'pos_receipt_wide']):
+                # Compact POS receipts - high density
+                base_height = 300
+                item_height = 25
+                footer_height = 200
+                items_per_page = 20
+                
+            else:
+                # Standard POS receipts - medium density
+                base_height = 400
+                item_height = 35
+                footer_height = 250
+                items_per_page = 15
+            
+            # Calculate estimated height
+            estimated_height = base_height + (num_items * item_height) + footer_height
+            
+            # Absolute maximum height before we MUST use multi-page
+            # This is based on wkhtmltoimage rendering limits and readability
+            max_safe_height = 1400  # Beyond this, rendering becomes unreliable
+            
+            # Calculate if we need multi-page based on estimated height
+            height_based_needs_multipage = estimated_height > max_safe_height
+            
+            # Calculate pages needed - use simple item-based pagination
+            # The items_per_page values are calibrated to keep within max_safe_height
+            effective_items_per_page = items_per_page
+            num_pages_needed = max(1, (num_items + items_per_page - 1) // items_per_page)
+            
+            # Need multipage if EITHER height exceeds limit OR multiple pages of items
+            needs_multipage = height_based_needs_multipage or (num_pages_needed > 1)
+            
+            # If height triggers multipage but items don't, recalculate pages needed
+            if height_based_needs_multipage and num_pages_needed == 1:
+                # Estimate pages based on height (each page can be max_safe_height)
+                num_pages_needed = max(2, (estimated_height + max_safe_height - 1) // max_safe_height)
+                # Recalculate items per page to distribute evenly
+                effective_items_per_page = max(1, (num_items + num_pages_needed - 1) // num_pages_needed)
+            
+            # CRITICAL: Only allow multi-page for templates designed for it OR online_order templates
+            # Regular invoice templates don't have _page_number conditionals and will fail
+            # But online_order templates can handle pagination by just showing subset of items
+            is_multipage_template = '_multipage' in template_name.lower()
+            is_online_order = 'online_order' in template_name.lower()
+            
+            if needs_multipage and not is_multipage_template and not is_online_order:
+                # Template not designed for pagination - render as single page (may be tall)
+                needs_multipage = False
+                num_pages_needed = 1
+            
+            # Debug logging
+            if num_items > 3 or needs_multipage:
+                print(f"  {template_name}: {num_items} items, est. {estimated_height}px (base:{base_height} + items:{num_items}x{item_height} + footer:{footer_height})")
+                if needs_multipage:
+                    print(f"  -> MULTI-PAGE: {num_pages_needed} pages @ {effective_items_per_page} items/page")
+            
+            # Decide rendering strategy
+            if needs_multipage and (is_multipage_template or is_online_order):
+                # Content too long - split into multiple pages preserving template styling
+                num_pages = num_pages_needed
+                pages_created = []
+                
+                for page_num in range(num_pages):
+                    start_idx = page_num * effective_items_per_page
+                    end_idx = min(start_idx + effective_items_per_page, num_items)
+                    # Get items from whichever field exists (invoices use 'items', receipts use 'line_items')
+                    all_items = data.get('line_items', data.get('items', []))
+                    page_items = all_items[start_idx:end_idx]
+                    
+                    # Create page-specific data
+                    page_data = data.copy()
+                    page_data['line_items'] = page_items
+                    page_data['items'] = page_items  # Alias for templates using either field name
+                    page_data['_page_number'] = page_num + 1
+                    page_data['_total_pages'] = num_pages
+                    page_data['_is_first_page'] = (page_num == 0)
+                    page_data['_is_last_page'] = (page_num == num_pages - 1)
+                    page_data['total_items'] = len(page_items)  # Update item count for this page
+                    
+                    # Hide totals on non-last pages (templates can check _is_last_page)
+                    if not page_data['_is_last_page']:
+                        page_data['_hide_totals'] = True
+                        # Set totals to 0/empty for non-last pages so they don't render
+                        page_data['subtotal'] = ''
+                        page_data['tax_amount'] = 0
+                        page_data['total_amount'] = ''
+                    
+                    # Re-render template with page-specific data
+                    page_html = template.render(**page_data)
+                    
+                    # Embed CSS again for this page
+                    page_html = re.sub(r'<link\s+rel="stylesheet"\s+href="([^"]+)"\s*>', replace_css_link, page_html)
+                    
+                    # Add page indicator at bottom of page
+                    page_indicator = f'''
+                    <div style="position: fixed; bottom: 10px; right: 20px; font-size: 11px; color: #888; font-family: sans-serif;">
+                        Page {page_num + 1} of {num_pages}
+                    </div>
+                    '''
+                    # Insert before </body>
+                    page_html = page_html.replace('</body>', f'{page_indicator}</body>')
+                    
+                    # Calculate appropriate height for this page based on content
+                    # Use the estimated height formula but for this page's item count
+                    page_items_count = len(page_items)
+                    
+                    # Adjust base and footer height for non-first and non-last pages
+                    # Continuation pages have smaller headers/footers
+                    page_base_height = base_height if page_data['_is_first_page'] else int(base_height * 0.3)
+                    page_footer_height = footer_height if page_data['_is_last_page'] else int(footer_height * 0.2)
+                    
+                    page_estimated_height = page_base_height + (page_items_count * item_height) + page_footer_height
+                    # Cap at max_safe_height to avoid rendering issues
+                    page_render_height = min(page_estimated_height, max_safe_height)
+                    
+                    # Render this page
+                    page_path = image_path.parent / f"{sample.sample_id}_page{page_num + 1}.png"
+                    page_success = html_renderer.render(
+                        page_html, str(page_path),
+                        page_size=None,
+                        custom_width=custom_width if custom_width else 816,
+                        custom_height=page_render_height
+                    )
+                    
+                    if page_success:
+                        pages_created.append(str(page_path))
+                    else:
+                        print(f"    Failed to render page {page_num + 1}")
+                
+                # Create multipage marker file (only if actually multiple pages)
+                if pages_created and num_pages > 1:
+                    marker_path = image_path.parent / f"{sample.sample_id}_MULTIPAGE.txt"
+                    with open(marker_path, 'w') as f:
+                        f.write(f"Total pages: {num_pages}\n")
+                        for i, page_path in enumerate(pages_created, 1):
+                            f.write(f"Page {i}: {page_path}\n")
+                    success = True
+                elif pages_created and num_pages == 1:
+                    # Single page - rename from _page1.png to .png for consistency
+                    page1_path = image_path.parent / f"{sample.sample_id}_page1.png"
+                    if page1_path.exists():
+                        import shutil
+                        shutil.move(str(page1_path), str(image_path))
+                    success = True
+                else:
+                    success = False
+                    
+            else:
+                # Single page - use estimated height but ensure it's reasonable
+                # Cap at max_safe_height to prevent rendering issues
+                final_height = min(estimated_height, max_safe_height)
+                
+                if num_items <= 2:
+                    # Very small receipts can use standard page size
+                    success = html_renderer.render(
+                        html, str(image_path),
+                        page_size=page_size,
+                        orientation=orientation,
+                        custom_width=custom_width
+                    )
+                else:
+                    # Use calculated height for better fit
+                    success = html_renderer.render(
+                        html, str(image_path),
+                        page_size=None,
+                        orientation=orientation,
+                        custom_width=custom_width if custom_width else 816,
+                        custom_height=final_height
+                    )
         
         if not success:
             sample.issues.append("Failed to render image")
@@ -507,25 +913,55 @@ def generate_gold_sample(
         
         # Check if multipage output was created (render_receipt_dict creates _page1.png etc.)
         multipage_marker = image_path.parent / f"{sample.sample_id}_MULTIPAGE.txt"
+        page_paths = []
+        
         if multipage_marker.exists():
-            # Use the first page for OCR
+            # Read page count from marker file - handle malformed files
+            try:
+                with open(multipage_marker, 'r') as f:
+                    lines = f.readlines()
+                    if lines and len(lines[0].split()) >= 4:
+                        page_count = int(lines[0].split()[3])
+                    else:
+                        # Fallback: find all page files
+                        page_files = sorted(image_path.parent.glob(f"{sample.sample_id}_page*.png"))
+                        page_count = len(page_files)
+            except (ValueError, IndexError):
+                # Fallback: find all page files
+                page_files = sorted(image_path.parent.glob(f"{sample.sample_id}_page*.png"))
+                page_count = len(page_files)
+            
+            # Collect all page paths
+            for page_num in range(1, page_count + 1):
+                page_path = image_path.parent / f"{sample.sample_id}_page{page_num}.png"
+                if page_path.exists():
+                    page_paths.append(str(page_path))
+            
+            # Use first page as primary image path for display
             sample.image_path = str(image_path.parent / f"{sample.sample_id}_page1.png")
         else:
+            # Single page
             sample.image_path = str(image_path)
+            page_paths = [sample.image_path]
         
-        # Verify image exists
-        if not Path(sample.image_path).exists():
+        # Verify at least one image exists
+        if not page_paths or not Path(page_paths[0]).exists():
             sample.issues.append(f"Image not found: {sample.image_path}")
             return sample
         
-        # Run OCR
-        bbox_list = ocr_engine.extract_text(sample.image_path)
-        if not bbox_list:
-            sample.issues.append("OCR returned no results")
+        # Run OCR on all pages and aggregate results
+        all_bbox_lists = []
+        for page_idx, page_path in enumerate(page_paths):
+            bbox_list = ocr_engine.extract_text(page_path)
+            if bbox_list:
+                all_bbox_lists.extend(bbox_list)
+        
+        if not all_bbox_lists:
+            sample.issues.append("OCR returned no results from any page")
             return sample
         
-        # Extract tokens and bboxes
-        for bbox_obj in bbox_list:
+        # Extract tokens and bboxes from all pages
+        for bbox_obj in all_bbox_lists:
             if bbox_obj.confidence < 0.5:
                 continue
             
@@ -950,10 +1386,18 @@ def generate_verification_report(
         # Check if multi-page receipt
         multipage_marker = output_dir / "images" / f"{sample.sample_id}_MULTIPAGE.txt"
         if multipage_marker.exists():
-            # Read page count
-            with open(multipage_marker, 'r') as f:
-                lines = f.readlines()
-                page_count = int(lines[0].split()[3])
+            # Read page count - handle malformed marker files
+            try:
+                with open(multipage_marker, 'r') as f:
+                    lines = f.readlines()
+                    if lines and len(lines[0].split()) >= 4:
+                        page_count = int(lines[0].split()[3])
+                    else:
+                        # Fallback: count actual page files
+                        page_count = len(list((output_dir / "images").glob(f"{sample.sample_id}_page*.png")))
+            except (ValueError, IndexError):
+                # Fallback: count actual page files
+                page_count = len(list((output_dir / "images").glob(f"{sample.sample_id}_page*.png")))
             
             html_parts.append(f"""
                 <div class="page-navigator">
@@ -1225,8 +1669,13 @@ def main():
     ocr_engine = OCREngine(engine='paddleocr')
     annotator = TokenAnnotator(schema)
     
-    # Setup Jinja2
-    env = Environment(loader=FileSystemLoader(str(project_root / "templates")))
+    # Setup Jinja2 with autoescape disabled and auto_reload enabled for better error handling
+    env = Environment(
+        loader=FileSystemLoader(str(project_root / "templates")),
+        autoescape=False,
+        auto_reload=True,
+        enable_async=False
+    )
     print()
     
     # Clean and create output directory (remove old samples to avoid stale data)
@@ -1312,8 +1761,8 @@ def main():
     print(f"     - Realistic line items")
     print(f"     - Correct entity labels")
     print(f"     - Valid OCR and bboxes")
-    print(f"  4. If ANY significant issue found → Fix and re-run")
-    print(f"  5. If all samples look good → Proceed to training!")
+    print(f"  4. If ANY significant issue found -> Fix and re-run")
+    print(f"  5. If all samples look good -> Proceed to training!")
     print()
     
     if with_issues > 0:

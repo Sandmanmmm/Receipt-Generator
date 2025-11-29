@@ -801,6 +801,26 @@ def generate_gold_sample(
                 num_pages = num_pages_needed
                 pages_created = []
                 
+                # Helper function to recategorize grocery items
+                def categorize_grocery_items(items):
+                    """Categorize items for online_order_grocery template."""
+                    frozen = []
+                    refrigerated = []
+                    pantry = []
+                    produce = []
+                    for item in items:
+                        desc = item.get('description', '').lower()
+                        # Simple categorization logic
+                        if any(kw in desc for kw in ['ice cream', 'frozen', 'popsicle', 'ice']):
+                            frozen.append(item)
+                        elif any(kw in desc for kw in ['milk', 'cheese', 'yogurt', 'butter', 'cream', 'refrigerated']):
+                            refrigerated.append(item)
+                        elif any(kw in desc for kw in ['fruit', 'vegetable', 'produce', 'lettuce', 'tomato', 'banana', 'apple']):
+                            produce.append(item)
+                        else:
+                            pantry.append(item)
+                    return frozen, refrigerated, pantry, produce
+                
                 for page_num in range(num_pages):
                     start_idx = page_num * effective_items_per_page
                     end_idx = min(start_idx + effective_items_per_page, num_items)
@@ -817,6 +837,14 @@ def generate_gold_sample(
                     page_data['_is_first_page'] = (page_num == 0)
                     page_data['_is_last_page'] = (page_num == num_pages - 1)
                     page_data['total_items'] = len(page_items)  # Update item count for this page
+                    
+                    # Recategorize items for grocery template
+                    if 'grocery' in template_name.lower():
+                        frozen, refrigerated, pantry, produce = categorize_grocery_items(page_items)
+                        page_data['frozen_items'] = frozen
+                        page_data['refrigerated_items'] = refrigerated
+                        page_data['pantry_items'] = pantry
+                        page_data['produce_items'] = produce
                     
                     # Hide totals on non-last pages (templates can check _is_last_page)
                     if not page_data['_is_last_page']:

@@ -240,7 +240,7 @@
                         <span class="total-value discount-value">-{{ coupon_discount }}</span>
                     </div>
                     {% endif %}
-                    {% if tax_amount > 0 %}
+                    {% if tax_amount|default(0) > 0 %}
                     <div class="total-row">
                         <span class="total-label">Tax:</span>
                         <span class="total-value">${{ "%.2f"|format(tax_amount) }}</span>

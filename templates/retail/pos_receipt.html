@@ -89,7 +89,7 @@
                 <span class="total-label">Subtotal:</span>
                 <span class="total-value">{{ subtotal }}</span>
             </div>
-            {% if total_discount > 0 %}
+            {% if total_discount|default(0) > 0 %}
             <div class="total-row discount-total">
                 <span class="total-label">Total Savings:</span>
                 <span class="total-value">-{{ total_discount }}</span>
@@ -99,7 +99,7 @@
                 <span class="total-label">Tax ({{ tax_rate }}%):</span>
                 <span class="total-value">{{ tax_amount }}</span>
             </div>
-            {% if tip_amount > 0 %}
+            {% if tip_amount|default(0) > 0 %}
             <div class="total-row">
                 <span class="total-label">Tip:</span>
                 <span class="total-value">{{ tip_amount }}</span>

@@ -312,19 +312,19 @@
                         <span class="total-label">Items Subtotal ({{ total_items }} items):</span>
                         <span class="total-value">{{ items_subtotal }}</span>
                     </div>
-                    {% if item_discounts > 0 %}
+                    {% if item_discounts|default(0) > 0 %}
                     <div class="total-row discount-row">
                         <span class="total-label">🏷️ Item Savings:</span>
                         <span class="total-value discount-value">-${{ "%.2f"|format(item_discounts) }}</span>
                     </div>
                     {% endif %}
-                    {% if coupon_discount > 0 %}
+                    {% if coupon_discount|default(0) > 0 %}
                     <div class="total-row discount-row">
                         <span class="total-label">🎟️ Coupon ({{ coupon_code }}):</span>
                         <span class="total-value discount-value">-{{ coupon_discount }}</span>
                     </div>
                     {% endif %}
-                    {% if loyalty_discount > 0 %}
+                    {% if loyalty_discount|default(0) > 0 %}
                     <div class="total-row discount-row">
                         <span class="total-label">⭐ Rewards Savings:</span>
                         <span class="total-value discount-value">-{{ loyalty_discount }}</span>
@@ -334,13 +334,13 @@
                         <span class="total-label">Delivery Fee:</span>
                         <span class="total-value">{{ delivery_fee }}</span>
                     </div>
-                    {% if service_fee > 0 %}
+                    {% if service_fee|default(0) > 0 %}
                     <div class="total-row">
                         <span class="total-label">Service Fee:</span>
                         <span class="total-value">{{ service_fee }}</span>
                     </div>
                     {% endif %}
-                    {% if shopper_tip > 0 %}
+                    {% if shopper_tip|default(0) > 0 %}
                     <div class="total-row tip-row">
                         <span class="total-label">💚 Shopper Tip:</span>
                         <span class="total-value">{{ shopper_tip }}</span>
@@ -354,7 +354,7 @@
                         <span class="total-label">Order Total:</span>
                         <span class="total-value">{{ total_amount }}</span>
                     </div>
-                    {% if total_savings > 0 %}
+                    {% if total_savings|default(0) > 0 %}
                     <div class="savings-banner">
                         <span class="savings-icon">💰</span>
                         <span class="savings-text">You saved {{ total_savings }} on this order!</span>

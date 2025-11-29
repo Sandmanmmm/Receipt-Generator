@@ -151,7 +151,7 @@
                     <span class="label">Subtotal:</span>
                     <span class="value">{{ subtotal }}</span>
                 </div>
-                {% if discount > 0 %}
+                {% if discount|default(0) > 0 %}
                 <div class="summary-row discount">
                     <span class="label">Discount ({{ discount_description }}):</span>
                     <span class="value">-{{ discount }}</span>

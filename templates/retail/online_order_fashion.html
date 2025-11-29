@@ -173,7 +173,7 @@
                     <span class="summary-label">Subtotal ({{ total_items }} items):</span>
                     <span class="summary-value">{{ subtotal }}</span>
                 </div>
-                {% if item_discounts > 0 %}
+                {% if item_discounts|default(0) > 0 %}
                 <div class="summary-row discount-row">
                     <span class="summary-label">🏷️ Item Discounts:</span>
                     <span class="summary-value discount-value">-${{ "%.2f"|format(item_discounts) }}</span>
@@ -185,7 +185,7 @@
                     <span class="summary-value discount-value">-{{ coupon_discount }}</span>
                 </div>
                 {% endif %}
-                {% if loyalty_discount > 0 %}
+                {% if loyalty_discount|default(0) > 0 %}
                 <div class="summary-row discount-row">
                     <span class="summary-label">⭐ Rewards Discount:</span>
                     <span class="summary-value discount-value">-{{ loyalty_discount }}</span>
@@ -209,7 +209,7 @@
                     <span class="summary-label total-label">Total:</span>
                     <span class="summary-value total-value">{{ total_amount }}</span>
                 </div>
-                {% if total_savings > 0 %}
+                {% if total_savings|default(0) > 0 %}
                 <div class="savings-banner">
                     <span class="savings-icon">💰</span>
                     <span class="savings-text">You saved {{ total_savings }} on this order!</span>

@@ -300,19 +300,19 @@
                         <span class="total-label">Materials Subtotal ({{ total_items }} items):</span>
                         <span class="total-value">{{ materials_subtotal }}</span>
                     </div>
-                    {% if item_discounts > 0 %}
+                    {% if item_discounts|default(0) > 0 %}
                     <div class="total-row discount-row">
                         <span class="total-label">🏷️ Item Discounts:</span>
                         <span class="total-value discount-value">-${{ "%.2f"|format(item_discounts) }}</span>
                     </div>
                     {% endif %}
-                    {% if installation_total > 0 %}
+                    {% if installation_total|default(0) > 0 %}
                     <div class="total-row">
                         <span class="total-label">Installation Services:</span>
                         <span class="total-value">{{ installation_total }}</span>
                     </div>
                     {% endif %}
-                    {% if rental_total > 0 %}
+                    {% if rental_total|default(0) > 0 %}
                     <div class="total-row">
                         <span class="total-label">Tool Rentals:</span>
                         <span class="total-value">{{ rental_total }}</span>
@@ -322,7 +322,7 @@
                         <span class="total-label">Delivery ({{ delivery_method }}):</span>
                         <span class="total-value">{{ delivery_charge }}</span>
                     </div>
-                    {% if haul_away_fee > 0 %}
+                    {% if haul_away_fee|default(0) > 0 %}
                     <div class="total-row">
                         <span class="total-label">Old Appliance Haul-Away:</span>
                         <span class="total-value">{{ haul_away_fee }}</span>
@@ -336,7 +336,7 @@
                         <span class="total-label">Order Total:</span>
                         <span class="total-value">{{ total_amount }}</span>
                     </div>
-                    {% if total_savings > 0 %}
+                    {% if total_savings|default(0) > 0 %}
                     <div class="savings-highlight">
                         <span class="savings-icon">💰</span>
                         <span class="savings-text">Total Savings: {{ total_savings }}</span>

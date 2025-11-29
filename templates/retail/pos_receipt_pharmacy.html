@@ -147,14 +147,14 @@
                 <span class="total-value">{{ subtotal }}</span>
             </div>
             
-            {% if total_insurance_paid > 0 %}
+            {% if total_insurance_paid|default(0) > 0 %}
             <div class="total-row insurance">
                 <span class="total-label">INSURANCE PAID:</span>
                 <span class="total-value">{{ total_insurance_paid }}</span>
             </div>
             {% endif %}
             
-            {% if total_discount > 0 %}
+            {% if total_discount|default(0) > 0 %}
             <div class="total-row savings">
                 <span class="total-label">SALE SAVINGS:</span>
                 <span class="total-value">-{{ total_discount }}</span>

@@ -119,7 +119,7 @@
                 <span class="total-label">SUBTOTAL:</span>
                 <span class="total-value">{{ subtotal }}</span>
             </div>
-            {% if total_discount > 0 %}
+            {% if total_discount|default(0) > 0 %}
             <div class="total-line savings-line">
                 <span class="total-label">TOTAL SAVINGS:</span>
                 <span class="total-value">-{{ total_discount }}</span>

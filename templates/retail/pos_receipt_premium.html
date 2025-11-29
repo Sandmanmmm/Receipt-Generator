@@ -105,7 +105,7 @@
                     <span class="summary-value">{{ subtotal }}</span>
                 </div>
                 
-                {% if total_discount > 0 %}
+                {% if total_discount|default(0) > 0 %}
                 <div class="summary-row savings-highlight">
                     <span class="summary-label">Total Savings</span>
                     <span class="summary-value savings">{{ total_discount }}</span>
@@ -117,7 +117,7 @@
                     <span class="summary-value">{{ tax_amount }}</span>
                 </div>
                 
-                {% if tip_amount > 0 %}
+                {% if tip_amount|default(0) > 0 %}
                 <div class="summary-row">
                     <span class="summary-label">Gratuity</span>
                     <span class="summary-value">{{ tip_amount }}</span>

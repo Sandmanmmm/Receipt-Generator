@@ -160,21 +160,21 @@
                     <span class="summary-value">{{ subtotal }}</span>
                 </div>
                 
-                {% if seller_shipping_charge > 0 %}
+                {% if seller_shipping_charge|default(0) > 0 %}
                 <div class="summary-row">
                     <span class="summary-label">Shipping & Handling:</span>
                     <span class="summary-value">{{ seller_shipping_charge }}</span>
                 </div>
                 {% endif %}
                 
-                {% if marketplace_fee > 0 %}
+                {% if marketplace_fee|default(0) > 0 %}
                 <div class="summary-row">
                     <span class="summary-label">Marketplace Fee:</span>
                     <span class="summary-value">{{ marketplace_fee }}</span>
                 </div>
                 {% endif %}
                 
-                {% if coupon_discount > 0 %}
+                {% if coupon_discount|default(0) > 0 %}
                 <div class="summary-row discount">
                     <span class="summary-label">Coupon Discount:</span>
                     <span class="summary-value">-{{ coupon_discount }}</span>

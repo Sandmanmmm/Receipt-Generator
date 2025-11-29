@@ -128,13 +128,13 @@
                     <span class="summary-label">Subtotal:</span>
                     <span class="summary-value">{{ subtotal }}</span>
                 </div>
-                {% if coupon_discount > 0 %}
+                {% if coupon_discount|default(0) > 0 %}
                 <div class="summary-row discount-row">
                     <span class="summary-label">🎟️ Coupon ({{ coupon_code }}):</span>
                     <span class="summary-value">-{{ coupon_discount }}</span>
                 </div>
                 {% endif %}
-                {% if loyalty_discount > 0 %}
+                {% if loyalty_discount|default(0) > 0 %}
                 <div class="summary-row discount-row">
                     <span class="summary-label">⭐ Loyalty Discount:</span>
                     <span class="summary-value">-{{ loyalty_discount }}</span>
@@ -144,7 +144,7 @@
                     <span class="summary-label">Shipping ({{ shipping_method }}):</span>
                     <span class="summary-value">{{ shipping_charge }}</span>
                 </div>
-                {% if gift_wrap_charge > 0 %}
+                {% if gift_wrap_charge|default(0) > 0 %}
                 <div class="summary-row">
                     <span class="summary-label">🎁 Gift Wrapping:</span>
                     <span class="summary-value">{{ gift_wrap_charge }}</span>

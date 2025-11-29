@@ -702,3 +702,4 @@ data = generate_invoice_data(num_items=num_items, locale=locale)
 ---
 
 **End of Comprehensive Template Specifications Analysis**
+

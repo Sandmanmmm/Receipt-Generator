@@ -287,8 +287,10 @@ class EntityLabeler:
             ],
             'INVOICE_DATE': [
                 r'Date:\s*\d{2}/\d{2}/\d{4}',
+                r'Date:\s*\d{2}\.\d{2}\.\d{4}',  # German format with dots
                 r'\d{4}-\d{2}-\d{2}',
-                r'\d{2}/\d{2}/\d{4}'
+                r'\d{2}/\d{2}/\d{4}',
+                r'\d{2}\.\d{2}\.\d{4}'  # DD.MM.YYYY format
             ],
             # Merchant info
             'SUPPLIER_NAME': [],  # Position-based

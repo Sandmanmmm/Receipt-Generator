@@ -36,8 +36,10 @@ class LabelMapper:
             'INVOICE_DATE': [
                 r'\d{4}-\d{2}-\d{2}',
                 r'\d{2}/\d{2}/\d{4}',
+                r'\d{2}\.\d{2}\.\d{4}',  # DD.MM.YYYY format with dots
                 r'\d{1,2}\s+[A-Za-z]+\s+\d{4}',
-                r'Date:\s*\d{2}/\d{2}/\d{4}'
+                r'Date:\s*\d{2}/\d{2}/\d{4}',
+                r'Date:\s*\d{2}\.\d{2}\.\d{4}'  # Date: DD.MM.YYYY
             ],
             'ORDER_DATE': [
                 r'Order\s+Date:\s*\d{2}/\d{2}/\d{4}',

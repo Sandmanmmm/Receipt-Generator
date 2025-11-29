@@ -844,9 +844,20 @@ def generate_gold_sample(
                     page_items_count = len(page_items)
                     
                     # Adjust base and footer height for non-first and non-last pages
-                    # Continuation pages have smaller headers/footers
-                    page_base_height = base_height if page_data['_is_first_page'] else int(base_height * 0.3)
-                    page_footer_height = footer_height if page_data['_is_last_page'] else int(footer_height * 0.2)
+                    # Continuation pages have much smaller headers/footers
+                    # Continuation header is typically 100-200px vs full header 900-1200px
+                    # Continuation footer is typically 50-100px vs full footer 400-500px
+                    if page_data['_is_first_page']:
+                        page_base_height = base_height
+                    else:
+                        # Continuation header: ~150-200px regardless of template type
+                        page_base_height = 200
+                    
+                    if page_data['_is_last_page']:
+                        page_footer_height = footer_height
+                    else:
+                        # Continuation footer: ~50-100px
+                        page_footer_height = 100
                     
                     page_estimated_height = page_base_height + (page_items_count * item_height) + page_footer_height
                     # Cap at max_safe_height to avoid rendering issues

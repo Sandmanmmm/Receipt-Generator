@@ -766,15 +766,17 @@ def generate_gold_sample(
             effective_items_per_page = items_per_page
             num_pages_needed = max(1, (num_items + items_per_page - 1) // items_per_page)
             
-            # Need multipage if EITHER height exceeds limit OR multiple pages of items
-            needs_multipage = height_based_needs_multipage or (num_pages_needed > 1)
-            
-            # If height triggers multipage but items don't, recalculate pages needed
-            if height_based_needs_multipage and num_pages_needed == 1:
+            # If height-based calculation suggests more pages, use that instead
+            if height_based_needs_multipage:
                 # Estimate pages based on height (each page can be max_safe_height)
-                num_pages_needed = max(2, (estimated_height + max_safe_height - 1) // max_safe_height)
-                # Recalculate items per page to distribute evenly
+                height_based_pages = max(2, (estimated_height + max_safe_height - 1) // max_safe_height)
+                # Use the LARGER of the two page counts to ensure all content fits
+                num_pages_needed = max(num_pages_needed, height_based_pages)
+                # Recalculate items per page to distribute evenly across ALL pages
                 effective_items_per_page = max(1, (num_items + num_pages_needed - 1) // num_pages_needed)
+            
+            # Need multipage if more than 1 page calculated
+            needs_multipage = num_pages_needed > 1
             
             # CRITICAL: Only allow multi-page for templates designed for it OR online_order templates
             # Regular invoice templates don't have _page_number conditionals and will fail

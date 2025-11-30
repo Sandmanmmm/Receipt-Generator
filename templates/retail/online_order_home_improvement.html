@@ -114,7 +114,12 @@
                 Order Items
             </h2>
 
-            {% for category in item_categories %}
+            {# Smart pagination: First page shows only first category due to large header #}
+            {% set show_limited = _is_first_page|default(true) and _page_number|default(none) %}
+
+            {# Support both categorized and flat item lists #}
+            {% if item_categories %}
+            {% for category in (item_categories[:1] if show_limited else item_categories) %}
             <!-- Category Group -->
             <div class="category-group">
                 <div class="category-header">
@@ -244,6 +249,52 @@
                 {% endfor %}
             </div>
             {% endfor %}
+            {% else %}
+            {# Fallback for flat line_items list #}
+            <div class="category-group">
+                <div class="category-header">
+                    <span class="category-icon">🛠️</span>
+                    <span class="category-name">Products</span>
+                    <span class="category-count">({{ (line_items[:3] if show_limited else line_items)|length }} items)</span>
+                </div>
+
+                {% for item in (line_items[:3] if show_limited else line_items) %}
+                <div class="item-card">
+                    <div class="item-image-box">
+                        <div class="item-image-placeholder">
+                            <span class="image-icon">📷</span>
+                        </div>
+                    </div>
+
+                    <div class="item-details">
+                        <h4 class="item-name">{{ item.description }}</h4>
+                        
+                        {% if item.sku %}
+                        <div class="item-sku">SKU: {{ item.sku }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="item-pricing">
+                        <div class="price-row">
+                            <span class="price-label">Qty:</span>
+                            <span class="price-value">{{ item.quantity }}</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-label">Unit Price:</span>
+                            <span class="price-value">{{ item.unit_price }}</span>
+                        </div>
+                        <div class="price-row total">
+                            <span class="price-label">Total:</span>
+                            <span class="price-value">{{ item.total }}</span>
+                        </div>
+                        <div class="item-actions">
+                            <div class="item-total">{{ item.total }}</div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
 
         <!-- Installation Services -->
@@ -300,19 +351,19 @@
                         <span class="total-label">Materials Subtotal ({{ total_items }} items):</span>
                         <span class="total-value">{{ materials_subtotal }}</span>
                     </div>
-                    {% if item_discounts|default(0) > 0 %}
+                    {% if item_discounts and item_discounts|float > 0 %}
                     <div class="total-row discount-row">
                         <span class="total-label">🏷️ Item Discounts:</span>
                         <span class="total-value discount-value">-${{ "%.2f"|format(item_discounts) }}</span>
                     </div>
                     {% endif %}
-                    {% if installation_total|default(0) > 0 %}
+                    {% if installation_total and installation_total|float > 0 %}
                     <div class="total-row">
                         <span class="total-label">Installation Services:</span>
                         <span class="total-value">{{ installation_total }}</span>
                     </div>
                     {% endif %}
-                    {% if rental_total|default(0) > 0 %}
+                    {% if rental_total and rental_total|float > 0 %}
                     <div class="total-row">
                         <span class="total-label">Tool Rentals:</span>
                         <span class="total-value">{{ rental_total }}</span>
@@ -322,7 +373,7 @@
                         <span class="total-label">Delivery ({{ delivery_method }}):</span>
                         <span class="total-value">{{ delivery_charge }}</span>
                     </div>
-                    {% if haul_away_fee|default(0) > 0 %}
+                    {% if haul_away_fee and haul_away_fee|float > 0 %}
                     <div class="total-row">
                         <span class="total-label">Old Appliance Haul-Away:</span>
                         <span class="total-value">{{ haul_away_fee }}</span>
@@ -336,7 +387,7 @@
                         <span class="total-label">Order Total:</span>
                         <span class="total-value">{{ total_amount }}</span>
                     </div>
-                    {% if total_savings|default(0) > 0 %}
+                    {% if total_savings and total_savings|float > 0 %}
                     <div class="savings-highlight">
                         <span class="savings-icon">💰</span>
                         <span class="savings-text">Total Savings: {{ total_savings }}</span>

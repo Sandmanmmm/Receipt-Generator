@@ -149,7 +149,9 @@
                     <div class="col-total">Total</div>
                 </div>
 
-                {% for item in items %}
+                {# Smart pagination: First page shows fewer items due to large header #}
+                {% set show_limited = _is_first_page|default(true) and _page_number|default(none) %}
+                {% for item in (items[:3] if show_limited else items) %}
                 <div class="product-row">
                     <div class="product-cell">
                         <div class="product-main">

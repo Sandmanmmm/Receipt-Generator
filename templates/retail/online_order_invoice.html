@@ -92,7 +92,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in line_items %}
+                    {# Smart pagination: First page shows fewer items due to large header #}
+                    {% if _is_first_page|default(true) and _page_number|default(none) %}
+                        {# Multi-page mode: Show only 5 items on first page #}
+                        {% for item in line_items[:5] %}
                     <tr class="item-row">
                         <td class="item-info">
                             <div class="item-name">{{ item.description }}</div>
@@ -115,7 +118,34 @@
                         <td class="discount-amount">-{{ item.discount }}</td>
                     </tr>
                     {% endif %}
-                    {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        {# Single page mode OR continuation page: Show all assigned items #}
+                        {% for item in line_items %}
+                    <tr class="item-row">
+                        <td class="item-info">
+                            <div class="item-name">{{ item.description }}</div>
+                            {% if item.variant %}
+                            <div class="item-variant">{{ item.variant }}</div>
+                            {% endif %}
+                            {% if item.sku %}
+                            <div class="item-sku">SKU: {{ item.sku }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="item-quantity">{{ item.quantity }}</td>
+                        <td class="item-price">{{ item.unit_price }}</td>
+                        <td class="item-total">{{ item.total }}</td>
+                    </tr>
+                    {% if item.discount > 0 %}
+                    <tr class="discount-row">
+                        <td class="discount-info" colspan="3">
+                            🎁 {{ item.discount_description }}
+                        </td>
+                        <td class="discount-amount">-{{ item.discount }}</td>
+                    </tr>
+                    {% endif %}
+                        {% endfor %}
+                    {% endif %}
                 </tbody>
             </table>
         </div>
@@ -128,13 +158,13 @@
                     <span class="summary-label">Subtotal:</span>
                     <span class="summary-value">{{ subtotal }}</span>
                 </div>
-                {% if coupon_discount|default(0) > 0 %}
+                {% if coupon_discount and coupon_discount|float > 0 %}
                 <div class="summary-row discount-row">
                     <span class="summary-label">🎟️ Coupon ({{ coupon_code }}):</span>
                     <span class="summary-value">-{{ coupon_discount }}</span>
                 </div>
                 {% endif %}
-                {% if loyalty_discount|default(0) > 0 %}
+                {% if loyalty_discount and loyalty_discount|float > 0 %}
                 <div class="summary-row discount-row">
                     <span class="summary-label">⭐ Loyalty Discount:</span>
                     <span class="summary-value">-{{ loyalty_discount }}</span>
@@ -144,7 +174,7 @@
                     <span class="summary-label">Shipping ({{ shipping_method }}):</span>
                     <span class="summary-value">{{ shipping_charge }}</span>
                 </div>
-                {% if gift_wrap_charge|default(0) > 0 %}
+                {% if gift_wrap_charge and gift_wrap_charge|float > 0 %}
                 <div class="summary-row">
                     <span class="summary-label">🎁 Gift Wrapping:</span>
                     <span class="summary-value">{{ gift_wrap_charge }}</span>

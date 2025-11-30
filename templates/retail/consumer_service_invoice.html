@@ -135,13 +135,13 @@
                     <span class="label">Labor Charges:</span>
                     <span class="value">{{ labor_charges }}</span>
                 </div>
-                {% if materials_total|default(0) > 0 %}
+                {% if materials_total and materials_total|float > 0 %}
                 <div class="summary-row">
                     <span class="label">Materials & Parts:</span>
                     <span class="value">{{ materials_total }}</span>
                 </div>
                 {% endif %}
-                {% if trip_charge|default(0) > 0 %}
+                {% if trip_charge and trip_charge|float > 0 %}
                 <div class="summary-row">
                     <span class="label">Trip/Service Charge:</span>
                     <span class="value">{{ trip_charge }}</span>
@@ -151,7 +151,7 @@
                     <span class="label">Subtotal:</span>
                     <span class="value">{{ subtotal }}</span>
                 </div>
-                {% if discount|default(0) > 0 %}
+                {% if discount and discount|float > 0 %}
                 <div class="summary-row discount">
                     <span class="label">Discount ({{ discount_description }}):</span>
                     <span class="value">-{{ discount }}</span>
@@ -165,7 +165,7 @@
                     <span class="label">Total Amount:</span>
                     <span class="value">{{ total_amount }}</span>
                 </div>
-                {% if amount_paid|default(0) > 0 %}
+                {% if amount_paid and amount_paid|float > 0 %}
                 <div class="summary-row paid">
                     <span class="label">Amount Paid:</span>
                     <span class="value">-{{ amount_paid }}</span>

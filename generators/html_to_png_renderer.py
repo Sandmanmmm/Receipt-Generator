@@ -910,7 +910,20 @@ class SimplePNGRenderer:
                 # Continuous roll - calculate exact height needed
                 # Add margin at top (50px) and bottom (100px) plus line spacing
                 calculated_height = 50 + (len(text_lines) * self.line_spacing) + 100
-                image_height = calculated_height
+                
+                # CRITICAL: Cap maximum height to prevent OCR failures
+                # PaddleOCR has max_side_limit of 4000px by default
+                # Keep images under 3500px to be safe
+                MAX_SAFE_HEIGHT = 3500
+                
+                if calculated_height > MAX_SAFE_HEIGHT:
+                    # Image would be too tall - this should have been handled by multipage logic
+                    # Force it to max height and log warning
+                    print(f"Warning: Receipt height {calculated_height}px exceeds max {MAX_SAFE_HEIGHT}px. Content may be truncated.")
+                    print(f"  Receipt has {len(text_lines)} lines. Consider using multipage rendering.")
+                    image_height = MAX_SAFE_HEIGHT
+                else:
+                    image_height = calculated_height
             else:
                 # Invoice/standard page - use standard letter size height
                 # Letter: 8.5" x 11" at 96 DPI = 816 x 1056 pixels

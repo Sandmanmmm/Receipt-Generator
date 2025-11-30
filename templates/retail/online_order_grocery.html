@@ -100,6 +100,9 @@
         <div class="items-section">
             <h2 class="section-title">Your Grocery Items</h2>
 
+            {# Smart pagination: First page shows only first category due to large header #}
+            {% set show_limited = _is_first_page|default(true) and _page_number|default(none) %}
+
             {% if frozen_items %}
             <!-- Frozen Items -->
             <div class="temperature-zone frozen-zone">
@@ -109,7 +112,7 @@
                     <span class="zone-count">({{ frozen_items|length }} items)</span>
                 </div>
                 <div class="zone-items">
-                    {% for item in frozen_items %}
+                    {% for item in (frozen_items[:2] if show_limited else frozen_items) %}
                     <div class="grocery-item">
                         <div class="item-main">
                             <div class="item-name">{{ item.description }}</div>
@@ -146,7 +149,7 @@
             </div>
             {% endif %}
 
-            {% if refrigerated_items %}
+            {% if refrigerated_items and not show_limited %}
             <!-- Refrigerated Items -->
             <div class="temperature-zone refrigerated-zone">
                 <div class="zone-header">
@@ -192,7 +195,7 @@
             </div>
             {% endif %}
 
-            {% if pantry_items %}
+            {% if pantry_items and not show_limited %}
             <!-- Pantry Items -->
             <div class="temperature-zone pantry-zone">
                 <div class="zone-header">
@@ -224,7 +227,7 @@
                         </div>
                         <div class="item-pricing">
                             <div class="unit-price">{{ item.unit_price }}</div>
-                            {% if item.discount > 0 %}
+                            {% if item.discount|default('') %}
                             <div class="item-discount">Save {{ item.discount }}</div>
                             {% endif %}
                             <div class="item-total">{{ item.total }}</div>
@@ -235,7 +238,7 @@
             </div>
             {% endif %}
 
-            {% if produce_items %}
+            {% if produce_items and not show_limited %}
             <!-- Fresh Produce -->
             <div class="temperature-zone produce-zone">
                 <div class="zone-header">
@@ -312,19 +315,19 @@
                         <span class="total-label">Items Subtotal ({{ total_items }} items):</span>
                         <span class="total-value">{{ items_subtotal }}</span>
                     </div>
-                    {% if item_discounts|default(0) > 0 %}
+                    {% if item_discounts and item_discounts|float > 0 %}
                     <div class="total-row discount-row">
                         <span class="total-label">🏷️ Item Savings:</span>
                         <span class="total-value discount-value">-${{ "%.2f"|format(item_discounts) }}</span>
                     </div>
                     {% endif %}
-                    {% if coupon_discount|default(0) > 0 %}
+                    {% if coupon_discount and coupon_discount|float > 0 %}
                     <div class="total-row discount-row">
                         <span class="total-label">🎟️ Coupon ({{ coupon_code }}):</span>
                         <span class="total-value discount-value">-{{ coupon_discount }}</span>
                     </div>
                     {% endif %}
-                    {% if loyalty_discount|default(0) > 0 %}
+                    {% if loyalty_discount and loyalty_discount|float > 0 %}
                     <div class="total-row discount-row">
                         <span class="total-label">⭐ Rewards Savings:</span>
                         <span class="total-value discount-value">-{{ loyalty_discount }}</span>
@@ -334,13 +337,13 @@
                         <span class="total-label">Delivery Fee:</span>
                         <span class="total-value">{{ delivery_fee }}</span>
                     </div>
-                    {% if service_fee|default(0) > 0 %}
+                    {% if service_fee and service_fee|float > 0 %}
                     <div class="total-row">
                         <span class="total-label">Service Fee:</span>
-                        <span class="total-value">{{ service_fee }}</span>
+                        <span class="total-value">${{ "%.2f"|format(service_fee) }}</span>
                     </div>
                     {% endif %}
-                    {% if shopper_tip|default(0) > 0 %}
+                    {% if shopper_tip and shopper_tip|float > 0 %}
                     <div class="total-row tip-row">
                         <span class="total-label">💚 Shopper Tip:</span>
                         <span class="total-value">{{ shopper_tip }}</span>
@@ -354,7 +357,7 @@
                         <span class="total-label">Order Total:</span>
                         <span class="total-value">{{ total_amount }}</span>
                     </div>
-                    {% if total_savings|default(0) > 0 %}
+                    {% if total_savings and total_savings|float > 0 %}
                     <div class="savings-banner">
                         <span class="savings-icon">💰</span>
                         <span class="savings-text">You saved {{ total_savings }} on this order!</span>

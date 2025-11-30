@@ -387,9 +387,13 @@ def generate_gold_sample(
     
     import random
     
+    print(f"    [DEBUG] generate_gold_sample called for sample {sample_id}", flush=True)
+    
     # 50/50 split between receipt and invoice
     is_invoice = random.random() < 0.5
     sample_type = 'invoice' if is_invoice else 'receipt'
+    
+    print(f"    [DEBUG] Sample type: {sample_type}", flush=True)
     
     sample = GoldSample(f"gold_{sample_id:03d}", sample_type)
     
@@ -414,6 +418,8 @@ def generate_gold_sample(
                 "modern/invoice.html"
             ]
             template_name = random.choice(invoice_templates)
+            
+            print(f"    [DEBUG] Selected invoice template: {template_name}", flush=True)
             
             # Force multi-page templates to get enough items to trigger pagination
             if '_multipage' in template_name:
@@ -670,6 +676,8 @@ def generate_gold_sample(
         image_path = output_dir / 'images' / f"{sample.sample_id}.png"
         image_path.parent.mkdir(parents=True, exist_ok=True)
         
+        print(f"    [DEBUG] Starting rendering for {template_name}", flush=True)
+        
         # Determine if this is a modern-style HTML template that needs dynamic height
         is_modern_template = (
             'online_order' in template_name or 
@@ -679,14 +687,31 @@ def generate_gold_sample(
         
         if not is_invoice and use_receipt_renderer and not is_modern_template:
             # Use SimplePNGRenderer for traditional POS receipts - supports multipage
-            success = receipt_renderer.render_receipt_dict(data, str(image_path))
+            print(f"    [DEBUG] Using SimplePNGRenderer", flush=True)
+            try:
+                success = receipt_renderer.render_receipt_dict(data, str(image_path))
+            except Exception as render_err:
+                # Handle rendering errors (e.g., image too wide for OCR)
+                error_msg = f"SimplePNGRenderer failed: {str(render_err)}"
+                print(f"    [ERROR] {error_msg}", flush=True)
+                sample.issues.append(error_msg)
+                return sample
         else:
             # Use HTMLToPNGRenderer for invoices and modern-style receipts (with Jinja2 templates)
+            print(f"    [DEBUG] Using HTMLToPNGRenderer, loading template", flush=True)
             try:
                 template = env.get_template(template_name)
             except Exception as e:
                 raise Exception(f"Failed to load template '{template_name}': {e}")
-            html = template.render(**data)
+            
+            print(f"    [DEBUG] Rendering template with data", flush=True)
+            try:
+                html = template.render(**data)
+            except Exception as e:
+                print(f"    [ERROR] Template render failed: {e}", flush=True)
+                raise
+            
+            print(f"    [DEBUG] Template rendered successfully, embedding CSS", flush=True)
             
             # Embed CSS
             template_dir = project_root / "templates" / Path(template_name).parent
@@ -725,10 +750,22 @@ def generate_gold_sample(
             
             if 'online_order' in template_name_lower or 'consumer_service' in template_name_lower:
                 # Modern e-commerce receipts - very spacious with lots of metadata per item
-                base_height = 1200  # Header, customer info, shipping, status timeline
-                item_height = 80    # Items include images, attributes, descriptions, SKUs
+                # online_order_electronics and online_order_fashion have status timelines + customer panels = ~900px header
+                # online_order_wholesale has extensive address blocks = ~700px header
+                # Other online_order templates have simpler headers = ~500px
+                if 'electronics' in template_name_lower or 'fashion' in template_name_lower:
+                    base_height = 900  # Header + status timeline + customer/shipping panels
+                    item_height = 120  # Complex product cards with specs/warranty
+                    items_per_page = 6   # Very limited space on first page
+                elif 'wholesale' in template_name_lower:
+                    base_height = 700  # Header + business banner + billing/shipping addresses
+                    item_height = 100  # Detailed wholesale item rows
+                    items_per_page = 7
+                else:
+                    base_height = 500  # Simpler headers
+                    item_height = 80   # Standard item rows
+                    items_per_page = 10
                 footer_height = 500  # Shipping details, return policy, customer service
-                items_per_page = 10   # Conservative for complex layouts
                 
             elif 'invoice' in template_name_lower:
                 # Business invoices - moderate density
@@ -761,10 +798,40 @@ def generate_gold_sample(
             # Calculate if we need multi-page based on estimated height
             height_based_needs_multipage = estimated_height > max_safe_height
             
-            # Calculate pages needed - use simple item-based pagination
-            # The items_per_page values are calibrated to keep within max_safe_height
-            effective_items_per_page = items_per_page
-            num_pages_needed = max(1, (num_items + items_per_page - 1) // items_per_page)
+            # Calculate pages needed with SMART PAGINATION for online_order templates
+            # These templates show FEWER items on page 1 (due to large header) and MORE on pages 2+
+            # For online_order templates, we need to calculate differently:
+            if 'online_order' in template_name_lower:
+                # Page 1 shows fewer items (defined in templates):
+                # - electronics/fashion: 3 items on page 1
+                # - wholesale: 3 items on page 1  
+                # - others: 5 items on page 1
+                # Pages 2+: Full items_per_page count
+                
+                if 'electronics' in template_name_lower or 'fashion' in template_name_lower:
+                    first_page_items = 3
+                elif 'wholesale' in template_name_lower:
+                    first_page_items = 3
+                elif 'marketplace' in template_name_lower:
+                    first_page_items = 3
+                elif 'digital' in template_name_lower:
+                    first_page_items = 2  # Very tall items
+                else:
+                    first_page_items = 5
+                
+                # Calculate pages: first page + remaining items / items_per_page
+                if num_items <= first_page_items:
+                    num_pages_needed = 1
+                else:
+                    remaining_items = num_items - first_page_items
+                    additional_pages = (remaining_items + items_per_page - 1) // items_per_page
+                    num_pages_needed = 1 + additional_pages
+                
+                effective_items_per_page = first_page_items  # For logging purposes
+            else:
+                # Regular templates: uniform distribution
+                effective_items_per_page = items_per_page
+                num_pages_needed = max(1, (num_items + items_per_page - 1) // items_per_page)
             
             # If height-based calculation suggests more pages, use that instead
             if height_based_needs_multipage:
@@ -772,8 +839,6 @@ def generate_gold_sample(
                 height_based_pages = max(2, (estimated_height + max_safe_height - 1) // max_safe_height)
                 # Use the LARGER of the two page counts to ensure all content fits
                 num_pages_needed = max(num_pages_needed, height_based_pages)
-                # Recalculate items per page to distribute evenly across ALL pages
-                effective_items_per_page = max(1, (num_items + num_pages_needed - 1) // num_pages_needed)
             
             # Need multipage if more than 1 page calculated
             needs_multipage = num_pages_needed > 1
@@ -822,11 +887,27 @@ def generate_gold_sample(
                     return frozen, refrigerated, pantry, produce
                 
                 for page_num in range(num_pages):
-                    start_idx = page_num * effective_items_per_page
-                    end_idx = min(start_idx + effective_items_per_page, num_items)
-                    # Get items from whichever field exists (invoices use 'items', receipts use 'line_items')
+                    # For online_order templates with smart pagination:
+                    # Page 1: Template slices to first_page_items internally
+                    # Page 2+: We must slice and pass the correct subset of items
+                    
+                    # Slice items correctly for each page
                     all_items = data.get('line_items', data.get('items', []))
-                    page_items = all_items[start_idx:end_idx]
+                    
+                    if 'online_order' in template_name_lower and page_num == 0:
+                        # Page 1: Pass ALL items, template will slice to first N items
+                        page_items = all_items
+                    elif 'online_order' in template_name_lower and page_num > 0:
+                        # Page 2+: Calculate which items belong on this continuation page
+                        # Items after first_page_items, distributed across continuation pages
+                        start_idx = first_page_items + ((page_num - 1) * items_per_page)
+                        end_idx = start_idx + items_per_page
+                        page_items = all_items[start_idx:end_idx]
+                    else:
+                        # Regular templates: uniform distribution
+                        start_idx = page_num * items_per_page
+                        end_idx = start_idx + items_per_page
+                        page_items = all_items[start_idx:end_idx]
                     
                     # Create page-specific data
                     page_data = data.copy()
@@ -836,15 +917,19 @@ def generate_gold_sample(
                     page_data['_total_pages'] = num_pages
                     page_data['_is_first_page'] = (page_num == 0)
                     page_data['_is_last_page'] = (page_num == num_pages - 1)
-                    page_data['total_items'] = len(page_items)  # Update item count for this page
+                    page_data['total_items'] = len(all_items)  # Total item count across all pages
                     
-                    # Recategorize items for grocery template
+                    # For grocery template, categorize the items for THIS page
                     if 'grocery' in template_name.lower():
                         frozen, refrigerated, pantry, produce = categorize_grocery_items(page_items)
                         page_data['frozen_items'] = frozen
                         page_data['refrigerated_items'] = refrigerated
                         page_data['pantry_items'] = pantry
                         page_data['produce_items'] = produce
+                    
+                    # Estimate height for this page
+                    page_items_count = len(page_items)
+                    page_height = base_height + (page_items_count * item_height) + footer_height
                     
                     # Hide totals on non-last pages (templates can check _is_last_page)
                     if not page_data['_is_last_page']:
@@ -870,8 +955,17 @@ def generate_gold_sample(
                     page_html = page_html.replace('</body>', f'{page_indicator}</body>')
                     
                     # Calculate appropriate height for this page based on content
-                    # Use the estimated height formula but for this page's item count
-                    page_items_count = len(page_items)
+                    # Since templates do their own slicing, estimate based on page number and items_per_page
+                    # For first page, use the reduced count; for other pages, use full items_per_page
+                    if page_data['_is_first_page']:
+                        # First page shows fewer items due to large header
+                        page_items_count = effective_items_per_page
+                    else:
+                        # Continuation pages can show more items
+                        # Calculate remaining items for this page
+                        remaining_items = num_items - effective_items_per_page
+                        items_on_this_page = min(items_per_page, remaining_items - (page_num - 1) * items_per_page)
+                        page_items_count = max(1, items_on_this_page)
                     
                     # Adjust base and footer height for non-first and non-last pages
                     # Continuation pages have much smaller headers/footers
@@ -993,9 +1087,48 @@ def generate_gold_sample(
         # Run OCR on all pages and aggregate results
         all_bbox_lists = []
         for page_idx, page_path in enumerate(page_paths):
-            bbox_list = ocr_engine.extract_text(page_path)
-            if bbox_list:
-                all_bbox_lists.extend(bbox_list)
+            try:
+                # Check image size before OCR to prevent PaddleOCR resize failures
+                from PIL import Image
+                img = Image.open(page_path)
+                width, height = img.size
+                img.close()
+                
+                # PaddleOCR has max_side_limit of 4000px - keep well under that
+                MAX_OCR_DIMENSION = 3500
+                if width > MAX_OCR_DIMENSION or height > MAX_OCR_DIMENSION:
+                    # Image too large for OCR - resize it first
+                    print(f"    [WARNING] Page {page_idx + 1} too large ({width}×{height}), resizing for OCR...")
+                    scale = MAX_OCR_DIMENSION / max(width, height)
+                    new_width = int(width * scale)
+                    new_height = int(height * scale)
+                    
+                    img = Image.open(page_path)
+                    img_resized = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
+                    img.close()
+                    
+                    # Save resized version temporarily
+                    temp_path = page_path.replace('.png', '_resized_for_ocr.png')
+                    img_resized.save(temp_path)
+                    img_resized.close()
+                    
+                    # Run OCR on resized image
+                    bbox_list = ocr_engine.extract_text(temp_path)
+                    
+                    # Clean up temp file
+                    import os
+                    os.remove(temp_path)
+                else:
+                    bbox_list = ocr_engine.extract_text(page_path)
+                    
+                if bbox_list:
+                    all_bbox_lists.extend(bbox_list)
+            except Exception as ocr_err:
+                # Log OCR error but continue with other pages
+                error_msg = f"OCR failed on page {page_idx + 1}: {str(ocr_err)}"
+                print(f"    [WARNING] {error_msg}")
+                sample.warnings.append(error_msg)
+                continue
         
         if not all_bbox_lists:
             sample.issues.append("OCR returned no results from any page")
@@ -1019,14 +1152,18 @@ def generate_gold_sample(
             return sample
         
         # Annotate
-        annotation = annotator.annotate_tokens(
-            sample.data_dict,
-            sample.ocr_tokens,
-            sample.ocr_bboxes,
-            sample.image_path,
-            800,
-            1200
-        )
+        try:
+            annotation = annotator.annotate_tokens(
+                sample.data_dict,
+                sample.ocr_tokens,
+                sample.ocr_bboxes,
+                sample.image_path,
+                800,
+                1200
+            )
+        except Exception as ann_err:
+            sample.issues.append(f"Annotation failed: {str(ann_err)}")
+            return sample
         
         if not annotation:
             sample.issues.append("Annotation failed")
@@ -1737,20 +1874,27 @@ def main():
     samples = []
     
     for i in range(args.num_samples):
-        print(f"  Sample {i+1}/{args.num_samples}...", end='', flush=True)
+        print(f"\n  Sample {i+1}/{args.num_samples}...", flush=True)
+        print(f"    [DEBUG] Starting sample generation", flush=True)
         
-        sample = generate_gold_sample(
-            i + 1,
-            retail_gen,
-            invoice_gen,
-            visual_gen,
-            html_renderer,
-            receipt_renderer,
-            ocr_engine,
-            annotator,
-            args.output_dir,
-            env
-        )
+        try:
+            sample = generate_gold_sample(
+                i + 1,
+                retail_gen,
+                invoice_gen,
+                visual_gen,
+                html_renderer,
+                receipt_renderer,
+                ocr_engine,
+                annotator,
+                args.output_dir,
+                env
+            )
+        except Exception as e:
+            print(f"\n    [ERROR] Sample generation failed: {e}", flush=True)
+            import traceback
+            traceback.print_exc()
+            continue
         
         samples.append(sample)
         

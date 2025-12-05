@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Box Invoice{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
+    <link rel="stylesheet" href="../css/online_order_subscription.css">
+</head>
+<body>
+    <div class="subscription-invoice">
+        {% if _is_first_page|default(true) %}
+        <!-- Header with Brand Identity -->
+        <table class="header-table">
+            <tr>
+                <td class="brand-cell">
+                    <table class="brand-inner">
+                        <tr>
+                            <td class="logo-cell">
+                                {% if supplier_logo %}
+                                <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="supplier-logo" />
+                                {% else %}
+                                <div class="logo-box">
+                                    <span class="logo-icon">📦</span>
+                                </div>
+                                {% endif %}
+                            </td>
+                            <td class="company-info-cell">
+                                <h1 class="company-name">{{ supplier_name }}</h1>
+                                <p class="company-tagline">{{ tagline|default('Curated Just For You') }}</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="invoice-meta-cell">
+                    <div class="invoice-badge">SUBSCRIPTION BOX</div>
+                    <div class="order-number">Order #{{ order_number }}</div>
+                    <div class="invoice-date">{{ invoice_date }}</div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Box Details Banner -->
+        <div class="box-details-banner">
+            <table class="banner-table">
+                <tr>
+                    <td class="banner-item">
+                        <span class="banner-icon">📅</span>
+                        <span class="banner-label">Box Month</span>
+                        <span class="banner-value">{{ box_month|default(invoice_date) }}</span>
+                    </td>
+                    <td class="banner-item">
+                        <span class="banner-icon">🎁</span>
+                        <span class="banner-label">Box Type</span>
+                        <span class="banner-value">{{ box_type|default('Monthly Box') }}</span>
+                    </td>
+                    <td class="banner-item">
+                        <span class="banner-icon">✨</span>
+                        <span class="banner-label">Box Value</span>
+                        <span class="banner-value box-value">{{ box_value|default(subtotal) }}</span>
+                    </td>
+                    <td class="banner-item">
+                        <span class="banner-icon">📦</span>
+                        <span class="banner-label">Status</span>
+                        <span class="banner-value status-shipped">{{ order_status|default('Shipped') }}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Customer & Shipping Info -->
+        <table class="info-grid-table">
+            <tr>
+                <td class="info-panel">
+                    <div class="panel-header">
+                        <span class="panel-icon">👤</span>
+                        <span class="panel-title">Subscriber Information</span>
+                    </div>
+                    <div class="panel-content">
+                        <p class="customer-name">{{ buyer_name }}</p>
+                        <p class="customer-email">{{ buyer_email }}</p>
+                        {% if buyer_phone %}
+                        <p class="customer-phone">{{ buyer_phone }}</p>
+                        {% endif %}
+                        {% if customer_id %}
+                        <div class="member-badge">
+                            <span class="member-icon">⭐</span>
+                            <span class="member-text">Subscriber ID: {{ customer_id }}</span>
+                        </div>
+                        {% endif %}
+                        {% if subscription_tier %}
+                        <div class="tier-badge tier-{{ subscription_tier|default('standard')|lower }}">
+                            {{ subscription_tier|default('Standard') }} Member
+                        </div>
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="info-panel">
+                    <div class="panel-header">
+                        <span class="panel-icon">🚚</span>
+                        <span class="panel-title">Shipping Details</span>
+                    </div>
+                    <div class="panel-content">
+                        <p class="shipping-name">{{ shipping_name|default(buyer_name) }}</p>
+                        <p class="shipping-address">{{ shipping_address|default(buyer_address) }}</p>
+                        <p class="shipping-city">{{ shipping_city|default('') }}{% if shipping_state %}, {{ shipping_state }}{% endif %} {{ shipping_zip|default('') }}</p>
+                        <div class="shipping-method-box">
+                            <span class="method-icon">📮</span>
+                            <span class="method-text">{{ shipping_method|default('Standard Shipping') }}</span>
+                        </div>
+                        {% if tracking_number %}
+                        <div class="tracking-box">
+                            <div class="tracking-label">Track Your Box</div>
+                            <div class="tracking-number">{{ tracking_number }}</div>
+                            <div class="carrier-name">via {{ carrier_name|default('USPS') }}</div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <table class="continuation-table">
+                <tr>
+                    <td class="continuation-brand">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="logo-cont" />
+                        {% endif %}
+                        <span class="continuation-name">{{ supplier_name }}</span>
+                        <span class="continuation-order">Order {{ order_number }} (Continued)</span>
+                    </td>
+                    <td class="continuation-page">
+                        Page {{ _page_number }} of {{ _total_pages }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Box Contents Section -->
+        <div class="contents-section">
+            <h2 class="section-heading">
+                <span class="heading-icon">🎁</span>
+                What's In Your Box
+            </h2>
+            <p class="contents-intro">We've curated these items just for you!</p>
+
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-item">Item</th>
+                        <th class="col-details">Details</th>
+                        <th class="col-qty">Qty</th>
+                        <th class="col-value">Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items|default(line_items) %}
+                    <tr class="item-row">
+                        <td class="item-cell">
+                            <div class="item-name">{{ item.description }}</div>
+                            {% if item.brand %}
+                            <div class="item-brand">by {{ item.brand }}</div>
+                            {% endif %}
+                            {% if item.sku %}
+                            <div class="item-sku">SKU: {{ item.sku }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="details-cell">
+                            {% if item.size %}
+                            <span class="detail-badge">Size: {{ item.size }}</span>
+                            {% endif %}
+                            {% if item.color %}
+                            <span class="detail-badge">{{ item.color }}</span>
+                            {% endif %}
+                            {% if item.variant %}
+                            <span class="detail-badge">{{ item.variant }}</span>
+                            {% endif %}
+                            {% if item.full_size %}
+                            <span class="detail-badge full-size">Full Size</span>
+                            {% endif %}
+                            {% if item.sample %}
+                            <span class="detail-badge sample">Sample</span>
+                            {% endif %}
+                        </td>
+                        <td class="qty-cell">{{ item.quantity }}</td>
+                        <td class="value-cell">
+                            <span class="item-value">{{ item.unit_price }}</span>
+                            {% if (item.discount or 0) > 0 %}
+                            <span class="item-savings">BONUS!</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Subscription Benefits -->
+        {% if subscription_benefits|default(true) %}
+        <div class="benefits-section">
+            <div class="benefit-box">
+                <span class="benefit-icon">💰</span>
+                <span class="benefit-text">Your Box Value: <strong>{{ box_value|default(subtotal) }}</strong></span>
+            </div>
+            <div class="benefit-box">
+                <span class="benefit-icon">💳</span>
+                <span class="benefit-text">You Paid: <strong>{{ total_amount }}</strong></span>
+            </div>
+            <div class="benefit-box savings-box">
+                <span class="benefit-icon">🎉</span>
+                <span class="benefit-text">You Saved: <strong>{{ savings_amount|default('$0.00') }}</strong></span>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <h3 class="summary-title">Order Summary</h3>
+            <table class="summary-table">
+                <tr class="summary-row">
+                    <td class="summary-label">{{ box_type|default('Monthly Box') }} Subscription</td>
+                    <td class="summary-value">{{ subtotal }}</td>
+                </tr>
+                {% if (item_discounts or 0)|float > 0 %}
+                <tr class="summary-row discount-row">
+                    <td class="summary-label">Subscriber Discount</td>
+                    <td class="summary-value discount-value">-${{ "%.2f"|format(item_discounts) }}</td>
+                </tr>
+                {% endif %}
+                {% if coupon_code %}
+                <tr class="summary-row discount-row">
+                    <td class="summary-label">Promo Code ({{ coupon_code }})</td>
+                    <td class="summary-value discount-value">-{{ coupon_discount }}</td>
+                </tr>
+                {% endif %}
+                {% if loyalty_discount and loyalty_discount|float > 0 %}
+                <tr class="summary-row discount-row">
+                    <td class="summary-label">Loyalty Points Redeemed</td>
+                    <td class="summary-value discount-value">-{{ loyalty_discount }}</td>
+                </tr>
+                {% endif %}
+                <tr class="summary-row">
+                    <td class="summary-label">Shipping</td>
+                    <td class="summary-value">{{ shipping_charge|default('FREE') }}</td>
+                </tr>
+                <tr class="summary-row">
+                    <td class="summary-label">Tax</td>
+                    <td class="summary-value">${{ "%.2f"|format(tax_amount) }}</td>
+                </tr>
+                <tr class="summary-row total-row">
+                    <td class="summary-label total-label">Total Charged</td>
+                    <td class="summary-value total-value">{{ total_amount }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Payment Information -->
+        <div class="payment-section">
+            <h3 class="section-title">Payment Information</h3>
+            <table class="payment-table">
+                <tr>
+                    <td class="payment-method-cell">
+                        <span class="payment-icon">💳</span>
+                        <span class="payment-type">{{ payment_method }}</span>
+                        {% if card_type %}
+                        <span class="card-badge">{{ card_type }}</span>
+                        {% endif %}
+                        {% if card_last_four %}
+                        <span class="card-number">•••• {{ card_last_four }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="payment-status-cell">
+                        <span class="status-badge paid">PAID</span>
+                        <span class="payment-date">{{ payment_date|default(invoice_date) }}</span>
+                    </td>
+                </tr>
+            </table>
+            {% if transaction_id %}
+            <div class="transaction-ref">
+                <span class="ref-label">Transaction ID:</span>
+                <span class="ref-value">{{ transaction_id }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Rewards & Points -->
+        {% if loyalty_points_earned %}
+        <div class="rewards-banner">
+            <div class="rewards-content">
+                <span class="rewards-icon">⭐</span>
+                <div class="rewards-info">
+                    <span class="rewards-earned">You earned <strong>{{ loyalty_points_earned }}</strong> points!</span>
+                    <span class="rewards-balance">New Balance: {{ loyalty_points_balance }} points</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Subscription Management -->
+        <div class="manage-section">
+            <div class="manage-box">
+                <h4 class="manage-title">📋 Manage Your Subscription</h4>
+                <p class="manage-text">Skip a month, pause, or update your preferences anytime in your account.</p>
+                <p class="manage-link">{{ store_website|default('myaccount.example.com') }}</p>
+            </div>
+            <div class="manage-box">
+                <h4 class="manage-title">🔄 Next Box Ships</h4>
+                <p class="manage-text next-date">{{ next_ship_date|default('Next month') }}</p>
+                <p class="manage-note">We'll email you before we charge your card.</p>
+            </div>
+        </div>
+
+        <!-- Help & Support -->
+        <div class="support-section">
+            <table class="support-table">
+                <tr>
+                    <td class="support-box">
+                        <div class="support-title">❓ Questions?</div>
+                        <div class="support-contact">Email: {{ supplier_email }}</div>
+                        <div class="support-contact">Phone: {{ supplier_phone }}</div>
+                        <div class="support-hours">Mon-Fri 9AM-6PM EST</div>
+                    </td>
+                    <td class="support-box">
+                        <div class="support-title">📦 Missing Item?</div>
+                        <div class="support-text">Contact us within 7 days of delivery if anything is missing or damaged.</div>
+                        <div class="support-link">{{ returns_url|default(store_website) }}</div>
+                    </td>
+                    <td class="support-box">
+                        <div class="support-title">🎁 Love Your Box?</div>
+                        <div class="support-text">Share on social media and tag us for a chance to win a free box!</div>
+                        <div class="social-handles">@{{ supplier_name|replace(' ', '')|lower }}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="footer-brand">
+                <span class="footer-name">{{ supplier_name }}</span>
+                <span class="footer-address">{{ supplier_address }}</span>
+            </div>
+            <div class="footer-legal">
+                <p>This is your subscription box receipt. Please keep for your records.</p>
+                <p>Thank you for being a subscriber! We can't wait for you to unbox happiness. 💜</p>
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <p>Continued on page {{ (_page_number|default(1)) + 1 }}...</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

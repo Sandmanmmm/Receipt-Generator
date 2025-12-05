@@ -27,6 +27,7 @@ def test_online_order_templates():
         "retail/online_order_marketplace.html",
         "retail/online_order_digital.html",
         "retail/online_order_wholesale.html",
+        "retail/online_order_subscription.html",
     ]
     
     print("Testing online_order template rendering...")
@@ -47,7 +48,7 @@ def test_online_order_templates():
             data['_total_pages'] = 2
             
             # Wholesale template uses 'items' instead of 'line_items'
-            if 'wholesale' in template_name:
+            if 'wholesale' in template_name or 'subscription' in template_name:
                 data['items'] = data.get('line_items', [])
             
             # Load template

@@ -108,55 +108,59 @@ class HTMLToPNGRenderer:
                 from augmentation.augmenter import ImageAugmenter, AugmentationConfig
                 
                 # Create subtle augmentation config for realistic variation
-                # MINIMAL probabilities to maintain readability
+                # MINIMAL probabilities to maintain OCR readability
                 config = AugmentationConfig(
                     # Blur effects - very subtle
                     add_blur=True,
-                    blur_probability=0.1,  # Reduced from 0.3
+                    blur_probability=0.08,
+                    blur_kernel_size=(3, 5),
                     
-                    # Noise - minimal
+                    # Noise - VERY minimal to maintain readability
                     add_noise=True,
-                    noise_probability=0.15,  # Reduced from 0.4
+                    noise_probability=0.05,
+                    noise_intensity=(0.002, 0.008),
                     
-                    # Thermal fade - rare
-                    add_thermal_fade=True,
-                    thermal_fade_probability=0.05,  # Reduced from 0.25
-                    fade_intensity=(0.1, 0.2),  # Much lighter fade
+                    # DISABLE brightness/contrast adjustments - they gray out backgrounds
+                    adjust_brightness=False,
+                    adjust_contrast=False,
                     
-                    # Wrinkles - very rare
-                    add_wrinkle=True,
-                    wrinkle_probability=0.03,  # Reduced from 0.1
-                    wrinkle_count=(1, 1),  # Max 1 wrinkle only
+                    # DISABLE stains - too heavy
+                    add_stains=False,
                     
-                    # Coffee stains - very rare
-                    add_coffee_stain=True,
-                    coffee_stain_probability=0.02,  # Reduced from 0.08
+                    # DISABLE creases - too visible
+                    add_crease=False,
                     
-                    # Skewed camera - subtle angle
+                    # DISABLE thermal fade - designed for receipts, not invoices
+                    add_thermal_fade=False,
+                    
+                    # Wrinkles - disabled (too destructive)
+                    add_wrinkle=False,
+                    
+                    # Coffee stains - disabled (too visible)
+                    add_coffee_stain=False,
+                    
+                    # Skewed camera - subtle angle (KEEP - good for training)
                     add_skew=True,
-                    skew_probability=0.2,  # Reduced from 0.35
-                    skew_angle=(-1.5, 1.5),  # Reduced from ±3° to ±1.5°
+                    skew_probability=0.20,
+                    skew_angle=(-2.0, 2.0),
                     
-                    # Misalignment - subtle
+                    # Misalignment - subtle shift (KEEP - good for training)
                     add_misalignment=True,
-                    misalignment_probability=0.15,  # Reduced from 0.25
+                    misalignment_probability=0.15,
                     
-                    # Contrast variations - minimal
-                    extreme_contrast=True,
-                    extreme_contrast_probability=0.05,  # Reduced from 0.15
+                    # DISABLE extreme contrast
+                    extreme_contrast=False,
                     
-                    # Faint printing - rare
-                    add_faint_print=True,
-                    faint_print_probability=0.08,  # Reduced from 0.2
-                    faint_intensity=(0.15, 0.3),  # Much lighter
+                    # DISABLE faint printing
+                    add_faint_print=False,
                     
-                    # Compression - subtle
+                    # Light JPEG compression (KEEP - realistic)
                     add_compression=True,
-                    compression_probability=0.15,  # Reduced from 0.3
+                    compression_probability=0.20,
+                    jpeg_quality=(80, 95),
                     
-                    # Shadow - subtle
-                    add_shadow=True,
-                    shadow_probability=0.1  # Reduced from 0.2
+                    # DISABLE shadows - they gray out large areas
+                    add_shadow=False
                 )
                 
                 self._augmenter = ImageAugmenter(config)
@@ -269,10 +273,6 @@ class HTMLToPNGRenderer:
             width = custom_width or self.width
             height = custom_height or self.height
         
-        # Scale dimensions for higher DPI (2.0 = ~200 DPI, 3.0 = ~300 DPI)
-        width = int(width * dpi_scale)
-        height = int(height * dpi_scale)
-        
         # Create temporary HTML file
         with tempfile.NamedTemporaryFile(
             mode='w', 
@@ -295,10 +295,16 @@ class HTMLToPNGRenderer:
                 '--load-media-error-handling', 'ignore',  # Ignore missing media files
             ]
             
-            # Add dimensions
-            # Use --width for page width and explicit height
+            # Set width - zoom will scale it automatically
             cmd.extend(['--width', str(width)])
-            cmd.extend(['--height', str(height)])
+            
+            # DON'T set --height: let wkhtmltoimage auto-calculate based on content
+            # This prevents cutting off content that exceeds the CSS min-height
+            # The zoom will scale the auto-calculated height proportionally
+            
+            # Use --zoom for DPI scaling (higher resolution output)
+            if dpi_scale != 1.0:
+                cmd.extend(['--zoom', str(dpi_scale)])
             
             cmd.extend([tmp_html_path, str(output_file)])
             

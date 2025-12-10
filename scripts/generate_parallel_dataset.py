@@ -85,7 +85,7 @@ def init_worker(seed_offset):
 
 def generate_single_receipt(args):
     """Generate a single receipt - worker function"""
-    idx, template, output_dir, templates_dir = args
+    idx, template, output_dir, templates_dir, augment_prob = args
     
     try:
         from generators.retail_data_generator import RetailDataGenerator
@@ -94,7 +94,8 @@ def generate_single_receipt(args):
         retail_gen = RetailDataGenerator()
         renderer = InvoiceRenderer(
             templates_dir=templates_dir,
-            output_dir=output_dir
+            output_dir=output_dir,
+            augment_probability=augment_prob
         )
         
         # Generate receipt data
@@ -137,7 +138,7 @@ def generate_single_receipt(args):
 
 def generate_single_invoice(args):
     """Generate a single invoice - worker function"""
-    idx, template, category, output_dir, templates_dir = args
+    idx, template, category, output_dir, templates_dir, augment_prob = args
     
     try:
         from generators.retail_data_generator import RetailDataGenerator
@@ -192,7 +193,8 @@ def generate_single_invoice(args):
         invoice_gen = ModernInvoiceGenerator()
         renderer = InvoiceRenderer(
             templates_dir=templates_dir,
-            output_dir=output_dir
+            output_dir=output_dir,
+            augment_probability=augment_prob
         )
         
         # Determine item counts
@@ -225,26 +227,150 @@ def generate_single_invoice(args):
             invoice = invoice_gen.generate_invoice(min_items=min_items, max_items=max_items)
             data_dict = invoice_gen.to_dict(invoice)
         
-        # Add common fields for supply_chain/wholesale templates
+        # Add comprehensive fields for supply_chain/wholesale/services templates
+        # Matches generate_mixed_dataset.py field handling
         if category in ['supply_chain', 'wholesale', 'services']:
-            company = data_dict.get('company_name', 'Acme Corp')
+            from datetime import datetime as dt
+            company = data_dict.get('company_name', 'Global Supply Co.')
+            customer = data_dict.get('customer_name', 'Customer Corp.')
+            
+            # Company/supplier/exporter names
             data_dict['supplier_name'] = company
+            data_dict['exporter_name'] = company
+            data_dict['shipper_name'] = company
+            data_dict['consignor_name'] = company
+            data_dict['vendor_name'] = company
+            data_dict['seller_name'] = company
+            
+            data_dict['recipient_name'] = customer
+            data_dict['consignee_name'] = customer
+            data_dict['importer_name'] = customer
+            data_dict['buyer_name'] = customer
+            
+            # Exporter/Importer objects for complex templates
             data_dict['exporter'] = {
+                'company_name': company,
                 'name': company,
                 'address': data_dict.get('company_address', '123 Business Ave'),
                 'city': data_dict.get('company_city', 'New York'),
-                'country': 'USA'
+                'country': 'USA',
+                'phone': data_dict.get('company_phone', '555-0100'),
+                'email': data_dict.get('company_email', 'info@company.com'),
             }
+            data_dict['importer'] = {
+                'company_name': customer,
+                'name': customer,
+                'address': data_dict.get('customer_address', '456 Client St'),
+                'city': data_dict.get('customer_city', 'Los Angeles'),
+                'country': 'USA',
+                'phone': '555-0200',
+                'email': 'contact@customer.com',
+            }
+            
+            # String address fields
             data_dict['buyer_address'] = f"{data_dict.get('customer_address', '456 Client St')}, {data_dict.get('customer_city', 'Los Angeles')}, CA 90001"
             data_dict['seller_address'] = f"{data_dict.get('company_address', '123 Business Ave')}, {data_dict.get('company_city', 'New York')}, NY 10001"
             data_dict['supplier_address'] = data_dict['seller_address']
-            data_dict['subtotal_raw'] = float(str(data_dict.get('subtotal', 0)).replace('$', '').replace(',', ''))
-            data_dict['tax_raw'] = float(str(data_dict.get('tax', 0)).replace('$', '').replace(',', ''))
-            data_dict['total_raw'] = float(str(data_dict.get('total', 0)).replace('$', '').replace(',', ''))
-            data_dict['discount_raw'] = 0.0
-            data_dict['total_value'] = data_dict.get('total_raw', random.uniform(500, 10000))
+            data_dict['ship_from_address'] = data_dict['seller_address']
+            data_dict['ship_to_address'] = data_dict['buyer_address']
             data_dict['buyer_address_line1'] = data_dict.get('customer_address', '456 Client St')
             data_dict['buyer_address_line2'] = f"{data_dict.get('customer_city', 'Los Angeles')}, CA 90001"
+            data_dict['seller_address_line1'] = data_dict.get('company_address', '123 Business Ave')
+            data_dict['seller_address_line2'] = f"{data_dict.get('company_city', 'New York')}, NY 10001"
+            
+            # Raw numeric values
+            data_dict['subtotal_raw'] = float(str(data_dict.get('subtotal', 0)).replace('$', '').replace(',', ''))
+            data_dict['tax_raw'] = float(str(data_dict.get('tax', data_dict.get('tax_amount', 0))).replace('$', '').replace(',', ''))
+            data_dict['total_raw'] = float(str(data_dict.get('total', data_dict.get('total_amount', 0))).replace('$', '').replace(',', ''))
+            data_dict['discount_raw'] = 0.0
+            data_dict['total_value'] = data_dict.get('total_raw', random.uniform(500, 10000))
+            
+            # Document numbers
+            data_dict['document_number'] = data_dict.get('invoice_number', f'DOC-{random.randint(10000, 99999)}')
+            data_dict['reference_number'] = f'REF-{random.randint(10000, 99999)}'
+            data_dict['tracking_number'] = f'TRK-{random.randint(1000000000, 9999999999)}'
+            data_dict['shipment_number'] = f'SHP-{random.randint(10000, 99999)}'
+            data_dict['order_reference'] = f'ORD-{random.randint(10000, 99999)}'
+            data_dict['memo_number'] = f'MEM-{random.randint(10000, 99999)}'
+            data_dict['rma_number'] = f'RMA-{random.randint(10000, 99999)}'
+            data_dict['bol_number'] = f'BOL-{random.randint(10000, 99999)}'
+            data_dict['customs_entry_number'] = f'CE-{random.randint(100000, 999999)}'
+            
+            # Dates
+            today = dt.now().strftime('%Y-%m-%d')
+            data_dict['shipment_date'] = data_dict.get('invoice_date', today)
+            data_dict['delivery_date'] = data_dict.get('due_date', today)
+            data_dict['count_date'] = data_dict.get('invoice_date', today)
+            data_dict['memo_date'] = data_dict.get('invoice_date', today)
+            data_dict['ship_date'] = data_dict.get('invoice_date', today)
+            
+            # Shipping details
+            data_dict['carrier'] = random.choice(['FedEx', 'UPS', 'DHL', 'USPS', 'Freight Co.'])
+            data_dict['carrier_name'] = data_dict['carrier']
+            data_dict['vessel_name'] = f'MV {random.choice(["Pacific", "Atlantic", "Global", "Express"])} {random.choice(["Star", "Explorer", "Trader", "Voyager"])}'
+            data_dict['port_of_loading'] = random.choice(['Los Angeles', 'Long Beach', 'New York', 'Seattle'])
+            data_dict['port_of_discharge'] = random.choice(['Shanghai', 'Rotterdam', 'Singapore', 'Hamburg'])
+            data_dict['shipping_method'] = random.choice(['Ground', 'Air', 'Ocean', 'Express'])
+            data_dict['weight'] = f'{random.randint(10, 500)} lbs'
+            data_dict['total_weight'] = f'{random.randint(100, 5000)} lbs'
+            data_dict['packages'] = random.randint(1, 50)
+            data_dict['total_packages'] = data_dict['packages']
+            
+            # Receiving report specific fields
+            data_dict['items_with_issues'] = random.randint(0, 3)
+            data_dict['inspection_notes'] = random.choice(['', 'Minor damage noted', 'Quality check passed', 'Recount required'])
+            data_dict['received_by'] = random.choice(['John Smith', 'Maria Garcia', 'David Chen', 'Sarah Johnson'])
+            data_dict['inspected_by'] = random.choice(['Quality Team', 'Receiving Dept', 'Warehouse Manager'])
+            
+            # Reason/notes for memos
+            data_dict['reason'] = random.choice([
+                'Damaged goods received',
+                'Price adjustment',
+                'Quantity discrepancy',
+                'Return authorization',
+                'Quality issue',
+                'Shipping error correction'
+            ])
+            data_dict['notes'] = data_dict.get('notes', 'Please reference this document number for all correspondence.')
+            
+            # Bank details for proforma invoices
+            data_dict['bank_details'] = {
+                'beneficiary_name': company,
+                'bank_name': random.choice(['Chase Bank', 'Bank of America', 'Wells Fargo', 'Citibank']),
+                'account_number': f'****{random.randint(1000, 9999)}',
+                'routing_number': f'{random.randint(100000000, 999999999)}',
+                'swift_code': f'SWIFT{random.randint(1000, 9999)}',
+                'iban': f'US{random.randint(10, 99)}****{random.randint(1000, 9999)}',
+            }
+            
+            # Transfer fields for stock transfer
+            data_dict['transfer_qty'] = random.randint(1, 100)
+            data_dict['unit_cost'] = round(random.uniform(5, 500), 2)
+            data_dict['from_location'] = f'Warehouse-{random.choice(["A", "B", "C"])}'
+            data_dict['to_location'] = f'Warehouse-{random.choice(["D", "E", "F"])}'
+            data_dict['transfer_reason'] = random.choice(['Restock', 'Demand Shift', 'Consolidation', 'Seasonal'])
+            
+            # Ensure line_items have required fields
+            for item in data_dict.get('line_items', data_dict.get('items', [])):
+                if isinstance(item, dict):
+                    item['expected_quantity'] = item.get('quantity', 1)
+                    item['actual_quantity'] = item['expected_quantity'] + random.randint(-2, 2)
+                    item['variance'] = item['actual_quantity'] - item['expected_quantity']
+                    item['location'] = f'Bin-{random.choice(["A", "B", "C", "D"])}{random.randint(1, 99):02d}'
+                    item['lot_number'] = f'LOT-{random.randint(10000, 99999)}'
+                    item['serial_number'] = f'SN-{random.randint(100000, 999999)}'
+                    item['weight'] = f'{random.uniform(0.5, 50):.1f} lbs'
+                    item['dimensions'] = f'{random.randint(5, 50)}x{random.randint(5, 50)}x{random.randint(5, 50)} in'
+                    item['country_of_origin'] = random.choice(['China', 'USA', 'Mexico', 'Vietnam', 'Germany'])
+                    item['hs_code'] = f'{random.randint(1000, 9999)}.{random.randint(10, 99)}.{random.randint(10, 99)}'
+                    # Add unit_cost for templates that need it
+                    if 'unit_price' in item:
+                        item['unit_cost'] = item['unit_price']
+                    elif 'amount' in item and 'quantity' in item and item['quantity'] > 0:
+                        item['unit_cost'] = round(float(str(item['amount']).replace('$', '').replace(',', '')) / item['quantity'], 2)
+                    else:
+                        item['unit_cost'] = round(random.uniform(5, 200), 2)
+                    item['transfer_qty'] = item.get('quantity', 1)
         
         # Add supplier_name for ecommerce templates
         if 'ecommerce' in template:
@@ -298,7 +424,7 @@ def generate_single_invoice(args):
         return ('error', idx, f"{str(e)}\n{traceback.format_exc()}")
 
 
-def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_workers: int = None):
+def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_workers: int = None, augment_probability: float = 0.5):
     """
     Generate dataset using parallel workers
     
@@ -306,6 +432,7 @@ def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_wo
         output_dir: Output directory
         num_samples: Total samples to generate
         num_workers: Number of parallel workers (default: CPU count)
+        augment_probability: Probability of applying augmentation (0.0-1.0, default 0.5)
     """
     output_path = Path(output_dir)
     images_dir = output_path / "images"
@@ -326,6 +453,7 @@ def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_wo
     print(f"Target samples: {num_samples:,}")
     print(f"Workers: {num_workers}")
     print(f"CPU cores available: {mp.cpu_count()}")
+    print(f"Augmentation: {augment_probability*100:.0f}% probability")
     print(f"Output: {output_dir}")
     print(f"=" * 60)
     
@@ -526,7 +654,7 @@ def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_wo
     receipt_tasks = []
     for i in range(num_receipts):
         template = random.choice(receipt_templates)
-        receipt_tasks.append((i, template, str(images_dir), templates_dir))
+        receipt_tasks.append((i, template, str(images_dir), templates_dir, augment_probability))
     
     # Prepare invoice tasks with weighted category selection
     invoice_tasks = []
@@ -536,7 +664,7 @@ def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_wo
     for i in range(num_invoices):
         category = random.choices(categories, weights=weights)[0]
         template = random.choice(invoice_categories[category])
-        invoice_tasks.append((i, template, category, str(images_dir), templates_dir))
+        invoice_tasks.append((i, template, category, str(images_dir), templates_dir, augment_probability))
     
     # Process receipts
     print(f"\nGenerating {num_receipts:,} receipts with {num_workers} workers...")
@@ -638,16 +766,19 @@ def main():
     parser.add_argument('--output', type=str, default='outputs/production_150k', help='Output directory')
     parser.add_argument('--workers', type=int, default=None, help='Number of workers (default: auto)')
     parser.add_argument('--quality', type=int, default=85, help='JPEG compression quality (1-100, default: 85)')
+    parser.add_argument('--augment', type=float, default=0.5, help='Augmentation probability (0.0-1.0, default: 0.5)')
     
     args = parser.parse_args()
     
     print(f"\n📦 JPEG Quality: {args.quality}")
-    print(f"   Expected file size: ~{50 + (args.quality - 85) * 2}KB per image\n")
+    print(f"   Expected file size: ~{50 + (args.quality - 85) * 2}KB per image")
+    print(f"🎨 Augmentation: {args.augment*100:.0f}% of images will have realistic distortions\n")
     
     generate_parallel_dataset(
         output_dir=args.output,
         num_samples=args.samples,
-        num_workers=args.workers
+        num_workers=args.workers,
+        augment_probability=args.augment
     )
 
 

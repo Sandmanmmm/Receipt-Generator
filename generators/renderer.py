@@ -27,17 +27,19 @@ from config.template_config import get_template_config_manager, TemplatePaginati
 class InvoiceRenderer:
     """Renders invoice templates to various formats with multipage support"""
     
-    def __init__(self, templates_dir: str, output_dir: str = "data/raw"):
+    def __init__(self, templates_dir: str, output_dir: str = "data/raw", augment_probability: float = 0.0):
         """
         Initialize renderer
         
         Args:
             templates_dir: Path to directory containing HTML templates
             output_dir: Directory for output files
+            augment_probability: Probability of applying augmentation (0.0-1.0)
         """
         self.templates_dir = Path(templates_dir)
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.augment_probability = augment_probability
         
         # Setup Jinja2 environment
         self.env = Environment(
@@ -90,7 +92,7 @@ class InvoiceRenderer:
         """Lazy load HTMLToPNGRenderer"""
         if self._html_renderer is None:
             from generators.html_to_png_renderer import HTMLToPNGRenderer
-            self._html_renderer = HTMLToPNGRenderer(augment_probability=0.0)
+            self._html_renderer = HTMLToPNGRenderer(augment_probability=self.augment_probability)
         return self._html_renderer
     
     def _get_simple_renderer(self):
@@ -493,7 +495,7 @@ class InvoiceRenderer:
                         str(png_path),
                         custom_width=config.custom_width,
                         custom_height=config.custom_height,
-                        apply_augmentation=False
+                        apply_augmentation=None  # Use probability-based augmentation
                     )
                 else:
                     success = renderer.render(
@@ -501,7 +503,7 @@ class InvoiceRenderer:
                         str(png_path),
                         page_size=config.page_size,
                         orientation=config.orientation,
-                        apply_augmentation=False
+                        apply_augmentation=None  # Use probability-based augmentation
                     )
                 
                 if success:
@@ -605,7 +607,7 @@ class InvoiceRenderer:
                             str(png_path),
                             custom_width=config.custom_width,
                             custom_height=config.custom_height,
-                            apply_augmentation=False
+                            apply_augmentation=None  # Use probability-based augmentation
                         )
                     else:
                         success = renderer.render(
@@ -613,7 +615,7 @@ class InvoiceRenderer:
                             str(png_path),
                             page_size=config.page_size,
                             orientation=config.orientation,
-                            apply_augmentation=False
+                            apply_augmentation=None  # Use probability-based augmentation
                         )
                     
                     if success:

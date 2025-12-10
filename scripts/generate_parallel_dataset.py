@@ -8,6 +8,20 @@ Features:
 - Multi-process rendering with ProcessPoolExecutor
 - JPEG compression to reduce file sizes (3.5MB → ~50KB)
 - Configurable quality and format options
+- Real-time progress file for monitoring
+- Unbuffered output for SSH/nohup compatibility
+
+Usage:
+    python scripts/generate_parallel_dataset.py --samples 150000 --output /workspace/data --workers 32 --augment 0.3
+
+Monitoring (while running in background):
+    tail -f /workspace/data/PROGRESS.txt
+    watch -n 5 'ls /workspace/data/images/*.jpg 2>/dev/null | wc -l'
+
+Troubleshooting:
+    - If wkhtmltoimage errors occur, reduce --workers (try 16 or 8)
+    - If disk fills up, check output directory size: du -sh /workspace/data
+    - If process hangs, check for zombie processes: ps aux | grep wkhtmltoimage
 """
 import sys
 import os
@@ -19,7 +33,107 @@ from pathlib import Path
 from datetime import datetime
 from functools import partial
 import time
+import shutil
 from PIL import Image
+
+# Force unbuffered output for real-time feedback
+os.environ['PYTHONUNBUFFERED'] = '1'
+
+
+def log(msg: str, output_dir: str = None):
+    """Print message and optionally write to progress file."""
+    timestamp = datetime.now().strftime('%H:%M:%S')
+    formatted = f"[{timestamp}] {msg}"
+    print(formatted, flush=True)
+    
+    # Also write to progress file if output_dir provided
+    if output_dir:
+        try:
+            progress_file = Path(output_dir) / "PROGRESS.txt"
+            with open(progress_file, 'a') as f:
+                f.write(formatted + "\n")
+        except:
+            pass  # Don't fail on progress file write errors
+
+
+def check_dependencies():
+    """Check that all required dependencies are available."""
+    issues = []
+    
+    # Check wkhtmltoimage
+    wkhtmltoimage_path = shutil.which('wkhtmltoimage')
+    if not wkhtmltoimage_path:
+        issues.append("❌ wkhtmltoimage not found in PATH")
+        issues.append("   Install: apt-get install wkhtmltopdf")
+    else:
+        print(f"✓ wkhtmltoimage: {wkhtmltoimage_path}", flush=True)
+    
+    # Check Python packages
+    required_packages = [
+        ('jinja2', 'Jinja2'),
+        ('PIL', 'Pillow'),
+    ]
+    
+    for module_name, package_name in required_packages:
+        try:
+            __import__(module_name)
+            print(f"✓ {package_name}: installed", flush=True)
+        except ImportError:
+            issues.append(f"❌ {package_name} not installed")
+            issues.append(f"   Install: pip install {package_name}")
+    
+    # Check templates directory
+    templates_dir = Path(__file__).parent.parent / "templates"
+    if not templates_dir.exists():
+        issues.append(f"❌ Templates directory not found: {templates_dir}")
+    else:
+        template_count = len(list(templates_dir.rglob("*.html")))
+        print(f"✓ Templates: {template_count} HTML files found", flush=True)
+    
+    # Check disk space
+    try:
+        total, used, free = shutil.disk_usage("/")
+        free_gb = free / (1024**3)
+        if free_gb < 10:
+            issues.append(f"⚠️ Low disk space: {free_gb:.1f}GB free (need ~50GB for 150K samples)")
+        else:
+            print(f"✓ Disk space: {free_gb:.1f}GB free", flush=True)
+    except:
+        pass  # Windows or other OS
+    
+    # Check CPU and memory
+    cpu_count = mp.cpu_count()
+    print(f"✓ CPU cores: {cpu_count}", flush=True)
+    
+    try:
+        import psutil
+        mem = psutil.virtual_memory()
+        print(f"✓ Memory: {mem.available / (1024**3):.1f}GB available / {mem.total / (1024**3):.1f}GB total", flush=True)
+    except ImportError:
+        pass  # psutil not installed
+    
+    return issues
+
+
+def run_diagnostics(output_dir: str = None):
+    """Run full diagnostics and print system status."""
+    print("\n" + "="*60, flush=True)
+    print("SYSTEM DIAGNOSTICS", flush=True)
+    print("="*60, flush=True)
+    
+    issues = check_dependencies()
+    
+    if issues:
+        print("\n" + "="*60, flush=True)
+        print("ISSUES FOUND:", flush=True)
+        print("="*60, flush=True)
+        for issue in issues:
+            print(issue, flush=True)
+        print("\nPlease resolve these issues before running generation.", flush=True)
+        return False
+    
+    print("\n✅ All checks passed!", flush=True)
+    return True
 
 # Add project root to path
 project_root = Path(__file__).parent.parent
@@ -454,15 +568,21 @@ def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_wo
     if num_workers is None:
         num_workers = min(mp.cpu_count(), 64)  # Cap at 64 to avoid overhead
     
-    print(f"=" * 60)
-    print(f"Parallel Dataset Generator")
-    print(f"=" * 60)
-    print(f"Target samples: {num_samples:,}")
-    print(f"Workers: {num_workers}")
-    print(f"CPU cores available: {mp.cpu_count()}")
-    print(f"Augmentation: {augment_probability*100:.0f}% probability")
-    print(f"Output: {output_dir}")
-    print(f"=" * 60)
+    # Initialize progress file
+    progress_file = output_path / "PROGRESS.txt"
+    with open(progress_file, 'w') as f:
+        f.write(f"Generation started: {datetime.now()}\n")
+        f.write(f"Target: {num_samples:,} samples\n\n")
+    
+    log(f"{'='*60}", str(output_path))
+    log(f"Parallel Dataset Generator", str(output_path))
+    log(f"{'='*60}", str(output_path))
+    log(f"Target samples: {num_samples:,}", str(output_path))
+    log(f"Workers: {num_workers}", str(output_path))
+    log(f"CPU cores available: {mp.cpu_count()}", str(output_path))
+    log(f"Augmentation: {augment_probability*100:.0f}% probability", str(output_path))
+    log(f"Output: {output_dir}", str(output_path))
+    log(f"{'='*60}", str(output_path))
     
     # Distribution based on doc_type
     if doc_type == 'receipts':
@@ -475,9 +595,9 @@ def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_wo
         num_receipts = int(num_samples * 0.20)
         num_invoices = num_samples - num_receipts
     
-    print(f"\nDistribution:")
-    print(f"  Receipts: {num_receipts:,}")
-    print(f"  Invoices: {num_invoices:,}")
+    log(f"\nDistribution:", str(output_path))
+    log(f"  Receipts: {num_receipts:,}", str(output_path))
+    log(f"  Invoices: {num_invoices:,}", str(output_path))
     
     # Template lists
     receipt_templates = [
@@ -664,7 +784,7 @@ def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_wo
     }
     
     # Prepare receipt tasks
-    print("\nPreparing tasks...")
+    log("\nPreparing tasks...", str(output_path))
     receipt_tasks = []
     for i in range(num_receipts):
         template = random.choice(receipt_templates)
@@ -681,7 +801,7 @@ def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_wo
         invoice_tasks.append((i, template, category, str(images_dir), templates_dir, augment_probability))
     
     # Process receipts
-    print(f"\nGenerating {num_receipts:,} receipts with {num_workers} workers...")
+    log(f"\nGenerating {num_receipts:,} receipts with {num_workers} workers...", str(output_path))
     start_time = time.time()
     
     receipt_metadata = []
@@ -697,17 +817,17 @@ def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_wo
             else:
                 error_count += 1
             
-            # Progress update every 1000 items
-            if (i + 1) % 1000 == 0 or i == num_receipts - 1:
+            # Progress update every 500 items for better visibility
+            if (i + 1) % 500 == 0 or i == num_receipts - 1:
                 elapsed = time.time() - start_time
                 rate = (i + 1) / elapsed
                 eta = (num_receipts - i - 1) / rate if rate > 0 else 0
-                print(f"  Receipts: {i+1:,}/{num_receipts:,} ({rate:.1f}/s, ETA: {eta/60:.1f}min)")
+                log(f"  Receipts: {i+1:,}/{num_receipts:,} ({rate:.1f}/s, ETA: {eta/60:.1f}min)", str(output_path))
     
-    print(f"  ✓ Receipts complete: {success_count:,} success, {error_count:,} errors")
+    log(f"  ✓ Receipts complete: {success_count:,} success, {error_count:,} errors", str(output_path))
     
     # Process invoices
-    print(f"\nGenerating {num_invoices:,} invoices with {num_workers} workers...")
+    log(f"\nGenerating {num_invoices:,} invoices with {num_workers} workers...", str(output_path))
     invoice_start = time.time()
     
     invoice_metadata = []
@@ -722,17 +842,17 @@ def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_wo
                 success_count += 1
             elif status == 'error':
                 error_count += 1
-                if error_count <= 10:  # Only print first 10 errors
-                    print(f"    Error in invoice {idx}: {data[:100]}...")
+                if error_count <= 10:  # Only log first 10 errors
+                    log(f"    Error in invoice {idx}: {data[:100]}...", str(output_path))
             
-            # Progress update every 1000 items
-            if (i + 1) % 1000 == 0 or i == num_invoices - 1:
+            # Progress update every 500 items for better visibility
+            if (i + 1) % 500 == 0 or i == num_invoices - 1:
                 elapsed = time.time() - invoice_start
                 rate = (i + 1) / elapsed
                 eta = (num_invoices - i - 1) / rate if rate > 0 else 0
-                print(f"  Invoices: {i+1:,}/{num_invoices:,} ({rate:.1f}/s, ETA: {eta/60:.1f}min)")
+                log(f"  Invoices: {i+1:,}/{num_invoices:,} ({rate:.1f}/s, ETA: {eta/60:.1f}min)", str(output_path))
     
-    print(f"  ✓ Invoices complete: {success_count:,} success, {error_count:,} errors")
+    log(f"  ✓ Invoices complete: {success_count:,} success, {error_count:,} errors", str(output_path))
     
     # Combine and save metadata
     all_metadata = receipt_metadata + invoice_metadata
@@ -755,17 +875,17 @@ def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_wo
         cat = meta.get('category', 'receipt')
         category_stats[cat] = category_stats.get(cat, 0) + 1
     
-    print(f"\n{'=' * 60}")
-    print(f"Generation Complete!")
-    print(f"{'=' * 60}")
-    print(f"Total samples: {len(all_metadata):,}/{num_samples:,}")
-    print(f"Total time: {total_time/60:.1f} minutes ({total_time/3600:.2f} hours)")
-    print(f"Average rate: {len(all_metadata)/total_time:.1f} samples/second")
-    print(f"\nCategory Distribution:")
+    log(f"\n{'=' * 60}", str(output_path))
+    log(f"Generation Complete!", str(output_path))
+    log(f"{'=' * 60}", str(output_path))
+    log(f"Total samples: {len(all_metadata):,}/{num_samples:,}", str(output_path))
+    log(f"Total time: {total_time/60:.1f} minutes ({total_time/3600:.2f} hours)", str(output_path))
+    log(f"Average rate: {len(all_metadata)/total_time:.1f} samples/second", str(output_path))
+    log(f"\nCategory Distribution:", str(output_path))
     for cat, count in sorted(category_stats.items(), key=lambda x: x[1], reverse=True):
         pct = (count / len(all_metadata) * 100) if all_metadata else 0
-        print(f"  {cat}: {count:,} ({pct:.1f}%)")
-    print(f"\nOutput: {output_dir}")
+        log(f"  {cat}: {count:,} ({pct:.1f}%)", str(output_path))
+    log(f"\nOutput: {output_dir}", str(output_path))
     
     # Create completion marker
     with open(output_path / "COMPLETE.txt", 'w') as f:
@@ -785,29 +905,93 @@ def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_wo
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Parallel Dataset Generator')
-    parser.add_argument('--samples', type=int, default=150000, help='Number of samples')
-    parser.add_argument('--output', type=str, default='outputs/production_150k', help='Output directory')
-    parser.add_argument('--workers', type=int, default=None, help='Number of workers (default: auto)')
-    parser.add_argument('--quality', type=int, default=85, help='JPEG compression quality (1-100, default: 85)')
-    parser.add_argument('--augment', type=float, default=0.5, help='Augmentation probability (0.0-1.0, default: 0.5)')
+    parser = argparse.ArgumentParser(
+        description='Parallel Dataset Generator - Generate invoice/receipt datasets at scale',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Generate 150K samples with 32 workers and 30% augmentation
+  python scripts/generate_parallel_dataset.py --samples 150000 --workers 32 --augment 0.3
+
+  # Generate only invoices (no receipts)
+  python scripts/generate_parallel_dataset.py --samples 50000 --type invoices
+
+  # Run diagnostics to check system readiness
+  python scripts/generate_parallel_dataset.py --check
+
+  # Monitor progress while running in background
+  tail -f /path/to/output/PROGRESS.txt
+
+Troubleshooting:
+  - "Resource temporarily unavailable": Reduce --workers (try 16 or 8)
+  - "No space left on device": Free up disk space or use smaller --samples
+  - Slow generation: Increase --workers (up to CPU count)
+  - Process hangs: Kill zombie processes with 'pkill -9 wkhtmltoimage'
+"""
+    )
+    parser.add_argument('--samples', type=int, default=150000, help='Number of samples to generate (default: 150000)')
+    parser.add_argument('--output', type=str, default='outputs/production_150k', help='Output directory (default: outputs/production_150k)')
+    parser.add_argument('--workers', type=int, default=None, help='Number of parallel workers (default: min(CPU_count, 64))')
+    parser.add_argument('--quality', type=int, default=85, help='JPEG compression quality 1-100 (default: 85)')
+    parser.add_argument('--augment', type=float, default=0.5, help='Augmentation probability 0.0-1.0 (default: 0.5)')
     parser.add_argument('--type', type=str, choices=['all', 'receipts', 'invoices'], default='all',
-                        help='Type of documents to generate (default: all)')
+                        help='Document type: all, receipts, or invoices (default: all)')
+    parser.add_argument('--check', action='store_true', help='Run diagnostics and exit (check dependencies)')
     
     args = parser.parse_args()
     
-    print(f"\n📦 JPEG Quality: {args.quality}")
-    print(f"   Expected file size: ~{50 + (args.quality - 85) * 2}KB per image")
-    print(f"🎨 Augmentation: {args.augment*100:.0f}% of images will have realistic distortions")
-    print(f"📄 Document type: {args.type}\n")
+    # Run diagnostics if requested
+    if args.check:
+        success = run_diagnostics()
+        sys.exit(0 if success else 1)
     
-    generate_parallel_dataset(
-        output_dir=args.output,
-        num_samples=args.samples,
-        num_workers=args.workers,
-        augment_probability=args.augment,
-        doc_type=args.type
-    )
+    # Run diagnostics before starting (quick check)
+    print("\n🔍 Running pre-flight checks...", flush=True)
+    issues = check_dependencies()
+    if issues:
+        print("\n⚠️  Some issues detected (generation may still work):", flush=True)
+        for issue in issues[:3]:  # Show first 3 issues
+            print(f"   {issue}", flush=True)
+        print("   Run with --check for full diagnostics\n", flush=True)
+    
+    # Pre-generation summary
+    print(f"\n📦 JPEG Quality: {args.quality}", flush=True)
+    print(f"   Expected file size: ~{50 + (args.quality - 85) * 2}KB per image", flush=True)
+    print(f"🎨 Augmentation: {args.augment*100:.0f}% of images will have realistic distortions", flush=True)
+    print(f"📄 Document type: {args.type}", flush=True)
+    print(f"💾 Output: {args.output}\n", flush=True)
+    
+    try:
+        result = generate_parallel_dataset(
+            output_dir=args.output,
+            num_samples=args.samples,
+            num_workers=args.workers,
+            augment_probability=args.augment,
+            doc_type=args.type
+        )
+        
+        # Exit with appropriate code
+        if result['success'] >= args.samples * 0.95:  # 95% success rate
+            print("\n✅ Generation completed successfully!", flush=True)
+            sys.exit(0)
+        else:
+            print(f"\n⚠️ Generation completed with {result['errors']} errors", flush=True)
+            sys.exit(1)
+            
+    except KeyboardInterrupt:
+        print("\n\n⚠️ Generation interrupted by user", flush=True)
+        print("   Partial results may be available in the output directory", flush=True)
+        sys.exit(130)
+    except Exception as e:
+        print(f"\n❌ Generation failed with error: {e}", flush=True)
+        print("\nTroubleshooting tips:", flush=True)
+        print("  1. Run with --check to diagnose issues", flush=True)
+        print("  2. Try reducing --workers (e.g., --workers 8)", flush=True)
+        print("  3. Check disk space: df -h", flush=True)
+        print("  4. Check for zombie processes: ps aux | grep wkhtmltoimage", flush=True)
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
 
 
 if __name__ == '__main__':

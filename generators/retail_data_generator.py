@@ -3060,7 +3060,7 @@ class RetailDataGenerator:
                     'show_tiered_pricing_table': item.show_tiered_pricing_table,
                     'stock_status': item.stock_status,
                     'available_quantity': item.available_quantity,
-                    'line_total': item.line_total,
+                    'line_total': item.line_total if item.line_total is not None else item.total,
                     'total_units': item.total_units,
                     'promotional_discount': item.promotional_discount,
                     'member_discount': item.member_discount,
@@ -3143,6 +3143,7 @@ class RetailDataGenerator:
                     'stock_status': item.stock_status,
                     'total_units': item.total_units,
                     'brand': item.brand,
+                    'line_total': item.line_total if item.line_total is not None else item.total,  # Alias for template compatibility
                     
                     # E-commerce fields
                     'variant': item.variant,

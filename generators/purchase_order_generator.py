@@ -335,6 +335,8 @@ class PurchaseOrderGenerator(SyntheticDataGenerator):
             'uom': random.choice(self.uoms),
             'unit_price': unit_price,
             'unit_cost': unit_price,
+            'price': unit_price,  # Alias for template compatibility
+            'rate': unit_price,  # Alias for template compatibility
             'total': total,
             'line_total': total,  # Alias for template compatibility
             'amount': total,

@@ -237,6 +237,10 @@ class ModernInvoiceGenerator(SyntheticDataGenerator):
                             item['total'] = item['amount']
                         elif 'amount' not in item and 'total' in item:
                             item['amount'] = item['total']
+                        
+                        # Add line_total alias (used by some templates)
+                        if 'line_total' not in item:
+                            item['line_total'] = item.get('total', item.get('amount', 0))
         
         # Ensure line_items alias exists
         if 'items' in data and 'line_items' not in data:

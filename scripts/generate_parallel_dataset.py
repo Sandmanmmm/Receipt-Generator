@@ -758,6 +758,16 @@ def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_wo
         f.write(f"Generation complete: {datetime.now()}\n")
         f.write(f"Total samples: {len(all_metadata)}\n")
         f.write(f"Time: {total_time/60:.1f} minutes\n")
+    
+    # Return results for programmatic use
+    return {
+        'success': len(all_metadata),
+        'errors': num_samples - len(all_metadata),
+        'total_time': total_time,
+        'samples_per_sec': len(all_metadata) / total_time if total_time > 0 else 0,
+        'category_stats': category_stats,
+        'output_dir': str(output_path)
+    }
 
 
 def main():

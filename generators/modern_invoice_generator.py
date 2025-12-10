@@ -216,4 +216,30 @@ class ModernInvoiceGenerator(SyntheticDataGenerator):
         if 'shipping' in data and 'shipping_cost' not in data:
             data['shipping_cost'] = data['shipping']
         
+        # Fix item field naming: templates expect unit_price and total, dataclass uses rate
+        for items_key in ['items', 'line_items']:
+            if items_key in data and isinstance(data[items_key], list):
+                for item in data[items_key]:
+                    if isinstance(item, dict):
+                        # Add unit_price alias for rate
+                        if 'rate' in item and 'unit_price' not in item:
+                            item['unit_price'] = item['rate']
+                        if 'unit_price' in item and 'price' not in item:
+                            item['price'] = item['unit_price']
+                        
+                        # Calculate total/amount if missing
+                        if 'total' not in item and 'amount' not in item:
+                            qty = item.get('quantity', 1)
+                            unit_price = item.get('unit_price', item.get('rate', item.get('price', 0)))
+                            item['total'] = round(qty * unit_price, 2)
+                            item['amount'] = item['total']
+                        elif 'total' not in item and 'amount' in item:
+                            item['total'] = item['amount']
+                        elif 'amount' not in item and 'total' in item:
+                            item['amount'] = item['total']
+        
+        # Ensure line_items alias exists
+        if 'items' in data and 'line_items' not in data:
+            data['line_items'] = data['items']
+        
         return data

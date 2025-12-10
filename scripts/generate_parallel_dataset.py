@@ -430,7 +430,7 @@ def generate_single_invoice(args):
         return ('error', idx, f"{str(e)}\n{traceback.format_exc()}")
 
 
-def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_workers: int = None, augment_probability: float = 0.5):
+def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_workers: int = None, augment_probability: float = 0.5, doc_type: str = 'all'):
     """
     Generate dataset using parallel workers
     
@@ -439,6 +439,7 @@ def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_wo
         num_samples: Total samples to generate
         num_workers: Number of parallel workers (default: CPU count)
         augment_probability: Probability of applying augmentation (0.0-1.0, default 0.5)
+        doc_type: Type of documents to generate ('all', 'receipts', 'invoices')
     """
     output_path = Path(output_dir)
     images_dir = output_path / "images"
@@ -463,13 +464,20 @@ def generate_parallel_dataset(output_dir: str, num_samples: int = 150000, num_wo
     print(f"Output: {output_dir}")
     print(f"=" * 60)
     
-    # Distribution: 20% receipts, 80% invoices
-    num_receipts = int(num_samples * 0.20)
-    num_invoices = num_samples - num_receipts
+    # Distribution based on doc_type
+    if doc_type == 'receipts':
+        num_receipts = num_samples
+        num_invoices = 0
+    elif doc_type == 'invoices':
+        num_receipts = 0
+        num_invoices = num_samples
+    else:  # 'all'
+        num_receipts = int(num_samples * 0.20)
+        num_invoices = num_samples - num_receipts
     
     print(f"\nDistribution:")
-    print(f"  Receipts: {num_receipts:,} (20%)")
-    print(f"  Invoices: {num_invoices:,} (80%)")
+    print(f"  Receipts: {num_receipts:,}")
+    print(f"  Invoices: {num_invoices:,}")
     
     # Template lists
     receipt_templates = [
@@ -783,18 +791,22 @@ def main():
     parser.add_argument('--workers', type=int, default=None, help='Number of workers (default: auto)')
     parser.add_argument('--quality', type=int, default=85, help='JPEG compression quality (1-100, default: 85)')
     parser.add_argument('--augment', type=float, default=0.5, help='Augmentation probability (0.0-1.0, default: 0.5)')
+    parser.add_argument('--type', type=str, choices=['all', 'receipts', 'invoices'], default='all',
+                        help='Type of documents to generate (default: all)')
     
     args = parser.parse_args()
     
     print(f"\n📦 JPEG Quality: {args.quality}")
     print(f"   Expected file size: ~{50 + (args.quality - 85) * 2}KB per image")
-    print(f"🎨 Augmentation: {args.augment*100:.0f}% of images will have realistic distortions\n")
+    print(f"🎨 Augmentation: {args.augment*100:.0f}% of images will have realistic distortions")
+    print(f"📄 Document type: {args.type}\n")
     
     generate_parallel_dataset(
         output_dir=args.output,
         num_samples=args.samples,
         num_workers=args.workers,
-        augment_probability=args.augment
+        augment_probability=args.augment,
+        doc_type=args.type
     )
 
 

@@ -60,7 +60,7 @@
                 <p class="seller-name">{{ seller_name }}</p>
                 <p class="seller-username">@{{ seller_username }}</p>
                 {% if seller_rating %}
-                <p class="seller-rating">⭐ {{ seller_rating }} ({{ seller_reviews }} reviews)</p>
+                <p class="seller-rating">* {{ seller_rating }} ({{ seller_reviews }} reviews)</p>
                 {% endif %}
             </div>
 
@@ -76,122 +76,6 @@
                 {% endif %}
             </div>
         </div>
-
-        <!-- Items Section - Marketplace Style -->
-        <div class="items-section">
-            <h2 class="section-title">Order Items</h2>
-            
-            {# Smart pagination: First page shows fewer items due to large header #}
-            {% if _is_first_page|default(true) and _page_number|default(none) %}
-                {# Multi-page mode: Show only 3 items on first page #}
-                {% for item in line_items[:3] %}
-            <div class="item-card">
-                <div class="item-image-placeholder">
-                    <!-- Product image placeholder -->
-                    <div class="image-box">📦</div>
-                </div>
-                
-                <div class="item-details">
-                    <h3 class="item-title">{{ item.description }}</h3>
-                    
-                    {% if item.seller_sku %}
-                    <p class="item-sku">SKU: {{ item.seller_sku }}</p>
-                    {% endif %}
-                    
-                    {% if item.variant %}
-                    <p class="item-variant">{{ item.variant }}</p>
-                    {% endif %}
-                    
-                    {% if item.condition %}
-                    <p class="item-condition">
-                        <span class="condition-badge">{{ item.condition }}</span>
-                    </p>
-                    {% endif %}
-                    
-                    <div class="item-seller">
-                        <span class="seller-label">Sold by:</span>
-                        <span class="seller-link">{{ item.seller_name }}</span>
-                    </div>
-                </div>
-                
-                <div class="item-pricing">
-                    <div class="price-row">
-                        <span class="price-label">Item Price:</span>
-                        <span class="price-value">{{ item.unit_price }}</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">Quantity:</span>
-                        <span class="price-value">{{ item.quantity }}</span>
-                    </div>
-                    {% if item.discount > 0 %}
-                    <div class="price-row discount">
-                        <span class="price-label">Discount:</span>
-                        <span class="price-value">-{{ item.discount }}</span>
-                    </div>
-                    {% endif %}
-                    <div class="price-row total">
-                        <span class="price-label">Item Total:</span>
-                        <span class="price-value">{{ item.total }}</span>
-                    </div>
-                </div>
-            </div>
-                {% endfor %}
-            {% else %}
-                {# Single page mode OR continuation page: Show all assigned items #}
-                {% for item in line_items %}
-            <div class="item-card">
-                <div class="item-image-placeholder">
-                    <!-- Product image placeholder -->
-                    <div class="image-box">📦</div>
-                </div>
-                
-                <div class="item-details">
-                    <h3 class="item-title">{{ item.description }}</h3>
-                    
-                    {% if item.seller_sku %}
-                    <p class="item-sku">SKU: {{ item.seller_sku }}</p>
-                    {% endif %}
-                    
-                    {% if item.variant %}
-                    <p class="item-variant">{{ item.variant }}</p>
-                    {% endif %}
-                    
-                    {% if item.condition %}
-                    <p class="item-condition">
-                        <span class="condition-badge">{{ item.condition }}</span>
-                    </p>
-                    {% endif %}
-                    
-                    <div class="item-seller">
-                        <span class="seller-label">Sold by:</span>
-                        <span class="seller-link">{{ item.seller_name }}</span>
-                    </div>
-                </div>
-                
-                <div class="item-pricing">
-                    <div class="price-row">
-                        <span class="price-label">Item Price:</span>
-                        <span class="price-value">{{ item.unit_price }}</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">Quantity:</span>
-                        <span class="price-value">{{ item.quantity }}</span>
-                    </div>
-                    {% if item.discount > 0 %}
-                    <div class="price-row discount">
-                        <span class="price-label">Discount:</span>
-                        <span class="price-value">-{{ item.discount }}</span>
-                    </div>
-                    {% endif %}
-                    <div class="price-row total">
-                        <span class="price-label">Item Total:</span>
-                        <span class="price-value">{{ item.total }}</span>
-                    </div>
-                </div>
-            </div>
-                {% endfor %}
-            {% endif %}
-        </div>
         {% else %}
         <!-- Continuation Header -->
         <div class="continuation-header" style="padding: 20px; background: #f5f5f5; border-bottom: 3px solid #ff6b35; margin-bottom: 30px;">
@@ -206,6 +90,67 @@
             </div>
         </div>
         {% endif %}
+
+        <!-- Items Section - Marketplace Style (rendered on ALL pages) -->
+        <div class="items-section">
+            {% if _is_first_page|default(true) %}
+            <h2 class="section-title">Order Items</h2>
+            {% endif %}
+            
+            {# Pagination handled by template config - iterate over pre-sliced line_items #}
+            {% for item in items|default(line_items, true) %}
+            <div class="item-card">
+                <div class="item-image-placeholder">
+                    <!-- Product image placeholder -->
+                    <div class="image-box"></div>
+                </div>
+                
+                <div class="item-details">
+                    <h3 class="item-title">{{ item.description }}</h3>
+                    
+                    {% if item.seller_sku %}
+                    <p class="item-sku">SKU: {{ item.seller_sku }}</p>
+                    {% endif %}
+                    
+                    {% if item.variant %}
+                    <p class="item-variant">{{ item.variant }}</p>
+                    {% endif %}
+                    
+                    {% if item.condition %}
+                    <p class="item-condition">
+                        <span class="condition-badge">{{ item.condition }}</span>
+                    </p>
+                    {% endif %}
+                    
+                    <div class="item-seller">
+                        <span class="seller-label">Sold by:</span>
+                        <span class="seller-link">{{ item.seller_name }}</span>
+                    </div>
+                </div>
+                
+                <div class="item-pricing">
+                    <div class="price-row">
+                        <span class="price-label">Item Price:</span>
+                        <span class="price-value">{{ item.unit_price }}</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="price-label">Quantity:</span>
+                        <span class="price-value">{{ item.quantity }}</span>
+                    </div>
+                    {% if item.discount and (item.discount|string != '0' and item.discount|string != '$0.00' and item.discount != 0) %}
+                    <div class="price-row discount">
+                        <span class="price-label">Discount:</span>
+                        <span class="price-value">-{{ item.discount }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="price-row total">
+                        <span class="price-label">Item Total:</span>
+                        <span class="price-value">{{ item.total }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
 
         {% if _is_last_page|default(true) %}
         <!-- Order Summary -->
@@ -241,7 +186,7 @@
                 
                 <div class="summary-row">
                     <span class="summary-label">Tax:</span>
-                    <span class="summary-value">${{ "%.2f"|format(tax_amount) }}</span>
+                    <span class="summary-value">{{ tax_amount }}</span>
                 </div>
                 
                 <div class="summary-divider"></div>
@@ -257,7 +202,7 @@
         <div class="payment-section">
             <h2 class="section-title">Payment Method</h2>
             <div class="payment-card">
-                <div class="payment-method-icon">💳</div>
+                <div class="payment-method-icon"></div>
                 <div class="payment-details">
                     <p class="payment-type">{{ card_type }}</p>
                     <p class="payment-number">•••• •••• •••• {{ card_last_four }}</p>
@@ -271,7 +216,7 @@
 
         <!-- Buyer Protection -->
         <div class="protection-section">
-            <div class="protection-badge">🛡️</div>
+            <div class="protection-badge"></div>
             <div class="protection-content">
                 <h3>{{ marketplace_name }} Buyer Protection</h3>
                 <p>Your purchase is covered by our Money Back Guarantee. Report issues within {{ protection_days }} days.</p>

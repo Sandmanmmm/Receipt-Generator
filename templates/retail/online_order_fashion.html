@@ -48,7 +48,7 @@
                     <p class="customer-phone">{{ buyer_phone }}</p>
                     {% if customer_id %}
                     <p class="loyalty-member">
-                        <span class="loyalty-icon">⭐</span>
+                        <span class="loyalty-icon">*</span>
                         <span class="loyalty-text">Rewards Member #{{ customer_id }}</span>
                     </p>
                     <p class="loyalty-points">{{ loyalty_points_balance }} points available</p>
@@ -57,7 +57,7 @@
             </div>
 
             <div class="info-box shipping-box">
-                <h3 class="box-title">🚚 Shipping Details</h3>
+                <h3 class="box-title"> Shipping Details</h3>
                 <div class="shipping-details">
                     <p class="shipping-recipient">{{ shipping_name }}</p>
                     <p class="shipping-address">{{ shipping_address }}</p>
@@ -94,10 +94,8 @@
         <!-- Order Items with Fashion Details -->
         <div class="items-section">
             <h3 class="section-title">Your Order</h3>
-            {# Smart pagination: First page shows fewer items due to large header #}
-            {% if _is_first_page|default(true) and _page_number|default(none) %}
-                {# Multi-page mode: Show only 4 items on first page #}
-                {% for item in line_items[:4] %}
+            {# Pagination handled by template config - iterate over pre-sliced line_items #}
+            {% for item in items|default(line_items, true) %}
             <div class="fashion-item-card">
                 <div class="item-image-placeholder">
                     <span class="image-icon">🖼️</span>
@@ -155,74 +153,13 @@
             </div>
             {% endif %}
                 {% endfor %}
-            {% else %}
-                {# Single page mode OR continuation page: Show all assigned items #}
-                {% for item in line_items %}
-            <div class="fashion-item-card">
-                <div class="item-image-placeholder">
-                    <span class="image-icon">🖼️</span>
-                </div>
-                <div class="item-details">
-                    <h4 class="item-name">{{ item.description }}</h4>
-                    <div class="item-attributes">
-                        {% if item.brand %}
-                        <span class="attribute-badge brand-badge">{{ item.brand }}</span>
-                        {% endif %}
-                        {% if item.color %}
-                        <span class="attribute-badge color-badge">Color: {{ item.color }}</span>
-                        {% endif %}
-                        {% if item.size %}
-                        <span class="attribute-badge size-badge">Size: {{ item.size }}</span>
-                        {% endif %}
-                        {% if item.style %}
-                        <span class="attribute-badge style-badge">Style: {{ item.style }}</span>
-                        {% endif %}
-                    </div>
-                    {% if item.fit %}
-                    <div class="item-fit">
-                        <span class="fit-label">Fit:</span>
-                        <span class="fit-value">{{ item.fit }}</span>
-                    </div>
-                    {% endif %}
-                    {% if item.material %}
-                    <div class="item-material">
-                        <span class="material-label">Material:</span>
-                        <span class="material-value">{{ item.material }}</span>
-                    </div>
-                    {% endif %}
-                    <div class="item-sku">SKU: {{ item.sku }}</div>
-                    {% if item.care_instructions %}
-                    <div class="care-instructions">
-                        <span class="care-icon">🧺</span>
-                        <span class="care-text">{{ item.care_instructions }}</span>
-                    </div>
-                    {% endif %}
-                </div>
-                <div class="item-pricing">
-                    <div class="quantity">Qty: {{ item.quantity }}</div>
-                    <div class="unit-price">{{ item.unit_price }} each</div>
-                    {% if item.original_price and item.original_price != item.unit_price %}
-                    <div class="original-price">Was: {{ item.original_price }}</div>
-                    <div class="savings">You save: {{ item.savings }}</div>
-                    {% endif %}
-                    <div class="item-total">{{ item.total }}</div>
-                </div>
-            </div>
-            {% if item.personalization %}
-            <div class="personalization-note">
-                <span class="personalization-icon">✏️</span>
-                <span class="personalization-text">Personalized: {{ item.personalization }}</span>
-            </div>
-            {% endif %}
-                {% endfor %}
-            {% endif %}
         </div>
 
         <!-- Size Guide Reference -->
         {% if has_size_chart %}
         <div class="size-guide-section">
             <div class="size-guide-note">
-                <span class="guide-icon">📏</span>
+                <span class="guide-icon"></span>
                 <span class="guide-text">Not sure about sizing? View our size chart at {{ size_chart_url }}</span>
             </div>
         </div>
@@ -239,7 +176,7 @@
                 </div>
                 {% if item_discounts and item_discounts|float > 0 %}
                 <div class="summary-row discount-row">
-                    <span class="summary-label">🏷️ Item Discounts:</span>
+                    <span class="summary-label"> Item Discounts:</span>
                     <span class="summary-value discount-value">-${{ "%.2f"|format(item_discounts) }}</span>
                 </div>
                 {% endif %}
@@ -251,7 +188,7 @@
                 {% endif %}
                 {% if loyalty_discount and loyalty_discount|float > 0 %}
                 <div class="summary-row discount-row">
-                    <span class="summary-label">⭐ Rewards Discount:</span>
+                    <span class="summary-label">* Rewards Discount:</span>
                     <span class="summary-value discount-value">-{{ loyalty_discount }}</span>
                 </div>
                 {% endif %}
@@ -261,13 +198,13 @@
                 </div>
                 {% if gift_wrap %}
                 <div class="summary-row">
-                    <span class="summary-label">🎁 Gift Wrapping:</span>
+                    <span class="summary-label"> Gift Wrapping:</span>
                     <span class="summary-value">{{ gift_wrap_charge }}</span>
                 </div>
                 {% endif %}
                 <div class="summary-row">
                     <span class="summary-label">Tax:</span>
-                    <span class="summary-value">${{ "%.2f"|format(tax_amount) }}</span>
+                    <span class="summary-value">{{ tax_amount }}</span>
                 </div>
                 <div class="summary-row total-row">
                     <span class="summary-label total-label">Total:</span>
@@ -275,7 +212,7 @@
                 </div>
                 {% if total_savings and total_savings|float > 0 %}
                 <div class="savings-banner">
-                    <span class="savings-icon">💰</span>
+                    <span class="savings-icon"></span>
                     <span class="savings-text">You saved {{ total_savings }} on this order!</span>
                 </div>
                 {% endif %}
@@ -287,7 +224,7 @@
             <h3 class="section-title">Payment Method</h3>
             <div class="payment-details">
                 <div class="payment-method">
-                    <span class="payment-icon">💳</span>
+                    <span class="payment-icon"></span>
                     <span class="payment-type">{{ payment_method }}</span>
                     <span class="card-type">{{ card_type }}</span>
                     <span class="card-number">ending in {{ card_last_four }}</span>
@@ -308,7 +245,7 @@
         {% if loyalty_points_earned %}
         <div class="rewards-section">
             <div class="rewards-card">
-                <h3 class="rewards-title">⭐ Rewards Update</h3>
+                <h3 class="rewards-title">* Rewards Update</h3>
                 <div class="rewards-content">
                     <div class="rewards-row">
                         <span class="rewards-label">Points Earned:</span>

@@ -113,12 +113,15 @@ body {
 }
 
 .item-line {
-    display: flex;
+
+        display: flex;
     align-items: flex-start;
-    gap: 2mm;
+        /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+
     margin-bottom: 1mm;
     font-size: 10pt;
 }
+
 
 .item-qty {
     min-width: 6mm;
@@ -146,13 +149,16 @@ body {
 }
 
 .modifier-line {
-    display: flex;
+
+        display: flex;
     align-items: center;
-    gap: 2mm;
+        /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+
     margin-bottom: 0.5mm;
     font-size: 9pt;
     color: #555;
 }
+
 
 .modifier-icon {
     font-size: 8pt;
@@ -170,9 +176,11 @@ body {
 
 /* Special Instructions */
 .special-instructions {
-    display: flex;
+
+        display: flex;
     align-items: flex-start;
-    gap: 2mm;
+        /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+
     margin-left: 8mm;
     margin-top: 1mm;
     padding: 1.5mm;
@@ -181,6 +189,7 @@ body {
     font-size: 8pt;
     color: #92400e;
 }
+
 
 .instruction-icon {
     font-weight: bold;

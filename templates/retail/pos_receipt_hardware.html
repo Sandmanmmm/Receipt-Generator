@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardware Receipt{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
+    <link rel="stylesheet" href="../css/pos_receipt_hardware.css">
+</head>
+<body>
+    <div class="hardware-receipt">
+        <!-- Store Header - MR D.I.Y. Style -->
+        <div class="receipt-header">
+            <div class="store-name">{{ store_name|default(supplier_name) }}</div>
+            <div class="store-legal-suffix">{{ legal_suffix|default('SDN BHD') }}</div>
+            <div class="company-registration">(CO.REG : {{ company_reg|default('860671-D') }})</div>
+        </div>
+
+        <!-- Address Block -->
+        <div class="address-block">
+            <div class="address-line">{{ lot_number|default('LOT 1851-A & 1851-B') }}, {{ street_name|default('JALAN KPB 6') }},</div>
+            <div class="address-line">{{ industrial_area|default('KAWASAN PERINDUSTRIAN BALAKONG') }},</div>
+            <div class="address-line">{{ postcode|default('43300') }} {{ city|default('SERI KEMBANGAN') }}, {{ state|default('SELANGOR') }}</div>
+            {% if branch_location %}
+            <div class="branch-location">({{ store_name|default(supplier_name)|upper }} {{ branch_location|upper }})</div>
+            {% endif %}
+        </div>
+
+        <!-- GST Information -->
+        <div class="gst-block">
+            <div class="gst-id">(GST ID No : {{ gst_id|default('000306020352') }})</div>
+        </div>
+
+        <!-- Invoice Type Banner -->
+        <div class="invoice-type-banner">
+            <span class="invoice-type">- {{ document_type|default('TAX INVOICE') }} -</span>
+        </div>
+
+        <!-- Transaction Details -->
+        <div class="transaction-block">
+            <div class="transaction-row">
+                <span class="trans-label">Doc No :</span>
+                <span class="trans-value">{{ invoice_number|default('TD01167104') }}</span>
+            </div>
+            <div class="transaction-row">
+                <span class="trans-label">Date :</span>
+                <span class="trans-value">{{ invoice_date|default('25/12/2018') }}</span>
+            </div>
+            <div class="transaction-row">
+                <span class="trans-label">Time :</span>
+                <span class="trans-value">{{ transaction_time|default('20:13:39') }}</span>
+            </div>
+            <div class="transaction-row">
+                <span class="trans-label">Cashier :</span>
+                <span class="trans-value">{{ cashier_name|default('CASHIER01') }}</span>
+            </div>
+            {% if member_type %}
+            <div class="transaction-row">
+                <span class="trans-label">Member :</span>
+                <span class="trans-value">{{ member_type|default('CASH BILL') }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Column Headers -->
+        <div class="column-headers">
+            <span class="col-desc">CODE/DESC</span>
+            <span class="col-price">PRICE</span>
+            <span class="col-disc">Disc</span>
+            <span class="col-amount">AMOUNT</span>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Items Section -->
+        <div class="items-section">
+            {% for item in items|default(line_items, true) %}
+            <div class="item-block">
+                <!-- Item Description Row -->
+                <div class="item-desc-row">
+                    <span class="item-description">{{ item.description|upper }}</span>
+                </div>
+                <!-- Model/Code Row -->
+                <div class="item-code-row">
+                    {% if item.model_number %}
+                    <span class="model-number">{{ item.model_number }}</span>
+                    {% endif %}
+                    {% if item.item_code %}
+                    <span class="item-code">{{ item.item_code }}</span>
+                    {% endif %}
+                </div>
+                <!-- Barcode Row -->
+                {% if item.barcode %}
+                <div class="barcode-row">
+                    <span class="barcode">{{ item.barcode }}</span>
+                </div>
+                {% endif %}
+                <!-- Quantity x Price Row -->
+                <div class="qty-price-row">
+                    <span class="qty-price">{{ item.quantity }} × {{ item.unit_price }}</span>
+                    {% if item.discount_amount %}
+                    <span class="item-discount">{{ item.discount_amount }}</span>
+                    {% endif %}
+                    <span class="item-total">{{ item.total }}</span>
+                </div>
+                {% if item.promotion_code %}
+                <div class="promo-row">
+                    <span class="promo-code">{{ item.promotion_code }}</span>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <div class="total-row">
+                <span class="total-label">SUBTOTAL</span>
+                <span class="total-value">{{ subtotal }}</span>
+            </div>
+            {% if total_discount_raw|default(0) > 0 %}
+            <div class="total-row discount-row">
+                <span class="total-label">DISC/REBATE</span>
+                <span class="total-value">-{{ total_discount }}</span>
+            </div>
+            {% endif %}
+            <div class="total-row">
+                <span class="total-label">TAX ({{ tax_rate|default(6) }}% GST)</span>
+                <span class="total-value">{{ tax_amount }}</span>
+            </div>
+        </div>
+
+        <!-- Grand Total -->
+        <div class="grand-total-section">
+            <div class="grand-total-row">
+                <span class="grand-total-label">*** TOTAL ***</span>
+                <span class="grand-total-value">RM {{ total_amount }}</span>
+            </div>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Payment Section -->
+        <div class="payment-section">
+            <div class="payment-header">PAYMENT</div>
+            <div class="payment-row">
+                <span class="payment-label">{{ payment_method|default('CASH') }}</span>
+                <span class="payment-value">RM {{ amount_tendered|default(total_amount) }}</span>
+            </div>
+            {% if change_due %}
+            <div class="payment-row">
+                <span class="payment-label">CHANGE</span>
+                <span class="payment-value">RM {{ change_due }}</span>
+            </div>
+            {% endif %}
+            {% if card_last_four %}
+            <div class="card-info">
+                <div class="card-row">Card: **** **** **** {{ card_last_four }}</div>
+                {% if approval_code %}
+                <div class="card-row">Approval: {{ approval_code }}</div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Item Count -->
+        <div class="item-count-section">
+            <span class="item-count">ITEM(S) SOLD: {{ line_items|length }}</span>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Footer Section -->
+        <div class="receipt-footer">
+            <div class="footer-message">GOODS SOLD ARE NOT RETURNABLE</div>
+            <div class="footer-message">UNLESS IN ORIGINAL CONDITION</div>
+            <div class="footer-message">WITHIN 7 DAYS WITH RECEIPT</div>
+            <div class="footer-spacer"></div>
+            <div class="footer-thanks">THANK YOU FOR SHOPPING WITH US!</div>
+            {% if survey_code %}
+            <div class="survey-section">
+                <div class="survey-label">TELL US HOW WE DID</div>
+                <div class="survey-code">SURVEY CODE: {{ survey_code }}</div>
+                {% if survey_url %}
+                <div class="survey-url">{{ survey_url }}</div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Barcode Section (if enabled) -->
+        {% if receipt_barcode %}
+        <div class="receipt-barcode-section">
+            <div class="receipt-barcode">||| {{ receipt_barcode }} |||</div>
+        </div>
+        {% endif %}
+
+        <!-- Page Indicator (for multipage) -->
+        {% if _page_number is defined and _total_pages > 1 %}
+        <div class="page-indicator">
+            Page {{ _page_number }} of {{ _total_pages }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

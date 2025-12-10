@@ -32,15 +32,24 @@ body {
 }
 
 .company-branding {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 3mm;
+        /*     /*     /* gap: 3mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
 }
+
+
+
 
 .logo-container {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: #10b981;  /* was: linear-gradient(135deg, #10b981 0%, #059669 100%...) */
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -96,21 +105,39 @@ body {
 
 /* Delivery Banner */
 .delivery-banner {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 3mm;
+
     margin-bottom: 6mm;
     padding: 4mm;
-    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    background: #ecfdf5;  /* was: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%...) */
     border: 2px solid #10b981;
     border-radius: 8px;
 }
 
-.banner-section {
-    display: flex;
-    align-items: center;
-    gap: 2mm;
+.delivery-banner > div {
+    display: table-cell;
+    vertical-align: top;
 }
+
+
+.banner-section {
+
+
+
+                display: flex;
+    align-items: center;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
+}
+
+
+
 
 .banner-icon {
     font-size: 18pt;
@@ -141,11 +168,20 @@ body {
 
 /* Info Section */
 .info-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 5mm;
+
     margin-bottom: 8mm;
 }
+
+.info-section > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 
 .info-card {
     padding: 4mm;
@@ -191,7 +227,7 @@ body {
     border-radius: 6px;
     display: inline-flex;
     align-items: center;
-    gap: 1.5mm;
+    /* gap removed for wkhtmltoimage compatibility */
 }
 
 .loyalty-star {
@@ -205,15 +241,24 @@ body {
 }
 
 .delivery-notes {
+
+
+
     margin-top: 3mm;
     padding: 3mm;
     background: #fef3c7;
     border-left: 3px solid #f59e0b;
     border-radius: 4px;
-    display: flex;
+                display: flex;
     align-items: flex-start;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
 }
+
+
+
 
 .notes-icon {
     font-size: 11pt;
@@ -253,13 +298,22 @@ body {
 }
 
 .zone-header {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     padding: 3mm 4mm;
     font-weight: 600;
     font-size: 11pt;
 }
+
+
+
 
 .zone-icon {
     font-size: 14pt;
@@ -302,11 +356,26 @@ body {
 
 /* Grocery Items */
 .grocery-item {
-    display: grid;
-    grid-template-columns: 1fr 80px 100px;
-    gap: 4mm;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
     padding: 3mm 0;
     border-bottom: 1px solid #f3f4f6;
+}
+
+.grocery-item > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.grocery-item .item-quantity {
+    width: 80px;
+    text-align: center;
+}
+
+.grocery-item .item-price {
+    width: 100px;
+    text-align: right;
 }
 
 .grocery-item:last-child {
@@ -316,7 +385,7 @@ body {
 .item-main {
     display: flex;
     flex-direction: column;
-    gap: 1.5mm;
+    /* gap removed for wkhtmltoimage compatibility */
 }
 
 .item-name {
@@ -349,7 +418,7 @@ body {
     border-radius: 4px;
     display: flex;
     align-items: center;
-    gap: 1.5mm;
+    /* gap removed for wkhtmltoimage compatibility */
 }
 
 .sub-icon {
@@ -365,7 +434,7 @@ body {
 .expiration-date {
     display: flex;
     align-items: center;
-    gap: 1.5mm;
+    /* gap removed for wkhtmltoimage compatibility */
     padding: 1.5mm;
     background: #fee2e2;
     border-radius: 4px;
@@ -404,7 +473,7 @@ body {
 .sale-badge {
     display: inline-flex;
     align-items: center;
-    gap: 1mm;
+    /* gap removed for wkhtmltoimage compatibility */
     padding: 1mm 2mm;
     background: #fee2e2;
     color: #991b1b;
@@ -420,7 +489,7 @@ body {
 .produce-weight {
     display: flex;
     align-items: center;
-    gap: 1.5mm;
+    /* gap removed for wkhtmltoimage compatibility */
 }
 
 .weight-icon {
@@ -501,11 +570,20 @@ body {
 }
 
 .substitutions-header {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     margin-bottom: 4mm;
 }
+
+
+
 
 .substitutions-header .sub-icon {
     font-size: 16pt;
@@ -518,14 +596,35 @@ body {
 }
 
 .substitution-item {
-    display: grid;
-    grid-template-columns: 2fr auto 2fr 3fr;
-    gap: 3mm;
-    align-items: center;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
     padding: 3mm;
     background: #ffffff;
     border-radius: 6px;
     margin-bottom: 3mm;
+}
+
+.substitution-item > div {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.substitution-item .sub-original {
+    width: 22%;
+}
+
+.substitution-item .sub-arrow {
+    width: 12%;
+    text-align: center;
+}
+
+.substitution-item .sub-replacement {
+    width: 22%;
+}
+
+.substitution-item .sub-reason {
+    width: 44%;
 }
 
 .substitution-item:last-child {
@@ -677,11 +776,20 @@ body {
 }
 
 .payment-info {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     font-size: 9.5pt;
 }
+
+
+
 
 .payment-icon {
     font-size: 14pt;
@@ -734,7 +842,7 @@ body {
 
 .rewards-card {
     padding: 5mm;
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    background: #fef3c7;  /* was: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%...) */
     border: 2px solid #f59e0b;
     border-radius: 8px;
 }
@@ -747,10 +855,19 @@ body {
 }
 
 .rewards-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 4mm;
+
 }
+
+.rewards-grid > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 
 .rewards-item {
     display: flex;
@@ -824,11 +941,20 @@ body {
 }
 
 .footer-info {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 5mm;
+
     margin-bottom: 5mm;
 }
+
+.footer-info > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 
 .footer-section h4 {
     font-size: 10pt;

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jungle Business Invoice</title>
+    <link rel="stylesheet" href="../css/jungle_business_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Header Section -->
+        <table class="header-table">
+            <tr>
+                <td class="header-left">
+                    <div class="logo-section">
+                        <span class="logo-jungle">jungle</span><span class="logo-business">business</span>
+                    </div>
+                </td>
+                <td class="header-right">
+                    <div class="payment-box">
+                        <div class="total-amount">{{ total_amount|default('$44.25') }}</div>
+                        <div class="payment-method">{{ payment_method|default('Credit Card') }} - {{ card_last_four|default('0098') }}</div>
+                        <div class="order-date">{{ invoice_date|default('11/05/2024') }} {{ order_time|default('3:05 PM') }}</div>
+                        <div class="order-number">Order Number: {{ invoice_number|default('12-1274388-604026') }}</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr class="header-row">
+                    <th class="col-description">Description</th>
+                    <th class="col-qty">Quantity</th>
+                    <th class="col-price">Unit Price</th>
+                    <th class="col-amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-logo">
+                <span class="logo-jungle-sm">jungle</span><span class="logo-business-sm">business</span>
+            </div>
+            <div class="cont-info">Order #{{ invoice_number }} (Page {{ _page_number }} of {{ _total_pages }})</div>
+        </div>
+
+        <table class="items-table">
+            <thead>
+                <tr class="header-row">
+                    <th class="col-description">Description</th>
+                    <th class="col-qty">Quantity</th>
+                    <th class="col-price">Unit Price</th>
+                    <th class="col-amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% endif %}
+
+                {% for item in items %}
+                <!-- Product Row -->
+                <tr class="item-row">
+                    <td class="item-description">
+                        <div class="item-name">{{ item.name|default(item.description)|default('Product') }}</div>
+                        <div class="item-details">
+                            {% if item.po_number %}PO: {{ item.po_number }}, {% endif %}
+                            {% if item.line_item %}PO line item: {{ item.line_item }}, {% endif %}
+                            Sold by: {{ item.sold_by|default(supplier_name)|default('Jungle Seller') }}
+                        </div>
+                    </td>
+                    <td class="item-qty">{{ item.quantity|default(1) }}</td>
+                    <td class="item-price">
+                        {% if item.unit_price is defined and item.unit_price is not none %}
+                            {% if item.unit_price is string %}
+                                {{ item.unit_price }}
+                            {% else %}
+                                ${{ "%.2f"|format(item.unit_price|to_float) }}
+                            {% endif %}
+                        {% else %}
+                            $0.00
+                        {% endif %}
+                    </td>
+                    <td class="item-amount">
+                        {% if item.total is defined and item.total is not none %}
+                            {% if item.total is string %}
+                                {{ item.total }}
+                            {% else %}
+                                ${{ "%.2f"|format(item.total|to_float) }}
+                            {% endif %}
+                        {% else %}
+                            $0.00
+                        {% endif %}
+                    </td>
+                </tr>
+                <!-- Item Breakdown Rows -->
+                <tr class="breakdown-row">
+                    <td class="breakdown-label">Tax</td>
+                    <td></td>
+                    <td></td>
+                    <td class="breakdown-amount">{{ item.tax|default('$0.00') }}</td>
+                </tr>
+                <tr class="breakdown-row">
+                    <td class="breakdown-label">Discount</td>
+                    <td></td>
+                    <td></td>
+                    <td class="breakdown-amount">{{ item.item_discount|default('-$0.00') }}</td>
+                </tr>
+                <tr class="breakdown-row">
+                    <td class="breakdown-label">Shipping</td>
+                    <td></td>
+                    <td></td>
+                    <td class="breakdown-amount">{{ item.item_shipping|default('$0.00') }}</td>
+                </tr>
+                {% if item.gift_wrap is defined or loop.index <= 2 %}
+                <tr class="breakdown-row">
+                    <td class="breakdown-label">Gift Wrap</td>
+                    <td></td>
+                    <td></td>
+                    <td class="breakdown-amount">{{ item.gift_wrap|default('$0.00') }}</td>
+                </tr>
+                {% endif %}
+                {% if item.regulatory_fee is defined or loop.index <= 2 %}
+                <tr class="breakdown-row">
+                    <td class="breakdown-label">Regulatory Fee</td>
+                    <td></td>
+                    <td></td>
+                    <td class="breakdown-amount">{{ item.regulatory_fee|default('$0.00') }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Totals Section -->
+        <table class="totals-table">
+            <tr class="total-row">
+                <td class="total-label">Total for this shipment:</td>
+                <td class="total-value">{{ total_amount|default('$44.25') }}</td>
+            </tr>
+            <tr class="tax-row">
+                <td class="tax-label">Total taxes</td>
+                <td class="tax-value">({{ tax_amount|default('$3.00') }})</td>
+            </tr>
+        </table>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            Page {{ _page_number }} of {{ _total_pages }} — Continued...
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

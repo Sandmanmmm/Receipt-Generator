@@ -1,0 +1,169 @@
+/* Domestic Distributor Purchase Order - Template-Specific Overrides */
+
+/* Primary brand color - professional blue */
+.po-title {
+    color: #1e3a8a;
+    border-bottom: 3px solid #1e3a8a;
+}
+
+.address-label {
+    background-color: #1e3a8a;
+    color: #ffffff;
+}
+
+/* Status badge colors */
+.status-draft {
+    background-color: #6b7280;
+    color: #ffffff;
+}
+
+.status-approved {
+    background-color: #10b981;
+    color: #ffffff;
+}
+
+.status-sent {
+    background-color: #3b82f6;
+    color: #ffffff;
+}
+
+.status-confirmed {
+    background-color: #8b5cf6;
+    color: #ffffff;
+}
+
+.status-cancelled {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
+/* Items table header */
+.items-table thead {
+    background-color: #1e3a8a;
+    color: #ffffff;
+}
+
+/* Item row striping - subtle gray */
+.item-row.row-odd {
+    background-color: #ffffff;
+}
+
+.item-row.row-even {
+    background-color: #f9fafb;
+}
+
+/* Totals section accent */
+.totals-final {
+    background-color: #1e3a8a;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.totals-final .totals-label,
+.totals-final .totals-value {
+    color: #ffffff;
+    padding: 10px;
+}
+
+/* Signature section styling */
+.signature-line {
+    border-bottom: 2px solid #1e3a8a;
+    margin-top: 40px;
+    margin-bottom: 8px;
+}
+
+.signature-label {
+    color: #1e3a8a;
+    font-weight: bold;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+/* Brand/category badges in item description */
+.item-brand,
+.item-category {
+    font-size: 9px;
+    color: #6b7280;
+    margin-top: 3px;
+}
+
+.item-brand {
+    font-style: italic;
+}
+
+/* Notes section - subtle warning color for attention */
+.notes-section {
+    background-color: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.notes-title {
+    color: #92400e;
+    font-weight: bold;
+    font-size: 11px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.notes-content {
+    color: #78350f;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+/* Terms section - clean professional look */
+.terms-section {
+    border: 2px solid #1e3a8a;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.term-label {
+    color: #1e3a8a;
+    font-weight: bold;
+}
+
+/* Footer styling */
+.po-footer {
+    border-top: 2px solid #1e3a8a;
+    color: #4b5563;
+}
+
+/* Responsive adjustments for wkhtmltoimage */
+@media print {
+    .page-container {
+        width: 816px;
+        height: 1056px;
+    }
+    
+    .po-footer {
+        position: absolute;
+        bottom: 20px;
+        width: 756px;
+    }
+}
+
+/* Continuation page header (for multi-page POs) */
+.continuation-header {
+    background-color: #e5e7eb;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #1e3a8a;
+}
+
+.continuation-header .po-number {
+    color: #1e3a8a;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.continuation-text {
+    color: #6b7280;
+    font-size: 10px;
+    font-style: italic;
+}

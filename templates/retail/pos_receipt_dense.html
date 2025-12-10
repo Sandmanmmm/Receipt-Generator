@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Receipt - Dense Thermal</title>
+    <title>Receipt - Dense Thermal{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <link rel="stylesheet" href="../css/pos_receipt_dense.css">
 </head>
 <body>
@@ -34,7 +34,7 @@
 
         <!-- Items - ultra dense format (40-50 lines per page) -->
         <div class="items-section">
-            {% for item in line_items %}
+            {% for item in items|default(line_items, true) %}
             <div class="item-block">
                 <div class="item-name-line">{{ item.description|upper }}</div>
                 <div class="item-detail-line">
@@ -66,7 +66,7 @@
                 <span class="total-label">*** SUBTOTAL</span>
                 <span class="total-value">{{ subtotal }}</span>
             </div>
-            {% if total_discount|default(0) > 0 %}
+            {% if total_discount_raw|default(0) > 0 %}
             <div class="total-line savings">
                 <span class="total-label">*** YOU SAVED</span>
                 <span class="total-value">{{ total_discount }}</span>
@@ -76,7 +76,7 @@
                 <span class="total-label">*** TAX</span>
                 <span class="total-value">{{ tax_amount }}</span>
             </div>
-            {% if tip_amount|default(0) > 0 %}
+            {% if tip_amount_raw|default(0) > 0 %}
             <div class="total-line">
                 <span class="total-label">*** TIP</span>
                 <span class="total-value">{{ tip_amount }}</span>

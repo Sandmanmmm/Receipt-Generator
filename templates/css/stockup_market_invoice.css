@@ -1,0 +1,431 @@
+/* Stockup Market Wholesale Invoice - Clean Professional Design */
+/* Based on stockupmarket.com candy wholesaler invoices */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10pt;
+    color: #333333;
+    line-height: 1.4;
+    background: #ffffff;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 30px 40px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ============================================
+   Header Section
+   ============================================ */
+.header-section {
+    overflow: hidden;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+}
+
+.logo-section {
+    float: left;
+    width: 45%;
+}
+
+.company-logo {
+    max-width: 200px;
+    max-height: 70px;
+}
+
+.logo-text {
+    padding: 5px 0;
+}
+
+.brand-name {
+    display: block;
+    font-size: 28pt;
+    font-weight: 900;
+    color: #2C5F2D;
+    letter-spacing: -1px;
+    line-height: 1;
+}
+
+.brand-tagline {
+    display: block;
+    font-size: 8pt;
+    font-weight: 600;
+    color: #2C5F2D;
+    letter-spacing: 1px;
+    margin-top: 2px;
+}
+
+.invoice-info {
+    float: right;
+    width: 50%;
+    text-align: right;
+}
+
+.invoice-title {
+    font-size: 24pt;
+    font-weight: 700;
+    color: #2C5F2D;
+    margin-bottom: 10px;
+}
+
+.company-details {
+    font-size: 9pt;
+    color: #555555;
+    line-height: 1.5;
+}
+
+.company-name {
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 2px;
+}
+
+.company-line {
+    color: #666666;
+}
+
+/* ============================================
+   Order Summary Bar
+   ============================================ */
+.order-summary-bar {
+    overflow: hidden;
+    margin-bottom: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.summary-left {
+    float: left;
+}
+
+.summary-right {
+    float: right;
+    text-align: right;
+}
+
+.summary-label {
+    font-size: 9pt;
+    color: #666666;
+    margin-right: 5px;
+}
+
+.summary-value {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #333333;
+}
+
+.summary-value.amount {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #2C5F2D;
+}
+
+.summary-item {
+    margin-bottom: 3px;
+}
+
+/* ============================================
+   Shipping Section
+   ============================================ */
+.shipping-section {
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.address-content {
+    font-size: 9pt;
+    color: #555555;
+    line-height: 1.6;
+}
+
+.address-line {
+    margin-bottom: 2px;
+}
+
+.address-line.name {
+    font-weight: 600;
+    color: #333333;
+}
+
+/* ============================================
+   Line Items Table
+   ============================================ */
+.items-section {
+    margin-bottom: 25px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.items-table thead tr {
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.items-table th {
+    padding: 10px 8px;
+    text-align: left;
+    font-size: 9pt;
+    font-weight: 600;
+    color: #666666;
+}
+
+/* Column Widths */
+.col-item { width: 50%; }
+.col-qty { width: 12%; text-align: center; }
+.col-price { width: 18%; text-align: right; }
+.col-subtotal { width: 20%; text-align: right; }
+
+.items-table tbody tr {
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.items-table td {
+    padding: 12px 8px;
+    font-size: 9pt;
+    vertical-align: middle;
+}
+
+.image-cell {
+    width: 60px;
+    padding-right: 10px;
+}
+
+.product-image {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    border: 1px solid #EEEEEE;
+    border-radius: 4px;
+    background: #FAFAFA;
+}
+
+.image-placeholder {
+    width: 55px;
+    height: 55px;
+    background: #F5F5F5;
+    border: 1px solid #EEEEEE;
+    border-radius: 4px;
+    text-align: center;
+    line-height: 55px;
+}
+
+.placeholder-icon {
+    font-size: 24px;
+}
+
+.desc-cell {
+    vertical-align: middle;
+}
+
+.item-name {
+    font-weight: 500;
+    color: #333333;
+    margin-bottom: 3px;
+    line-height: 1.3;
+}
+
+.item-sku {
+    font-size: 8pt;
+    color: #888888;
+}
+
+.qty-cell {
+    text-align: center;
+    font-weight: 500;
+    color: #333333;
+}
+
+.price-cell {
+    text-align: right;
+    color: #555555;
+}
+
+.subtotal-cell {
+    text-align: right;
+    font-weight: 600;
+    color: #333333;
+}
+
+/* ============================================
+   Totals Section
+   ============================================ */
+.totals-section {
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.totals-table {
+    float: right;
+    width: 350px;
+    border-collapse: collapse;
+}
+
+.totals-table tr {
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.totals-table td {
+    padding: 8px 0;
+    font-size: 9pt;
+}
+
+.totals-label {
+    text-align: left;
+    font-weight: 600;
+    color: #333333;
+    width: 40%;
+}
+
+.totals-spacer {
+    width: 25%;
+}
+
+.totals-method {
+    text-align: center;
+    color: #666666;
+    font-size: 8pt;
+    width: 25%;
+}
+
+.totals-value {
+    text-align: right;
+    font-weight: 600;
+    color: #333333;
+    width: 35%;
+}
+
+.grand-total-row {
+    background: #2C5F2D;
+}
+
+.grand-total-row td {
+    padding: 12px 10px;
+}
+
+.totals-label.grand {
+    color: #ffffff;
+    font-size: 10pt;
+}
+
+.totals-value.grand {
+    color: #ffffff;
+    font-size: 12pt;
+    font-weight: 700;
+}
+
+/* ============================================
+   Payment Section
+   ============================================ */
+.payment-section {
+    clear: both;
+    margin-bottom: 20px;
+}
+
+.payment-content {
+    font-size: 9pt;
+    color: #555555;
+    line-height: 1.6;
+}
+
+.payment-line {
+    margin-bottom: 2px;
+}
+
+.payment-tags {
+    margin: 8px 0;
+}
+
+.payment-tag {
+    display: inline-block;
+    font-size: 8pt;
+    color: #666666;
+    margin-right: 10px;
+}
+
+.payment-method {
+    font-size: 9pt;
+    color: #333333;
+}
+
+/* ============================================
+   Continuation Header/Footer
+   ============================================ */
+.continuation-header {
+    overflow: hidden;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.cont-logo {
+    float: left;
+}
+
+.brand-name-small {
+    font-size: 18pt;
+    font-weight: 900;
+    color: #2C5F2D;
+}
+
+.cont-info {
+    float: right;
+    font-size: 10pt;
+    color: #666666;
+    padding-top: 5px;
+}
+
+.continuation-footer {
+    position: absolute;
+    bottom: 30px;
+    left: 40px;
+    right: 40px;
+    overflow: hidden;
+    padding-top: 15px;
+    border-top: 1px solid #DDDDDD;
+}
+
+.cont-text {
+    float: left;
+    font-size: 9pt;
+    color: #666666;
+    font-style: italic;
+}
+
+.cont-page {
+    float: right;
+    font-size: 9pt;
+    color: #666666;
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+@media print {
+    body {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+    
+    .invoice-page {
+        page-break-after: always;
+    }
+}

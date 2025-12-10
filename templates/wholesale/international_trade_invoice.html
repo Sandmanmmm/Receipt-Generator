@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ supplier_name|default('International Trade Co.') }} - Commercial Invoice</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', 'Helvetica Neue', sans-serif;
+            font-size: 10px;
+            line-height: 1.4;
+            color: #1a1a1a;
+            background: #fff;
+        }
+        
+        .invoice-page {
+            width: 816px;
+            min-height: 1056px;
+            padding: 25px 35px;
+            background: #fff;
+            position: relative;
+        }
+        
+        /* Top Banner with Gradient */
+        .top-banner {
+            background: linear-gradient(135deg, #2c5530 0%, #1a3a1e 100%);
+            color: #fff;
+            padding: 15px 20px;
+            margin: -25px -35px 20px -35px;
+            display: table;
+            width: calc(100% + 70px);
+        }
+        
+        .banner-left {
+            display: table-cell;
+            width: 60%;
+            vertical-align: middle;
+        }
+        
+        .banner-right {
+            display: table-cell;
+            width: 40%;
+            vertical-align: middle;
+            text-align: right;
+        }
+        
+        .company-name {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .company-subtitle {
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 3px;
+            color: #a8d5ab;
+        }
+        
+        .invoice-title {
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .invoice-number-display {
+            font-size: 12px;
+            margin-top: 5px;
+            color: #a8d5ab;
+        }
+        
+        /* Company Details Bar */
+        .company-details-bar {
+            background: #f5f5f5;
+            border-left: 4px solid #2c5530;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            display: table;
+            width: 100%;
+        }
+        
+        .company-contact {
+            display: table-cell;
+            width: 50%;
+            vertical-align: top;
+        }
+        
+        .company-registration {
+            display: table-cell;
+            width: 50%;
+            vertical-align: top;
+            text-align: right;
+        }
+        
+        .detail-label {
+            font-size: 8px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .detail-value {
+            font-size: 10px;
+            color: #1a1a1a;
+            margin-bottom: 3px;
+        }
+        
+        /* Two Column Layout */
+        .info-section {
+            display: table;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .info-box {
+            display: table-cell;
+            width: 48%;
+            vertical-align: top;
+            padding: 12px;
+            border: 1px solid #ddd;
+            background: #fafafa;
+        }
+        
+        .info-box.left {
+            margin-right: 4%;
+        }
+        
+        .info-box.right {
+            border-left: none;
+        }
+        
+        .info-box-title {
+            font-size: 9px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #2c5530;
+            border-bottom: 1px solid #2c5530;
+            padding-bottom: 5px;
+            margin-bottom: 8px;
+        }
+        
+        .info-row {
+            margin-bottom: 4px;
+        }
+        
+        .info-label {
+            display: inline-block;
+            width: 80px;
+            font-size: 9px;
+            color: #666;
+        }
+        
+        .info-value {
+            font-size: 10px;
+            font-weight: 500;
+        }
+        
+        /* Invoice Meta Grid */
+        .meta-grid {
+            display: table;
+            width: 100%;
+            margin-bottom: 15px;
+            border: 2px solid #2c5530;
+        }
+        
+        .meta-row {
+            display: table-row;
+        }
+        
+        .meta-cell {
+            display: table-cell;
+            width: 20%;
+            padding: 8px 10px;
+            border-right: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            vertical-align: top;
+        }
+        
+        .meta-cell:last-child {
+            border-right: none;
+        }
+        
+        .meta-cell.header {
+            background: #2c5530;
+            color: #fff;
+            font-size: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: none;
+        }
+        
+        .meta-cell.value {
+            font-size: 10px;
+            font-weight: 600;
+        }
+        
+        /* Items Table */
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            table-layout: fixed;
+        }
+        
+        .items-table thead {
+            background: #2c5530;
+        }
+        
+        .items-table th {
+            color: #fff;
+            font-size: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 6px 6px;
+            text-align: left;
+            border: 1px solid #1a3a1e;
+        }
+        
+        .items-table th.center { text-align: center; }
+        .items-table th.right { text-align: right; }
+        
+        .items-table td {
+            padding: 5px 6px;
+            border: 1px solid #ddd;
+            font-size: 8px;
+            vertical-align: top;
+            word-wrap: break-word;
+        }
+        
+        .items-table tbody tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        .items-table tbody tr:hover {
+            background: #f0f7f0;
+        }
+        
+        .col-item { width: 8%; text-align: center; }
+        .col-sku { width: 12%; }
+        .col-desc { width: 30%; }
+        .col-origin { width: 10%; text-align: center; }
+        .col-qty { width: 10%; text-align: center; }
+        .col-unit { width: 10%; text-align: right; }
+        .col-total { width: 12%; text-align: right; font-weight: bold; }
+        .col-hs { width: 8%; text-align: center; font-size: 8px; }
+        
+        .product-name {
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+        
+        .product-details {
+            font-size: 8px;
+            color: #666;
+        }
+        
+        /* Totals Section */
+        .totals-section {
+            display: table;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .totals-left {
+            display: table-cell;
+            width: 55%;
+            vertical-align: top;
+            padding-right: 20px;
+        }
+        
+        .totals-right {
+            display: table-cell;
+            width: 45%;
+            vertical-align: top;
+        }
+        
+        /* Trade Terms Box */
+        .trade-terms-box {
+            border: 1px solid #ddd;
+            padding: 10px;
+            background: #f9f9f9;
+        }
+        
+        .trade-terms-title {
+            font-size: 9px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #2c5530;
+            margin-bottom: 8px;
+        }
+        
+        .trade-term-row {
+            display: table;
+            width: 100%;
+            margin-bottom: 4px;
+        }
+        
+        .trade-term-label {
+            display: table-cell;
+            width: 40%;
+            font-size: 9px;
+            color: #666;
+        }
+        
+        .trade-term-value {
+            display: table-cell;
+            width: 60%;
+            font-size: 9px;
+            font-weight: 500;
+        }
+        
+        /* Totals Table */
+        .totals-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        
+        .totals-table tr {
+            border-bottom: 1px solid #eee;
+        }
+        
+        .totals-table td {
+            padding: 4px 8px;
+            font-size: 9px;
+        }
+        
+        .totals-table td:first-child {
+            text-align: left;
+            color: #666;
+        }
+        
+        .totals-table td:last-child {
+            text-align: right;
+            font-weight: 500;
+        }
+        
+        .totals-table tr.grand-total {
+            background: #2c5530;
+            border-bottom: none;
+        }
+        
+        .totals-table tr.grand-total td {
+            color: #fff;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 6px 8px;
+        }
+        
+        /* Amount in Words */
+        .amount-words-box {
+            background: #e8f0e8;
+            border: 1px solid #2c5530;
+            padding: 6px 10px;
+            margin-bottom: 10px;
+        }
+        
+        .amount-words-label {
+            font-size: 7px;
+            color: #2c5530;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        
+        .amount-words-text {
+            font-size: 9px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-top: 2px;
+            text-transform: uppercase;
+        }
+        
+        /* Bank Details and Certification */
+        .bottom-section {
+            display: table;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        
+        .bank-details {
+            display: table-cell;
+            width: 55%;
+            vertical-align: top;
+            padding-right: 10px;
+        }
+        
+        .certification-section {
+            display: table-cell;
+            width: 45%;
+            vertical-align: top;
+        }
+        
+        .section-box {
+            border: 1px solid #ddd;
+            padding: 8px;
+            height: 100%;
+        }
+        
+        .section-title {
+            font-size: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #2c5530;
+            border-bottom: 1px solid #2c5530;
+            padding-bottom: 3px;
+            margin-bottom: 6px;
+        }
+        
+        .bank-row {
+            margin-bottom: 2px;
+        }
+        
+        .bank-label {
+            font-size: 7px;
+            color: #666;
+            text-transform: uppercase;
+        }
+        
+        .bank-value {
+            font-size: 9px;
+            font-weight: 500;
+        }
+        
+        /* Signature and Stamp Section */
+        .signature-section {
+            display: table;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .signature-box {
+            display: table-cell;
+            width: 33%;
+            vertical-align: bottom;
+            padding: 0 8px;
+            text-align: center;
+        }
+        
+        .signature-line {
+            border-bottom: 1px solid #333;
+            height: 30px;
+            margin-bottom: 3px;
+        }
+        
+        .signature-label {
+            font-size: 7px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* International Trade Stamp - Compact Seal */
+        .trade-stamp {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            display: inline-block;
+            transform: rotate(-12deg);
+            margin: 5px auto;
+        }
+        
+        .stamp-outer-circle {
+            width: 80px;
+            height: 80px;
+            border: 3px solid #2c5530;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+        }
+        
+        .stamp-middle-circle {
+            width: 68px;
+            height: 68px;
+            border: 2px solid #2c5530;
+            border-radius: 50%;
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            box-sizing: border-box;
+        }
+        
+        .stamp-inner-circle {
+            width: 52px;
+            height: 52px;
+            border: 1px dashed #2c5530;
+            border-radius: 50%;
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            box-sizing: border-box;
+        }
+        
+        .stamp-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 44px;
+        }
+        
+        .stamp-icon {
+            font-size: 14px;
+            color: #2c5530;
+            margin-bottom: 1px;
+        }
+        
+        .stamp-text-main {
+            font-size: 6px;
+            font-weight: bold;
+            color: #2c5530;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+            line-height: 1.2;
+        }
+        
+        .stamp-text-sub {
+            font-size: 5px;
+            color: #2c5530;
+            margin-top: 1px;
+        }
+        
+        .stamp-company-arc-top {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            width: 80px;
+            text-align: center;
+            font-size: 5px;
+            font-weight: bold;
+            color: #2c5530;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .stamp-company-arc-bottom {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 80px;
+            text-align: center;
+            font-size: 5px;
+            font-weight: bold;
+            color: #2c5530;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .stamp-stars-left {
+            position: absolute;
+            top: 50%;
+            left: 6px;
+            transform: translateY(-50%);
+            font-size: 6px;
+            color: #2c5530;
+        }
+        
+        .stamp-stars-right {
+            position: absolute;
+            top: 50%;
+            right: 6px;
+            transform: translateY(-50%);
+            font-size: 6px;
+            color: #2c5530;
+        }
+        
+        /* Certification Badges */
+        .cert-badges {
+            display: table;
+            width: 100%;
+            margin-top: 5px;
+        }
+        
+        .cert-badge {
+            display: table-cell;
+            width: 33%;
+            text-align: center;
+            padding: 2px;
+        }
+        
+        .badge-icon {
+            width: 22px;
+            height: 22px;
+            border: 1px solid #2c5530;
+            border-radius: 50%;
+            line-height: 20px;
+            font-size: 10px;
+            color: #2c5530;
+            margin: 0 auto 2px auto;
+        }
+        
+        .badge-text {
+            font-size: 6px;
+            color: #666;
+            text-transform: uppercase;
+        }
+        
+        /* Footer */
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            left: 35px;
+            right: 35px;
+            border-top: 2px solid #2c5530;
+            padding-top: 10px;
+            display: table;
+            width: calc(100% - 70px);
+        }
+        
+        .footer-left {
+            display: table-cell;
+            width: 70%;
+            vertical-align: middle;
+        }
+        
+        .footer-right {
+            display: table-cell;
+            width: 30%;
+            vertical-align: middle;
+            text-align: right;
+        }
+        
+        .footer-text {
+            font-size: 8px;
+            color: #666;
+        }
+        
+        .footer-website {
+            font-size: 9px;
+            color: #2c5530;
+            font-weight: bold;
+        }
+        
+        /* Page Number */
+        .page-number {
+            text-align: center;
+            font-size: 8px;
+            color: #999;
+            margin-top: 10px;
+        }
+        
+        /* Continuation Header */
+        .continuation-header {
+            background: #2c5530;
+            color: #fff;
+            padding: 10px 15px;
+            margin: -25px -35px 15px -35px;
+            width: calc(100% + 70px);
+            display: table;
+        }
+        
+        .cont-company {
+            display: table-cell;
+            width: 50%;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .cont-invoice {
+            display: table-cell;
+            width: 50%;
+            text-align: right;
+            font-size: 10px;
+        }
+        
+        /* Watermark Effect */
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 60px;
+            color: rgba(44, 85, 48, 0.05);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-page">
+        <!-- Watermark -->
+        <div class="watermark">{{ watermark_text|default('COMMERCIAL INVOICE') }}</div>
+        
+        {% if _is_first_page|default(true) %}
+        <!-- Top Banner -->
+        <div class="top-banner">
+            <div class="banner-left">
+                <div class="company-name">{{ supplier_name|default('INTERNATIONAL TRADE CO.') }}</div>
+                <div class="company-subtitle">{{ company_tagline|default('Global Wholesale Distribution') }}</div>
+            </div>
+            <div class="banner-right">
+                <div class="invoice-title">Commercial Invoice</div>
+                <div class="invoice-number-display">No. {{ invoice_number|default(order_number)|default('INV-2024-00001') }}</div>
+            </div>
+        </div>
+        
+        <!-- Company Details Bar -->
+        <div class="company-details-bar">
+            <div class="company-contact">
+                <div class="detail-value">{{ store_address|default('123 Trade Center, Export Zone') }}</div>
+                <div class="detail-value">{{ store_city|default('Singapore') }}, {{ store_country|default('Singapore') }} {{ store_postal|default('048946') }}</div>
+                <div class="detail-value">Tel: {{ store_phone|default('+65 6789 1234') }} | Fax: {{ store_fax|default('+65 6789 1235') }}</div>
+            </div>
+            <div class="company-registration">
+                <div class="detail-label">Registration No.</div>
+                <div class="detail-value">{{ registration_number|default('UEN: 201912345K') }}</div>
+                <div class="detail-label">GST Reg. No.</div>
+                <div class="detail-value">{{ gst_number|default('M12345678X') }}</div>
+            </div>
+        </div>
+        
+        <!-- Buyer & Consignee Info -->
+        <div class="info-section">
+            <div class="info-box left">
+                <div class="info-box-title">Bill To / Buyer</div>
+                <div class="info-row">
+                    <span class="info-value" style="font-size: 12px; font-weight: bold;">{{ buyer_name|default('Import Company Ltd.') }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-value">{{ buyer_address|default('456 Commerce Street, Suite 100') }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-value">{{ buyer_city|default('Los Angeles') }}, {{ buyer_state|default('CA') }} {{ buyer_postal|default('90015') }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-value">{{ buyer_country|default('United States') }}</span>
+                </div>
+                {% if buyer_tax_id %}
+                <div class="info-row">
+                    <span class="info-label">Tax ID:</span>
+                    <span class="info-value">{{ buyer_tax_id }}</span>
+                </div>
+                {% endif %}
+            </div>
+            <div class="info-box right">
+                <div class="info-box-title">Ship To / Consignee</div>
+                <div class="info-row">
+                    <span class="info-value" style="font-size: 12px; font-weight: bold;">{{ consignee_name|default(buyer_name)|default('Import Company Ltd.') }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-value">{{ consignee_address|default(buyer_address)|default('456 Commerce Street, Suite 100') }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-value">{{ consignee_city|default(buyer_city)|default('Los Angeles') }}, {{ consignee_state|default(buyer_state)|default('CA') }} {{ consignee_postal|default(buyer_postal)|default('90015') }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-value">{{ consignee_country|default(buyer_country)|default('United States') }}</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Invoice Meta Grid -->
+        <div class="meta-grid">
+            <div class="meta-row">
+                <div class="meta-cell header">Invoice Date</div>
+                <div class="meta-cell header">Payment Terms</div>
+                <div class="meta-cell header">Currency</div>
+                <div class="meta-cell header">Incoterms</div>
+                <div class="meta-cell header">Country of Origin</div>
+            </div>
+            <div class="meta-row">
+                <div class="meta-cell value">{{ invoice_date|default(order_date)|default('Dec 08, 2024') }}</div>
+                <div class="meta-cell value">{{ payment_terms|default('Net 30') }}</div>
+                <div class="meta-cell value">{{ currency_code|default('USD') }}</div>
+                <div class="meta-cell value">{{ incoterms|default('FOB Singapore') }}</div>
+                <div class="meta-cell value">{{ origin_country|default('Various') }}</div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-company">{{ supplier_name|default('INTERNATIONAL TRADE CO.') }}</div>
+            <div class="cont-invoice">Invoice {{ invoice_number|default(order_number) }} - Page {{ _current_page|default(_page_number)|default(1) }} of {{ _total_pages|default(1) }}</div>
+        </div>
+        {% endif %}
+        
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-item">#</th>
+                    <th class="col-sku">SKU/Part No.</th>
+                    <th class="col-desc">Description of Goods</th>
+                    <th class="col-origin center">Origin</th>
+                    <th class="col-qty center">Qty</th>
+                    <th class="col-unit right">Unit Price</th>
+                    <th class="col-total right">Amount</th>
+                    <th class="col-hs center">HS Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items|default(line_items) %}
+                <tr>
+                    <td class="col-item">{{ loop.index }}</td>
+                    <td class="col-sku">{{ item.sku|default(item.mpn)|default('-') }}</td>
+                    <td class="col-desc">
+                        <div class="product-name">
+                            {% if item.brand %}{{ item.brand }} - {% endif %}{{ item.name|default(item.description) }}
+                        </div>
+                        {% if item.color or item.size or item.material %}
+                        <div class="product-details">
+                            {% if item.color %}Color: {{ item.color }}{% endif %}
+                            {% if item.size %} | Size: {{ item.size }}{% endif %}
+                            {% if item.material %} | {{ item.material }}{% endif %}
+                        </div>
+                        {% endif %}
+                        {% if item.case_pack %}
+                        <div class="product-details">Case Pack: {{ item.case_pack }} units</div>
+                        {% endif %}
+                    </td>
+                    <td class="col-origin">{{ item.country_of_origin|default(origin_country)|default('CN') }}</td>
+                    <td class="col-qty">{{ item.quantity }}</td>
+                    <td class="col-unit">{{ currency_symbol|default('$') }}{{ '%.2f'|format(item.unit_price|to_float) }}</td>
+                    <td class="col-total">{{ currency_symbol|default('$') }}{{ '%.2f'|format(item.total|to_float) }}</td>
+                    <td class="col-hs">{{ item.hs_code|default('8471.30') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        {% if _is_last_page|default(true) %}
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <div class="totals-left">
+                <!-- Trade Terms Box -->
+                <div class="trade-terms-box">
+                    <div class="trade-terms-title">Shipping & Trade Terms</div>
+                    <div class="trade-term-row">
+                        <div class="trade-term-label">Incoterms:</div>
+                        <div class="trade-term-value">{{ incoterms|default('FOB Singapore') }}</div>
+                    </div>
+                    <div class="trade-term-row">
+                        <div class="trade-term-label">Port of Loading:</div>
+                        <div class="trade-term-value">{{ port_of_loading|default('Singapore Port') }}</div>
+                    </div>
+                    <div class="trade-term-row">
+                        <div class="trade-term-label">Port of Discharge:</div>
+                        <div class="trade-term-value">{{ port_of_discharge|default('Los Angeles, CA') }}</div>
+                    </div>
+                    <div class="trade-term-row">
+                        <div class="trade-term-label">Shipping Method:</div>
+                        <div class="trade-term-value">{{ shipping_method|default('Sea Freight (FCL)') }}</div>
+                    </div>
+                    <div class="trade-term-row">
+                        <div class="trade-term-label">Total Packages:</div>
+                        <div class="trade-term-value">{{ total_packages|default('12 Cartons') }}</div>
+                    </div>
+                    <div class="trade-term-row">
+                        <div class="trade-term-label">Gross Weight:</div>
+                        <div class="trade-term-value">{{ gross_weight|default('450 KG') }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="totals-right">
+                <table class="totals-table">
+                    <tr>
+                        <td>Subtotal:</td>
+                        <td>{{ currency_symbol|default('$') }}{{ '%.2f'|format(subtotal_raw|default(subtotal)|default(0)|float) }}</td>
+                    </tr>
+                    {% if (discount_raw|default(0)|float) > 0 %}
+                    <tr>
+                        <td>Discount:</td>
+                        <td>-{{ currency_symbol|default('$') }}{{ '%.2f'|format(discount_raw|float) }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if (freight_cost|default(shipping_cost_raw)|default(0)|float) > 0 %}
+                    <tr>
+                        <td>Freight & Insurance:</td>
+                        <td>{{ currency_symbol|default('$') }}{{ '%.2f'|format(freight_cost|default(shipping_cost_raw)|float) }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if (tax_amount_raw|default(0)|float) > 0 %}
+                    <tr>
+                        <td>Tax/Duties:</td>
+                        <td>{{ currency_symbol|default('$') }}{{ '%.2f'|format(tax_amount_raw|float) }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr class="grand-total">
+                        <td>TOTAL {{ currency_code|default('USD') }}:</td>
+                        <td>{{ currency_symbol|default('$') }}{{ '%.2f'|format(total_amount_raw|default(total)|default(0)|float) }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Amount in Words -->
+        <div class="amount-words-box">
+            <div class="amount-words-label">Amount in Words ({{ currency_code|default('USD') }}):</div>
+            <div class="amount-words-text">{{ amount_in_words|default('FIVE THOUSAND TWO HUNDRED FORTY DOLLARS AND FIFTY CENTS ONLY') }}</div>
+        </div>
+        
+        <!-- Bank Details and Certification -->
+        <div class="bottom-section">
+            <div class="bank-details">
+                <div class="section-box">
+                    <div class="section-title">Bank Details for Wire Transfer</div>
+                    <div class="bank-row">
+                        <div class="bank-label">Bank Name</div>
+                        <div class="bank-value">{{ bank_name|default('DBS Bank Ltd.') }}</div>
+                    </div>
+                    <div class="bank-row">
+                        <div class="bank-label">Account Name</div>
+                        <div class="bank-value">{{ bank_account_name|default(supplier_name)|default('International Trade Co. Pte Ltd') }}</div>
+                    </div>
+                    <div class="bank-row">
+                        <div class="bank-label">Account Number</div>
+                        <div class="bank-value">{{ bank_account_number|default('001-234567-8') }}</div>
+                    </div>
+                    <div class="bank-row">
+                        <div class="bank-label">SWIFT Code</div>
+                        <div class="bank-value">{{ swift_code|default('DBSSSGSG') }}</div>
+                    </div>
+                    <div class="bank-row">
+                        <div class="bank-label">Bank Address</div>
+                        <div class="bank-value">{{ bank_address|default('12 Marina Boulevard, Singapore 018982') }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="certification-section">
+                <div class="section-box">
+                    <div class="section-title">Certifications</div>
+                    <div class="cert-badges">
+                        <div class="cert-badge">
+                            <div class="badge-icon">✓</div>
+                            <div class="badge-text">ISO 9001</div>
+                        </div>
+                        <div class="cert-badge">
+                            <div class="badge-icon">☘</div>
+                            <div class="badge-text">ECO Cert</div>
+                        </div>
+                        <div class="cert-badge">
+                            <div class="badge-icon">★</div>
+                            <div class="badge-text">Quality</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 8px; color: #666; margin-top: 10px; text-align: center;">
+                        We hereby certify that the goods described above are of {{ origin_country|default('various') }} origin and comply with all applicable export regulations.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Signature Section with Stamp -->
+        <div class="signature-section">
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <div class="signature-label">Authorized Signatory</div>
+            </div>
+            <div class="signature-box">
+                <!-- International Trade Stamp -->
+                <div class="trade-stamp">
+                    <div class="stamp-outer-circle"></div>
+                    <div class="stamp-middle-circle"></div>
+                    <div class="stamp-inner-circle"></div>
+                    <div class="stamp-company-arc-top">{{ stamp_company_name|default(supplier_name)|default('INTERNATIONAL TRADE') }}</div>
+                    <div class="stamp-stars-left">★</div>
+                    <div class="stamp-stars-right">★</div>
+                    <div class="stamp-content">
+                        <div class="stamp-icon">⚓</div>
+                        <div class="stamp-text-main">APPROVED</div>
+                        <div class="stamp-text-sub">{{ stamp_location|default(store_city)|default('SINGAPORE') }}</div>
+                    </div>
+                    <div class="stamp-company-arc-bottom">EST. {{ established_year|default('2015') }}</div>
+                </div>
+            </div>
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <div class="signature-label">Buyer Acknowledgment</div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-left">
+                <div class="footer-text">This is a computer-generated invoice. Thank you for your business.</div>
+                <div class="footer-text">For inquiries: {{ store_email|default('trade@internationaltrade.com') }}</div>
+            </div>
+            <div class="footer-right">
+                <div class="footer-website">{{ store_website|default('www.internationaltrade.com') }}</div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div style="text-align: center; margin-top: 20px; font-size: 9px; color: #666;">
+            Continued on next page...
+        </div>
+        {% endif %}
+        
+        {% if _total_pages|default(1) > 1 %}
+        <div class="page-number">Page {{ _current_page|default(_page_number)|default(1) }} of {{ _total_pages|default(1) }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>

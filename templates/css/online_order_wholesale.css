@@ -32,15 +32,24 @@ body {
 }
 
 .company-branding {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 3mm;
+        /*     /*     /* gap: 3mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
 }
+
+
+
 
 .logo-wholesale {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+    background: #1f2937;  /* was: linear-gradient(135deg, #1f2937 0%, #111827 100%...) */
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -95,15 +104,24 @@ body {
 
 /* Business Banner */
 .business-banner {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 3mm;
+        /*     /*     /* gap: 3mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     padding: 5mm;
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    background: #fef3c7;  /* was: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%...) */
     border: 2px solid #f59e0b;
     border-radius: 8px;
     margin-bottom: 6mm;
 }
+
+
+
 
 .banner-icon {
     font-size: 28pt;
@@ -152,10 +170,19 @@ body {
 }
 
 .section-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 5mm;
+
 }
+
+.section-row > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 
 .address-card {
     padding: 4mm;
@@ -231,7 +258,7 @@ body {
     border-radius: 4px;
     display: flex;
     align-items: center;
-    gap: 1.5mm;
+    /* gap removed for wkhtmltoimage compatibility */
 }
 
 .warehouse-icon {
@@ -254,16 +281,34 @@ body {
 }
 
 .details-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 4mm;
+
 }
 
-.detail-item {
-    display: flex;
-    flex-direction: column;
-    gap: 1mm;
+.details-row > div {
+    display: table-cell;
+    vertical-align: top;
 }
+
+
+.detail-item {
+
+
+
+                display: flex;
+    flex-direction: column;
+        /*     /*     /* gap: 1mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
+}
+
+
+
 
 .detail-label {
     font-size: 8.5pt;
@@ -290,16 +335,25 @@ body {
 }
 
 .section-heading {
+
+
+
     font-size: 14pt;
     font-weight: 700;
     color: #1f2937;
     margin-bottom: 5mm;
     padding-bottom: 2mm;
     border-bottom: 2px solid #e5e7eb;
-    display: flex;
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
 }
+
+
+
 
 .heading-icon {
     font-size: 16pt;
@@ -313,9 +367,9 @@ body {
 }
 
 .table-header {
-    display: grid;
-    grid-template-columns: 2fr 0.8fr 1.2fr 0.8fr 0.8fr 0.8fr;
-    gap: 3mm;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
     padding: 3mm 4mm;
     background: #1f2937;
     color: #ffffff;
@@ -325,22 +379,39 @@ body {
     letter-spacing: 0.5px;
 }
 
-.col-product { grid-column: 1; }
-.col-sku { grid-column: 2; }
-.col-quantity { grid-column: 3; }
-.col-unit-price { grid-column: 4; text-align: right; }
-.col-discount { grid-column: 5; text-align: right; }
-.col-total { grid-column: 6; text-align: right; }
+.table-header > div {
+    display: table-cell;
+    vertical-align: middle;
+}
 
+.table-header .col-product { width: 28%; }
+.table-header .col-sku { width: 11%; }
+.table-header .col-quantity { width: 17%; }
+.table-header .col-unit-price { width: 11%; text-align: right; }
+.table-header .col-discount { width: 11%; text-align: right; }
+.table-header .col-total { width: 11%; text-align: right; }
+
+.col-product { grid-column: 1; }
 /* Product Row */
 .product-row {
-    display: grid;
-    grid-template-columns: 2fr 0.8fr 1.2fr 0.8fr 0.8fr 0.8fr;
-    gap: 3mm;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
     padding: 4mm;
     border-bottom: 1px solid #e5e7eb;
-    align-items: start;
 }
+
+.product-row > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.product-row .col-product { width: 28%; }
+.product-row .col-sku { width: 11%; }
+.product-row .col-quantity { width: 17%; }
+.product-row .col-unit-price { width: 11%; text-align: right; }
+.product-row .col-discount { width: 11%; text-align: right; }
+.product-row .col-total { width: 11%; text-align: right; }
 
 .product-row:last-of-type {
     border-bottom: none;
@@ -353,7 +424,7 @@ body {
 .product-main {
     display: flex;
     flex-direction: column;
-    gap: 1.5mm;
+    /* gap removed for wkhtmltoimage compatibility */
 }
 
 .product-name {
@@ -376,22 +447,40 @@ body {
 }
 
 .product-attributes {
-    display: flex;
+
+
+
+                display: flex;
     flex-wrap: wrap;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     margin-top: 2mm;
 }
 
+
+
+
 .attribute-badge {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 1mm;
+        /*     /*     /* gap: 1mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     padding: 1mm 2mm;
     background: #f3f4f6;
     border: 1px solid #d1d5db;
     border-radius: 4px;
     font-size: 8pt;
 }
+
+
+
 
 .attribute-icon {
     font-size: 9pt;
@@ -403,11 +492,20 @@ body {
 
 /* SKU Cell */
 .sku-cell {
+
+
+
     grid-column: 2;
-    display: flex;
+                display: flex;
     flex-direction: column;
-    gap: 1mm;
+        /*     /*     /* gap: 1mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
 }
+
+
+
 
 .sku-value {
     font-family: 'Courier New', monospace;
@@ -428,17 +526,26 @@ body {
 }
 
 .quantity-display {
-    display: flex;
+
+
+
+                display: flex;
     flex-direction: column;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
 }
+
+
+
 
 .pallet-quantity,
 .case-quantity,
 .unit-quantity {
     display: flex;
     align-items: center;
-    gap: 1.5mm;
+    /* gap removed for wkhtmltoimage compatibility */
     padding: 2mm;
     background: #f3f4f6;
     border-left: 3px solid #1f2937;
@@ -474,14 +581,23 @@ body {
 }
 
 .moq-notice {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 1mm;
+        /*     /*     /* gap: 1mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     padding: 1.5mm;
     background: #dbeafe;
     border-radius: 4px;
     margin-top: 2mm;
 }
+
+
+
 
 .moq-icon {
     font-size: 9pt;
@@ -588,9 +704,12 @@ body {
 }
 
 .tier-table-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 3mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 3mm;
+
     padding: 2mm;
     background: #dcfce7;
     border-radius: 4px;
@@ -600,18 +719,33 @@ body {
     margin-bottom: 2mm;
 }
 
+.tier-table-header > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
+
 .tier-col-qty { text-align: left; }
 .tier-col-price { text-align: right; }
 .tier-col-savings { text-align: right; }
 
 .tier-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 3mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 3mm;
+
     padding: 2mm;
     font-size: 9pt;
     border-bottom: 1px solid #bbf7d0;
 }
+
+.tier-row > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 
 .tier-row.active {
     background: #dcfce7;
@@ -639,16 +773,25 @@ body {
 
 /* Stock Info Row */
 .stock-info-row {
+
+
+
     grid-column: 1 / -1;
-    display: flex;
-    gap: 4mm;
+                display: flex;
+        /*     /*     /* gap: 4mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     margin-top: 2mm;
 }
+
+
+
 
 .stock-status {
     display: flex;
     align-items: center;
-    gap: 1.5mm;
+    /* gap removed for wkhtmltoimage compatibility */
     padding: 2mm 3mm;
     border-radius: 4px;
     font-size: 9pt;
@@ -686,7 +829,7 @@ body {
 .lead-time-info {
     display: flex;
     align-items: center;
-    gap: 1.5mm;
+    /* gap removed for wkhtmltoimage compatibility */
     padding: 2mm 3mm;
     background: #dbeafe;
     border: 1px solid #60a5fa;
@@ -842,11 +985,20 @@ body {
 }
 
 .shipping-details-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 3mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 3mm;
+
     margin-bottom: 4mm;
 }
+
+.shipping-details-grid > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 
 .shipping-card {
     padding: 3mm;
@@ -884,12 +1036,21 @@ body {
 }
 
 .freight-row {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     margin-bottom: 1.5mm;
     font-size: 9pt;
 }
+
+
+
 
 .freight-label {
     font-weight: 700;
@@ -941,10 +1102,19 @@ body {
 }
 
 .account-details-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 4mm;
+
 }
+
+.account-details-grid > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 
 .account-card {
     padding: 4mm;
@@ -1041,11 +1211,20 @@ body {
 }
 
 .footer-content {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 5mm;
+
     margin-bottom: 5mm;
 }
+
+.footer-content > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 
 .footer-section h4 {
     font-size: 10pt;

@@ -1,0 +1,664 @@
+/* FashionGo Vendor Invoice Template - Authentic B2B Marketplace Styling */
+/* Based on FashionGo.net platform branding and B2B wholesale invoice standards */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10pt;
+    color: #333333;
+    line-height: 1.4;
+    background: #ffffff;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 25px 30px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ============================================
+   FashionGo Platform Header Bar
+   ============================================ */
+.fg-platform-bar {
+    background: #E91E8C;  /* was: linear-gradient(135deg, #E91E8C 0%, #C71585 50%, #9B59B6 100%...) */
+    padding: 12px 20px;
+    margin: -25px -30px 20px -30px;
+    overflow: hidden;
+}
+
+.fg-logo {
+    float: left;
+}
+
+.fg-brand {
+    font-size: 22pt;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -1px;
+}
+
+.fg-brand-go {
+    font-size: 22pt;
+    font-weight: 800;
+    color: #FFD700;
+    letter-spacing: -1px;
+}
+
+.fg-tagline {
+    display: inline-block;
+    margin-left: 12px;
+    font-size: 9pt;
+    color: rgba(255, 255, 255, 0.85);
+    vertical-align: middle;
+    padding-top: 4px;
+}
+
+.fg-order-ref {
+    float: right;
+    text-align: right;
+    padding-top: 5px;
+}
+
+.fg-order-label {
+    font-size: 9pt;
+    color: rgba(255, 255, 255, 0.8);
+    margin-right: 5px;
+}
+
+.fg-order-number {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 3px 10px;
+    border-radius: 4px;
+}
+
+/* ============================================
+   Vendor Invoice Header
+   ============================================ */
+.vendor-invoice-header {
+    margin-bottom: 20px;
+    overflow: hidden;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #E91E8C;
+}
+
+.vendor-brand-section {
+    float: left;
+    width: 55%;
+}
+
+.vendor-logo {
+    display: inline-block;
+    max-width: 80px;
+    max-height: 60px;
+    vertical-align: middle;
+    margin-right: 15px;
+    border-radius: 6px;
+}
+
+.vendor-logo-placeholder {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    background: #333333;  /* was: linear-gradient(135deg, #333333 0%, #555555 100%...) */
+    border-radius: 8px;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+.vendor-initials {
+    font-size: 24pt;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 60px;
+}
+
+.vendor-info {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.vendor-name {
+    font-size: 16pt;
+    font-weight: 700;
+    color: #222222;
+    margin-bottom: 2px;
+}
+
+.vendor-type {
+    font-size: 9pt;
+    color: #E91E8C;
+    font-weight: 600;
+}
+
+.invoice-details-box {
+    float: right;
+    width: 40%;
+    text-align: right;
+}
+
+.invoice-title {
+    font-size: 20pt;
+    font-weight: 700;
+    color: #E91E8C;
+    margin-bottom: 10px;
+}
+
+.invoice-meta {
+    margin-left: auto;
+    border-collapse: collapse;
+}
+
+.invoice-meta td {
+    padding: 3px 0;
+    font-size: 9pt;
+}
+
+.meta-label {
+    text-align: right;
+    padding-right: 10px;
+    color: #666666;
+    font-weight: 600;
+}
+
+.meta-value {
+    text-align: left;
+    color: #333333;
+    font-weight: 500;
+}
+
+/* ============================================
+   Parties Table (Vendor + Buyer)
+   ============================================ */
+.parties-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 15px 0;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.party-cell {
+    width: 50%;
+    vertical-align: top;
+    border: 1px solid #E0E0E0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.party-header {
+    background: #F5F5F5;
+    padding: 8px 12px;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #666666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.vendor-cell .party-header {
+    background: #FFF0F7;  /* was: linear-gradient(135deg, #FFF0F7 0%, #FFFFFF 100%...) */
+    color: #E91E8C;
+}
+
+.buyer-cell .party-header {
+    background: #F0F0FF;  /* was: linear-gradient(135deg, #F0F0FF 0%, #FFFFFF 100%...) */
+    color: #9B59B6;
+}
+
+.party-content {
+    padding: 12px;
+    font-size: 9pt;
+    min-height: 90px;
+}
+
+.party-name {
+    font-weight: 700;
+    font-size: 10pt;
+    color: #222222;
+    margin-bottom: 5px;
+}
+
+.party-line {
+    color: #555555;
+    margin-bottom: 3px;
+}
+
+.party-line.account {
+    margin-top: 8px;
+    font-weight: 600;
+    color: #9B59B6;
+}
+
+/* ============================================
+   Line Items Table
+   ============================================ */
+.items-section {
+    margin-bottom: 20px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #E0E0E0;
+    table-layout: fixed;
+}
+
+.items-table thead {
+    background: #F8F8F8;  /* was: linear-gradient(180deg, #F8F8F8 0%, #EEEEEE 100%...) */
+}
+
+.items-table th {
+    padding: 10px 8px;
+    text-align: left;
+    font-size: 8pt;
+    font-weight: 700;
+    color: #555555;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    border-bottom: 2px solid #E91E8C;
+}
+
+/* Column Widths - 7 columns optimized for fashion */
+.col-style { width: 12%; }
+.col-description { width: 32%; }
+.col-color { width: 12%; }
+.col-size { width: 10%; text-align: center; }
+.col-qty { width: 8%; text-align: center; }
+.col-unit { width: 12%; text-align: right; }
+.col-total { width: 14%; text-align: right; }
+
+.items-table tbody tr {
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.items-table tbody tr.odd {
+    background-color: #ffffff;
+}
+
+.items-table tbody tr.even {
+    background-color: #FAFAFA;
+}
+
+.items-table td {
+    padding: 10px 8px;
+    font-size: 9pt;
+    vertical-align: top;
+    word-wrap: break-word;
+}
+
+.style-cell {
+    vertical-align: middle;
+}
+
+.style-number {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 9pt;
+    font-weight: 600;
+    color: #E91E8C;
+    background: #FFF0F7;
+    padding: 3px 6px;
+    border-radius: 3px;
+}
+
+.desc-cell {
+    line-height: 1.5;
+}
+
+.item-name {
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 3px;
+}
+
+.item-brand {
+    font-size: 8pt;
+    color: #9B59B6;
+    font-weight: 500;
+}
+
+.item-material {
+    font-size: 8pt;
+    color: #777777;
+    font-style: italic;
+}
+
+.item-upc {
+    font-size: 7pt;
+    font-family: 'Consolas', 'Monaco', monospace;
+    color: #999999;
+    margin-top: 3px;
+}
+
+.color-cell {
+    font-weight: 500;
+    color: #555555;
+}
+
+.size-cell {
+    text-align: center;
+    font-weight: 600;
+    color: #555555;
+}
+
+.qty-cell {
+    text-align: center;
+    font-weight: 700;
+    color: #333333;
+}
+
+.unit-cell {
+    text-align: right;
+    font-family: 'Consolas', 'Monaco', monospace;
+    color: #555555;
+}
+
+.total-cell {
+    text-align: right;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-weight: 700;
+    color: #333333;
+}
+
+/* ============================================
+   Summary Section (Notes + Totals)
+   ============================================ */
+.summary-section {
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.order-notes {
+    float: left;
+    width: 45%;
+}
+
+.notes-box {
+    border: 1px solid #E0E0E0;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.notes-header {
+    background: #F5F5F5;
+    padding: 8px 12px;
+    font-size: 8pt;
+    font-weight: 700;
+    color: #666666;
+    text-transform: uppercase;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.notes-content {
+    padding: 10px 12px;
+    font-size: 9pt;
+    color: #555555;
+    line-height: 1.5;
+}
+
+.shipping-info {
+    border: 1px solid #E0E0E0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.info-header {
+    background: #F0F0FF;  /* was: linear-gradient(135deg, #F0F0FF 0%, #FFFFFF 100%...) */
+    padding: 8px 12px;
+    font-size: 8pt;
+    font-weight: 700;
+    color: #9B59B6;
+    text-transform: uppercase;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.info-content {
+    padding: 10px 12px;
+    font-size: 9pt;
+}
+
+.info-line {
+    margin-bottom: 5px;
+    color: #555555;
+}
+
+.info-line .label {
+    font-weight: 600;
+    color: #666666;
+}
+
+.totals-box {
+    float: right;
+    width: 48%;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #E0E0E0;
+    border-radius: 6px;
+    overflow: hidden;
+    table-layout: fixed;
+}
+
+.totals-table tr {
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.totals-table td {
+    padding: 10px 15px;
+    font-size: 10pt;
+}
+
+.totals-label {
+    text-align: right;
+    color: #666666;
+    font-weight: 500;
+    width: 55%;
+}
+
+.totals-value {
+    text-align: right;
+    font-weight: 600;
+    color: #333333;
+    font-family: 'Consolas', 'Monaco', monospace;
+    width: 45%;
+}
+
+.totals-value.discount {
+    color: #E91E8C;
+}
+
+.totals-value.fg-free {
+    color: #E91E8C;
+    font-weight: 700;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 9pt;
+}
+
+.free-shipping .totals-label {
+    color: #E91E8C;
+}
+
+.grand-total {
+    background: #E91E8C;  /* was: linear-gradient(135deg, #E91E8C 0%, #9B59B6 100%...) */
+    border-bottom: none;
+}
+
+.grand-total .totals-label {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 11pt;
+}
+
+.grand-total .totals-value {
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 14pt;
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+.invoice-footer {
+    position: absolute;
+    bottom: 25px;
+    left: 30px;
+    right: 30px;
+}
+
+.footer-terms {
+    border: 1px solid #E0E0E0;
+    border-radius: 6px;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+}
+
+.terms-title {
+    font-size: 8pt;
+    font-weight: 700;
+    color: #666666;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.terms-text {
+    font-size: 8pt;
+    color: #777777;
+    line-height: 1.5;
+}
+
+.footer-bottom {
+    text-align: center;
+}
+
+.fg-footer-bar {
+    background: #E91E8C;  /* was: linear-gradient(135deg, #E91E8C 0%, #9B59B6 100%...) */
+    padding: 10px 20px;
+    border-radius: 6px 6px 0 0;
+}
+
+.fg-footer-text {
+    font-size: 9pt;
+    color: rgba(255, 255, 255, 0.8);
+    margin-right: 5px;
+}
+
+.fg-footer-brand {
+    font-size: 12pt;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+.fg-footer-go {
+    font-size: 12pt;
+    font-weight: 800;
+    color: #FFD700;
+}
+
+.fg-footer-contact {
+    font-size: 9pt;
+    color: rgba(255, 255, 255, 0.9);
+    margin-left: 10px;
+}
+
+.fg-copyright {
+    background: #333333;
+    padding: 8px 20px;
+    font-size: 7pt;
+    color: #999999;
+    border-radius: 0 0 6px 6px;
+}
+
+/* ============================================
+   Continuation Header/Footer (Multipage)
+   ============================================ */
+.continuation-header {
+    background: #F5F5F5;
+    padding: 12px 20px;
+    margin: -25px -30px 20px -30px;
+    border-bottom: 2px solid #E91E8C;
+    overflow: hidden;
+}
+
+.cont-left {
+    float: left;
+}
+
+.fg-brand-small {
+    font-size: 14pt;
+    font-weight: 800;
+    color: #E91E8C;
+}
+
+.fg-brand-go-small {
+    font-size: 14pt;
+    font-weight: 800;
+    color: #9B59B6;
+}
+
+.cont-vendor {
+    font-size: 11pt;
+    color: #555555;
+    margin-left: 10px;
+    font-weight: 500;
+}
+
+.cont-right {
+    float: right;
+    font-size: 10pt;
+    color: #666666;
+    padding-top: 3px;
+}
+
+.continuation-footer {
+    position: absolute;
+    bottom: 25px;
+    left: 30px;
+    right: 30px;
+    background: #F5F5F5;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border: 1px solid #E0E0E0;
+    overflow: hidden;
+}
+
+.cont-footer-text {
+    float: left;
+    font-size: 10pt;
+    color: #666666;
+    font-style: italic;
+}
+
+.cont-subtotal {
+    float: right;
+    font-size: 10pt;
+    font-weight: 600;
+    color: #333333;
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+@media print {
+    body {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+    
+    .invoice-page {
+        page-break-after: always;
+    }
+}

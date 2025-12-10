@@ -1,0 +1,382 @@
+/* Superstore POS Receipt - Walmart-style thermal receipt */
+/* Monospace font, narrow width, authentic thermal receipt appearance */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 10px;
+    line-height: 1.15;
+    color: #000000;
+    background-color: #ffffff;
+    letter-spacing: -0.2px;
+}
+
+.pos-receipt {
+    width: 280px;
+    margin: 0 auto;
+    padding: 10px 8px;
+    background-color: #ffffff;
+}
+
+/* ========== SURVEY PROMO ========== */
+.survey-promo {
+    text-align: left;
+    margin-bottom: 4px;
+    font-size: 10px;
+    line-height: 1.2;
+}
+
+.promo-text {
+    font-size: 10px;
+}
+
+.survey-id {
+    font-size: 11px;
+    margin: 6px 0;
+}
+
+/* ========== DASHED DIVIDER ========== */
+.dashed-divider {
+    border: none;
+    border-top: 1px dashed #000000;
+    margin: 8px 0;
+}
+
+/* ========== STORE LOGO ========== */
+.store-logo {
+    text-align: center;
+    margin: 15px 0 2px 0;
+}
+
+.logo-main {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    letter-spacing: 0;
+    display: inline;
+}
+
+.logo-spark {
+    font-size: 32px;
+    font-weight: bold;
+    display: inline;
+    margin-left: 2px;
+}
+
+.store-tagline {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    font-style: italic;
+    margin-bottom: 8px;
+}
+
+/* ========== STORE INFO ========== */
+.store-info {
+    text-align: center;
+    margin: 6px 0;
+    line-height: 1.2;
+}
+
+.store-phone {
+    font-size: 10px;
+    margin-bottom: 1px;
+}
+
+.manager-line {
+    font-size: 10px;
+    margin-bottom: 1px;
+}
+
+.store-address,
+.store-city {
+    font-size: 10px;
+}
+
+/* ========== TRANSACTION INFO ========== */
+.transaction-info {
+    font-size: 9px;
+    margin: 4px 0 2px 0;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.transaction-info span {
+    margin-right: 2px;
+}
+
+.product-serial {
+    font-size: 9px;
+    margin-bottom: 4px;
+}
+
+/* ========== CONTINUATION HEADER ========== */
+.continuation-header {
+    text-align: center;
+    padding: 6px 0;
+    border-bottom: 1px dashed #000000;
+    margin-bottom: 8px;
+}
+
+.cont-store {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.cont-page {
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+/* ========== ITEMS SECTION ========== */
+.items-section {
+    margin: 4px 0;
+}
+
+.item-row {
+    display: table;
+    width: 100%;
+    font-size: 10px;
+    line-height: 1.2;
+}
+
+.item-desc {
+    display: table-cell;
+    text-align: left;
+    vertical-align: top;
+    padding-right: 4px;
+}
+
+.item-price {
+    display: table-cell;
+    text-align: right;
+    vertical-align: top;
+    width: 55px;
+    white-space: nowrap;
+}
+
+.item-subtotal {
+    margin-bottom: 2px;
+}
+
+.item-qty-line {
+    margin-bottom: 2px;
+}
+
+.qty-info {
+    font-size: 9px;
+}
+
+/* ========== SUBTOTAL SECTION ========== */
+.subtotal-section {
+    margin: 4px 0 2px 0;
+}
+
+.subtotal-row .total-label {
+    padding-left: 0;
+}
+
+/* ========== TOTALS SECTION ========== */
+.totals-section {
+    margin: 0 0 4px 0;
+}
+
+.total-row {
+    display: table;
+    width: 100%;
+    font-size: 10px;
+    line-height: 1.3;
+}
+
+.total-label {
+    display: table-cell;
+    text-align: left;
+    padding-left: 30px;
+}
+
+.total-value {
+    display: table-cell;
+    text-align: right;
+    width: 50px;
+}
+
+/* Tax row - indented like other totals */
+.tax-row .total-label {
+    padding-left: 10px;
+}
+
+/* TOTAL row - bold */
+.grand-total {
+    font-weight: bold;
+}
+
+.grand-total .total-label {
+    padding-left: 30px;
+}
+
+.grand-total .total-label,
+.grand-total .total-value {
+    font-weight: bold;
+}
+
+/* DEBIT TEND row */
+.tender-row .total-label {
+    padding-left: 10px;
+}
+
+/* CHANGE DUE row */
+.change-row .total-label {
+    padding-left: 10px;
+}
+
+/* ========== SPACER ========== */
+.spacer {
+    height: 6px;
+}
+
+/* ========== PAYMENT SECTION ========== */
+.payment-section {
+    font-size: 9px;
+    line-height: 1.25;
+    margin: 4px 0;
+}
+
+.payment-row {
+    display: table;
+    width: 100%;
+    margin-bottom: 1px;
+}
+
+.pay-type {
+    display: table-cell;
+    text-align: left;
+}
+
+.pay-source {
+    display: table-cell;
+    text-align: right;
+}
+
+.payment-amount {
+    margin: 1px 0;
+}
+
+.payment-amount.indent {
+    padding-left: 10px;
+}
+
+.card-line {
+    margin: 1px 0;
+}
+
+.ref-line,
+.network-line {
+    font-size: 9px;
+    margin: 1px 0;
+}
+
+/* ========== VERIFICATION SECTION ========== */
+.verification-section {
+    font-size: 10px;
+    line-height: 1.3;
+    margin: 4px 0;
+}
+
+.verify-line {
+    margin: 1px 0;
+}
+
+/* ========== TRANSACTION DATETIME ========== */
+.transaction-datetime {
+    text-align: center;
+    font-size: 11px;
+    margin: 8px 0;
+}
+
+/* ========== ITEMS COUNT ========== */
+.items-count {
+    text-align: left;
+    font-size: 11px;
+    font-weight: bold;
+    margin: 4px 0;
+}
+
+/* ========== BARCODE SECTION ========== */
+.barcode-section {
+    text-align: center;
+    margin: 12px 0;
+}
+
+.barcode {
+    width: 220px;
+    height: 45px;
+    display: block;
+    margin: 0 auto 4px auto;
+}
+
+.barcode-text {
+    font-size: 10px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+/* ========== FOOTER SECTION ========== */
+.footer-section {
+    text-align: center;
+    margin: 8px 0;
+}
+
+.footer-line {
+    font-size: 10px;
+    font-style: italic;
+    margin-bottom: 4px;
+}
+
+.footer-date {
+    font-size: 11px;
+}
+
+/* ========== APP PROMO ========== */
+.app-promo {
+    text-align: left;
+    font-size: 10px;
+    line-height: 1.2;
+    margin: 8px 0;
+}
+
+.promo-line {
+    margin: 0;
+}
+
+/* ========== QR CODE SECTION ========== */
+.qr-section {
+    text-align: center;
+    margin: 12px 0 8px 0;
+}
+
+.qr-code {
+    width: 80px;
+    height: 80px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ========== PRINT STYLES ========== */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .pos-receipt {
+        width: 280px;
+        margin: 0;
+        padding: 8px;
+    }
+}

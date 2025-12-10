@@ -1,0 +1,753 @@
+/* Modern Landscape Delivery Note with Product Photos */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    color: #2c3e50;
+    background: #ffffff;
+    line-height: 1.4;
+}
+
+.invoice-page {
+    width: 1056px;
+    min-height: 816px;
+    padding: 0;
+    background: #ffffff;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+/* ======================
+   HEADER SECTION
+   ====================== */
+
+.header-section {
+    background: #3498db;  /* was: linear-gradient(135deg, #3498db 0%, #2c3e50 100%...) */
+    padding: 20px 25px;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.header-left {
+    width: 35%;
+    vertical-align: middle;
+}
+
+.header-center {
+    width: 30%;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.header-right {
+    width: 35%;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.company-logo {
+    display: inline-block;
+    height: 42px;
+    width: auto;
+    max-width: 130px;
+    vertical-align: middle;
+    margin-right: 12px;
+}
+
+.logo-placeholder {
+    display: inline-block;
+    width: 42px;
+    height: 42px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 12px;
+}
+
+.logo-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 42px;
+}
+
+.company-info {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.company-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 2px;
+}
+
+.company-tagline {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.85);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.doc-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 10px 20px;
+}
+
+.badge-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+
+.badge-number {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.header-info {
+    display: inline-block;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.header-info tr {
+    margin-bottom: 3px;
+}
+
+.info-label {
+    font-size: 8px;
+    color: rgba(255, 255, 255, 0.75);
+    padding: 2px 8px 2px 0;
+    text-align: right;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.info-value {
+    font-size: 10px;
+    color: #ffffff;
+    padding: 2px 0;
+    font-weight: 600;
+}
+
+.info-value.tracking {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 9px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+
+/* ======================
+   INFO ROW
+   ====================== */
+
+.info-row {
+    padding: 15px 25px;
+    background: #ecf0f1;
+    border-bottom: 2px solid #bdc3c7;
+}
+
+.info-row-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 12px 0;
+    table-layout: fixed;
+}
+
+.info-box {
+    width: 33.33%;
+    vertical-align: top;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #bdc3c7;
+    padding: 12px;
+}
+
+.from-box {
+    border-left: 4px solid #95a5a6;
+}
+
+.to-box {
+    border-left: 4px solid #3498db;
+}
+
+.details-box {
+    border-left: 4px solid #e67e22;
+}
+
+.box-header {
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.box-icon {
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+.box-title {
+    font-size: 9px;
+    font-weight: 700;
+    color: #7f8c8d;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.box-content {
+    font-size: 9px;
+    color: #2c3e50;
+}
+
+.address-name {
+    font-size: 10px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 4px;
+}
+
+.address-line {
+    margin-bottom: 3px;
+    line-height: 1.5;
+}
+
+.contact-line {
+    color: #7f8c8d;
+    margin-top: 4px;
+}
+
+.detail-row {
+    margin-bottom: 4px;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #7f8c8d;
+    margin-right: 5px;
+}
+
+.detail-value {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* ======================
+   CONTINUATION HEADER
+   ====================== */
+
+.continuation-header {
+    padding: 12px 25px;
+    background: #3498db;  /* was: linear-gradient(135deg, #3498db 0%, #2c3e50 100%...) */
+    border-bottom: 2px solid #3498db;
+}
+
+.cont-header-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.cont-left {
+    width: 35%;
+    vertical-align: middle;
+}
+
+.cont-center {
+    width: 35%;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.cont-right {
+    width: 30%;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.cont-logo {
+    display: inline-block;
+    height: 26px;
+    width: auto;
+    max-width: 85px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.cont-company {
+    font-size: 11px;
+    font-weight: 600;
+    color: #ffffff;
+    vertical-align: middle;
+}
+
+.cont-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.cont-separator {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0 8px;
+}
+
+.cont-number {
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.cont-page {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 600;
+}
+
+/* ======================
+   ITEMS TABLE
+   ====================== */
+
+.items-section {
+    padding: 0 25px 15px 25px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border: 1px solid #bdc3c7;
+    margin-top: 15px;
+}
+
+.items-table thead {
+    background: #34495e;
+    color: #ffffff;
+}
+
+.items-table th {
+    padding: 8px 6px;
+    text-align: left;
+    font-size: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    border-right: 1px solid #4a5f7f;
+}
+
+.items-table th:last-child {
+    border-right: none;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.items-table tbody tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+.items-table tbody tr:nth-child(odd) {
+    background: #ffffff;
+}
+
+.items-table td {
+    padding: 8px 6px;
+    vertical-align: middle;
+    font-size: 9px;
+    border-right: 1px solid #ecf0f1;
+    word-wrap: break-word;
+    max-width: 0;
+}
+
+.items-table td:last-child {
+    border-right: none;
+}
+
+/* Column widths for landscape 8-column layout */
+.col-photo { width: 10%; text-align: center; }
+.col-item { width: 22%; }
+.col-code { width: 12%; }
+.col-ordered { width: 9%; text-align: center; }
+.col-delivered { width: 9%; text-align: center; }
+.col-unit { width: 8%; text-align: center; }
+.col-condition { width: 12%; text-align: center; }
+.col-notes { width: 18%; }
+
+/* Photo cell */
+.photo-cell {
+    text-align: center;
+    padding: 6px;
+}
+
+.product-photo {
+    width: 55px;
+    height: 55px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 6px;
+    border: 2px solid #bdc3c7;
+    margin: 0 auto;
+}
+
+.product-photo.placeholder {
+    background: #ecf0f1;  /* was: linear-gradient(135deg, #ecf0f1 0%, #bdc3c7 100%...) */
+    display: table;
+}
+
+.photo-icon {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 22px;
+    color: #95a5a6;
+    width: 55px;
+    height: 55px;
+}
+
+/* Item description */
+.item-name {
+    font-size: 9px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 3px;
+    line-height: 1.3;
+}
+
+.item-variant {
+    font-size: 8px;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+/* Item code */
+.code-sku {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 8px;
+    background: #ecf0f1;
+    padding: 2px 5px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 2px;
+}
+
+.code-upc {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 7px;
+    color: #7f8c8d;
+}
+
+/* Quantities */
+.qty-value {
+    text-align: center;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 10px;
+}
+
+.qty-badge {
+    display: inline-block;
+    background: #27ae60;  /* was: linear-gradient(135deg, #27ae60 0%, #229954 100%...) */
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 12px;
+    min-width: 30px;
+    text-align: center;
+}
+
+/* Unit badge */
+.unit-badge {
+    display: inline-block;
+    background: #95a5a6;
+    color: #ffffff;
+    font-size: 8px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+}
+
+/* Condition badge */
+.condition-badge {
+    display: inline-block;
+    font-size: 8px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+}
+
+.condition-badge.good {
+    background: #27ae60;
+    color: #ffffff;
+}
+
+/* Notes */
+.note-text {
+    font-size: 8px;
+    color: #7f8c8d;
+    line-height: 1.4;
+}
+
+.note-empty {
+    text-align: center;
+    color: #bdc3c7;
+    font-size: 12px;
+}
+
+/* ======================
+   FOOTER SECTION
+   ====================== */
+
+.footer-section {
+    padding: 0 25px 15px 25px;
+}
+
+.footer-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 0;
+    table-layout: fixed;
+}
+
+.footer-col {
+    vertical-align: top;
+}
+
+.summary-col {
+    width: 25%;
+}
+
+.signatures-col {
+    width: 45%;
+}
+
+.notes-col {
+    width: 30%;
+}
+
+/* Summary Card */
+.summary-card {
+    background: #ecf0f1;
+    border: 1px solid #bdc3c7;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.card-title {
+    font-size: 9px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.summary-items {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.summary-items tr {
+    border-bottom: 1px solid #bdc3c7;
+}
+
+.summary-items tr:last-child {
+    border-bottom: none;
+}
+
+.summary-label {
+    font-size: 8px;
+    color: #7f8c8d;
+    padding: 5px 0;
+    font-weight: 600;
+}
+
+.summary-value {
+    font-size: 10px;
+    color: #2c3e50;
+    padding: 5px 0;
+    text-align: right;
+    font-weight: 700;
+}
+
+/* Signatures */
+.signatures-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 0;
+    table-layout: fixed;
+}
+
+.signature-box {
+    width: 50%;
+    background: #ffffff;
+    border: 2px dashed #3498db;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.sig-title {
+    font-size: 9px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.sig-line {
+    height: 35px;
+    border-bottom: 2px solid #2c3e50;
+    margin-bottom: 6px;
+}
+
+.sig-meta {
+    margin-bottom: 3px;
+    font-size: 8px;
+}
+
+.sig-label {
+    color: #7f8c8d;
+    font-weight: 600;
+}
+
+.sig-blank {
+    color: #bdc3c7;
+}
+
+/* Notes Card */
+.notes-card {
+    background: #fff9e6;
+    border: 1px solid #f39c12;
+    border-left: 4px solid #f39c12;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.notes-text {
+    font-size: 8px;
+    color: #7f8c8d;
+    line-height: 1.6;
+}
+
+/* ======================
+   TERMS BAR
+   ====================== */
+
+.terms-bar {
+    background: #34495e;
+    padding: 8px 25px;
+    color: #ffffff;
+    font-size: 8px;
+    text-align: center;
+}
+
+.terms-icon {
+    font-size: 10px;
+    margin-right: 6px;
+}
+
+.terms-text {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* ======================
+   CONTINUATION FOOTER
+   ====================== */
+
+.continuation-footer {
+    padding: 10px 25px;
+    background: #f8f9fa;
+    border-top: 2px solid #3498db;
+    margin-top: 15px;
+}
+
+.cont-footer-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.cont-footer-left {
+    width: 60%;
+    vertical-align: middle;
+}
+
+.cont-footer-right {
+    width: 40%;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.cont-message {
+    font-size: 9px;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+.cont-page-num {
+    font-size: 9px;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* ======================
+   PAGE NUMBER
+   ====================== */
+
+.page-number {
+    position: absolute;
+    bottom: 10px;
+    right: 25px;
+    font-size: 7px;
+    color: #bdc3c7;
+}
+
+/* ======================
+   PRINT OPTIMIZATIONS
+   ====================== */
+
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .invoice-page {
+        width: 100%;
+        min-height: auto;
+        page-break-after: always;
+    }
+    
+    .items-table tbody tr {
+        page-break-inside: avoid;
+    }
+    
+    .footer-section {
+        page-break-inside: avoid;
+    }
+}

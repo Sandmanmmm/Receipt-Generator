@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Invoice</title>
+    <title>Service Invoice{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <link rel="stylesheet" href="../css/consumer_service_invoice.css">
 </head>
 <body>
     <div class="service-invoice">
-        <!-- Header -->
+        {% if _is_first_page|default(true) %}
+        <!-- Header (first page only) -->
         <div class="invoice-header">
             <div class="company-info">
                 <h1 class="company-name">{{ supplier_name }}</h1>
@@ -19,10 +20,28 @@
                 <div class="invoice-badge">SERVICE INVOICE</div>
                 <p class="invoice-number">{{ invoice_number }}</p>
                 <p class="invoice-date">{{ invoice_date }}</p>
+                {% if _total_pages|default(1) > 1 %}
+                <div style="font-size: 14px; color: #666; margin-top: 8px;">Page {{ _page_number }} of {{ _total_pages }}</div>
+                {% endif %}
             </div>
         </div>
+        {% else %}
+        <!-- Continuation header for pages 2+ -->
+        <div class="continuation-header">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 2px solid #e0e0e0;">
+                <div>
+                    <h2 style="margin: 0; color: #333;">{{ supplier_name }}</h2>
+                    <p style="margin: 5px 0 0 0; color: #666;">Service Invoice: {{ invoice_number }}</p>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 16px; color: #666;">Page {{ _page_number }} of {{ _total_pages }}</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
 
-        <!-- Customer & Service Information -->
+        {% if _is_first_page|default(true) %}
+        <!-- Customer & Service Information (first page only) -->
         <div class="info-section">
             <div class="customer-card">
                 <h3>👤 Customer Information</h3>
@@ -36,7 +55,7 @@
             </div>
 
             <div class="service-card">
-                <h3>🔧 Service Details</h3>
+                <h3> Service Details</h3>
                 <div class="service-row">
                     <span class="label">Service Type:</span>
                     <span class="value">{{ service_type }}</span>
@@ -65,6 +84,7 @@
                 {% endif %}
             </div>
         </div>
+        {% endif %}
 
         <!-- Services Rendered -->
         <div class="services-section">
@@ -128,7 +148,8 @@
         </div>
         {% endif %}
 
-        <!-- Summary -->
+        {% if _is_last_page|default(true) %}
+        <!-- Summary (last page only) -->
         <div class="summary-section">
             <div class="summary-box">
                 <div class="summary-row">
@@ -178,9 +199,9 @@
             </div>
         </div>
 
-        <!-- Payment Information -->
+        <!-- Payment Information (last page only) -->
         <div class="payment-section">
-            <h3>💳 Payment Information</h3>
+            <h3> Payment Information</h3>
             <div class="payment-details">
                 {% if payment_method %}
                 <p><strong>Payment Method:</strong> {{ payment_method }}</p>
@@ -216,7 +237,7 @@
         <!-- Additional Notes -->
         {% if notes or special_instructions %}
         <div class="notes-section">
-            <h3>📝 Notes</h3>
+            <h3> Notes</h3>
             {% if notes %}
             <p class="notes-text">{{ notes }}</p>
             {% endif %}
@@ -262,7 +283,13 @@
                 <p>License #{{ license_number }}</p>
             </div>
             {% endif %}
+            {% if _total_pages|default(1) > 1 and not _is_last_page|default(true) %}
+            <div style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
+                Continued on page {{ (_page_number|default(1)) + 1 }}...
+            </div>
+            {% endif %}
         </div>
+        {% endif %}
     </div>
 </body>
 </html>

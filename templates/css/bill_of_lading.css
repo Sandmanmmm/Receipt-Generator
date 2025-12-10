@@ -1,0 +1,787 @@
+/**
+ * Bill of Lading Template
+ * Professional freight shipping document
+ * Dark blue (#1a365d) and gold (#d69e2e) color scheme
+ * Designed for LTL freight shipping, wholesale operations
+ */
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Base */
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', Arial, sans-serif;
+    font-size: 10px;
+    line-height: 1.4;
+    color: #1a202c;
+    background: #ffffff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.bol-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 20px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ============================================
+   HEADER SECTION
+   ============================================ */
+
+.bol-header {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    margin-bottom: 0;
+    padding: 12px 15px;
+    background: #1a365d;  /* was: linear-gradient(135deg, #1a365d 0%, #2c5282 100%...) */
+    color: #ffffff;
+    border-radius: 4px 4px 0 0;
+}
+
+.header-left,
+.header-center,
+.header-right {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.header-left {
+    width: 30%;
+    text-align: left;
+}
+
+.header-center {
+    width: 40%;
+    text-align: center;
+}
+
+.header-right {
+    width: 30%;
+    text-align: right;
+}
+
+.carrier-logo {
+    height: 40px;
+    width: auto;
+    max-width: 100px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.carrier-info {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+}
+
+.carrier-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.carrier-tagline {
+    font-size: 9px;
+    color: #a0aec0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.document-title {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.document-subtitle {
+    font-size: 9px;
+    color: #d69e2e;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 2px;
+}
+
+.header-fields {
+    border-collapse: collapse;
+    display: inline-table;
+}
+
+.header-fields td {
+    padding: 2px 0;
+}
+
+.header-fields .field-label {
+    font-size: 9px;
+    color: #a0aec0;
+    text-align: right;
+    padding-right: 8px;
+}
+
+.header-fields .field-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: left;
+}
+
+.header-fields .bol-number {
+    color: #d69e2e;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.header-fields .pro-number {
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
+/* ============================================
+   SERVICE TYPE BAR
+   ============================================ */
+
+.service-bar {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    background: #edf2f7;
+    border: 1px solid #cbd5e0;
+    border-top: none;
+    padding: 8px 15px;
+}
+
+.service-options,
+.guarantee-options,
+.reference-numbers {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.service-options {
+    width: 35%;
+    text-align: left;
+}
+
+.guarantee-options {
+    width: 30%;
+    text-align: center;
+}
+
+.reference-numbers {
+    width: 35%;
+    text-align: right;
+}
+
+.service-option,
+.guarantee-option {
+    display: inline-block;
+    margin-right: 12px;
+    font-size: 9px;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.service-option.selected,
+.guarantee-option.selected {
+    color: #1a365d;
+}
+
+.checkbox {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 10px;
+    margin-right: 3px;
+}
+
+.guarantee-label {
+    font-size: 8px;
+    color: #718096;
+    margin-right: 8px;
+}
+
+.ref-item {
+    font-size: 9px;
+    color: #4a5568;
+    margin-left: 15px;
+}
+
+.ref-label {
+    color: #718096;
+}
+
+/* ============================================
+   PARTIES GRID - 3 Column Layout
+   ============================================ */
+
+.parties-grid {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-bottom: 0;
+}
+
+.party-cell {
+    width: 33.33%;
+    vertical-align: top;
+    border: 1px solid #cbd5e0;
+    border-top: none;
+    padding: 0;
+}
+
+.party-header {
+    display: table;
+    width: 100%;
+    background: #2d3748;
+    color: #ffffff;
+    padding: 6px 10px;
+}
+
+.party-label {
+    display: table-cell;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.account-field {
+    display: table-cell;
+    text-align: right;
+    font-size: 8px;
+    color: #a0aec0;
+}
+
+.party-content {
+    padding: 10px;
+    min-height: 80px;
+}
+
+.party-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1a365d;
+    margin-bottom: 4px;
+}
+
+.party-address {
+    font-size: 9px;
+    color: #4a5568;
+    line-height: 1.5;
+    margin-bottom: 6px;
+}
+
+.party-contact-row {
+    font-size: 8px;
+    color: #718096;
+}
+
+.contact-item {
+    display: inline-block;
+    margin-right: 12px;
+}
+
+.party-account {
+    font-size: 9px;
+    color: #718096;
+    margin-top: 6px;
+}
+
+.no-third-party {
+    font-size: 9px;
+    color: #a0aec0;
+    font-style: italic;
+}
+
+/* Accessorial Services */
+.accessorial-row,
+.freight-terms-row {
+    background: #f7fafc;
+    border-top: 1px solid #e2e8f0;
+    padding: 6px 10px;
+}
+
+.acc-item,
+.term-item {
+    display: inline-block;
+    font-size: 8px;
+    color: #718096;
+    margin-right: 10px;
+}
+
+.acc-item.checked,
+.term-item.selected {
+    color: #1a365d;
+    font-weight: 600;
+}
+
+/* ============================================
+   SPECIAL INSTRUCTIONS BAR
+   ============================================ */
+
+.instructions-bar {
+    display: table;
+    width: 100%;
+    background: #fffaf0;
+    border: 1px solid #cbd5e0;
+    border-top: none;
+    padding: 8px 15px;
+}
+
+.instructions-label {
+    display: table-cell;
+    width: 140px;
+    font-size: 9px;
+    font-weight: 700;
+    color: #744210;
+    vertical-align: top;
+}
+
+.instructions-content {
+    display: table-cell;
+    font-size: 9px;
+    color: #4a5568;
+}
+
+/* ============================================
+   FREIGHT ITEMS TABLE
+   ============================================ */
+
+.items-section {
+    border: 1px solid #cbd5e0;
+    border-top: none;
+    margin-bottom: 0;
+}
+
+.items-header-row {
+    display: table;
+    width: 100%;
+    background: #2d3748;
+    color: #ffffff;
+    padding: 6px 15px;
+}
+
+.section-title {
+    display: table-cell;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.page-indicator {
+    display: table-cell;
+    text-align: right;
+    font-size: 9px;
+    color: #a0aec0;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.items-table thead {
+    background: #edf2f7;
+}
+
+.items-table th {
+    padding: 8px 6px;
+    font-size: 8px;
+    font-weight: 700;
+    color: #4a5568;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    border-bottom: 2px solid #cbd5e0;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.items-table tbody tr:nth-child(even) {
+    background: #f7fafc;
+}
+
+.items-table td {
+    padding: 8px 6px;
+    font-size: 9px;
+    vertical-align: middle;
+    word-wrap: break-word;
+    max-width: 0;
+}
+
+/* Column Widths - 8 columns */
+.col-hu { width: 6%; text-align: center; }
+.col-pkg { width: 8%; text-align: center; }
+.col-pcs { width: 7%; text-align: center; }
+.col-hm { width: 5%; text-align: center; font-weight: 700; color: #c53030; }
+.col-desc { width: 38%; }
+.col-weight { width: 12%; text-align: right; font-weight: 600; }
+.col-nmfc { width: 12%; text-align: center; font-family: 'Consolas', 'Monaco', monospace; font-size: 8px; }
+.col-class { width: 12%; text-align: center; font-weight: 700; color: #1a365d; }
+
+.item-description {
+    font-size: 9px;
+    color: #2d3748;
+    font-weight: 500;
+}
+
+.item-marks {
+    font-size: 8px;
+    color: #c53030;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.item-sku {
+    font-size: 8px;
+    color: #718096;
+    font-family: 'Consolas', 'Monaco', monospace;
+    margin-top: 2px;
+}
+
+.hazmat-row {
+    background: #fff5f5 !important;
+}
+
+.hazmat-row .col-hm {
+    color: #c53030;
+    font-weight: 800;
+}
+
+/* ============================================
+   TOTALS ROW
+   ============================================ */
+
+.totals-row {
+    border: 1px solid #cbd5e0;
+    border-top: none;
+    background: #edf2f7;
+    padding: 10px 15px;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.totals-left,
+.totals-center,
+.totals-right {
+    vertical-align: middle;
+    padding: 0 10px;
+}
+
+.totals-left { width: 30%; text-align: left; }
+.totals-center { width: 40%; text-align: center; }
+.totals-right { width: 30%; text-align: right; }
+
+.total-item {
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 10px;
+}
+
+.total-label {
+    color: #718096;
+    margin-right: 6px;
+}
+
+.total-value {
+    font-weight: 700;
+    color: #1a365d;
+}
+
+.total-value.weight {
+    font-size: 12px;
+    color: #2c5282;
+}
+
+.declared-value-box {
+    display: inline-block;
+    background: #fff;
+    border: 2px solid #d69e2e;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+.dv-label {
+    font-size: 8px;
+    color: #744210;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.dv-amount {
+    font-size: 14px;
+    font-weight: 800;
+    color: #744210;
+}
+
+/* ============================================
+   COD SECTION
+   ============================================ */
+
+.cod-section {
+    border: 1px solid #c53030;
+    border-top: none;
+    margin-bottom: 0;
+}
+
+.cod-header {
+    background: #c53030;
+    color: #ffffff;
+    padding: 6px 15px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.cod-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    background: #fff5f5;
+}
+
+.cod-table td {
+    padding: 10px 15px;
+    font-size: 9px;
+    vertical-align: middle;
+}
+
+.cod-amount-cell { width: 30%; }
+.cod-terms-cell { width: 40%; text-align: center; }
+.cod-fee-cell { width: 30%; text-align: right; }
+
+.cod-label,
+.cod-fee-label {
+    font-size: 9px;
+    color: #742a2a;
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.cod-value {
+    font-size: 12px;
+    font-weight: 800;
+    color: #c53030;
+}
+
+.cod-option {
+    display: inline-block;
+    font-size: 8px;
+    color: #742a2a;
+    margin: 0 6px;
+}
+
+.cod-option.selected {
+    font-weight: 700;
+}
+
+/* ============================================
+   HAZMAT SECTION
+   ============================================ */
+
+.hazmat-section {
+    border: 1px solid #c53030;
+    border-top: none;
+    margin-bottom: 0;
+}
+
+.hazmat-header {
+    background: #c53030;
+    color: #ffffff;
+    padding: 6px 15px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.hazmat-content {
+    background: #fff5f5;
+    padding: 10px 15px;
+}
+
+.hazmat-item {
+    display: inline-block;
+    margin-right: 30px;
+}
+
+.hm-label {
+    font-size: 9px;
+    color: #742a2a;
+    font-weight: 600;
+    margin-right: 6px;
+}
+
+.hm-value {
+    font-size: 10px;
+    color: #c53030;
+    font-weight: 700;
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
+/* ============================================
+   SIGNATURES SECTION
+   ============================================ */
+
+.signatures-section {
+    border: 1px solid #cbd5e0;
+    border-top: none;
+    margin-bottom: 0;
+}
+
+.signatures-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.sig-cell {
+    width: 50%;
+    vertical-align: top;
+    padding: 0;
+}
+
+.sig-cell.shipper-sig {
+    border-right: 1px solid #cbd5e0;
+}
+
+.sig-header {
+    background: #2d3748;
+    color: #ffffff;
+    padding: 6px 12px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.sig-text {
+    padding: 8px 12px;
+    font-size: 8px;
+    color: #718096;
+    line-height: 1.4;
+    background: #f7fafc;
+    min-height: 40px;
+}
+
+.sig-line-row {
+    display: table;
+    width: 100%;
+    padding: 8px 12px;
+}
+
+.sig-line {
+    display: table-cell;
+    width: 65%;
+    border-bottom: 1px solid #1a365d;
+    padding-bottom: 4px;
+}
+
+.sig-date {
+    display: table-cell;
+    width: 35%;
+    border-bottom: 1px solid #1a365d;
+    padding-bottom: 4px;
+    padding-left: 15px;
+}
+
+.sig-value {
+    display: block;
+    font-size: 10px;
+    font-style: italic;
+    color: #2d3748;
+    min-height: 14px;
+}
+
+.sig-label {
+    display: block;
+    font-size: 7px;
+    color: #a0aec0;
+    margin-top: 2px;
+}
+
+.driver-info {
+    padding: 6px 12px;
+    background: #edf2f7;
+    font-size: 8px;
+    color: #4a5568;
+}
+
+.driver-item {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.bol-footer {
+    display: table;
+    width: 100%;
+    border: 1px solid #cbd5e0;
+    border-top: none;
+    padding: 8px 15px;
+    background: #f7fafc;
+    border-radius: 0 0 4px 4px;
+}
+
+.footer-left {
+    display: table-cell;
+    width: 75%;
+    vertical-align: middle;
+}
+
+.footer-right {
+    display: table-cell;
+    width: 25%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.terms-notice {
+    font-size: 7px;
+    color: #718096;
+    line-height: 1.4;
+}
+
+.page-number {
+    font-size: 9px;
+    color: #4a5568;
+    font-weight: 600;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .bol-page {
+        page-break-after: always;
+    }
+    
+    .items-table tbody tr {
+        page-break-inside: avoid;
+    }
+}
+
+@page {
+    size: Letter portrait;
+    margin: 0;
+}

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Manifest - {{ manifest_number }}</title>
+    <link rel="stylesheet" href="../css/shipping_manifest.css">
+</head>
+<body>
+    <div class="manifest-container">
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="header-left">
+                {% if supplier_logo %}
+                <div class="company-logo">
+                    <img src="{{ supplier_logo }}" alt="{{ shipper_name }}">
+                </div>
+                {% endif %}
+                <div class="company-info">
+                    <div class="company-name">{{ shipper_name|default(supplier_name) }}</div>
+                    <div class="company-tagline">FULFILLMENT CENTER</div>
+                </div>
+            </div>
+            <div class="header-center">
+                <div class="document-title">SHIPPING MANIFEST</div>
+                <div class="document-subtitle">Cargo Itemization Document</div>
+            </div>
+            <div class="header-right">
+                <div class="manifest-number-box">
+                    <div class="manifest-label">MANIFEST #</div>
+                    <div class="manifest-value">{{ manifest_number }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar status-{{ manifest_status|default('pending')|lower }}">
+            <div class="status-left">
+                <span class="status-label">Status:</span>
+                <span class="status-value">{{ manifest_status|default('PENDING') }}</span>
+            </div>
+            <div class="status-center">
+                <span class="status-label">Created:</span>
+                <span class="status-value">{{ manifest_date }}</span>
+            </div>
+            <div class="status-right">
+                <span class="status-label">Ship Date:</span>
+                <span class="status-value">{{ ship_date }}</span>
+            </div>
+        </div>
+
+        <!-- Info Grid: Origin, Destination, Carrier -->
+        <div class="info-grid">
+            <!-- Origin / Shipper -->
+            <div class="info-card origin-card">
+                <div class="card-header">
+                    <span class="card-icon">FROM</span>
+                    <span class="card-title">ORIGIN / SHIPPER</span>
+                </div>
+                <div class="card-body">
+                    <div class="party-name">{{ origin_name|default(shipper_name) }}</div>
+                    <div class="party-address">
+                        {{ origin_address_line1 }}<br>
+                        {% if origin_address_line2 %}{{ origin_address_line2 }}<br>{% endif %}
+                        {{ origin_city }}, {{ origin_state }} {{ origin_postal_code }}<br>
+                        {{ origin_country|default('USA') }}
+                    </div>
+                    {% if origin_contact %}
+                    <div class="party-contact">Attn: {{ origin_contact }}</div>
+                    {% endif %}
+                    {% if origin_phone %}
+                    <div class="party-phone">Tel: {{ origin_phone }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Destination / Consignee -->
+            <div class="info-card destination-card">
+                <div class="card-header">
+                    <span class="card-icon">TO</span>
+                    <span class="card-title">DESTINATION / CONSIGNEE</span>
+                </div>
+                <div class="card-body">
+                    <div class="party-name">{{ destination_name|default(buyer_name) }}</div>
+                    <div class="party-address">
+                        {{ destination_address_line1|default(buyer_address) }}<br>
+                        {% if destination_address_line2 %}{{ destination_address_line2 }}<br>{% endif %}
+                        {{ destination_city }}, {{ destination_state }} {{ destination_postal_code }}<br>
+                        {{ destination_country|default('USA') }}
+                    </div>
+                    {% if destination_contact %}
+                    <div class="party-contact">Attn: {{ destination_contact }}</div>
+                    {% endif %}
+                    {% if destination_phone|default(buyer_phone) %}
+                    <div class="party-phone">Tel: {{ destination_phone|default(buyer_phone) }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Carrier Information -->
+            <div class="info-card carrier-card">
+                <div class="card-header">
+                    <span class="card-icon">VIA</span>
+                    <span class="card-title">CARRIER / TRANSPORT</span>
+                </div>
+                <div class="card-body">
+                    <div class="carrier-name">{{ carrier_name }}</div>
+                    <div class="carrier-detail">
+                        <span class="detail-label">Service:</span>
+                        <span class="detail-value">{{ service_type|default('Ground') }}</span>
+                    </div>
+                    {% if tracking_number %}
+                    <div class="carrier-detail">
+                        <span class="detail-label">PRO/Tracking:</span>
+                        <span class="detail-value tracking-num">{{ tracking_number }}</span>
+                    </div>
+                    {% endif %}
+                    {% if bol_number %}
+                    <div class="carrier-detail">
+                        <span class="detail-label">BOL #:</span>
+                        <span class="detail-value">{{ bol_number }}</span>
+                    </div>
+                    {% endif %}
+                    {% if vehicle_id %}
+                    <div class="carrier-detail">
+                        <span class="detail-label">Vehicle/Container:</span>
+                        <span class="detail-value">{{ vehicle_id }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Reference Numbers Row -->
+        <div class="reference-row">
+            <div class="ref-item">
+                <span class="ref-label">Order #:</span>
+                <span class="ref-value">{{ order_number|default(invoice_number) }}</span>
+            </div>
+            {% if po_number %}
+            <div class="ref-item">
+                <span class="ref-label">PO #:</span>
+                <span class="ref-value">{{ po_number }}</span>
+            </div>
+            {% endif %}
+            {% if shipment_id %}
+            <div class="ref-item">
+                <span class="ref-label">Shipment ID:</span>
+                <span class="ref-value">{{ shipment_id }}</span>
+            </div>
+            {% endif %}
+            {% if warehouse_code %}
+            <div class="ref-item">
+                <span class="ref-label">Warehouse:</span>
+                <span class="ref-value">{{ warehouse_code }}</span>
+            </div>
+            {% endif %}
+            <div class="ref-item">
+                <span class="ref-label">Total Packages:</span>
+                <span class="ref-value highlight">{{ total_packages|default(items|length) }}</span>
+            </div>
+        </div>
+
+        <!-- Items Table -->
+        <div class="items-section">
+            <div class="section-header">
+                <span class="section-title">CARGO CONTENTS</span>
+                {% if _total_pages|default(1) > 1 %}
+                <span class="page-indicator">Page {{ _page_number|default(1) }} of {{ _total_pages }}</span>
+                {% endif %}
+            </div>
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-line">#</th>
+                        <th class="col-sku">SKU / Item Code</th>
+                        <th class="col-desc">Description</th>
+                        <th class="col-qty">Qty</th>
+                        <th class="col-uom">UoM</th>
+                        <th class="col-weight">Weight</th>
+                        <th class="col-dims">Dimensions (LxWxH)</th>
+                        <th class="col-package">Pkg Type</th>
+                        <th class="col-handling">Handling</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row {% if item.special_handling %}special-handling{% endif %}">
+                        <td class="col-line">{{ loop.index + ((_page_number|default(1) - 1) * 10) }}</td>
+                        <td class="col-sku">{{ item.sku|default(item.item_code) }}</td>
+                        <td class="col-desc">
+                            <div class="item-name">{{ item.description|default(item.name) }}</div>
+                            {% if item.lot_number %}
+                            <div class="item-lot">Lot: {{ item.lot_number }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="col-qty">{{ item.quantity }}</td>
+                        <td class="col-uom">{{ item.unit|default('EA') }}</td>
+                        <td class="col-weight">{{ item.weight|default('-') }} {{ weight_unit|default('lbs') }}</td>
+                        <td class="col-dims">
+                            {% if item.dimensions %}
+                            {{ item.dimensions }}
+                            {% elif item.length and item.width and item.height %}
+                            {{ item.length }}x{{ item.width }}x{{ item.height }} {{ dimension_unit|default('in') }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                        <td class="col-package">{{ item.package_type|default('CTN') }}</td>
+                        <td class="col-handling">
+                            {% if item.special_handling %}
+                            <span class="handling-badge">{{ item.special_handling }}</span>
+                            {% else %}
+                            STD
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Summary Section - Only on last page -->
+        {% if _is_last_page|default(true) %}
+        <div class="summary-section">
+            <div class="summary-left">
+                <!-- Special Instructions -->
+                <div class="instructions-box">
+                    <div class="instructions-title">SPECIAL HANDLING INSTRUCTIONS</div>
+                    <div class="instructions-content">
+                        {% if special_instructions %}
+                        {{ special_instructions }}
+                        {% else %}
+                        <div class="instruction-item">
+                            <span class="check-box">[{% if fragile %}X{% else %} {% endif %}]</span>
+                            <span class="instruction-text">FRAGILE - Handle With Care</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="check-box">[{% if keep_upright %}X{% else %} {% endif %}]</span>
+                            <span class="instruction-text">KEEP UPRIGHT - This Side Up</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="check-box">[{% if temperature_controlled %}X{% else %} {% endif %}]</span>
+                            <span class="instruction-text">TEMPERATURE CONTROLLED{% if temp_range %}: {{ temp_range }}{% endif %}</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="check-box">[{% if hazmat %}X{% else %} {% endif %}]</span>
+                            <span class="instruction-text">HAZMAT - See Documentation</span>
+                        </div>
+                        <div class="instruction-item">
+                            <span class="check-box">[{% if signature_required %}X{% else %} {% endif %}]</span>
+                            <span class="instruction-text">SIGNATURE REQUIRED</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Notes -->
+                {% if notes %}
+                <div class="notes-box">
+                    <div class="notes-title">NOTES</div>
+                    <div class="notes-content">{{ notes }}</div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="summary-right">
+                <!-- Totals Summary -->
+                <div class="totals-box">
+                    <div class="totals-title">SHIPMENT TOTALS</div>
+                    <div class="totals-grid">
+                        <div class="total-row">
+                            <span class="total-label">Total Line Items:</span>
+                            <span class="total-value">{{ _total_items|default(total_line_items)|default(items|length) }}</span>
+                        </div>
+                        <div class="total-row">
+                            <span class="total-label">Total Units:</span>
+                            <span class="total-value">{{ total_units|default('0') }}</span>
+                        </div>
+                        <div class="total-row">
+                            <span class="total-label">Total Packages:</span>
+                            <span class="total-value">{{ total_packages|default(_total_items)|default(items|length) }}</span>
+                        </div>
+                        <div class="total-row separator">
+                            <span class="total-label">Gross Weight:</span>
+                            <span class="total-value">{{ gross_weight|default('0.0') }} {{ weight_unit|default('lbs') }}</span>
+                        </div>
+                        <div class="total-row">
+                            <span class="total-label">Tare Weight:</span>
+                            <span class="total-value">{{ tare_weight|default('0.0') }} {{ weight_unit|default('lbs') }}</span>
+                        </div>
+                        <div class="total-row highlight">
+                            <span class="total-label">Net Weight:</span>
+                            <span class="total-value">{{ net_weight|default('0.0') }} {{ weight_unit|default('lbs') }}</span>
+                        </div>
+                        <div class="total-row separator">
+                            <span class="total-label">Total Volume:</span>
+                            <span class="total-value">{{ total_volume|default('0.0') }} {{ volume_unit|default('cu ft') }}</span>
+                        </div>
+                        {% if freight_class %}
+                        <div class="total-row">
+                            <span class="total-label">Freight Class:</span>
+                            <span class="total-value">{{ freight_class }}</span>
+                        </div>
+                        {% endif %}
+                        {% if declared_value %}
+                        <div class="total-row">
+                            <span class="total-label">Declared Value:</span>
+                            <span class="total-value">${{ "%.2f"|format(declared_value) }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Verification Section -->
+        <div class="verification-section">
+            <div class="verification-title">SHIPMENT VERIFICATION</div>
+            <div class="verification-grid">
+                <div class="verification-block">
+                    <div class="verification-label">Packed By</div>
+                    <div class="signature-line"></div>
+                    <div class="signature-fields">
+                        <span class="signature-name">{{ packed_by|default('________________') }}</span>
+                        <span class="signature-date">Date: {{ pack_date|default('___/___/______') }}</span>
+                    </div>
+                </div>
+                <div class="verification-block">
+                    <div class="verification-label">Verified By (QC)</div>
+                    <div class="signature-line"></div>
+                    <div class="signature-fields">
+                        <span class="signature-name">{{ verified_by|default('________________') }}</span>
+                        <span class="signature-date">Date: {{ verify_date|default('___/___/______') }}</span>
+                    </div>
+                </div>
+                <div class="verification-block">
+                    <div class="verification-label">Loaded By / Driver</div>
+                    <div class="signature-line"></div>
+                    <div class="signature-fields">
+                        <span class="signature-name">{{ loaded_by|default('________________') }}</span>
+                        <span class="signature-date">Date: {{ load_date|default('___/___/______') }}</span>
+                    </div>
+                </div>
+                <div class="verification-block">
+                    <div class="verification-label">Received By</div>
+                    <div class="signature-line"></div>
+                    <div class="signature-fields">
+                        <span class="signature-name">________________</span>
+                        <span class="signature-date">Date: ___/___/______</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="footer-section">
+            <div class="footer-left">
+                <div class="legal-notice">
+                    This manifest certifies the contents of the shipment as described above.
+                    Discrepancies must be reported within 24 hours of receipt.
+                </div>
+            </div>
+            <div class="footer-center">
+                {% if _total_pages|default(1) > 1 %}
+                Page {{ _page_number|default(1) }} of {{ _total_pages }}
+                {% endif %}
+            </div>
+            <div class="footer-right">
+                <div class="generated-info">Generated: {{ generation_date|default('') }}</div>
+            </div>
+        </div>
+
+        <!-- Barcode Section -->
+        {% if barcode_data %}
+        <div class="barcode-section">
+            <div class="barcode-placeholder">||| {{ manifest_number }} |||</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

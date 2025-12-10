@@ -1,0 +1,501 @@
+/* Logistics Pro Invoice - Commercial Wholesale Template */
+/* Inspired by FedEx and UPS invoicing systems */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', 'Consolas', Monaco, monospace;
+    font-size: 9pt;
+    line-height: 1.3;
+    color: #1a1a1a;
+    background: #ffffff;
+}
+
+.invoice-page {
+    width: 816px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 0;
+}
+
+/* Document Header Grid */
+.doc-header {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #1a1a1a;
+    margin-bottom: 12px;
+    background: #ffffff;
+}
+
+.header-col-left {
+    width: 55%;
+    padding: 16px 18px;
+    vertical-align: top;
+    border-right: 2px solid #1a1a1a;
+}
+
+.logo-img {
+    display: inline-block;
+    height: 42px;
+    width: auto;
+    max-width: 120px;
+    vertical-align: top;
+    margin-right: 14px;
+    background: #f5f5f5;
+    padding: 3px;
+    border: 1px solid #1a1a1a;
+}
+
+.logo-placeholder {
+    display: inline-block;
+    width: 42px;
+    height: 42px;
+    background: #1a1a1a;
+    color: #ffffff;
+    text-align: center;
+    line-height: 42px;
+    font-size: 14pt;
+    font-weight: 700;
+    vertical-align: top;
+    margin-right: 14px;
+}
+
+.supplier-block {
+    display: inline-block;
+    vertical-align: top;
+    max-width: 300px;
+}
+
+.supplier-name {
+    font-size: 11pt;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.supplier-line {
+    font-size: 8.5pt;
+    line-height: 1.5;
+    margin-bottom: 2px;
+}
+
+.header-col-right {
+    width: 45%;
+    padding: 16px 18px;
+    vertical-align: top;
+}
+
+.meta-grid {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f5f5f5;
+    border: 1px solid #1a1a1a;
+}
+
+.meta-header {
+    background: #1a1a1a;
+    color: #ffffff;
+    padding: 8px 10px;
+    font-size: 11pt;
+    font-weight: 700;
+    text-align: center;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.meta-grid tr td {
+    padding: 6px 10px;
+    font-size: 8.5pt;
+    border-bottom: 1px solid #cccccc;
+}
+
+.meta-grid tr:last-child td {
+    border-bottom: none;
+}
+
+.meta-key {
+    width: 50%;
+    font-weight: 700;
+}
+
+.meta-value {
+    width: 50%;
+}
+
+/* Parties Information Grid */
+.parties-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+}
+
+.party-box {
+    width: 50%;
+    border: 2px solid #1a1a1a;
+    vertical-align: top;
+}
+
+.party-box:first-child {
+    border-right: 1px solid #1a1a1a;
+}
+
+.party-box:last-child {
+    border-left: 1px solid #1a1a1a;
+}
+
+.party-header {
+    background: #1a1a1a;
+    color: #ffffff;
+    padding: 6px 12px;
+    font-size: 8.5pt;
+    font-weight: 700;
+    text-align: center;
+    border-bottom: 2px solid #1a1a1a;
+}
+
+.party-content {
+    padding: 12px;
+    min-height: 90px;
+    background: #f9f9f9;
+}
+
+.party-name {
+    font-size: 10pt;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.party-addr {
+    font-size: 8.5pt;
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.party-contact {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.party-contact tr td {
+    padding: 2px 0;
+    font-size: 8pt;
+}
+
+.contact-key {
+    width: 35%;
+    font-weight: 700;
+}
+
+.contact-val {
+    width: 65%;
+}
+
+/* Continuation Header */
+.cont-header {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1a1a1a;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.cont-left {
+    width: 65%;
+    padding: 10px 18px;
+    vertical-align: middle;
+    font-size: 9pt;
+}
+
+.cont-doc-type {
+    font-weight: 700;
+}
+
+.cont-separator {
+    margin: 0 8px;
+}
+
+.cont-number {
+    font-weight: 400;
+}
+
+.cont-right {
+    width: 35%;
+    padding: 10px 18px;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.cont-logo-img {
+    height: 24px;
+    width: auto;
+    max-width: 70px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    background: #ffffff;
+    padding: 2px;
+}
+
+.cont-page {
+    font-size: 8.5pt;
+    vertical-align: middle;
+}
+
+/* Line Items Table */
+.line-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #1a1a1a;
+    margin-bottom: 12px;
+}
+
+.line-items-table thead {
+    background: #1a1a1a;
+    color: #ffffff;
+}
+
+.line-items-table thead th {
+    padding: 8px 8px;
+    text-align: left;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-right: 1px solid #666666;
+}
+
+.line-items-table thead th:last-child {
+    border-right: none;
+}
+
+.col-line { width: 5%; text-align: center; }
+.col-part { width: 15%; }
+.col-desc { width: 35%; }
+.col-uom { width: 8%; text-align: center; }
+.col-qty { width: 8%; text-align: center; }
+.col-rate { width: 14%; text-align: right; }
+.col-ext { width: 15%; text-align: right; }
+
+.line-item-row {
+    border-bottom: 1px solid #cccccc;
+}
+
+.line-item-row:nth-child(odd) {
+    background: #ffffff;
+}
+
+.line-item-row:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.line-item-row td {
+    padding: 9px 8px;
+    font-size: 8.5pt;
+    vertical-align: middle;
+}
+
+.cell-line {
+    text-align: center;
+    font-weight: 700;
+    color: #666666;
+}
+
+.cell-part {
+    font-weight: 700;
+}
+
+.cell-desc {
+    line-height: 1.4;
+}
+
+.desc-main {
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.desc-sub {
+    font-size: 7.5pt;
+    color: #666666;
+}
+
+.cell-uom {
+    text-align: center;
+    font-size: 8pt;
+}
+
+.cell-qty {
+    text-align: center;
+    font-weight: 700;
+}
+
+.cell-rate {
+    text-align: right;
+}
+
+.cell-ext {
+    text-align: right;
+    font-weight: 700;
+}
+
+/* Summary and Totals */
+.summary-section {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+}
+
+.summary-left {
+    width: 55%;
+    padding-right: 10px;
+    vertical-align: top;
+}
+
+.terms-block {
+    border: 2px solid #1a1a1a;
+    background: #f5f5f5;
+}
+
+.terms-title {
+    background: #1a1a1a;
+    color: #ffffff;
+    padding: 6px 12px;
+    font-size: 8.5pt;
+    font-weight: 700;
+    text-align: center;
+}
+
+.terms-table {
+    width: 100%;
+    border-collapse: collapse;
+    padding: 10px 12px;
+}
+
+.terms-table tr td {
+    padding: 5px 12px;
+    font-size: 8.5pt;
+}
+
+.term-label {
+    width: 35%;
+    font-weight: 700;
+}
+
+.term-data {
+    width: 65%;
+}
+
+.summary-right {
+    width: 45%;
+    padding-left: 10px;
+    vertical-align: top;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #1a1a1a;
+    background: #ffffff;
+}
+
+.totals-row td {
+    padding: 8px 12px;
+    font-size: 9pt;
+    border-bottom: 1px solid #cccccc;
+}
+
+.totals-label {
+    font-weight: 700;
+    text-align: left;
+}
+
+.totals-value {
+    text-align: right;
+    font-weight: 600;
+}
+
+.totals-negative {
+    color: #cc0000;
+}
+
+.totals-grand {
+    background: #1a1a1a;
+    color: #ffffff;
+}
+
+.totals-grand td {
+    padding: 10px 12px;
+    font-size: 11pt;
+    font-weight: 700;
+    border-bottom: none;
+}
+
+/* Document Footer */
+.doc-footer {
+    margin-top: 18px;
+    padding-bottom: 16px;
+}
+
+.footer-divider {
+    height: 2px;
+    background: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.footer-info {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.footer-info td {
+    padding: 4px 0;
+    font-size: 7.5pt;
+    vertical-align: middle;
+}
+
+.footer-left {
+    width: 33%;
+    text-align: left;
+}
+
+.footer-center {
+    width: 34%;
+    text-align: center;
+}
+
+.footer-right {
+    width: 33%;
+    text-align: right;
+}
+
+.footer-label {
+    font-weight: 700;
+    margin-right: 4px;
+}
+
+.footer-data {
+    font-weight: 400;
+}
+
+.footer-company {
+    font-weight: 700;
+}
+
+/* Continuation Footer */
+.cont-footer {
+    margin-top: 12px;
+    padding-bottom: 12px;
+}
+
+.cont-divider {
+    height: 1px;
+    background: #cccccc;
+    margin-bottom: 8px;
+}
+
+.cont-footer-text {
+    text-align: center;
+    font-size: 8pt;
+    font-weight: 700;
+    color: #666666;
+}

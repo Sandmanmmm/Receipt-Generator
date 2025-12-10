@@ -1,0 +1,389 @@
+/* Dropship Purchase Order - Template-Specific Overrides */
+
+/* Primary brand color - logistics/fulfillment orange */
+.po-title {
+    color: #d97706;
+    border-bottom: 3px solid #dc2626;  /* Warning red accent */
+    font-size: 20px;
+}
+
+.blind-ship-badge {
+    background-color: #dc2626;
+    color: #ffffff;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+}
+
+/* Critical Warning Notice */
+.blind-ship-notice {
+    background-color: #fef2f2;
+    border: 3px solid #dc2626;
+    border-radius: 6px;
+    padding: 15px;
+    margin: 15px 0;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.notice-icon {
+    display: table-cell;
+    width: 40px;
+    font-size: 24px;
+    vertical-align: top;
+    padding-right: 10px;
+}
+
+.notice-content {
+    display: table-cell;
+    vertical-align: top;
+    color: #7f1d1d;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.notice-content strong {
+    color: #991b1b;
+    font-size: 11px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.notice-list {
+    margin: 5px 0 0 15px;
+    padding: 0;
+}
+
+.notice-list li {
+    margin-bottom: 4px;
+}
+
+.address-label {
+    background-color: #d97706;
+    color: #ffffff;
+}
+
+/* Highlight ship-to address - most critical */
+.ship-to-highlight {
+    background-color: #fff7ed;
+    border: 2px solid #f97316;
+}
+
+.ship-to-highlight .address-label {
+    background-color: #f97316;
+}
+
+.ship-to-note {
+    margin-top: 8px;
+    color: #ea580c;
+    font-weight: bold;
+    font-size: 9px;
+}
+
+/* Status badge colors */
+.status-draft {
+    background-color: #6b7280;
+    color: #ffffff;
+}
+
+.status-approved {
+    background-color: #10b981;
+    color: #ffffff;
+}
+
+.status-sent {
+    background-color: #3b82f6;
+    color: #ffffff;
+}
+
+.status-confirmed {
+    background-color: #8b5cf6;
+    color: #ffffff;
+}
+
+.status-cancelled {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
+/* Branding Instructions Section */
+.branding-section {
+    background-color: #fffbeb;
+    border: 2px solid #f59e0b;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.branding-title {
+    color: #92400e;
+    font-weight: bold;
+    font-size: 11px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.branding-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.branding-table td {
+    padding: 6px;
+    font-size: 9px;
+    vertical-align: top;
+}
+
+.branding-label {
+    width: 25%;
+    color: #78350f;
+    font-weight: bold;
+}
+
+.branding-value {
+    width: 75%;
+    color: #451a03;
+}
+
+/* Terms section */
+.terms-section {
+    border: 2px solid #d97706;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.term-label {
+    color: #d97706;
+    font-weight: bold;
+    font-size: 9px;
+    text-transform: uppercase;
+}
+
+/* SKU Mapping Header */
+.sku-mapping-header {
+    background-color: #fee2e2;
+    border: 2px solid #dc2626;
+    padding: 10px;
+    margin-bottom: 2px;
+    color: #991b1b;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/* Items table header - emphasize SKU mapping */
+.items-table thead {
+    background-color: #d97706;
+    color: #ffffff;
+}
+
+.items-table th {
+    font-size: 9px;
+    padding: 8px 5px;
+}
+
+.sku-note {
+    font-size: 7px;
+    font-weight: normal;
+    font-style: italic;
+    display: block;
+    margin-top: 2px;
+}
+
+/* Column widths for dropship table */
+.col-line { width: 4%; text-align: center; }
+.col-supplier-sku { width: 12%; }
+.col-buyer-sku { width: 12%; }
+.col-description { width: 30%; }
+.col-qty { width: 8%; text-align: center; }
+.col-uom { width: 6%; text-align: center; }
+.col-unit-price { width: 12%; text-align: right; }
+.col-total { width: 12%; text-align: right; }
+
+/* SKU cell styling - emphasize buyer SKU */
+.supplier-sku-cell {
+    background-color: #f3f4f6;
+    color: #6b7280;
+    font-size: 8px;
+}
+
+.buyer-sku-cell {
+    background-color: #fef3c7;
+    color: #92400e;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.missing-sku {
+    color: #dc2626;
+    font-weight: bold;
+}
+
+/* Item row striping */
+.item-row.row-odd {
+    background-color: #ffffff;
+}
+
+.item-row.row-even {
+    background-color: #fafafa;
+}
+
+.item-row td {
+    font-size: 9px;
+    padding: 8px 5px;
+}
+
+/* Brand/category badges */
+.item-brand,
+.item-category {
+    font-size: 8px;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+.item-brand {
+    font-style: italic;
+}
+
+/* Totals section accent */
+.totals-final {
+    background-color: #d97706;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.totals-final .totals-label,
+.totals-final .totals-value {
+    color: #ffffff;
+    padding: 10px;
+}
+
+/* Dropship Instructions Checklist */
+.dropship-instructions {
+    background-color: #f0fdf4;
+    border: 2px solid #16a34a;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.instructions-title {
+    color: #166534;
+    font-weight: bold;
+    font-size: 11px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.instructions-grid {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.instruction-item {
+    display: table-row;
+    margin-bottom: 6px;
+}
+
+.instruction-check {
+    display: table-cell;
+    width: 25px;
+    color: #16a34a;
+    font-size: 14px;
+    font-weight: bold;
+    vertical-align: top;
+}
+
+.instruction-text {
+    display: table-cell;
+    color: #14532d;
+    font-size: 9px;
+    padding-bottom: 6px;
+    vertical-align: top;
+}
+
+/* Notes section */
+.notes-section {
+    background-color: #fef3c7;
+    border: 2px solid #f59e0b;
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.notes-title {
+    color: #92400e;
+    font-weight: bold;
+    font-size: 11px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.notes-content {
+    color: #78350f;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+/* Signature section styling */
+.signature-line {
+    border-bottom: 2px solid #d97706;
+    margin-top: 40px;
+    margin-bottom: 8px;
+}
+
+.signature-label {
+    color: #d97706;
+    font-weight: bold;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+/* Footer styling */
+.po-footer {
+    border-top: 2px solid #d97706;
+    color: #4b5563;
+}
+
+/* Responsive adjustments for wkhtmltoimage */
+@media print {
+    .page-container {
+        width: 816px;
+        height: 1056px;
+    }
+    
+    .po-footer {
+        position: absolute;
+        bottom: 20px;
+        width: 756px;
+    }
+}
+
+/* Continuation page header (for multi-page POs) */
+.continuation-header {
+    background-color: #fef2f2;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #dc2626;
+}
+
+.continuation-header .po-number {
+    color: #dc2626;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.continuation-text {
+    color: #6b7280;
+    font-size: 10px;
+    font-style: italic;
+}

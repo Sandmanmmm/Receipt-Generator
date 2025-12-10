@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packing Slip - Order {{ order_number }}</title>
+    <link rel="stylesheet" href="../css/packing_slip_ecommerce.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Modern E-commerce Header -->
+        <div class="header-section">
+            <div class="header-content">
+                <div class="brand-area">
+                    {% if supplier_logo %}
+                    <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="brand-logo" />
+                    {% else %}
+                    <div class="logo-placeholder">
+                        <span class="logo-initial">{{ supplier_name[:1]|upper }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="brand-info">
+                        <div class="company-name">{{ supplier_name }}</div>
+                        <div class="tagline">Packing Slip</div>
+                    </div>
+                </div>
+                <div class="order-badge">
+                    <div class="badge-label">Order Number</div>
+                    <div class="badge-value">#{{ order_number }}</div>
+                    <div class="badge-date">{{ invoice_date }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Address Cards Row -->
+        <div class="addresses-row">
+            <!-- Ship To Card -->
+            <div class="address-card ship-to-card">
+                <div class="card-header">
+                    <span class="card-icon"></span>
+                    <span class="card-title">Ship To</span>
+                </div>
+                <div class="card-body">
+                    <div class="recipient-name">{{ buyer_name }}</div>
+                    {% if buyer_address %}
+                    <div class="address-line">{{ buyer_address }}</div>
+                    {% endif %}
+                    {% if buyer_email %}
+                    <div class="contact-line">
+                        <span class="contact-icon">✉</span>
+                        <span>{{ buyer_email }}</span>
+                    </div>
+                    {% endif %}
+                    {% if buyer_phone %}
+                    <div class="contact-line">
+                        <span class="contact-icon"></span>
+                        <span>{{ buyer_phone }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Ship From Card -->
+            <div class="address-card ship-from-card">
+                <div class="card-header">
+                    <span class="card-icon"></span>
+                    <span class="card-title">Ship From</span>
+                </div>
+                <div class="card-body">
+                    <div class="recipient-name">{{ supplier_name }}</div>
+                    {% if supplier_address %}
+                    <div class="address-line">{{ supplier_address }}</div>
+                    {% endif %}
+                    {% if supplier_email %}
+                    <div class="contact-line">
+                        <span class="contact-icon">✉</span>
+                        <span>{{ supplier_email }}</span>
+                    </div>
+                    {% endif %}
+                    {% if supplier_phone %}
+                    <div class="contact-line">
+                        <span class="contact-icon"></span>
+                        <span>{{ supplier_phone }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Shipping Info Card -->
+            <div class="address-card shipping-info-card">
+                <div class="card-header">
+                    <span class="card-icon"></span>
+                    <span class="card-title">Shipping</span>
+                </div>
+                <div class="card-body">
+                    {% if shipping_carrier %}
+                    <div class="info-row">
+                        <span class="info-label">Carrier:</span>
+                        <span class="info-value">{{ shipping_carrier }}</span>
+                    </div>
+                    {% endif %}
+                    {% if shipping_method %}
+                    <div class="info-row">
+                        <span class="info-label">Method:</span>
+                        <span class="info-value">{{ shipping_method }}</span>
+                    </div>
+                    {% endif %}
+                    {% if tracking_number %}
+                    <div class="info-row">
+                        <span class="info-label">Tracking:</span>
+                        <span class="info-value tracking-number">{{ tracking_number }}</span>
+                    </div>
+                    {% endif %}
+                    {% if ship_date %}
+                    <div class="info-row">
+                        <span class="info-label">Ship Date:</span>
+                        <span class="info-value">{{ ship_date }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-left">
+                {% if supplier_logo %}
+                <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="cont-logo" />
+                {% endif %}
+                <span class="cont-company">{{ supplier_name }}</span>
+            </div>
+            <div class="cont-right">
+                <span class="cont-order">Order #{{ order_number }}</span>
+                <span class="cont-page">Page {{ _current_page }} of {{ _total_pages }}</span>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Items Section with Photos -->
+        <div class="items-section">
+            <div class="section-header">
+                <span class="section-icon"></span>
+                <span class="section-title">Items in This Package</span>
+                <span class="item-count">{{ items|length }} item{% if items|length != 1 %}s{% endif %} on this page</span>
+            </div>
+
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-photo">Photo</th>
+                        <th class="col-product">Product Details</th>
+                        <th class="col-sku">SKU</th>
+                        <th class="col-qty">Qty</th>
+                        <th class="col-bin">Bin</th>
+                        <th class="col-packed">✓</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row">
+                        <!-- Product Photo -->
+                        <td class="photo-cell">
+                            {% if item.image_url %}
+                            <div class="product-image" style="background-image: url('{{ item.image_url }}');"></div>
+                            {% else %}
+                            <div class="product-image placeholder-image">
+                                <span class="placeholder-icon"></span>
+                            </div>
+                            {% endif %}
+                        </td>
+                        
+                        <!-- Product Details -->
+                        <td class="product-cell">
+                            <div class="product-name">{{ item.description }}</div>
+                            {% if item.variant_description %}
+                            <div class="product-variant">{{ item.variant_description }}</div>
+                            {% endif %}
+                            {% if item.notes %}
+                            <div class="product-notes">
+                                <span class="notes-icon">💬</span>
+                                <span>{{ item.notes }}</span>
+                            </div>
+                            {% endif %}
+                        </td>
+                        
+                        <!-- SKU/UPC -->
+                        <td class="sku-cell">
+                            {% if item.sku %}
+                            <div class="sku-code">{{ item.sku }}</div>
+                            {% endif %}
+                            {% if item.upc %}
+                            <div class="upc-code">UPC: {{ item.upc }}</div>
+                            {% endif %}
+                        </td>
+                        
+                        <!-- Quantity -->
+                        <td class="qty-cell">
+                            <div class="qty-badge">{{ item.quantity }}</div>
+                        </td>
+                        
+                        <!-- Warehouse Bin -->
+                        <td class="bin-cell">
+                            {% if item.warehouse_bin %}
+                            <div class="bin-location">{{ item.warehouse_bin }}</div>
+                            {% else %}
+                            <div class="bin-empty">—</div>
+                            {% endif %}
+                        </td>
+                        
+                        <!-- Packed Checkbox -->
+                        <td class="packed-cell">
+                            <div class="checkbox"></div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer/Notes Section -->
+        {% if _is_last_page|default(true) %}
+        <div class="footer-sections">
+            <!-- Gift Message -->
+            {% if gift_message %}
+            <div class="footer-card gift-card">
+                <div class="footer-card-header">
+                    <span class="footer-icon"></span>
+                    <span class="footer-title">Gift Message</span>
+                </div>
+                <div class="footer-card-body">{{ gift_message }}</div>
+            </div>
+            {% endif %}
+
+            <!-- Order Notes -->
+            {% if order_notes %}
+            <div class="footer-card notes-card">
+                <div class="footer-card-header">
+                    <span class="footer-icon"></span>
+                    <span class="footer-title">Special Instructions</span>
+                </div>
+                <div class="footer-card-body">{{ order_notes }}</div>
+            </div>
+            {% endif %}
+
+            <!-- Return Policy -->
+            <div class="footer-card policy-card">
+                <div class="footer-card-header">
+                    <span class="footer-icon">↩️</span>
+                    <span class="footer-title">Return Policy</span>
+                </div>
+                <div class="footer-card-body">
+                    Items may be returned within 30 days of delivery for a full refund. Items must be unused and in original packaging. Visit our website or contact customer service to initiate a return.
+                </div>
+            </div>
+
+            <!-- Contact Support -->
+            <div class="footer-card support-card">
+                <div class="footer-card-header">
+                    <span class="footer-icon">💬</span>
+                    <span class="footer-title">Need Help?</span>
+                </div>
+                <div class="footer-card-body">
+                    Contact our customer support team at {{ supplier_email or 'support@' + supplier_name.lower().replace(' ', '') + '.com' }} or call {{ supplier_phone or '1-800-SUPPORT' }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Thank You Message -->
+        <div class="thank-you">
+            <div class="thank-you-text">Thank you for your order!</div>
+            <div class="thank-you-subtext">We appreciate your business</div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-message">Continued on next page...</div>
+            <div class="cont-page-num">Page {{ _current_page }} of {{ _total_pages }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Page Number -->
+        <div class="page-number">Page {{ _current_page|default(1) }} of {{ _total_pages|default(1) }}</div>
+    </div>
+</body>
+</html>

@@ -107,56 +107,56 @@ class HTMLToPNGRenderer:
             try:
                 from augmentation.augmenter import ImageAugmenter, AugmentationConfig
                 
-                # Create realistic augmentation config with varied effects
-                # REDUCED probabilities to prevent over-distortion
+                # Create subtle augmentation config for realistic variation
+                # MINIMAL probabilities to maintain readability
                 config = AugmentationConfig(
-                    # Blur effects
+                    # Blur effects - very subtle
                     add_blur=True,
-                    blur_probability=0.3,
+                    blur_probability=0.1,  # Reduced from 0.3
                     
-                    # Noise
+                    # Noise - minimal
                     add_noise=True,
-                    noise_probability=0.4,
+                    noise_probability=0.15,  # Reduced from 0.4
                     
-                    # Thermal fade
+                    # Thermal fade - rare
                     add_thermal_fade=True,
-                    thermal_fade_probability=0.25,
-                    fade_intensity=(0.2, 0.5),
+                    thermal_fade_probability=0.05,  # Reduced from 0.25
+                    fade_intensity=(0.1, 0.2),  # Much lighter fade
                     
-                    # Wrinkles - REDUCED to prevent severe distortion
+                    # Wrinkles - very rare
                     add_wrinkle=True,
-                    wrinkle_probability=0.1,  # Reduced from 0.2
-                    wrinkle_count=(1, 2),  # Max 2 instead of 3
+                    wrinkle_probability=0.03,  # Reduced from 0.1
+                    wrinkle_count=(1, 1),  # Max 1 wrinkle only
                     
-                    # Coffee stains - REDUCED
+                    # Coffee stains - very rare
                     add_coffee_stain=True,
-                    coffee_stain_probability=0.08,  # Reduced from 0.15
+                    coffee_stain_probability=0.02,  # Reduced from 0.08
                     
-                    # Skewed camera - REDUCED angle
+                    # Skewed camera - subtle angle
                     add_skew=True,
-                    skew_probability=0.35,
-                    skew_angle=(-3.0, 3.0),  # Reduced from ±6° to ±3°
+                    skew_probability=0.2,  # Reduced from 0.35
+                    skew_angle=(-1.5, 1.5),  # Reduced from ±3° to ±1.5°
                     
-                    # Misalignment
+                    # Misalignment - subtle
                     add_misalignment=True,
-                    misalignment_probability=0.25,
+                    misalignment_probability=0.15,  # Reduced from 0.25
                     
-                    # Contrast variations
+                    # Contrast variations - minimal
                     extreme_contrast=True,
-                    extreme_contrast_probability=0.15,
+                    extreme_contrast_probability=0.05,  # Reduced from 0.15
                     
-                    # Faint printing
+                    # Faint printing - rare
                     add_faint_print=True,
-                    faint_print_probability=0.2,
-                    faint_intensity=(0.3, 0.6),
+                    faint_print_probability=0.08,  # Reduced from 0.2
+                    faint_intensity=(0.15, 0.3),  # Much lighter
                     
-                    # Compression
+                    # Compression - subtle
                     add_compression=True,
-                    compression_probability=0.3,
+                    compression_probability=0.15,  # Reduced from 0.3
                     
-                    # Shadow
+                    # Shadow - subtle
                     add_shadow=True,
-                    shadow_probability=0.2
+                    shadow_probability=0.1  # Reduced from 0.2
                 )
                 
                 self._augmenter = ImageAugmenter(config)
@@ -164,6 +164,42 @@ class HTMLToPNGRenderer:
                 print("Warning: Augmentation module not available, skipping augmentation")
                 self._augmenter = None
         return self._augmenter
+    
+    def _convert_to_rgb(self, image_path: str) -> bool:
+        """
+        Convert RGBA PNG to RGB to reduce file size
+        
+        wkhtmltoimage generates RGBA PNGs which can be 10-15MB per page.
+        Converting to RGB reduces file size to ~500KB-2MB per page.
+        
+        Args:
+            image_path: Path to PNG file to convert
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        try:
+            from PIL import Image
+            
+            # Open image
+            img = Image.open(image_path)
+            
+            # Only convert if RGBA
+            if img.mode == 'RGBA':
+                # Create white background
+                rgb_img = Image.new('RGB', img.size, (255, 255, 255))
+                # Paste image using alpha channel as mask
+                rgb_img.paste(img, mask=img.split()[3])
+                # Save as RGB
+                rgb_img.save(image_path, 'PNG', optimize=True)
+                rgb_img.close()
+            
+            img.close()
+            return True
+            
+        except Exception as e:
+            print(f"Warning: RGB conversion failed: {str(e)}")
+            return False
     
     def _apply_augmentation(self, image_path: str, seed: Optional[int] = None) -> bool:
         """
@@ -203,7 +239,8 @@ class HTMLToPNGRenderer:
                custom_height: Optional[int] = None,
                apply_augmentation: Optional[bool] = None,
                page_size: Optional[str] = None,
-               orientation: Optional[str] = None) -> bool:
+               orientation: Optional[str] = None,
+               dpi_scale: float = 2.0) -> bool:
         """
         Render HTML content to PNG file with optional augmentation
         
@@ -215,6 +252,7 @@ class HTMLToPNGRenderer:
             apply_augmentation: Force augmentation on/off (None = use probability)
             page_size: Page size ('Letter', 'A4', 'Legal', or None for custom)
             orientation: Page orientation ('Portrait' or 'Landscape')
+            dpi_scale: Resolution multiplier (2.0 = ~200 DPI, 3.0 = ~300 DPI)
             
         Returns:
             True if successful, False otherwise
@@ -230,6 +268,10 @@ class HTMLToPNGRenderer:
             # Use custom dimensions or defaults
             width = custom_width or self.width
             height = custom_height or self.height
+        
+        # Scale dimensions for higher DPI (2.0 = ~200 DPI, 3.0 = ~300 DPI)
+        width = int(width * dpi_scale)
+        height = int(height * dpi_scale)
         
         # Create temporary HTML file
         with tempfile.NamedTemporaryFile(
@@ -249,29 +291,52 @@ class HTMLToPNGRenderer:
                 '--quality', '100',
                 '--enable-local-file-access',  # Allow loading local CSS/images
                 '--quiet',  # Suppress output
+                '--load-error-handling', 'ignore',  # Ignore missing resources instead of aborting
+                '--load-media-error-handling', 'ignore',  # Ignore missing media files
             ]
             
-            # Add dimensions (wkhtmltoimage doesn't support --page-size/--orientation)
-            cmd.extend(['--width', str(width), '--height', str(height)])
+            # Add dimensions
+            # Use --width for page width and explicit height
+            cmd.extend(['--width', str(width)])
+            cmd.extend(['--height', str(height)])
             
             cmd.extend([tmp_html_path, str(output_file)])
             
-            # Run wkhtmltoimage
-            result = subprocess.run(
-                cmd,
-                capture_output=True,
-                text=True,
-                timeout=30  # 30 second timeout
-            )
+            # Run wkhtmltoimage with retry logic for transient failures
+            max_retries = 3
+            last_error = None
+            for attempt in range(max_retries):
+                result = subprocess.run(
+                    cmd,
+                    capture_output=True,
+                    text=True,
+                    timeout=30  # 30 second timeout
+                )
+                
+                if result.returncode == 0:
+                    break
+                
+                last_error = result.stderr
+                # Only retry on transient network errors
+                if 'ContentNotFoundError' in result.stderr or 'network error' in result.stderr:
+                    import time
+                    time.sleep(0.1 * (attempt + 1))  # Brief delay before retry
+                    continue
+                else:
+                    # Non-transient error, don't retry
+                    break
             
             if result.returncode != 0:
-                print(f"wkhtmltoimage error: {result.stderr}")
+                print(f"wkhtmltoimage error: {last_error}")
                 return False
             
             # Verify output file was created
             if not output_file.exists():
                 print(f"Output file not created: {output_path}")
                 return False
+            
+            # Convert RGBA to RGB to reduce file size
+            self._convert_to_rgb(str(output_file))
             
             # Apply augmentation if requested
             should_augment = apply_augmentation if apply_augmentation is not None \

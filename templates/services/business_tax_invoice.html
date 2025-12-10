@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Invoice</title>
+    <link rel="stylesheet" href="../css/business_tax_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="business-name">{{ supplier_name|default('Your Business Name') }}</div>
+            <div class="header-right">
+                <div class="invoice-title">Invoice</div>
+                <div class="invoice-subtitle">Tax Invoice</div>
+                <div class="contact-info">
+                    <div>{{ supplier_phone|default('+61200000000') }}</div>
+                    <div>{{ supplier_email|default('email@yourbusinessname.com') }}</div>
+                    <div>{{ supplier_website|default('www.yourbusinessname.com.au') }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Invoice Meta Bar -->
+        <div class="meta-bar">
+            <table class="meta-table">
+                <tr>
+                    <td class="meta-label">INVOICE NO.</td>
+                    <td class="meta-value">{{ invoice_number|default('2022445') }}</td>
+                    <td class="meta-label">ISSUE DATE</td>
+                    <td class="meta-value">{{ invoice_date|default('19/7/2022') }}</td>
+                    <td class="meta-label-highlight">DUE DATE</td>
+                    <td class="meta-value-highlight">{{ due_date|default('2/8/2022') }}</td>
+                </tr>
+                <tr>
+                    <td class="meta-label">REFERENCE</td>
+                    <td class="meta-value">{{ reference_number|default(invoice_number)|default('2022445') }}</td>
+                    <td colspan="4"></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Parties Section -->
+        <table class="parties-table">
+            <tr>
+                <td class="party-from">
+                    <div class="party-label">FROM</div>
+                    <div class="party-name">{{ supplier_name|default('Your Business Name') }}</div>
+                    <div class="party-address">{{ supplier_address|default('5 Martin Pl') }}</div>
+                    <div class="party-address">{{ supplier_city|default('Sydney') }} {{ supplier_state|default('NSW') }} {{ supplier_zip|default('NSW 2000') }}</div>
+                    <div class="party-address">{{ supplier_country|default('Australia') }}</div>
+                </td>
+                <td class="party-to">
+                    <div class="party-label">TO</div>
+                    <div class="party-name">{{ buyer_name|default('Your Client') }}</div>
+                    <div class="party-address">{{ buyer_address|default('100 Harris St') }}</div>
+                    <div class="party-address">{{ buyer_city|default('Sydney') }} {{ buyer_state|default('NSW') }} {{ buyer_zip|default('NSW 2009') }}</div>
+                    <div class="party-address">{{ buyer_country|default('Australia') }}</div>
+                </td>
+                <td class="total-due-box">
+                    <div class="total-due-label">Total due</div>
+                    <div class="total-due-amount">${{ (total_amount_raw|default(total_amount)|default(0))|float|round(2) }}</div>
+                </td>
+            </tr>
+        </table>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-business">{{ supplier_name|default('Your Business Name') }}</div>
+            <div class="cont-invoice">Invoice #{{ invoice_number }} — Page {{ _current_page }} of {{ _total_pages }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-description">DESCRIPTION</th>
+                    <th class="col-quantity">QUANTITY</th>
+                    <th class="col-price">UNIT PRICE ($)</th>
+                    <th class="col-amount">AMOUNT ($)</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% for item in items %}
+                <tr class="item-row">
+                    <td class="item-description">{{ item.description|default(item.name)|default('Service item') }}</td>
+                    <td class="item-quantity">{{ item.quantity|default(1) }} {{ item.unit|default('hour') }}</td>
+                    <td class="item-price">{{ item.unit_price_raw|default(item.unit_price)|default(0) }}</td>
+                    <td class="item-amount">{{ item.total_raw|default(item.total)|default(0) }}</td>
+                </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Totals Section -->
+        <table class="totals-section">
+            <tr>
+                <td class="totals-spacer"></td>
+                <td class="totals-container">
+                    <table class="totals-table">
+                        <tr class="subtotal-row">
+                            <td class="totals-label">Subtotal:</td>
+                            <td class="totals-value">${{ (subtotal_raw|default(subtotal)|default(0))|float|round(2) }}</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td class="totals-label-bold">Total ({{ currency_code|default('AUD') }}):</td>
+                            <td class="totals-value-bold">${{ (total_amount_raw|default(total_amount)|default(0))|float|round(2) }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Signature Section -->
+        <table class="signature-section">
+            <tr>
+                <td class="signature-area">
+                    <div class="signature-image">
+                        {% if signature_image %}
+                        <img src="{{ signature_image }}" alt="Signature" class="signature-img" />
+                        {% else %}
+                        <div class="signature-placeholder"></div>
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="signature-label-area">
+                    <div class="signature-label">Issued by, signature:</div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Footer Section -->
+        <div class="footer-section">
+            <table class="footer-table">
+                <tr>
+                    <td class="terms-area">
+                        <div class="terms-title">TERMS & CONDITIONS</div>
+                        <div class="terms-text">Payment is due within {{ payment_terms_days|default(15) }} days</div>
+                        <div class="terms-text">Please make checks payable to: {{ supplier_name|default('East Repair Inc.') }}</div>
+                    </td>
+                    <td class="qr-area">
+                        {% if qr_code %}
+                        <img src="{{ qr_code }}" alt="QR Code" class="qr-code" />
+                        {% else %}
+                        <div class="qr-placeholder"></div>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-footer-text">Continued on next page... (Page {{ _current_page }} of {{ _total_pages }})</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

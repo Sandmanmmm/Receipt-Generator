@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ store_name|default('SUPERSTORE') }} Receipt</title>
+    <link rel="stylesheet" href="../css/pos_receipt_superstore.css">
+</head>
+<body>
+    <div class="pos-receipt">
+        {% if _is_first_page|default(true) %}
+        <!-- Survey Promo Header -->
+        <div class="survey-promo">
+            <div class="promo-text">See back of receipt for your chance</div>
+            <div class="promo-text">to win $1000</div>
+        </div>
+        <div class="survey-id">ID #:   {{ survey_id|default('7ZXXZ523GBA') }}</div>
+        
+        <div class="dashed-divider"></div>
+        
+        <!-- Store Logo -->
+        <div class="store-logo">
+            <div class="logo-main">{{ store_name|default('Superstore') }}</div>
+            <div class="logo-spark">✱</div>
+        </div>
+        <div class="store-tagline">{{ tagline|default('Save money. Live better.') }}</div>
+        
+        <!-- Store Info -->
+        <div class="store-info">
+            <div class="store-phone">( {{ phone_area|default('916') }} ) {{ phone_prefix|default('968') }} - {{ phone_suffix|default('2258') }}</div>
+            <div class="manager-line">MANAGER {{ manager_name|default('RENE PUENTES') }}</div>
+            <div class="store-address">{{ store_address|default('3451 TRUXEL RD') }}</div>
+            <div class="store-city">{{ store_city|default('SACRAMENTO') }} {{ store_state|default('CA') }} {{ store_zip|default('23456') }}</div>
+        </div>
+        
+        <!-- Transaction Info Line -->
+        <div class="transaction-info">
+            <span>ST# {{ store_number|default('01234') }}</span>
+            <span>OP# {{ operator_number|default('567890') }}</span>
+            <span>TE# {{ terminal_id|default('23') }}</span>
+            <span>TR# {{ transaction_number|default('03111') }}</span>
+        </div>
+        
+        <!-- Product Serial -->
+        <div class="product-serial">PRODUCT SERIAL # {{ product_serial|default('TH6683C1ZZ') }}</div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-store">{{ store_name|default('SUPERSTORE') }}</div>
+            <div class="cont-page">Page {{ _page_number }} of {{ _total_pages }}</div>
+        </div>
+        {% endif %}
+        
+        <!-- Items Section -->
+        <div class="items-section">
+            {% for item in items %}
+            <div class="item-row">
+                <span class="item-desc">{{ item.description|default(item.name)|upper }}</span>
+                <span class="item-price">{{ '%.2f'|format((item.amount|default(item.total)|default(item.unit_price|to_float * item.quantity))|to_float) }}{% if item.quantity == 1 %} X{% endif %}</span>
+            </div>
+            {% if item.quantity and item.quantity > 1 %}
+            <div class="item-row item-qty-line">
+                <span class="item-desc"></span>
+                <span class="item-price qty-info">{{ item.quantity }} @ {{ '%.2f'|format(item.unit_price|default(item.price)|to_float) }}</span>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        
+        {% if _is_last_page|default(true) %}
+        <!-- Subtotal -->
+        <div class="subtotal-section">
+            <div class="total-row subtotal-row">
+                <span class="total-label">SUBTOTAL</span>
+                <span class="total-value">{{ '%.2f'|format(subtotal|default(total_amount|float - tax_amount|default(0)|float)) }}</span>
+            </div>
+        </div>
+        
+        <!-- Tax and Total -->
+        <div class="totals-section">
+            {% if tax_amount and (tax_amount|to_float) > 0 %}
+            <div class="total-row tax-row">
+                <span class="total-label">TAX 1  {{ tax_rate|default('8.000') }} %</span>
+                <span class="total-value">{{ '%.2f'|format(tax_amount|float) }}</span>
+            </div>
+            {% endif %}
+            <div class="total-row grand-total">
+                <span class="total-label">TOTAL</span>
+                <span class="total-value">{{ '%.2f'|format(total_amount|float) }}</span>
+            </div>
+            <div class="total-row tender-row">
+                <span class="total-label">{{ payment_method|default('DEBIT') }} TEND</span>
+                <span class="total-value">{{ '%.2f'|format(amount_tendered|default(total_amount)|float) }}</span>
+            </div>
+            <div class="total-row change-row">
+                <span class="total-label">CHANGE DUE</span>
+                <span class="total-value">{{ '%.2f'|format(change_due|default(0)|float) }}</span>
+            </div>
+        </div>
+        
+        <div class="spacer"></div>
+        
+        <!-- Payment Details -->
+        <div class="payment-section">
+            <div class="payment-row">
+                <span class="pay-type">EFT {{ card_type|default('DEBIT') }}</span>
+                <span class="pay-source">PAY FROM PRIMARY</span>
+            </div>
+            <div class="payment-amount indent">{{ '%.2f'|format(total_amount|float) }} TOTAL PURCHASE</div>
+            <div class="card-line">US {{ card_type|default('DEBIT') }}   **** **** **** {{ card_last_four|default('8867') }} I O</div>
+            <div class="ref-line">REF # {{ ref_number|default('012345678900') }}</div>
+            <div class="network-line">NETWORK ID. {{ network_id|default('0001') }} APPR CODE {{ approval_code|default('678901') }}</div>
+        </div>
+        
+        <div class="spacer"></div>
+        
+        <!-- Card Verification Details -->
+        <div class="verification-section">
+            <div class="verify-line">US {{ card_type|default('DEBIT') }}</div>
+            <div class="verify-line">AID {{ aid_code|default('A0000000123457') }}</div>
+            <div class="verify-line">TC {{ tc_code|default('AF8F12D95E891D4D') }}</div>
+            <div class="verify-line">*Pin Verified</div>
+            <div class="verify-line">TERMINAL # {{ terminal_code|default('SCO12345') }}</div>
+        </div>
+        
+        <div class="spacer"></div>
+        
+        <!-- Transaction DateTime -->
+        <div class="transaction-datetime">{{ transaction_date|default('10/20/22') }}  {{ transaction_time|default('09:01:12') }}</div>
+        
+        <div class="spacer"></div>
+        
+        <!-- Items Count -->
+        <div class="items-count"># ITEMS SOLD {{ items|length }}</div>
+        
+        <div class="spacer"></div>
+        
+        <!-- Barcode -->
+        <div class="barcode-section">
+            <svg class="barcode" viewBox="0 0 200 40" preserveAspectRatio="xMidYMid meet">
+                <rect x="5" y="0" width="1" height="40" fill="#000"/>
+                <rect x="8" y="0" width="2" height="40" fill="#000"/>
+                <rect x="12" y="0" width="1" height="40" fill="#000"/>
+                <rect x="15" y="0" width="3" height="40" fill="#000"/>
+                <rect x="20" y="0" width="1" height="40" fill="#000"/>
+                <rect x="23" y="0" width="2" height="40" fill="#000"/>
+                <rect x="27" y="0" width="1" height="40" fill="#000"/>
+                <rect x="30" y="0" width="4" height="40" fill="#000"/>
+                <rect x="36" y="0" width="1" height="40" fill="#000"/>
+                <rect x="39" y="0" width="2" height="40" fill="#000"/>
+                <rect x="43" y="0" width="1" height="40" fill="#000"/>
+                <rect x="46" y="0" width="3" height="40" fill="#000"/>
+                <rect x="51" y="0" width="1" height="40" fill="#000"/>
+                <rect x="54" y="0" width="2" height="40" fill="#000"/>
+                <rect x="58" y="0" width="1" height="40" fill="#000"/>
+                <rect x="61" y="0" width="4" height="40" fill="#000"/>
+                <rect x="67" y="0" width="1" height="40" fill="#000"/>
+                <rect x="70" y="0" width="2" height="40" fill="#000"/>
+                <rect x="74" y="0" width="1" height="40" fill="#000"/>
+                <rect x="77" y="0" width="3" height="40" fill="#000"/>
+                <rect x="82" y="0" width="1" height="40" fill="#000"/>
+                <rect x="85" y="0" width="2" height="40" fill="#000"/>
+                <rect x="89" y="0" width="1" height="40" fill="#000"/>
+                <rect x="92" y="0" width="4" height="40" fill="#000"/>
+                <rect x="98" y="0" width="1" height="40" fill="#000"/>
+                <rect x="101" y="0" width="2" height="40" fill="#000"/>
+                <rect x="105" y="0" width="1" height="40" fill="#000"/>
+                <rect x="108" y="0" width="3" height="40" fill="#000"/>
+                <rect x="113" y="0" width="1" height="40" fill="#000"/>
+                <rect x="116" y="0" width="2" height="40" fill="#000"/>
+                <rect x="120" y="0" width="1" height="40" fill="#000"/>
+                <rect x="123" y="0" width="4" height="40" fill="#000"/>
+                <rect x="129" y="0" width="1" height="40" fill="#000"/>
+                <rect x="132" y="0" width="2" height="40" fill="#000"/>
+                <rect x="136" y="0" width="1" height="40" fill="#000"/>
+                <rect x="139" y="0" width="3" height="40" fill="#000"/>
+                <rect x="144" y="0" width="1" height="40" fill="#000"/>
+                <rect x="147" y="0" width="2" height="40" fill="#000"/>
+                <rect x="151" y="0" width="1" height="40" fill="#000"/>
+                <rect x="154" y="0" width="4" height="40" fill="#000"/>
+                <rect x="160" y="0" width="1" height="40" fill="#000"/>
+                <rect x="163" y="0" width="2" height="40" fill="#000"/>
+                <rect x="167" y="0" width="1" height="40" fill="#000"/>
+                <rect x="170" y="0" width="3" height="40" fill="#000"/>
+                <rect x="175" y="0" width="1" height="40" fill="#000"/>
+                <rect x="178" y="0" width="2" height="40" fill="#000"/>
+                <rect x="182" y="0" width="1" height="40" fill="#000"/>
+                <rect x="185" y="0" width="4" height="40" fill="#000"/>
+                <rect x="191" y="0" width="1" height="40" fill="#000"/>
+                <rect x="194" y="0" width="2" height="40" fill="#000"/>
+            </svg>
+            <div class="barcode-text">TC# {{ barcode_number|default('4891 4435 7070 5637 2915') }}</div>
+        </div>
+        
+        <div class="spacer"></div>
+        
+        <!-- Footer Message -->
+        <div class="footer-section">
+            <div class="footer-line">{{ footer_message|default('Low Prices You Can Trust. Every Day.') }}</div>
+            <div class="footer-date">{{ transaction_date|default('10/20/22') }}   {{ footer_time|default('09:09:01') }}</div>
+        </div>
+        
+        <div class="spacer"></div>
+        
+        <!-- Mobile App Promo -->
+        <div class="app-promo">
+            <div class="promo-line">Store receipts on your phone. {{ store_name|default('Superstore') }} P</div>
+            <div class="promo-line">ay.</div>
+        </div>
+        
+        <!-- QR Code -->
+        <div class="qr-section">
+            <svg class="qr-code" viewBox="0 0 100 100">
+                <!-- QR Position Detection Patterns (corners) -->
+                <!-- Top-left -->
+                <rect x="5" y="5" width="21" height="21" fill="#000"/>
+                <rect x="8" y="8" width="15" height="15" fill="#fff"/>
+                <rect x="11" y="11" width="9" height="9" fill="#000"/>
+                <!-- Top-right -->
+                <rect x="74" y="5" width="21" height="21" fill="#000"/>
+                <rect x="77" y="8" width="15" height="15" fill="#fff"/>
+                <rect x="80" y="11" width="9" height="9" fill="#000"/>
+                <!-- Bottom-left -->
+                <rect x="5" y="74" width="21" height="21" fill="#000"/>
+                <rect x="8" y="77" width="15" height="15" fill="#fff"/>
+                <rect x="11" y="80" width="9" height="9" fill="#000"/>
+                <!-- Data modules (simplified pattern) -->
+                <rect x="30" y="5" width="3" height="3" fill="#000"/>
+                <rect x="36" y="5" width="3" height="3" fill="#000"/>
+                <rect x="42" y="5" width="3" height="3" fill="#000"/>
+                <rect x="48" y="5" width="3" height="3" fill="#000"/>
+                <rect x="54" y="5" width="3" height="3" fill="#000"/>
+                <rect x="60" y="5" width="3" height="3" fill="#000"/>
+                <rect x="33" y="11" width="3" height="3" fill="#000"/>
+                <rect x="39" y="11" width="3" height="3" fill="#000"/>
+                <rect x="51" y="11" width="3" height="3" fill="#000"/>
+                <rect x="57" y="11" width="3" height="3" fill="#000"/>
+                <rect x="30" y="17" width="3" height="3" fill="#000"/>
+                <rect x="42" y="17" width="3" height="3" fill="#000"/>
+                <rect x="48" y="17" width="3" height="3" fill="#000"/>
+                <rect x="60" y="17" width="3" height="3" fill="#000"/>
+                <!-- Middle section -->
+                <rect x="5" y="30" width="3" height="3" fill="#000"/>
+                <rect x="11" y="30" width="3" height="3" fill="#000"/>
+                <rect x="17" y="30" width="3" height="3" fill="#000"/>
+                <rect x="30" y="30" width="3" height="3" fill="#000"/>
+                <rect x="42" y="30" width="3" height="3" fill="#000"/>
+                <rect x="54" y="30" width="3" height="3" fill="#000"/>
+                <rect x="66" y="30" width="3" height="3" fill="#000"/>
+                <rect x="78" y="30" width="3" height="3" fill="#000"/>
+                <rect x="90" y="30" width="3" height="3" fill="#000"/>
+                <rect x="8" y="36" width="3" height="3" fill="#000"/>
+                <rect x="20" y="36" width="3" height="3" fill="#000"/>
+                <rect x="36" y="36" width="3" height="3" fill="#000"/>
+                <rect x="48" y="36" width="3" height="3" fill="#000"/>
+                <rect x="60" y="36" width="3" height="3" fill="#000"/>
+                <rect x="72" y="36" width="3" height="3" fill="#000"/>
+                <rect x="84" y="36" width="3" height="3" fill="#000"/>
+                <rect x="5" y="42" width="3" height="3" fill="#000"/>
+                <rect x="14" y="42" width="3" height="3" fill="#000"/>
+                <rect x="23" y="42" width="3" height="3" fill="#000"/>
+                <rect x="33" y="42" width="3" height="3" fill="#000"/>
+                <rect x="42" y="42" width="3" height="3" fill="#000"/>
+                <rect x="51" y="42" width="3" height="3" fill="#000"/>
+                <rect x="60" y="42" width="3" height="3" fill="#000"/>
+                <rect x="69" y="42" width="3" height="3" fill="#000"/>
+                <rect x="78" y="42" width="3" height="3" fill="#000"/>
+                <rect x="87" y="42" width="3" height="3" fill="#000"/>
+                <!-- Timing pattern -->
+                <rect x="5" y="48" width="3" height="3" fill="#000"/>
+                <rect x="11" y="48" width="3" height="3" fill="#000"/>
+                <rect x="17" y="48" width="3" height="3" fill="#000"/>
+                <rect x="23" y="48" width="3" height="3" fill="#000"/>
+                <!-- More data -->
+                <rect x="33" y="48" width="3" height="3" fill="#000"/>
+                <rect x="45" y="48" width="3" height="3" fill="#000"/>
+                <rect x="57" y="48" width="3" height="3" fill="#000"/>
+                <rect x="69" y="48" width="3" height="3" fill="#000"/>
+                <rect x="81" y="48" width="3" height="3" fill="#000"/>
+                <rect x="93" y="48" width="3" height="3" fill="#000"/>
+                <!-- Lower section -->
+                <rect x="30" y="54" width="3" height="3" fill="#000"/>
+                <rect x="39" y="54" width="3" height="3" fill="#000"/>
+                <rect x="48" y="54" width="3" height="3" fill="#000"/>
+                <rect x="57" y="54" width="3" height="3" fill="#000"/>
+                <rect x="66" y="54" width="3" height="3" fill="#000"/>
+                <rect x="75" y="54" width="3" height="3" fill="#000"/>
+                <rect x="84" y="54" width="3" height="3" fill="#000"/>
+                <rect x="93" y="54" width="3" height="3" fill="#000"/>
+                <rect x="33" y="60" width="3" height="3" fill="#000"/>
+                <rect x="42" y="60" width="3" height="3" fill="#000"/>
+                <rect x="51" y="60" width="3" height="3" fill="#000"/>
+                <rect x="63" y="60" width="3" height="3" fill="#000"/>
+                <rect x="72" y="60" width="3" height="3" fill="#000"/>
+                <rect x="81" y="60" width="3" height="3" fill="#000"/>
+                <rect x="90" y="60" width="3" height="3" fill="#000"/>
+                <rect x="30" y="66" width="3" height="3" fill="#000"/>
+                <rect x="36" y="66" width="3" height="3" fill="#000"/>
+                <rect x="45" y="66" width="3" height="3" fill="#000"/>
+                <rect x="54" y="66" width="3" height="3" fill="#000"/>
+                <rect x="60" y="66" width="3" height="3" fill="#000"/>
+                <rect x="69" y="66" width="3" height="3" fill="#000"/>
+                <rect x="78" y="66" width="3" height="3" fill="#000"/>
+                <rect x="87" y="66" width="3" height="3" fill="#000"/>
+                <!-- Bottom right data -->
+                <rect x="30" y="78" width="3" height="3" fill="#000"/>
+                <rect x="39" y="78" width="3" height="3" fill="#000"/>
+                <rect x="48" y="78" width="3" height="3" fill="#000"/>
+                <rect x="57" y="78" width="3" height="3" fill="#000"/>
+                <rect x="66" y="78" width="3" height="3" fill="#000"/>
+                <rect x="33" y="84" width="3" height="3" fill="#000"/>
+                <rect x="42" y="84" width="3" height="3" fill="#000"/>
+                <rect x="54" y="84" width="3" height="3" fill="#000"/>
+                <rect x="63" y="84" width="3" height="3" fill="#000"/>
+                <rect x="30" y="90" width="3" height="3" fill="#000"/>
+                <rect x="36" y="90" width="3" height="3" fill="#000"/>
+                <rect x="45" y="90" width="3" height="3" fill="#000"/>
+                <rect x="51" y="90" width="3" height="3" fill="#000"/>
+                <rect x="60" y="90" width="3" height="3" fill="#000"/>
+            </svg>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

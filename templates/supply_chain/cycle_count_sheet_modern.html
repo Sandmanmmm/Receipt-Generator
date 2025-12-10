@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cycle Count Sheet - Modern</title>
+    <link rel="stylesheet" href="../css/cycle_count_sheet_modern.css">
+</head>
+<body>
+    <div class="page">
+        <!-- Modern Header (first page only) -->
+        {% if _is_first_page|default(true) %}
+        <div class="header">
+            <div class="header-left">
+                {% if logo_base64 %}
+                <img src="data:image/png;base64,{{ logo_base64 }}" alt="Company Logo" class="logo">
+                {% else %}
+                <div class="logo-placeholder">{{ company_name|default('COMPANY') }}</div>
+                {% endif %}
+                <div class="header-meta">
+                    <div class="doc-id">{{ count_id }}</div>
+                    <div class="doc-date">{{ count_date }}</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <h1>Cycle Count</h1>
+                <div class="status-tag status-{{ count_status|lower|replace(' ', '-') }}">{{ count_status }}</div>
+            </div>
+        </div>
+
+        <!-- Info Cards Grid -->
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="card-label">Location</div>
+                <div class="card-value">{{ location_name }}</div>
+                <div class="card-subtext">{{ location_code }}</div>
+            </div>
+            <div class="info-card">
+                <div class="card-label">Zone/Area</div>
+                <div class="card-value">{{ zone|default('All Zones') }}</div>
+                <div class="card-subtext">{{ category|default('All Categories') }}</div>
+            </div>
+            <div class="info-card">
+                <div class="card-label">Counter</div>
+                <div class="card-value">{{ counter_name }}</div>
+                <div class="card-subtext">{{ start_time|default('__:__') }} - {{ end_time|default('__:__') }}</div>
+            </div>
+            <div class="info-card">
+                <div class="card-label">Supervisor</div>
+                <div class="card-value">{{ supervisor|default('_______________') }}</div>
+                <div class="card-subtext">Variance Threshold: {{ recount_threshold|default(5) }}%</div>
+            </div>
+        </div>
+
+        <!-- Quick Stats (if count completed) -->
+        {% if count_accuracy is not none %}
+        <div class="quick-stats">
+            <div class="stat-box stat-primary">
+                <div class="stat-value">{{ count_accuracy }}%</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">{{ total_items_counted }}/{{ items|length }}</div>
+                <div class="stat-label">Items Counted</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">{{ items_with_variance }}</div>
+                <div class="stat-label">Variances</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">{{ items_needing_recount }}</div>
+                <div class="stat-label">Recounts</div>
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
+
+        <!-- Continuation Header (pages 2+) -->
+        {% if not (_is_first_page|default(true)) %}
+        <div class="continuation-header">
+            <div class="continuation-left">
+                <strong>{{ count_id }}</strong> - Cycle Count Sheet (continued)
+            </div>
+            <div class="continuation-right">
+                Page {{ _page_number|default(1) }} of {{ _total_pages|default(1) }}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Count Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-num">#</th>
+                    <th class="col-sku">SKU</th>
+                    <th class="col-name">Product Name</th>
+                    <th class="col-location">Bin</th>
+                    <th class="col-class">ABC</th>
+                    <th class="col-system">System</th>
+                    <th class="col-actual">Actual</th>
+                    <th class="col-diff">Diff</th>
+                    <th class="col-pct">%</th>
+                    <th class="col-status">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="item-row{% if item.get('needs_recount') %} recount-needed{% endif %}">
+                    <td class="col-num">{{ loop.index }}</td>
+                    <td class="col-sku">{{ item.sku }}</td>
+                    <td class="col-name">{{ item.name|default(item.description) }}</td>
+                    <td class="col-location">{{ item.bin_location }}</td>
+                    <td class="col-class">
+                        <span class="abc-tag abc-{{ item.abc_class|lower }}">{{ item.abc_class }}</span>
+                    </td>
+                    <td class="col-system">{{ item.expected_quantity }}</td>
+                    <td class="col-actual actual-col">
+                        {% if item.get('actual_quantity') is not none %}
+                        {{ item.actual_quantity }}
+                        {% else %}
+                        <span class="blank">_____</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-diff">
+                        {% if item.get('actual_quantity') is not none %}
+                        {% set variance = item.actual_quantity - item.expected_quantity %}
+                        <span class="diff-{{ 'pos' if variance > 0 else ('neg' if variance < 0 else 'zero') }}">
+                            {{ variance if variance != 0 else '—' }}
+                        </span>
+                        {% else %}
+                        <span class="blank">__</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-pct">
+                        {% if item.get('actual_quantity') is not none and item.expected_quantity > 0 %}
+                        {% set variance = item.actual_quantity - item.expected_quantity %}
+                        {% set var_pct = (variance / item.expected_quantity * 100)|abs %}
+                        {% if variance != 0 %}
+                        <span class="diff-{{ 'pos' if variance > 0 else 'neg' }}">{{ "%.1f"|format(var_pct) }}%</span>
+                        {% else %}
+                        <span class="diff-zero">—</span>
+                        {% endif %}
+                        {% else %}
+                        <span class="blank">__</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-status">
+                        {% if item.get('needs_recount') %}
+                        <span class="status-icon recount">⟳</span>
+                        {% elif item.get('actual_quantity') is not none %}
+                        {% set variance = item.actual_quantity - item.expected_quantity %}
+                        {% if variance == 0 %}
+                        <span class="status-icon ok">✓</span>
+                        {% else %}
+                        <span class="status-icon warning">!</span>
+                        {% endif %}
+                        {% else %}
+                        <span class="status-icon pending">○</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Last page: Summary -->
+        {% if _is_last_page|default(true) %}
+        
+        <!-- Variance Summary -->
+        {% if count_accuracy is not none %}
+        <div class="summary-section">
+            <div class="summary-title">Variance Summary</div>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-label">Units Over</div>
+                    <div class="summary-value positive">+{{ units_over|default(0) }}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Units Short</div>
+                    <div class="summary-value negative">-{{ units_short|default(0) }}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Value Over</div>
+                    <div class="summary-value positive">${{ "%.2f"|format(value_over|default(0)) }}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Value Short</div>
+                    <div class="summary-value negative">${{ "%.2f"|format(value_short|default(0)) }}</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Notes Section -->
+        {% if count_notes or not (_is_first_page|default(true)) %}
+        <div class="notes-section">
+            <div class="notes-label">Count Notes:</div>
+            <div class="notes-content">
+                {% if count_notes %}
+                {{ count_notes }}
+                {% else %}
+                <span class="blank-line">_________________________________________________________________</span><br>
+                <span class="blank-line">_________________________________________________________________</span><br>
+                <span class="blank-line">_________________________________________________________________</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Signature Section -->
+        <div class="signature-section">
+            <div class="signature-box">
+                <div class="signature-line">
+                    {% if counter_signature %}
+                    <span class="signature-text">{{ counter_signature }}</span>
+                    {% endif %}
+                </div>
+                <div class="signature-label">Counter Signature</div>
+                {% if completion_date %}
+                <div class="signature-date">Date: {{ completion_date }}</div>
+                {% else %}
+                <div class="signature-date">Date: ________________</div>
+                {% endif %}
+            </div>
+            <div class="signature-box">
+                <div class="signature-line">
+                    {% if supervisor_signature %}
+                    <span class="signature-text">{{ supervisor_signature }}</span>
+                    {% endif %}
+                </div>
+                <div class="signature-label">Supervisor Review</div>
+                {% if review_date %}
+                <div class="signature-date">Date: {{ review_date }}</div>
+                {% else %}
+                <div class="signature-date">Date: ________________</div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-left">
+                {% if company_name %}{{ company_name }} - {% endif %}Inventory Management System
+            </div>
+            <div class="footer-right">
+                Page {{ _page_number|default(1) }}{% if _total_pages|default(1) > 1 %} of {{ _total_pages }}{% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

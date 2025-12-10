@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Elegant Invoice</title>
+    <title>Elegant Invoice{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <style>
         @page {
             size: A4;
@@ -43,16 +43,32 @@
             font-family: 'Arial', sans-serif;
         }
         .details-section {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 40px;
+            display: table;
+            width: 100%;
+            table-layout: fixed;
             margin-bottom: 40px;
-            align-items: start;
+        }
+        .details-section > div {
+            display: table-cell;
+            vertical-align: top;
+        }
+        .details-section > .detail-box {
+            width: 45%;
+            padding: 0 20px;
+        }
+        .details-section > .detail-box:first-child {
+            padding-left: 0;
+        }
+        .details-section > .detail-box:last-child {
+            padding-right: 0;
         }
         .divider-ornament {
+            display: table-cell;
+            width: 10%;
             color: {{ brand_primary_color }};
             font-size: 24px;
             text-align: center;
+            vertical-align: middle;
         }
         .detail-box h3 {
             font-size: 11px;
@@ -144,6 +160,8 @@
 </head>
 <body>
     <div class="container">
+        {% if _is_first_page|default(true) %}
+        <!-- Full Header - First Page Only -->
         <div class="header">
             <h1 class="company-logo">{{ company_name }}</h1>
             <div class="invoice-label">Invoice</div>
@@ -186,6 +204,15 @@
                 <p>Due: <strong>{{ due_date }}</strong></p>
             </div>
         </div>
+        {% else %}
+        <!-- Compact Header - Continuation Pages -->
+        <div style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid {{ brand_primary_color }}; margin-bottom: 30px;">
+            <div style="font-size: 20px; color: {{ brand_primary_color }}; font-style: italic; margin-bottom: 5px;">{{ company_name }}</div>
+            <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: #999; font-family: 'Arial', sans-serif;">
+                Invoice {{ invoice_number }} | {{ client_name }} | Page {{ _page_number }} of {{ _total_pages }}
+            </div>
+        </div>
+        {% endif %}
 
         <table>
             <thead>
@@ -201,26 +228,28 @@
                 <tr>
                     <td class="item-name">{{ item.description }}</td>
                     <td style="text-align: center;">{{ item.quantity }}</td>
-                    <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price) }}</td>
-                    <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.amount) }}</td>
+                    <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                    <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.amount|to_float) }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
 
+        {% if _is_last_page|default(true) %}
+        <!-- Summary - Last Page Only -->
         <div class="summary-section">
             <div class="summary-box">
                 <div class="summary-line subtotal">
                     <span>Subtotal</span>
-                    <span>{{ currency_symbol }}{{ "%.2f"|format(subtotal) }}</span>
+                    <span>{{ currency_symbol }}{{ "%.2f"|format(subtotal|to_float) }}</span>
                 </div>
                 <div class="summary-line">
                     <span>Tax ({{ tax_rate }})</span>
-                    <span>{{ currency_symbol }}{{ "%.2f"|format(tax) }}</span>
+                    <span>{{ currency_symbol }}{{ "%.2f"|format(tax|to_float) }}</span>
                 </div>
                 <div class="summary-line total">
                     <span>Total</span>
-                    <span>{{ currency_symbol }}{{ "%.2f"|format(total) }}</span>
+                    <span>{{ currency_symbol }}{{ "%.2f"|format(total|to_float) }}</span>
                 </div>
             </div>
         </div>
@@ -229,6 +258,12 @@
             <strong>{{ company_name }}</strong> • {{ notes }}<br>
             Payment Terms: {{ payment_terms }}
         </div>
+        {% else %}
+        <!-- Continuation Notice -->
+        <div style="text-align: right; font-size: 12px; color: #999; font-style: italic; margin-top: 30px;">
+            Continued on page {{ (_page_number|default(1)) + 1 }}...
+        </div>
+        {% endif %}
     </div>
 </body>
 </html>

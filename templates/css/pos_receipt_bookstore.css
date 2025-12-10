@@ -1,0 +1,682 @@
+/**
+ * Bookstore POS Receipt Stylesheet
+ * Style: Book Trading (Malaysian)
+ * Width: 85mm thermal receipt
+ * Font: Courier 9pt primary (monospace)
+ * Features: ISBN codes, member pricing tiers, points system, educational books
+ * Density: 35-40 lines/page
+ */
+
+/* ===== Reset and Base Styles ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    line-height: 1.2;
+    background-color: #ffffff;
+    color: #000000;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Receipt Container ===== */
+.bookstore-receipt {
+    width: 321px;  /* 85mm at 96 DPI */
+    max-width: 321px;
+    margin: 0 auto;
+    padding: 6px 5px;
+    background-color: #ffffff;
+}
+
+/* ===== Header Section ===== */
+.receipt-header {
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.store-name {
+    font-size: 13pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.legal-suffix {
+    font-size: 8.5pt;
+    font-weight: normal;
+    text-transform: uppercase;
+    margin-bottom: 1px;
+}
+
+.company-reg {
+    font-size: 9pt;
+    font-weight: bold;
+    color: #333333;
+}
+
+/* ===== Address Block ===== */
+.address-block {
+    text-align: center;
+    margin: 3px 0;
+}
+
+.address-line {
+    font-size: 8pt;
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+/* ===== Dividers ===== */
+.dashed-divider {
+    border-top: 1px dashed #000000;
+    margin: 4px 0;
+}
+
+.double-dashed-divider {
+    border-top: 2px dashed #000000;
+    margin: 5px 0;
+}
+
+.solid-divider {
+    border-top: 1px solid #000000;
+    margin: 4px 0;
+}
+
+/* ===== Contact Block ===== */
+.contact-block {
+    text-align: center;
+    margin: 3px 0;
+    font-size: 8.5pt;
+}
+
+.contact-label {
+    font-weight: bold;
+}
+
+.contact-value {
+    margin-left: 2px;
+}
+
+.contact-sep {
+    margin: 0 4px;
+    color: #666666;
+}
+
+/* ===== GST Block ===== */
+.gst-block {
+    text-align: center;
+    margin: 3px 0;
+    font-size: 9pt;
+    font-weight: bold;
+}
+
+.gst-label {
+    font-weight: bold;
+}
+
+.gst-value {
+    margin-left: 4px;
+    letter-spacing: 0.5px;
+}
+
+/* ===== Invoice Type Banner ===== */
+.invoice-type-banner {
+    text-align: center;
+    margin: 4px 0;
+    padding: 2px 0;
+}
+
+.invoice-type {
+    font-size: 10pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ===== Transaction Block ===== */
+.transaction-block {
+    margin: 3px 0;
+}
+
+.trans-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    margin-bottom: 1px;
+}
+
+.trans-label {
+    display: table-cell;
+    width: 60px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.trans-value {
+    display: table-cell;
+    text-align: left;
+}
+
+.trans-time {
+    display: table-cell;
+    text-align: right;
+    font-weight: normal;
+}
+
+/* ===== Member Block ===== */
+.member-block {
+    text-align: center;
+    margin: 4px 0;
+    padding: 3px;
+    background-color: #f5f5f5;
+}
+
+.member-header {
+    font-size: 9pt;
+    font-weight: bold;
+    margin-bottom: 3px;
+    letter-spacing: 0.5px;
+}
+
+.member-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    margin-bottom: 1px;
+    text-align: left;
+    padding: 0 8px;
+}
+
+.member-label {
+    display: table-cell;
+    width: 80px;
+    font-weight: bold;
+}
+
+.member-value {
+    display: table-cell;
+    text-align: left;
+}
+
+/* ===== Column Headers ===== */
+.column-headers {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8pt;
+    font-weight: bold;
+    border-bottom: 1px solid #000000;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
+
+.col-isbn {
+    display: table-cell;
+    width: 40%;
+    text-align: left;
+}
+
+.col-title {
+    display: table-cell;
+    width: 25%;
+    text-align: left;
+}
+
+.col-qty {
+    display: table-cell;
+    width: 8%;
+    text-align: center;
+}
+
+.col-price {
+    display: table-cell;
+    width: 14%;
+    text-align: right;
+}
+
+.col-amt {
+    display: table-cell;
+    width: 13%;
+    text-align: right;
+}
+
+/* ===== Items Section ===== */
+.items-section {
+    margin: 3px 0;
+}
+
+.item-block {
+    margin-bottom: 6px;
+    padding-bottom: 3px;
+    border-bottom: 1px dotted #cccccc;
+}
+
+.item-block:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+/* ISBN/Code Row */
+.isbn-row {
+    font-size: 8pt;
+    color: #555555;
+    margin-bottom: 1px;
+}
+
+.isbn-label {
+    font-weight: bold;
+    margin-right: 3px;
+}
+
+.isbn-value {
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.3px;
+}
+
+/* Title Row */
+.title-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 9pt;
+    margin-bottom: 2px;
+}
+
+.item-category {
+    display: table-cell;
+    width: 42px;
+    font-size: 7pt;
+    font-weight: bold;
+    color: #666666;
+}
+
+.item-title {
+    display: table-cell;
+    text-align: left;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Price Row */
+.price-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+}
+
+.item-qty {
+    display: table-cell;
+    width: 25px;
+    text-align: right;
+}
+
+.item-at {
+    display: table-cell;
+    width: 15px;
+    text-align: center;
+    color: #666666;
+}
+
+.item-price {
+    display: table-cell;
+    width: 60px;
+    text-align: right;
+}
+
+.member-price {
+    font-weight: bold;
+    color: #006600;
+}
+
+.regular-price-strike {
+    display: table-cell;
+    width: 55px;
+    text-align: center;
+    font-size: 7.5pt;
+    color: #999999;
+    text-decoration: line-through;
+}
+
+.item-amt {
+    display: table-cell;
+    text-align: right;
+    font-weight: bold;
+}
+
+/* Discount Row */
+.discount-row {
+    font-size: 7.5pt;
+    text-align: right;
+    padding-right: 2px;
+}
+
+.discount-tag {
+    color: #cc0000;
+    font-weight: bold;
+}
+
+/* ===== Item Count ===== */
+.item-count-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    margin: 3px 0;
+}
+
+.item-count-label {
+    display: table-cell;
+    width: 80px;
+    font-weight: bold;
+}
+
+.item-count-value {
+    display: table-cell;
+    width: 30px;
+    text-align: left;
+}
+
+.qty-label {
+    display: table-cell;
+    text-align: right;
+    padding-right: 5px;
+    font-weight: bold;
+}
+
+.qty-value {
+    display: table-cell;
+    width: 40px;
+    text-align: right;
+}
+
+/* ===== Totals Section ===== */
+.totals-section {
+    margin: 4px 0;
+}
+
+.total-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 9pt;
+    margin-bottom: 2px;
+}
+
+.total-label {
+    display: table-cell;
+    width: 65%;
+    text-align: left;
+    padding-left: 4px;
+}
+
+.total-value {
+    display: table-cell;
+    width: 35%;
+    text-align: right;
+    padding-right: 2px;
+}
+
+.discount-row .total-value {
+    color: #cc0000;
+}
+
+.member-savings .total-label {
+    color: #006600;
+    font-weight: bold;
+}
+
+.member-savings .total-value {
+    color: #006600;
+    font-weight: bold;
+}
+
+/* ===== GST Breakdown ===== */
+.gst-breakdown {
+    margin: 4px 0;
+    padding: 3px 0;
+    background-color: #f9f9f9;
+}
+
+.gst-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    margin-bottom: 1px;
+}
+
+.gst-breakdown .gst-label {
+    display: table-cell;
+    width: 65%;
+    text-align: left;
+    padding-left: 4px;
+    font-weight: normal;
+}
+
+.gst-breakdown .gst-value {
+    display: table-cell;
+    width: 35%;
+    text-align: right;
+    padding-right: 2px;
+    margin-left: 0;
+}
+
+/* ===== Grand Total ===== */
+.grand-total-section {
+    margin: 4px 0;
+    padding: 4px 0;
+}
+
+.grand-total-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.grand-total-label {
+    display: table-cell;
+    width: 40%;
+    text-align: left;
+}
+
+.grand-total-currency {
+    display: table-cell;
+    width: 15%;
+    text-align: right;
+}
+
+.grand-total-value {
+    display: table-cell;
+    width: 45%;
+    text-align: right;
+    padding-right: 2px;
+}
+
+/* ===== Payment Section ===== */
+.payment-section {
+    margin: 4px 0;
+}
+
+.payment-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 9pt;
+    margin-bottom: 2px;
+}
+
+.payment-label {
+    display: table-cell;
+    width: 55%;
+    text-align: left;
+    font-weight: bold;
+}
+
+.payment-value {
+    display: table-cell;
+    width: 45%;
+    text-align: right;
+}
+
+.card-info {
+    margin-top: 3px;
+    padding-top: 2px;
+    border-top: 1px dotted #cccccc;
+}
+
+/* ===== Points Section ===== */
+.points-section {
+    text-align: center;
+    margin: 4px 0;
+    padding: 4px;
+    background-color: #fffde7;
+    border: 1px dashed #e6c200;
+}
+
+.points-header {
+    font-size: 9pt;
+    font-weight: bold;
+    margin-bottom: 3px;
+    color: #996600;
+}
+
+.points-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    margin-bottom: 1px;
+    padding: 0 15px;
+}
+
+.points-label {
+    display: table-cell;
+    width: 60%;
+    text-align: left;
+    font-weight: bold;
+}
+
+.points-value {
+    display: table-cell;
+    width: 40%;
+    text-align: right;
+    font-weight: bold;
+    color: #006600;
+}
+
+.points-expiry {
+    font-size: 7.5pt;
+    color: #996600;
+    margin-top: 2px;
+}
+
+/* ===== Footer Section ===== */
+.receipt-footer {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.footer-message {
+    font-size: 10pt;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.footer-submessage {
+    font-size: 8pt;
+    margin-bottom: 4px;
+}
+
+.footer-spacer {
+    height: 4px;
+}
+
+.return-policy {
+    font-size: 7.5pt;
+    color: #555555;
+    margin: 4px 0;
+    line-height: 1.3;
+}
+
+.policy-line {
+    margin-bottom: 1px;
+}
+
+.promo-notice {
+    margin-top: 5px;
+    padding: 3px;
+    background-color: #ffe6e6;
+    font-size: 8pt;
+}
+
+.promo-line {
+    margin-bottom: 1px;
+}
+
+.member-promo {
+    margin-top: 5px;
+    padding: 3px;
+    background-color: #e6f3ff;
+    font-size: 8pt;
+    color: #003366;
+}
+
+/* ===== Barcode Section ===== */
+.receipt-barcode-section {
+    text-align: center;
+    margin: 8px 0 4px 0;
+}
+
+.receipt-barcode {
+    font-family: 'Courier New', monospace;
+    font-size: 11pt;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+/* ===== Page Indicator ===== */
+.page-indicator {
+    text-align: center;
+    font-size: 8pt;
+    margin-top: 6px;
+    padding-top: 4px;
+    border-top: 1px dashed #cccccc;
+    color: #666666;
+}
+
+/* ===== Print Styles ===== */
+@media print {
+    body {
+        background-color: #ffffff;
+    }
+    
+    .bookstore-receipt {
+        width: 85mm;
+        padding: 0;
+    }
+    
+    .member-block,
+    .points-section {
+        background-color: #f5f5f5 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* ===== Thermal Printer Optimization ===== */
+@media screen and (max-width: 100mm) {
+    .bookstore-receipt {
+        width: 100%;
+        max-width: 85mm;
+    }
+}

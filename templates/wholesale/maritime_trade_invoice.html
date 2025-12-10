@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ supplier_name|default('Pacific Maritime Trading') }} - Commercial Invoice</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            font-size: 10px;
+            line-height: 1.4;
+            color: #1a1a2e;
+            background: #fff;
+        }
+        
+        .invoice-page {
+            width: 816px;
+            min-height: 1056px;
+            padding: 0;
+            background: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Teal/Copper Color Scheme - Maritime Theme */
+        :root {
+            --primary: #0d4f4f;
+            --secondary: #b87333;
+            --accent: #1a7575;
+            --light: #e8f4f4;
+        }
+        
+        /* Top Banner with Wave Pattern */
+        .top-banner {
+            background: #0d4f4f;
+            height: 12px;
+            position: relative;
+        }
+        
+        .top-banner-accent {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #b87333;
+        }
+        
+        /* Main Content Area */
+        .content-wrapper {
+            padding: 25px 40px;
+        }
+        
+        /* Header Section */
+        .main-header {
+            display: table;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .header-left {
+            display: table-cell;
+            width: 60%;
+            vertical-align: top;
+        }
+        
+        .header-right {
+            display: table-cell;
+            width: 40%;
+            vertical-align: top;
+            text-align: right;
+        }
+        
+        .company-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0d4f4f;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+        }
+        
+        .company-tagline {
+            font-size: 10px;
+            color: #b87333;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+        
+        .company-details {
+            font-size: 9px;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        /* Invoice Title Box */
+        .invoice-title-box {
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .invoice-label {
+            background: #0d4f4f;
+            color: #fff;
+            padding: 8px 25px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        
+        .invoice-number-box {
+            border: 2px solid #0d4f4f;
+            border-top: none;
+            padding: 8px 25px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #0d4f4f;
+            letter-spacing: 1px;
+        }
+        
+        .invoice-date-row {
+            margin-top: 8px;
+            font-size: 9px;
+            color: #666;
+        }
+        
+        /* Divider Line */
+        .header-divider {
+            height: 2px;
+            background: #0d4f4f;
+            margin: 15px 0;
+            position: relative;
+        }
+        
+        .header-divider:after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: -4px;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 10px;
+            background: #fff;
+            border: 2px solid #b87333;
+            border-radius: 5px;
+        }
+        
+        /* Parties Section - Card Style */
+        .parties-row {
+            display: table;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .party-card {
+            display: table-cell;
+            width: 48%;
+            vertical-align: top;
+            background: #f8fafa;
+            border: 1px solid #d0e0e0;
+            border-left: 4px solid #0d4f4f;
+            padding: 12px 15px;
+        }
+        
+        .party-card.buyer {
+            border-left-color: #b87333;
+        }
+        
+        .party-spacer {
+            display: table-cell;
+            width: 4%;
+        }
+        
+        .party-header {
+            font-size: 8px;
+            font-weight: 700;
+            color: #0d4f4f;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed #c0d0d0;
+        }
+        
+        .party-card.buyer .party-header {
+            color: #b87333;
+        }
+        
+        .party-name {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+        }
+        
+        .party-detail {
+            font-size: 9px;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        /* Trade Details Grid */
+        .trade-grid {
+            display: table;
+            width: 100%;
+            margin-bottom: 15px;
+            border: 1px solid #d0e0e0;
+        }
+        
+        .trade-row {
+            display: table-row;
+        }
+        
+        .trade-cell {
+            display: table-cell;
+            padding: 8px 12px;
+            border-right: 1px solid #d0e0e0;
+            border-bottom: 1px solid #d0e0e0;
+            vertical-align: top;
+        }
+        
+        .trade-cell:last-child {
+            border-right: none;
+        }
+        
+        .trade-row:last-child .trade-cell {
+            border-bottom: none;
+        }
+        
+        .trade-label {
+            font-size: 7px;
+            font-weight: 700;
+            color: #0d4f4f;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+            margin-bottom: 2px;
+        }
+        
+        .trade-value {
+            font-size: 10px;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+        
+        /* Items Table */
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            table-layout: fixed;
+        }
+        
+        .items-table thead tr {
+            background: #0d4f4f;
+        }
+        
+        .items-table th {
+            padding: 10px 8px;
+            font-size: 8px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: left;
+            border: none;
+        }
+        
+        .items-table th.center { text-align: center; }
+        .items-table th.right { text-align: right; }
+        
+        .items-table tbody tr {
+            border-bottom: 1px solid #e8e8e8;
+        }
+        
+        .items-table tbody tr:nth-child(even) {
+            background: #fafcfc;
+        }
+        
+        .items-table tbody tr:hover {
+            background: #f0f6f6;
+        }
+        
+        .items-table td {
+            padding: 10px 8px;
+            font-size: 9px;
+            color: #333;
+            vertical-align: top;
+            word-wrap: break-word;
+        }
+        
+        .items-table td.center { text-align: center; }
+        .items-table td.right { text-align: right; }
+        
+        /* Column Widths */
+        .col-no { width: 4%; text-align: center; }
+        .col-sku { width: 12%; }
+        .col-desc { width: 28%; }
+        .col-origin { width: 8%; text-align: center; }
+        .col-qty { width: 8%; text-align: center; }
+        .col-unit { width: 10%; text-align: right; }
+        .col-hs { width: 12%; }
+        .col-total { width: 12%; text-align: right; font-weight: 600; }
+        
+        .item-name {
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 2px;
+        }
+        
+        .item-detail {
+            font-size: 8px;
+            color: #777;
+        }
+        
+        .item-hs {
+            font-size: 8px;
+            color: #0d4f4f;
+            font-family: 'Consolas', monospace;
+        }
+        
+        /* Continuation Page Styles */
+        .continuation-header {
+            background: #0d4f4f;
+            color: #fff;
+            padding: 12px 40px;
+            display: table;
+            width: 100%;
+        }
+        
+        .cont-company {
+            display: table-cell;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .cont-info {
+            display: table-cell;
+            text-align: right;
+            font-size: 10px;
+        }
+        
+        .cont-accent {
+            height: 4px;
+            background: #b87333;
+        }
+        
+        /* Continuation Footer */
+        .continuation-footer {
+            text-align: center;
+            padding: 15px;
+            color: #777;
+            font-size: 9px;
+            font-style: italic;
+            border-top: 1px dashed #d0d0d0;
+            margin-top: 20px;
+        }
+        
+        /* Summary Section */
+        .summary-section {
+            display: table;
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        .summary-left {
+            display: table-cell;
+            width: 55%;
+            vertical-align: top;
+            padding-right: 20px;
+        }
+        
+        .summary-right {
+            display: table-cell;
+            width: 45%;
+            vertical-align: top;
+        }
+        
+        /* Shipping Box */
+        .shipping-box {
+            background: #f8fafa;
+            border: 1px solid #d0e0e0;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+        }
+        
+        .shipping-title {
+            font-size: 9px;
+            font-weight: 700;
+            color: #0d4f4f;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #d0e0e0;
+        }
+        
+        .shipping-grid {
+            display: table;
+            width: 100%;
+        }
+        
+        .shipping-row {
+            display: table-row;
+        }
+        
+        .shipping-label {
+            display: table-cell;
+            width: 40%;
+            font-size: 8px;
+            color: #666;
+            padding: 3px 0;
+        }
+        
+        .shipping-value {
+            display: table-cell;
+            width: 60%;
+            font-size: 9px;
+            font-weight: 600;
+            color: #1a1a2e;
+            padding: 3px 0;
+        }
+        
+        /* Totals Table */
+        .totals-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        
+        .totals-table td {
+            padding: 8px 12px;
+            font-size: 10px;
+        }
+        
+        .totals-table td:first-child {
+            text-align: right;
+            color: #555;
+            width: 60%;
+        }
+        
+        .totals-table td:last-child {
+            text-align: right;
+            font-weight: 600;
+            color: #1a1a2e;
+            width: 40%;
+        }
+        
+        .totals-table tr.subtotal-row {
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .totals-table tr.total-row {
+            background: #0d4f4f;
+        }
+        
+        .totals-table tr.total-row td {
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 10px 12px;
+        }
+        
+        .totals-table tr.total-row td:first-child {
+            color: #fff;
+        }
+        
+        /* Bank Details Section */
+        .bank-section {
+            display: table;
+            width: 100%;
+            margin-top: 15px;
+            border: 1px solid #d0e0e0;
+        }
+        
+        .bank-left {
+            display: table-cell;
+            width: 50%;
+            padding: 12px 15px;
+            border-right: 1px solid #d0e0e0;
+            vertical-align: top;
+        }
+        
+        .bank-right {
+            display: table-cell;
+            width: 50%;
+            padding: 12px 15px;
+            vertical-align: top;
+        }
+        
+        .bank-title {
+            font-size: 8px;
+            font-weight: 700;
+            color: #0d4f4f;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        
+        .bank-row {
+            display: table;
+            width: 100%;
+            margin-bottom: 4px;
+        }
+        
+        .bank-label {
+            display: table-cell;
+            width: 35%;
+            font-size: 8px;
+            color: #666;
+        }
+        
+        .bank-value {
+            display: table-cell;
+            width: 65%;
+            font-size: 9px;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+        
+        .terms-list {
+            font-size: 8px;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .terms-list li {
+            margin-bottom: 3px;
+        }
+        
+        /* Signature Section */
+        .signature-section {
+            display: table;
+            width: 100%;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #0d4f4f;
+        }
+        
+        .sig-col {
+            display: table-cell;
+            width: 33.33%;
+            text-align: center;
+            vertical-align: bottom;
+            padding: 10px;
+        }
+        
+        .sig-line {
+            border-top: 1px solid #999;
+            margin: 0 20px 8px 20px;
+            height: 40px;
+        }
+        
+        .sig-label {
+            font-size: 8px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Maritime Stamp - Compass Rose Design */
+        .maritime-stamp {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            display: inline-block;
+            transform: rotate(-10deg);
+            margin: 0 auto;
+        }
+        
+        .stamp-outer {
+            width: 100px;
+            height: 100px;
+            border: 3px solid #0d4f4f;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+        }
+        
+        .stamp-middle {
+            width: 86px;
+            height: 86px;
+            border: 2px solid #0d4f4f;
+            border-radius: 50%;
+            position: absolute;
+            top: 7px;
+            left: 7px;
+            box-sizing: border-box;
+        }
+        
+        .stamp-inner {
+            width: 60px;
+            height: 60px;
+            border: 2px dashed #b87333;
+            border-radius: 50%;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            box-sizing: border-box;
+        }
+        
+        .stamp-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 50px;
+        }
+        
+        .stamp-anchor {
+            font-size: 18px;
+            color: #0d4f4f;
+            margin-bottom: 2px;
+        }
+        
+        .stamp-text {
+            font-size: 6px;
+            font-weight: 800;
+            color: #0d4f4f;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            line-height: 1.2;
+        }
+        
+        .stamp-date {
+            font-size: 5px;
+            color: #b87333;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+        
+        .stamp-company-arc {
+            position: absolute;
+            top: 12px;
+            left: 0;
+            width: 100px;
+            text-align: center;
+            font-size: 5px;
+            font-weight: 700;
+            color: #0d4f4f;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .stamp-location-arc {
+            position: absolute;
+            bottom: 12px;
+            left: 0;
+            width: 100px;
+            text-align: center;
+            font-size: 5px;
+            font-weight: 600;
+            color: #0d4f4f;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .stamp-compass-n {
+            position: absolute;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 7px;
+            font-weight: 700;
+            color: #b87333;
+        }
+        
+        .stamp-compass-s {
+            position: absolute;
+            bottom: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 7px;
+            font-weight: 700;
+            color: #b87333;
+        }
+        
+        .stamp-compass-e {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            font-size: 7px;
+            font-weight: 700;
+            color: #b87333;
+        }
+        
+        .stamp-compass-w {
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            transform: translateY(-50%);
+            font-size: 7px;
+            font-weight: 700;
+            color: #b87333;
+        }
+        
+        /* Footer */
+        .page-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #0d4f4f;
+            padding: 10px 40px;
+            display: table;
+            width: 100%;
+        }
+        
+        .footer-left {
+            display: table-cell;
+            width: 50%;
+            font-size: 8px;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .footer-right {
+            display: table-cell;
+            width: 50%;
+            text-align: right;
+            font-size: 8px;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .footer-website {
+            color: #b87333;
+            font-weight: 600;
+        }
+        
+        /* Watermark */
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 100px;
+            font-weight: 800;
+            color: rgba(13, 79, 79, 0.03);
+            letter-spacing: 15px;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-page">
+        <!-- Watermark -->
+        <div class="watermark">{{ watermark_text|default('MARITIME') }}</div>
+        
+        {% if _is_first_page|default(true) %}
+        <!-- Top Banner -->
+        <div class="top-banner">
+            <div class="top-banner-accent"></div>
+        </div>
+        
+        <div class="content-wrapper">
+            <!-- Main Header -->
+            <div class="main-header">
+                <div class="header-left">
+                    <div class="company-name">{{ supplier_name|default('Pacific Maritime Trading') }}</div>
+                    <div class="company-tagline">{{ company_tagline|default('Global Wholesale Solutions') }}</div>
+                    <div class="company-details">
+                        {{ supplier_address|default(store_address)|default('1200 Harbor Boulevard, Suite 500') }}<br>
+                        {{ store_city|default('Long Beach') }}, {{ store_state|default('CA') }} {{ store_postal|default('90802') }}<br>
+                        {{ store_country|default('United States') }}<br>
+                        Tel: {{ store_phone|default('+1 (562) 555-0100') }} | {{ store_email|default('trade@pacificmaritime.com') }}
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="invoice-title-box">
+                        <div class="invoice-label">Commercial Invoice</div>
+                        <div class="invoice-number-box">{{ invoice_number|default(po_number)|default(order_number)|default('PMT-2024-00001') }}</div>
+                    </div>
+                    <div class="invoice-date-row">
+                        Date: {{ invoice_date|default(po_date)|default(order_date)|default('December 8, 2024') }}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Divider -->
+            <div class="header-divider"></div>
+            
+            <!-- Parties Section -->
+            <div class="parties-row">
+                <div class="party-card seller">
+                    <div class="party-header">Shipper / Exporter</div>
+                    <div class="party-name">{{ exporter_name|default(supplier_name)|default('Pacific Maritime Trading Co.') }}</div>
+                    <div class="party-detail">
+                        {{ exporter_address|default(supplier_address)|default('1200 Harbor Boulevard, Suite 500') }}<br>
+                        {{ exporter_city|default(store_city)|default('Long Beach') }}, {{ exporter_state|default(store_state)|default('CA') }} {{ exporter_postal|default(store_postal)|default('90802') }}<br>
+                        Tax ID: {{ exporter_tax_id|default('XX-XXXXXXX') }}
+                    </div>
+                </div>
+                <div class="party-spacer"></div>
+                <div class="party-card buyer">
+                    <div class="party-header">Consignee / Importer</div>
+                    <div class="party-name">{{ buyer_company|default(buyer_name)|default('International Buyers Ltd') }}</div>
+                    <div class="party-detail">
+                        {{ buyer_address|default('456 Import Avenue') }}<br>
+                        {{ buyer_city|default('Singapore') }} {{ buyer_postal|default('018956') }}<br>
+                        {{ buyer_country|default('Singapore') }}
+                        {% if buyer_tax_id %}<br>Tax ID: {{ buyer_tax_id }}{% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Trade Details Grid -->
+            <div class="trade-grid">
+                <div class="trade-row">
+                    <div class="trade-cell" style="width: 16%;">
+                        <span class="trade-label">Payment Terms</span>
+                        <span class="trade-value">{{ payment_terms|default('Net 30') }}</span>
+                    </div>
+                    <div class="trade-cell" style="width: 14%;">
+                        <span class="trade-label">Currency</span>
+                        <span class="trade-value">{{ currency_code|default('USD') }}</span>
+                    </div>
+                    <div class="trade-cell" style="width: 18%;">
+                        <span class="trade-label">Incoterms 2020</span>
+                        <span class="trade-value">{{ incoterms|default('CIF Singapore') }}</span>
+                    </div>
+                    <div class="trade-cell" style="width: 18%;">
+                        <span class="trade-label">Country of Origin</span>
+                        <span class="trade-value">{{ origin_country|default('United States') }}</span>
+                    </div>
+                    <div class="trade-cell" style="width: 16%;">
+                        <span class="trade-label">Ship Via</span>
+                        <span class="trade-value">{{ shipping_method|default('Ocean FCL') }}</span>
+                    </div>
+                    <div class="trade-cell" style="width: 18%;">
+                        <span class="trade-label">L/C Number</span>
+                        <span class="trade-value">{{ lc_number|default('N/A') }}</span>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-company">{{ supplier_name|default('Pacific Maritime Trading') }}</div>
+            <div class="cont-info">Invoice {{ invoice_number|default(po_number)|default(order_number) }} • Page {{ _current_page|default(_page_number)|default(1) }} of {{ _total_pages|default(1) }}</div>
+        </div>
+        <div class="cont-accent"></div>
+        <div class="content-wrapper">
+        {% endif %}
+        
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-no">#</th>
+                    <th class="col-sku">SKU/Part No.</th>
+                    <th class="col-desc">Description</th>
+                    <th class="col-origin center">Origin</th>
+                    <th class="col-qty center">Qty</th>
+                    <th class="col-unit right">Unit Price</th>
+                    <th class="col-hs">HS Code</th>
+                    <th class="col-total right">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in line_items|default(items)|default([]) %}
+                {% set item_price = item.unit_price|default(item.unit_cost)|default(item.rate)|default(item.price)|default(0) %}
+                {% set price_val = item_price|string|replace('$','')|replace('€','')|replace('£','')|replace('¥','')|replace('₹','')|replace('RM','')|replace(',','')|float %}
+                {% set item_qty = item.quantity_ordered|default(item.quantity)|default(1)|int %}
+                {% set item_total_val = item.line_total|default(item.total)|default(item.amount)|default(price_val * item_qty) %}
+                {% set total_val = item_total_val|string|replace('$','')|replace('€','')|replace('£','')|replace('¥','')|replace('₹','')|replace('RM','')|replace(',','')|float %}
+                <tr>
+                    <td class="col-no">{{ loop.index }}</td>
+                    <td class="col-sku">{{ item.supplier_sku|default(item.sku)|default(item.mpn)|default('-') }}</td>
+                    <td class="col-desc">
+                        <div class="item-name">{{ item.product_name|default(item.description)|default(item.name)|default('Product') }}</div>
+                        {% if item.brand or item.color or item.size or item.material %}
+                        <div class="item-detail">
+                            {% if item.brand %}{{ item.brand }}{% endif %}
+                            {% if item.color %} • {{ item.color }}{% endif %}
+                            {% if item.size %} • {{ item.size }}{% endif %}
+                            {% if item.material %} • {{ item.material }}{% endif %}
+                        </div>
+                        {% endif %}
+                    </td>
+                    <td class="col-origin center">{{ item.origin_country|default(item.country_of_origin)|default('US') }}</td>
+                    <td class="col-qty center">{{ item_qty }}</td>
+                    <td class="col-unit right">{{ currency_symbol|default('$') }}{{ '%.2f'|format(price_val) }}</td>
+                    <td class="col-hs">
+                        <span class="item-hs">{{ item.hs_code|default('9999.99.0000') }}</span>
+                    </td>
+                    <td class="col-total right">{{ currency_symbol|default('$') }}{{ '%.2f'|format(total_val) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        {% if _is_last_page|default(true) %}
+        <!-- Summary Section -->
+        <div class="summary-section">
+            <div class="summary-left">
+                <!-- Shipping Details -->
+                <div class="shipping-box">
+                    <div class="shipping-title">Shipping & Logistics</div>
+                    <div class="shipping-grid">
+                        <div class="shipping-row">
+                            <div class="shipping-label">Port of Loading:</div>
+                            <div class="shipping-value">{{ port_of_loading|default('Los Angeles, USA') }}</div>
+                        </div>
+                        <div class="shipping-row">
+                            <div class="shipping-label">Port of Discharge:</div>
+                            <div class="shipping-value">{{ port_of_discharge|default('Singapore') }}</div>
+                        </div>
+                        <div class="shipping-row">
+                            <div class="shipping-label">Vessel/Voyage:</div>
+                            <div class="shipping-value">{{ vessel_name|default('TBN') }}</div>
+                        </div>
+                        <div class="shipping-row">
+                            <div class="shipping-label">Container No.:</div>
+                            <div class="shipping-value">{{ container_number|default('TBD') }}</div>
+                        </div>
+                        <div class="shipping-row">
+                            <div class="shipping-label">ETD / ETA:</div>
+                            <div class="shipping-value">{{ etd|default('TBD') }} / {{ eta|default('TBD') }}</div>
+                        </div>
+                        <div class="shipping-row">
+                            <div class="shipping-label">Total Packages:</div>
+                            <div class="shipping-value">{{ total_packages|default('Per packing list') }}</div>
+                        </div>
+                        <div class="shipping-row">
+                            <div class="shipping-label">Gross Weight:</div>
+                            <div class="shipping-value">{{ gross_weight|default('Per packing list') }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="summary-right">
+                <!-- Totals -->
+                <table class="totals-table">
+                    <tr class="subtotal-row">
+                        <td>Subtotal:</td>
+                        <td>{{ currency_symbol|default('$') }}{{ '%.2f'|format(subtotal|default(subtotal_raw)|default(0)|float) }}</td>
+                    </tr>
+                    {% if (shipping_cost|default(freight_cost)|default(0)|float) > 0 %}
+                    <tr>
+                        <td>Freight & Insurance:</td>
+                        <td>{{ currency_symbol|default('$') }}{{ '%.2f'|format(shipping_cost|default(freight_cost)|float) }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if (tax_amount|default(tax_amount_raw)|default(0)|float) > 0 %}
+                    <tr>
+                        <td>Tax / Duties ({{ ((tax_rate|default(0))|float * 100)|int }}%):</td>
+                        <td>{{ currency_symbol|default('$') }}{{ '%.2f'|format(tax_amount|default(tax_amount_raw)|float) }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr class="total-row">
+                        <td>Total {{ currency_code|default('USD') }}:</td>
+                        <td>{{ currency_symbol|default('$') }}{{ '%.2f'|format(total_amount|default(total)|default(grand_total)|default(0)|float) }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Bank & Terms Section -->
+        <div class="bank-section">
+            <div class="bank-left">
+                <div class="bank-title">Wire Transfer Details</div>
+                <div class="bank-row">
+                    <span class="bank-label">Bank Name:</span>
+                    <span class="bank-value">{{ bank_name|default('Wells Fargo Bank') }}</span>
+                </div>
+                <div class="bank-row">
+                    <span class="bank-label">Account Name:</span>
+                    <span class="bank-value">{{ bank_account_name|default(supplier_name)|default('Pacific Maritime Trading Co.') }}</span>
+                </div>
+                <div class="bank-row">
+                    <span class="bank-label">Account No.:</span>
+                    <span class="bank-value">{{ bank_account_number|default('XXXX-XXXX-XXXX') }}</span>
+                </div>
+                <div class="bank-row">
+                    <span class="bank-label">Routing/ABA:</span>
+                    <span class="bank-value">{{ bank_routing|default('XXX-XXX-XXX') }}</span>
+                </div>
+                <div class="bank-row">
+                    <span class="bank-label">SWIFT:</span>
+                    <span class="bank-value">{{ bank_swift|default('WFBIUS6S') }}</span>
+                </div>
+            </div>
+            <div class="bank-right">
+                <div class="bank-title">Terms & Conditions</div>
+                <ol class="terms-list">
+                    <li>Payment due per agreed terms from invoice date</li>
+                    <li>Goods remain property of seller until paid in full</li>
+                    <li>Claims must be filed within 5 days of delivery</li>
+                    <li>Subject to jurisdiction of seller's location</li>
+                    <li>All HS codes provided for reference only</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Signature Section with Maritime Stamp -->
+        <div class="signature-section">
+            <div class="sig-col">
+                <div class="sig-line"></div>
+                <div class="sig-label">Prepared By</div>
+            </div>
+            <div class="sig-col">
+                <!-- Maritime Stamp - Compass Rose Design -->
+                <div class="maritime-stamp">
+                    <div class="stamp-outer"></div>
+                    <div class="stamp-middle"></div>
+                    <div class="stamp-inner"></div>
+                    <div class="stamp-company-arc">{{ stamp_company|default(supplier_name)|default('PACIFIC MARITIME') }}</div>
+                    <div class="stamp-compass-n">N</div>
+                    <div class="stamp-compass-s">S</div>
+                    <div class="stamp-compass-e">E</div>
+                    <div class="stamp-compass-w">W</div>
+                    <div class="stamp-center">
+                        <div class="stamp-anchor">⚓</div>
+                        <div class="stamp-text">APPROVED</div>
+                        <div class="stamp-date">{{ stamp_date|default('DEC 2024') }}</div>
+                    </div>
+                    <div class="stamp-location-arc">{{ stamp_location|default(store_city)|default('LONG BEACH') }} • USA</div>
+                </div>
+            </div>
+            <div class="sig-col">
+                <div class="sig-line"></div>
+                <div class="sig-label">Authorized Signature</div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            Continued on next page... (Page {{ _current_page|default(_page_number)|default(1) }} of {{ _total_pages|default(1) }})
+        </div>
+        {% endif %}
+        
+        </div><!-- End content-wrapper -->
+        
+        {% if _is_last_page|default(true) %}
+        <!-- Footer -->
+        <div class="page-footer">
+            <div class="footer-left">
+                This is an official commercial invoice. For inquiries: {{ store_email|default('trade@pacificmaritime.com') }}
+            </div>
+            <div class="footer-right">
+                <span class="footer-website">{{ store_website|default('www.pacificmaritime.com') }}</span>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

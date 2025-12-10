@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Return Shipping Label - Modern</title>
+    <link rel="stylesheet" href="../css/return_label_modern.css">
+</head>
+<body>
+    <div class="label-container">
+        
+        <!-- Main Shipping Label Card -->
+        <div class="label-card">
+            
+            <!-- Header Strip -->
+            <div class="header-strip">
+                <div class="strip-left">
+                    <span class="label-type-badge">↩ RETURN LABEL</span>
+                </div>
+                <div class="strip-center">
+                    <span class="carrier-name">{{ carrier_name|default('CARRIER') }}</span>
+                    <span class="service-pill">{{ service_type|default('GROUND') }}</span>
+                </div>
+                <div class="strip-right">
+                    <span class="prepaid-badge {% if is_prepaid|default(true) %}prepaid{% else %}collect{% endif %}">
+                        {% if is_prepaid|default(true) %}✓ PREPAID{% else %}$ COLLECT{% endif %}
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Tracking Bar -->
+            <div class="tracking-bar">
+                <div class="tracking-main">
+                    <div class="tracking-icon"></div>
+                    <div class="tracking-details">
+                        <div class="tracking-label">TRACKING NUMBER</div>
+                        <div class="tracking-value">{{ tracking_number|default('1Z999AA10123456784') }}</div>
+                    </div>
+                </div>
+                <div class="rma-main">
+                    <div class="rma-icon">🔖</div>
+                    <div class="rma-details">
+                        <div class="rma-label">RMA NUMBER</div>
+                        <div class="rma-value">{{ rma_number|default('RMA-000000') }}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Large Barcode Area -->
+            <div class="barcode-area">
+                <div class="barcode-visual"></div>
+                <div class="barcode-number">{{ tracking_number|default('1Z999AA10123456784') }}</div>
+            </div>
+            
+            <!-- Address Cards Row -->
+            <div class="address-row">
+                <!-- FROM Card -->
+                <div class="address-card from-card">
+                    <div class="card-header">
+                        <span class="card-icon">👤</span>
+                        <span class="card-title">FROM</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="addr-name">{{ customer_name|default('CUSTOMER NAME') }}</div>
+                        <div class="addr-street">{{ customer_address|default('123 Street') }}</div>
+                        {% if customer_address2 %}
+                        <div class="addr-street">{{ customer_address2 }}</div>
+                        {% endif %}
+                        <div class="addr-city">{{ customer_city|default('CITY') }}, {{ customer_state|default('ST') }} {{ customer_zip|default('00000') }}</div>
+                    </div>
+                </div>
+                
+                <!-- Arrow Divider -->
+                <div class="arrow-divider">
+                    <div class="arrow-circle">→</div>
+                </div>
+                
+                <!-- TO Card -->
+                <div class="address-card to-card">
+                    <div class="card-header">
+                        <span class="card-icon">🏭</span>
+                        <span class="card-title">SHIP TO</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="addr-name">{{ return_center_name|default('RETURNS CENTER') }}</div>
+                        {% if return_center_dept %}
+                        <div class="addr-dept">{{ return_center_dept }}</div>
+                        {% endif %}
+                        <div class="addr-street">{{ return_center_address|default('456 Warehouse Blvd') }}</div>
+                        <div class="addr-city">{{ return_center_city|default('CITY') }}, {{ return_center_state|default('ST') }} {{ return_center_zip|default('00000') }}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Info Grid -->
+            <div class="info-grid">
+                <div class="info-cell">
+                    <div class="cell-label">ORDER #</div>
+                    <div class="cell-value">{{ order_number|default('ORD-000000') }}</div>
+                </div>
+                <div class="info-cell">
+                    <div class="cell-label">WEIGHT</div>
+                    <div class="cell-value">{{ package_weight|default('2.5') }} LB</div>
+                </div>
+                <div class="info-cell">
+                    <div class="cell-label">DIMENSIONS</div>
+                    <div class="cell-value">{{ package_dims|default('12x10x6') }}</div>
+                </div>
+                <div class="info-cell">
+                    <div class="cell-label">ZONE</div>
+                    <div class="cell-value">{{ zone_code|default('5') }}</div>
+                </div>
+            </div>
+            
+            <!-- QR Code and Postal Section -->
+            <div class="codes-section">
+                <div class="qr-area">
+                    <div class="qr-code"></div>
+                    <div class="qr-label">SCAN FOR TRACKING</div>
+                </div>
+                <div class="postal-area">
+                    <div class="postal-barcode"></div>
+                    <div class="postal-zip">{{ return_center_zip|default('00000') }}-{{ return_center_zip4|default('0000') }}</div>
+                </div>
+                <div class="dates-area">
+                    <div class="date-item">
+                        <span class="date-label">Created:</span>
+                        <span class="date-value">{{ label_date|default('01/01/2025') }}</span>
+                    </div>
+                    <div class="date-item">
+                        <span class="date-label">Expires:</span>
+                        <span class="date-value">{{ expiry_date|default('03/01/2025') }}</span>
+                    </div>
+                    <div class="date-item">
+                        <span class="date-label">Ship By:</span>
+                        <span class="date-value">{{ ship_by_date|default('01/15/2025') }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Reason Banner -->
+            <div class="reason-banner">
+                <span class="reason-label">Return Reason:</span>
+                <span class="reason-value">{{ return_reason|default('Customer Return') }}</span>
+            </div>
+            
+            <!-- Instructions Footer -->
+            <div class="instructions-footer">
+                {{ instructions|default('Attach this label securely to the outside of your package. Remove or cover any old shipping labels.') }}
+            </div>
+            
+        </div>
+        
+        <!-- Tear Line -->
+        <div class="tear-line">
+            <div class="tear-text">✂ TEAR HERE • KEEP RECEIPT BELOW FOR YOUR RECORDS • ✂</div>
+        </div>
+        
+        <!-- Customer Receipt Card -->
+        <div class="receipt-card">
+            
+            <!-- Receipt Header -->
+            <div class="receipt-header">
+                <div class="receipt-brand">
+                    <span class="brand-icon"></span>
+                    <span class="brand-name">{{ company_name|default('RETAILER') }}</span>
+                </div>
+                <div class="receipt-title">RETURN RECEIPT</div>
+            </div>
+            
+            <!-- Receipt Info Grid -->
+            <div class="receipt-info">
+                <div class="receipt-col">
+                    <div class="info-row">
+                        <span class="info-label">Tracking:</span>
+                        <span class="info-value mono">{{ tracking_number|default('1Z999AA10123456784') }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">RMA #:</span>
+                        <span class="info-value mono">{{ rma_number|default('RMA-000000') }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Order #:</span>
+                        <span class="info-value mono">{{ order_number|default('ORD-000000') }}</span>
+                    </div>
+                </div>
+                <div class="receipt-col">
+                    <div class="info-row">
+                        <span class="info-label">Ship To:</span>
+                        <span class="info-value">{{ return_center_name|default('Returns Center') }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Location:</span>
+                        <span class="info-value">{{ return_center_city|default('City') }}, {{ return_center_state|default('ST') }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Reason:</span>
+                        <span class="info-value">{{ return_reason|default('Customer Return') }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Items Table -->
+            {% if items %}
+            <div class="items-section">
+                <div class="items-title"> Items Being Returned</div>
+                <table class="items-table">
+                    <thead>
+                        <tr>
+                            <th class="col-qty">Qty</th>
+                            <th class="col-item">Item</th>
+                            <th class="col-sku">SKU</th>
+                            <th class="col-reason">Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td class="col-qty">{{ item.quantity|default(1) }}</td>
+                            <td class="col-item">{{ item.name|default(item.description)|default('Product') }}</td>
+                            <td class="col-sku">{{ item.sku|default('SKU') }}</td>
+                            <td class="col-reason">{{ item.return_reason|default('Return') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+            
+            <!-- Refund Box -->
+            <div class="refund-box">
+                <div class="refund-row">
+                    <span class="refund-label"> Expected Refund:</span>
+                    <span class="refund-amount">${{ "%.2f"|format(refund_amount|default(0)) }}</span>
+                </div>
+                <div class="refund-method">
+                    Refund via: {{ refund_method|default('Original Payment Method') }}
+                </div>
+            </div>
+            
+            <!-- Support Info -->
+            <div class="support-section">
+                <div class="support-text">
+                    {{ receipt_notes|default('Allow 5-7 business days for refund processing after return is received.') }}
+                </div>
+                <div class="support-contact">
+                     {{ support_email|default('returns@company.com') }} |  {{ support_phone|default('1-800-XXX-XXXX') }}
+                </div>
+            </div>
+            
+            <!-- Receipt Barcode -->
+            <div class="receipt-barcode-section">
+                <div class="receipt-barcode"></div>
+                <div class="receipt-barcode-text">{{ rma_number|default('RMA-000000') }}</div>
+            </div>
+            
+        </div>
+        
+        <!-- Footer -->
+        <div class="label-footer">
+            {{ footer_text|default('Label valid for 60 days. Do not duplicate or alter.') }}
+        </div>
+        
+    </div>
+</body>
+</html>

@@ -1,0 +1,637 @@
+/* Receiving Report - Supply Chain Template */
+/* Green/emerald theme for goods receipt verification */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    font-size: 9pt;
+    line-height: 1.4;
+    color: #1f2937;
+    background: white;
+}
+
+.page {
+    width: 8.5in;
+    min-height: 11in;
+    padding: 0.4in 0.5in;
+    position: relative;
+}
+
+/* ==================== HEADER ==================== */
+.header {
+    display: table;
+    width: 100%;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #10b981;
+    table-layout: fixed;
+}
+
+.header-left {
+    display: table-cell;
+    width: 25%;
+    vertical-align: middle;
+}
+
+.logo {
+    height: 50px;
+    width: auto;
+    max-width: 120px;
+    display: block;
+}
+
+.logo-placeholder {
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 20px;
+    background: #10b981;  /* was: linear-gradient(135deg, #10b981 0%, #34d399 100%...) */
+    color: white;
+    font-weight: 700;
+    font-size: 11pt;
+    letter-spacing: 1.5px;
+}
+
+.header-center {
+    display: table-cell;
+    width: 50%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.header-center h1 {
+    font-size: 20pt;
+    font-weight: 700;
+    color: #065f46;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+}
+
+.doc-subtitle {
+    font-size: 9pt;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.header-right {
+    display: table-cell;
+    width: 25%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.report-id {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #10b981;
+    margin-bottom: 4px;
+}
+
+.report-date {
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+/* ==================== INFO PANELS ==================== */
+.info-panels {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 0;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.panel {
+    width: 33.33%;
+    vertical-align: top;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-left: 3px solid #10b981;
+}
+
+.panel-po {
+    border-left-color: #10b981;
+}
+
+.panel-supplier {
+    border-left-color: #059669;
+}
+
+.panel-shipment {
+    border-left-color: #047857;
+}
+
+.panel-header {
+    padding: 10px 12px;
+    background: #10b981;  /* was: linear-gradient(135deg, #10b981 0%, #059669 100%...) */
+    color: white;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.panel-content {
+    padding: 12px;
+}
+
+.panel-row {
+    margin-bottom: 8px;
+}
+
+.panel-row:last-child {
+    margin-bottom: 0;
+}
+
+.panel-row .label {
+    font-size: 7pt;
+    color: #6b7280;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    display: inline-block;
+    width: 40%;
+}
+
+.panel-row .value {
+    font-size: 9pt;
+    color: #111827;
+    font-weight: 500;
+}
+
+/* ==================== RECEIVING DETAILS ==================== */
+.receiving-details {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.detail-left,
+.detail-right {
+    width: 50%;
+    vertical-align: top;
+}
+
+.detail-left {
+    padding-right: 20px;
+}
+
+.detail-right {
+    padding-left: 20px;
+    border-left: 1px solid #a7f3d0;
+}
+
+.detail-item {
+    margin-bottom: 10px;
+}
+
+.detail-item:last-child {
+    margin-bottom: 0;
+}
+
+.detail-label {
+    font-size: 8pt;
+    color: #065f46;
+    font-weight: 600;
+    display: inline-block;
+    width: 45%;
+}
+
+.detail-value {
+    font-size: 9pt;
+    color: #111827;
+    font-weight: 500;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 8pt;
+    font-weight: 700;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.status-pending-inspection {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-completed {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-partial {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.status-issues-found {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ==================== CONTINUATION HEADER ==================== */
+.continuation-header {
+    display: table;
+    width: 100%;
+    padding: 10px 0;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #e5e7eb;
+    table-layout: fixed;
+}
+
+.cont-left {
+    display: table-cell;
+    width: 70%;
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+.cont-right {
+    display: table-cell;
+    width: 30%;
+    text-align: right;
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+/* ==================== ITEMS TABLE ==================== */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.items-table thead {
+    background: #10b981;  /* was: linear-gradient(135deg, #10b981 0%, #059669 100%...) */
+    color: white;
+}
+
+.items-table th {
+    padding: 10px 6px;
+    text-align: left;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.items-table th:last-child {
+    border-right: none;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.items-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.items-table tbody tr.issue-row {
+    background: #fef2f2;
+}
+
+.items-table td {
+    padding: 10px 6px;
+    font-size: 8pt;
+    vertical-align: middle;
+}
+
+/* Column widths */
+.col-line { width: 4%; text-align: center; }
+.col-sku { width: 10%; }
+.col-description { width: 27%; }
+.col-ordered { width: 8%; text-align: right; }
+.col-received { width: 8%; text-align: right; }
+.col-variance { width: 8%; text-align: center; }
+.col-condition { width: 10%; text-align: center; }
+.col-location { width: 9%; text-align: center; }
+.col-status { width: 10%; text-align: center; }
+
+/* Item description */
+.item-name {
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 2px;
+}
+
+.item-notes {
+    font-size: 7pt;
+    color: #dc2626;
+    font-style: italic;
+}
+
+/* Received column highlight */
+.received-col {
+    background: #ecfdf5;
+    font-weight: 700;
+    color: #065f46;
+}
+
+/* Variance indicators */
+.variance-ok {
+    color: #9ca3af;
+    font-weight: 600;
+}
+
+.variance-over {
+    color: #2563eb;
+    font-weight: 700;
+}
+
+.variance-short {
+    color: #dc2626;
+    font-weight: 700;
+}
+
+/* Condition badges */
+.condition-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    font-size: 7pt;
+    font-weight: 700;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.condition-good {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.condition-acceptable {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.condition-damaged {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.condition-defective {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Item status */
+.item-status {
+    display: inline-block;
+    padding: 3px 8px;
+    font-size: 7pt;
+    font-weight: 700;
+    border-radius: 10px;
+    text-transform: uppercase;
+}
+
+.item-status.status-accepted {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.item-status.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.item-status.status-rejected {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.item-status.status-quarantine {
+    background: #fce7f3;
+    color: #831843;
+}
+
+/* Blank fields */
+.blank {
+    color: #d1d5db;
+    font-style: italic;
+}
+
+/* ==================== SUMMARY SECTION ==================== */
+.summary-section {
+    margin-bottom: 20px;
+    border: 2px solid #10b981;
+    background: #f0fdf4;
+}
+
+.summary-header {
+    padding: 10px 15px;
+    background: #10b981;  /* was: linear-gradient(135deg, #10b981 0%, #059669 100%...) */
+    color: white;
+    font-size: 9pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.summary-item {
+    width: 25%;
+    text-align: center;
+    padding: 15px 10px;
+    border-right: 1px solid #a7f3d0;
+}
+
+.summary-item:last-child {
+    border-right: none;
+}
+
+.summary-label {
+    font-size: 8pt;
+    color: #065f46;
+    font-weight: 600;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.summary-value {
+    font-size: 16pt;
+    font-weight: 700;
+    color: #10b981;
+}
+
+.summary-value.issue {
+    color: #dc2626;
+}
+
+/* ==================== INSPECTION SECTION ==================== */
+.inspection-section {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: separate;
+    border-spacing: 15px 0;
+    table-layout: fixed;
+}
+
+.inspection-left,
+.inspection-right {
+    width: 50%;
+    vertical-align: top;
+    border: 1px solid #e5e7eb;
+    background: #fafafa;
+}
+
+.inspection-header {
+    padding: 8px 12px;
+    background: #f3f4f6;
+    border-bottom: 2px solid #10b981;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #065f46;
+}
+
+.inspection-checklist {
+    padding: 12px 15px;
+}
+
+.checklist-item {
+    margin-bottom: 10px;
+}
+
+.checklist-item:last-child {
+    margin-bottom: 0;
+}
+
+.checkbox {
+    display: inline-block;
+    width: 18px;
+    font-size: 12pt;
+    color: #10b981;
+    font-weight: 700;
+    margin-right: 8px;
+}
+
+.checklist-label {
+    font-size: 9pt;
+    color: #374151;
+}
+
+.inspection-notes {
+    padding: 12px 15px;
+    min-height: 90px;
+    font-size: 8pt;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+.blank-line {
+    color: #d1d5db;
+    letter-spacing: 0.5px;
+}
+
+/* ==================== SIGNATURE SECTION ==================== */
+.signature-section {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: separate;
+    border-spacing: 10px 0;
+    table-layout: fixed;
+}
+
+.signature-box {
+    width: 33.33%;
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+    background: #fafafa;
+    vertical-align: top;
+}
+
+.signature-line {
+    height: 40px;
+    border-bottom: 2px solid #10b981;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.signature-text {
+    font-size: 11pt;
+    font-weight: 600;
+    font-style: italic;
+    color: #10b981;
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+}
+
+.signature-label {
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #374151;
+    margin-bottom: 4px;
+    letter-spacing: 0.3px;
+}
+
+.signature-info {
+    font-size: 7pt;
+    color: #6b7280;
+}
+
+/* ==================== FOOTER ==================== */
+.footer {
+    display: table;
+    width: 100%;
+    position: absolute;
+    bottom: 0.3in;
+    left: 0.5in;
+    right: 0.5in;
+    padding-top: 10px;
+    border-top: 1px solid #e5e7eb;
+    table-layout: fixed;
+}
+
+.footer-left {
+    display: table-cell;
+    width: 70%;
+    font-size: 7pt;
+    color: #9ca3af;
+}
+
+.footer-right {
+    display: table-cell;
+    width: 30%;
+    text-align: right;
+    font-size: 7pt;
+    color: #9ca3af;
+}
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+    .page {
+        margin: 0;
+        padding: 0.4in 0.5in;
+    }
+    
+    .items-table tbody tr {
+        page-break-inside: avoid;
+    }
+}

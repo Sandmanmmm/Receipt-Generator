@@ -1,0 +1,687 @@
+/**
+ * Dollar Store POS Receipt - MR. DOLLAR / Kedai RM2 Style
+ * Based on SROIE dataset analysis - Template #15
+ * 
+ * Key Features:
+ * - 80mm thermal receipt width
+ * - Courier 8.5pt font (ultra-compact)
+ * - Dense layout (45-50 lines/page)
+ * - Low price emphasis (RM1.00, RM2.00, RM5.00)
+ * - Bulk purchase formatting
+ * - Bag/plastic charge line
+ * - Savings emphasis banner
+ * - Rapid transaction format
+ * - Bilingual footer (Malay/English)
+ */
+
+/* ========================================
+   BASE STYLES - ULTRA COMPACT
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 8.5pt;
+    line-height: 1.1;
+    background-color: #ffffff;
+    color: #000000;
+    -webkit-font-smoothing: none;
+}
+
+/* ========================================
+   RECEIPT CONTAINER - 80mm WIDTH
+   ======================================== */
+
+.dollar-store-receipt {
+    width: 302px;  /* 80mm at 96 DPI */
+    max-width: 302px;
+    margin: 0 auto;
+    padding: 8px 6px;
+    background-color: #ffffff;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* ========================================
+   HEADER SECTION - COMPACT
+   ======================================== */
+
+.receipt-header {
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.store-name {
+    font-size: 11pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1px;
+}
+
+.company-reg {
+    font-size: 7.5pt;
+    font-weight: normal;
+    color: #333333;
+    margin-bottom: 1px;
+}
+
+.store-tagline {
+    font-size: 8pt;
+    font-style: italic;
+    color: #444444;
+}
+
+/* ========================================
+   ADDRESS BLOCK - ULTRA COMPACT
+   ======================================== */
+
+.address-block {
+    text-align: center;
+    margin: 2px 0;
+}
+
+.address-line {
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    line-height: 1.15;
+}
+
+.contact-line {
+    font-size: 7.5pt;
+    margin-top: 1px;
+}
+
+/* ========================================
+   DIVIDERS
+   ======================================== */
+
+.dashed-divider {
+    border-top: 1px dashed #000000;
+    margin: 4px 0;
+}
+
+.thin-divider {
+    border-top: 1px solid #cccccc;
+    margin: 2px 0;
+}
+
+.double-dashed-divider {
+    border-top: 1px dashed #000000;
+    border-bottom: 1px dashed #000000;
+    height: 3px;
+    margin: 4px 0;
+}
+
+/* ========================================
+   TAX ID BLOCK - COMPACT
+   ======================================== */
+
+.tax-id-block {
+    text-align: center;
+    padding: 2px 0;
+    font-size: 8pt;
+}
+
+.tax-id-block .tax-label {
+    font-weight: bold;
+    margin-right: 3px;
+}
+
+.tax-id-block .tax-value {
+    letter-spacing: 0.3px;
+    margin-right: 8px;
+}
+
+/* ========================================
+   TRANSACTION HEADER - DENSE
+   ======================================== */
+
+.txn-header {
+    margin: 3px 0;
+}
+
+.txn-line {
+    font-size: 8pt;
+    line-height: 1.2;
+}
+
+.txn-label {
+    font-weight: normal;
+}
+
+.txn-value {
+    font-weight: normal;
+}
+
+.txn-date {
+    margin-right: 8px;
+}
+
+.txn-time {
+    margin-right: 8px;
+}
+
+.txn-term {
+    font-weight: bold;
+}
+
+/* ========================================
+   COLUMN HEADERS - ULTRA ABBREVIATED
+   ======================================== */
+
+.column-headers {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8pt;
+    font-weight: bold;
+    padding: 1px 0;
+}
+
+.col-desc {
+    display: table-cell;
+    width: 48%;
+    text-align: left;
+}
+
+.col-qty {
+    display: table-cell;
+    width: 10%;
+    text-align: center;
+}
+
+.col-price {
+    display: table-cell;
+    width: 18%;
+    text-align: right;
+}
+
+.col-amt {
+    display: table-cell;
+    width: 24%;
+    text-align: right;
+}
+
+/* ========================================
+   ITEMS SECTION - ULTRA DENSE
+   ======================================== */
+
+.items-section {
+    margin: 2px 0;
+}
+
+.item-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8pt;
+    line-height: 1.15;
+    padding: 1px 0;
+}
+
+.item-desc {
+    display: table-cell;
+    width: 48%;
+    text-align: left;
+    font-weight: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.item-qty {
+    display: table-cell;
+    width: 10%;
+    text-align: center;
+}
+
+.item-price {
+    display: table-cell;
+    width: 18%;
+    text-align: right;
+}
+
+.item-amt {
+    display: table-cell;
+    width: 24%;
+    text-align: right;
+}
+
+/* Deal Item Styling */
+.deal-item {
+    background-color: #f8f8f8;
+}
+
+.deal-item .item-desc::before {
+    content: "*";
+}
+
+/* Bulk Item Styling */
+.bulk-item .item-qty {
+    font-weight: bold;
+}
+
+/* Barcode Row - Ultra Small */
+.barcode-row {
+    font-size: 7pt;
+    color: #666666;
+    padding-left: 8px;
+    line-height: 1.0;
+}
+
+.item-barcode {
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.3px;
+}
+
+/* Promo Row */
+.promo-row {
+    font-size: 7pt;
+    color: #333333;
+    padding-left: 8px;
+    line-height: 1.0;
+}
+
+.promo-text {
+    font-style: italic;
+}
+
+/* Bulk Deal Row */
+.bulk-row {
+    font-size: 7pt;
+    color: #444444;
+    padding-left: 8px;
+    line-height: 1.0;
+}
+
+.bulk-text {
+    font-weight: bold;
+}
+
+/* ========================================
+   ITEM COUNT ROW
+   ======================================== */
+
+.item-count-row {
+    font-size: 8pt;
+    padding: 2px 0;
+}
+
+.count-label,
+.unit-label {
+    font-weight: normal;
+    margin-right: 3px;
+}
+
+.count-value {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.unit-value {
+    font-weight: bold;
+}
+
+/* ========================================
+   TOTALS SECTION - COMPACT
+   ======================================== */
+
+.totals-section {
+    margin: 2px 0;
+}
+
+.total-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    line-height: 1.25;
+}
+
+.total-label {
+    display: table-cell;
+    width: 60%;
+    text-align: left;
+    font-weight: normal;
+}
+
+.total-value {
+    display: table-cell;
+    width: 40%;
+    text-align: right;
+    font-weight: normal;
+}
+
+/* Discount Row */
+.discount-row .total-label,
+.discount-row .total-value {
+    color: #333333;
+}
+
+/* Bag Charge Row */
+.bag-row .total-label {
+    font-size: 8pt;
+}
+
+/* Rounding Row */
+.rounding-row .total-label,
+.rounding-row .total-value {
+    font-size: 7.5pt;
+    color: #555555;
+}
+
+/* ========================================
+   TAX BREAKDOWN
+   ======================================== */
+
+.tax-breakdown {
+    margin: 2px 0;
+}
+
+.tax-breakdown .tax-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8pt;
+    line-height: 1.2;
+}
+
+.tax-breakdown .tax-label {
+    display: table-cell;
+    width: 60%;
+    text-align: left;
+}
+
+.tax-breakdown .tax-value {
+    display: table-cell;
+    width: 40%;
+    text-align: right;
+}
+
+/* ========================================
+   GRAND TOTAL - EMPHASIZED
+   ======================================== */
+
+.grand-total-section {
+    padding: 3px 0;
+}
+
+.grand-total-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+.grand-total-label {
+    display: table-cell;
+    width: 50%;
+    text-align: left;
+    font-weight: bold;
+}
+
+.grand-total-value {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+    font-weight: bold;
+    font-size: 11pt;
+}
+
+/* ========================================
+   PAYMENT SECTION
+   ======================================== */
+
+.payment-section {
+    margin: 3px 0;
+}
+
+.pay-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    line-height: 1.25;
+}
+
+.pay-label {
+    display: table-cell;
+    width: 50%;
+    text-align: left;
+    font-weight: normal;
+}
+
+.pay-value {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+    font-weight: normal;
+}
+
+/* Change Row */
+.change-row .pay-label,
+.change-row .pay-value {
+    font-weight: bold;
+}
+
+/* Card Row */
+.card-row {
+    font-size: 7.5pt;
+}
+
+.card-info {
+    display: table-cell;
+    width: 50%;
+    text-align: left;
+    letter-spacing: 0.5px;
+}
+
+.approval-code {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+}
+
+/* ========================================
+   SAVINGS SECTION - DOLLAR STORE EMPHASIS
+   ======================================== */
+
+.savings-section {
+    text-align: center;
+    padding: 3px 0;
+    background-color: #f0f0f0;
+    margin: 3px 0;
+}
+
+.savings-banner {
+    margin-bottom: 2px;
+}
+
+.savings-text {
+    font-size: 8pt;
+    font-weight: bold;
+    letter-spacing: 0.2px;
+}
+
+.savings-amount {
+    margin-top: 1px;
+}
+
+.savings-value {
+    font-size: 11pt;
+    font-weight: bold;
+}
+
+/* ========================================
+   POINTS SECTION
+   ======================================== */
+
+.points-section {
+    margin: 2px 0;
+}
+
+.points-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8pt;
+    line-height: 1.2;
+}
+
+.points-label {
+    display: table-cell;
+    width: 60%;
+    text-align: left;
+}
+
+.points-value {
+    display: table-cell;
+    width: 40%;
+    text-align: right;
+    font-weight: bold;
+}
+
+/* ========================================
+   FOOTER SECTION
+   ======================================== */
+
+.footer-section {
+    text-align: center;
+    margin: 3px 0;
+}
+
+.policy-line {
+    font-size: 7pt;
+    line-height: 1.2;
+    color: #333333;
+}
+
+/* ========================================
+   BARCODE SECTION
+   ======================================== */
+
+.barcode-section {
+    text-align: center;
+    margin: 4px 0;
+}
+
+.barcode-display {
+    font-family: 'Libre Barcode 39', 'Courier New', monospace;
+    font-size: 18pt;
+    letter-spacing: 1px;
+    line-height: 1.0;
+}
+
+.barcode-text {
+    font-size: 7pt;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.5px;
+    margin-top: 1px;
+}
+
+/* ========================================
+   THANK YOU SECTION - BILINGUAL
+   ======================================== */
+
+.thank-you-section {
+    text-align: center;
+    margin: 4px 0;
+}
+
+.thank-you-line {
+    font-size: 9pt;
+    font-weight: bold;
+    line-height: 1.3;
+}
+
+.promo-message {
+    font-size: 7.5pt;
+    margin-top: 3px;
+    color: #444444;
+}
+
+/* ========================================
+   STORE HOURS
+   ======================================== */
+
+.store-hours {
+    text-align: center;
+    margin: 3px 0;
+}
+
+.hours-line {
+    font-size: 7pt;
+    color: #555555;
+}
+
+/* ========================================
+   RECEIPT END MARKER
+   ======================================== */
+
+.receipt-end {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.end-marker {
+    font-size: 7pt;
+    color: #888888;
+    letter-spacing: 1px;
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+    body {
+        background: white;
+    }
+    
+    .dollar-store-receipt {
+        width: 80mm;
+        max-width: 80mm;
+        padding: 2mm;
+    }
+    
+    .savings-section {
+        background-color: #f0f0f0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* ========================================
+   THERMAL PRINTER SIMULATION
+   ======================================== */
+
+/* Slight texture for thermal paper look */
+.dollar-store-receipt::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 1px,
+        rgba(0, 0, 0, 0.01) 1px,
+        rgba(0, 0, 0, 0.01) 2px
+    );
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Slight fade effect on edges */
+.dollar-store-receipt {
+    position: relative;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}

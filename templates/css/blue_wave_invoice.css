@@ -1,0 +1,396 @@
+/* Blue Wave Invoice Stylesheet */
+/* Modern retail invoice with blue wave header design */
+/* Clean professional layout with blue accent theme */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: #333333;
+    background: #ffffff;
+    line-height: 1.4;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 0;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ==================== WAVE HEADER ==================== */
+.wave-header {
+    width: 100%;
+    height: 120px;
+    position: relative;
+    overflow: hidden;
+}
+
+.wave-svg {
+    width: 100%;
+    height: 120px;
+    display: block;
+}
+
+/* ==================== TITLE SECTION ==================== */
+.title-section {
+    display: table;
+    width: 100%;
+    padding: 30px 50px 20px 50px;
+}
+
+.invoice-title {
+    display: table-cell;
+    vertical-align: middle;
+    width: 60%;
+    font-size: 38px;
+    font-weight: 700;
+    color: #1e3a5f;
+    letter-spacing: 8px;
+}
+
+.invoice-number {
+    display: table-cell;
+    vertical-align: middle;
+    width: 40%;
+    text-align: right;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e3a5f;
+}
+
+/* ==================== PARTIES SECTION ==================== */
+.parties-section {
+    display: table;
+    width: 100%;
+    padding: 20px 50px;
+}
+
+.party-column {
+    display: table-cell;
+    vertical-align: top;
+    width: 50%;
+}
+
+.party-column.from {
+    text-align: right;
+}
+
+.party-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e3a5f;
+    font-style: italic;
+    margin-bottom: 8px;
+}
+
+.party-name {
+    font-size: 13px;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.party-phone {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 3px;
+}
+
+.party-address {
+    font-size: 12px;
+    color: #666;
+}
+
+/* ==================== DATE SECTION ==================== */
+.date-section {
+    padding: 15px 50px 25px 50px;
+    font-size: 13px;
+    color: #333;
+}
+
+.date-label {
+    font-weight: 600;
+}
+
+/* ==================== ITEMS TABLE ==================== */
+.items-table {
+    width: calc(100% - 100px);
+    margin: 0 50px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.items-table thead tr {
+    background: #2563a8;
+}
+
+.items-table th {
+    padding: 12px 15px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: left;
+}
+
+.items-table th.col-desc {
+    width: 45%;
+    text-align: center;
+}
+
+.items-table th.col-qty {
+    width: 15%;
+    text-align: center;
+}
+
+.items-table th.col-price {
+    width: 20%;
+    text-align: center;
+}
+
+.items-table th.col-total {
+    width: 20%;
+    text-align: center;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.items-table tbody tr:nth-child(odd) {
+    background: #ffffff;
+}
+
+.items-table tbody tr:nth-child(even) {
+    background: #fafafa;
+}
+
+.items-table td {
+    padding: 12px 15px;
+    font-size: 11px;
+    color: #333;
+    vertical-align: middle;
+    word-wrap: break-word;
+    border-left: 3px solid transparent;
+}
+
+.items-table tbody tr td:first-child {
+    border-left: 3px solid #2563a8;
+}
+
+.items-table td.col-desc {
+    text-align: left;
+}
+
+.items-table td.col-qty {
+    text-align: center;
+    color: #666;
+}
+
+.items-table td.col-price,
+.items-table td.col-total {
+    text-align: center;
+    color: #333;
+}
+
+/* ==================== TOTALS SECTION ==================== */
+.totals-section {
+    width: calc(100% - 100px);
+    margin: 15px 50px 25px 50px;
+    border-collapse: collapse;
+}
+
+.totals-spacer {
+    width: 60%;
+}
+
+.totals-container-cell {
+    width: 40%;
+    vertical-align: top;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 3px;
+}
+
+.totals-label {
+    width: 50%;
+    padding: 10px 15px;
+    font-size: 11px;
+    font-weight: normal;
+    color: #333333;
+    text-align: left;
+    vertical-align: middle;
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+}
+
+.totals-value {
+    width: 50%;
+    padding: 10px 15px;
+    font-size: 11px;
+    font-weight: normal;
+    color: #333333;
+    text-align: right;
+    vertical-align: middle;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+}
+
+.total-row .totals-label {
+    font-weight: 700;
+    font-size: 12px;
+    color: #ffffff;
+    background: #2563a8;
+    border: 1px solid #2563a8;
+}
+
+.total-row .totals-value {
+    font-weight: 700;
+    font-size: 13px;
+    color: #1e3a5f;
+    background: #ffffff;
+    border: 1px solid #2563a8;
+}
+
+/* ==================== NOTE SECTION ==================== */
+.note-section {
+    padding: 5px 50px 15px 50px;
+    max-width: 300px;
+}
+
+.note-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.note-line {
+    height: 1px;
+    background: #333;
+    margin-bottom: 15px;
+    width: 180px;
+}
+
+/* ==================== FOOTER SECTION ==================== */
+.footer-section {
+    position: absolute;
+    bottom: 30px;
+    left: 50px;
+    right: 50px;
+    display: table;
+    width: calc(100% - 100px);
+}
+
+.payment-info {
+    display: table-cell;
+    vertical-align: top;
+    width: 50%;
+}
+
+.payment-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.payment-row {
+    font-size: 11px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.payment-label {
+    font-weight: 700;
+    display: inline-block;
+    width: 70px;
+}
+
+.payment-value {
+    color: #666;
+}
+
+.thank-you {
+    display: table-cell;
+    vertical-align: bottom;
+    width: 50%;
+    text-align: right;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #1e3a5f;
+    font-style: italic;
+}
+
+/* ==================== CONTINUATION HEADER/FOOTER ==================== */
+.continuation-header {
+    display: table;
+    width: 100%;
+    padding: 30px 50px 20px 50px;
+    border-bottom: 3px solid #2563a8;
+    margin-bottom: 20px;
+}
+
+.cont-title {
+    display: table-cell;
+    vertical-align: middle;
+    width: 50%;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e3a5f;
+    letter-spacing: 5px;
+}
+
+.cont-info {
+    display: table-cell;
+    vertical-align: middle;
+    width: 50%;
+    text-align: right;
+    font-size: 11px;
+    color: #666;
+}
+
+.continuation-footer {
+    padding: 15px 50px;
+    text-align: center;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 20px;
+}
+
+.cont-footer-text {
+    font-size: 10px;
+    color: #666;
+    font-style: italic;
+}
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .invoice-page {
+        width: 100%;
+        min-height: auto;
+    }
+    
+    .footer-section {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        width: 100%;
+        margin-top: 40px;
+        padding: 0 50px;
+    }
+}

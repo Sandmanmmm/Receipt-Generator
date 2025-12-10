@@ -97,18 +97,24 @@ body {
 }
 
 .info-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 12px;
+}
+
+.info-grid-row {
+    display: table-row;
 }
 
 .info-item {
-    display: flex;
-    flex-direction: column;
+    display: table-cell;
+    width: 33.33%;
     padding: 10px;
     background: #ffffff;
     border-radius: 4px;
     border: 1px solid #bfdbfe;
+    vertical-align: top;
 }
 
 .contract-item {
@@ -140,10 +146,17 @@ body {
 
 /* Agency Information */
 .agency-info-section {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 12px;
     margin-bottom: 20px;
+}
+
+.agency-info-section > div {
+    display: table-cell;
+    width: 33.33%;
+    vertical-align: top;
 }
 
 .agency-box,
@@ -606,10 +619,17 @@ body {
 }
 
 .payment-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 12px;
     margin-bottom: 15px;
+}
+
+.payment-grid > div {
+    display: table-cell;
+    width: 50%;
+    vertical-align: top;
 }
 
 .payment-method-box,

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill of Lading - {{ bol_number }}</title>
+    <link rel="stylesheet" href="../css/bill_of_lading.css">
+</head>
+<body>
+    <div class="bol-page">
+        <!-- Header Section -->
+        <div class="bol-header">
+            <div class="header-left">
+                {% if supplier_logo %}
+                <img src="{{ supplier_logo }}" alt="{{ carrier_name }}" class="carrier-logo">
+                {% endif %}
+                <div class="carrier-info">
+                    <div class="carrier-name">{{ carrier_name|default('FREIGHT CARRIER') }}</div>
+                    <div class="carrier-tagline">{{ carrier_tagline|default('LTL Freight Services') }}</div>
+                </div>
+            </div>
+            <div class="header-center">
+                <div class="document-title">STRAIGHT BILL OF LADING</div>
+                <div class="document-subtitle">SHORT FORM - NOT NEGOTIABLE</div>
+            </div>
+            <div class="header-right">
+                <table class="header-fields">
+                    <tr>
+                        <td class="field-label">BOL #:</td>
+                        <td class="field-value bol-number">{{ bol_number }}</td>
+                    </tr>
+                    <tr>
+                        <td class="field-label">Date:</td>
+                        <td class="field-value">{{ bol_date|default(ship_date) }}</td>
+                    </tr>
+                    <tr>
+                        <td class="field-label">PRO #:</td>
+                        <td class="field-value pro-number">{{ pro_number|default('') }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Service Type Bar -->
+        <div class="service-bar">
+            <div class="service-options">
+                <span class="service-option {{ 'selected' if service_type == 'Priority' else '' }}">
+                    <span class="checkbox">{% if service_type == 'Priority' %}[X]{% else %}[ ]{% endif %}</span>
+                    PRIORITY
+                </span>
+                <span class="service-option {{ 'selected' if service_type == 'Economy' or not service_type else '' }}">
+                    <span class="checkbox">{% if service_type == 'Economy' or not service_type %}[X]{% else %}[ ]{% endif %}</span>
+                    ECONOMY
+                </span>
+                <span class="service-option {{ 'selected' if service_type == 'Expedited' else '' }}">
+                    <span class="checkbox">{% if service_type == 'Expedited' %}[X]{% else %}[ ]{% endif %}</span>
+                    EXPEDITED
+                </span>
+            </div>
+            <div class="guarantee-options">
+                <span class="guarantee-label">GUARANTEED:</span>
+                <span class="guarantee-option {{ 'selected' if guaranteed_am else '' }}">
+                    <span class="checkbox">{% if guaranteed_am %}[X]{% else %}[ ]{% endif %}</span>
+                    AM
+                </span>
+                <span class="guarantee-option {{ 'selected' if guaranteed_cob else '' }}">
+                    <span class="checkbox">{% if guaranteed_cob %}[X]{% else %}[ ]{% endif %}</span>
+                    COB
+                </span>
+            </div>
+            <div class="reference-numbers">
+                {% if po_number %}
+                <span class="ref-item"><span class="ref-label">PO#:</span> {{ po_number }}</span>
+                {% endif %}
+                {% if shipper_ref %}
+                <span class="ref-item"><span class="ref-label">Shipper#:</span> {{ shipper_ref }}</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Parties Section: Shipper, Consignee, Third Party -->
+        <table class="parties-grid">
+            <tr>
+                <!-- Shipper -->
+                <td class="party-cell shipper-cell">
+                    <div class="party-header">
+                        <span class="party-label">SHIPPER (FROM)</span>
+                        <span class="account-field">Acct#: {{ shipper_account|default('') }}</span>
+                    </div>
+                    <div class="party-content">
+                        <div class="party-name">{{ shipper_name|default(supplier_name) }}</div>
+                        <div class="party-address">
+                            {{ shipper_address|default(supplier_address) }}<br>
+                            {{ shipper_city|default(supplier_city) }}, {{ shipper_state|default(supplier_state) }} {{ shipper_zip|default(supplier_zip) }}
+                        </div>
+                        <div class="party-contact-row">
+                            {% if shipper_contact %}
+                            <span class="contact-item">Attn: {{ shipper_contact }}</span>
+                            {% endif %}
+                            {% if shipper_phone %}
+                            <span class="contact-item">Tel: {{ shipper_phone }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- Accessorial Services -->
+                    <div class="accessorial-row">
+                        <span class="acc-item {{ 'checked' if shipper_liftgate else '' }}">
+                            <span class="checkbox">{% if shipper_liftgate %}[X]{% else %}[ ]{% endif %}</span> Liftgate
+                        </span>
+                        <span class="acc-item {{ 'checked' if shipper_inside else '' }}">
+                            <span class="checkbox">{% if shipper_inside %}[X]{% else %}[ ]{% endif %}</span> Inside PU
+                        </span>
+                        <span class="acc-item {{ 'checked' if shipper_limited else '' }}">
+                            <span class="checkbox">{% if shipper_limited %}[X]{% else %}[ ]{% endif %}</span> Limited Access
+                        </span>
+                    </div>
+                </td>
+
+                <!-- Consignee -->
+                <td class="party-cell consignee-cell">
+                    <div class="party-header">
+                        <span class="party-label">CONSIGNEE (TO)</span>
+                        <span class="account-field">Acct#: {{ consignee_account|default('') }}</span>
+                    </div>
+                    <div class="party-content">
+                        <div class="party-name">{{ consignee_name|default(buyer_name) }}</div>
+                        <div class="party-address">
+                            {{ consignee_address|default(buyer_address) }}<br>
+                            {{ consignee_city|default(buyer_city) }}, {{ consignee_state|default(buyer_state) }} {{ consignee_zip|default(buyer_zip) }}
+                        </div>
+                        <div class="party-contact-row">
+                            {% if consignee_contact|default(buyer_name) %}
+                            <span class="contact-item">Attn: {{ consignee_contact|default('') }}</span>
+                            {% endif %}
+                            {% if consignee_phone|default(buyer_phone) %}
+                            <span class="contact-item">Tel: {{ consignee_phone|default(buyer_phone) }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- Accessorial Services -->
+                    <div class="accessorial-row">
+                        <span class="acc-item {{ 'checked' if consignee_liftgate else '' }}">
+                            <span class="checkbox">{% if consignee_liftgate %}[X]{% else %}[ ]{% endif %}</span> Liftgate
+                        </span>
+                        <span class="acc-item {{ 'checked' if consignee_inside else '' }}">
+                            <span class="checkbox">{% if consignee_inside %}[X]{% else %}[ ]{% endif %}</span> Inside Del
+                        </span>
+                        <span class="acc-item {{ 'checked' if consignee_limited else '' }}">
+                            <span class="checkbox">{% if consignee_limited %}[X]{% else %}[ ]{% endif %}</span> Limited Access
+                        </span>
+                    </div>
+                </td>
+
+                <!-- Third Party Billing -->
+                <td class="party-cell third-party-cell">
+                    <div class="party-header">
+                        <span class="party-label">BILL FREIGHT CHARGES TO</span>
+                    </div>
+                    <div class="party-content">
+                        {% if third_party_name %}
+                        <div class="party-name">{{ third_party_name }}</div>
+                        <div class="party-address">
+                            {{ third_party_address }}<br>
+                            {{ third_party_city }}, {{ third_party_state }} {{ third_party_zip }}
+                        </div>
+                        {% if third_party_account %}
+                        <div class="party-account">Acct#: {{ third_party_account }}</div>
+                        {% endif %}
+                        {% else %}
+                        <div class="no-third-party">Same as shipper/consignee</div>
+                        {% endif %}
+                    </div>
+                    <!-- Freight Terms -->
+                    <div class="freight-terms-row">
+                        <span class="term-item {{ 'selected' if freight_terms == 'Prepaid' or not freight_terms else '' }}">
+                            <span class="checkbox">{% if freight_terms == 'Prepaid' or not freight_terms %}[X]{% else %}[ ]{% endif %}</span> Prepaid
+                        </span>
+                        <span class="term-item {{ 'selected' if freight_terms == 'Collect' else '' }}">
+                            <span class="checkbox">{% if freight_terms == 'Collect' %}[X]{% else %}[ ]{% endif %}</span> Collect
+                        </span>
+                        <span class="term-item {{ 'selected' if freight_terms == '3rd Party' else '' }}">
+                            <span class="checkbox">{% if freight_terms == '3rd Party' %}[X]{% else %}[ ]{% endif %}</span> 3rd Party
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Special Instructions -->
+        <div class="instructions-bar">
+            <div class="instructions-label">SPECIAL INSTRUCTIONS:</div>
+            <div class="instructions-content">{{ special_instructions|default('') }}</div>
+        </div>
+
+        <!-- Freight Items Table -->
+        <div class="items-section">
+            <div class="items-header-row">
+                <span class="section-title">FREIGHT DESCRIPTION</span>
+                {% if _total_pages|default(1) > 1 %}
+                <span class="page-indicator">Page {{ _page_number|default(1) }} of {{ _total_pages }}</span>
+                {% endif %}
+            </div>
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-hu">H/U</th>
+                        <th class="col-pkg">Pkg Type</th>
+                        <th class="col-pcs">Pieces</th>
+                        <th class="col-hm">HM</th>
+                        <th class="col-desc">Description of Articles, Special Marks & Exceptions</th>
+                        <th class="col-weight">Weight (lbs)</th>
+                        <th class="col-nmfc">NMFC#</th>
+                        <th class="col-class">Class</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row {{ 'hazmat-row' if item.is_hazmat else '' }}">
+                        <td class="col-hu">{{ item.handling_units|default(1) }}</td>
+                        <td class="col-pkg">{{ item.package_type|default('PLT') }}</td>
+                        <td class="col-pcs">{{ item.pieces|default(item.quantity) }}</td>
+                        <td class="col-hm">{% if item.is_hazmat %}X{% endif %}</td>
+                        <td class="col-desc">
+                            <div class="item-description">{{ item.description|default(item.name) }}</div>
+                            {% if item.special_marks %}
+                            <div class="item-marks">{{ item.special_marks }}</div>
+                            {% endif %}
+                            {% if item.sku %}
+                            <div class="item-sku">SKU: {{ item.sku }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="col-weight">{{ item.weight|default('-') }}</td>
+                        <td class="col-nmfc">{{ item.nmfc_number|default('-') }}</td>
+                        <td class="col-class">{{ item.freight_class|default('-') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Totals and Summary Row -->
+        {% if _is_last_page|default(true) %}
+        <div class="totals-row">
+            <table class="totals-table">
+                <tr>
+                    <td class="totals-left">
+                        <div class="total-item">
+                            <span class="total-label">Total H/U:</span>
+                            <span class="total-value">{{ total_handling_units|default(_total_items)|default(items|length) }}</span>
+                        </div>
+                        <div class="total-item">
+                            <span class="total-label">Total Pieces:</span>
+                            <span class="total-value">{{ total_pieces|default(total_units)|default('-') }}</span>
+                        </div>
+                    </td>
+                    <td class="totals-center">
+                        <div class="total-item">
+                            <span class="total-label">Total Weight:</span>
+                            <span class="total-value weight">{{ total_weight|default(gross_weight)|default('0') }} lbs</span>
+                        </div>
+                        {% if total_cube %}
+                        <div class="total-item">
+                            <span class="total-label">Total Cube:</span>
+                            <span class="total-value">{{ total_cube }} cu ft</span>
+                        </div>
+                        {% endif %}
+                    </td>
+                    <td class="totals-right">
+                        {% if declared_value %}
+                        <div class="declared-value-box">
+                            <div class="dv-label">DECLARED VALUE</div>
+                            <div class="dv-amount">${{ "%.2f"|format(declared_value) }}</div>
+                        </div>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- COD Section (if applicable) -->
+        {% if cod_amount %}
+        <div class="cod-section">
+            <div class="cod-header">C.O.D. SECTION</div>
+            <table class="cod-table">
+                <tr>
+                    <td class="cod-amount-cell">
+                        <span class="cod-label">C.O.D. Amount:</span>
+                        <span class="cod-value">${{ "%.2f"|format(cod_amount) }} {{ cod_currency|default('USD') }}</span>
+                    </td>
+                    <td class="cod-terms-cell">
+                        <span class="cod-option {{ 'selected' if cod_type == 'Company Check' else '' }}">
+                            <span class="checkbox">{% if cod_type == 'Company Check' %}[X]{% else %}[ ]{% endif %}</span> Company Check
+                        </span>
+                        <span class="cod-option {{ 'selected' if cod_type == 'Certified Check' else '' }}">
+                            <span class="checkbox">{% if cod_type == 'Certified Check' %}[X]{% else %}[ ]{% endif %}</span> Certified Check
+                        </span>
+                        <span class="cod-option {{ 'selected' if cod_type == 'Cash' else '' }}">
+                            <span class="checkbox">{% if cod_type == 'Cash' %}[X]{% else %}[ ]{% endif %}</span> Cash
+                        </span>
+                    </td>
+                    <td class="cod-fee-cell">
+                        <span class="cod-fee-label">C.O.D. Fee:</span>
+                        <span class="cod-option {{ 'selected' if cod_fee_paid_by == 'Shipper' else '' }}">
+                            <span class="checkbox">{% if cod_fee_paid_by == 'Shipper' %}[X]{% else %}[ ]{% endif %}</span> Shipper
+                        </span>
+                        <span class="cod-option {{ 'selected' if cod_fee_paid_by == 'Consignee' or not cod_fee_paid_by else '' }}">
+                            <span class="checkbox">{% if cod_fee_paid_by == 'Consignee' or not cod_fee_paid_by %}[X]{% else %}[ ]{% endif %}</span> Consignee
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Hazmat Emergency Contact (if applicable) -->
+        {% if has_hazmat %}
+        <div class="hazmat-section">
+            <div class="hazmat-header">HAZARDOUS MATERIALS EMERGENCY CONTACT</div>
+            <div class="hazmat-content">
+                <span class="hazmat-item">
+                    <span class="hm-label">24-Hr Emergency Phone:</span>
+                    <span class="hm-value">{{ hazmat_emergency_phone|default('1-800-424-9300 (CHEMTREC)') }}</span>
+                </span>
+                <span class="hazmat-item">
+                    <span class="hm-label">Contract#:</span>
+                    <span class="hm-value">{{ hazmat_contract_number|default('') }}</span>
+                </span>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Certification and Signatures -->
+        <div class="signatures-section">
+            <table class="signatures-table">
+                <tr>
+                    <!-- Shipper Certification -->
+                    <td class="sig-cell shipper-sig">
+                        <div class="sig-header">SHIPPER CERTIFICATION</div>
+                        <div class="sig-text">
+                            This is to certify that the above named materials are properly classified, described, packaged, marked and labeled, and are in proper condition for transportation according to the applicable regulations of the DOT.
+                        </div>
+                        <div class="sig-line-row">
+                            <div class="sig-line">
+                                <span class="sig-value">{{ shipper_signature|default('') }}</span>
+                                <span class="sig-label">Shipper Signature</span>
+                            </div>
+                            <div class="sig-date">
+                                <span class="sig-value">{{ shipper_signature_date|default(bol_date)|default('') }}</span>
+                                <span class="sig-label">Date</span>
+                            </div>
+                        </div>
+                    </td>
+
+                    <!-- Carrier Certification -->
+                    <td class="sig-cell carrier-sig">
+                        <div class="sig-header">CARRIER CERTIFICATION</div>
+                        <div class="sig-text">
+                            Carrier acknowledges receipt of packages and required placards. Carrier certifies emergency response information was made available and/or driver has been trained.
+                        </div>
+                        <div class="sig-line-row">
+                            <div class="sig-line">
+                                <span class="sig-value">{{ driver_signature|default('') }}</span>
+                                <span class="sig-label">Driver Signature</span>
+                            </div>
+                            <div class="sig-date">
+                                <span class="sig-value">{{ pickup_date|default('') }}</span>
+                                <span class="sig-label">Date</span>
+                            </div>
+                        </div>
+                        <div class="driver-info">
+                            <span class="driver-item">Employee#: {{ driver_employee_number|default('') }}</span>
+                            <span class="driver-item">Pieces: {{ driver_piece_count|default(total_pieces)|default('') }}</span>
+                            <span class="driver-item">Trailer#: {{ trailer_number|default('') }}</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="bol-footer">
+            <div class="footer-left">
+                <div class="terms-notice">
+                    Subject to the classifications and tariffs in effect on the date of issue. The carrier shall not deliver without payment of freight and all other lawful charges.
+                </div>
+            </div>
+            <div class="footer-right">
+                {% if _total_pages|default(1) > 1 %}
+                <span class="page-number">Page {{ _page_number|default(1) }} of {{ _total_pages }}</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

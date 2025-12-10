@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingram Micro Invoice</title>
+    <link rel="stylesheet" href="../css/ingrammicro_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- HEADER - First Page Only -->
+        <header class="main-header">
+            <table class="header-table">
+                <tr>
+                    <td class="logo-cell">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name|default('Ingram Micro') }}" class="logo-image">
+                        {% else %}
+                        <div class="logo-container">
+                            <div class="logo-icon">[IM]</div>
+                            <div class="logo-text">
+                                <span class="logo-name">{{ supplier_name|default('ingram micro') }}</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </td>
+                    <td class="invoice-title-cell">
+                        <div class="invoice-badge">INVOICE</div>
+                    </td>
+                </tr>
+            </table>
+            
+            <!-- Invoice Details Bar -->
+            <div class="details-bar">
+                <table class="details-table">
+                    <tr>
+                        <td class="detail-item">
+                            <span class="detail-label">Invoice #</span>
+                            <span class="detail-value">{{ invoice_number|default('IM-' ~ range(10000000, 99999999)|random) }}</span>
+                        </td>
+                        <td class="detail-item">
+                            <span class="detail-label">Invoice Date</span>
+                            <span class="detail-value">{{ invoice_date|default('2024-12-07') }}</span>
+                        </td>
+                        <td class="detail-item">
+                            <span class="detail-label">Sales Order #</span>
+                            <span class="detail-value">{{ sales_order_number|default('SO-' ~ range(1000000, 9999999)|random) }}</span>
+                        </td>
+                        <td class="detail-item">
+                            <span class="detail-label">PO Number</span>
+                            <span class="detail-value">{{ po_number|default('PO-' ~ range(100000, 999999)|random) }}</span>
+                        </td>
+                        <td class="detail-item">
+                            <span class="detail-label">Customer #</span>
+                            <span class="detail-value">{{ customer_account|default(range(100000, 999999)|random) }}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <!-- Addresses Section -->
+            <table class="addresses-table">
+                <tr>
+                    <td class="address-cell sold-to">
+                        <div class="address-header">SOLD TO</div>
+                        <div class="address-content">
+                            <div class="company-name">{{ buyer_name|default('Tech Solutions LLC') }}</div>
+                            {% if buyer_address %}
+                            <div class="address-line">{{ buyer_address }}</div>
+                            {% endif %}
+                            {% if buyer_city or buyer_state or buyer_zip %}
+                            <div class="address-line">{{ buyer_city|default('') }}{% if buyer_state %}, {{ buyer_state }}{% endif %} {{ buyer_zip|default('') }}</div>
+                            {% endif %}
+                            {% if buyer_phone %}
+                            <div class="address-line">Tel: {{ buyer_phone }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="address-cell ship-to">
+                        <div class="address-header">SHIP TO</div>
+                        <div class="address-content">
+                            <div class="company-name">{{ shipping_name|default(buyer_name|default('Tech Solutions LLC')) }}</div>
+                            {% if shipping_address %}
+                            <div class="address-line">{{ shipping_address }}</div>
+                            {% elif buyer_address %}
+                            <div class="address-line">{{ buyer_address }}</div>
+                            {% endif %}
+                            {% if shipping_city or shipping_state or shipping_zip %}
+                            <div class="address-line">{{ shipping_city|default('') }}{% if shipping_state %}, {{ shipping_state }}{% endif %} {{ shipping_zip|default('') }}</div>
+                            {% elif buyer_city or buyer_state or buyer_zip %}
+                            <div class="address-line">{{ buyer_city|default('') }}{% if buyer_state %}, {{ buyer_state }}{% endif %} {{ buyer_zip|default('') }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="address-cell remit-to">
+                        <div class="address-header">REMIT TO</div>
+                        <div class="address-content">
+                            <div class="company-name">{{ supplier_name|default('Ingram Micro Inc.') }}</div>
+                            <div class="address-line">{{ supplier_address|default('P.O. Box 25125') }}</div>
+                            <div class="address-line">{{ supplier_city|default('Santa Ana') }}, {{ supplier_state|default('CA') }} {{ supplier_zip|default('92799-5125') }}</div>
+                            <div class="address-line">Federal Tax ID: {{ supplier_tax_id|default('62-1739566') }}</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            
+            <!-- Shipping & Terms Info -->
+            <div class="shipping-terms-bar">
+                <table class="shipping-terms-table">
+                    <tr>
+                        <td class="term-item">
+                            <span class="term-label">Ship Via</span>
+                            <span class="term-value">{{ ship_via|default('UPS Ground') }}</span>
+                        </td>
+                        <td class="term-item">
+                            <span class="term-label">Ship Date</span>
+                            <span class="term-value">{{ ship_date|default(invoice_date|default('2024-12-07')) }}</span>
+                        </td>
+                        <td class="term-item">
+                            <span class="term-label">Tracking #</span>
+                            <span class="term-value tracking">{{ tracking_number|default('1Z999AA10123456784') }}</span>
+                        </td>
+                        <td class="term-item">
+                            <span class="term-label">Terms</span>
+                            <span class="term-value">{{ payment_terms|default('Net 30') }}</span>
+                        </td>
+                        <td class="term-item">
+                            <span class="term-label">Due Date</span>
+                            <span class="term-value">{{ due_date|default('2025-01-06') }}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </header>
+        {% else %}
+        <!-- CONTINUATION HEADER - Pages 2+ -->
+        <header class="continuation-header">
+            <table class="continuation-table">
+                <tr>
+                    <td class="cont-logo">
+                        <div class="cont-logo-text">[IM] ingram micro</div>
+                    </td>
+                    <td class="cont-info">
+                        <span class="cont-label">Invoice:</span> {{ invoice_number|default('IM-00000000') }}
+                    </td>
+                    <td class="cont-info">
+                        <span class="cont-label">Customer:</span> {{ customer_account|default('000000') }}
+                    </td>
+                    <td class="cont-page">
+                        Page {{ _current_page }} of {{ _total_pages }}
+                    </td>
+                </tr>
+            </table>
+        </header>
+        {% endif %}
+        
+        <!-- LINE ITEMS TABLE -->
+        <section class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-line">#</th>
+                        <th class="col-vpn">VPN</th>
+                        <th class="col-sku">IM Part #</th>
+                        <th class="col-description">Description</th>
+                        <th class="col-qty">Qty Ship</th>
+                        <th class="col-unit">Unit Price</th>
+                        <th class="col-extended">Extended</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row {% if loop.index is odd %}odd{% else %}even{% endif %}">
+                        <td class="col-line">{{ loop.index }}</td>
+                        <td class="col-vpn">{{ item.mpn|default(item.sku|default('VPN-' ~ range(10000, 99999)|random)) }}</td>
+                        <td class="col-sku">{{ item.sku|default('IM' ~ range(100000, 999999)|random) }}</td>
+                        <td class="col-description">
+                            <div class="item-name">{{ item.description|default(item.name|default('IT Product')) }}</div>
+                            {% if item.manufacturer %}
+                            <div class="item-mfr">Mfr: {{ item.manufacturer }}</div>
+                            {% endif %}
+                            {% if item.upc %}
+                            <div class="item-upc">UPC: {{ item.upc }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="col-qty">{{ item.quantity|default(1) }}</td>
+                        <td class="col-unit">{{ item.unit_price|default('$0.00') }}</td>
+                        <td class="col-extended">{{ item.total|default('$0.00') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        
+        {% if _is_last_page|default(true) %}
+        <!-- TOTALS SECTION - Last Page Only -->
+        <section class="totals-section">
+            <table class="totals-layout">
+                <tr>
+                    <td class="notes-cell">
+                        <div class="notes-box">
+                            <div class="notes-title">[i] Important Information</div>
+                            <div class="notes-content">
+                                <p>Payment is due upon receipt unless otherwise specified.</p>
+                                <p>For questions regarding this invoice, contact your {{ supplier_name|default('Ingram Micro') }} sales representative or call {{ supplier_phone|default('1-800-456-8000') }}.</p>
+                                <p>All returns must have an RMA number. Visit {{ supplier_website|default('ima.ingrammicro.com') }} for return policies.</p>
+                                {% if notes %}
+                                <p class="custom-note">{{ notes }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Options -->
+                        <div class="payment-box">
+                            <div class="payment-title">Payment Options</div>
+                            <div class="payment-methods">
+                                <span class="pay-method">[ACH] ACH/Wire</span>
+                                <span class="pay-method">[CHK] Check</span>
+                                <span class="pay-method">[CC] Credit Card</span>
+                            </div>
+                            <div class="payment-details">
+                                <div class="bank-info">
+                                    <span class="bank-label">Bank:</span> Wells Fargo Bank, N.A.
+                                </div>
+                                <div class="bank-info">
+                                    <span class="bank-label">ABA/Routing:</span> 121000248
+                                </div>
+                                <div class="bank-info">
+                                    <span class="bank-label">Account:</span> Please contact AR for details
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="totals-cell">
+                        <table class="totals-table">
+                            <tr class="total-row">
+                                <td class="total-label">Merchandise Total:</td>
+                                <td class="total-value">{{ subtotal|default('$0.00') }}</td>
+                            </tr>
+                            {% if (discount_raw|default(0)) > 0 %}
+                            <tr class="total-row discount-row">
+                                <td class="total-label">Discount:</td>
+                                <td class="total-value discount">-{{ discount|default('$0.00') }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="total-row">
+                                <td class="total-label">Freight:</td>
+                                <td class="total-value">{{ shipping_cost|default('$0.00') }}</td>
+                            </tr>
+                            {% if handling_fee %}
+                            <tr class="total-row">
+                                <td class="total-label">Handling Fee:</td>
+                                <td class="total-value">{{ handling_fee }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="total-row">
+                                <td class="total-label">Tax ({{ tax_rate|default('0.00') }}%):</td>
+                                <td class="total-value">{{ tax_amount|default('$0.00') }}</td>
+                            </tr>
+                            <tr class="total-row grand-total">
+                                <td class="total-label">INVOICE TOTAL:</td>
+                                <td class="total-value">{{ total_amount|default('$0.00') }}</td>
+                            </tr>
+                        </table>
+                        
+                        <div class="balance-due">
+                            <span class="balance-label">Amount Due:</span>
+                            <span class="balance-value">{{ total_amount|default('$0.00') }}</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+        
+        <!-- FOOTER -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-company">
+                    <strong>{{ supplier_name|default('Ingram Micro Inc.') }}</strong> | {{ supplier_full_address|default('3351 Michelson Drive, Suite 100, Irvine, CA 92612') }}
+                </div>
+                <div class="footer-contact">
+                    Tel: {{ supplier_phone|default('1-800-456-8000') }} | Fax: {{ supplier_fax|default('1-714-566-1000') }} | {{ supplier_website|default('ingrammicro.com') }}
+                </div>
+                <div class="footer-stock">
+                    {{ stock_ticker|default('NYSE: INGM') }} | Federal Tax ID: {{ supplier_tax_id|default('62-1739566') }}
+                </div>
+            </div>
+            <div class="footer-page">
+                Page {{ _current_page|default(1) }} of {{ _total_pages|default(1) }}
+            </div>
+        </footer>
+        {% else %}
+        <!-- CONTINUATION FOOTER -->
+        <footer class="continuation-footer">
+            <div class="cont-footer-left">
+                Invoice {{ invoice_number|default('IM-00000000') }} | Customer {{ customer_account|default('000000') }}
+            </div>
+            <div class="cont-footer-center">
+                Continued on next page...
+            </div>
+            <div class="cont-footer-right">
+                Page {{ _current_page }} of {{ _total_pages }}
+            </div>
+        </footer>
+        {% endif %}
+    </div>
+</body>
+</html>

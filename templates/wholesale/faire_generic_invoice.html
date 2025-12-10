@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fayre Generic Invoice</title>
+    <link rel="stylesheet" href="../css/faire_generic_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- First Page Header -->
+        <div class="header">
+            <div class="order-info">
+                <div class="order-line">Order #{{ order_number }} placed on {{ order_date }}</div>
+                <div class="invoice-line"><strong>Invoice:</strong> #{{ invoice_number }}</div>
+            </div>
+        </div>
+
+        <!-- Three Column Address Section -->
+        <table class="address-section">
+            <tr>
+                <td class="address-column">
+                    <div class="address-label"><strong>Invoice issued for and on behalf of:</strong></div>
+                    <div class="address-content">
+                        <div>{{ supplier_name }}</div>
+                        <div>{{ supplier_address }}</div>
+                        {% if supplier_city %}
+                        <div>{{ supplier_city }}{% if supplier_postal %} {{ supplier_postal }}{% endif %}</div>
+                        {% endif %}
+                        {% if supplier_country %}
+                        <div>{{ supplier_country }}</div>
+                        {% endif %}
+                        {% if supplier_phone %}
+                        <div>{{ supplier_phone }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="address-column">
+                    <div class="address-label"><strong>Bill to:</strong></div>
+                    <div class="address-content">
+                        <div>{{ buyer_name }}</div>
+                        <div>{{ buyer_address }}</div>
+                        {% if buyer_unit %}
+                        <div>{{ buyer_unit }}</div>
+                        {% endif %}
+                        {% if buyer_city %}
+                        <div>{{ buyer_city }}{% if buyer_postal %} {{ buyer_postal }}{% endif %}</div>
+                        {% endif %}
+                        {% if buyer_country %}
+                        <div>{{ buyer_country }}</div>
+                        {% endif %}
+                        {% if buyer_phone %}
+                        <div>{{ buyer_phone }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="address-column">
+                    <div class="address-label"><strong>Ship to:</strong></div>
+                    <div class="address-content">
+                        <div>{{ shipping_name|default(buyer_name) }}</div>
+                        <div>{{ shipping_address|default(buyer_address) }}</div>
+                        {% if shipping_unit|default(buyer_unit) %}
+                        <div>{{ shipping_unit|default(buyer_unit) }}</div>
+                        {% endif %}
+                        {% if shipping_city|default(buyer_city) %}
+                        <div>{{ shipping_city|default(buyer_city) }}{% if shipping_postal|default(buyer_postal) %} {{ shipping_postal|default(buyer_postal) }}{% endif %}</div>
+                        {% endif %}
+                        {% if shipping_country|default(buyer_country) %}
+                        <div>{{ shipping_country|default(buyer_country) }}</div>
+                        {% endif %}
+                        {% if shipping_phone|default(buyer_phone) %}
+                        <div>{{ shipping_phone|default(buyer_phone) }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- VAT Number -->
+        {% if vat_number %}
+        <div class="vat-section">
+            VAT # {{ vat_number }}
+        </div>
+        {% endif %}
+
+        {% else %}
+        <!-- Continuation Page Header -->
+        <div class="continuation-header">
+            <span>Order #{{ order_number }} - Invoice #{{ invoice_number }}</span>
+            <span class="page-indicator">Page {{ _current_page }} of {{ _total_pages }}</span>
+        </div>
+        {% endif %}
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-item">Item</th>
+                    <th class="col-sku">SKU</th>
+                    <th class="col-gtin">GTIN</th>
+                    <th class="col-price">Price</th>
+                    <th class="col-qty">Qty</th>
+                    <th class="col-subtotal">Item Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="item-row">
+                    <td class="col-item">
+                        <div class="item-description">{{ item.description }}</div>
+                        {% if item.variant %}
+                        <div class="item-variant">{{ item.variant }}</div>
+                        {% endif %}
+                        {% if item.style %}
+                        <div class="item-style">Style: {{ item.style }}</div>
+                        {% endif %}
+                        {% if item.category %}
+                        <div class="item-category">{{ item.category }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="col-sku">{{ item.sku|default('') }}</td>
+                    <td class="col-gtin">{{ item.gtin|default(item.upc|default('')) }}</td>
+                    <td class="col-price">{{ item.unit_price }} {{ currency|default('CAD') }}</td>
+                    <td class="col-qty">{{ item.quantity }}</td>
+                    <td class="col-subtotal">{{ item.total }} {{ currency|default('CAD') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <table class="totals-table">
+                <tr>
+                    <td class="totals-label">Subtotal</td>
+                    <td class="totals-value">{{ subtotal }} {{ currency|default('CAD') }}</td>
+                </tr>
+                <tr>
+                    <td class="totals-label">Shipping</td>
+                    <td class="totals-value">{% if (shipping_cost or 0) == 0 or shipping_cost == 'FREE' %}FREE{% else %}{{ shipping_cost }} {{ currency|default('CAD') }}{% endif %}</td>
+                </tr>
+                {% if discount_label %}
+                <tr>
+                    <td class="totals-label">{{ discount_label }}</td>
+                    <td class="totals-value">{{ discount_amount }} {{ currency|default('CAD') }}</td>
+                </tr>
+                {% endif %}
+                <tr class="total-row">
+                    <td class="totals-label payment-method">To pay with {{ payment_method|default('Visa') }} •••• {{ card_last_four|default('0000') }}</td>
+                    <td class="totals-value total-amount">{{ total }} {{ currency|default('CAD') }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Tax & Import Fees Notice (for international orders) -->
+        {% if import_notice or show_import_fees %}
+        <div class="import-notice">
+            <div class="notice-title">tax & import fees billed separately by carrier</div>
+            <div class="notice-text">
+                {% if import_notice %}
+                {{ import_notice }}
+                {% else %}
+                This order is subject to an estimated ${{ estimated_tax|default('0') }} tax, ${{ estimated_duties|default('0') }} duties and ${{ estimated_carrier_fees|default('0') }} carrier fees. The final amounts will be determined at import and will be billed separately by the carrier.
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            Continued on next page... (Page {{ _current_page }} of {{ _total_pages }})
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

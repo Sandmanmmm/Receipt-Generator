@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debit Memo #{{ invoice_number }}</title>
+    <link rel="stylesheet" href="../css/debit_memo.css">
+</head>
+<body>
+    <div class="invoice-page">
+        <!-- Header -->
+        {% if _is_first_page|default(true) %}
+        <div class="header">
+            <table class="header-table">
+                <tr>
+                    <td class="header-left">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="supplier-logo" />
+                        {% else %}
+                        <div class="logo-placeholder">
+                            <span class="logo-text">{{ supplier_name[:2]|upper }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="company-name">{{ supplier_name }}</div>
+                    </td>
+                    <td class="header-right">
+                        <div class="doc-title">DEBIT MEMO</div>
+                        <div class="doc-badge">ADDITIONAL CHARGES</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Reference Bar -->
+        <div class="reference-bar">
+            <table class="ref-table">
+                <tr>
+                    <td class="ref-item">
+                        <div class="ref-label">Debit Memo #</div>
+                        <div class="ref-value">{{ invoice_number }}</div>
+                    </td>
+                    <td class="ref-item">
+                        <div class="ref-label">Issue Date</div>
+                        <div class="ref-value">{{ invoice_date }}</div>
+                    </td>
+                    <td class="ref-item">
+                        <div class="ref-label">Original Invoice #</div>
+                        <div class="ref-value">{{ original_invoice_number|default('N/A') }}</div>
+                    </td>
+                    <td class="ref-item">
+                        <div class="ref-label">Due Date</div>
+                        <div class="ref-value">{{ due_date|default('Upon Receipt') }}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Address Section -->
+        <div class="addresses">
+            <table class="address-table">
+                <tr>
+                    <td class="address-col">
+                        <div class="address-card card-from">
+                            <div class="card-title">From (Creditor)</div>
+                            <div class="card-line"><strong>{{ supplier_name }}</strong></div>
+                            {% if supplier_address %}
+                            <div class="card-line">{{ supplier_address }}</div>
+                            {% endif %}
+                            {% if supplier_email %}
+                            <div class="card-line">{{ supplier_email }}</div>
+                            {% endif %}
+                            {% if supplier_phone %}
+                            <div class="card-line">{{ supplier_phone }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="address-col">
+                        <div class="address-card card-to">
+                            <div class="card-title">Bill To (Debtor)</div>
+                            <div class="card-line"><strong>{{ buyer_name }}</strong></div>
+                            {% if buyer_address %}
+                            <div class="card-line">{{ buyer_address }}</div>
+                            {% endif %}
+                            {% if buyer_email %}
+                            <div class="card-line">{{ buyer_email }}</div>
+                            {% endif %}
+                            {% if buyer_phone %}
+                            <div class="card-line">{{ buyer_phone }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Reason Section -->
+        {% if debit_reason %}
+        <div class="reason-section">
+            <div class="reason-label">Reason for Additional Charges:</div>
+            <div class="reason-text">{{ debit_reason }}</div>
+        </div>
+        {% endif %}
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <table class="cont-header-table">
+                <tr>
+                    <td class="cont-left">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="logo-small" />
+                        {% endif %}
+                        <span class="cont-company">{{ supplier_name }}</span>
+                    </td>
+                    <td class="cont-center">
+                        <span class="cont-title">DEBIT MEMO</span>
+                    </td>
+                    <td class="cont-right">
+                        <span class="cont-info">Debit Memo #{{ invoice_number }}</span>
+                        <span class="cont-page">Page {{ _current_page }} of {{ _total_pages }}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-line">#</th>
+                    <th class="col-desc">Description</th>
+                    <th class="col-sku">SKU</th>
+                    <th class="col-qty">Qty</th>
+                    <th class="col-price">Unit Price</th>
+                    <th class="col-subtotal">Subtotal</th>
+                    <th class="col-debit">Debit Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="item-row">
+                    <td class="text-center">{{ loop.index }}</td>
+                    <td>
+                        <div class="item-name">{{ item.description }}</div>
+                        {% if item.variant %}
+                        <div class="item-variant">{{ item.variant }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">{{ item.sku|default('—') }}</td>
+                    <td class="text-center">{{ item.quantity }}</td>
+                    <td class="text-right">{{ item.unit_price }}</td>
+                    <td class="text-right">{{ item.total }}</td>
+                    <td class="text-right debit-amount">{{ item.total }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Totals Section (Last Page Only) -->
+        {% if _is_last_page|default(true) %}
+        <div class="totals-section">
+            <table class="totals-table">
+                <tr>
+                    <td class="totals-spacer"></td>
+                    <td class="totals-content">
+                        <table class="totals-breakdown">
+                            <tr>
+                                <td class="total-label">Subtotal:</td>
+                                <td class="total-value">{{ subtotal }}</td>
+                            </tr>
+                            {% if discount %}
+                            <tr>
+                                <td class="total-label">Discount:</td>
+                                <td class="total-value discount-value">-{{ discount }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if shipping_cost %}
+                            <tr>
+                                <td class="total-label">Shipping:</td>
+                                <td class="total-value">{{ shipping_cost }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if tax_amount %}
+                            <tr>
+                                <td class="total-label">Tax:</td>
+                                <td class="total-value">{{ tax_amount }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="total-final">
+                                <td class="total-label-main">Total Amount Due:</td>
+                                <td class="total-value-main">{{ total_amount }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Payment Section -->
+        <div class="payment-section">
+            <div class="payment-card">
+                <div class="payment-title">Payment Information</div>
+                <div class="payment-row">
+                    <span class="payment-label">Payment Terms:</span>
+                    <span class="payment-value">{{ payment_terms|default('Net 30') }}</span>
+                </div>
+                {% if payment_method %}
+                <div class="payment-row">
+                    <span class="payment-label">Preferred Method:</span>
+                    <span class="payment-value">{{ payment_method }}</span>
+                </div>
+                {% endif %}
+                {% if payment_details %}
+                <div class="payment-row">
+                    <span class="payment-label">Payment Details:</span>
+                    <span class="payment-value">{{ payment_details }}</span>
+                </div>
+                {% endif %}
+                <div class="payment-row">
+                    <span class="payment-label">Due Date:</span>
+                    <span class="payment-value">{{ due_date|default('Upon Receipt') }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes Section -->
+        {% if notes %}
+        <div class="notes-section">
+            <div class="notes-title">Additional Notes</div>
+            <div class="notes-text">{{ notes }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-section">
+                <div class="footer-title">Important Notice</div>
+                <div class="footer-text">
+                    This debit memo represents additional charges applied to your account with {{ supplier_name }}. 
+                    The amount shown increases your accounts payable. Payment is due according to the terms specified above.
+                </div>
+            </div>
+            {% if terms %}
+            <div class="footer-section">
+                <div class="footer-title">Terms & Conditions</div>
+                <div class="footer-text">{{ terms }}</div>
+            </div>
+            {% endif %}
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <span class="cont-footer-text">Continued on next page...</span>
+            <span class="cont-footer-page">Page {{ _current_page }} of {{ _total_pages }}</span>
+        </div>
+        {% endif %}
+
+        <!-- Page Number (All Pages) -->
+        <div class="page-number">
+            Page {{ _current_page|default(1) }} of {{ _total_pages|default(1) }}
+        </div>
+    </div>
+</body>
+</html>

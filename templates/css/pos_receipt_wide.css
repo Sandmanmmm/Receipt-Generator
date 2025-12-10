@@ -75,12 +75,21 @@ body {
 
 /* Transaction Info - Two Columns */
 .transaction-info {
-    display: flex;
+
+
+
+                display: flex;
     justify-content: space-between;
-    gap: 20mm;
+        /*     /*     /* gap: 20mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     margin-bottom: 5mm;
     font-size: 10pt;
 }
+
+
+
 
 .info-col {
     flex: 1;

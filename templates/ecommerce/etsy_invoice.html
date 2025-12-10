@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etzy Receipt</title>
+    <link rel="stylesheet" href="../css/etsy_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page %}
+        <!-- First Page Header -->
+        <div class="page-header">
+            <div class="etsy-banner">
+                <div class="banner-left">Etzy</div>
+                <div class="banner-right">Keep Commerce Human</div>
+            </div>
+            <table class="header-content">
+                <tr>
+                    <td class="header-shop">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="shop-logo" />
+                        {% else %}
+                        <div class="shop-placeholder">
+                            <span class="shop-initial">{{ supplier_name[:1]|upper }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="shop-info">
+                            <div class="shop-name">{{ supplier_name }}</div>
+                            <div class="shop-tagline">Handcrafted with care</div>
+                        </div>
+                    </td>
+                    <td class="header-receipt">
+                        <div class="receipt-title">Receipt</div>
+                        <table class="receipt-details">
+                            <tr>
+                                <td class="detail-label">Receipt #</td>
+                                <td class="detail-value">{{ invoice_number }}</td>
+                            </tr>
+                            <tr>
+                                <td class="detail-label">Order date</td>
+                                <td class="detail-value">{{ invoice_date }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Addresses Section -->
+        <div class="addresses-section">
+            <table class="addresses-table">
+                <tr>
+                    <td class="address-card">
+                        <div class="card-title">Shop Owner</div>
+                        <div class="card-content">
+                            <div class="name-text">{{ supplier_name }}</div>
+                            {% if supplier_address %}
+                            <div class="addr-text">{{ supplier_address }}</div>
+                            {% endif %}
+                            {% if supplier_email %}
+                            <div class="contact-row">
+                                <span class="contact-icon">✉</span>
+                                <span class="contact-data">{{ supplier_email }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="address-card">
+                        <div class="card-title">Sold to</div>
+                        <div class="card-content">
+                            <div class="name-text">{{ buyer_name }}</div>
+                            {% if buyer_address %}
+                            <div class="addr-text">{{ buyer_address }}</div>
+                            {% endif %}
+                            {% if buyer_email %}
+                            <div class="contact-row">
+                                <span class="contact-icon">✉</span>
+                                <span class="contact-data">{{ buyer_email }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="address-card">
+                        <div class="card-title">Ship to</div>
+                        <div class="card-content">
+                            <div class="name-text">{{ buyer_name }}</div>
+                            {% if buyer_address %}
+                            <div class="addr-text">{{ buyer_address }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Payment Info Bar -->
+        <div class="payment-bar">
+            <table class="payment-table">
+                <tr>
+                    <td class="payment-cell">
+                        <span class="pay-label">Payment method:</span>
+                        <span class="pay-value">{{ payment_method or 'Credit Card' }}</span>
+                    </td>
+                    <td class="payment-cell">
+                        <span class="pay-label">Shipping:</span>
+                        <span class="pay-value">Standard</span>
+                    </td>
+                    {% if po_number %}
+                    <td class="payment-cell">
+                        <span class="pay-label">Order ID:</span>
+                        <span class="pay-value">{{ po_number }}</span>
+                    </td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="cont-header">
+            <table class="cont-header-table">
+                <tr>
+                    <td class="cont-etsy">Etzy</td>
+                    <td class="cont-shop">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="cont-logo" />
+                        {% endif %}
+                        {{ supplier_name }}
+                    </td>
+                    <td class="cont-receipt">Receipt #{{ invoice_number }}</td>
+                    <td class="cont-page">Page {{ _current_page }}/{{ _total_pages }}</td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Items Section -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="th-item">Item</th>
+                        <th class="th-listing">Listing</th>
+                        <th class="th-personalization">Personalization</th>
+                        <th class="th-qty">Qty</th>
+                        <th class="th-price">Price</th>
+                        <th class="th-total">Item total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row">
+                        <td class="td-item">
+                            <div class="item-name">{{ item.description }}</div>
+                            {% if item.variant %}
+                            <div class="item-variant">{{ item.variant }}</div>
+                            {% endif %}
+                            {% if item.style %}
+                            <div class="item-style">Style: {{ item.style }}</div>
+                            {% endif %}
+                            {% if item.category %}
+                            <div class="item-category">{{ item.category }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="td-listing">{{ item.upc or item.sku or '—' }}</td>
+                        <td class="td-personalization">—</td>
+                        <td class="td-qty">{{ item.quantity }}</td>
+                        <td class="td-price">${{ "%.2f"|format(item.unit_price|float) }}</td>
+                        <td class="td-total">${{ "%.2f"|format(item.total|float) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page %}
+        <!-- Summary Section -->
+        <div class="summary-section">
+            <table class="summary-table">
+                <tr>
+                    <td class="summary-notes">
+                        {% if notes %}
+                        <div class="note-box">
+                            <div class="note-title">Message from seller</div>
+                            <div class="note-body">{{ notes }}</div>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="etsy-notice">
+                            <div class="notice-icon">ℹ</div>
+                            <div class="notice-text">
+                                <strong>About Etzy purchases</strong><br>
+                                This purchase was made on Etzy, a marketplace connecting buyers 
+                                with independent sellers around the world. For questions about 
+                                your order, please contact <strong>{{ supplier_name }}</strong> directly.
+                            </div>
+                        </div>
+                    </td>
+                    <td class="summary-totals">
+                        <table class="calc-table">
+                            <tr class="calc-row">
+                                <td class="calc-key">Item(s) total</td>
+                                <td class="calc-val">${{ "%.2f"|format((subtotal_amount or 0)|float) }}</td>
+                            </tr>
+                            {% if ((discount_amount or 0)|float) > 0 %}
+                            <tr class="calc-row discount-row">
+                                <td class="calc-key">Shop discount</td>
+                                <td class="calc-val">-${{ "%.2f"|format(discount_amount|float) }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if ((shipping_amount or 0)|float) > 0 %}
+                            <tr class="calc-row">
+                                <td class="calc-key">Shipping</td>
+                                <td class="calc-val">${{ "%.2f"|format(shipping_amount|float) }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if ((tax_amount or 0)|float) > 0 %}
+                            <tr class="calc-row">
+                                <td class="calc-key">Sales tax</td>
+                                <td class="calc-val">${{ "%.2f"|format(tax_amount|float) }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="calc-row total-row">
+                                <td class="calc-key">Order total</td>
+                                <td class="calc-val">${{ "%.2f"|format((total_amount or 0)|float) }}</td>
+                            </tr>
+                        </table>
+                        
+                        <div class="paid-badge">
+                            <div class="badge-icon">✓</div>
+                            <div class="badge-text">PAID</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="page-footer">
+            <div class="footer-divider"></div>
+            <table class="footer-table">
+                <tr>
+                    <td class="footer-left">
+                        <div class="footer-message">Thank you for supporting small businesses!</div>
+                        <div class="footer-contact">Questions? Message {{ supplier_name }} on Etzy</div>
+                    </td>
+                    <td class="footer-right">
+                        <div class="footer-etsy">Etzy.com</div>
+                        <div class="footer-tagline">Keep Commerce Human</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="cont-footer">
+            <div class="cont-line"></div>
+            <div class="cont-text">Continued on page {{ _current_page + 1 }}...</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

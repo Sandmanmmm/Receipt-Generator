@@ -1,0 +1,512 @@
+/* Enterprise Wholesale Bold - Corporate B2B Invoice */
+/* Inspired by SAP and Oracle invoicing systems */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+    font-size: 9pt;
+    line-height: 1.4;
+    color: #2d3436;
+    background: #ffffff;
+}
+
+.invoice-page {
+    width: 816px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 0;
+}
+
+/* Header Banner - Bold Company Header */
+.header-banner {
+    background: #2d3436;  /* was: linear-gradient(135deg, #2d3436 0%, #636e72 100%...) */
+    color: #ffffff;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.banner-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.banner-left {
+    width: 65%;
+    padding: 20px 24px;
+    vertical-align: middle;
+}
+
+.header-logo {
+    display: inline-block;
+    height: 50px;
+    width: auto;
+    max-width: 140px;
+    vertical-align: middle;
+    margin-right: 16px;
+    background: #ffffff;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.header-logo-box {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: #fdcb6e;
+    color: #2d3436;
+    text-align: center;
+    line-height: 50px;
+    font-size: 18pt;
+    font-weight: 800;
+    border-radius: 4px;
+    margin-right: 16px;
+    vertical-align: middle;
+}
+
+.company-info {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.company-title {
+    font-size: 14pt;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.company-contact {
+    font-size: 8.5pt;
+    color: #dfe6e9;
+    font-weight: 400;
+}
+
+.banner-right {
+    width: 35%;
+    padding: 20px 24px;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.doc-type {
+    font-size: 10pt;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: #fdcb6e;
+    margin-bottom: 6px;
+}
+
+.po-number {
+    font-size: 16pt;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+/* Document Details Bar */
+.details-bar {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f8f9fa;
+    border-bottom: 3px solid #fdcb6e;
+}
+
+.detail-cell {
+    padding: 12px 20px;
+    border-right: 1px solid #dee2e6;
+    font-size: 8.5pt;
+}
+
+.detail-cell:last-child {
+    border-right: none;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #636e72;
+    margin-right: 6px;
+}
+
+.detail-data {
+    font-weight: 700;
+    color: #2d3436;
+}
+
+.status-active {
+    color: #00b894;
+}
+
+/* Parties Grid */
+.parties-grid {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0;
+}
+
+.party-card {
+    width: 33.33%;
+    vertical-align: top;
+    padding: 0 6px;
+}
+
+.party-card:first-child {
+    padding-left: 0;
+}
+
+.party-card:last-child {
+    padding-right: 0;
+}
+
+.card-header {
+    background: #2d3436;
+    color: #ffffff;
+    padding: 8px 14px;
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.vendor-card .card-header {
+    background: #0984e3;
+}
+
+.buyer-card .card-header {
+    background: #6c5ce7;
+}
+
+.ship-card .card-header {
+    background: #00b894;
+}
+
+.card-body {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    padding: 14px;
+    min-height: 100px;
+}
+
+.party-company {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #2d3436;
+    margin-bottom: 8px;
+}
+
+.party-detail {
+    font-size: 8.5pt;
+    color: #636e72;
+    line-height: 1.6;
+    margin-bottom: 3px;
+}
+
+/* Continuation Banner */
+.cont-banner {
+    background: #636e72;
+    color: #ffffff;
+    margin-bottom: 14px;
+}
+
+.cont-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-left {
+    width: 60%;
+    padding: 10px 24px;
+    vertical-align: middle;
+}
+
+.cont-label {
+    font-size: 9pt;
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.cont-number {
+    font-size: 11pt;
+    font-weight: 800;
+}
+
+.cont-right {
+    width: 40%;
+    padding: 10px 24px;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.cont-logo {
+    height: 26px;
+    width: auto;
+    max-width: 80px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    background: #ffffff;
+    padding: 2px;
+    border-radius: 2px;
+}
+
+.cont-page-info {
+    font-size: 8.5pt;
+    vertical-align: middle;
+}
+
+/* Line Items Section */
+.items-section {
+    margin-bottom: 18px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #2d3436;
+}
+
+.items-table thead {
+    background: #2d3436;
+    color: #ffffff;
+}
+
+.items-table thead th {
+    padding: 10px 10px;
+    text-align: left;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-right: 1px solid #636e72;
+}
+
+.items-table thead th:last-child {
+    border-right: none;
+}
+
+.th-line { width: 6%; text-align: center; }
+.th-sku { width: 18%; }
+.th-description { width: 36%; }
+.th-qty { width: 10%; text-align: center; }
+.th-unit { width: 15%; text-align: right; }
+.th-total { width: 15%; text-align: right; }
+
+.item-data-row {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.item-data-row:nth-child(odd) {
+    background: #ffffff;
+}
+
+.item-data-row:nth-child(even) {
+    background: #f8f9fa;
+}
+
+.item-data-row:hover {
+    background: #ffeaa7;
+}
+
+.item-data-row td {
+    padding: 10px 10px;
+    font-size: 9pt;
+    vertical-align: middle;
+}
+
+.td-line {
+    text-align: center;
+    font-weight: 700;
+    color: #636e72;
+}
+
+.td-sku {
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-size: 8.5pt;
+    color: #2d3436;
+    font-weight: 600;
+}
+
+.td-description {
+    color: #2d3436;
+}
+
+.desc-primary {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.desc-secondary {
+    display: block;
+    font-size: 8pt;
+    color: #636e72;
+    font-weight: 400;
+}
+
+.td-qty {
+    text-align: center;
+    font-weight: 700;
+    color: #2d3436;
+    font-size: 9.5pt;
+}
+
+.td-unit {
+    text-align: right;
+    font-family: 'Courier New', 'Consolas', monospace;
+    color: #636e72;
+}
+
+.td-total {
+    text-align: right;
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-weight: 700;
+    color: #2d3436;
+    font-size: 9.5pt;
+}
+
+/* Summary Section */
+.summary-grid {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.summary-left {
+    width: 55%;
+    padding-right: 12px;
+    vertical-align: top;
+}
+
+.terms-box {
+    background: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 4px;
+}
+
+.terms-header {
+    background: #2d3436;
+    color: #ffffff;
+    padding: 8px 14px;
+    font-size: 8.5pt;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+.terms-content {
+    padding: 14px;
+}
+
+.term-item {
+    font-size: 8.5pt;
+    color: #636e72;
+    line-height: 1.8;
+    margin-bottom: 4px;
+}
+
+.summary-right {
+    width: 45%;
+    padding-left: 12px;
+    vertical-align: top;
+}
+
+.totals-box {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 2px solid #2d3436;
+}
+
+.total-row td {
+    padding: 10px 14px;
+    font-size: 9.5pt;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.total-label {
+    font-weight: 600;
+    color: #636e72;
+}
+
+.total-amount {
+    text-align: right;
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-weight: 700;
+    color: #2d3436;
+    font-size: 10pt;
+}
+
+.discount-amt {
+    color: #d63031;
+}
+
+.total-grand {
+    background: #2d3436;
+    color: #ffffff;
+}
+
+.total-grand td {
+    padding: 12px 14px;
+    font-size: 11pt;
+    font-weight: 800;
+    border-bottom: none;
+}
+
+.total-grand .total-label {
+    color: #fdcb6e;
+}
+
+.total-grand .total-amount {
+    color: #ffffff;
+    font-size: 13pt;
+}
+
+/* Footer Bar */
+.footer-bar {
+    margin-top: 24px;
+    padding-bottom: 18px;
+}
+
+.footer-stripe {
+    height: 3px;
+    background: #fdcb6e;  /* was: linear-gradient(90deg, #fdcb6e 0%, #2d3436 100%...) */
+    margin-bottom: 10px;
+}
+
+.footer-info {
+    text-align: center;
+    font-size: 7.5pt;
+    color: #636e72;
+    line-height: 1.5;
+}
+
+.footer-text {
+    display: inline;
+}
+
+.footer-sep {
+    margin: 0 8px;
+    color: #b2bec3;
+}
+
+/* Continuation Note */
+.cont-note {
+    margin-top: 14px;
+    padding-bottom: 12px;
+}
+
+.cont-stripe {
+    height: 2px;
+    background: #dee2e6;
+    margin-bottom: 8px;
+}
+
+.cont-message {
+    text-align: right;
+    font-size: 8.5pt;
+    color: #636e72;
+    font-style: italic;
+    padding-right: 24px;
+}

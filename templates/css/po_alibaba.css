@@ -1,0 +1,287 @@
+/* Alibaba International Purchase Order - Template-Specific Overrides */
+
+/* Primary brand color - international trade blue */
+.po-title {
+    color: #0066cc;
+    border-bottom: 3px solid #ff6a00;  /* Alibaba orange accent */
+    font-size: 20px;
+}
+
+.po-incoterms {
+    background-color: #ff6a00;
+    color: #ffffff;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 8px;
+}
+
+.address-label {
+    background-color: #0066cc;
+    color: #ffffff;
+}
+
+/* Status badge colors */
+.status-draft {
+    background-color: #6b7280;
+    color: #ffffff;
+}
+
+.status-approved {
+    background-color: #10b981;
+    color: #ffffff;
+}
+
+.status-sent {
+    background-color: #0066cc;
+    color: #ffffff;
+}
+
+.status-confirmed {
+    background-color: #8b5cf6;
+    color: #ffffff;
+}
+
+.status-cancelled {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
+/* Terms section - 2 rows for international trade terms */
+.terms-section {
+    border: 2px solid #0066cc;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.term-label {
+    color: #0066cc;
+    font-weight: bold;
+    font-size: 9px;
+    text-transform: uppercase;
+}
+
+.term-value {
+    font-size: 10px;
+}
+
+/* Freight forwarder section */
+.freight-section {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f0f8ff;
+    border: 1px solid #0066cc;
+    margin-bottom: 15px;
+}
+
+.freight-cell {
+    width: 50%;
+    padding: 12px;
+    vertical-align: top;
+}
+
+.freight-label {
+    color: #0066cc;
+    font-weight: bold;
+    font-size: 10px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.freight-content {
+    color: #333333;
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+/* Items table header - international columns */
+.items-table thead {
+    background-color: #0066cc;
+    color: #ffffff;
+}
+
+.items-table th {
+    font-size: 9px;
+    padding: 8px 5px;
+}
+
+/* Column widths for international table */
+.col-line { width: 3%; text-align: center; }
+.col-sku { width: 10%; }
+.col-description { width: 28%; }
+.col-qty { width: 6%; text-align: center; }
+.col-moq { width: 8%; text-align: center; }
+.col-uom { width: 6%; text-align: center; }
+.col-lead-time { width: 8%; text-align: center; }
+.col-unit-price { width: 10%; text-align: right; }
+.col-total { width: 11%; text-align: right; }
+
+/* Item row striping */
+.item-row.row-odd {
+    background-color: #ffffff;
+}
+
+.item-row.row-even {
+    background-color: #f9fafb;
+}
+
+.item-row td {
+    font-size: 9px;
+    padding: 8px 5px;
+}
+
+/* Brand/category/HS code badges in item description */
+.item-brand,
+.item-category,
+.item-hs-code {
+    font-size: 8px;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+.item-brand {
+    font-style: italic;
+}
+
+.item-hs-code {
+    color: #0066cc;
+    font-weight: bold;
+}
+
+/* Totals section accent */
+.totals-final {
+    background-color: #0066cc;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.totals-final .totals-label,
+.totals-final .totals-value {
+    color: #ffffff;
+    padding: 10px;
+}
+
+/* Notes section - orange for attention (Alibaba brand) */
+.notes-section {
+    background-color: #fff4e6;
+    border: 2px solid #ff6a00;
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.notes-title {
+    color: #cc5500;
+    font-weight: bold;
+    font-size: 11px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.notes-content {
+    color: #333333;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+/* Compliance section - important legal notes */
+.compliance-section {
+    background-color: #e8f4f8;
+    border: 1px solid #0066cc;
+    border-radius: 4px;
+    padding: 15px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.compliance-title {
+    color: #0066cc;
+    font-weight: bold;
+    font-size: 10px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.compliance-content {
+    color: #333333;
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.compliance-list {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.compliance-list li {
+    margin-bottom: 5px;
+}
+
+/* Signature section styling */
+.signature-line {
+    border-bottom: 2px solid #0066cc;
+    margin-top: 40px;
+    margin-bottom: 8px;
+}
+
+.signature-label {
+    color: #0066cc;
+    font-weight: bold;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+/* Footer styling */
+.po-footer {
+    border-top: 2px solid #0066cc;
+    color: #4b5563;
+}
+
+/* Responsive adjustments for wkhtmltoimage */
+@media print {
+    .page-container {
+        width: 816px;
+        height: 1056px;
+    }
+    
+    .po-footer {
+        position: absolute;
+        bottom: 20px;
+        width: 756px;
+    }
+}
+
+/* Continuation page header (for multi-page POs) */
+.continuation-header {
+    background-color: #e8f4f8;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #0066cc;
+}
+
+.continuation-header .po-number {
+    color: #0066cc;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.continuation-text {
+    color: #6b7280;
+    font-size: 10px;
+    font-style: italic;
+}
+
+/* MOQ and Lead Time emphasis */
+.col-moq,
+.col-lead-time {
+    background-color: #fffaeb;
+}
+
+.item-row.row-even .col-moq,
+.item-row.row-even .col-lead-time {
+    background-color: #fef3c7;
+}

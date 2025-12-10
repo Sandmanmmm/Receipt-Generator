@@ -1,0 +1,855 @@
+/* Proforma Invoice Modern - Teal/Emerald Theme */
+/* Distinct from classic navy/gold - uses card-based modern layout */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.4;
+    color: #2d3748;
+    background: #ffffff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.proforma-container {
+    width: 816px;
+    min-height: 1056px;
+    margin: 0 auto;
+    padding: 25px 30px;
+    background: #ffffff;
+}
+
+/* ============================================
+   HEADER SECTION
+   ============================================ */
+.header-section {
+    display: table;
+    width: 100%;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #0d9488;
+}
+
+.header-left {
+    display: table-cell;
+    width: 55%;
+    vertical-align: top;
+}
+
+.header-right {
+    display: table-cell;
+    width: 45%;
+    vertical-align: top;
+    text-align: right;
+}
+
+.company-logo {
+    float: left;
+    margin-right: 15px;
+}
+
+.company-logo img {
+    max-width: 80px;
+    max-height: 80px;
+}
+
+.company-info {
+    overflow: hidden;
+}
+
+.company-name {
+    font-size: 18pt;
+    font-weight: 700;
+    color: #0d9488;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.company-details {
+    font-size: 9pt;
+    color: #4a5568;
+    line-height: 1.5;
+    margin-bottom: 3px;
+}
+
+.company-contact {
+    font-size: 8pt;
+    color: #718096;
+}
+
+.document-type {
+    font-size: 22pt;
+    font-weight: 700;
+    color: #0f766e;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.document-badge {
+    display: inline-block;
+    background: #14b8a6;  /* was: linear-gradient(135deg, #14b8a6, #0d9488...) */
+    color: #ffffff;
+    font-size: 9pt;
+    font-weight: 600;
+    padding: 4px 15px;
+    border-radius: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.document-meta {
+    text-align: right;
+}
+
+.meta-row {
+    margin-bottom: 3px;
+}
+
+.meta-label {
+    font-size: 8pt;
+    color: #718096;
+    margin-right: 8px;
+}
+
+.meta-value {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+/* ============================================
+   DISCLAIMER BANNER
+   ============================================ */
+.disclaimer-banner {
+    background: #fef3c7;  /* was: linear-gradient(90deg, #fef3c7, #fde68a...) */
+    border-left: 4px solid #f59e0b;
+    padding: 8px 15px;
+    font-size: 9pt;
+    color: #92400e;
+    margin-bottom: 15px;
+    border-radius: 0 5px 5px 0;
+}
+
+/* ============================================
+   PARTIES GRID
+   ============================================ */
+.parties-grid {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    margin-bottom: 15px;
+}
+
+.party-card {
+    display: table-cell;
+    width: 33.33%;
+    padding: 0 5px;
+    vertical-align: top;
+}
+
+.party-card:first-child {
+    padding-left: 0;
+}
+
+.party-card:last-child {
+    padding-right: 0;
+}
+
+.party-header {
+    padding: 8px 10px;
+    border-radius: 5px 5px 0 0;
+    margin-bottom: 0;
+}
+
+.party-icon {
+    margin-right: 5px;
+}
+
+.party-title {
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Card-specific colors */
+.importer-card .party-header {
+    background: #0d9488;  /* was: linear-gradient(135deg, #0d9488, #0f766e...) */
+    color: #ffffff;
+}
+
+.consignee-card .party-header {
+    background: #6366f1;  /* was: linear-gradient(135deg, #6366f1, #4f46e5...) */
+    color: #ffffff;
+}
+
+.notify-card .party-header {
+    background: #8b5cf6;  /* was: linear-gradient(135deg, #8b5cf6, #7c3aed...) */
+    color: #ffffff;
+}
+
+.party-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    padding: 10px;
+    min-height: 100px;
+}
+
+.party-name {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 5px;
+}
+
+.party-address {
+    font-size: 8pt;
+    color: #4a5568;
+    line-height: 1.5;
+    margin-bottom: 5px;
+}
+
+.party-tax,
+.party-contact {
+    font-size: 8pt;
+    color: #718096;
+}
+
+.same-as-note {
+    font-size: 9pt;
+    color: #a0aec0;
+    font-style: italic;
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* ============================================
+   TRADE TERMS SECTION
+   ============================================ */
+.trade-terms-section {
+    background: #f0fdfa;
+    border: 1px solid #99f6e4;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+}
+
+.section-header {
+    display: table;
+    width: 100%;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #5eead4;
+}
+
+.section-icon {
+    display: table-cell;
+    width: 25px;
+    vertical-align: middle;
+}
+
+.section-title {
+    display: table-cell;
+    font-size: 10pt;
+    font-weight: 700;
+    color: #0f766e;
+    letter-spacing: 0.5px;
+    vertical-align: middle;
+}
+
+.page-indicator {
+    display: table-cell;
+    text-align: right;
+    font-size: 8pt;
+    color: #14b8a6;
+    font-weight: 600;
+    vertical-align: middle;
+}
+
+.terms-grid {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    margin-bottom: 10px;
+}
+
+.term-item {
+    display: table-cell;
+    width: 25%;
+    padding: 0 10px;
+    text-align: center;
+    border-right: 1px solid #99f6e4;
+}
+
+.term-item:last-child {
+    border-right: none;
+}
+
+.term-label {
+    font-size: 7pt;
+    color: #5eead4;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+}
+
+.term-value {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #0f766e;
+}
+
+.term-value.highlight {
+    background: #0d9488;
+    color: #ffffff;
+    padding: 2px 8px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.shipping-grid {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    background: #ffffff;
+    border-radius: 5px;
+    padding: 8px 0;
+}
+
+.shipping-item {
+    display: table-cell;
+    width: 16.66%;
+    padding: 0 8px;
+    text-align: center;
+    border-right: 1px solid #e2e8f0;
+}
+
+.shipping-item:last-child {
+    border-right: none;
+}
+
+.shipping-label {
+    font-size: 7pt;
+    color: #718096;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.shipping-value {
+    font-size: 8pt;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+/* ============================================
+   PACKAGE SUMMARY BAR
+   ============================================ */
+.package-summary {
+    display: table;
+    width: 100%;
+    background: #0f766e;  /* was: linear-gradient(90deg, #0f766e, #0d9488, #14b8a6...) */
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+}
+
+.package-item {
+    display: table-cell;
+    color: #ffffff;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.package-icon {
+    margin-right: 5px;
+}
+
+.package-label {
+    font-size: 8pt;
+    opacity: 0.9;
+    margin-right: 5px;
+}
+
+.package-value {
+    font-size: 10pt;
+    font-weight: 700;
+}
+
+.package-divider {
+    display: table-cell;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================
+   ITEMS TABLE
+   ============================================ */
+.items-section {
+    margin-bottom: 15px;
+}
+
+.items-section .section-header {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+    margin-bottom: 0;
+    padding: 8px 12px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border: 1px solid #e2e8f0;
+}
+
+.items-table thead {
+    background: #0d9488;  /* was: linear-gradient(180deg, #0d9488, #0f766e...) */
+}
+
+.items-table th {
+    padding: 10px 6px;
+    font-size: 8pt;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.items-table th:last-child {
+    border-right: none;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.items-table tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+.items-table tbody tr:hover {
+    background: #f0fdfa;
+}
+
+.items-table td {
+    padding: 8px 6px;
+    font-size: 8pt;
+    color: #2d3748;
+    vertical-align: top;
+    border-right: 1px solid #e2e8f0;
+}
+
+.items-table td:last-child {
+    border-right: none;
+}
+
+/* Column widths */
+.col-line { width: 4%; text-align: center; }
+.col-code { width: 10%; }
+.col-desc { width: 26%; }
+.col-hs { width: 10%; text-align: center; }
+.col-origin { width: 8%; text-align: center; }
+.col-qty { width: 7%; text-align: center; }
+.col-unit { width: 6%; text-align: center; }
+.col-price { width: 13%; text-align: right; }
+.col-amount { width: 14%; text-align: right; font-weight: 600; }
+
+.item-name {
+    font-weight: 500;
+    color: #1a202c;
+    margin-bottom: 2px;
+}
+
+.item-specs {
+    font-size: 7pt;
+    color: #718096;
+    font-style: italic;
+}
+
+/* ============================================
+   TOTALS SECTION
+   ============================================ */
+.totals-section {
+    margin-bottom: 15px;
+}
+
+.totals-grid {
+    display: table;
+    width: 100%;
+}
+
+.totals-left {
+    display: table-cell;
+    width: 55%;
+    vertical-align: top;
+    padding-right: 20px;
+}
+
+.totals-right {
+    display: table-cell;
+    width: 45%;
+    vertical-align: top;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    padding: 12px 15px;
+}
+
+.amount-words {
+    background: #fffbeb;
+    border: 1px dashed #fbbf24;
+    border-radius: 5px;
+    padding: 10px 12px;
+}
+
+.words-label {
+    font-size: 8pt;
+    color: #92400e;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.words-value {
+    font-size: 9pt;
+    color: #78350f;
+    font-style: italic;
+}
+
+.total-row {
+    display: table;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.total-label {
+    display: table-cell;
+    width: 55%;
+    font-size: 9pt;
+    color: #4a5568;
+    text-align: right;
+    padding-right: 15px;
+}
+
+.total-value {
+    display: table-cell;
+    width: 45%;
+    font-size: 9pt;
+    font-weight: 600;
+    color: #2d3748;
+    text-align: right;
+}
+
+.total-row.discount .total-value {
+    color: #dc2626;
+}
+
+.total-row.grand-total {
+    border-top: 2px solid #0d9488;
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+.total-row.grand-total .total-label {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #0f766e;
+}
+
+.total-row.grand-total .total-value {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #0d9488;
+}
+
+/* ============================================
+   BANK SECTION
+   ============================================ */
+.bank-section {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+}
+
+.bank-section .section-header {
+    border-bottom: 1px dashed #93c5fd;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+}
+
+.bank-section .section-title {
+    color: #1e40af;
+}
+
+.bank-grid {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.bank-item {
+    display: table-cell;
+    width: 25%;
+    padding: 0 10px;
+    vertical-align: top;
+}
+
+.bank-item.full-width {
+    display: table-caption;
+    caption-side: bottom;
+    width: 100%;
+    padding: 10px 10px 0;
+}
+
+.bank-label {
+    font-size: 7pt;
+    color: #3b82f6;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+}
+
+.bank-value {
+    font-size: 9pt;
+    font-weight: 500;
+    color: #1e3a5f;
+}
+
+.bank-value.highlight {
+    font-family: 'Consolas', 'Courier New', monospace;
+    background: #dbeafe;
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+/* ============================================
+   DECLARATION SECTION
+   ============================================ */
+.declaration-section {
+    border: 2px solid #0d9488;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #f0fdfa;
+}
+
+.declaration-text {
+    font-size: 8pt;
+    color: #374151;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.signature-row {
+    display: table;
+    width: 100%;
+}
+
+.signature-block {
+    display: table-cell;
+    width: 40%;
+    text-align: center;
+    padding: 0 15px;
+}
+
+.stamp-block {
+    display: table-cell;
+    width: 25%;
+    text-align: center;
+    vertical-align: bottom;
+}
+
+.date-block {
+    display: table-cell;
+    width: 35%;
+    text-align: center;
+    padding: 0 15px;
+}
+
+.signature-line,
+.date-line {
+    border-bottom: 1px solid #0d9488;
+    height: 35px;
+    margin-bottom: 5px;
+}
+
+.signature-label,
+.date-label {
+    font-size: 8pt;
+    color: #0f766e;
+    text-transform: uppercase;
+}
+
+.signature-name {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #2d3748;
+    margin-top: 3px;
+}
+
+.stamp-placeholder {
+    border: 2px dashed #99f6e4;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 7pt;
+    color: #5eead4;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* ============================================
+   NOTES SECTION
+   ============================================ */
+.notes-section {
+    margin-bottom: 15px;
+}
+
+.notes-block,
+.terms-block {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+}
+
+.notes-title,
+.terms-title {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #0f766e;
+    margin-bottom: 5px;
+}
+
+.notes-content,
+.terms-content {
+    font-size: 8pt;
+    color: #4a5568;
+    line-height: 1.5;
+}
+
+.term-line {
+    margin-bottom: 3px;
+}
+
+/* ============================================
+   FOOTER SECTION
+   ============================================ */
+.footer-section {
+    display: table;
+    width: 100%;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 10px;
+    margin-top: auto;
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+    display: table-cell;
+    width: 33.33%;
+    vertical-align: middle;
+}
+
+.footer-left {
+    text-align: left;
+}
+
+.footer-center {
+    text-align: center;
+    font-size: 9pt;
+    font-weight: 600;
+    color: #0d9488;
+}
+
+.footer-right {
+    text-align: right;
+}
+
+.doc-notice {
+    font-size: 7pt;
+    color: #a0aec0;
+    font-style: italic;
+}
+
+.generated-date {
+    font-size: 7pt;
+    color: #a0aec0;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .proforma-container {
+        width: 100%;
+        padding: 15px 20px;
+        page-break-inside: avoid;
+    }
+    
+    .items-section {
+        page-break-inside: auto;
+    }
+    
+    .items-table tr {
+        page-break-inside: avoid;
+    }
+    
+    .declaration-section,
+    .bank-section,
+    .totals-section {
+        page-break-inside: avoid;
+    }
+}
+
+/* ============================================
+   STATUS VARIATIONS
+   ============================================ */
+.document-badge.draft,
+.document-badge[class*="DRAFT"] {
+    background: #6b7280;  /* was: linear-gradient(135deg, #6b7280, #4b5563...) */
+}
+
+.document-badge.confirmed,
+.document-badge[class*="CONFIRMED"] {
+    background: #10b981;  /* was: linear-gradient(135deg, #10b981, #059669...) */
+}
+
+.document-badge.pending,
+.document-badge[class*="PENDING"] {
+    background: #f59e0b;  /* was: linear-gradient(135deg, #f59e0b, #d97706...) */
+}
+
+.document-badge.expired,
+.document-badge[class*="EXPIRED"] {
+    background: #ef4444;  /* was: linear-gradient(135deg, #ef4444, #dc2626...) */
+}
+
+.document-badge.cancelled,
+.document-badge[class*="CANCELLED"] {
+    background: #6b7280;  /* was: linear-gradient(135deg, #6b7280, #374151...) */
+    text-decoration: line-through;
+}

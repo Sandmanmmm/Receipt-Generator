@@ -1,0 +1,602 @@
+/* eDay Marketplace Invoice Stylesheet */
+/* Colors: Blue (#0064D2), Yellow (#F5AF02), Gray (#767676) */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: #333333;
+    background: #ffffff;
+    line-height: 1.5;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 0;
+    background: #ffffff;
+    position: relative;
+}
+
+/* Header Styles */
+.header {
+    background: #0064D2;
+    padding: 20px 30px;
+    border-bottom: 3px solid #004C9C;
+}
+
+.header-content {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.ebay-logo {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.logo-e {
+    font-size: 48px;
+    font-weight: 700;
+    color: #E53238;
+    font-style: italic;
+}
+
+.logo-bay {
+    font-size: 48px;
+    font-weight: 700;
+    color: #FFFFFF;
+    font-style: italic;
+}
+
+.header-right {
+    float: right;
+    text-align: right;
+}
+
+.invoice-badge {
+    background: #F5AF02;
+    color: #000000;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 8px 20px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.invoice-number {
+    font-size: 16px;
+    font-weight: 600;
+    color: #FFFFFF;
+}
+
+/* Info Bar */
+.info-bar {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    background: #F7F7F7;
+    padding: 12px 30px;
+    border-bottom: 2px solid #E5E5E5;
+}
+
+.info-item {
+    display: table-cell;
+    width: 33.33%;
+    padding: 0 10px;
+}
+
+.info-label {
+    font-size: 9px;
+    color: #767676;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.info-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #333333;
+    display: block;
+}
+
+/* Party Cards */
+.parties-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0 0 0;
+    padding: 0 30px;
+}
+
+.party-cell {
+    width: 50%;
+    vertical-align: top;
+    padding: 0 10px;
+}
+
+.party-card {
+    background: #FFFFFF;
+    border: 2px solid #E5E5E5;
+    border-radius: 6px;
+    overflow: hidden;
+    min-height: 160px;
+}
+
+.seller-card {
+    border-left: 4px solid #0064D2;
+}
+
+.buyer-card {
+    border-left: 4px solid #F5AF02;
+}
+
+.card-header {
+    background: #F7F7F7;
+    padding: 12px 15px;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.card-icon {
+    display: table-cell;
+    font-size: 20px;
+    width: 30px;
+    vertical-align: middle;
+}
+
+.card-title {
+    display: table-cell;
+    font-size: 11px;
+    font-weight: 700;
+    color: #333333;
+    letter-spacing: 0.5px;
+    vertical-align: middle;
+}
+
+.card-divider {
+    height: 2px;
+    background: #E5E5E5;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.seller-logo-box {
+    margin-bottom: 10px;
+}
+
+.seller-logo-img {
+    display: inline-block;
+    height: 35px;
+    width: auto;
+    max-width: 110px;
+    object-fit: contain;
+}
+
+.seller-name,
+.buyer-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 8px;
+}
+
+.seller-detail,
+.buyer-detail {
+    font-size: 10px;
+    color: #767676;
+    margin: 4px 0;
+}
+
+/* Items Header Bar */
+.items-header-bar {
+    margin: 25px 30px 15px 30px;
+    padding: 10px 15px;
+    background: #333333;
+    border-radius: 4px;
+}
+
+.items-icon {
+    font-size: 16px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.items-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 0.5px;
+    vertical-align: middle;
+}
+
+/* Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 20px 0;
+}
+
+.table-header {
+    background: #F7F7F7;
+    border-top: 2px solid #0064D2;
+    border-bottom: 2px solid #E5E5E5;
+}
+
+.table-header th {
+    padding: 10px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #333333;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.col-item { width: 40%; padding-left: 30px !important; }
+.col-condition { width: 15%; }
+.col-qty { width: 10%; text-align: center !important; }
+.col-price { width: 17%; text-align: right !important; }
+.col-total { width: 18%; text-align: right !important; padding-right: 30px !important; }
+
+.item-row {
+    border-bottom: 1px solid #E5E5E5;
+}
+
+.item-row:hover {
+    background: #FAFAFA;
+}
+
+.item-row td {
+    padding: 12px 8px;
+    vertical-align: top;
+}
+
+.item-cell {
+    padding-left: 30px !important;
+}
+
+.item-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 3px;
+}
+
+.item-sku {
+    font-size: 9px;
+    color: #767676;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+.condition-cell {
+    vertical-align: middle;
+}
+
+.condition-badge {
+    display: inline-block;
+    background: #E8F4FD;
+    color: #0064D2;
+    font-size: 9px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 3px;
+    text-transform: uppercase;
+}
+
+.qty-cell {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: #333333;
+    vertical-align: middle;
+}
+
+.price-cell {
+    text-align: right;
+    font-size: 11px;
+    color: #767676;
+    vertical-align: middle;
+}
+
+.total-cell {
+    text-align: right;
+    font-size: 12px;
+    font-weight: 700;
+    color: #333333;
+    padding-right: 30px !important;
+    vertical-align: middle;
+}
+
+/* Summary Section */
+.summary-section {
+    margin: 25px 30px 20px 30px;
+}
+
+.summary-box {
+    float: right;
+    width: 380px;
+    background: #F7F7F7;
+    border: 2px solid #E5E5E5;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.summary-row td {
+    padding: 10px 20px;
+    border-bottom: 1px solid #E5E5E5;
+}
+
+.summary-label {
+    font-size: 11px;
+    color: #767676;
+    text-align: left;
+    width: 60%;
+}
+
+.summary-value {
+    font-size: 12px;
+    font-weight: 600;
+    color: #333333;
+    text-align: right;
+    width: 40%;
+}
+
+.discount-value {
+    color: #E53238;
+}
+
+.total-row {
+    background: #0064D2;
+    border: none;
+}
+
+.total-row .summary-label,
+.total-row .summary-value {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* Payment Section */
+.payment-section {
+    margin: 20px 30px;
+    clear: both;
+}
+
+.payment-box {
+    background: #E8F5E9;
+    border: 2px solid #4CAF50;
+    border-radius: 6px;
+    padding: 15px 20px;
+}
+
+.payment-status {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.status-icon {
+    display: table-cell;
+    width: 40px;
+    font-size: 28px;
+    color: #4CAF50;
+    vertical-align: middle;
+}
+
+.status-text {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.status-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2E7D32;
+    margin-bottom: 3px;
+}
+
+.status-detail {
+    font-size: 11px;
+    color: #558B57;
+}
+
+/* Protection Box */
+.protection-box {
+    margin: 20px 30px;
+    background: #FFF9E6;
+    border: 2px solid #F5AF02;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.protection-header {
+    background: #FFEAA7;
+    padding: 12px 15px;
+    border-bottom: 2px solid #F5AF02;
+}
+
+.protection-shield {
+    font-size: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.protection-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #7D6608;
+    vertical-align: middle;
+}
+
+.protection-content {
+    padding: 15px;
+}
+
+.protection-text {
+    font-size: 10px;
+    color: #7D6608;
+    line-height: 1.6;
+}
+
+/* Footer */
+.footer-divider {
+    height: 2px;
+    background: #E5E5E5;
+    margin: 30px 30px 0 30px;
+}
+
+.footer {
+    background: #F7F7F7;
+    padding: 20px 30px;
+    margin-top: 0;
+}
+
+.footer-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.footer-col {
+    display: table-cell;
+    width: 33.33%;
+    vertical-align: top;
+    padding: 0 10px;
+}
+
+.footer-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #0064D2;
+    margin-bottom: 5px;
+}
+
+.footer-text {
+    font-size: 9px;
+    color: #767676;
+    margin: 2px 0;
+}
+
+.footer-bottom {
+    border-top: 1px solid #E5E5E5;
+    padding-top: 12px;
+}
+
+.footer-note {
+    font-size: 9px;
+    color: #767676;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.footer-legal {
+    font-size: 8px;
+    color: #999999;
+    text-align: center;
+}
+
+/* Continuation Header */
+.continuation-header {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding: 15px 30px;
+    background: #F7F7F7;
+    border-bottom: 3px solid #0064D2;
+}
+
+.cont-logo {
+    display: table-cell;
+    width: 30%;
+    vertical-align: middle;
+}
+
+.cont-e {
+    font-size: 24px;
+    font-weight: 700;
+    color: #E53238;
+    font-style: italic;
+}
+
+.cont-bay {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0064D2;
+    font-style: italic;
+}
+
+.cont-info {
+    display: table-cell;
+    width: 70%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.cont-invoice {
+    font-size: 12px;
+    font-weight: 600;
+    color: #333333;
+}
+
+.cont-sep {
+    font-size: 12px;
+    color: #CCCCCC;
+    margin: 0 8px;
+}
+
+.cont-page {
+    font-size: 11px;
+    color: #767676;
+}
+
+.cont-divider {
+    height: 2px;
+    background: #E5E5E5;
+    margin-bottom: 15px;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding: 15px 30px;
+    background: #F7F7F7;
+    border-top: 2px solid #E5E5E5;
+    margin-top: 20px;
+}
+
+.cont-footer-text {
+    display: table-cell;
+    width: 70%;
+    font-size: 10px;
+    color: #767676;
+    font-style: italic;
+    vertical-align: middle;
+}
+
+.cont-footer-page {
+    display: table-cell;
+    width: 30%;
+    text-align: right;
+    font-size: 10px;
+    color: #767676;
+    vertical-align: middle;
+}

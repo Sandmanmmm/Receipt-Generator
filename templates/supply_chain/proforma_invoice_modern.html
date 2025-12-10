@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proforma Invoice - {{ proforma_number }}</title>
+    <link rel="stylesheet" href="../css/proforma_invoice_modern.css">
+</head>
+<body>
+    <div class="proforma-container">
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="header-left">
+                {% if logo_path %}
+                <div class="company-logo">
+                    <img src="{{ logo_path }}" alt="{{ exporter.company_name }}">
+                </div>
+                {% endif %}
+                <div class="company-info">
+                    <div class="company-name">{{ exporter.company_name }}</div>
+                    <div class="company-details">
+                        {{ exporter.address_line1 }}<br>
+                        {% if exporter.address_line2 %}{{ exporter.address_line2 }}<br>{% endif %}
+                        {{ exporter.city }}, {{ exporter.state|default('') }} {{ exporter.postal_code }}<br>
+                        {{ exporter.country }}
+                    </div>
+                    {% if exporter.phone or exporter.email %}
+                    <div class="company-contact">
+                        {% if exporter.phone %} {{ exporter.phone }}{% endif %}
+                        {% if exporter.email %} |  {{ exporter.email }}{% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="document-type">PROFORMA INVOICE</div>
+                <div class="document-badge">{{ status|default('QUOTATION') }}</div>
+                <div class="document-meta">
+                    <div class="meta-row">
+                        <span class="meta-label">Proforma No:</span>
+                        <span class="meta-value">{{ proforma_number }}</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-label">Issue Date:</span>
+                        <span class="meta-value">{{ issue_date }}</span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-label">Valid Until:</span>
+                        <span class="meta-value">{{ valid_until }}</span>
+                    </div>
+                    {% if reference_number %}
+                    <div class="meta-row">
+                        <span class="meta-label">Reference:</span>
+                        <span class="meta-value">{{ reference_number }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Disclaimer Banner -->
+        <div class="disclaimer-banner">
+            [!] This is a PRE-SHIPMENT QUOTATION document. Not a tax invoice. For customs and quotation purposes only.
+        </div>
+
+        <!-- Party Information Cards -->
+        <div class="parties-grid">
+            <!-- Importer Card -->
+            <div class="party-card importer-card">
+                <div class="party-header">
+                    <span class="party-icon"></span>
+                    <span class="party-title">IMPORTER / BUYER</span>
+                </div>
+                <div class="party-content">
+                    <div class="party-name">{{ importer.company_name }}</div>
+                    <div class="party-address">
+                        {{ importer.address_line1 }}<br>
+                        {% if importer.address_line2 %}{{ importer.address_line2 }}<br>{% endif %}
+                        {{ importer.city }}, {{ importer.state|default('') }} {{ importer.postal_code }}<br>
+                        {{ importer.country }}
+                    </div>
+                    {% if importer.tax_id %}
+                    <div class="party-tax">Tax ID: {{ importer.tax_id }}</div>
+                    {% endif %}
+                    {% if importer.contact_name %}
+                    <div class="party-contact">Contact: {{ importer.contact_name }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Consignee Card -->
+            <div class="party-card consignee-card">
+                <div class="party-header">
+                    <span class="party-icon"></span>
+                    <span class="party-title">CONSIGNEE (SHIP TO)</span>
+                </div>
+                <div class="party-content">
+                    {% if consignee %}
+                    <div class="party-name">{{ consignee.company_name }}</div>
+                    <div class="party-address">
+                        {{ consignee.address_line1 }}<br>
+                        {% if consignee.address_line2 %}{{ consignee.address_line2 }}<br>{% endif %}
+                        {{ consignee.city }}, {{ consignee.state|default('') }} {{ consignee.postal_code }}<br>
+                        {{ consignee.country }}
+                    </div>
+                    {% else %}
+                    <div class="same-as-note">Same as Importer</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Notify Party Card -->
+            <div class="party-card notify-card">
+                <div class="party-header">
+                    <span class="party-icon"></span>
+                    <span class="party-title">NOTIFY PARTY</span>
+                </div>
+                <div class="party-content">
+                    {% if notify_party %}
+                    <div class="party-name">{{ notify_party.company_name }}</div>
+                    <div class="party-address">
+                        {{ notify_party.address_line1 }}<br>
+                        {% if notify_party.address_line2 %}{{ notify_party.address_line2 }}<br>{% endif %}
+                        {{ notify_party.city }}, {{ notify_party.state|default('') }} {{ notify_party.postal_code }}<br>
+                        {{ notify_party.country }}
+                    </div>
+                    {% if notify_party.phone %}
+                    <div class="party-contact"> {{ notify_party.phone }}</div>
+                    {% endif %}
+                    {% else %}
+                    <div class="same-as-note">Same as Consignee</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Trade Terms Section -->
+        <div class="trade-terms-section">
+            <div class="section-header">
+                <span class="section-icon"></span>
+                <span class="section-title">TRADE TERMS & SHIPPING</span>
+            </div>
+            <div class="terms-grid">
+                <div class="term-item">
+                    <div class="term-label">Incoterms 2020</div>
+                    <div class="term-value highlight">{{ incoterms }}</div>
+                </div>
+                <div class="term-item">
+                    <div class="term-label">Payment Terms</div>
+                    <div class="term-value">{{ payment_terms }}</div>
+                </div>
+                <div class="term-item">
+                    <div class="term-label">Currency</div>
+                    <div class="term-value">{{ currency }}</div>
+                </div>
+                <div class="term-item">
+                    <div class="term-label">Transport Mode</div>
+                    <div class="term-value">{{ transport_mode|default('Sea Freight') }}</div>
+                </div>
+            </div>
+            <div class="shipping-grid">
+                <div class="shipping-item">
+                    <div class="shipping-label">Port of Loading</div>
+                    <div class="shipping-value">{{ port_of_loading }}</div>
+                </div>
+                <div class="shipping-item">
+                    <div class="shipping-label">Port of Discharge</div>
+                    <div class="shipping-value">{{ port_of_discharge }}</div>
+                </div>
+                <div class="shipping-item">
+                    <div class="shipping-label">Vessel / Flight</div>
+                    <div class="shipping-value">{{ vessel_name|default('TBA') }}</div>
+                </div>
+                <div class="shipping-item">
+                    <div class="shipping-label">Est. Departure</div>
+                    <div class="shipping-value">{{ etd|default('TBA') }}</div>
+                </div>
+                <div class="shipping-item">
+                    <div class="shipping-label">Est. Arrival</div>
+                    <div class="shipping-value">{{ eta|default('TBA') }}</div>
+                </div>
+                <div class="shipping-item">
+                    <div class="shipping-label">Transit Time</div>
+                    <div class="shipping-value">{{ transit_time|default('TBA') }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Package Summary Bar -->
+        <div class="package-summary">
+            <div class="package-item">
+                <span class="package-icon"></span>
+                <span class="package-label">Packages:</span>
+                <span class="package-value">{{ total_packages|default('TBD') }}</span>
+            </div>
+            <div class="package-divider"></div>
+            <div class="package-item">
+                <span class="package-icon"></span>
+                <span class="package-label">Gross Wt:</span>
+                <span class="package-value">{{ gross_weight|default('TBD') }} KG</span>
+            </div>
+            <div class="package-divider"></div>
+            <div class="package-item">
+                <span class="package-icon"></span>
+                <span class="package-label">Net Wt:</span>
+                <span class="package-value">{{ net_weight|default('TBD') }} KG</span>
+            </div>
+            <div class="package-divider"></div>
+            <div class="package-item">
+                <span class="package-icon"></span>
+                <span class="package-label">Volume:</span>
+                <span class="package-value">{{ total_cbm|default('TBD') }} CBM</span>
+            </div>
+            <div class="package-divider"></div>
+            <div class="package-item">
+                <span class="package-icon"></span>
+                <span class="package-label">Marks:</span>
+                <span class="package-value">{{ marks_numbers|default('N/M') }}</span>
+            </div>
+        </div>
+
+        <!-- Items Table -->
+        <div class="items-section">
+            <div class="section-header">
+                <span class="section-icon"></span>
+                <span class="section-title">ITEMS & CUSTOMS CLASSIFICATION</span>
+                {% if _total_pages|default(1) > 1 %}
+                <span class="page-indicator">Page {{ _page_number }}/{{ _total_pages }}</span>
+                {% endif %}
+            </div>
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-line">#</th>
+                        <th class="col-code">Item Code</th>
+                        <th class="col-desc">Description of Goods</th>
+                        <th class="col-hs">HS Code</th>
+                        <th class="col-origin">Origin</th>
+                        <th class="col-qty">Qty</th>
+                        <th class="col-unit">Unit</th>
+                        <th class="col-price">Unit Price</th>
+                        <th class="col-amount">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td class="col-line">{{ loop.index + ((_page_number|default(1) - 1) * 8) }}</td>
+                        <td class="col-code">{{ item.item_code|default(item.sku) }}</td>
+                        <td class="col-desc">
+                            <div class="item-name">{{ item.description }}</div>
+                            {% if item.specifications %}
+                            <div class="item-specs">{{ item.specifications }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="col-hs">{{ item.hs_code }}</td>
+                        <td class="col-origin">{{ item.country_of_origin }}</td>
+                        <td class="col-qty">{{ item.quantity }}</td>
+                        <td class="col-unit">{{ item.unit|default('PCS') }}</td>
+                        <td class="col-price">{{ currency }} {{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                        <td class="col-amount">{{ currency }} {{ "%.2f"|format(item.amount|to_float) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Totals Section - Only on last page -->
+        {% if _is_last_page|default(true) %}
+        <div class="totals-section">
+            <div class="totals-grid">
+                <div class="totals-left">
+                    <div class="amount-words">
+                        <span class="words-label">Amount in Words:</span>
+                        <span class="words-value">{{ amount_in_words|default('') }}</span>
+                    </div>
+                </div>
+                <div class="totals-right">
+                    <div class="total-row">
+                        <span class="total-label">Subtotal:</span>
+                        <span class="total-value">{{ currency }} {{ "%.2f"|format(subtotal|to_float) }}</span>
+                    </div>
+                    {% if discount and (discount|to_float) > 0 %}
+                    <div class="total-row discount">
+                        <span class="total-label">Discount:</span>
+                        <span class="total-value">- {{ currency }} {{ "%.2f"|format(discount|to_float) }}</span>
+                    </div>
+                    {% endif %}
+                    {% if freight and freight > 0 %}
+                    <div class="total-row">
+                        <span class="total-label">Freight ({{ incoterms }}):</span>
+                        <span class="total-value">{{ currency }} {{ "%.2f"|format(freight) }}</span>
+                    </div>
+                    {% endif %}
+                    {% if insurance and insurance > 0 %}
+                    <div class="total-row">
+                        <span class="total-label">Insurance:</span>
+                        <span class="total-value">{{ currency }} {{ "%.2f"|format(insurance) }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="total-row grand-total">
+                        <span class="total-label">TOTAL AMOUNT:</span>
+                        <span class="total-value">{{ currency }} {{ "%.2f"|format(total_amount|to_float) }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bank Details Section -->
+        <div class="bank-section">
+            <div class="section-header">
+                <span class="section-icon"></span>
+                <span class="section-title">REMITTANCE DETAILS</span>
+            </div>
+            <div class="bank-grid">
+                <div class="bank-item">
+                    <div class="bank-label">Beneficiary Name</div>
+                    <div class="bank-value">{{ bank_details.beneficiary_name|default(exporter.company_name) }}</div>
+                </div>
+                <div class="bank-item">
+                    <div class="bank-label">Bank Name</div>
+                    <div class="bank-value">{{ bank_details.bank_name }}</div>
+                </div>
+                <div class="bank-item">
+                    <div class="bank-label">Account Number</div>
+                    <div class="bank-value highlight">{{ bank_details.account_number }}</div>
+                </div>
+                <div class="bank-item">
+                    <div class="bank-label">SWIFT / BIC Code</div>
+                    <div class="bank-value highlight">{{ bank_details.swift_code }}</div>
+                </div>
+                <div class="bank-item full-width">
+                    <div class="bank-label">Bank Address</div>
+                    <div class="bank-value">{{ bank_details.bank_address }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Declaration Section -->
+        <div class="declaration-section">
+            <div class="declaration-content">
+                <div class="declaration-text">
+                    <strong>DECLARATION:</strong> We hereby certify that this proforma invoice shows the actual price of 
+                    the goods described, that no other invoice has been or will be issued, and that all particulars 
+                    are true and correct. The goods are of {{ exporter.country }} origin unless otherwise stated above.
+                </div>
+                <div class="signature-row">
+                    <div class="signature-block">
+                        <div class="signature-line"></div>
+                        <div class="signature-label">Authorized Signature</div>
+                        <div class="signature-name">{{ authorized_signatory|default('') }}</div>
+                    </div>
+                    <div class="stamp-block">
+                        <div class="stamp-placeholder">COMPANY STAMP</div>
+                    </div>
+                    <div class="date-block">
+                        <div class="date-line"></div>
+                        <div class="date-label">Date</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes & Terms -->
+        {% if notes or terms_conditions %}
+        <div class="notes-section">
+            {% if notes %}
+            <div class="notes-block">
+                <div class="notes-title"> Notes:</div>
+                <div class="notes-content">{{ notes }}</div>
+            </div>
+            {% endif %}
+            {% if terms_conditions %}
+            <div class="terms-block">
+                <div class="terms-title"> Terms & Conditions:</div>
+                <div class="terms-content">
+                    {% if terms_conditions is iterable and terms_conditions is not string %}
+                        {% for term in terms_conditions %}
+                        <div class="term-line">{{ loop.index }}. {{ term }}</div>
+                        {% endfor %}
+                    {% else %}
+                        {{ terms_conditions }}
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="footer-section">
+            <div class="footer-left">
+                <div class="doc-notice">This is a non-fiscal document for quotation and customs purposes only.</div>
+            </div>
+            <div class="footer-center">
+                {% if _total_pages|default(1) > 1 %}
+                Page {{ _page_number }} of {{ _total_pages }}
+                {% endif %}
+            </div>
+            <div class="footer-right">
+                <div class="generated-date">Generated: {{ generation_date|default('') }}</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

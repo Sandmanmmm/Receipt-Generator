@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wholesale Order {{ order_number }}</title>
+    <link rel="stylesheet" href="../css/modern_b2b_clean.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page %}
+        <!-- Primary Header -->
+        <div class="primary-header">
+            <table class="header-layout">
+                <tr>
+                    <td class="logo-section">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="brand-logo" />
+                        {% else %}
+                        <div class="brand-initial">{{ supplier_name[:2]|upper }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="title-section">
+                        <div class="doc-title">Wholesale Order</div>
+                        <div class="order-meta">
+                            <span class="meta-item"><strong>Order:</strong> {{ order_number }}</span>
+                            <span class="meta-sep">•</span>
+                            <span class="meta-item"><strong>Date:</strong> {{ order_date }}</span>
+                            <span class="meta-sep">•</span>
+                            <span class="meta-item"><strong>Terms:</strong> {{ payment_method or 'Net 30' }}</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Supplier Info Card -->
+        <div class="info-card supplier-card">
+            <div class="card-label">From</div>
+            <div class="card-company">{{ supplier_name }}</div>
+            <table class="contact-grid">
+                <tr>
+                    {% if supplier_address %}
+                    <td class="contact-item">
+                        <span class="contact-icon">📍</span>
+                        <span class="contact-text">{{ supplier_address }}</span>
+                    </td>
+                    {% endif %}
+                </tr>
+                <tr>
+                    <td class="contact-item">
+                        {% if supplier_email %}
+                        <span class="contact-icon"></span>
+                        <span class="contact-text">{{ supplier_email }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="contact-item">
+                        {% if supplier_phone %}
+                        <span class="contact-icon"></span>
+                        <span class="contact-text">{{ supplier_phone }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Customer Info Cards -->
+        <table class="customer-cards">
+            <tr>
+                <td class="info-card billing-card">
+                    <div class="card-label">Bill To</div>
+                    <div class="card-name">{{ buyer_name }}</div>
+                    {% if buyer_address %}
+                    <div class="card-line">{{ buyer_address }}</div>
+                    {% endif %}
+                    {% if buyer_email %}
+                    <div class="card-line"> {{ buyer_email }}</div>
+                    {% endif %}
+                    {% if buyer_phone %}
+                    <div class="card-line"> {{ buyer_phone }}</div>
+                    {% endif %}
+                </td>
+                <td class="info-card shipping-card">
+                    <div class="card-label">Ship To</div>
+                    <div class="card-name">{{ buyer_name }}</div>
+                    {% if buyer_address %}
+                    <div class="card-line">{{ buyer_address }}</div>
+                    {% endif %}
+                    {% if shipping_method %}
+                    <div class="card-line"> {{ shipping_method }}</div>
+                    {% endif %}
+                    {% if tracking_number %}
+                    <div class="card-line">🔢 {{ tracking_number }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <table class="cont-layout">
+                <tr>
+                    <td class="cont-brand">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="cont-brand-logo" />
+                        {% else %}
+                        <span class="cont-brand-text">{{ supplier_name }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="cont-info">
+                        <span class="cont-order">Order {{ order_number }}</span>
+                        <span class="cont-divider">|</span>
+                        <span class="cont-pagination">Page {{ _current_page }} of {{ _total_pages }}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Order Items -->
+        <div class="items-container">
+            <table class="order-items">
+                <thead>
+                    <tr>
+                        <th class="h-item">Item Description</th>
+                        <th class="h-sku">SKU</th>
+                        <th class="h-quantity">Quantity</th>
+                        <th class="h-price">Unit Price</th>
+                        <th class="h-amount">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="order-row">
+                        <td class="c-item">
+                            <div class="item-title">{{ item.description }}</div>
+                            {% if item.variant %}
+                            <div class="item-subtitle">{{ item.variant }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="c-sku">{{ item.sku or '—' }}</td>
+                        <td class="c-quantity">{{ item.quantity }}</td>
+                        <td class="c-price">${{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                        <td class="c-amount">${{ "%.2f"|format(item.total|to_float) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page %}
+        <!-- Order Summary -->
+        <table class="summary-layout">
+            <tr>
+                <td class="notes-section">
+                    <div class="notes-card">
+                        <div class="notes-title">Order Notes</div>
+                        <div class="notes-text">
+                            This wholesale order is subject to standard B2B terms and conditions. 
+                            Payment is due within 30 days of invoice date. Please reference order 
+                            number {{ order_number }} with all correspondence and payments. 
+                            For questions, contact {{ supplier_email }}.
+                        </div>
+                    </div>
+                </td>
+                <td class="totals-section">
+                    <div class="totals-card">
+                        <table class="totals-rows">
+                            <tr class="total-line">
+                                <td class="t-label">Subtotal</td>
+                                <td class="t-value">${{ "%.2f"|format(subtotal|to_float) }}</td>
+                            </tr>
+                            {% if (discount|to_float or 0) > 0 %}
+                            <tr class="total-line">
+                                <td class="t-label">Discount</td>
+                                <td class="t-value t-discount">-${{ "%.2f"|format(discount|to_float) }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if (shipping_cost or 0) > 0 %}
+                            <tr class="total-line">
+                                <td class="t-label">Shipping</td>
+                                <td class="t-value">${{ "%.2f"|format(shipping_cost or 0) }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="total-line">
+                                <td class="t-label">Tax</td>
+                                <td class="t-value">${{ "%.2f"|format(tax|to_float) }}</td>
+                            </tr>
+                            <tr class="total-final">
+                                <td class="t-label">Order Total</td>
+                                <td class="t-value">${{ "%.2f"|format(total_amount|to_float) }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Footer -->
+        <div class="page-footer">
+            <div class="footer-line"></div>
+            <div class="footer-text">
+                Thank you for your business • {{ supplier_name }} • {{ supplier_email }} • {{ supplier_phone }}
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-line"></div>
+            <div class="cont-text">Order continues on next page</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

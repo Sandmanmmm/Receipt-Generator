@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fuel Receipt</title>
+    <title>Fuel Receipt{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <link rel="stylesheet" href="../css/pos_receipt_fuel.css">
 </head>
 <body>
@@ -48,7 +48,7 @@
         <div class="divider-double"></div>
 
         <!-- Fuel Purchase - Prominent Display -->
-        {% for item in line_items %}
+        {% for item in items|default(line_items, true) %}
         {% if item.is_fuel %}
         <div class="fuel-section">
             <div class="fuel-header">
@@ -75,7 +75,7 @@
             
             {% if item.rewards_discount %}
             <div class="fuel-savings">
-                <span class="savings-icon">💰</span>
+                <span class="savings-icon"></span>
                 <span class="savings-text">YOU SAVED {{ item.rewards_discount }}/GAL</span>
                 <span class="savings-total">-{{ item.total_savings }}</span>
             </div>
@@ -102,7 +102,7 @@
             {% endif %}
             {% if item.promotion %}
             <div class="item-promo">
-                <span class="promo-icon">🏷️</span>
+                <span class="promo-icon"></span>
                 <span class="promo-text">{{ item.promotion }}</span>
                 <span class="promo-discount">-{{ item.discount }}</span>
             </div>
@@ -119,7 +119,7 @@
                 <span class="total-label">SUBTOTAL:</span>
                 <span class="total-value">{{ subtotal }}</span>
             </div>
-            {% if total_discount|default(0) > 0 %}
+            {% if total_discount_raw|default(0) > 0 %}
             <div class="total-line savings-line">
                 <span class="total-label">TOTAL SAVINGS:</span>
                 <span class="total-value">-{{ total_discount }}</span>

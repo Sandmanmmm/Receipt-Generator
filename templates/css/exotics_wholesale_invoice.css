@@ -1,0 +1,405 @@
+/* Exotics Wholesale Invoice Template - Clean Minimalist Design */
+/* Based on exoticswholesale.com candy wholesaler invoices */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10pt;
+    color: #333333;
+    line-height: 1.4;
+    background: #ffffff;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 40px 50px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ============================================
+   Header Section
+   ============================================ */
+.header-section {
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.brand-section {
+    float: left;
+    width: 55%;
+}
+
+.brand-name {
+    font-size: 22pt;
+    font-weight: 700;
+    color: #000000;
+    letter-spacing: 1px;
+}
+
+.barcode-section {
+    float: right;
+    width: 40%;
+    text-align: right;
+}
+
+.barcode-visual {
+    display: inline-block;
+    margin-bottom: 5px;
+    height: 45px;
+    padding: 3px 5px;
+    background: #ffffff;
+}
+
+.barcode-bars {
+    display: inline-block;
+    height: 40px;
+    white-space: nowrap;
+}
+
+.barcode-bars .bar {
+    display: inline-block;
+    height: 100%;
+    margin-right: 1px;
+    background-color: #000000;
+}
+
+.barcode-bars .bar.b1 {
+    width: 1px;
+}
+
+.barcode-bars .bar.b2 {
+    width: 2px;
+}
+
+.barcode-bars .bar.b3 {
+    width: 3px;
+}
+
+.invoice-ref {
+    font-size: 9pt;
+    color: #666666;
+}
+
+.invoice-date {
+    font-size: 9pt;
+    color: #666666;
+}
+
+/* ============================================
+   Address Section - Three Columns
+   ============================================ */
+.address-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    table-layout: fixed;
+}
+
+.address-cell {
+    width: 33.33%;
+    vertical-align: top;
+    padding-right: 20px;
+}
+
+.address-cell:last-child {
+    padding-right: 0;
+    text-align: right;
+}
+
+.address-title {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.address-content {
+    font-size: 9pt;
+    color: #555555;
+    line-height: 1.6;
+}
+
+.address-line {
+    margin-bottom: 2px;
+}
+
+.method-section {
+    margin-bottom: 15px;
+}
+
+.method-title {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 5px;
+    letter-spacing: 0.5px;
+}
+
+.method-value {
+    font-size: 9pt;
+    color: #555555;
+}
+
+/* ============================================
+   Line Items Table
+   ============================================ */
+.items-section {
+    margin-bottom: 30px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.items-table thead tr {
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.items-table th {
+    padding: 12px 8px;
+    text-align: left;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #333333;
+    letter-spacing: 0.3px;
+}
+
+/* Column Widths */
+.col-items { width: 45%; }
+.col-price { width: 13%; text-align: right; }
+.col-tax { width: 10%; text-align: center; }
+.col-qty { width: 10%; text-align: center; }
+.col-total { width: 15%; text-align: right; }
+
+.items-table tbody tr {
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.items-table td {
+    padding: 15px 8px;
+    font-size: 9pt;
+    vertical-align: middle;
+}
+
+.image-cell {
+    width: 65px;
+    padding-right: 12px;
+}
+
+.product-image {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border: 1px solid #EEEEEE;
+    border-radius: 4px;
+    background: #FAFAFA;
+}
+
+.image-placeholder {
+    width: 60px;
+    height: 60px;
+    background: #F5F5F5;
+    border: 1px solid #EEEEEE;
+    border-radius: 4px;
+}
+
+.desc-cell {
+    vertical-align: middle;
+}
+
+.item-name {
+    font-size: 9pt;
+    color: #333333;
+    line-height: 1.4;
+}
+
+.price-cell {
+    text-align: right;
+    vertical-align: middle;
+}
+
+.original-price {
+    display: block;
+    font-size: 8pt;
+    color: #999999;
+    text-decoration: line-through;
+    margin-bottom: 2px;
+}
+
+.current-price {
+    font-size: 9pt;
+    color: #333333;
+}
+
+.tax-cell {
+    text-align: center;
+    font-size: 9pt;
+    color: #666666;
+}
+
+.qty-cell {
+    text-align: center;
+    font-size: 9pt;
+    color: #666666;
+}
+
+.total-cell {
+    text-align: right;
+    font-size: 9pt;
+    font-weight: 500;
+    color: #333333;
+}
+
+/* ============================================
+   Totals Section
+   ============================================ */
+.totals-section {
+    margin-bottom: 40px;
+    border-top: 1px solid #DDDDDD;
+    padding-top: 15px;
+}
+
+.totals-table {
+    float: right;
+    width: 280px;
+    border-collapse: collapse;
+}
+
+.totals-table tr {
+    border-bottom: none;
+}
+
+.totals-table td {
+    padding: 6px 0;
+    font-size: 9pt;
+}
+
+.totals-label {
+    text-align: right;
+    color: #666666;
+    padding-right: 20px;
+}
+
+.totals-value {
+    text-align: right;
+    color: #333333;
+}
+
+.total-row td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.totals-label.total {
+    font-weight: 700;
+    color: #333333;
+}
+
+.totals-value.total {
+    font-weight: 700;
+    font-size: 11pt;
+    color: #333333;
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+.invoice-footer {
+    clear: both;
+    text-align: center;
+    padding-top: 30px;
+}
+
+.thank-you {
+    font-size: 10pt;
+    color: #555555;
+    margin-bottom: 20px;
+}
+
+.company-info {
+    font-size: 9pt;
+    color: #666666;
+    line-height: 1.6;
+}
+
+.company-name {
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 5px;
+}
+
+.company-line {
+    margin-bottom: 2px;
+}
+
+/* ============================================
+   Continuation Header/Footer
+   ============================================ */
+.continuation-header {
+    overflow: hidden;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+.cont-brand {
+    float: left;
+    font-size: 16pt;
+    font-weight: 700;
+    color: #000000;
+    letter-spacing: 0.5px;
+}
+
+.cont-info {
+    float: right;
+    font-size: 9pt;
+    color: #666666;
+    padding-top: 5px;
+}
+
+.continuation-footer {
+    position: absolute;
+    bottom: 40px;
+    left: 50px;
+    right: 50px;
+    overflow: hidden;
+    padding-top: 15px;
+    border-top: 1px solid #DDDDDD;
+}
+
+.cont-text {
+    float: left;
+    font-size: 9pt;
+    color: #666666;
+    font-style: italic;
+}
+
+.cont-page {
+    float: right;
+    font-size: 9pt;
+    color: #666666;
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+@media print {
+    body {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+    
+    .invoice-page {
+        page-break-after: always;
+    }
+}

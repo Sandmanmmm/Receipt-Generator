@@ -1,0 +1,170 @@
+/* Boutique Luxe Invoice - warm neutral palette */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.6;
+    color: #2a2420;
+    background: #f8f5f0;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    background: #f8f5f0;
+    padding: 0 32px 32px 32px;
+}
+
+/* Header */
+.header-wrap {
+    background: #ffffff;
+    border: 1px solid #e3d8c6;
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin-top: 28px;
+    margin-bottom: 18px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+}
+
+.header-table { width: 100%; border-collapse: collapse; }
+.header-brand { width: 55%; vertical-align: middle; }
+.header-details { width: 45%; text-align: right; vertical-align: middle; }
+
+.brand-logo {
+    height: 46px;
+    width: auto;
+    max-width: 200px;
+    vertical-align: middle;
+}
+
+.logo-fallback { display: inline-block; margin-right: 12px; }
+.logo-mark {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: #c29a5b;  /* was: linear-gradient(135deg, #c29a5b 0%, #9f7c3b 100%...) */
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+    line-height: 48px;
+}
+
+.brand-meta { display: inline-block; vertical-align: middle; margin-left: 10px; }
+.brand-name { font-size: 16px; font-weight: 700; color: #2a2420; }
+.brand-contact { font-size: 10px; color: #7a6a5c; }
+
+.pill {
+    display: inline-block;
+    background: #d8c6a4;
+    color: #5a4a38;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.detail-row { font-size: 11px; color: #4a4038; margin-bottom: 4px; }
+.detail-row span { color: #7a6a5c; margin-right: 8px; }
+.detail-row strong { font-weight: 700; }
+
+/* Addresses */
+.address-table { width: 100%; border-collapse: separate; border-spacing: 14px 0; margin-bottom: 12px; }
+.address-card {
+    background: #ffffff;
+    border: 1px solid #e3d8c6;
+    border-radius: 10px;
+    padding: 16px 18px;
+    width: 50%;
+    vertical-align: top;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.card-title { font-size: 11px; font-weight: 700; color: #6a5846; margin-bottom: 8px; letter-spacing: 0.5px; text-transform: uppercase; }
+.card-line { font-size: 11px; color: #2f2722; margin-bottom: 4px; }
+.card-line.emphasis { color: #9f7c3b; font-weight: 600; }
+
+/* Section Head */
+.section-head {
+    font-size: 13px;
+    font-weight: 700;
+    color: #2a2420;
+    margin: 16px 0 8px 0;
+    letter-spacing: 0.4px;
+}
+
+/* Items */
+.items-table { width: 100%; border-collapse: collapse; background: #ffffff; border: 1px solid #e3d8c6; border-radius: 10px; overflow: hidden; }
+.items-table thead tr { background: #f1e7d8; }
+.items-table th {
+    padding: 10px;
+    text-align: left;
+    font-size: 10px;
+    color: #6a5846;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #e3d8c6;
+}
+.items-table td { padding: 10px; font-size: 11px; color: #2a2420; border-bottom: 1px solid #f0e6d8; }
+.items-table tbody tr:last-child td { border-bottom: none; }
+
+.col-desc { width: 42%; }
+.col-sku { width: 16%; }
+.col-qty { width: 10%; text-align: center; }
+.col-price { width: 16%; text-align: right; }
+.col-total { width: 16%; text-align: right; }
+
+.item-desc { line-height: 1.4; }
+.item-name { font-weight: 700; }
+.item-sub { font-size: 10px; color: #7a6a5c; }
+.item-sku { color: #7a6a5c; }
+.item-qty { text-align: center; }
+.item-price, .item-total { text-align: right; }
+
+/* Totals & Notes */
+.totals-notes { width: 100%; border-collapse: separate; border-spacing: 12px 0; margin-top: 16px; }
+.notes-cell { width: 55%; vertical-align: top; }
+.totals-cell { width: 45%; vertical-align: top; }
+
+.notes-card {
+    background: #ffffff;
+    border: 1px solid #e3d8c6;
+    border-radius: 10px;
+    padding: 14px;
+    min-height: 120px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.notes-text { font-size: 11px; color: #4a4038; line-height: 1.5; }
+
+.totals-table { width: 100%; border-collapse: collapse; background: #ffffff; border: 1px solid #e3d8c6; border-radius: 10px; overflow: hidden; }
+.totals-table tr td { padding: 10px 12px; font-size: 11px; border-bottom: 1px solid #f0e6d8; }
+.totals-table tr:last-child td { border-bottom: none; }
+.align-right { text-align: right; }
+.grand-total td { font-weight: 700; font-size: 12px; color: #2a2420; background: #f6eddd; }
+
+/* Footer */
+.footer { text-align: center; margin-top: 18px; color: #6a5846; font-size: 10px; }
+.footer-line { height: 1px; background: #e3d8c6; margin: 12px 0; }
+.footer-text { margin-bottom: 4px; }
+.footer-small { color: #8c7a68; font-size: 9px; }
+
+/* Continuation */
+.cont-header { background: #ffffff; border: 1px solid #e3d8c6; border-radius: 8px; padding: 10px 14px; margin: 16px 0 8px 0; }
+.cont-table { width: 100%; border-collapse: collapse; }
+.cont-left { width: 60%; }
+.cont-right { width: 40%; text-align: right; font-size: 11px; color: #6a5846; }
+.cont-logo { height: 32px; width: auto; max-width: 140px; }
+.cont-name { font-weight: 700; color: #2a2420; }
+
+.cont-footer { text-align: center; font-size: 10px; color: #6a5846; margin-top: 10px; }
+
+/* Print */
+@media print {
+    body { background: #ffffff; }
+    .invoice-page { background: #ffffff; }
+    .header-wrap, .address-card, .items-table, .notes-card, .totals-table { box-shadow: none; }
+}

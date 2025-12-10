@@ -1,0 +1,512 @@
+/**
+ * Mini Market POS Receipt - Asia Mart / Fuyi Style
+ * Based on SROIE dataset analysis
+ * 
+ * Key Features:
+ * - 80mm thermal receipt width
+ * - Courier 9pt font throughout (monospace)
+ * - GST ID prominent at top
+ * - Compact multi-item layout (40-45 lines/page)
+ * - Dense layout with minimal spacing
+ * - Abbreviated column headers (QTY, U/P, AMT)
+ * - Dashed dividers
+ * - Bilingual footer (Malay/English)
+ */
+
+/* ========================================
+   BASE STYLES
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    line-height: 1.15;
+    background-color: #ffffff;
+    color: #000000;
+    -webkit-font-smoothing: none;
+}
+
+/* ========================================
+   RECEIPT CONTAINER
+   ======================================== */
+
+.mini-market-receipt {
+    width: 302px;  /* 80mm at 96 DPI */
+    max-width: 302px;
+    margin: 0 auto;
+    padding: 10px 8px;
+    background-color: #ffffff;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* ========================================
+   HEADER SECTION
+   ======================================== */
+
+.receipt-header {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.store-name {
+    font-size: 11pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+}
+
+.company-reg {
+    font-size: 8.5pt;
+    font-weight: normal;
+    color: #333333;
+}
+
+/* ========================================
+   ADDRESS BLOCK - COMPACT
+   ======================================== */
+
+.address-block {
+    text-align: center;
+    margin: 3px 0;
+}
+
+.address-line {
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+/* ========================================
+   CONTACT LINE
+   ======================================== */
+
+.contact-line {
+    text-align: center;
+    margin: 3px 0;
+    font-size: 8.5pt;
+}
+
+.tel {
+    font-weight: normal;
+}
+
+/* ========================================
+   DIVIDERS - DASHED STYLE
+   ======================================== */
+
+.dashed-divider {
+    border-top: 1px dashed #000000;
+    margin: 5px 0;
+}
+
+/* ========================================
+   GST BLOCK - PROMINENT
+   ======================================== */
+
+.gst-block {
+    text-align: center;
+    padding: 3px 0;
+    font-size: 9pt;
+    font-weight: bold;
+}
+
+.gst-block .gst-label {
+    margin-right: 5px;
+}
+
+.gst-block .gst-value {
+    letter-spacing: 0.5px;
+}
+
+/* ========================================
+   INVOICE TYPE BANNER
+   ======================================== */
+
+.invoice-type-banner {
+    text-align: center;
+    padding: 4px 0;
+}
+
+.invoice-type {
+    font-size: 9.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* ========================================
+   TRANSACTION BLOCK - COMPACT
+   ======================================== */
+
+.transaction-block {
+    margin: 4px 0;
+}
+
+.trans-row {
+    font-size: 8.5pt;
+    line-height: 1.3;
+}
+
+.trans-label {
+    font-weight: normal;
+}
+
+.trans-value {
+    font-weight: normal;
+}
+
+.time-label {
+    margin-left: 10px;
+}
+
+/* ========================================
+   COLUMN HEADERS - ABBREVIATED
+   ======================================== */
+
+.column-headers {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    font-weight: bold;
+    padding: 2px 0;
+}
+
+.col-desc {
+    display: table-cell;
+    width: 45%;
+    text-align: left;
+}
+
+.col-qty {
+    display: table-cell;
+    width: 12%;
+    text-align: center;
+}
+
+.col-price {
+    display: table-cell;
+    width: 20%;
+    text-align: right;
+}
+
+.col-amt {
+    display: table-cell;
+    width: 23%;
+    text-align: right;
+}
+
+/* ========================================
+   ITEMS SECTION - DENSE LAYOUT
+   ======================================== */
+
+.items-section {
+    margin: 3px 0;
+}
+
+.item-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    line-height: 1.25;
+    padding: 1px 0;
+}
+
+.item-desc {
+    display: table-cell;
+    width: 45%;
+    text-align: left;
+    font-size: 8pt;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.item-qty {
+    display: table-cell;
+    width: 12%;
+    text-align: center;
+}
+
+.item-price {
+    display: table-cell;
+    width: 20%;
+    text-align: right;
+}
+
+.item-amt {
+    display: table-cell;
+    width: 23%;
+    text-align: right;
+    font-weight: bold;
+}
+
+/* Barcode Row (optional) */
+.barcode-row {
+    font-size: 7.5pt;
+    color: #666666;
+    padding-left: 5px;
+    line-height: 1.1;
+}
+
+.item-barcode {
+    font-size: 7.5pt;
+}
+
+/* ========================================
+   TOTALS SECTION - COMPACT
+   ======================================== */
+
+.totals-section {
+    margin: 4px 0;
+}
+
+.total-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 9pt;
+    line-height: 1.4;
+}
+
+.total-label {
+    display: table-cell;
+    width: 65%;
+    text-align: right;
+    padding-right: 8px;
+}
+
+.total-value {
+    display: table-cell;
+    width: 35%;
+    text-align: right;
+}
+
+.discount-row .total-value {
+    color: #cc0000;
+}
+
+/* ========================================
+   GST BREAKDOWN
+   ======================================== */
+
+.gst-breakdown {
+    margin: 4px 0;
+    padding: 3px 0;
+    border-top: 1px dotted #999999;
+    border-bottom: 1px dotted #999999;
+}
+
+.gst-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    line-height: 1.35;
+}
+
+.gst-breakdown .gst-label {
+    display: table-cell;
+    width: 65%;
+    text-align: right;
+    padding-right: 8px;
+}
+
+.gst-breakdown .gst-value {
+    display: table-cell;
+    width: 35%;
+    text-align: right;
+}
+
+/* ========================================
+   GRAND TOTAL SECTION
+   ======================================== */
+
+.grand-total-section {
+    margin: 5px 0;
+    padding: 4px 0;
+}
+
+.grand-total-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 11pt;
+    font-weight: bold;
+}
+
+.grand-total-label {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+    padding-right: 8px;
+}
+
+.grand-total-value {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+}
+
+/* ========================================
+   PAYMENT SECTION
+   ======================================== */
+
+.payment-section {
+    margin: 4px 0;
+}
+
+.payment-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 9pt;
+    line-height: 1.4;
+}
+
+.payment-label {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+    padding-right: 8px;
+}
+
+.payment-value {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+}
+
+.card-row {
+    font-size: 8.5pt;
+}
+
+/* ========================================
+   ITEM COUNT SECTION
+   ======================================== */
+
+.item-count-section {
+    text-align: center;
+    padding: 3px 0;
+}
+
+.item-count {
+    font-size: 8.5pt;
+    font-weight: bold;
+}
+
+/* ========================================
+   FOOTER SECTION - BILINGUAL
+   ======================================== */
+
+.receipt-footer {
+    text-align: center;
+    margin-top: 5px;
+    padding-top: 3px;
+}
+
+.footer-message {
+    font-size: 9pt;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.footer-message.secondary {
+    font-size: 8.5pt;
+    font-weight: normal;
+}
+
+.footer-spacer {
+    height: 3px;
+}
+
+.return-policy {
+    margin: 4px 0;
+}
+
+.policy-line {
+    font-size: 7.5pt;
+    color: #666666;
+    line-height: 1.3;
+}
+
+/* ========================================
+   BARCODE SECTION
+   ======================================== */
+
+.receipt-barcode-section {
+    text-align: center;
+    margin: 8px 0 5px 0;
+    padding: 5px 0;
+    border-top: 1px dashed #cccccc;
+}
+
+.receipt-barcode {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 10pt;
+    letter-spacing: 2px;
+}
+
+/* ========================================
+   PAGE INDICATOR (MULTIPAGE)
+   ======================================== */
+
+.page-indicator {
+    text-align: center;
+    font-size: 7.5pt;
+    color: #999999;
+    margin-top: 5px;
+    padding-top: 3px;
+    border-top: 1px dashed #cccccc;
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+    body {
+        background-color: #ffffff;
+    }
+    
+    .mini-market-receipt {
+        width: 80mm;
+        max-width: 80mm;
+        padding: 3mm 2mm;
+    }
+    
+    .dashed-divider {
+        border-top: 0.3pt dashed #000000;
+    }
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+@media screen and (max-width: 320px) {
+    .mini-market-receipt {
+        width: 100%;
+        padding: 8px 5px;
+    }
+    
+    .store-name {
+        font-size: 10pt;
+    }
+    
+    .item-desc {
+        width: 40%;
+        font-size: 7.5pt;
+    }
+    
+    .col-desc {
+        width: 40%;
+    }
+}

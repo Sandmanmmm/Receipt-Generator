@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fayre Wholesale Invoice</title>
+    <link rel="stylesheet" href="../css/faire_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page %}
+        <!-- ===== FIRST PAGE HEADER ===== -->
+        <div class="page-header">
+            <!-- Fayre Brand Bar -->
+            <div class="faire-brand-bar">
+                <div class="brand-table">
+                    <div class="brand-left">
+                        <span class="faire-logo">Fayre</span>
+                        <span class="brand-tagline">Wholesale Marketplace</span>
+                    </div>
+                    <div class="brand-right">
+                        <span class="invoice-label">WHOLESALE INVOICE</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Brand Logo Section -->
+            <div class="brand-section">
+                <table class="brand-table">
+                    <tr>
+                        <td class="brand-logo-cell">
+                            {% if supplier_logo %}
+                            <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="brand-logo" />
+                            {% else %}
+                            <div class="logo-placeholder">
+                                <span class="logo-initial">{{ supplier_name[0]|upper }}</span>
+                            </div>
+                            {% endif %}
+                            <div class="brand-info">
+                                <div class="brand-name">{{ supplier_name }}</div>
+                                <div class="brand-subtitle">Wholesale Supplier</div>
+                            </div>
+                        </td>
+                        <td class="invoice-details-cell">
+                            <table class="details-grid">
+                                <tr>
+                                    <td class="detail-label">Invoice #:</td>
+                                    <td class="detail-value">{{ invoice_number }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="detail-label">Order Date:</td>
+                                    <td class="detail-value">{{ order_date }}</td>
+                                </tr>
+                                {% if ship_date %}
+                                <tr>
+                                    <td class="detail-label">Ship Date:</td>
+                                    <td class="detail-value">{{ ship_date }}</td>
+                                </tr>
+                                {% endif %}
+                                <tr>
+                                    <td class="detail-label">Payment Terms:</td>
+                                    <td class="detail-value">{{ payment_terms or 'Net 60' }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Retailer & Shipping Information -->
+            <div class="parties-section">
+                <table class="parties-table">
+                    <tr>
+                        <td class="party-card retailer-card">
+                            <div class="card-header">
+                                <span class="card-icon"></span>
+                                <span class="card-title">Retailer</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="party-name">{{ buyer_name }}</div>
+                                {% if buyer_address %}
+                                <div class="party-address">{{ buyer_address }}</div>
+                                {% endif %}
+                                {% if buyer_email %}
+                                <div class="party-contact">
+                                    <span class="contact-icon">✉</span>
+                                    <span class="contact-text">{{ buyer_email }}</span>
+                                </div>
+                                {% endif %}
+                                {% if buyer_phone %}
+                                <div class="party-contact">
+                                    <span class="contact-icon">☎</span>
+                                    <span class="contact-text">{{ buyer_phone }}</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td class="party-card shipping-card">
+                            <div class="card-header">
+                                <span class="card-icon"></span>
+                                <span class="card-title">Ship To</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="party-name">{{ buyer_name }}</div>
+                                {% if buyer_address %}
+                                <div class="party-address">{{ buyer_address }}</div>
+                                {% endif %}
+                                {% if tracking_number %}
+                                <div class="party-contact">
+                                    <span class="contact-icon"></span>
+                                    <span class="contact-text">Tracking: {{ tracking_number }}</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Order Summary Bar -->
+            <div class="summary-bar">
+                <table class="summary-table">
+                    <tr>
+                        <td class="summary-item">
+                            <span class="summary-label">Order Total:</span>
+                            <span class="summary-value">${{ "%.2f"|format(total_amount|to_float) }}</span>
+                        </td>
+                        <td class="summary-item">
+                            <span class="summary-label">Payment Method:</span>
+                            <span class="summary-value">{{ payment_method or 'Net Terms' }}</span>
+                        </td>
+                        <td class="summary-item">
+                            <span class="summary-label">Shipping:</span>
+                            <span class="summary-value">${{ "%.2f"|format(shipping_cost or 0) }}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <!-- ===== CONTINUATION HEADER ===== -->
+        <div class="cont-header">
+            <table class="cont-header-table">
+                <tr>
+                    <td class="cont-faire">Fayre</td>
+                    <td class="cont-brand">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="cont-logo" />
+                        {% endif %}
+                        {{ supplier_name }}
+                    </td>
+                    <td class="cont-invoice">Invoice #{{ invoice_number }}</td>
+                    <td class="cont-page">Page {{ _current_page }} of {{ _total_pages }}</td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- ===== ITEMS TABLE ===== -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="th-product">Product</th>
+                        <th class="th-sku">SKU</th>
+                        <th class="th-qty">Qty</th>
+                        <th class="th-wholesale">Wholesale Price</th>
+                        <th class="th-retail">Retail Price</th>
+                        <th class="th-total">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row">
+                        <td class="td-product">
+                            <div class="product-name">{{ item.description }}</div>
+                            {% if item.variant %}
+                            <div class="product-variant">{{ item.variant }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="td-sku">{{ item.sku or '—' }}</td>
+                        <td class="td-qty">{{ item.quantity }}</td>
+                        <td class="td-wholesale">${{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                        <td class="td-retail">
+                            {% if item.retail_price %}
+                            ${{ "%.2f"|format(item.retail_price|to_float) }}
+                            {% else %}
+                            —
+                            {% endif %}
+                        </td>
+                        <td class="td-total">${{ "%.2f"|format(item.total|to_float) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page %}
+        <!-- ===== TOTALS AND FOOTER ===== -->
+        <div class="totals-section">
+            <table class="totals-layout">
+                <tr>
+                    <td class="totals-notes">
+                        <!-- Terms & Conditions -->
+                        <div class="terms-box">
+                            <div class="terms-title">Payment Terms & Conditions</div>
+                            <div class="terms-content">
+                                <div class="terms-line">• Payment due within {{ payment_terms or 'Net 60' }} days</div>
+                                <div class="terms-line">• Free shipping on orders over ${{ minimum_order or '300.00' }}</div>
+                                <div class="terms-line">• Returns accepted within 30 days for full credit</div>
+                                <div class="terms-line">• All prices in USD, wholesale pricing for retail use</div>
+                            </div>
+                        </div>
+
+                        <!-- Fayre Benefits Box -->
+                        <div class="benefits-box">
+                            <div class="benefits-icon">✓</div>
+                            <div class="benefits-content">
+                                <div class="benefits-title">Fayre Benefits</div>
+                                <div class="benefits-text">60-day payment terms • Free returns • Net 60 for new retailers</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="totals-calc">
+                        <!-- Calculation Table -->
+                        <table class="calc-table">
+                            <tr class="calc-row">
+                                <td class="calc-label">Subtotal:</td>
+                                <td class="calc-value">${{ "%.2f"|format(subtotal|to_float) }}</td>
+                            </tr>
+                            {% if (discount|to_float or 0) > 0 %}
+                            <tr class="calc-row discount-row">
+                                <td class="calc-label">Discount:</td>
+                                <td class="calc-value">-${{ "%.2f"|format(discount|to_float) }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if (tax_amount|to_float or 0) > 0 %}
+                            <tr class="calc-row">
+                                <td class="calc-label">Tax:</td>
+                                <td class="calc-value">${{ "%.2f"|format(tax_amount|to_float) }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="calc-row">
+                                <td class="calc-label">Shipping:</td>
+                                <td class="calc-value">${{ "%.2f"|format(shipping_cost or 0) }}</td>
+                            </tr>
+                            <tr class="calc-row total-row">
+                                <td class="calc-label">Total Amount:</td>
+                                <td class="calc-value">${{ "%.2f"|format(total_amount|to_float) }}</td>
+                            </tr>
+                        </table>
+
+                        <!-- Payment Status Badge -->
+                        <div class="payment-status">
+                            <div class="status-badge">
+                                <span class="badge-icon"></span>
+                                <span class="badge-text">{{ payment_status or 'Net Terms' }}</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="page-footer">
+            <div class="footer-divider"></div>
+            <table class="footer-table">
+                <tr>
+                    <td class="footer-left">
+                        <div class="footer-message">Questions? Contact your Fayre representative</div>
+                        <div class="footer-contact">support@fayre.com • 1-888-FAYRE-01</div>
+                    </td>
+                    <td class="footer-right">
+                        <div class="footer-faire">Fayre</div>
+                        <div class="footer-tagline">Empowering independent retail</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <!-- ===== CONTINUATION FOOTER ===== -->
+        <div class="cont-footer">
+            <div class="cont-line"></div>
+            <div class="cont-text">Continued on page {{ _current_page + 1 }}...</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

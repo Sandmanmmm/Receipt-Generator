@@ -29,7 +29,7 @@
 
         <!-- Business Account Banner -->
         <div class="business-banner">
-            <div class="banner-icon">🏢</div>
+            <div class="banner-icon"></div>
             <div class="banner-content">
                 <div class="banner-title">Business Account Order</div>
                 <div class="banner-subtitle">Account #{{ account_number }} • {{ account_status }} Status</div>
@@ -134,7 +134,7 @@
         <!-- Items Section -->
         <div class="products-section">
             <div class="section-heading">
-                <span class="heading-icon">📦</span>
+                <span class="heading-icon"></span>
                 <span>Order Items</span>
             </div>
 
@@ -149,9 +149,8 @@
                     <div class="col-total">Total</div>
                 </div>
 
-                {# Smart pagination: First page shows fewer items due to large header #}
-                {% set show_limited = _is_first_page|default(true) and _page_number|default(none) %}
-                {% for item in (items[:3] if show_limited else items) %}
+                {# Pagination handled by template config - iterate over pre-sliced items #}
+                {% for item in items %}
                 <div class="product-row">
                     <div class="product-cell">
                         <div class="product-main">
@@ -170,19 +169,19 @@
                             <div class="product-attributes">
                                 {% if item.country_of_origin %}
                                 <span class="attribute-badge">
-                                    <span class="attribute-icon">🌍</span>
+                                    <span class="attribute-icon"></span>
                                     <span class="attribute-text">Origin: {{ item.country_of_origin }}</span>
                                 </span>
                                 {% endif %}
                                 {% if item.weight %}
                                 <span class="attribute-badge">
-                                    <span class="attribute-icon">⚖️</span>
+                                    <span class="attribute-icon"></span>
                                     <span class="attribute-text">{{ item.weight }} {{ item.weight_unit }}</span>
                                 </span>
                                 {% endif %}
                                 {% if item.dimensions %}
                                 <span class="attribute-badge">
-                                    <span class="attribute-icon">📏</span>
+                                    <span class="attribute-icon"></span>
                                     <span class="attribute-text">{{ item.dimensions }}</span>
                                 </span>
                                 {% endif %}
@@ -214,7 +213,7 @@
                             </div>
                             {% elif item.case_quantity %}
                             <div class="case-quantity">
-                                <span class="qty-icon">📦</span>
+                                <span class="qty-icon"></span>
                                 <span class="qty-number">{{ item.case_quantity }}</span>
                                 <span class="qty-unit">Case{{ 's' if item.case_quantity > 1 else '' }}</span>
                             </div>
@@ -275,7 +274,7 @@
                     </div>
 
                     <div class="total-cell">
-                        <div class="item-total">{{ item.line_total }}</div>
+                        <div class="item-total">{{ item.line_total|default(item.amount)|default(item.total) }}</div>
                     </div>
                 </div>
 
@@ -304,7 +303,7 @@
                     {% if item.stock_status %}
                     <div class="stock-status {{ item.stock_status|lower }}">
                         <span class="status-icon">
-                            {% if item.stock_status == 'In Stock' %}✓{% elif item.stock_status == 'Low Stock' %}⚠️{% else %}⏰{% endif %}
+                            {% if item.stock_status == 'In Stock' %}✓{% elif item.stock_status == 'Low Stock' %}[!]{% else %}{% endif %}
                         </span>
                         <span class="status-text">{{ item.stock_status }}</span>
                         {% if item.available_quantity %}
@@ -315,7 +314,7 @@
                     
                     {% if item.lead_time %}
                     <div class="lead-time-info">
-                        <span class="lead-icon">🚚</span>
+                        <span class="lead-icon"></span>
                         <span class="lead-text">Lead Time: {{ item.lead_time }} days</span>
                     </div>
                     {% endif %}
@@ -432,7 +431,7 @@
                         </div>
                         {% if early_payment_terms %}
                         <div class="terms-incentive">
-                            💰 {{ early_payment_discount_percentage }}% discount if paid within {{ early_payment_days }} days
+                             {{ early_payment_discount_percentage }}% discount if paid within {{ early_payment_days }} days
                         </div>
                         {% endif %}
                     </div>
@@ -443,7 +442,7 @@
         <!-- Shipping Details -->
         <div class="shipping-section">
             <div class="section-heading">
-                <span class="heading-icon">🚚</span>
+                <span class="heading-icon"></span>
                 <span>Shipping Details</span>
             </div>
             
@@ -488,7 +487,7 @@
                 {% endif %}
                 {% if requires_appointment %}
                 <div class="freight-row">
-                    <span class="freight-icon">📅</span>
+                    <span class="freight-icon"></span>
                     <span class="freight-text">Appointment required for delivery</span>
                 </div>
                 {% endif %}
@@ -538,7 +537,7 @@
         <!-- Terms and Conditions -->
         <div class="terms-section">
             <div class="section-heading">
-                <span class="heading-icon">📋</span>
+                <span class="heading-icon"></span>
                 <span>Terms & Conditions</span>
             </div>
             

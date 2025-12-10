@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blue Wave Invoice</title>
+    <link rel="stylesheet" href="../css/blue_wave_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Blue Wave Header -->
+        <div class="wave-header">
+            <svg class="wave-svg" viewBox="0 0 816 120" preserveAspectRatio="none">
+                <path d="M0,0 L816,0 L816,60 Q650,120 400,80 Q150,40 0,100 L0,0 Z" fill="#1e3a5f"/>
+                <path d="M0,0 L816,0 L816,40 Q600,100 350,60 Q100,20 0,80 L0,0 Z" fill="#2563a8"/>
+            </svg>
+        </div>
+
+        <!-- Invoice Title Row -->
+        <div class="title-section">
+            <div class="invoice-title">INVOICE</div>
+            <div class="invoice-number">NO: {{ invoice_number }}</div>
+        </div>
+
+        <!-- Bill To / From Section -->
+        <div class="parties-section">
+            <div class="party-column bill-to">
+                <div class="party-label">Bill To:</div>
+                <div class="party-name">{{ buyer_name|default('Estelle Darcy') }}</div>
+                <div class="party-phone">{{ buyer_phone|default('+123-456-7890') }}</div>
+                <div class="party-address">{{ buyer_address|default('123 Anywhere St., Any City') }}</div>
+            </div>
+            <div class="party-column from">
+                <div class="party-label">From:</div>
+                <div class="party-name">{{ supplier_name|default('Samira Hadid') }}</div>
+                <div class="party-phone">{{ supplier_phone|default('+123-456-7890') }}</div>
+                <div class="party-address">{{ supplier_address|default('123 Anywhere St., Any City') }}</div>
+            </div>
+        </div>
+
+        <!-- Date -->
+        <div class="date-section">
+            <span class="date-label">Date:</span> {{ invoice_date }}
+        </div>
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-desc">Description</th>
+                    <th class="col-qty">Qty</th>
+                    <th class="col-price">Price</th>
+                    <th class="col-total">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-title">INVOICE</div>
+            <div class="cont-info">{{ invoice_number }} — Page {{ _current_page }} of {{ _total_pages }}</div>
+        </div>
+
+        <!-- Items Table (continuation) -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-desc">Description</th>
+                    <th class="col-qty">Qty</th>
+                    <th class="col-price">Price</th>
+                    <th class="col-total">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% endif %}
+
+        <!-- Line Items -->
+        {% for item in items %}
+        <tr class="item-row">
+            <td class="col-desc">{{ item.name|default(item.description) }}</td>
+            <td class="col-qty">{{ item.quantity|default(1) }}</td>
+            <td class="col-price">$ {{ (item.unit_price|default(0))|float|round(2) }}</td>
+            <td class="col-total">$ {{ (item.total|default(item.line_total)|default(0))|float|round(2) }}</td>
+        </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Totals Section -->
+        <table class="totals-section">
+            <tr>
+                <td class="totals-spacer"></td>
+                <td class="totals-container-cell">
+                    <table class="totals-table">
+                        <tr class="subtotal-row">
+                            <td class="totals-label">Sub Total</td>
+                            <td class="totals-value">$ {{ (subtotal_raw|default(subtotal)|default(0))|float|round(2) }}</td>
+                        </tr>
+                        <tr class="tax-row">
+                            <td class="totals-label">Tax ({{ tax_rate|default('6.25') }}%)</td>
+                            <td class="totals-value">$ {{ (tax_amount_raw|default(tax_amount)|default(0))|float|round(2) }}</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td class="totals-label">Total</td>
+                            <td class="totals-value">$ {{ (total_amount_raw|default(total_amount)|default(0))|float|round(2) }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Note Section -->
+        <div class="note-section">
+            <div class="note-label">Note:</div>
+            <div class="note-line"></div>
+            <div class="note-line"></div>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="footer-section">
+            <div class="payment-info">
+                <div class="payment-title">Payment Information:</div>
+                <div class="payment-row">
+                    <span class="payment-label">Bank:</span>
+                    <span class="payment-value">{{ bank_name|default('Name Bank') }}</span>
+                </div>
+                <div class="payment-row">
+                    <span class="payment-label">No Bank:</span>
+                    <span class="payment-value">{{ bank_account|default('123-456-7890') }}</span>
+                </div>
+                <div class="payment-row">
+                    <span class="payment-label">Email:</span>
+                    <span class="payment-value">{{ supplier_email|default('reallygreatsite.com') }}</span>
+                </div>
+            </div>
+            <div class="thank-you">Thank You!</div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-footer-text">Continued on next page... (Page {{ _current_page }} of {{ _total_pages }})</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

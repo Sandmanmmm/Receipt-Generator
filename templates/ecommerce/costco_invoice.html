@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saleco Wholesale Invoice</title>
+    <link rel="stylesheet" href="../css/costco_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page %}
+        <!-- ===== FIRST PAGE HEADER ===== -->
+        <div class="page-header">
+            <!-- Saleco Logo Header -->
+            <div class="costco-header">
+                <table class="header-table">
+                    <tr>
+                        <td class="header-logo">
+                            <div class="costco-logo">SALECO</div>
+                            <div class="costco-subtitle">WHOLESALE</div>
+                        </td>
+                        <td class="header-info">
+                            <div class="membership-box">
+                                <span class="membership-label">MEMBER #:</span>
+                                <span class="membership-number">{{ account_number or '1234567890' }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Warehouse Information -->
+            <div class="warehouse-section">
+                <table class="warehouse-table">
+                    <tr>
+                        <td class="warehouse-info">
+                            <div class="warehouse-title">WAREHOUSE LOCATION</div>
+                            <div class="warehouse-name">{{ supplier_name }}</div>
+                            {% if supplier_address %}
+                            <div class="warehouse-address">{{ supplier_address }}</div>
+                            {% endif %}
+                            {% if supplier_phone %}
+                            <div class="warehouse-phone">Phone: {{ supplier_phone }}</div>
+                            {% endif %}
+                            <div class="warehouse-id">Warehouse #{{ store_id or '001' }}</div>
+                        </td>
+                        <td class="transaction-info">
+                            <div class="trans-box">
+                                <table class="trans-grid">
+                                    <tr>
+                                        <td class="trans-label">INVOICE</td>
+                                        <td class="trans-value">{{ invoice_number }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="trans-label">DATE</td>
+                                        <td class="trans-value">{{ order_date }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="trans-label">TIME</td>
+                                        <td class="trans-value">{{ order_time or '14:30' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="trans-label">TERMINAL</td>
+                                        <td class="trans-value">#{{ register_number or '12' }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Member Information -->
+            <div class="member-section">
+                <div class="member-bar">
+                    <table class="member-table">
+                        <tr>
+                            <td class="member-label">MEMBER:</td>
+                            <td class="member-name">{{ buyer_name }}</td>
+                            {% if buyer_address %}
+                            <td class="member-address">{{ buyer_address }}</td>
+                            {% endif %}
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Items Divider -->
+            <div class="items-divider">
+                <div class="divider-bar"></div>
+            </div>
+        </div>
+        {% else %}
+        <!-- ===== CONTINUATION HEADER ===== -->
+        <div class="cont-header">
+            <table class="cont-header-table">
+                <tr>
+                    <td class="cont-costco">SALECO WHOLESALE</td>
+                    <td class="cont-warehouse">Warehouse #{{ store_id or '001' }}</td>
+                    <td class="cont-invoice">Invoice: {{ invoice_number }}</td>
+                    <td class="cont-page">Page {{ _current_page }}/{{ _total_pages }}</td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- ===== ITEMS TABLE ===== -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="th-item">ITEM DESCRIPTION</th>
+                        <th class="th-item-num">ITEM#</th>
+                        <th class="th-qty">QTY</th>
+                        <th class="th-price">UNIT PRICE</th>
+                        <th class="th-amount">AMOUNT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row">
+                        <td class="td-item">
+                            <div class="item-desc">{{ item.description }}</div>
+                            {% if item.variant %}
+                            <div class="item-variant">{{ item.variant }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="td-item-num">{{ item.sku or item.upc or '000000' }}</td>
+                        <td class="td-qty">{{ item.quantity }}</td>
+                        <td class="td-price">${{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                        <td class="td-amount">${{ "%.2f"|format(item.total|to_float) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page %}
+        <!-- ===== TOTALS SECTION ===== -->
+        <div class="totals-section">
+            <div class="totals-divider">
+                <div class="divider-bar-thick"></div>
+            </div>
+
+            <table class="totals-layout">
+                <tr>
+                    <td class="totals-left">
+                        <!-- Membership Savings Box -->
+                        <div class="savings-box">
+                            <div class="savings-header">
+                                <div class="savings-star">★</div>
+                                <div class="savings-title">MEMBERSHIP SAVINGS</div>
+                            </div>
+                            <div class="savings-body">
+                                <div class="savings-amount">${{ "%.2f"|format(discount|to_float) }}</div>
+                                <div class="savings-text">Saved on this purchase</div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Details -->
+                        <div class="payment-details">
+                            <div class="payment-title">PAYMENT INFORMATION</div>
+                            <table class="payment-table">
+                                <tr>
+                                    <td class="pay-label">METHOD:</td>
+                                    <td class="pay-value">{{ payment_method or 'VISA' }}</td>
+                                </tr>
+                                {% if card_type %}
+                                <tr>
+                                    <td class="pay-label">CARD:</td>
+                                    <td class="pay-value">{{ card_type }} ****{{ card_last_four or '0000' }}</td>
+                                </tr>
+                                {% endif %}
+                                {% if approval_code %}
+                                <tr>
+                                    <td class="pay-label">AUTH:</td>
+                                    <td class="pay-value">{{ approval_code }}</td>
+                                </tr>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </td>
+                    <td class="totals-right">
+                        <!-- Summary Table -->
+                        <table class="summary-table">
+                            <tr class="summary-row">
+                                <td class="summary-label">SUBTOTAL</td>
+                                <td class="summary-value">${{ "%.2f"|format(subtotal|to_float) }}</td>
+                            </tr>
+                            {% if (discount|to_float or 0) > 0 %}
+                            <tr class="summary-row discount-row">
+                                <td class="summary-label">MEMBER SAVINGS</td>
+                                <td class="summary-value">-${{ "%.2f"|format(discount|to_float) }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="summary-row">
+                                <td class="summary-label">TAX</td>
+                                <td class="summary-value">${{ "%.2f"|format(tax_amount|to_float) }}</td>
+                            </tr>
+                            {% if (shipping_cost or 0) > 0 %}
+                            <tr class="summary-row">
+                                <td class="summary-label">SHIPPING</td>
+                                <td class="summary-value">${{ "%.2f"|format(shipping_cost or 0) }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="summary-row total-row">
+                                <td class="summary-label">*** TOTAL ***</td>
+                                <td class="summary-value">${{ "%.2f"|format(total_amount|to_float) }}</td>
+                            </tr>
+                        </table>
+
+                        <!-- Paid Stamp -->
+                        <div class="paid-stamp">
+                            <div class="stamp-text">PAID</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- Reward Info -->
+            <div class="reward-section">
+                <div class="reward-box">
+                    <span class="reward-icon"></span>
+                    <span class="reward-text">2% EXECUTIVE MEMBER REWARD EARNED: ${{ "%.2f"|format((total_amount|to_float or 0) * 0.02) }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="page-footer">
+            <div class="footer-divider"></div>
+            <table class="footer-table">
+                <tr>
+                    <td class="footer-left">
+                        <div class="footer-line">THANK YOU FOR SHOPPING AT SALECO</div>
+                        <div class="footer-line">Return Policy: Most items eligible for return within 90 days</div>
+                        <div class="footer-line">Satisfaction Guaranteed | Saleco.com | 1-800-774-2678</div>
+                    </td>
+                    <td class="footer-right">
+                        <div class="footer-logo">SALECO</div>
+                        <div class="footer-tagline">WHOLESALE</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <!-- ===== CONTINUATION FOOTER ===== -->
+        <div class="cont-footer">
+            <div class="cont-bar"></div>
+            <div class="cont-text">Continued on next page...</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

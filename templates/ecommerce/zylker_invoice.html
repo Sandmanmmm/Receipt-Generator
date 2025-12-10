@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zylker Invoice</title>
+    <link rel="stylesheet" href="../css/zylker_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="header-left">
+                <!-- Company Logo -->
+                <div class="logo-container">
+                    <div class="logo-box">
+                        <span class="logo-z">Z</span>
+                    </div>
+                    <span class="logo-text">YLKER</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="invoice-title">Invoice</div>
+                <div class="invoice-number"># {{ invoice_number }}</div>
+                <div class="balance-due-section">
+                    <div class="balance-label">Balance Due</div>
+                    <div class="balance-amount">{{ currency|default('$') }}{{ (total_amount_raw|default(total_amount)|default(0))|float|round(2) }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Company and Customer Info -->
+        <div class="info-section">
+            <div class="info-left">
+                <!-- Supplier Info -->
+                <div class="supplier-info">
+                    <div class="company-name">{{ supplier_name|default('Zylker') }}</div>
+                    <div class="company-address">{{ supplier_address|default('1912 Harvest Lane') }}</div>
+                    <div class="company-city">{{ supplier_city|default('New York, NY 12120') }}</div>
+                </div>
+                
+                <!-- Bill To -->
+                <div class="bill-to-section">
+                    <div class="bill-to-label">Bill To</div>
+                    <div class="customer-name">{{ buyer_name|default('Customer Name') }}</div>
+                    <div class="customer-address">{{ buyer_address|default('123 Main Street') }}</div>
+                    <div class="customer-city">{{ buyer_city|default('City, ST 12345') }}</div>
+                </div>
+            </div>
+            <div class="info-right">
+                <table class="invoice-details-table">
+                    <tr>
+                        <td class="detail-label">Invoice Date :</td>
+                        <td class="detail-value">{{ invoice_date }}</td>
+                    </tr>
+                    <tr>
+                        <td class="detail-label">Terms :</td>
+                        <td class="detail-value">{{ payment_terms|default('Net 15') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="detail-label">Due Date :</td>
+                        <td class="detail-value">{{ due_date|default(invoice_date) }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Items Table Header -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-num">#</th>
+                    <th class="col-desc">Item & Description</th>
+                    <th class="col-qty">Qty</th>
+                    <th class="col-rate">Rate</th>
+                    <th class="col-amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-logo">
+                <div class="logo-box-small">
+                    <span class="logo-z-small">Z</span>
+                </div>
+                <span class="logo-text-small">YLKER</span>
+            </div>
+            <div class="cont-info">Invoice {{ invoice_number }} — Page {{ _current_page }} of {{ _total_pages }}</div>
+        </div>
+        
+        <!-- Items Table Header (continuation) -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-num">#</th>
+                    <th class="col-desc">Item & Description</th>
+                    <th class="col-qty">Qty</th>
+                    <th class="col-rate">Rate</th>
+                    <th class="col-amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% endif %}
+        
+        <!-- Line Items -->
+        {% for item in items %}
+        <tr class="item-row">
+            <td class="col-num">{{ loop.index }}</td>
+            <td class="col-desc">
+                <div class="item-name">{{ item.name|default(item.description) }}</div>
+                {% if item.item_description or item.variant %}
+                <div class="item-description">{{ item.item_description|default(item.variant)|default('') }}</div>
+                {% endif %}
+            </td>
+            <td class="col-qty">
+                <span class="qty-value">{{ item.quantity|default(1) }}</span>
+                <span class="qty-unit">{{ item.unit|default('Nos') }}</span>
+            </td>
+            <td class="col-rate">{{ (item.unit_price|default(0))|float|round(2) }}</td>
+            <td class="col-amount">{{ (item.total|default(item.line_total)|default(0))|float|round(2) }}</td>
+        </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Sub Total Row -->
+        <div class="subtotal-row">
+            <div class="subtotal-label">Sub Total</div>
+            <div class="subtotal-value">{{ (subtotal_raw|default(subtotal)|default(0))|float|round(2) }}</div>
+        </div>
+
+        <!-- Totals Box -->
+        <div class="totals-box">
+            {% if discount_raw|default(0)|float > 0 %}
+            <div class="totals-row">
+                <div class="totals-label">Discount({{ discount_percent|default('10.00') }}%)</div>
+                <div class="totals-value discount">(-) {{ (discount_raw|default(discount)|default(0))|float|round(2) }}</div>
+            </div>
+            {% endif %}
+            <div class="totals-row">
+                <div class="totals-label">Sales Tax ({{ tax_rate|default('14') }}%)</div>
+                <div class="totals-value">{{ (tax_amount_raw|default(tax_amount)|default(0))|float|round(2) }}</div>
+            </div>
+            <div class="totals-row total-highlight">
+                <div class="totals-label">Total</div>
+                <div class="totals-value total-amount">{{ currency|default('$') }}{{ (total_amount_raw|default(total_amount)|default(0))|float|round(2) }}</div>
+            </div>
+            <div class="totals-row balance-highlight">
+                <div class="totals-label">Balance Due</div>
+                <div class="totals-value balance-due">{{ currency|default('$') }}{{ (total_amount_raw|default(total_amount)|default(0))|float|round(2) }}</div>
+            </div>
+        </div>
+
+        <!-- Notes Section -->
+        <div class="notes-section">
+            <div class="section-title">Notes</div>
+            <div class="section-content">{{ notes|default('It was wonderful doing business with you. If you have any questions, do let me know. Thank you!') }}</div>
+        </div>
+
+        <!-- Payment Options Section -->
+        <div class="payment-section">
+            <div class="section-title">Payment Options</div>
+            <div class="payment-icons">
+                <span class="payment-icon">💳</span>
+            </div>
+        </div>
+
+        <!-- Terms & Conditions Section -->
+        <div class="terms-section">
+            <div class="section-title">Terms & Conditions</div>
+            <div class="section-content">{{ terms|default('Please make payment before the due date') }}</div>
+        </div>
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="footer-logo">
+                <span class="footer-logo-box">Z</span>
+                <span class="footer-logo-text">ylker</span>
+                <span class="footer-invoice-text">Invoice</span>
+            </div>
+            <div class="footer-tagline">Create similar invoices for your needs, free of cost.</div>
+            <div class="footer-url">To get started, visit zylker.com/invoice</div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-footer-text">Continued on next page... (Page {{ _current_page }} of {{ _total_pages }})</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

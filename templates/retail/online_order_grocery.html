@@ -13,7 +13,7 @@
         <div class="invoice-header">
             <div class="company-branding">
                 <div class="logo-container">
-                    <span class="logo-icon">🛒</span>
+                    <span class="logo-icon"></span>
                 </div>
                 <div class="company-details">
                     <h1 class="company-name">{{ supplier_name }}</h1>
@@ -30,7 +30,7 @@
         <!-- Delivery Window Banner -->
         <div class="delivery-banner">
             <div class="banner-section delivery-window">
-                <span class="banner-icon">🚚</span>
+                <span class="banner-icon"></span>
                 <div class="banner-content">
                     <span class="banner-label">Delivery Window</span>
                     <span class="banner-value">{{ delivery_window }}</span>
@@ -61,7 +61,7 @@
                 <p class="customer-email">{{ buyer_email }}</p>
                 {% if loyalty_member %}
                 <div class="loyalty-badge">
-                    <span class="loyalty-star">⭐</span>
+                    <span class="loyalty-star">*</span>
                     <span class="loyalty-text">Rewards Member</span>
                 </div>
                 {% endif %}
@@ -74,7 +74,7 @@
                 <p class="delivery-city">{{ delivery_city }}, {{ delivery_state }} {{ delivery_zip }}</p>
                 {% if delivery_instructions %}
                 <div class="delivery-notes">
-                    <span class="notes-icon">📝</span>
+                    <span class="notes-icon"></span>
                     <span class="notes-label">Instructions:</span>
                     <span class="notes-text">{{ delivery_instructions }}</span>
                 </div>
@@ -107,12 +107,14 @@
             <!-- Frozen Items -->
             <div class="temperature-zone frozen-zone">
                 <div class="zone-header">
-                    <span class="zone-icon">❄️</span>
+                    <span class="zone-icon">[F]</span>
                     <span class="zone-title">Frozen Items</span>
-                    <span class="zone-count">({{ frozen_items|length }} items)</span>
+                    <span class="zone-count">({% if frozen_items is iterable and frozen_items is not string %}{{ frozen_items|length }}{% else %}{{ frozen_items|default(0) }}{% endif %} items)</span>
                 </div>
                 <div class="zone-items">
-                    {% for item in (frozen_items[:2] if show_limited else frozen_items) %}
+                    {# Pagination handled by template config - iterate over full list #}
+                    {% if frozen_items is iterable and frozen_items is not string %}
+                    {% for item in frozen_items %}
                     <div class="grocery-item">
                         <div class="item-main">
                             <div class="item-name">{{ item.description }}</div>
@@ -145,6 +147,10 @@
                         </div>
                     </div>
                     {% endfor %}
+                    {% else %}
+                    {# If frozen_items is just a count, show placeholder #}
+                    <div style="padding: 10px; color: #999; font-style: italic;">{{ frozen_items|default(0) }} frozen items in order</div>
+                    {% endif %}
                 </div>
             </div>
             {% endif %}
@@ -153,11 +159,12 @@
             <!-- Refrigerated Items -->
             <div class="temperature-zone refrigerated-zone">
                 <div class="zone-header">
-                    <span class="zone-icon">🧊</span>
+                    <span class="zone-icon">[R]</span>
                     <span class="zone-title">Refrigerated Items</span>
-                    <span class="zone-count">({{ refrigerated_items|length }} items)</span>
+                    <span class="zone-count">({% if refrigerated_items is iterable and refrigerated_items is not string %}{{ refrigerated_items|length }}{% else %}{{ refrigerated_items|default(0) }}{% endif %} items)</span>
                 </div>
                 <div class="zone-items">
+                    {% if refrigerated_items is iterable and refrigerated_items is not string %}
                     {% for item in refrigerated_items %}
                     <div class="grocery-item">
                         <div class="item-main">
@@ -170,7 +177,7 @@
                             {% endif %}
                             {% if item.expiration_date %}
                             <div class="expiration-date">
-                                <span class="exp-icon">📅</span>
+                                <span class="exp-icon"></span>
                                 <span class="exp-text">Best by: {{ item.expiration_date }}</span>
                             </div>
                             {% endif %}
@@ -191,6 +198,9 @@
                         </div>
                     </div>
                     {% endfor %}
+                    {% else %}
+                    <div style="padding: 10px; color: #999; font-style: italic;">{{ refrigerated_items|default(0) }} refrigerated items in order</div>
+                    {% endif %}
                 </div>
             </div>
             {% endif %}
@@ -199,11 +209,12 @@
             <!-- Pantry Items -->
             <div class="temperature-zone pantry-zone">
                 <div class="zone-header">
-                    <span class="zone-icon">🏺</span>
-                    <span class="zone-title">Pantry & Household</span>
-                    <span class="zone-count">({{ pantry_items|length }} items)</span>
+                    <span class="zone-icon">[P]</span>
+                    <span class="zone-title">Pantry & Dry Goods</span>
+                    <span class="zone-count">({% if pantry_items is iterable and pantry_items is not string %}{{ pantry_items|length }}{% else %}{{ pantry_items|default(0) }}{% endif %} items)</span>
                 </div>
                 <div class="zone-items">
+                    {% if pantry_items is iterable and pantry_items is not string %}
                     {% for item in pantry_items %}
                     <div class="grocery-item">
                         <div class="item-main">
@@ -216,7 +227,7 @@
                             {% endif %}
                             {% if item.on_sale %}
                             <div class="sale-badge">
-                                <span class="sale-icon">🏷️</span>
+                                <span class="sale-icon"></span>
                                 <span class="sale-text">ON SALE</span>
                             </div>
                             {% endif %}
@@ -234,6 +245,9 @@
                         </div>
                     </div>
                     {% endfor %}
+                    {% else %}
+                    <div style="padding: 10px; color: #999; font-style: italic;">{{ pantry_items|default(0) }} pantry items in order</div>
+                    {% endif %}
                 </div>
             </div>
             {% endif %}
@@ -242,11 +256,12 @@
             <!-- Fresh Produce -->
             <div class="temperature-zone produce-zone">
                 <div class="zone-header">
-                    <span class="zone-icon">🥬</span>
+                    <span class="zone-icon">[P]</span>
                     <span class="zone-title">Fresh Produce</span>
-                    <span class="zone-count">({{ produce_items|length }} items)</span>
+                    <span class="zone-count">({% if produce_items is iterable and produce_items is not string %}{{ produce_items|length }}{% else %}{{ produce_items|default(0) }}{% endif %} items)</span>
                 </div>
                 <div class="zone-items">
+                    {% if produce_items is iterable and produce_items is not string %}
                     {% for item in produce_items %}
                     <div class="grocery-item">
                         <div class="item-main">
@@ -259,7 +274,7 @@
                             {% endif %}
                             {% if item.weight %}
                             <div class="produce-weight">
-                                <span class="weight-icon">⚖️</span>
+                                <span class="weight-icon"></span>
                                 <span class="weight-text">{{ item.weight }} {{ item.weight_unit }}</span>
                             </div>
                             {% endif %}
@@ -274,6 +289,9 @@
                         </div>
                     </div>
                     {% endfor %}
+                    {% else %}
+                    <div style="padding: 10px; color: #999; font-style: italic;">{{ produce_items|default(0) }} produce items in order</div>
+                    {% endif %}
                 </div>
             </div>
             {% endif %}
@@ -317,7 +335,7 @@
                     </div>
                     {% if item_discounts and item_discounts|float > 0 %}
                     <div class="total-row discount-row">
-                        <span class="total-label">🏷️ Item Savings:</span>
+                        <span class="total-label"> Item Savings:</span>
                         <span class="total-value discount-value">-${{ "%.2f"|format(item_discounts) }}</span>
                     </div>
                     {% endif %}
@@ -329,7 +347,7 @@
                     {% endif %}
                     {% if loyalty_discount and loyalty_discount|float > 0 %}
                     <div class="total-row discount-row">
-                        <span class="total-label">⭐ Rewards Savings:</span>
+                        <span class="total-label">* Rewards Savings:</span>
                         <span class="total-value discount-value">-{{ loyalty_discount }}</span>
                     </div>
                     {% endif %}
@@ -351,7 +369,7 @@
                     {% endif %}
                     <div class="total-row">
                         <span class="total-label">Tax:</span>
-                        <span class="total-value">${{ "%.2f"|format(tax_amount) }}</span>
+                        <span class="total-value">{{ tax_amount }}</span>
                     </div>
                     <div class="total-row final-total">
                         <span class="total-label">Order Total:</span>
@@ -359,7 +377,7 @@
                     </div>
                     {% if total_savings and total_savings|float > 0 %}
                     <div class="savings-banner">
-                        <span class="savings-icon">💰</span>
+                        <span class="savings-icon"></span>
                         <span class="savings-text">You saved {{ total_savings }} on this order!</span>
                     </div>
                     {% endif %}
@@ -372,7 +390,7 @@
             <h3 class="section-title">Payment Method</h3>
             <div class="payment-card">
                 <div class="payment-info">
-                    <span class="payment-icon">💳</span>
+                    <span class="payment-icon"></span>
                     <span class="payment-method">{{ payment_method }}</span>
                     <span class="card-type">{{ card_type }}</span>
                     <span class="card-number">•••• {{ card_last_four }}</span>
@@ -393,7 +411,7 @@
         {% if loyalty_points_earned %}
         <div class="rewards-section">
             <div class="rewards-card">
-                <h3 class="rewards-title">⭐ Rewards Update</h3>
+                <h3 class="rewards-title">* Rewards Update</h3>
                 <div class="rewards-grid">
                     <div class="rewards-item">
                         <span class="rewards-label">Points Earned:</span>

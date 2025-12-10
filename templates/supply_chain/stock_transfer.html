@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Transfer</title>
+    <link rel="stylesheet" href="../css/stock_transfer.css">
+</head>
+<body>
+    <div class="page">
+        <!-- Header (only on first page) -->
+        {% if _is_first_page|default(true) %}
+        <div class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    {% if supplier_logo %}
+                    <img src="{{ supplier_logo }}" alt="Logo" class="logo">
+                    {% else %}
+                    <div class="logo-placeholder">LOGO</div>
+                    {% endif %}
+                </div>
+                <div class="title-section">
+                    <h1>STOCK TRANSFER</h1>
+                    <div class="badge">INVENTORY IN TRANSIT</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reference Bar -->
+        <div class="reference-bar">
+            <div class="ref-item">
+                <span class="ref-label">Transfer Number:</span>
+                <span class="ref-value transfer-number">{{ transfer_number }}</span>
+            </div>
+            <div class="ref-item">
+                <span class="ref-label">Transfer Date:</span>
+                <span class="ref-value">{{ transfer_date }}</span>
+            </div>
+            <div class="ref-item">
+                <span class="ref-label">Expected Date:</span>
+                <span class="ref-value">{{ expected_date }}</span>
+            </div>
+            <div class="ref-item">
+                <span class="ref-label">Status:</span>
+                <span class="ref-value status-{{ transfer_status|lower }}">{{ transfer_status }}</span>
+            </div>
+        </div>
+
+        <!-- Location Information -->
+        <div class="locations-container">
+            <div class="location-box from-location">
+                <div class="location-header">From Location</div>
+                <div class="location-content">
+                    <div class="location-name">{{ from_location_name }}</div>
+                    {% if from_location_code %}
+                    <div class="location-code">Code: {{ from_location_code }}</div>
+                    {% endif %}
+                    <div class="location-address">
+                        {{ from_location_address }}<br>
+                        {{ from_location_city }}, {{ from_location_state }} {{ from_location_postal_code }}
+                    </div>
+                    {% if from_manager %}
+                    <div class="location-manager">Manager: {{ from_manager }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="arrow-container">
+                <div class="transfer-arrow">→</div>
+                <div class="transfer-label">Transfer</div>
+            </div>
+            
+            <div class="location-box to-location">
+                <div class="location-header">To Location</div>
+                <div class="location-content">
+                    <div class="location-name">{{ to_location_name }}</div>
+                    {% if to_location_code %}
+                    <div class="location-code">Code: {{ to_location_code }}</div>
+                    {% endif %}
+                    <div class="location-address">
+                        {{ to_location_address }}<br>
+                        {{ to_location_city }}, {{ to_location_state }} {{ to_location_postal_code }}
+                    </div>
+                    {% if to_manager %}
+                    <div class="location-manager">Manager: {{ to_manager }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Transfer Reason (if provided) -->
+        {% if transfer_reason %}
+        <div class="reason-section">
+            <div class="reason-header">Transfer Reason</div>
+            <div class="reason-content">{{ transfer_reason }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Shipping Information (if provided) -->
+        {% if carrier or tracking_number %}
+        <div class="shipping-section">
+            <table class="shipping-table">
+                {% if carrier %}
+                <tr>
+                    <td class="shipping-label">Carrier:</td>
+                    <td class="shipping-value">{{ carrier }}</td>
+                </tr>
+                {% endif %}
+                {% if tracking_number %}
+                <tr>
+                    <td class="shipping-label">Tracking Number:</td>
+                    <td class="shipping-value tracking">{{ tracking_number }}</td>
+                </tr>
+                {% endif %}
+                {% if shipping_method %}
+                <tr>
+                    <td class="shipping-label">Method:</td>
+                    <td class="shipping-value">{{ shipping_method }}</td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+        {% endif %}
+        {% endif %}
+
+        <!-- Continuation Header (subsequent pages) -->
+        {% if not _is_first_page|default(true) %}
+        <div class="continuation-header">
+            <div class="continuation-title">STOCK TRANSFER (Continued)</div>
+            <div class="continuation-info">
+                <span>Transfer #{{ transfer_number }}</span>
+                <span>From: {{ from_location_name }} → To: {{ to_location_name }}</span>
+                <span>Page {{ _page_number }} of {{ _total_pages }}</span>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-line">#</th>
+                    <th class="col-sku">SKU</th>
+                    <th class="col-description">Description</th>
+                    <th class="col-from-stock">From Stock</th>
+                    <th class="col-transfer-qty">Transfer Qty</th>
+                    <th class="col-to-stock">To Stock</th>
+                    <th class="col-unit-cost">Unit Cost</th>
+                    <th class="col-total-value">Total Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                {% set unit_cost = item.unit_cost if item.unit_cost is not string else item.unit_cost|replace('$', '')|replace(',', '')|float %}
+                {% set transfer_qty = item.get('transfer_quantity', item.quantity) %}
+                {% set from_stock = item.get('from_stock_level', 0) %}
+                {% set to_stock = item.get('to_stock_level', 0) %}
+                <tr>
+                    <td class="col-line">{{ loop.index }}</td>
+                    <td class="col-sku">{{ item.sku }}</td>
+                    <td class="col-description">{{ item.description }}</td>
+                    <td class="col-from-stock">{{ from_stock }}</td>
+                    <td class="col-transfer-qty transfer-qty">{{ transfer_qty }}</td>
+                    <td class="col-to-stock">{{ to_stock }}</td>
+                    <td class="col-unit-cost">
+                        {% if item.unit_cost is string %}
+                            {{ item.unit_cost }}
+                        {% else %}
+                            ${{ "%.2f"|format(item.unit_cost|to_float) }}
+                        {% endif %}
+                    </td>
+                    <td class="col-total-value">${{ "%.2f"|format(transfer_qty * unit_cost) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Footer Section (only on last page) -->
+        {% if _is_last_page|default(true) %}
+        <!-- Summary Section -->
+        <div class="summary-section">
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-header">Transfer Summary</div>
+                    <table class="summary-table">
+                        <tr>
+                            <td class="summary-label">Total Items:</td>
+                            <td class="summary-value">{{ items|length }}</td>
+                        </tr>
+                        <tr>
+                            <td class="summary-label">Total Units:</td>
+                            <td class="summary-value">{{ total_units }}</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td class="summary-label">Total Value:</td>
+                            <td class="summary-value total-value">
+                                {% if total_value is string %}
+                                    {{ total_value }}
+                                {% else %}
+                                    ${{ "%.2f"|format(total_value) }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Approval Section -->
+                <div class="approval-card">
+                    <div class="approval-header">Approval & Confirmation</div>
+                    <div class="approval-content">
+                        <div class="signature-box">
+                            <div class="signature-label">Authorized By:</div>
+                            {% if authorized_by %}
+                            <div class="signature-name">{{ authorized_by }}</div>
+                            <div class="signature-date">{{ authorization_date }}</div>
+                            {% else %}
+                            <div class="signature-line"></div>
+                            <div class="signature-text">Signature</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="signature-box">
+                            <div class="signature-label">Received By:</div>
+                            {% if received_by %}
+                            <div class="signature-name">{{ received_by }}</div>
+                            <div class="signature-date">{{ receipt_date }}</div>
+                            {% else %}
+                            <div class="signature-line"></div>
+                            <div class="signature-text">Signature</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes Section (if provided) -->
+        {% if transfer_notes %}
+        <div class="notes-section">
+            <div class="notes-header">Transfer Notes</div>
+            <div class="notes-content">{{ transfer_notes }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Instructions -->
+        <div class="instructions-section">
+            <div class="instructions-header">Transfer Instructions</div>
+            <div class="instructions-content">
+                <div class="instruction-item">
+                    <strong>1. Verification:</strong> Count and verify all items against this transfer document before shipping.
+                </div>
+                <div class="instruction-item">
+                    <strong>2. Packaging:</strong> Package items securely to prevent damage during transit. Label packages with Transfer #{{ transfer_number }}.
+                </div>
+                <div class="instruction-item">
+                    <strong>3. Documentation:</strong> Include a copy of this transfer document with the shipment.
+                </div>
+                <div class="instruction-item">
+                    <strong>4. Receipt:</strong> Receiving location must verify quantities and condition upon arrival, then update system status.
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-info">
+                    This document serves as authorization for inter-location inventory transfer. 
+                    Stock will be deducted from source location and added to destination upon confirmation of receipt.
+                </div>
+                <div class="footer-meta">
+                    <span>Transfer #{{ transfer_number }}</span>
+                    <span>|</span>
+                    <span>Date: {{ transfer_date }}</span>
+                    {% if _page_number and _total_pages %}
+                    <span>|</span>
+                    <span>Page {{ _page_number }} of {{ _total_pages }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

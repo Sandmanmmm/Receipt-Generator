@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopify Order Invoice{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
+    <link rel="stylesheet" href="../css/shopify_standard.css">
+</head>
+<body>
+    <div class="invoice-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="store-info">
+                {% if supplier_logo %}
+                <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="store-logo" />
+                <p>{{ supplier_address }}</p>
+                <p>{{ supplier_email }} | {{ supplier_phone }}</p>
+                {% else %}
+                <h1>{{ supplier_name }}</h1>
+                <p>{{ supplier_address }}</p>
+                <p>{{ supplier_email }} | {{ supplier_phone }}</p>
+                {% endif %}
+            </div>
+            <div class="order-info">
+                <h2>ORDER #{{ invoice_number }}</h2>
+                <p><strong>Order Date:</strong> {{ invoice_date }}</p>
+                {% if tracking_number %}
+                <p><strong>Tracking:</strong> {{ tracking_number }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Customer & Shipping -->
+        <div class="customer-section">
+            <div class="shipping-address">
+                <h3>SHIP TO</h3>
+                <p><strong>{{ buyer_name }}</strong></p>
+                <p>{{ buyer_address }}</p>
+                {% if buyer_phone %}
+                <p>{{ buyer_phone }}</p>
+                {% endif %}
+            </div>
+            <div class="billing-address">
+                <h3>BILL TO</h3>
+                <p><strong>{{ buyer_name }}</strong></p>
+                {% if buyer_email %}
+                <p>{{ buyer_email }}</p>
+                {% endif %}
+                {% if payment_method %}
+                <p><strong>Payment:</strong> {{ payment_method }}</p>
+                {% endif %}
+            </div>
+            <div class="shipping-method">
+                <h3>SHIPPING</h3>
+                {% if shipping_method %}
+                <p>{{ shipping_method }}</p>
+                {% else %}
+                <p>Standard Shipping</p>
+                {% endif %}
+                {% if delivery_estimate %}
+                <p><strong>Estimated:</strong> {{ delivery_estimate }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Continuation Header -->
+        {% if not _is_first_page %}
+        <div class="continuation-header">
+            <p>Order #{{ invoice_number }} for {{ buyer_name }} (Continued)</p>
+        </div>
+        {% endif %}
+
+        <!-- Order Items -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-product">Product</th>
+                    <th class="col-variant">Variant</th>
+                    <th class="col-sku">SKU</th>
+                    <th class="col-qty">Qty</th>
+                    <th class="col-price">Price</th>
+                    <th class="col-total">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="item-row">
+                    <td class="col-product">
+                        <div class="product-name">{{ item.description }}</div>
+                        {% if item.brand %}
+                        <div class="product-detail">{{ item.brand }}</div>
+                        {% endif %}
+                        {% if item.style %}
+                        <div class="product-style">Style: {{ item.style }}</div>
+                        {% endif %}
+                        {% if item.category %}
+                        <div class="product-category">{{ item.category }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="col-variant">
+                        {% if item.variant %}
+                        {{ item.variant }}
+                        {% else %}
+                        -
+                        {% endif %}
+                    </td>
+                    <td class="col-sku">{{ item.sku }}</td>
+                    <td class="col-qty">{{ item.quantity }}</td>
+                    <td class="col-price">{{ currency }}{{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                    <td class="col-total">{{ currency }}{{ "%.2f"|format(item.total|to_float) }}</td>
+                </tr>
+                {% if item.personalization %}
+                <tr class="item-note">
+                    <td colspan="6">
+                        <span class="note-icon">*</span> {{ item.personalization }}
+                    </td>
+                </tr>
+                {% endif %}
+                {% if item.discount and (item.discount|to_float) > 0 %}
+                <tr class="item-discount">
+                    <td colspan="6">
+                        <span class="discount-badge">Discount Applied</span> -{{ currency }}{{ "%.2f"|format(item.discount|to_float) }}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Footer (last page only) -->
+        {% if _is_last_page %}
+        <div class="totals-section">
+            <div class="order-notes">
+                {% if notes %}
+                <h3>Order Notes</h3>
+                <p>{{ notes }}</p>
+                {% endif %}
+                {% if gift_message %}
+                <div class="gift-message">
+                    <strong> Gift Message:</strong>
+                    <p>{{ gift_message }}</p>
+                </div>
+                {% endif %}
+            </div>
+            <div class="totals">
+                <table class="totals-table">
+                    <tr>
+                        <td>Subtotal:</td>
+                        <td>{{ currency }}{{ "%.2f"|format(subtotal|to_float) }}</td>
+                    </tr>
+                    {% if (discount|to_float or 0) > 0 %}
+                    <tr class="discount-row">
+                        <td>Discount:</td>
+                        <td>-{{ currency }}{{ "%.2f"|format(discount|to_float) }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if (shipping_cost|to_float or 0) > 0 %}
+                    <tr>
+                        <td>Shipping:</td>
+                        <td>{{ currency }}{{ "%.2f"|format(shipping_cost|to_float) }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if tax_amount|to_float > 0 %}
+                    <tr>
+                        <td>Tax:</td>
+                        <td>{{ currency }}{{ "%.2f"|format(tax_amount|to_float) }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr class="total-row">
+                        <td><strong>Total:</strong></td>
+                        <td><strong>{{ currency }}{{ "%.2f"|format(total_amount|to_float) }}</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="footer-info">
+            <div class="support-info">
+                <p><strong>Need help with your order?</strong></p>
+                <p>Email: {{ supplier_email }} | Phone: {{ supplier_phone }}</p>
+            </div>
+            <div class="return-policy">
+                <p><strong>Returns:</strong> 30-day return policy</p>
+                <p>Visit our website for details</p>
+            </div>
+        </div>
+
+        <div class="thank-you">
+            <p>Thank you for shopping with us! ❤️</p>
+        </div>
+        {% endif %}
+
+        <!-- Page Number -->
+        <div class="page-number">
+            Page {{ _current_page }} of {{ _total_pages }}
+        </div>
+    </div>
+</body>
+</html>
+
+
+

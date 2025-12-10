@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>E-commerce Invoice</title>
+    <title>E-commerce Invoice{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <style>
         @page {
             size: A4;
@@ -72,13 +72,25 @@
             padding-bottom: 5px;
         }
         .info-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            display: table;
+            width: 100%;
+            table-layout: fixed;
             margin-bottom: 30px;
             background: #f9f9f9;
             padding: 15px;
             border-radius: 4px;
+        }
+        .info-grid > div {
+            display: table-cell;
+            width: 25%;
+            vertical-align: top;
+            padding: 0 10px;
+        }
+        .info-grid > div:first-child {
+            padding-left: 0;
+        }
+        .info-grid > div:last-child {
+            padding-right: 0;
         }
         .info-item-label {
             font-size: 11px;
@@ -161,6 +173,8 @@
     <img src="{{ qr_code }}" class="qr-code" alt="QR Code">
     {% endif %}
 
+    {% if _is_first_page|default(true) %}
+    <!-- Full Header - First Page Only -->
     <div class="header">
         <div class="brand-section">
             {% if logo %}
@@ -221,6 +235,18 @@
             <div class="info-item-value">{{ invoice_date }}</div>
         </div>
     </div>
+    {% else %}
+    <!-- Compact Header - Continuation Pages -->
+    <div class="header" style="padding-bottom: 15px; margin-bottom: 25px;">
+        <div class="brand-section">
+            <h1 class="company-name" style="font-size: 18px; margin: 0;">{{ company_name }}</h1>
+        </div>
+        <div class="order-details" style="font-size: 12px;">
+            Order #{{ invoice_number }} | {{ client_name }}<br>
+            <span style="color: #777;">Page {{ _page_number }} of {{ _total_pages }}</span>
+        </div>
+    </div>
+    {% endif %}
 
     <table>
         <thead>
@@ -243,18 +269,20 @@
                     {% endif %}
                 </td>
                 <td style="text-align: center;">{{ item.quantity }}</td>
-                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price) }}</td>
-                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.amount) }}</td>
+                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.amount|to_float) }}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
+    {% if _is_last_page|default(true) %}
+    <!-- Totals - Last Page Only -->
     <div class="totals-section">
         <div class="totals-table">
             <div class="total-row">
                 <span>Subtotal:</span>
-                <span>{{ currency_symbol }}{{ "%.2f"|format(subtotal) }}</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(subtotal|to_float) }}</span>
             </div>
             <div class="total-row">
                 <span>Shipping:</span>
@@ -262,11 +290,11 @@
             </div>
             <div class="total-row">
                 <span>Tax ({{ tax_rate }}):</span>
-                <span>{{ currency_symbol }}{{ "%.2f"|format(tax) }}</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(tax|to_float) }}</span>
             </div>
             <div class="total-row final">
                 <span>Total:</span>
-                <span>{{ currency_symbol }}{{ "%.2f"|format(total) }}</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(total|to_float) }}</span>
             </div>
         </div>
     </div>
@@ -281,5 +309,11 @@
     <div class="footer">
         Thank you for shopping with {{ company_name }}! | Questions? Contact support@example.com
     </div>
+    {% else %}
+    <!-- Continuation Notice -->
+    <div style="text-align: right; font-size: 12px; color: #777; font-style: italic; margin-top: 20px;">
+        Continued on page {{ (_page_number|default(1)) + 1 }}...
+    </div>
+    {% endif %}
 </body>
 </html>

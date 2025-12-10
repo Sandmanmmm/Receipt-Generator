@@ -1,0 +1,681 @@
+/* Malmart Invoice Stylesheet
+ * Retail store invoice with signature blue and yellow branding
+ * Colors: Blue (#0071CE), Yellow (#FFC220), Dark Blue (#004C91)
+ */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Bogle', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    color: #000000;
+    background: #ffffff;
+    line-height: 1.4;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 25px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ===== FIRST PAGE HEADER ===== */
+.page-header {
+    margin-bottom: 18px;
+}
+
+/* Walmart Header */
+.walmart-header {
+    background: #0071ce;
+    padding: 15px 20px;
+    margin: -25px -25px 15px -25px;
+    width: calc(100% + 50px);
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.header-logo {
+    width: 50%;
+    vertical-align: middle;
+}
+
+.walmart-logo {
+    display: table;
+    table-layout: fixed;
+}
+
+.spark-icon {
+    display: table-cell;
+    font-size: 32px;
+    color: #ffc220;
+    vertical-align: middle;
+    padding-right: 8px;
+    line-height: 1;
+}
+
+.walmart-text {
+    display: table-cell;
+    font-size: 28px;
+    font-weight: 700;
+    color: #ffffff;
+    vertical-align: middle;
+    letter-spacing: -0.5px;
+}
+
+.header-tagline {
+    width: 50%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.tagline-text {
+    font-size: 14px;
+    color: #ffc220;
+    font-weight: 600;
+    font-style: italic;
+}
+
+/* Store Section */
+.store-section {
+    margin-bottom: 15px;
+}
+
+.store-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.store-info {
+    width: 55%;
+    vertical-align: top;
+}
+
+.store-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0071ce;
+    margin-bottom: 4px;
+}
+
+.store-address {
+    font-size: 9px;
+    color: #2c2c2c;
+    margin-bottom: 3px;
+}
+
+.store-contact {
+    font-size: 9px;
+    color: #2c2c2c;
+    margin-bottom: 3px;
+}
+
+.store-id {
+    font-size: 8px;
+    color: #767676;
+    margin-top: 5px;
+}
+
+.invoice-info {
+    width: 45%;
+    vertical-align: top;
+    text-align: right;
+}
+
+.invoice-grid {
+    display: inline-block;
+    border: 2px solid #0071ce;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.invoice-grid tr {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.invoice-grid tr:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-size: 8px;
+    font-weight: 700;
+    color: #767676;
+    padding: 6px 10px;
+    background: #f5f5f5;
+    text-transform: uppercase;
+}
+
+.info-value {
+    font-size: 10px;
+    font-weight: 700;
+    color: #000000;
+    padding: 6px 12px;
+}
+
+/* Customer Bar */
+.customer-bar {
+    background: #f5f5f5;
+    border: 1px solid #d0d0d0;
+    padding: 10px 12px;
+    margin-bottom: 15px;
+}
+
+.customer-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.customer-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #0071ce;
+    width: 80px;
+    text-transform: uppercase;
+}
+
+.customer-info {
+    font-size: 10px;
+    color: #000000;
+}
+
+.customer-name {
+    font-weight: 700;
+}
+
+.customer-separator {
+    margin: 0 8px;
+    color: #767676;
+}
+
+.customer-address {
+    color: #2c2c2c;
+}
+
+/* Department Divider */
+.dept-divider {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.divider-line {
+    display: table-cell;
+    width: 40%;
+    border-bottom: 2px solid #ffc220;
+    height: 12px;
+}
+
+.divider-text {
+    display: table-cell;
+    width: 20%;
+    text-align: center;
+    font-size: 9px;
+    font-weight: 700;
+    color: #0071ce;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    padding: 0 10px;
+}
+
+/* ===== CONTINUATION HEADER ===== */
+.cont-header {
+    border-bottom: 3px solid #0071ce;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+.cont-header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-walmart {
+    width: 25%;
+    vertical-align: middle;
+}
+
+.cont-spark {
+    font-size: 18px;
+    color: #ffc220;
+    margin-right: 4px;
+}
+
+.cont-text {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0071ce;
+}
+
+.cont-invoice {
+    width: 35%;
+    font-size: 10px;
+    font-weight: 600;
+    color: #000000;
+    vertical-align: middle;
+}
+
+.cont-store {
+    width: 20%;
+    text-align: right;
+    font-size: 9px;
+    color: #767676;
+    vertical-align: middle;
+}
+
+.cont-page {
+    width: 20%;
+    text-align: right;
+    font-size: 9px;
+    color: #767676;
+    vertical-align: middle;
+}
+
+/* ===== ITEMS TABLE ===== */
+.items-section {
+    margin-bottom: 15px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #0071ce;
+}
+
+.items-table thead {
+    background: #0071ce;
+}
+
+.items-table th {
+    padding: 8px 6px;
+    font-size: 8px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.th-item {
+    width: 32%;
+}
+
+.th-upc {
+    width: 15%;
+}
+
+.th-dept {
+    width: 10%;
+    text-align: center;
+}
+
+.th-qty {
+    width: 8%;
+    text-align: center;
+}
+
+.th-price {
+    width: 15%;
+    text-align: right;
+}
+
+.th-total {
+    width: 20%;
+    text-align: right;
+}
+
+.item-row {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.item-row:nth-child(even) {
+    background: #fafafa;
+}
+
+.item-row:last-child {
+    border-bottom: none;
+}
+
+.item-row td {
+    padding: 8px 6px;
+    font-size: 9px;
+    color: #000000;
+    vertical-align: top;
+}
+
+.td-item {
+    vertical-align: top;
+}
+
+.item-name {
+    font-size: 10px;
+    color: #000000;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 2px;
+}
+
+.item-detail {
+    font-size: 8px;
+    color: #767676;
+}
+
+.td-upc {
+    font-size: 8px;
+    color: #767676;
+    font-family: 'Courier New', monospace;
+}
+
+.td-dept {
+    text-align: center;
+    font-size: 8px;
+    font-weight: 700;
+    color: #0071ce;
+}
+
+.td-qty {
+    text-align: center;
+    font-weight: 700;
+}
+
+.td-price {
+    text-align: right;
+    font-weight: 600;
+}
+
+.td-total {
+    text-align: right;
+    font-weight: 700;
+    color: #000000;
+}
+
+/* ===== TOTALS SECTION ===== */
+.totals-section {
+    margin-bottom: 15px;
+}
+
+.totals-divider {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.totals-layout {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-left {
+    width: 50%;
+    vertical-align: top;
+    padding-right: 12px;
+}
+
+.totals-right {
+    width: 50%;
+    vertical-align: top;
+}
+
+/* Savings Box */
+.savings-box {
+    background: #ffc220;  /* was: linear-gradient(135deg, #ffc220 0%, #ffaa00 100%...) */
+    border: 3px solid #e69900;
+    border-radius: 8px;
+    padding: 15px;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.savings-icon {
+    display: table-cell;
+    width: 40px;
+    font-size: 28px;
+    vertical-align: middle;
+}
+
+.savings-content {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.savings-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 3px;
+}
+
+.savings-amount {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000000;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.savings-subtitle {
+    font-size: 8px;
+    color: #2c2c2c;
+}
+
+/* Payment Info */
+.payment-info {
+    background: #f5f5f5;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    padding: 12px;
+}
+
+.payment-row {
+    margin-bottom: 6px;
+}
+
+.payment-row:last-child {
+    margin-bottom: 0;
+}
+
+.payment-label {
+    font-size: 8px;
+    font-weight: 700;
+    color: #767676;
+    margin-right: 6px;
+}
+
+.payment-value {
+    font-size: 9px;
+    font-weight: 600;
+    color: #000000;
+}
+
+/* Calculation Table */
+.calc-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #0071ce;
+    background: #ffffff;
+    margin-bottom: 12px;
+}
+
+.calc-row td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.calc-row:last-child td {
+    border-bottom: none;
+}
+
+.calc-label {
+    font-size: 10px;
+    color: #2c2c2c;
+    font-weight: 600;
+    text-align: left;
+    width: 60%;
+    text-transform: uppercase;
+}
+
+.calc-value {
+    font-size: 12px;
+    color: #000000;
+    font-weight: 700;
+    text-align: right;
+    width: 40%;
+}
+
+.savings-row .calc-value {
+    color: #e69900;
+}
+
+.total-row {
+    background: #0071ce;
+}
+
+.total-row .calc-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.total-row .calc-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffc220;
+}
+
+/* Paid Badge */
+.paid-badge {
+    background: #0071ce;
+    border: 3px solid #004c91;
+    border-radius: 6px;
+    padding: 12px;
+    text-align: center;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.badge-check {
+    display: table-cell;
+    width: 35px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffc220;
+    vertical-align: middle;
+}
+
+.badge-text {
+    display: table-cell;
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    vertical-align: middle;
+    letter-spacing: 2px;
+}
+
+/* ===== FOOTER ===== */
+.page-footer {
+    margin-top: 18px;
+}
+
+.footer-divider {
+    height: 3px;
+    background: #0071ce;  /* was: linear-gradient(to right, #0071ce 0%, #ffc220 50%, #0071ce 100%...) */
+    margin-bottom: 12px;
+}
+
+.footer-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.footer-left {
+    width: 65%;
+    vertical-align: top;
+}
+
+.footer-right {
+    width: 35%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.footer-line {
+    font-size: 9px;
+    color: #2c2c2c;
+    margin-bottom: 3px;
+}
+
+.footer-line:first-child {
+    font-weight: 700;
+    color: #0071ce;
+    font-size: 10px;
+}
+
+.footer-logo {
+    margin-bottom: 3px;
+}
+
+.footer-spark {
+    font-size: 18px;
+    color: #ffc220;
+    margin-right: 4px;
+}
+
+.footer-walmart {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0071ce;
+}
+
+.footer-tagline {
+    font-size: 8px;
+    color: #767676;
+    font-style: italic;
+}
+
+/* ===== CONTINUATION FOOTER ===== */
+.cont-footer {
+    margin-top: 18px;
+}
+
+.cont-line {
+    height: 2px;
+    background: #0071ce;  /* was: linear-gradient(to right, #0071ce 0%, #0071ce 30%, transparent 100...) */
+    margin-bottom: 8px;
+}
+
+.cont-text {
+    font-size: 9px;
+    color: #767676;
+    text-align: center;
+    font-style: italic;
+}
+
+/* ===== PRINT OPTIMIZATION ===== */
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .invoice-page {
+        padding: 20px;
+    }
+    
+    .walmart-header {
+        margin: -20px -20px 15px -20px;
+        width: calc(100% + 40px);
+    }
+}

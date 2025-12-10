@@ -1,0 +1,612 @@
+/* Waliwaba.com Wholesale Invoice Stylesheet */
+/* Colors: Waliwaba Orange (#FF6A00), Dark Gray (#333333), Light Gray (#F5F5F5) */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: #333333;
+    background: #ffffff;
+    line-height: 1.4;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 0;
+    background: #ffffff;
+    position: relative;
+}
+
+/* Header Styles */
+.header {
+    background: #FF6A00;
+    padding: 25px 30px;
+    border-bottom: 4px solid #E65A00;
+}
+
+.header-content {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.header-left,
+.header-right {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.header-left {
+    width: 50%;
+}
+
+.header-right {
+    width: 50%;
+    text-align: right;
+}
+
+.alibaba-logo {
+    display: inline-block;
+}
+
+.logo-alibaba {
+    display: block;
+    font-size: 38px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.logo-tagline {
+    display: block;
+    font-size: 11px;
+    color: #ffffff;
+    opacity: 0.9;
+    margin-top: 2px;
+}
+
+.doc-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.invoice-meta {
+    display: inline-block;
+    text-align: left;
+}
+
+.meta-row {
+    margin: 3px 0;
+}
+
+.meta-label {
+    font-size: 10px;
+    color: #ffffff;
+    opacity: 0.85;
+    margin-right: 8px;
+}
+
+.meta-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.header-divider {
+    height: 3px;
+    background: #FF6A00;
+}
+
+/* Info Cards */
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0 0 0;
+    padding: 0 30px;
+}
+
+.info-cell {
+    width: 50%;
+    vertical-align: top;
+    padding: 0 10px;
+}
+
+.info-card {
+    background: #F8F8F8;
+    border: 2px solid #E0E0E0;
+    border-radius: 8px;
+    padding: 15px;
+    min-height: 150px;
+}
+
+.supplier-card {
+    border-left: 4px solid #FF6A00;
+}
+
+.buyer-card {
+    border-left: 4px solid #333333;
+}
+
+.card-header {
+    display: block;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #E0E0E0;
+}
+
+.card-icon {
+    font-size: 18px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.card-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #333333;
+    letter-spacing: 0.5px;
+    vertical-align: middle;
+}
+
+.card-body {
+    padding: 5px 0;
+}
+
+.supplier-logo-container {
+    margin-bottom: 10px;
+}
+
+.supplier-logo-img {
+    display: inline-block;
+    height: 40px;
+    width: auto;
+    max-width: 120px;
+    object-fit: contain;
+}
+
+.company-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 8px;
+}
+
+.info-line {
+    font-size: 10px;
+    color: #666666;
+    margin: 4px 0;
+    line-height: 1.5;
+}
+
+/* Section Dividers */
+.section-divider {
+    height: 2px;
+    background: #E0E0E0;
+    margin: 20px 30px;
+}
+
+/* Trade Terms */
+.trade-terms {
+    margin: 20px 30px;
+    background: #FFF8F0;
+    border: 2px solid #FFDDB3;
+    border-radius: 6px;
+    padding: 15px;
+}
+
+.terms-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.term-item {
+    display: table-cell;
+    width: 25%;
+    padding: 0 10px;
+}
+
+.term-label {
+    display: block;
+    font-size: 9px;
+    color: #666666;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.term-value {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #FF6A00;
+}
+
+/* Section Header */
+.section-header {
+    margin: 20px 30px 15px 30px;
+    padding: 10px 15px;
+    background: #333333;
+    border-radius: 4px;
+}
+
+.section-icon {
+    font-size: 16px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.section-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    vertical-align: middle;
+}
+
+/* Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 20px 0;
+}
+
+.items-header {
+    background: #F5F5F5;
+    border-top: 2px solid #333333;
+    border-bottom: 2px solid #333333;
+}
+
+.items-header th {
+    padding: 10px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #333333;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.col-product { width: 32%; padding-left: 30px !important; }
+.col-sku { width: 15%; }
+.col-qty { width: 12%; text-align: center !important; }
+.col-unit { width: 10%; text-align: center !important; }
+.col-price { width: 15%; text-align: right !important; }
+.col-amount { width: 16%; text-align: right !important; padding-right: 30px !important; }
+
+.item-row {
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.item-row td {
+    padding: 12px 8px;
+    font-size: 10px;
+    vertical-align: top;
+}
+
+.product-cell {
+    padding-left: 30px !important;
+}
+
+.product-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 3px;
+}
+
+.product-meta {
+    font-size: 9px;
+    color: #999999;
+    margin-top: 2px;
+}
+
+.sku-cell {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 10px;
+    color: #666666;
+}
+
+.qty-cell {
+    text-align: center;
+    font-weight: 600;
+    color: #333333;
+}
+
+.qty-detail {
+    font-size: 9px;
+    color: #999999;
+    font-weight: 400;
+    margin-top: 2px;
+}
+
+.unit-cell {
+    text-align: center;
+    font-size: 9px;
+    color: #666666;
+    text-transform: uppercase;
+}
+
+.price-cell {
+    text-align: right;
+    font-weight: 600;
+    color: #333333;
+}
+
+.amount-cell {
+    text-align: right;
+    font-weight: 700;
+    color: #FF6A00;
+    padding-right: 30px !important;
+}
+
+/* Totals Section */
+.totals-section {
+    margin: 25px 30px 20px 30px;
+    display: table;
+    table-layout: fixed;
+    width: calc(100% - 60px);
+}
+
+.totals-table {
+    float: right;
+    width: 350px;
+    border-collapse: collapse;
+    border: 2px solid #E0E0E0;
+    background: #FAFAFA;
+}
+
+.total-row td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.total-label {
+    font-size: 11px;
+    color: #666666;
+    text-align: right;
+    width: 60%;
+}
+
+.total-value {
+    font-size: 12px;
+    font-weight: 600;
+    color: #333333;
+    text-align: right;
+    width: 40%;
+}
+
+.discount-value {
+    color: #FF6A00;
+}
+
+.grand-total {
+    background: #FF6A00;
+    border: none;
+}
+
+.grand-total .total-label,
+.grand-total .total-value {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* Payment Status */
+.payment-status {
+    margin: 20px 30px;
+    text-align: right;
+}
+
+.status-badge {
+    display: inline-block;
+    background: #4CAF50;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.status-icon {
+    font-size: 14px;
+    margin-right: 8px;
+    font-weight: 700;
+}
+
+.status-text {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Trade Assurance Box */
+.assurance-box {
+    margin: 20px 30px;
+    background: #F0F8FF;
+    border: 2px solid #4A90E2;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.assurance-header {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #4A90E2;
+}
+
+.assurance-shield {
+    font-size: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.assurance-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #4A90E2;
+    vertical-align: middle;
+}
+
+.assurance-body {
+    padding: 5px 0;
+}
+
+.assurance-item {
+    font-size: 10px;
+    color: #333333;
+    margin: 5px 0;
+    padding-left: 5px;
+}
+
+/* Footer */
+.footer-divider {
+    height: 3px;
+    background: #FF6A00;
+    margin-top: 30px;
+}
+
+.footer {
+    background: #F5F5F5;
+    padding: 20px 30px;
+    border-top: 1px solid #E0E0E0;
+}
+
+.footer-content {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.footer-left,
+.footer-right {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.footer-left {
+    width: 80%;
+}
+
+.footer-right {
+    width: 20%;
+    text-align: right;
+}
+
+.footer-line {
+    font-size: 9px;
+    color: #666666;
+    margin: 3px 0;
+    line-height: 1.4;
+}
+
+.footer-qr {
+    font-size: 40px;
+    color: #333333;
+    line-height: 1;
+}
+
+.footer-qr-text {
+    font-size: 8px;
+    color: #666666;
+    margin-top: 3px;
+    line-height: 1.2;
+}
+
+.footer-note {
+    font-size: 8px;
+    color: #999999;
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid #E0E0E0;
+}
+
+/* Continuation Header */
+.continuation-header {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding: 15px 30px;
+    background: #F5F5F5;
+    border-bottom: 3px solid #FF6A00;
+}
+
+.cont-left,
+.cont-right {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.cont-left {
+    width: 70%;
+}
+
+.cont-right {
+    width: 30%;
+    text-align: right;
+}
+
+.cont-logo {
+    font-size: 18px;
+    font-weight: 700;
+    color: #FF6A00;
+}
+
+.cont-separator {
+    font-size: 14px;
+    color: #CCCCCC;
+    margin: 0 10px;
+}
+
+.cont-invoice {
+    font-size: 11px;
+    color: #666666;
+    font-weight: 600;
+}
+
+.cont-page {
+    font-size: 10px;
+    color: #999999;
+}
+
+.cont-divider {
+    height: 2px;
+    background: #E0E0E0;
+    margin-bottom: 15px;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding: 15px 30px;
+    background: #F5F5F5;
+    border-top: 2px solid #E0E0E0;
+    margin-top: 20px;
+}
+
+.cont-footer-left,
+.cont-footer-right {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 10px;
+    color: #666666;
+}
+
+.cont-footer-left {
+    width: 70%;
+    font-style: italic;
+}
+
+.cont-footer-right {
+    width: 30%;
+    text-align: right;
+}

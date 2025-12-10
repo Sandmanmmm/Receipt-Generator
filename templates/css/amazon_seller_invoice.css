@@ -1,0 +1,703 @@
+/* Amazon Seller Central Invoice Stylesheet
+ * Marketplace seller/vendor invoice design with orange branding
+ * Colors: Amazon Orange (#FF9900), Dark Orange (#E47911), Light Beige (#FEBD69)
+ */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Amazon Ember', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 10px;
+    color: #111111;
+    background: #ffffff;
+    line-height: 1.4;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 28px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ===== FIRST PAGE HEADER ===== */
+.page-header {
+    margin-bottom: 18px;
+    background: #ff9900;  /* was: linear-gradient(to bottom, #ff9900 0%, #e47911 100%...) */
+    padding: 15px 18px;
+    border-radius: 6px;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.header-logo {
+    width: 25%;
+    vertical-align: middle;
+}
+
+.seller-logo {
+    display: inline-block;
+    height: 50px;
+    width: auto;
+    max-width: 150px;
+    vertical-align: middle;
+    background: #ffffff;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.logo-box {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: #ffffff;
+    border-radius: 4px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.logo-letter {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ff9900;
+    line-height: 50px;
+}
+
+.header-center {
+    width: 45%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.marketplace-badge {
+    font-size: 8px;
+    color: #febd69;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+}
+
+.invoice-heading {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 1px;
+}
+
+.header-info {
+    width: 30%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.info-table {
+    display: inline-block;
+    border-collapse: collapse;
+    background: #ffffff;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.info-table tr {
+    line-height: 1.7;
+}
+
+.info-key {
+    font-size: 8px;
+    color: #666666;
+    font-weight: 600;
+    text-align: right;
+    padding-right: 8px;
+}
+
+.info-val {
+    font-size: 10px;
+    color: #111111;
+    font-weight: 700;
+}
+
+/* ===== INFO SECTION ===== */
+.info-section {
+    margin-bottom: 16px;
+}
+
+.info-layout {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.info-card {
+    width: 33.33%;
+    vertical-align: top;
+    padding: 0 6px;
+}
+
+.info-card:first-child {
+    padding-left: 0;
+}
+
+.info-card:last-child {
+    padding-right: 0;
+}
+
+.card-badge {
+    font-size: 9px;
+    font-weight: 700;
+    color: #ffffff;
+    padding: 5px 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.seller-badge {
+    background: #ff9900;
+}
+
+.customer-badge {
+    background: #232f3e;
+}
+
+.shipping-badge {
+    background: #37475a;
+}
+
+.card-body {
+    border: 1px solid #ddd;
+    border-top: none;
+    padding: 12px 10px;
+    min-height: 95px;
+    background: #fafafa;
+}
+
+.entity-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: #111111;
+    margin-bottom: 5px;
+}
+
+.entity-address {
+    font-size: 9px;
+    color: #333333;
+    line-height: 1.5;
+    margin-bottom: 6px;
+}
+
+.contact-table {
+    border-collapse: collapse;
+    margin-top: 4px;
+}
+
+.contact-table tr {
+    line-height: 1.6;
+}
+
+.contact-icon {
+    font-size: 8px;
+    width: 14px;
+    vertical-align: middle;
+}
+
+.contact-text {
+    font-size: 8px;
+    color: #555555;
+    vertical-align: middle;
+}
+
+/* ===== DETAILS BAR ===== */
+.details-bar {
+    background: #fff8f0;
+    border: 1px solid #febd69;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+    border-radius: 3px;
+}
+
+.details-layout {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.detail-item {
+    padding-right: 12px;
+}
+
+.detail-item:last-child {
+    padding-right: 0;
+}
+
+.detail-key {
+    font-size: 8px;
+    color: #e47911;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-right: 5px;
+}
+
+.detail-val {
+    font-size: 10px;
+    color: #111111;
+    font-weight: 600;
+}
+
+/* ===== CONTINUATION HEADER ===== */
+.cont-header {
+    border-bottom: 3px solid #ff9900;
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+}
+
+.cont-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-logo {
+    width: 40%;
+    vertical-align: middle;
+}
+
+.cont-logo-img {
+    display: inline-block;
+    height: 28px;
+    width: auto;
+    max-width: 90px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.cont-seller {
+    font-size: 12px;
+    font-weight: 700;
+    color: #111111;
+    vertical-align: middle;
+}
+
+.cont-invoice {
+    width: 35%;
+    text-align: center;
+    font-size: 10px;
+    color: #666666;
+    vertical-align: middle;
+}
+
+.cont-label {
+    font-weight: 600;
+}
+
+.cont-pages {
+    width: 25%;
+    text-align: right;
+    font-size: 9px;
+    color: #666666;
+    vertical-align: middle;
+}
+
+/* ===== ITEMS SECTION ===== */
+.items-section {
+    margin-bottom: 18px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+.items-table thead {
+    background: #232f3e;
+}
+
+.items-table th {
+    padding: 8px 5px;
+    font-size: 8px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.col-num {
+    width: 5%;
+    text-align: center;
+}
+
+.col-product {
+    width: 30%;
+}
+
+.col-asin {
+    width: 12%;
+}
+
+.col-condition {
+    width: 10%;
+    text-align: center;
+}
+
+.col-qty {
+    width: 7%;
+    text-align: center;
+}
+
+.col-price {
+    width: 11%;
+    text-align: right;
+}
+
+.col-disc {
+    width: 11%;
+    text-align: right;
+}
+
+.col-total {
+    width: 14%;
+    text-align: right;
+}
+
+.item-row {
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.item-row:nth-child(odd) {
+    background: #ffffff;
+}
+
+.item-row:nth-child(even) {
+    background: #fafafa;
+}
+
+.item-row td {
+    padding: 9px 5px;
+    font-size: 9px;
+    color: #111111;
+    vertical-align: top;
+}
+
+.td-num {
+    text-align: center;
+    color: #666666;
+    font-weight: 600;
+}
+
+.td-product {
+    vertical-align: top;
+}
+
+.product-name {
+    font-size: 9px;
+    color: #111111;
+    line-height: 1.4;
+    margin-bottom: 2px;
+}
+
+.product-variant {
+    font-size: 8px;
+    color: #666666;
+    font-style: italic;
+}
+
+.td-asin {
+    font-size: 8px;
+    color: #666666;
+    font-family: 'Courier New', monospace;
+}
+
+.td-condition {
+    text-align: center;
+}
+
+.condition-badge {
+    display: inline-block;
+    font-size: 7px;
+    color: #037f39;
+    background: #e5f4e3;
+    border: 1px solid #a7d6a0;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.td-qty {
+    text-align: center;
+    font-weight: 600;
+}
+
+.td-price {
+    text-align: right;
+}
+
+.td-disc {
+    text-align: right;
+}
+
+.discount-amt {
+    color: #b12704;
+    font-weight: 600;
+}
+
+.td-total {
+    text-align: right;
+    font-weight: 700;
+}
+
+/* ===== SUMMARY SECTION ===== */
+.summary-section {
+    margin-bottom: 16px;
+}
+
+.summary-layout {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.summary-notes {
+    width: 50%;
+    vertical-align: top;
+    padding-right: 15px;
+}
+
+.summary-totals {
+    width: 50%;
+    vertical-align: top;
+}
+
+/* Notes Container */
+.notes-container {
+    border: 1px solid #ddd;
+    background: #f7f9fa;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 3px;
+}
+
+.notes-header {
+    font-size: 9px;
+    font-weight: 700;
+    color: #111111;
+    margin-bottom: 5px;
+}
+
+.notes-text {
+    font-size: 8px;
+    color: #555555;
+    line-height: 1.5;
+}
+
+/* Seller Info */
+.seller-info {
+    border: 1px solid #febd69;
+    background: #fffbf5;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.seller-header {
+    font-size: 9px;
+    font-weight: 700;
+    color: #e47911;
+    margin-bottom: 5px;
+}
+
+.seller-text {
+    font-size: 8px;
+    color: #555555;
+    line-height: 1.6;
+}
+
+/* Totals Calculation */
+.totals-calc {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    background: #ffffff;
+    margin-bottom: 10px;
+}
+
+.calc-row td {
+    padding: 7px 12px;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.calc-row:last-child td {
+    border-bottom: none;
+}
+
+.calc-label {
+    font-size: 9px;
+    color: #555555;
+    text-align: left;
+    width: 60%;
+}
+
+.calc-amount {
+    font-size: 10px;
+    color: #111111;
+    font-weight: 600;
+    text-align: right;
+    width: 40%;
+}
+
+.discount-row .calc-amount {
+    color: #b12704;
+}
+
+.subtotal-row {
+    background: #f7f9fa;
+}
+
+.subtotal-row .calc-label {
+    font-weight: 700;
+}
+
+.grand-total {
+    background: #fff8f0;
+    border-top: 2px solid #ff9900;
+}
+
+.grand-total .calc-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #111111;
+}
+
+.grand-total .calc-amount {
+    font-size: 14px;
+    font-weight: 700;
+    color: #e47911;
+}
+
+/* Payment Summary */
+.payment-summary {
+    background: #ff9900;
+    color: #ffffff;
+    padding: 12px 15px;
+    border-radius: 4px;
+}
+
+.payment-row {
+    margin-bottom: 6px;
+}
+
+.payment-row:last-child {
+    margin-bottom: 0;
+}
+
+.payment-label {
+    font-size: 9px;
+    font-weight: 600;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.payment-value {
+    font-size: 10px;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.grand-row {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #febd69;
+}
+
+.grand-row .payment-label {
+    font-size: 10px;
+}
+
+.grand-row .payment-value {
+    font-size: 16px;
+}
+
+/* ===== FOOTER ===== */
+.page-footer {
+    margin-top: 18px;
+}
+
+.footer-stripe {
+    height: 3px;
+    background: #ff9900;  /* was: linear-gradient(to right, #ff9900 0%, #e47911 50%, #febd69 100%...) */
+    margin-bottom: 10px;
+}
+
+.footer-layout {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.footer-message {
+    width: 55%;
+    vertical-align: top;
+}
+
+.footer-legal {
+    width: 45%;
+    text-align: right;
+    vertical-align: top;
+}
+
+.footer-thanks {
+    font-size: 11px;
+    color: #111111;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.footer-support {
+    font-size: 8px;
+    color: #666666;
+}
+
+.footer-disclaimer {
+    font-size: 8px;
+    color: #666666;
+    margin-bottom: 2px;
+    font-style: italic;
+}
+
+.footer-terms {
+    font-size: 7px;
+    color: #999999;
+}
+
+/* ===== CONTINUATION FOOTER ===== */
+.cont-footer {
+    margin-top: 18px;
+}
+
+.cont-divider {
+    height: 2px;
+    background: #ff9900;  /* was: linear-gradient(to right, #ff9900 0%, #ff9900 35%, transparent 100...) */
+    margin-bottom: 8px;
+}
+
+.cont-message {
+    font-size: 9px;
+    color: #666666;
+    text-align: center;
+    font-style: italic;
+}
+
+/* ===== PRINT OPTIMIZATION ===== */
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .invoice-page {
+        padding: 22px;
+    }
+}

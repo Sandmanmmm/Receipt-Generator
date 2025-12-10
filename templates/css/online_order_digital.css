@@ -32,15 +32,24 @@ body {
 }
 
 .company-branding {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 3mm;
+        /*     /*     /* gap: 3mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
 }
+
+
+
 
 .logo-digital {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    background: #8b5cf6;  /* was: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%...) */
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -95,15 +104,24 @@ body {
 
 /* Access Banner */
 .access-banner {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 3mm;
+        /*     /*     /* gap: 3mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     padding: 5mm;
-    background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+    background: #f5f3ff;  /* was: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%...) */
     border: 2px solid #a78bfa;
     border-radius: 8px;
     margin-bottom: 6mm;
 }
+
+
+
 
 .banner-icon {
     font-size: 28pt;
@@ -181,16 +199,25 @@ body {
 }
 
 .section-heading {
+
+
+
     font-size: 14pt;
     font-weight: 700;
     color: #1f2937;
     margin-bottom: 5mm;
     padding-bottom: 2mm;
     border-bottom: 2px solid #e5e7eb;
-    display: flex;
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
 }
+
+
+
 
 .heading-icon {
     font-size: 16pt;
@@ -206,13 +233,22 @@ body {
 }
 
 .product-header {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 3mm;
+        /*     /*     /* gap: 3mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     padding: 4mm;
-    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+    background: #f9fafb;  /* was: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%...) */
     border-bottom: 2px solid #e5e7eb;
 }
+
+
+
 
 .product-icon-box {
     width: 50px;
@@ -268,11 +304,20 @@ body {
 
 /* Product Details */
 .product-details {
+
+
+
     padding: 4mm;
-    display: flex;
+                display: flex;
     flex-direction: column;
-    gap: 4mm;
+        /*     /*     /* gap: 4mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
 }
+
+
+
 
 /* License Section */
 .license-section,
@@ -286,11 +331,20 @@ body {
 
 .license-header,
 .activation-header {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     margin-bottom: 2mm;
 }
+
+
+
 
 .license-icon,
 .activation-icon {
@@ -306,14 +360,23 @@ body {
 
 .license-key-box,
 .activation-code-box {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     padding: 2.5mm;
     background: #ffffff;
     border: 1px solid #fbbf24;
     border-radius: 4px;
 }
+
+
+
 
 .license-key,
 .activation-code {
@@ -355,11 +418,20 @@ body {
 
 .download-header,
 .access-header {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     margin-bottom: 2mm;
 }
+
+
+
 
 .download-icon,
 .access-icon {
@@ -392,7 +464,7 @@ body {
 .access-button {
     display: inline-flex;
     align-items: center;
-    gap: 2mm;
+    /* gap removed for wkhtmltoimage compatibility */
     padding: 2.5mm 4mm;
     background: #3b82f6;
     color: #ffffff;
@@ -423,7 +495,7 @@ body {
 .sub-detail {
     display: flex;
     align-items: center;
-    gap: 1.5mm;
+    /* gap removed for wkhtmltoimage compatibility */
     margin-bottom: 1.5mm;
     font-size: 9pt;
 }
@@ -464,7 +536,7 @@ body {
 .license-seats {
     display: flex;
     align-items: center;
-    gap: 1.5mm;
+    /* gap removed for wkhtmltoimage compatibility */
     font-size: 9pt;
 }
 
@@ -481,7 +553,7 @@ body {
 .expiry-notice {
     display: flex;
     align-items: center;
-    gap: 1.5mm;
+    /* gap removed for wkhtmltoimage compatibility */
     padding: 2mm;
     background: #fee2e2;
     border-radius: 4px;
@@ -572,14 +644,23 @@ body {
 }
 
 .no-shipping-notice {
+
+
+
     margin-top: 3mm;
     padding: 2.5mm;
     background: #ecfdf5;
     border-radius: 6px;
-    display: flex;
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
 }
+
+
+
 
 .notice-icon {
     font-size: 12pt;
@@ -608,11 +689,20 @@ body {
 }
 
 .payment-details {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     font-size: 9.5pt;
 }
+
+
+
 
 .payment-icon {
     font-size: 14pt;
@@ -671,10 +761,19 @@ body {
 }
 
 .account-actions {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 3mm;
+
 }
+
+.account-actions > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 
 .action-card {
     padding: 3mm;
@@ -711,10 +810,19 @@ body {
 }
 
 .support-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 5mm;
+
 }
+
+.support-grid > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 
 .support-card {
     padding: 5mm;
@@ -801,11 +909,20 @@ body {
 }
 
 .footer-content {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 5mm;
+
     margin-bottom: 5mm;
 }
+
+.footer-content > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 
 .footer-section h4 {
     font-size: 10pt;

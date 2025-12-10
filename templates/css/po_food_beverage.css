@@ -1,0 +1,641 @@
+/* 
+ * Food & Beverage B2B Purchase Order Template
+ * Fresh green/orange theme inspired by Sysco and food wholesalers
+ * Optimized for wkhtmltoimage rendering
+ */
+
+/* ========================================
+   RESET & BASE STYLES
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    color: #1a2e1a;
+    background: #ffffff;
+    line-height: 1.4;
+}
+
+/* ========================================
+   PAGE CONTAINER
+   ======================================== */
+.po-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 20px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ========================================
+   HEADER SECTION (FIRST PAGE)
+   ======================================== */
+.header-section {
+    margin-bottom: 15px;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.header-left {
+    width: 50%;
+    vertical-align: top;
+    padding-right: 15px;
+}
+
+.header-right {
+    width: 50%;
+    vertical-align: top;
+    text-align: right;
+}
+
+/* Logo Styling */
+.supplier-logo {
+    display: inline-block;
+    height: 45px;
+    width: auto;
+    max-width: 140px;
+    margin-bottom: 10px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    background: #2d7a2d;  /* was: linear-gradient(135deg, #2d7a2d 0%, #1b5e1b 100%...) */
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.logo-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 45px;
+}
+
+/* Supplier Info */
+.supplier-info {
+    margin-top: 5px;
+}
+
+.supplier-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a2e1a;
+    margin-bottom: 4px;
+}
+
+.supplier-detail {
+    font-size: 9px;
+    color: #4a5d4a;
+    margin-bottom: 2px;
+}
+
+/* PO Number Badge */
+.po-number-badge {
+    background: #2d7a2d;  /* was: linear-gradient(135deg, #2d7a2d 0%, #1b5e1b 100%...) */
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    display: inline-block;
+}
+
+.po-label {
+    display: block;
+    font-size: 9px;
+    font-weight: 600;
+    color: #a8d5a8;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.po-number {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+/* Header Meta Information */
+.header-meta {
+    background: #f8faf8;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #d4e4d4;
+}
+
+.meta-row {
+    margin-bottom: 4px;
+    font-size: 10px;
+}
+
+.meta-row:last-child {
+    margin-bottom: 0;
+}
+
+.meta-label {
+    font-weight: 600;
+    color: #4a5d4a;
+    margin-right: 6px;
+}
+
+.meta-value {
+    color: #1a2e1a;
+    font-weight: 400;
+}
+
+/* ========================================
+   ADDRESS SECTION
+   ======================================== */
+.address-section {
+    margin-bottom: 15px;
+}
+
+.address-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 0;
+}
+
+.address-card {
+    width: 33.33%;
+    vertical-align: top;
+    background: #f8faf8;
+    border: 1px solid #c8dcc8;
+    border-radius: 6px;
+    padding: 0;
+}
+
+.card-title {
+    background: #2d7a2d;
+    color: #ffffff;
+    padding: 8px 12px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-radius: 6px 6px 0 0;
+}
+
+.card-content {
+    padding: 10px 12px;
+}
+
+.card-line {
+    font-size: 9px;
+    color: #4a5d4a;
+    margin-bottom: 3px;
+    line-height: 1.5;
+}
+
+.card-line:last-child {
+    margin-bottom: 0;
+}
+
+.card-line.strong {
+    font-weight: 700;
+    color: #1a2e1a;
+    font-size: 10px;
+}
+
+.field-label {
+    font-weight: 600;
+    color: #2d7a2d;
+}
+
+/* ========================================
+   CONTINUATION HEADER
+   ======================================== */
+.continuation-header {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #2d7a2d;
+}
+
+.cont-header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-left {
+    width: 60%;
+    vertical-align: middle;
+}
+
+.cont-right {
+    width: 40%;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.logo-cont {
+    height: 28px;
+    width: auto;
+    max-width: 80px;
+    margin-right: 10px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.cont-supplier {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a2e1a;
+    vertical-align: middle;
+}
+
+.cont-po {
+    font-size: 11px;
+    font-weight: 700;
+    color: #2d7a2d;
+    margin-right: 15px;
+}
+
+.cont-page {
+    font-size: 9px;
+    color: #6b8a6b;
+}
+
+/* ========================================
+   ITEMS TABLE
+   ======================================== */
+.items-section {
+    margin-bottom: 15px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #c8dcc8;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.items-table thead {
+    background: #2d7a2d;  /* was: linear-gradient(180deg, #2d7a2d 0%, #1b5e1b 100%...) */
+}
+
+.items-table th {
+    padding: 8px 6px;
+    text-align: left;
+    font-size: 8px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-right: 1px solid #4a9d4a;
+}
+
+.items-table th:last-child {
+    border-right: none;
+}
+
+/* Column Widths */
+.col-product-code { width: 10%; }
+.col-description { width: 20%; }
+.col-brand { width: 12%; }
+.col-case { width: 10%; }
+.col-qty { width: 6%; text-align: center; }
+.col-unit-price { width: 9%; text-align: right; }
+.col-storage { width: 12%; text-align: center; }
+.col-lot { width: 11%; }
+.col-total { width: 10%; text-align: right; }
+
+/* Item Rows */
+.item-row {
+    border-bottom: 1px solid #d4e4d4;
+}
+
+.item-row:nth-child(even) {
+    background: #f8faf8;
+}
+
+.item-row:hover {
+    background: #edf5ed;
+}
+
+.item-row td {
+    padding: 8px 6px;
+    vertical-align: top;
+    font-size: 9px;
+    color: #4a5d4a;
+}
+
+/* Product Code Column */
+.product-code {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    color: #1a2e1a;
+    margin-bottom: 2px;
+}
+
+.upc-code {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 8px;
+    color: #6b8a6b;
+}
+
+/* Description Column */
+.item-name {
+    font-size: 10px;
+    font-weight: 600;
+    color: #1a2e1a;
+    margin-bottom: 3px;
+    line-height: 1.4;
+}
+
+.item-category {
+    font-size: 8px;
+    color: #d97706;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.item-origin {
+    font-size: 8px;
+    color: #6b8a6b;
+    font-style: italic;
+}
+
+/* Brand Column */
+.item-brand {
+    font-size: 9px;
+    color: #2d7a2d;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.pack-size {
+    font-size: 8px;
+    color: #6b8a6b;
+}
+
+/* Case Pack Column */
+.case-pack {
+    font-size: 9px;
+    font-weight: 600;
+    color: #1a2e1a;
+    margin-bottom: 2px;
+}
+
+.unit-measure {
+    font-size: 8px;
+    color: #6b8a6b;
+}
+
+/* Storage Temperature Badges */
+.temp-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 8px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.temp-badge.frozen {
+    background: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #93c5fd;
+}
+
+.temp-badge.refrigerated {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+}
+
+.temp-badge.ambient {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fcd34d;
+}
+
+.temp-icon {
+    margin-right: 4px;
+}
+
+.temp-text {
+    white-space: nowrap;
+}
+
+/* Lot Number and Expiration */
+.lot-number {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 8px;
+    font-weight: 600;
+    color: #1a2e1a;
+    margin-bottom: 3px;
+}
+
+.exp-date {
+    font-size: 8px;
+    color: #dc2626;
+    font-weight: 600;
+}
+
+/* ========================================
+   TOTALS SECTION
+   ======================================== */
+.totals-section {
+    margin-bottom: 15px;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-left {
+    width: 55%;
+    vertical-align: top;
+    padding-right: 15px;
+}
+
+.totals-right {
+    width: 45%;
+    vertical-align: top;
+}
+
+/* Notes Box */
+.notes-box {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.notes-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #92400e;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #fde68a;
+}
+
+.notes-content {
+    font-size: 8px;
+    color: #78350f;
+    line-height: 1.6;
+}
+
+.note-item {
+    margin-bottom: 4px;
+}
+
+.note-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Totals Breakdown */
+.totals-breakdown {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f8faf8;
+    border: 1px solid #c8dcc8;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.total-row td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #d4e4d4;
+}
+
+.total-row:last-child td {
+    border-bottom: none;
+}
+
+.total-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #4a5d4a;
+    text-align: right;
+    width: 60%;
+}
+
+.total-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1a2e1a;
+    text-align: right;
+    width: 40%;
+}
+
+.total-value.discount {
+    color: #dc2626;
+}
+
+.total-final {
+    background: #2d7a2d;
+}
+
+.total-final .total-label,
+.total-final .total-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* ========================================
+   FOOTER SECTION
+   ======================================== */
+.footer-section {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 2px solid #d4e4d4;
+}
+
+.footer-content {
+    margin-bottom: 12px;
+}
+
+.footer-item {
+    display: inline-block;
+    margin-right: 30px;
+    font-size: 10px;
+}
+
+.footer-label {
+    font-weight: 600;
+    color: #4a5d4a;
+    margin-right: 8px;
+}
+
+.footer-line {
+    color: #c8dcc8;
+}
+
+.footer-note {
+    font-size: 8px;
+    color: #6b8a6b;
+    font-style: italic;
+    text-align: center;
+}
+
+/* ========================================
+   CONTINUATION FOOTER
+   ======================================== */
+.continuation-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #d4e4d4;
+}
+
+.cont-footer-content {
+    text-align: center;
+}
+
+.cont-notice {
+    font-size: 10px;
+    font-weight: 600;
+    color: #2d7a2d;
+    margin-right: 15px;
+}
+
+.cont-page-num {
+    font-size: 9px;
+    color: #6b8a6b;
+}
+
+/* ========================================
+   PAGE NUMBER
+   ======================================== */
+.page-number {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    font-size: 8px;
+    color: #c8dcc8;
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+@media print {
+    .po-page {
+        padding: 15px;
+    }
+    
+    .item-row {
+        page-break-inside: avoid;
+    }
+    
+    .totals-section,
+    .footer-section {
+        page-break-inside: avoid;
+    }
+}

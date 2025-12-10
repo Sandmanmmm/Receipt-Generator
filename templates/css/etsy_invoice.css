@@ -1,0 +1,659 @@
+/* Etsy Invoice Stylesheet
+ * Handmade marketplace invoice with warm, artisan aesthetic
+ * Colors: Etsy Orange (#F56400), Warm Brown (#222222), Cream (#FAF9F5)
+ */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Graphik Webfont', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 10px;
+    color: #222222;
+    background: #ffffff;
+    line-height: 1.5;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 30px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ===== FIRST PAGE HEADER ===== */
+.page-header {
+    margin-bottom: 20px;
+}
+
+.etsy-banner {
+    background: #f56400;
+    padding: 12px 20px;
+    margin: -30px -30px 15px -30px;
+    display: table;
+    table-layout: fixed;
+    width: calc(100% + 60px);
+}
+
+.banner-left {
+    display: table-cell;
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    vertical-align: middle;
+}
+
+.banner-right {
+    display: table-cell;
+    text-align: right;
+    font-size: 9px;
+    color: #ffffff;
+    font-weight: 400;
+    vertical-align: middle;
+    font-style: italic;
+}
+
+.header-content {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.header-shop {
+    width: 60%;
+    vertical-align: top;
+}
+
+.shop-logo {
+    display: inline-block;
+    height: 55px;
+    width: auto;
+    max-width: 140px;
+    vertical-align: middle;
+    margin-right: 12px;
+    border: 2px solid #f56400;
+    border-radius: 4px;
+    padding: 2px;
+}
+
+.shop-placeholder {
+    display: inline-block;
+    width: 55px;
+    height: 55px;
+    background: #f56400;  /* was: linear-gradient(135deg, #f56400 0%, #d55700 100%...) */
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 12px;
+}
+
+.shop-initial {
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 55px;
+}
+
+.shop-info {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.shop-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #222222;
+    margin-bottom: 2px;
+}
+
+.shop-tagline {
+    font-size: 9px;
+    color: #f56400;
+    font-style: italic;
+}
+
+.header-receipt {
+    width: 40%;
+    text-align: right;
+    vertical-align: top;
+}
+
+.receipt-title {
+    font-size: 26px;
+    font-weight: 300;
+    color: #222222;
+    margin-bottom: 8px;
+}
+
+.receipt-details {
+    display: inline-block;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.receipt-details tr {
+    line-height: 1.8;
+}
+
+.detail-label {
+    font-size: 9px;
+    color: #767676;
+    padding-right: 10px;
+}
+
+.detail-value {
+    font-size: 10px;
+    color: #222222;
+    font-weight: 600;
+}
+
+/* ===== ADDRESSES SECTION ===== */
+.addresses-section {
+    margin-bottom: 18px;
+}
+
+.addresses-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.address-card {
+    width: 33.33%;
+    vertical-align: top;
+    padding: 0 8px;
+}
+
+.address-card:first-child {
+    padding-left: 0;
+}
+
+.address-card:last-child {
+    padding-right: 0;
+}
+
+.card-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #f56400;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-content {
+    background: #faf9f5;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    padding: 12px 10px;
+    min-height: 90px;
+}
+
+.name-text {
+    font-size: 11px;
+    font-weight: 700;
+    color: #222222;
+    margin-bottom: 5px;
+}
+
+.addr-text {
+    font-size: 9px;
+    color: #555555;
+    line-height: 1.5;
+    margin-bottom: 6px;
+}
+
+.contact-row {
+    margin-top: 5px;
+}
+
+.contact-icon {
+    font-size: 8px;
+    color: #f56400;
+    margin-right: 4px;
+}
+
+.contact-data {
+    font-size: 8px;
+    color: #555555;
+}
+
+/* ===== PAYMENT BAR ===== */
+.payment-bar {
+    background: #fffbf7;
+    border: 1px solid #f9e5d8;
+    border-radius: 3px;
+    padding: 10px 15px;
+    margin-bottom: 18px;
+}
+
+.payment-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.payment-cell {
+    padding-right: 15px;
+}
+
+.payment-cell:last-child {
+    padding-right: 0;
+}
+
+.pay-label {
+    font-size: 9px;
+    color: #767676;
+    margin-right: 6px;
+}
+
+.pay-value {
+    font-size: 10px;
+    color: #222222;
+    font-weight: 600;
+}
+
+/* ===== CONTINUATION HEADER ===== */
+.cont-header {
+    border-bottom: 3px solid #f56400;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.cont-header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-etsy {
+    width: 20%;
+    font-size: 16px;
+    font-weight: 700;
+    color: #f56400;
+    vertical-align: middle;
+}
+
+.cont-shop {
+    width: 35%;
+    font-size: 11px;
+    font-weight: 600;
+    color: #222222;
+    vertical-align: middle;
+}
+
+.cont-logo {
+    display: inline-block;
+    height: 26px;
+    width: auto;
+    max-width: 80px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.cont-receipt {
+    width: 30%;
+    text-align: center;
+    font-size: 9px;
+    color: #767676;
+    vertical-align: middle;
+}
+
+.cont-page {
+    width: 15%;
+    text-align: right;
+    font-size: 9px;
+    color: #767676;
+    vertical-align: middle;
+}
+
+/* ===== ITEMS SECTION ===== */
+.items-section {
+    margin-bottom: 18px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e8e8e8;
+}
+
+.items-table thead {
+    background: #faf9f5;
+}
+
+.items-table th {
+    padding: 10px 8px;
+    font-size: 9px;
+    font-weight: 700;
+    color: #222222;
+    text-align: left;
+    border-bottom: 2px solid #e8e8e8;
+}
+
+.th-item {
+    width: 32%;
+}
+
+.th-listing {
+    width: 15%;
+}
+
+.th-personalization {
+    width: 18%;
+}
+
+.th-qty {
+    width: 8%;
+    text-align: center;
+}
+
+.th-price {
+    width: 12%;
+    text-align: right;
+}
+
+.th-total {
+    width: 15%;
+    text-align: right;
+}
+
+.item-row {
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.item-row:last-child {
+    border-bottom: none;
+}
+
+.item-row td {
+    padding: 10px 8px;
+    font-size: 9px;
+    color: #222222;
+    vertical-align: top;
+}
+
+.td-item {
+    vertical-align: top;
+}
+
+.item-name {
+    font-size: 10px;
+    color: #222222;
+    line-height: 1.4;
+    margin-bottom: 3px;
+}
+
+.item-variant {
+    font-size: 8px;
+    color: #767676;
+    font-style: italic;
+}
+
+.td-listing {
+    font-size: 8px;
+    color: #767676;
+    font-family: 'Courier New', monospace;
+}
+
+.td-personalization {
+    font-size: 8px;
+    color: #767676;
+    font-style: italic;
+}
+
+.td-qty {
+    text-align: center;
+    font-weight: 600;
+}
+
+.td-price {
+    text-align: right;
+}
+
+.td-total {
+    text-align: right;
+    font-weight: 700;
+}
+
+/* ===== SUMMARY SECTION ===== */
+.summary-section {
+    margin-bottom: 18px;
+}
+
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.summary-notes {
+    width: 50%;
+    vertical-align: top;
+    padding-right: 15px;
+}
+
+.summary-totals {
+    width: 50%;
+    vertical-align: top;
+}
+
+/* Note Box */
+.note-box {
+    background: #faf9f5;
+    border: 1px solid #e8e8e8;
+    border-left: 4px solid #f56400;
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.note-title {
+    font-size: 9px;
+    font-weight: 700;
+    color: #f56400;
+    margin-bottom: 6px;
+}
+
+.note-body {
+    font-size: 9px;
+    color: #555555;
+    line-height: 1.6;
+}
+
+/* Etzy Notice */
+.etsy-notice {
+    background: #fffbf7;
+    border: 1px solid #f9e5d8;
+    border-radius: 4px;
+    padding: 12px;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.notice-icon {
+    display: table-cell;
+    width: 24px;
+    font-size: 16px;
+    color: #f56400;
+    vertical-align: top;
+}
+
+.notice-text {
+    display: table-cell;
+    font-size: 8px;
+    color: #555555;
+    line-height: 1.6;
+    vertical-align: top;
+}
+
+/* Calculation Table */
+.calc-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e8e8e8;
+    background: #ffffff;
+    margin-bottom: 12px;
+}
+
+.calc-row td {
+    padding: 9px 12px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.calc-row:last-child td {
+    border-bottom: none;
+}
+
+.calc-key {
+    font-size: 10px;
+    color: #555555;
+    text-align: left;
+    width: 60%;
+}
+
+.calc-val {
+    font-size: 11px;
+    color: #222222;
+    font-weight: 600;
+    text-align: right;
+    width: 40%;
+}
+
+.discount-row .calc-val {
+    color: #b12704;
+}
+
+.total-row {
+    background: #faf9f5;
+}
+
+.total-row .calc-key {
+    font-size: 12px;
+    font-weight: 700;
+    color: #222222;
+}
+
+.total-row .calc-val {
+    font-size: 14px;
+    font-weight: 700;
+    color: #f56400;
+}
+
+/* Paid Badge */
+.paid-badge {
+    background: #d7f4d7;
+    border: 2px solid #5a9e5a;
+    border-radius: 4px;
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.badge-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: #5a9e5a;
+    color: #ffffff;
+    border-radius: 50%;
+    line-height: 24px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.badge-text {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #5a9e5a;
+    vertical-align: middle;
+}
+
+/* ===== FOOTER ===== */
+.page-footer {
+    margin-top: 20px;
+}
+
+.footer-divider {
+    height: 2px;
+    background: #f56400;  /* was: linear-gradient(to right, #f56400 0%, #f9e5d8 100%...) */
+    margin-bottom: 12px;
+}
+
+.footer-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.footer-left {
+    width: 60%;
+    vertical-align: middle;
+}
+
+.footer-right {
+    width: 40%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.footer-message {
+    font-size: 11px;
+    color: #222222;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.footer-contact {
+    font-size: 8px;
+    color: #767676;
+}
+
+.footer-etsy {
+    font-size: 16px;
+    font-weight: 700;
+    color: #f56400;
+    margin-bottom: 2px;
+}
+
+.footer-tagline {
+    font-size: 8px;
+    color: #767676;
+    font-style: italic;
+}
+
+/* ===== CONTINUATION FOOTER ===== */
+.cont-footer {
+    margin-top: 20px;
+}
+
+.cont-line {
+    height: 2px;
+    background: #f56400;  /* was: linear-gradient(to right, #f56400 0%, #f56400 30%, transparent 100...) */
+    margin-bottom: 8px;
+}
+
+.cont-text {
+    font-size: 9px;
+    color: #767676;
+    text-align: center;
+    font-style: italic;
+}
+
+/* ===== PRINT OPTIMIZATION ===== */
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .invoice-page {
+        padding: 25px;
+    }
+    
+    .etsy-banner {
+        margin: -25px -25px 15px -25px;
+        width: calc(100% + 50px);
+    }
+}

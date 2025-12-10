@@ -55,7 +55,7 @@ body {
 }
 
 .invoice-badge {
-    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    background: #059669;  /* was: linear-gradient(135deg, #059669 0%, #10b981 100%...) */
     color: #ffffff;
     padding: 10px 20px;
     border-radius: 6px;
@@ -80,11 +80,20 @@ body {
 
 /* Info Section */
 .info-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 20px;
+
     margin-bottom: 25px;
 }
+
+.info-section > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 
 .customer-card,
 .service-card {

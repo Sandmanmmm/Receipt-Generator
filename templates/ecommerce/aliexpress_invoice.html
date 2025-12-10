@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalMart Express Invoice</title>
+    <link rel="stylesheet" href="../css/aliexpress_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page %}
+        <!-- Main Header -->
+        <div class="header">
+            <div class="header-left">
+                <div class="platform-logo">GlobalMart<span class="logo-express">Express</span></div>
+            </div>
+            <div class="header-right">
+                <div class="company-info">
+                    <div class="company-name-header">{{ supplier_name|default('GlobalMart (China) Co., Ltd') }}</div>
+                    <div class="company-address">{{ supplier_address|default('969 West Wen Yi Road') }}</div>
+                    <div class="company-address">{{ supplier_city|default('Yu Hang District, Hangzhou 311121, China') }}</div>
+                    <div class="company-reg">Reg. number {{ supplier_reg_number|default('330100500024149') }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Invoice Title and Customer Info -->
+        <div class="invoice-title-section">
+            <div class="invoice-title-left">
+                <div class="invoice-title">INVOICE</div>
+                <div class="invoice-details">
+                    <div class="invoice-number">No: {{ invoice_number }}</div>
+                    <div class="invoice-date">Date: {{ invoice_date }}</div>
+                </div>
+            </div>
+            <div class="invoice-barcode">
+                <div class="barcode-placeholder">
+                    <img src="https://barcode.tec-it.com/barcode.ashx?data={{ invoice_number }}&code=Code128&dpi=96" alt="Barcode" class="barcode-img" />
+                </div>
+                <div class="barcode-number">{{ invoice_number }}</div>
+            </div>
+            <div class="customer-info-box">
+                <table class="customer-table">
+                    <tr>
+                        <td class="customer-label">Company name:</td>
+                        <td class="customer-value">{{ buyer_name|default('YOUR COMPANY NAME') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="customer-label">Address:</td>
+                        <td class="customer-value">{{ buyer_address|default('YOUR ADDRESS') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="customer-label"></td>
+                        <td class="customer-value">{{ buyer_city|default('YOUR CITY, STATE & ZIP') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="customer-label">Reg. number:</td>
+                        <td class="customer-value">{{ buyer_reg_number|default('YOUR REGISTRATION NUMBER') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="customer-label">VAT number:</td>
+                        <td class="customer-value">{{ buyer_vat_number|default('YOUR VAT NUMBER') }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Items Table Header -->
+        <table class="items-header-table">
+            <thead>
+                <tr>
+                    <th class="col-product">Product Details</th>
+                    <th class="col-price">Price Per Unit</th>
+                    <th class="col-tax">Tax</th>
+                    <th class="col-qty">Quantity</th>
+                    <th class="col-amount">Product Amount</th>
+                </tr>
+            </thead>
+        </table>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-logo">GlobalMart<span class="logo-express">Express</span></div>
+            <div class="cont-info">Invoice {{ invoice_number }} — Page {{ _current_page }} of {{ _total_pages }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Line Items -->
+        {% for item in items %}
+        <div class="item-card">
+            <div class="item-main-row">
+                <div class="item-image-col">
+                    {% if item.image_url %}
+                    <img src="{{ item.image_url }}" alt="{{ item.name }}" class="item-image" />
+                    {% else %}
+                    <div class="item-image-placeholder">
+                        <span class="placeholder-icon">📦</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="item-details-col">
+                    <div class="item-name">{{ item.name }}</div>
+                    {% if item.style %}
+                    <div class="item-style">Style: {{ item.style }}</div>
+                    {% endif %}
+                    {% if item.category %}
+                    <div class="item-category">Category: {{ item.category }}</div>
+                    {% endif %}
+                    {% if item.variant or item.color or item.size %}
+                    <div class="item-properties">Product properties: {{ item.variant|default('') }}{% if item.color %}, {{ item.color }}{% endif %}{% if item.size %}, {{ item.size }}{% endif %}</div>
+                    {% endif %}
+                </div>
+                <div class="item-price-col">{{ item.currency_symbol|default('$') }} {{ (item.unit_price|default(0))|float|round(2) }}</div>
+                <div class="item-tax-col">{{ item.currency_symbol|default('$') }} {{ (item.item_tax|default(0))|float|round(2) }}</div>
+                <div class="item-qty-col">{{ item.quantity }} item{% if item.quantity|int > 1 %}s{% endif %}</div>
+                <div class="item-amount-col">{{ item.currency_symbol|default('$') }} {{ (item.total|default(item.line_total)|default(0))|float|round(2) }}</div>
+            </div>
+            <div class="item-order-row">
+                <div class="order-info-left">
+                    <span class="order-label">Order ID:</span> <span class="order-value order-id">{{ item.order_id|default(invoice_number) }}</span>
+                    <span class="order-label">Order date & time:</span> <span class="order-value">{{ item.order_date|default(invoice_date) }}</span>
+                </div>
+                <div class="order-amounts">
+                    <div class="amount-cell">
+                        <div class="amount-label">Product Amount:</div>
+                        <div class="amount-value price-highlight">{{ item.currency_symbol|default('$') }} {{ (item.total|default(item.line_total)|default(0))|float|round(2) }}</div>
+                    </div>
+                    <div class="amount-cell">
+                        <div class="amount-label">Shipping Cost:</div>
+                        <div class="amount-value price-highlight">{{ item.currency_symbol|default('$') }} {{ (item.shipping_cost|default(0))|float|round(2) }}</div>
+                    </div>
+                    <div class="amount-cell">
+                        <div class="amount-label">Tax {{ item.tax_rate|default('0') }}%:</div>
+                        <div class="amount-value price-highlight">{{ item.currency_symbol|default('$') }} {{ (item.item_tax|default(0))|float|round(2) }}</div>
+                    </div>
+                    <div class="amount-cell">
+                        <div class="amount-label">Discount:</div>
+                        <div class="amount-value price-highlight">{{ item.currency_symbol|default('$') }} {{ (item.discount|default(0))|float|round(2) }}</div>
+                    </div>
+                    <div class="amount-cell">
+                        <div class="amount-label">Order Amount:</div>
+                        <div class="amount-value price-highlight">{{ item.currency_symbol|default('$') }} {{ (item.total|default(item.line_total)|default(0))|float|round(2) }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="item-store-row">
+                <span class="store-label">Store name:</span> <span class="store-value store-name">{{ item.store_name|default(supplier_name) }} Store</span>
+                <span class="store-label">Store number:</span> <span class="store-value">{{ item.store_number|default('4710006') }}</span>
+            </div>
+            <div class="item-payment-row">
+                <span class="payment-label">Payment Received:</span> <span class="payment-value payment-method">{{ item.payment_method|default('Credit/Debit card') }}</span>
+                <span class="payment-label">Order status:</span> <span class="payment-value status-completed">{{ item.order_status|default('Completed') }}</span>
+            </div>
+            <div class="item-shipping-row">
+                <span class="shipping-label">Ship to address:</span> <span class="shipping-value">{{ buyer_address|default('Your customer\'s address will be here') }}</span>
+                <span class="shipping-label">Phone number:</span> <span class="shipping-value">{{ buyer_phone|default('Customer\'s phone number') }}</span>
+                <span class="shipping-label">Tracking Number:</span> <span class="shipping-value tracking-number">{{ item.tracking_number|default('LP00594672553513') }}</span>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% if _is_last_page %}
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <table class="totals-table">
+                <tr>
+                    <td class="totals-label">Total:</td>
+                    <td class="totals-header">Product Total:</td>
+                    <td class="totals-header">Shipping Total:</td>
+                    <td class="totals-header">Tax Total:</td>
+                    <td class="totals-header">Discount Total:</td>
+                    <td class="totals-header">Order Total:</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="totals-value">{{ currency_symbol|default('$') }} {{ (subtotal|default(0))|float|round(2) }}</td>
+                    <td class="totals-value">{{ currency_symbol|default('$') }} {{ (shipping_total|default(shipping_cost)|default(0))|float|round(2) }}</td>
+                    <td class="totals-value price-highlight">{{ currency_symbol|default('$') }} {{ (tax_amount|default(0))|float|round(2) }}</td>
+                    <td class="totals-value price-highlight">{{ currency_symbol|default('$') }} {{ (discount_total|default(0))|float|round(2) }}</td>
+                    <td class="totals-value">{{ currency_symbol|default('$') }} {{ (total_amount|default(total)|default(0))|float|round(2) }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="footer-note">Thank you for shopping with GlobalMart Express!</div>
+            <div class="footer-support">For support, contact: support@globalmartexpress.com</div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-footer-text">Continued on next page... (Page {{ _current_page }} of {{ _total_pages }})</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

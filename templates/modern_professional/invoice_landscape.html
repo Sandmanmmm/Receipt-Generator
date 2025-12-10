@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice #{{ invoice_number }}</title>
+    <title>Invoice #{{ invoice_number }}{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <style>
         @page {
             size: landscape;
@@ -274,7 +274,8 @@
 </head>
 <body>
     <div class="invoice-container">
-        <!-- Header -->
+        {% if _is_first_page|default(true) %}
+        <!-- Full Header - First Page Only -->
         <div class="invoice-header">
             <div class="company-info">
                 <h1 class="company-name">{{ company_name }}</h1>
@@ -292,12 +293,25 @@
                 {% endif %}
             </div>
         </div>
+        {% else %}
+        <!-- Compact Header - Continuation Pages -->
+        <div style="border-bottom: 2px solid {{ brand_primary_color|default('#059669') }}; padding: 10px 0; margin-bottom: 15px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <strong style="font-size: 16px; color: {{ brand_primary_color|default('#059669') }};">{{ company_name }}</strong>
+                    <span style="color: #666; margin-left: 15px;">Invoice #{{ invoice_number }} (Continued)</span>
+                </div>
+                <div style="color: #666; font-size: 11px;">Page {{ _page_number }} of {{ _total_pages }}</div>
+            </div>
+        </div>
+        {% endif %}
 
         <!-- Two-column layout -->
         <div class="content-layout">
             <!-- Left Column: Billing + Items -->
             <div class="left-column">
-                <!-- Billing Section -->
+                {% if _is_first_page|default(true) %}
+                <!-- Billing Section - First Page Only -->
                 <div class="billing-section">
                     <div class="bill-to">
                         <h3 class="section-title">Bill To</h3>
@@ -319,6 +333,7 @@
                     </div>
                     {% endif %}
                 </div>
+                {% endif %}
 
                 <!-- Items Table -->
                 <table class="items-table">
@@ -340,51 +355,54 @@
                                 {% endif %}
                             </td>
                             <td style="text-align: center;">{{ item.quantity }}</td>
-                            <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price) }}</td>
-                            <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.amount) }}</td>
+                            <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                            <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.amount|to_float) }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
 
+                {% if _is_last_page|default(true) %}
                 {% if notes %}
                 <div class="notes-section">
                     <h3 class="section-title">Notes</h3>
                     <p class="notes-text">{{ notes }}</p>
                 </div>
                 {% endif %}
+                {% endif %}
             </div>
 
             <!-- Right Column: Totals + Payment -->
+            {% if _is_last_page|default(true) %}
             <div class="right-column">
                 <!-- Totals -->
                 <div class="totals-section">
                     <h3 class="section-title">Summary</h3>
                     <div class="total-row">
                         <span>Subtotal:</span>
-                        <span>{{ currency_symbol }}{{ "%.2f"|format(subtotal) }}</span>
+                        <span>{{ currency_symbol }}{{ "%.2f"|format(subtotal|to_float) }}</span>
                     </div>
-                    {% if discount and discount > 0 %}
+                    {% if discount and (discount|to_float) > 0 %}
                     <div class="total-row">
                         <span>Discount:</span>
-                        <span>-{{ currency_symbol }}{{ "%.2f"|format(discount) }}</span>
+                        <span>-{{ currency_symbol }}{{ "%.2f"|format(discount|to_float) }}</span>
                     </div>
                     {% endif %}
-                    {% if tax and tax > 0 %}
+                    {% if tax and (tax|to_float) > 0 %}
                     <div class="total-row">
                         <span>Tax:</span>
-                        <span>{{ currency_symbol }}{{ "%.2f"|format(tax) }}</span>
+                        <span>{{ currency_symbol }}{{ "%.2f"|format(tax|to_float) }}</span>
                     </div>
                     {% endif %}
-                    {% if shipping and shipping > 0 %}
+                    {% if shipping and (shipping|to_float) > 0 %}
                     <div class="total-row">
                         <span>Shipping:</span>
-                        <span>{{ currency_symbol }}{{ "%.2f"|format(shipping) }}</span>
+                        <span>{{ currency_symbol }}{{ "%.2f"|format(shipping|to_float) }}</span>
                     </div>
                     {% endif %}
                     <div class="total-row grand-total">
                         <span>TOTAL:</span>
-                        <span>{{ currency_symbol }}{{ "%.2f"|format(total) }}</span>
+                        <span>{{ currency_symbol }}{{ "%.2f"|format(total|to_float) }}</span>
                     </div>
                 </div>
 
@@ -409,12 +427,20 @@
                 </div>
                 {% endif %}
             </div>
+            {% else %}
+            <!-- Continuation Footer - Not Last Page -->
+            <div style="text-align: right; color: #666; font-style: italic; margin-top: 20px;">
+                Continued on page {{ (_page_number|default(1)) + 1 }}...
+            </div>
+            {% endif %}
         </div>
 
-        <!-- Footer -->
+        {% if _is_last_page|default(true) %}
+        <!-- Footer - Last Page Only -->
         <div class="invoice-footer">
             Thank you for your business! • {{ company_name }} • {{ company_email }}
         </div>
+        {% endif %}
     </div>
 </body>
 </html>

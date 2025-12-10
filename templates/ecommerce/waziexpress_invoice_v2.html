@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaziExpress Invoice</title>
+    <link rel="stylesheet" href="../css/waziexpress_invoice_v2.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Header -->
+        <table class="header-table">
+            <tr>
+                <td class="header-left">
+                    {% if barcode_base64 %}
+                    <img src="{{ barcode_base64 }}" alt="WaziExpress" class="company-logo" />
+                    {% else %}
+                    <div class="logo-text">
+                        <span class="logo-wazi">Wazi</span><span class="logo-express">Express</span>
+                    </div>
+                    {% endif %}
+                </td>
+                <td class="header-right">
+                    <div class="company-info">{{ company_name|default('Waliwaba (China) Co., Ltd') }}</div>
+                    <div class="company-info">{{ company_address|default('969 West Wen Yi Road') }}</div>
+                    <div class="company-info">{{ company_city|default('Yu Hang District, Hangzhou 311121, China') }}</div>
+                    <div class="company-info">Reg. number {{ company_reg|default('330100500024149') }}</div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Invoice Title Section -->
+        <table class="invoice-title-table">
+            <tr>
+                <td class="title-left">
+                    <div class="invoice-title">INVOICE</div>
+                    <div class="invoice-meta">No {{ invoice_number|default('8000308539980656') }}</div>
+                    <div class="invoice-meta">Date: {{ invoice_date|default('2019-08-20') }}</div>
+                </td>
+                <td class="title-right">
+                    <div class="customer-box">
+                        <div class="customer-line"><strong>Company name:</strong> {{ buyer_company|default('Customer Company Name') }}</div>
+                        <div class="customer-line"><strong>Address:</strong> {{ buyer_address|default('Customer Address') }}</div>
+                        <div class="customer-line">{{ buyer_city|default('City, Country') }}</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Store Bar -->
+        <div class="store-bar">
+            Store: {{ store_name|default('Official Store') }}
+        </div>
+
+        <!-- Products Table Header -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-product">Product Details</th>
+                    <th class="col-price">Price Per Unit</th>
+                    <th class="col-qty">Quantity</th>
+                    <th class="col-total">Order Total</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-left">
+                <span class="logo-wazi-sm">Wazi</span><span class="logo-express-sm">Express</span>
+            </div>
+            <div class="cont-right">Invoice #{{ invoice_number }} (Page {{ _page_number }} of {{ _total_pages }})</div>
+        </div>
+
+        <table class="items-table continuation-table">
+            <thead>
+                <tr>
+                    <th class="col-product">Product Details</th>
+                    <th class="col-price">Price Per Unit</th>
+                    <th class="col-qty">Quantity</th>
+                    <th class="col-total">Order Total</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% endif %}
+
+            <!-- Line Items -->
+            {% for item in items %}
+            <tr class="item-row">
+                <td class="item-details">
+                    <table class="item-inner">
+                        <tr>
+                            <td class="item-image-cell">
+                                {% if item.image %}
+                                <img src="{{ item.image }}" alt="{{ item.name|default(item.description) }}" class="item-image" />
+                                {% else %}
+                                <div class="item-image-placeholder"></div>
+                                {% endif %}
+                            </td>
+                            <td class="item-text-cell">
+                                <div class="item-name">{{ item.name|default(item.description)|default('Product') }}</div>
+                                {% if item.color %}
+                                <div class="item-attr">Emitting Color: <span class="color-box" style="background-color: {{ item.color_hex|default('#000') }};"></span> {{ item.color }}</div>
+                                {% endif %}
+                                {% if item.wattage or item.variant %}
+                                <div class="item-attr">{{ item.wattage|default(item.variant)|default('') }}</div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td class="item-price">
+                    {% if item.unit_price is defined and item.unit_price is not none %}
+                        {% if item.unit_price is string %}
+                            {{ item.unit_price }}
+                        {% else %}
+                            € {{ "%.2f"|format(item.unit_price|to_float) }}
+                        {% endif %}
+                    {% elif item.rate is defined and item.rate is not none %}
+                        {% if item.rate is string %}
+                            {{ item.rate }}
+                        {% else %}
+                            € {{ "%.2f"|format(item.rate) }}
+                        {% endif %}
+                    {% else %}
+                        € 0.00
+                    {% endif %}
+                </td>
+                <td class="item-qty">{{ item.quantity|default(1) }} piece</td>
+                <td class="item-total">
+                    {% if item.total is defined and item.total is not none %}
+                        {% if item.total is string %}
+                            {{ item.total }}
+                        {% else %}
+                            € {{ "%.2f"|format(item.total|to_float) }}
+                        {% endif %}
+                    {% elif item.amount is defined and item.amount is not none %}
+                        {% if item.amount is string %}
+                            {{ item.amount }}
+                        {% else %}
+                            € {{ "%.2f"|format(item.amount|to_float) }}
+                        {% endif %}
+                    {% else %}
+                        € 0.00
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Total Amount Section -->
+        <div class="section-header">Total Amount</div>
+        <table class="totals-table">
+            <thead>
+                <tr>
+                    <th>Price</th>
+                    <th>Shipping Cost</th>
+                    <th>Adjust Price</th>
+                    <th>Discount</th>
+                    <th>Total Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>EUR € {{ subtotal|default('5.09') }}</td>
+                    <td>EUR € {{ shipping_cost|default('0.00') }}</td>
+                    <td>EUR € {{ adjust_price|default('0.00') }}</td>
+                    <td>EUR € {{ discount|default('0.00') }}</td>
+                    <td>EUR € {{ total_amount|default('5.09') }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Payment Received Section -->
+        <div class="section-header">Payment Received:</div>
+        <table class="payment-table">
+            <thead>
+                <tr>
+                    <th>Total</th>
+                    <th>Received</th>
+                    <th>Payment Method</th>
+                    <th>Date Received</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>EUR € {{ total_amount|default('5.09') }}</td>
+                    <td>EUR € {{ payment_received|default(total_amount)|default('5.09') }}</td>
+                    <td>{{ payment_method|default('Credit/Debit Card') }}</td>
+                    <td>{{ payment_date|default('2019-08-20 13:53') }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Logistics Information Section -->
+        <div class="section-header">Logistics Information:</div>
+        <table class="logistics-table">
+            <thead>
+                <tr>
+                    <th class="col-shipping">International Shipping Company</th>
+                    <th class="col-tracking">Tracking Number</th>
+                    <th class="col-remarks">Remarks</th>
+                    <th class="col-details">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ shipping_company|default('WaziExpress Standard Shipping') }}</td>
+                    <td>{{ tracking_number|default('CECA02019082102540521') }}</td>
+                    <td>{{ shipping_remarks|default('') }}</td>
+                    <td class="details-cell">
+                        <div class="details-box">
+                            The seller is using WaziExpress standard shipping. The tracking information will be displayed here within 5-7 days after seller has sent out the package. You can also go to <span class="link-text">17Track</span> to check the tracking information.
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Seller Signature -->
+        <div class="seller-signature">
+            Seller sign: <span class="seller-name">{{ seller_sign|default(store_name)|default('Official Store') }}</span>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            Page {{ _page_number }} of {{ _total_pages }} — Continued on next page...
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

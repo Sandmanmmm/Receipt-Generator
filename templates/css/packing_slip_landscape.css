@@ -1,0 +1,514 @@
+/* LANDSCAPE PACKING SLIP STYLESHEET */
+/* Designed for 11" x 8.5" (landscape Letter) format */
+/* Optimized for wide horizontal layout with more columns */
+
+/* CRITICAL: Container constraint to prevent width corruption */
+.invoice-page {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+/* BASE STYLES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    line-height: 1.3;
+    color: #000000;
+    background: #ffffff;
+}
+
+/* LAYOUT TABLES */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* CRITICAL: Prevents width corruption */
+}
+
+td {
+    word-wrap: break-word;
+    max-width: 0;
+}
+
+/* HEADER SECTION */
+.header-section {
+    margin-bottom: 15px;
+    border-bottom: 3px solid #000000;
+    padding-bottom: 12px;
+}
+
+.header-table {
+    table-layout: fixed;
+}
+
+.header-table td {
+    vertical-align: top;
+    padding: 5px;
+}
+
+.logo-cell {
+    width: 15%;
+}
+
+.company-logo {
+    max-width: 100px;
+    max-height: 45px;
+}
+
+.company-cell {
+    width: 25%;
+}
+
+.company-name {
+    font-size: 14pt;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.company-address {
+    font-size: 8pt;
+    color: #333333;
+    line-height: 1.2;
+}
+
+.title-cell {
+    width: 30%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.title-cell h1 {
+    font-size: 20pt;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin: 0;
+}
+
+.info-cell {
+    width: 30%;
+}
+
+.info-table {
+    border: 2px solid #000000;
+    background: #f5f5f5;
+    table-layout: fixed;
+}
+
+.info-table td {
+    padding: 5px 8px;
+    font-size: 8pt;
+}
+
+.info-label {
+    width: 45%;
+    font-weight: bold;
+    text-align: right;
+}
+
+.info-value {
+    width: 55%;
+    text-align: left;
+}
+
+.info-value.tracking {
+    font-family: 'Courier New', monospace;
+    font-size: 7pt;
+}
+
+/* DETAILS TABLE (3-column: Ship To, Ship From, Shipping Info) */
+.details-table {
+    margin-bottom: 15px;
+    border: 1px solid #cccccc;
+    table-layout: fixed;
+}
+
+.details-table td {
+    width: 33.33%;
+    padding: 10px;
+    vertical-align: top;
+    border-right: 1px solid #cccccc;
+}
+
+.details-table td:last-child {
+    border-right: none;
+}
+
+.detail-section {
+    background: #fafafa;
+}
+
+.section-title {
+    font-size: 9pt;
+    font-weight: bold;
+    color: #000000;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 5px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.detail-content {
+    font-size: 8pt;
+    line-height: 1.4;
+}
+
+.name-line {
+    font-size: 10pt;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.address-line {
+    margin-bottom: 2px;
+}
+
+.contact-line {
+    color: #666666;
+    margin-top: 5px;
+}
+
+.shipping-line {
+    margin-bottom: 4px;
+}
+
+/* CONTINUATION HEADER */
+.continuation-header {
+    margin-bottom: 12px;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 8px;
+}
+
+.continuation-table {
+    table-layout: fixed;
+}
+
+.continuation-table td {
+    font-size: 9pt;
+    padding: 3px;
+}
+
+.cont-left {
+    width: 30%;
+    text-align: left;
+    font-weight: bold;
+}
+
+.cont-center {
+    width: 40%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+.cont-right {
+    width: 30%;
+    text-align: right;
+    color: #666666;
+}
+
+/* ITEMS TABLE */
+.items-table {
+    margin-bottom: 15px;
+    border: 2px solid #000000;
+    table-layout: fixed; /* CRITICAL */
+}
+
+.items-table thead {
+    background: #000000;
+    color: #ffffff;
+}
+
+.items-table th {
+    padding: 8px 6px;
+    font-size: 8pt;
+    font-weight: bold;
+    text-align: left;
+    border-right: 1px solid #666666;
+}
+
+.items-table th:last-child {
+    border-right: none;
+}
+
+/* Column widths for landscape (more horizontal space) */
+.col-line {
+    width: 5%;
+    text-align: center;
+}
+
+.col-sku {
+    width: 13%;
+}
+
+.col-description {
+    width: 35%;
+}
+
+.col-qty {
+    width: 7%;
+    text-align: center;
+}
+
+.col-bin {
+    width: 12%;
+    text-align: center;
+}
+
+.col-notes {
+    width: 20%;
+}
+
+.col-packed {
+    width: 8%;
+    text-align: center;
+}
+
+/* Adjust description width when no BIN column */
+.items-table thead tr th:nth-child(3):nth-last-child(4) {
+    width: 47%;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #cccccc;
+    background: #ffffff;
+}
+
+.items-table tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.items-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.items-table td {
+    padding: 8px 6px;
+    font-size: 8pt;
+    vertical-align: top;
+}
+
+.line-number {
+    text-align: center;
+    font-weight: bold;
+    color: #666666;
+}
+
+.sku-main {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 8pt;
+}
+
+.upc-sub {
+    font-family: 'Courier New', monospace;
+    font-size: 7pt;
+    color: #999999;
+    margin-top: 2px;
+}
+
+.item-description {
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.item-variant {
+    font-size: 7pt;
+    color: #666666;
+    margin-top: 2px;
+}
+
+.qty-cell {
+    text-align: center;
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+.bin-cell {
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    color: #333333;
+}
+
+.notes-cell {
+    font-size: 7pt;
+    color: #666666;
+    font-style: italic;
+}
+
+.packed-cell {
+    text-align: center;
+    font-size: 18pt;
+    color: #cccccc;
+}
+
+/* BOTTOM SECTION (Summary + Notes side by side) */
+.bottom-section {
+    margin-bottom: 15px;
+    table-layout: fixed;
+}
+
+.bottom-section td {
+    vertical-align: top;
+    padding: 0 5px;
+}
+
+.summary-cell {
+    width: 35%;
+}
+
+.notes-section-cell {
+    width: 65%;
+}
+
+/* SUMMARY BOX */
+.summary-box {
+    border: 2px solid #000000;
+    background: #f0f0f0;
+    padding: 10px;
+}
+
+.summary-title {
+    font-size: 9pt;
+    font-weight: bold;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #666666;
+    padding-bottom: 5px;
+}
+
+.summary-table {
+    table-layout: fixed;
+}
+
+.summary-table td {
+    padding: 4px 8px;
+    font-size: 9pt;
+}
+
+.sum-label {
+    width: 60%;
+    font-weight: bold;
+    text-align: right;
+}
+
+.sum-value {
+    width: 40%;
+    text-align: left;
+    font-weight: bold;
+}
+
+/* NOTES BOXES */
+.notes-box {
+    border: 1px solid #cccccc;
+    padding: 8px;
+    margin-bottom: 8px;
+    background: #ffffff;
+}
+
+.gift-box {
+    border-left: 3px solid #f59e0b;
+    background: #fffbeb;
+}
+
+.order-box {
+    border-left: 3px solid #3b82f6;
+    background: #eff6ff;
+}
+
+.notes-title {
+    font-size: 8pt;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.notes-content {
+    font-size: 8pt;
+    line-height: 1.4;
+}
+
+/* RETURN POLICY */
+.return-policy {
+    border: 2px solid #000000;
+    padding: 10px;
+    margin-bottom: 12px;
+    background: #f5f5f5;
+}
+
+.policy-title {
+    font-size: 10pt;
+    font-weight: bold;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.policy-content {
+    font-size: 8pt;
+}
+
+.policy-text {
+    margin-bottom: 6px;
+    line-height: 1.4;
+}
+
+.policy-contact {
+    font-weight: bold;
+    color: #333333;
+}
+
+/* FOOTER */
+.footer-section {
+    display: table;
+    width: 100%;
+    border-top: 2px solid #000000;
+    padding-top: 8px;
+    font-size: 8pt;
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+    display: table-cell;
+    padding: 3px;
+}
+
+.footer-left {
+    width: 33.33%;
+    text-align: left;
+    font-weight: bold;
+}
+
+.footer-center {
+    width: 33.33%;
+    text-align: center;
+    color: #666666;
+    font-style: italic;
+}
+
+.footer-right {
+    width: 33.33%;
+    text-align: right;
+    color: #666666;
+}
+
+/* PRINT OPTIMIZATION */
+@media print {
+    body {
+        margin: 0;
+        padding: 10mm;
+    }
+    
+    .invoice-page {
+        page-break-after: always;
+    }
+    
+    .invoice-page:last-child {
+        page-break-after: auto;
+    }
+}

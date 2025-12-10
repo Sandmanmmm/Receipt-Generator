@@ -1,0 +1,669 @@
+/* RMA Form Styles - Green Theme (Return Authorization) */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11pt;
+    line-height: 1.4;
+    color: #1f2937;
+    background: white;
+}
+
+.page {
+    width: 816px; /* Letter width at 96 DPI */
+    margin: 0 auto;
+    padding: 30px;
+    background: white;
+}
+
+/* Header Styles */
+.header {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #10b981;
+}
+
+.header-content {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.logo-section {
+    display: table-cell;
+    width: 30%;
+    vertical-align: middle;
+}
+
+.logo {
+    max-width: 150px;
+    max-height: 60px;
+}
+
+.logo-placeholder {
+    width: 150px;
+    height: 60px;
+    background: #10b981;  /* was: linear-gradient(135deg, #10b981 0%, #059669 100%...) */
+    color: white;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 20pt;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+.title-section {
+    display: table-cell;
+    width: 70%;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.title-section h1 {
+    font-size: 28pt;
+    font-weight: bold;
+    color: #10b981;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.badge {
+    display: inline-block;
+    background: #10b981;  /* was: linear-gradient(135deg, #10b981 0%, #059669 100%...) */
+    color: white;
+    padding: 6px 20px;
+    font-size: 10pt;
+    font-weight: bold;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+}
+
+/* Reference Bar */
+.reference-bar {
+    background: #f0fdf4;  /* was: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%...) */
+    border: 2px solid #10b981;
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.ref-item {
+    display: table-cell;
+    width: 25%;
+    vertical-align: middle;
+    padding: 0 10px;
+}
+
+.ref-label {
+    display: block;
+    font-size: 9pt;
+    color: #059669;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.ref-value {
+    display: block;
+    font-size: 11pt;
+    color: #1f2937;
+    font-weight: normal;
+}
+
+.ref-value.rma-number {
+    font-weight: bold;
+    color: #10b981;
+    font-size: 12pt;
+}
+
+.ref-value.expiration {
+    font-weight: bold;
+    color: #dc2626;
+}
+
+/* Party Information */
+.parties-container {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: separate;
+    border-spacing: 15px 0;
+}
+
+.party-box {
+    display: table-cell;
+    width: 50%;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.party-header {
+    background: #10b981;  /* was: linear-gradient(135deg, #10b981 0%, #059669 100%...) */
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 10pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.party-content {
+    padding: 15px;
+    font-size: 10pt;
+    line-height: 1.6;
+}
+
+.party-content strong {
+    font-size: 11pt;
+    color: #059669;
+}
+
+/* Return Reason Section */
+.reason-section {
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+    border-left: 6px solid #f59e0b;
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+}
+
+.reason-header {
+    font-weight: bold;
+    color: #b45309;
+    font-size: 10pt;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.reason-content {
+    font-size: 11pt;
+    color: #78350f;
+}
+
+.reason-content strong {
+    font-size: 12pt;
+}
+
+.reason-notes {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #fbbf24;
+    font-style: italic;
+}
+
+/* Authorization Status Bar */
+.authorization-bar {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    background: #f0fdf4;  /* was: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%...) */
+    border: 2px solid #10b981;
+    border-radius: 8px;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+}
+
+.auth-label {
+    display: table-cell;
+    width: 20%;
+    font-weight: bold;
+    color: #059669;
+    font-size: 10pt;
+    vertical-align: middle;
+}
+
+.auth-status {
+    display: table-cell;
+    width: 20%;
+    font-weight: bold;
+    font-size: 11pt;
+    padding: 4px 12px;
+    border-radius: 4px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.auth-status.status-approved {
+    background: #10b981;
+    color: white;
+}
+
+.auth-status.status-pending {
+    background: #fbbf24;
+    color: #78350f;
+}
+
+.auth-status.status-denied {
+    background: #dc2626;
+    color: white;
+}
+
+.auth-by,
+.auth-date {
+    display: table-cell;
+    width: 30%;
+    font-size: 10pt;
+    color: #1f2937;
+    vertical-align: middle;
+    padding-left: 15px;
+}
+
+/* Continuation Header */
+.continuation-header {
+    background: #10b981;  /* was: linear-gradient(135deg, #10b981 0%, #059669 100%...) */
+    color: white;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.continuation-title {
+    font-size: 14pt;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.continuation-info {
+    font-size: 10pt;
+}
+
+.continuation-info span {
+    margin-right: 20px;
+}
+
+.continuation-info strong {
+    font-weight: bold;
+}
+
+/* Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 10pt;
+}
+
+.items-table thead {
+    background: #10b981;  /* was: linear-gradient(135deg, #10b981 0%, #059669 100%...) */
+    color: white;
+}
+
+.items-table th {
+    padding: 10px 8px;
+    text-align: left;
+    font-weight: bold;
+    border: 1px solid #059669;
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.items-table td {
+    padding: 10px 8px;
+    border: 1px solid #d1d5db;
+    vertical-align: middle;
+}
+
+.items-table tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+.items-table tbody tr:hover {
+    background-color: #f0fdf4;
+}
+
+/* Column Widths */
+.col-line {
+    width: 5%;
+    text-align: center;
+}
+
+.col-description {
+    width: 25%;
+}
+
+.col-sku {
+    width: 12%;
+    font-family: 'Courier New', monospace;
+}
+
+.col-qty,
+.col-qty-return {
+    width: 10%;
+    text-align: center;
+}
+
+.col-price {
+    width: 10%;
+    text-align: right;
+}
+
+.col-condition {
+    width: 12%;
+    text-align: center;
+}
+
+.col-amount {
+    width: 12%;
+    text-align: right;
+    font-weight: bold;
+}
+
+.return-amount {
+    color: #10b981;
+    font-size: 11pt;
+}
+
+/* Condition Badges */
+.condition-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 9pt;
+    font-weight: bold;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.condition-badge.condition-new {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #10b981;
+}
+
+.condition-badge.condition-used {
+    background: #e5e7eb;
+    color: #374151;
+    border: 1px solid #9ca3af;
+}
+
+.condition-badge.condition-defective {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #dc2626;
+}
+
+.condition-badge.condition-damaged {
+    background: #fed7aa;
+    color: #9a3412;
+    border: 1px solid #f97316;
+}
+
+/* Totals Section */
+.totals-section {
+    margin-bottom: 20px;
+}
+
+.totals-grid {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 15px 0;
+}
+
+.totals-card,
+.disposition-card {
+    display: table-cell;
+    vertical-align: top;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.totals-card {
+    width: 45%;
+}
+
+.disposition-card {
+    width: 55%;
+}
+
+/* Totals Table */
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-table tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.totals-table tr:last-child {
+    border-bottom: none;
+}
+
+.totals-table td {
+    padding: 12px 20px;
+    font-size: 11pt;
+}
+
+.total-label {
+    text-align: left;
+    color: #6b7280;
+    width: 60%;
+}
+
+.total-value {
+    text-align: right;
+    font-weight: bold;
+    color: #1f2937;
+    width: 40%;
+}
+
+.total-row {
+    background: #f0fdf4;  /* was: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%...) */
+}
+
+.total-row .total-label {
+    color: #059669;
+    font-weight: bold;
+    font-size: 12pt;
+}
+
+.total-row .total-value.return-total {
+    color: #10b981;
+    font-size: 14pt;
+}
+
+/* Disposition Card */
+.disposition-header {
+    background: #10b981;  /* was: linear-gradient(135deg, #10b981 0%, #059669 100%...) */
+    color: white;
+    padding: 12px 20px;
+    font-weight: bold;
+    font-size: 11pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.disposition-content {
+    padding: 15px 20px;
+}
+
+.disposition-option {
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e7eb;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.disposition-option:last-child {
+    border-bottom: none;
+}
+
+.disposition-option.selected {
+    background: #f0fdf4;
+    padding: 12px;
+    border-radius: 6px;
+    border: 2px solid #10b981;
+}
+
+.disposition-icon {
+    display: table-cell;
+    width: 30px;
+    font-size: 14pt;
+    color: #10b981;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.disposition-bullet {
+    display: table-cell;
+    width: 30px;
+    font-size: 14pt;
+    color: #9ca3af;
+    vertical-align: middle;
+}
+
+.disposition-text {
+    display: table-cell;
+    font-size: 11pt;
+    font-weight: bold;
+    color: #1f2937;
+    vertical-align: middle;
+}
+
+.disposition-option.selected .disposition-text {
+    color: #059669;
+}
+
+/* Instructions Section */
+.instructions-section {
+    background: #f9fafb;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.instructions-header {
+    background: #6b7280;  /* was: linear-gradient(135deg, #6b7280 0%, #4b5563 100%...) */
+    color: white;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 11pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.instructions-content {
+    padding: 15px 20px;
+}
+
+.instruction-item {
+    margin-bottom: 12px;
+    font-size: 10pt;
+    line-height: 1.6;
+}
+
+.instruction-item:last-child {
+    margin-bottom: 0;
+}
+
+.instruction-item strong {
+    color: #374151;
+}
+
+.instruction-item.shipping-paid {
+    background: #dbeafe;
+    border: 2px solid #3b82f6;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-top: 15px;
+    color: #1e40af;
+}
+
+.instruction-item.shipping-paid strong {
+    color: #1e3a8a;
+}
+
+/* Notes Section */
+.notes-section {
+    background: white;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.notes-header {
+    background: #10b981;  /* was: linear-gradient(135deg, #10b981 0%, #059669 100%...) */
+    color: white;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 11pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.notes-content {
+    padding: 15px 20px;
+    font-size: 10pt;
+    line-height: 1.6;
+    color: #1f2937;
+}
+
+/* Footer */
+.footer {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 2px solid #10b981;
+}
+
+.footer-content {
+    font-size: 9pt;
+}
+
+.footer-info {
+    background: #f0fdf4;
+    padding: 12px 15px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    color: #065f46;
+    line-height: 1.5;
+    border: 1px solid #86efac;
+}
+
+.footer-info strong {
+    color: #047857;
+}
+
+.footer-meta {
+    text-align: center;
+    color: #6b7280;
+}
+
+.footer-meta span {
+    margin: 0 8px;
+}
+
+/* Print Optimization */
+@media print {
+    .page {
+        margin: 0;
+        padding: 30px;
+    }
+    
+    .items-table {
+        page-break-inside: avoid;
+    }
+    
+    .items-table tbody tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+}

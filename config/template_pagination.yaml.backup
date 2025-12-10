@@ -1,0 +1,166 @@
+# Template Pagination Configuration
+# Defines how each template handles multipage rendering
+# Used by both test scripts and production dataset generation
+
+# Modern Professional Invoices - uniform item distribution
+modern_professional/invoice_a4.html:
+  supports_multipage: false
+  
+modern_professional/invoice_bold.html:
+  supports_multipage: false
+  
+modern_professional/invoice_compact.html:
+  supports_multipage: false
+  
+modern_professional/invoice_compact_multipage.html:
+  supports_multipage: true
+  first_page_items: 12
+  continuation_items_per_page: 12
+  last_page_items: 12
+  base_height: 900
+  item_height: 50
+  footer_height: 400
+  
+modern_professional/invoice_elegant.html:
+  supports_multipage: false
+  
+modern_professional/invoice_ecommerce.html:
+  supports_multipage: false
+  
+modern_professional/invoice_minimal.html:
+  supports_multipage: false
+  
+modern_professional/invoice_minimal_multipage.html:
+  supports_multipage: true
+  first_page_items: 12
+  continuation_items_per_page: 12
+  last_page_items: 12
+  base_height: 900
+  item_height: 50
+  footer_height: 400
+  
+modern_professional/invoice_sidebar.html:
+  supports_multipage: false
+
+# Classic Invoices
+classic/invoice.html:
+  supports_multipage: false
+  
+modern/invoice.html:
+  supports_multipage: false
+
+# Online Order Templates - complex cards with varied first-page counts
+retail/online_order_electronics.html:
+  supports_multipage: true
+  first_page_items: 3          # Large header with status timeline
+  continuation_items_per_page: 5
+  last_page_items: 3           # Reserve space for totals
+  base_height: 900             # Header + timeline + customer panels
+  item_height: 180             # Large product cards with specs
+  footer_height: 500
+  
+retail/online_order_fashion.html:
+  supports_multipage: true
+  first_page_items: 3
+  continuation_items_per_page: 5
+  last_page_items: 3
+  base_height: 900
+  item_height: 180
+  footer_height: 500
+  
+retail/online_order_digital.html:
+  supports_multipage: true
+  first_page_items: 2          # Very large cards with download info
+  continuation_items_per_page: 3
+  last_page_items: 2
+  base_height: 500
+  item_height: 320             # Huge cards with licenses, keys
+  footer_height: 500
+  
+retail/online_order_wholesale.html:
+  supports_multipage: true
+  first_page_items: 3
+  continuation_items_per_page: 7
+  last_page_items: 6
+  base_height: 700
+  item_height: 100
+  footer_height: 500
+  
+retail/online_order_marketplace.html:
+  supports_multipage: true
+  first_page_items: 3
+  continuation_items_per_page: 10
+  last_page_items: 8
+  base_height: 500
+  item_height: 80
+  footer_height: 500
+  
+retail/online_order_grocery.html:
+  supports_multipage: true
+  first_page_items: 5
+  continuation_items_per_page: 10
+  last_page_items: 8
+  base_height: 500
+  item_height: 80
+  footer_height: 500
+  
+retail/online_order_home_improvement.html:
+  supports_multipage: true
+  first_page_items: 5
+  continuation_items_per_page: 10
+  last_page_items: 8
+  base_height: 500
+  item_height: 80
+  footer_height: 500
+  
+retail/online_order_invoice.html:
+  supports_multipage: true
+  first_page_items: 5
+  continuation_items_per_page: 10
+  last_page_items: 8
+  base_height: 500
+  item_height: 80
+  footer_height: 500
+
+# Consumer Service Invoices
+retail/consumer_service_invoice.html:
+  supports_multipage: true
+  first_page_items: 5
+  continuation_items_per_page: 10
+  last_page_items: 8
+  base_height: 500
+  item_height: 80
+  footer_height: 500
+
+# POS Receipts - text-based, use SimplePNGRenderer
+retail/pos_receipt.html:
+  supports_multipage: true
+  renderer: simple  # Uses SimplePNGRenderer, not HTMLToPNGRenderer
+  
+retail/pos_receipt_dense.html:
+  supports_multipage: true
+  renderer: simple
+  
+retail/pos_receipt_fuel.html:
+  supports_multipage: true
+  renderer: simple
+  
+retail/pos_receipt_pharmacy.html:
+  supports_multipage: true
+  renderer: simple
+  
+retail/pos_receipt_premium.html:
+  supports_multipage: true
+  renderer: simple
+  
+retail/pos_receipt_qsr.html:
+  supports_multipage: true
+  renderer: simple
+  
+retail/pos_receipt_wholesale.html:
+  supports_multipage: true
+  renderer: simple
+  
+retail/pos_receipt_wide.html:
+  supports_multipage: true
+  renderer: simple

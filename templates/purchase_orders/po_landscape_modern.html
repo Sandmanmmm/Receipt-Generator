@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Order - {{ po_number }}</title>
+    <link rel="stylesheet" href="../css/po_landscape_modern.css">
+</head>
+<body>
+    <div class="page-container">
+        {% if _is_first_page %}
+        <!-- Modern Header (First Page Only) -->
+        <header class="modern-header">
+            <div class="header-top">
+                <div class="header-left">
+                    {% if supplier_logo %}
+                    <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="brand-logo" />
+                    {% else %}
+                    <div class="brand-mark">
+                        <span class="brand-initial">{{ supplier_name[:1]|upper }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="brand-info">
+                        <div class="brand-name">{{ supplier_name }}</div>
+                        <div class="brand-tagline">Wholesale Distribution</div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="po-card">
+                        <div class="po-type">PURCHASE ORDER</div>
+                        <div class="po-id">{{ po_number }}</div>
+                        <div class="po-status">ACTIVE</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="header-meta">
+                <div class="meta-grid">
+                    <div class="meta-item">
+                        <span class="meta-icon"></span>
+                        <div class="meta-content">
+                            <div class="meta-label">Order Date</div>
+                            <div class="meta-value">{{ po_date }}</div>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon"></span>
+                        <div class="meta-content">
+                            <div class="meta-label">Ship Date</div>
+                            <div class="meta-value">{{ ship_date }}</div>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon"></span>
+                        <div class="meta-content">
+                            <div class="meta-label">Required By</div>
+                            <div class="meta-value">{{ required_by_date }}</div>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon"></span>
+                        <div class="meta-content">
+                            <div class="meta-label">Payment Terms</div>
+                            <div class="meta-value">{{ payment_terms }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Modern Address Cards -->
+        <section class="address-section">
+            <div class="card-grid">
+                <div class="info-card vendor-card">
+                    <div class="card-header">
+                        <span class="card-icon"></span>
+                        <span class="card-title">Vendor Information</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-name">{{ supplier_name }}</div>
+                        {% if supplier_address %}
+                        <div class="info-line">{{ supplier_address }}</div>
+                        {% endif %}
+                        {% if supplier_email %}
+                        <div class="info-line">
+                            <span class="info-icon"></span> {{ supplier_email }}
+                        </div>
+                        {% endif %}
+                        {% if supplier_phone %}
+                        <div class="info-line">
+                            <span class="info-icon"></span> {{ supplier_phone }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="info-card buyer-card">
+                    <div class="card-header">
+                        <span class="card-icon">👤</span>
+                        <span class="card-title">Bill To</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-name">{{ buyer_name }}</div>
+                        {% if buyer_address %}
+                        <div class="info-line">{{ buyer_address }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="info-card ship-card">
+                    <div class="card-header">
+                        <span class="card-icon"></span>
+                        <span class="card-title">Ship To</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-name">{{ ship_to_name or buyer_name }}</div>
+                        {% if ship_to_address %}
+                        <div class="info-line">{{ ship_to_address }}</div>
+                        {% elif buyer_address %}
+                        <div class="info-line">{{ buyer_address }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="info-card shipping-card">
+                    <div class="card-header">
+                        <span class="card-icon">🚛</span>
+                        <span class="card-title">Shipping Details</span>
+                    </div>
+                    <div class="card-body">
+                        {% if shipping_method %}
+                        <div class="info-line">
+                            <span class="detail-key">Method:</span>
+                            <span class="detail-val">{{ shipping_method }}</span>
+                        </div>
+                        {% endif %}
+                        {% if fob %}
+                        <div class="info-line">
+                            <span class="detail-key">FOB:</span>
+                            <span class="detail-val">{{ fob }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% else %}
+        <!-- Modern Continuation Header (Page 2+) -->
+        <div class="continuation-header">
+            <div class="cont-left">
+                {% if supplier_logo %}
+                <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="cont-logo" />
+                {% endif %}
+                <span class="cont-brand">{{ supplier_name }}</span>
+            </div>
+            <div class="cont-center">
+                <div class="cont-po-badge">{{ po_number }}</div>
+            </div>
+            <div class="cont-right">
+                <div class="cont-page-info">
+                    <span class="page-label">Page</span>
+                    <span class="page-numbers">{{ _current_page }} / {{ _total_pages }}</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Modern Items Table (11 columns for landscape) -->
+        <section class="items-section">
+            <table class="modern-table">
+                <thead>
+                    <tr class="table-head">
+                        <th class="col-sku">
+                            <div class="th-content">
+                                <span class="th-icon">🔖</span>
+                                <span class="th-text">SKU</span>
+                            </div>
+                        </th>
+                        <th class="col-product">
+                            <div class="th-content">
+                                <span class="th-icon"></span>
+                                <span class="th-text">Product</span>
+                            </div>
+                        </th>
+                        <th class="col-category">
+                            <div class="th-content">
+                                <span class="th-icon">📂</span>
+                                <span class="th-text">Category</span>
+                            </div>
+                        </th>
+                        <th class="col-spec">
+                            <div class="th-content">
+                                <span class="th-text">Spec 1</span>
+                            </div>
+                        </th>
+                        <th class="col-spec">
+                            <div class="th-content">
+                                <span class="th-text">Spec 2</span>
+                            </div>
+                        </th>
+                        <th class="col-spec">
+                            <div class="th-content">
+                                <span class="th-text">Spec 3</span>
+                            </div>
+                        </th>
+                        <th class="col-uom">
+                            <div class="th-content">
+                                <span class="th-icon"></span>
+                                <span class="th-text">UOM</span>
+                            </div>
+                        </th>
+                        <th class="col-qty">
+                            <div class="th-content">
+                                <span class="th-icon">#</span>
+                                <span class="th-text">Qty</span>
+                            </div>
+                        </th>
+                        <th class="col-price">
+                            <div class="th-content">
+                                <span class="th-icon">💲</span>
+                                <span class="th-text">Price</span>
+                            </div>
+                        </th>
+                        <th class="col-total">
+                            <div class="th-content">
+                                <span class="th-icon"></span>
+                                <span class="th-text">Total</span>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row">
+                        <td class="cell-sku">
+                            <div class="sku-code">{{ item.sku }}</div>
+                            {% if item.upc %}
+                            <div class="sku-upc">{{ item.upc }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="cell-product">
+                            <div class="product-name">{{ item.name }}</div>
+                            {% if item.brand %}
+                            <div class="product-brand">{{ item.brand }}</div>
+                            {% endif %}
+                            {% if item.model %}
+                            <div class="product-model">{{ item.model }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="cell-category">
+                            {% if item.category %}
+                            <div class="cat-primary">{{ item.category }}</div>
+                            {% endif %}
+                            {% if item.subcategory %}
+                            <div class="cat-secondary">{{ item.subcategory }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="cell-spec">
+                            {% if item.attributes and item.attributes|length > 0 %}
+                            <div class="spec-label">{{ item.attributes[0].key }}</div>
+                            <div class="spec-value">{{ item.attributes[0].value }}</div>
+                            {% else %}
+                            <span class="spec-empty">—</span>
+                            {% endif %}
+                        </td>
+                        <td class="cell-spec">
+                            {% if item.attributes and item.attributes|length > 1 %}
+                            <div class="spec-label">{{ item.attributes[1].key }}</div>
+                            <div class="spec-value">{{ item.attributes[1].value }}</div>
+                            {% else %}
+                            <span class="spec-empty">—</span>
+                            {% endif %}
+                        </td>
+                        <td class="cell-spec">
+                            {% if item.attributes and item.attributes|length > 2 %}
+                            <div class="spec-label">{{ item.attributes[2].key }}</div>
+                            <div class="spec-value">{{ item.attributes[2].value }}</div>
+                            {% else %}
+                            <span class="spec-empty">—</span>
+                            {% endif %}
+                        </td>
+                        <td class="cell-uom">
+                            <span class="uom-tag">{{ item.unit_of_measure or 'Each' }}</span>
+                        </td>
+                        <td class="cell-qty">
+                            <span class="qty-value">{{ item.quantity }}</span>
+                        </td>
+                        <td class="cell-price">
+                            <span class="price-value">${{ "%.2f"|format(item.unit_price|to_float) }}</span>
+                        </td>
+                        <td class="cell-total">
+                            <span class="total-value">${{ "%.2f"|format(item.total|to_float) }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        {% if _is_last_page %}
+        <!-- Modern Totals Section (Last Page Only) -->
+        <section class="totals-section">
+            <div class="totals-layout">
+                <div class="totals-left">
+                    {% if notes %}
+                    <div class="notes-card">
+                        <div class="notes-header">
+                            <span class="notes-icon"></span>
+                            <span class="notes-title">Additional Notes</span>
+                        </div>
+                        <div class="notes-text">{{ notes }}</div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="totals-right">
+                    <div class="calculation-card">
+                        <div class="calc-row subtotal-row">
+                            <span class="calc-label">Subtotal</span>
+                            <span class="calc-value">${{ "%.2f"|format(subtotal|to_float) }}</span>
+                        </div>
+                        {% if (discount_amount|to_float or 0) > 0 %}
+                        <div class="calc-row discount-row">
+                            <span class="calc-label">
+                                <span class="discount-badge">{{ discount_percent }}% OFF</span>
+                                Discount
+                            </span>
+                            <span class="calc-value discount-value">-${{ "%.2f"|format(discount_amount|to_float) }}</span>
+                        </div>
+                        {% endif %}
+                        {% if (tax_amount|to_float or 0) > 0 %}
+                        <div class="calc-row tax-row">
+                            <span class="calc-label">Tax ({{ tax_rate }}%)</span>
+                            <span class="calc-value">${{ "%.2f"|format(tax_amount|to_float) }}</span>
+                        </div>
+                        {% endif %}
+                        {% if (shipping_cost or 0) > 0 %}
+                        <div class="calc-row shipping-row">
+                            <span class="calc-label">Shipping & Handling</span>
+                            <span class="calc-value">${{ "%.2f"|format(shipping_cost) }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="calc-row grand-row">
+                            <span class="calc-label">Grand Total</span>
+                            <span class="calc-value">${{ "%.2f"|format(total_amount|to_float) }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modern Footer (Last Page Only) -->
+        <footer class="modern-footer">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <div class="footer-heading">Terms & Conditions</div>
+                    <div class="footer-text">Payment due per specified terms. All items subject to availability. Prices valid 30 days from PO date.</div>
+                </div>
+                <div class="footer-section">
+                    <div class="footer-heading">Authorization</div>
+                    <div class="signature-area">
+                        <div class="sig-line"></div>
+                        <div class="sig-labels">
+                            <span class="sig-label">Authorized Signature</span>
+                            <span class="sig-date">Date: _______________</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        {% else %}
+        <!-- Modern Continuation Footer (Page 1 to N-1) -->
+        <div class="continuation-footer">
+            <div class="cont-footer-content">
+                <span class="cont-icon">➡️</span>
+                <span class="cont-text">Continued on next page</span>
+                <span class="cont-divider">•</span>
+                <span class="cont-progress">Page {{ _current_page }} of {{ _total_pages }}</span>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

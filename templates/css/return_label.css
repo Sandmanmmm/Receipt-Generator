@@ -1,0 +1,826 @@
+/**
+ * Return Shipping Label - CSS Styles
+ * Customer return labels for reverse logistics / incoming inventory
+ * Standard 4x6 inch shipping label format
+ */
+
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 10px;
+    color: #000000;
+    background: #ffffff;
+    line-height: 1.2;
+}
+
+/* Label Container - 4x6 inch at 96 DPI = 384x576px, scaled up for clarity */
+.label-container {
+    width: 576px;
+    min-height: 864px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 0;
+}
+
+/* Main Shipping Label */
+.shipping-label {
+    width: 100%;
+    border: 3px solid #000000;
+    background: #ffffff;
+}
+
+/* =============================================
+   CARRIER BANNER SECTION
+   ============================================= */
+
+.carrier-banner {
+    display: table;
+    width: 100%;
+    background: #1a1a1a;  /* was: linear-gradient(180deg, #1a1a1a 0%, #333333 100%...) */
+    color: #ffffff;
+    padding: 8px 12px;
+    border-bottom: 2px solid #000000;
+}
+
+.carrier-logo {
+    display: table-cell;
+    width: 35%;
+    vertical-align: middle;
+}
+
+.carrier-img {
+    max-height: 35px;
+    width: auto;
+}
+
+.carrier-text {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #ffffff;
+}
+
+.service-type {
+    display: table-cell;
+    width: 35%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.service-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+.service-badge {
+    display: inline-block;
+    margin-top: 3px;
+    padding: 2px 8px;
+    font-size: 9px;
+    font-weight: 700;
+    border-radius: 3px;
+}
+
+.return-badge {
+    background: #ff6b35;
+    color: #ffffff;
+}
+
+.label-type {
+    display: table-cell;
+    width: 30%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.prepaid-indicator {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 800;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+
+.prepaid-indicator.prepaid {
+    background: #22c55e;
+    color: #ffffff;
+}
+
+.prepaid-indicator.postage-due {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+/* =============================================
+   TRACKING SECTION
+   ============================================= */
+
+.tracking-section {
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #000000;
+}
+
+.tracking-row {
+    display: table;
+    width: 100%;
+}
+
+.tracking-info {
+    display: table-cell;
+    width: 65%;
+    vertical-align: middle;
+}
+
+.tracking-label {
+    font-size: 8px;
+    font-weight: 600;
+    color: #666666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tracking-number {
+    font-size: 16px;
+    font-weight: 800;
+    color: #000000;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    letter-spacing: 1px;
+}
+
+.rma-info {
+    display: table-cell;
+    width: 35%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.rma-label {
+    font-size: 8px;
+    font-weight: 600;
+    color: #666666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.rma-number {
+    font-size: 14px;
+    font-weight: 800;
+    color: #d97706;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+/* =============================================
+   MAIN BARCODE SECTION
+   ============================================= */
+
+.barcode-section {
+    padding: 10px 15px;
+    background: #ffffff;
+    border-bottom: 1px solid #000000;
+    text-align: center;
+}
+
+.barcode-container {
+    display: inline-block;
+}
+
+.barcode {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #ffffff;
+}
+
+.barcode-bars {
+    display: inline-block;
+    height: 50px;
+    background: repeating-linear-gradient(
+        90deg,
+        #000000 0px,
+        #000000 2px,
+        #ffffff 2px,
+        #ffffff 4px,
+        #000000 4px,
+        #000000 5px,
+        #ffffff 5px,
+        #ffffff 8px,
+        #000000 8px,
+        #000000 10px,
+        #ffffff 10px,
+        #ffffff 11px,
+        #000000 11px,
+        #000000 14px,
+        #ffffff 14px,
+        #ffffff 16px
+    );
+    width: 280px;
+    border-left: 3px solid #000000;
+    border-right: 3px solid #000000;
+}
+
+.bar {
+    display: none;
+}
+
+.barcode-text {
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    color: #000000;
+    letter-spacing: 2px;
+    margin-top: 4px;
+}
+
+/* =============================================
+   ADDRESS SECTION
+   ============================================= */
+
+.address-section {
+    padding: 12px 15px;
+    border-bottom: 1px solid #000000;
+}
+
+.address-block {
+    margin-bottom: 8px;
+}
+
+.address-block:last-of-type {
+    margin-bottom: 0;
+}
+
+.address-header {
+    margin-bottom: 3px;
+}
+
+.address-type {
+    font-size: 9px;
+    font-weight: 800;
+    color: #666666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.from-address .address-content {
+    padding-left: 10px;
+    border-left: 3px solid #94a3b8;
+}
+
+.to-address .address-content {
+    padding-left: 10px;
+    border-left: 4px solid #000000;
+    background: #f0f9ff;
+    padding: 8px 10px;
+    margin-left: 0;
+}
+
+.address-name {
+    font-size: 14px;
+    font-weight: 800;
+    color: #000000;
+    text-transform: uppercase;
+}
+
+.address-dept {
+    font-size: 11px;
+    font-weight: 600;
+    color: #333333;
+}
+
+.address-line {
+    font-size: 11px;
+    font-weight: 500;
+    color: #333333;
+}
+
+.address-city {
+    font-size: 12px;
+    font-weight: 700;
+    color: #000000;
+    text-transform: uppercase;
+}
+
+.address-phone {
+    font-size: 10px;
+    font-weight: 500;
+    color: #666666;
+}
+
+/* Direction Arrow */
+.direction-arrow {
+    text-align: center;
+    padding: 5px 0;
+}
+
+.arrow-icon {
+    font-size: 20px;
+    color: #000000;
+}
+
+/* =============================================
+   ROUTING SECTION
+   ============================================= */
+
+.routing-section {
+    padding: 6px 12px;
+    background: #f1f5f9;
+    border-bottom: 1px solid #000000;
+}
+
+.routing-codes {
+    display: table;
+    width: 100%;
+}
+
+.routing-code {
+    display: table-cell;
+    width: 25%;
+    text-align: center;
+    padding: 4px;
+    border-right: 1px solid #cbd5e1;
+}
+
+.routing-code:last-child {
+    border-right: none;
+}
+
+.code-label {
+    display: block;
+    font-size: 7px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.code-value {
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    color: #000000;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+/* =============================================
+   SECONDARY BARCODE SECTION (QR/MaxiCode)
+   ============================================= */
+
+.secondary-barcode-section {
+    display: table;
+    width: 100%;
+    padding: 10px 12px;
+    border-bottom: 1px solid #000000;
+}
+
+.maxicode {
+    display: table-cell;
+    width: 100px;
+    vertical-align: middle;
+}
+
+.qr-grid {
+    width: 80px;
+    height: 80px;
+    border: 2px solid #000000;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            #000000 0px,
+            #000000 5px,
+            #ffffff 5px,
+            #ffffff 10px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,0,0,0.5) 0px,
+            rgba(0,0,0,0.5) 5px,
+            transparent 5px,
+            transparent 10px
+        );
+    background-blend-mode: multiply;
+}
+
+.qr-row {
+    display: none;
+}
+
+.qr-cell {
+    display: none;
+}
+
+.routing-barcode {
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 15px;
+}
+
+.postal-barcode {
+    display: inline-block;
+    height: 25px;
+    width: 200px;
+    background: repeating-linear-gradient(
+        90deg,
+        #000000 0px,
+        #000000 2px,
+        #ffffff 2px,
+        #ffffff 5px,
+        #000000 5px,
+        #000000 6px,
+        #ffffff 6px,
+        #ffffff 10px
+    );
+    border-bottom: 8px solid #000000;
+}
+
+.postal-bar {
+    display: none;
+}
+
+.postal-code {
+    font-size: 10px;
+    font-weight: 600;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    color: #333333;
+    margin-top: 3px;
+}
+
+/* =============================================
+   RETURN DETAILS SECTION
+   ============================================= */
+
+.return-details-section {
+    padding: 8px 12px;
+    background: #fffbeb;
+    border-bottom: 1px solid #000000;
+}
+
+.detail-row {
+    display: table;
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+.detail-row:last-child {
+    margin-bottom: 0;
+}
+
+.detail-item {
+    display: table-cell;
+    width: 50%;
+    padding: 2px 5px;
+}
+
+.detail-label {
+    font-size: 8px;
+    font-weight: 600;
+    color: #666666;
+    text-transform: uppercase;
+}
+
+.detail-value {
+    font-size: 10px;
+    font-weight: 700;
+    color: #000000;
+    margin-left: 3px;
+}
+
+/* =============================================
+   INSTRUCTIONS STRIP
+   ============================================= */
+
+.instructions-strip {
+    padding: 8px 12px;
+    background: #fef3c7;
+    border-bottom: 2px solid #000000;
+}
+
+.instruction-text {
+    font-size: 9px;
+    font-weight: 600;
+    color: #92400e;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* =============================================
+   REFERENCE BAR
+   ============================================= */
+
+.reference-bar {
+    display: table;
+    width: 100%;
+    padding: 6px 12px;
+    background: #e5e7eb;
+}
+
+.ref-item {
+    display: table-cell;
+    width: 33.33%;
+    padding: 2px 5px;
+}
+
+.ref-label {
+    font-size: 7px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+}
+
+.ref-value {
+    font-size: 9px;
+    font-weight: 700;
+    color: #000000;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    margin-left: 2px;
+}
+
+/* =============================================
+   DETACHABLE RECEIPT SECTION
+   ============================================= */
+
+.receipt-section {
+    margin-top: 15px;
+}
+
+.perforation-line {
+    text-align: center;
+    padding: 8px 0;
+    border-top: 2px dashed #9ca3af;
+    border-bottom: 2px dashed #9ca3af;
+    background: #f9fafb;
+}
+
+.cut-indicator {
+    font-size: 8px;
+    font-weight: 600;
+    color: #6b7280;
+    letter-spacing: 0.5px;
+}
+
+.customer-receipt {
+    border: 2px solid #d1d5db;
+    margin-top: 10px;
+    background: #ffffff;
+}
+
+.receipt-header {
+    display: table;
+    width: 100%;
+    padding: 10px 12px;
+    background: #f3f4f6;  /* was: linear-gradient(180deg, #f3f4f6 0%, #e5e7eb 100%...) */
+    border-bottom: 1px solid #d1d5db;
+}
+
+.receipt-title {
+    display: table-cell;
+    width: 50%;
+    font-size: 14px;
+    font-weight: 800;
+    color: #1f2937;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.receipt-company {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+    font-size: 12px;
+    font-weight: 700;
+    color: #4b5563;
+}
+
+.receipt-content {
+    padding: 10px 12px;
+}
+
+.receipt-row {
+    display: table;
+    width: 100%;
+    margin-bottom: 6px;
+}
+
+.receipt-item {
+    display: table-cell;
+    width: 50%;
+    padding: 2px 0;
+}
+
+.receipt-item.full-width {
+    display: block;
+    width: 100%;
+}
+
+.receipt-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.receipt-value {
+    font-size: 10px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-left: 3px;
+}
+
+/* Receipt Items Table */
+.receipt-items {
+    margin: 10px 0;
+    padding-top: 10px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.items-header {
+    font-size: 10px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.items-table th {
+    padding: 4px 6px;
+    font-size: 8px;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    text-align: left;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.items-table td {
+    padding: 5px 6px;
+    font-size: 9px;
+    color: #374151;
+    border-bottom: 1px solid #f3f4f6;
+    word-wrap: break-word;
+}
+
+.items-table .col-qty {
+    width: 10%;
+    text-align: center;
+}
+
+.items-table .col-sku {
+    width: 20%;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 8px;
+}
+
+.items-table .col-desc {
+    width: 45%;
+}
+
+.items-table .col-reason {
+    width: 25%;
+    font-size: 8px;
+    color: #6b7280;
+}
+
+/* Refund Information */
+.refund-info {
+    margin: 10px 0;
+    padding: 8px 10px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 4px;
+}
+
+.refund-row {
+    display: table;
+    width: 100%;
+    margin-bottom: 3px;
+}
+
+.refund-row:last-child {
+    margin-bottom: 0;
+}
+
+.refund-label {
+    display: table-cell;
+    width: 40%;
+    font-size: 9px;
+    font-weight: 600;
+    color: #166534;
+}
+
+.refund-value {
+    display: table-cell;
+    width: 60%;
+    font-size: 10px;
+    font-weight: 700;
+    color: #166534;
+}
+
+/* Receipt Notes */
+.receipt-notes {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.receipt-notes p {
+    font-size: 8px;
+    color: #6b7280;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.receipt-notes .support-info {
+    font-size: 8px;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+/* Receipt Barcode */
+.receipt-barcode {
+    padding: 10px 12px;
+    text-align: center;
+    background: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+}
+
+.mini-barcode {
+    display: inline-block;
+    height: 30px;
+    width: 180px;
+    background: repeating-linear-gradient(
+        90deg,
+        #000000 0px,
+        #000000 1px,
+        #ffffff 1px,
+        #ffffff 3px,
+        #000000 3px,
+        #000000 5px,
+        #ffffff 5px,
+        #ffffff 7px,
+        #000000 7px,
+        #000000 8px,
+        #ffffff 8px,
+        #ffffff 11px
+    );
+    border-left: 2px solid #000000;
+    border-right: 2px solid #000000;
+}
+
+.mini-bar {
+    display: none;
+}
+
+.mini-barcode-text {
+    font-size: 9px;
+    font-weight: 600;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    color: #374151;
+    margin-top: 3px;
+}
+
+/* =============================================
+   LABEL FOOTER
+   ============================================= */
+
+.label-footer {
+    padding: 8px 12px;
+    text-align: center;
+}
+
+.footer-text {
+    font-size: 7px;
+    color: #9ca3af;
+    letter-spacing: 0.3px;
+}
+
+/* =============================================
+   PRINT STYLES
+   ============================================= */
+
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .label-container {
+        width: 4in;
+        min-height: 6in;
+    }
+    
+    .receipt-section {
+        page-break-before: avoid;
+    }
+}

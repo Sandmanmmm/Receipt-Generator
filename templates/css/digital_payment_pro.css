@@ -1,0 +1,561 @@
+/* Digital Payment Pro - Bill.com/Tipalti Inspired */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.45;
+    color: #1f2937;
+    background: #ffffff;
+}
+
+/* Page Layout */
+.invoice-page {
+    width: 816px;
+    padding: 34px;
+    position: relative;
+    background: #ffffff;
+}
+
+/* Header Bar */
+.header-bar {
+    background: #0d9488;  /* was: linear-gradient(135deg, #0d9488 0%, #0f766e 100%...) */
+    padding: 18px 22px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.bar-layout {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.bar-left {
+    width: 70%;
+    vertical-align: middle;
+}
+
+.bar-right {
+    width: 30%;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.bar-logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    vertical-align: middle;
+    margin-right: 14px;
+    background: #ffffff;
+    padding: 3px;
+}
+
+.bar-logo-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 14px;
+    text-align: center;
+}
+
+.bar-logo-text {
+    font-size: 20pt;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 42px;
+}
+
+.bar-company {
+    font-size: 15pt;
+    font-weight: 600;
+    color: #ffffff;
+    vertical-align: middle;
+}
+
+.bar-badge {
+    display: inline-block;
+    background: #ffffff;
+    color: #0d9488;
+    font-size: 11pt;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 6px;
+    letter-spacing: 1px;
+}
+
+/* Info Grid */
+.info-grid {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 20px;
+}
+
+.grid-layout {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.grid-cell {
+    vertical-align: top;
+    padding-right: 20px;
+}
+
+.grid-cell:last-child {
+    padding-right: 0;
+}
+
+.cell-label {
+    font-size: 8.5pt;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.cell-value {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #1f2937;
+    font-family: 'Courier New', monospace;
+}
+
+.status-label {
+    display: inline-block;
+    background: #0d9488;
+    color: #ffffff;
+    font-size: 8.5pt;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Parties Section */
+.parties-section {
+    margin-bottom: 22px;
+}
+
+.parties-layout {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.party-box {
+    width: 30%;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    vertical-align: top;
+}
+
+.party-spacer {
+    width: 5%;
+}
+
+.payment-terms-box {
+    background: #f0fdfa;
+    border-color: #5eead4;
+}
+
+.party-header {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #0d9488;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.party-name {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.party-line {
+    font-size: 9.5pt;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.terms-content {
+    margin-top: 4px;
+}
+
+.terms-item {
+    margin-bottom: 6px;
+    font-size: 9.5pt;
+}
+
+.terms-item:last-child {
+    margin-bottom: 0;
+}
+
+.terms-label {
+    font-weight: 600;
+    color: #0d9488;
+    margin-right: 6px;
+}
+
+.terms-text {
+    font-weight: 500;
+    color: #1f2937;
+}
+
+/* Line Items */
+.items-container {
+    margin-bottom: 22px;
+}
+
+.line-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.line-items-table thead {
+    background: #0d9488;
+}
+
+.line-items-table th {
+    padding: 11px 12px;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.col-num { width: 6%; text-align: center; }
+.col-desc { width: 36%; }
+.col-sku { width: 14%; }
+.col-qty { width: 10%; text-align: center; }
+.col-price { width: 16%; text-align: right; }
+.col-amt { width: 18%; text-align: right; }
+
+.line-item {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.line-item:last-child {
+    border-bottom: none;
+}
+
+.line-item:nth-child(odd) {
+    background: #ffffff;
+}
+
+.line-item:nth-child(even) {
+    background: #f9fafb;
+}
+
+.line-items-table td {
+    padding: 11px 12px;
+    font-size: 10pt;
+}
+
+.line-num {
+    text-align: center;
+    font-weight: 700;
+    color: #0d9488;
+}
+
+.line-desc {
+    vertical-align: top;
+}
+
+.desc-title {
+    font-weight: 500;
+    color: #1f2937;
+    margin-bottom: 3px;
+}
+
+.desc-variant {
+    font-size: 9pt;
+    color: #6b7280;
+    font-style: italic;
+}
+
+.line-sku {
+    color: #6b7280;
+    font-family: 'Courier New', monospace;
+    font-size: 9.5pt;
+}
+
+.line-qty {
+    text-align: center;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.line-price {
+    text-align: right;
+    color: #6b7280;
+    font-family: 'Courier New', monospace;
+}
+
+.line-amt {
+    text-align: right;
+    font-weight: 600;
+    color: #1f2937;
+    font-family: 'Courier New', monospace;
+}
+
+/* Summary Block */
+.summary-block {
+    margin-bottom: 48px;
+}
+
+.summary-layout {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.summary-notes-cell {
+    width: 54%;
+    vertical-align: top;
+    padding-right: 18px;
+}
+
+.summary-totals-cell {
+    width: 46%;
+    vertical-align: top;
+}
+
+.notes-container {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 18px;
+}
+
+.notes-heading {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #0d9488;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.notes-text {
+    font-size: 9.5pt;
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.notes-footer {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.totals-container {
+    background: #ffffff;
+    border: 2px solid #0d9488;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.calculation-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.calc-row td {
+    padding: 11px 18px;
+    font-size: 10.5pt;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.calc-row:last-of-type td {
+    border-bottom: 2px solid #0d9488;
+}
+
+.calc-label {
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.calc-value {
+    text-align: right;
+    font-weight: 600;
+    color: #1f2937;
+    font-family: 'Courier New', monospace;
+}
+
+.calc-negative {
+    color: #dc2626;
+}
+
+.calc-total {
+    background: #0d9488;  /* was: linear-gradient(135deg, #0d9488 0%, #0f766e 100%...) */
+}
+
+.calc-total td {
+    padding: 14px 18px;
+    font-size: 13pt;
+    background: transparent;
+    border: none;
+}
+
+.calc-total .calc-label {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.calc-total .calc-value {
+    color: #ffffff;
+    font-size: 14pt;
+}
+
+/* Footer */
+.invoice-footer {
+    position: absolute;
+    bottom: 28px;
+    left: 34px;
+    right: 34px;
+}
+
+.footer-stripe {
+    height: 3px;
+    background: #0d9488;  /* was: linear-gradient(90deg, #0d9488 0%, #0f766e 100%...) */
+    border-radius: 2px;
+    margin-bottom: 10px;
+}
+
+.footer-content {
+    text-align: center;
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+.footer-company {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.footer-dot {
+    margin: 0 8px;
+    color: #d1d5db;
+}
+
+.footer-item {
+    display: inline;
+}
+
+/* Continuation Header */
+.cont-header-bar {
+    background: #f0fdfa;
+    border: 1px solid #5eead4;
+    border-left: 4px solid #0d9488;
+    border-radius: 8px;
+    padding: 12px 18px;
+    margin-bottom: 22px;
+}
+
+.cont-bar-layout {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-bar-left {
+    width: 35%;
+    vertical-align: middle;
+}
+
+.cont-bar-center {
+    width: 30%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.cont-bar-right {
+    width: 35%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.cont-bar-logo {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-right: 10px;
+    background: #ffffff;
+    padding: 2px;
+}
+
+.cont-bar-company {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #1f2937;
+    vertical-align: middle;
+}
+
+.cont-bar-label {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #0d9488;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 6px;
+}
+
+.cont-bar-number {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #1f2937;
+    font-family: 'Courier New', monospace;
+}
+
+.cont-bar-page {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+/* Continuation Footer */
+.cont-footer-bar {
+    position: absolute;
+    bottom: 28px;
+    left: 34px;
+    right: 34px;
+}
+
+.cont-footer-stripe {
+    height: 2px;
+    background: #e5e7eb;
+    border-radius: 2px;
+    margin-bottom: 8px;
+}
+
+.cont-footer-text {
+    text-align: center;
+    font-size: 9pt;
+    color: #6b7280;
+    font-style: italic;
+}

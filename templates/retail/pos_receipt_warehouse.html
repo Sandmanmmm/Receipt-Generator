@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warehouse Receipt</title>
+    <link rel="stylesheet" href="../css/pos_receipt_warehouse.css">
+</head>
+<body>
+    <div class="pos-receipt">
+        <!-- Store Header with Logo -->
+        <div class="receipt-header">
+            <div class="store-logo">
+                <div class="logo-primary">{{ supplier_name|default('BULKMART')|upper }}</div>
+                <div class="logo-tagline">—— WHOLESALE ——</div>
+            </div>
+            <div class="store-location-box">
+                <div class="store-number">{{ store_location|default(store_name)|default('Seattle #01') }}</div>
+                <div class="store-address">{{ supplier_address|default('4401 4th Ave South') }}</div>
+                <div class="store-city">{{ supplier_city|default('Seattle') }}, {{ supplier_state|default('WA') }} {{ supplier_zip|default('98134') }}</div>
+            </div>
+        </div>
+
+        <!-- Member Info -->
+        <div class="member-section">
+            <span class="member-label">7M Member</span>
+            <span class="member-number">{{ member_number|default(customer_id)|default('121993614208') }}</span>
+        </div>
+
+        <!-- Items Section - Using Table for proper alignment -->
+        <table class="items-table">
+            <tbody>
+                {% for item in items|default(line_items, true) %}
+                <tr>
+                    <td class="col-sku">{{ item.sku|default(item.upc)|default(loop.index * 1000 + 24311) }}</td>
+                    <td class="col-desc">{{ item.description|default(item.name)|upper }}</td>
+                    <td class="col-price">{{ (item.total|default(item.amount)|string).replace('$', '') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Bottom of Basket Divider -->
+        <div class="basket-divider">
+            <span>**************Bottom of Basket***************</span>
+        </div>
+
+        <!-- Totals Section -->
+        <table class="totals-table">
+            <tr>
+                <td class="total-label">SUBTOTAL</td>
+                <td class="total-value">{{ (subtotal|string).replace('$', '') }}</td>
+            </tr>
+            <tr>
+                <td class="total-label">TAX</td>
+                <td class="total-value">{{ (tax_amount|string).replace('$', '') }}</td>
+            </tr>
+            <tr class="grand-total-row">
+                <td class="grand-total-label">**** TOTAL</td>
+                <td class="grand-total-value">{{ (total_amount|string).replace('$', '') }}</td>
+            </tr>
+        </table>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Payment Card Info -->
+        <div class="payment-section">
+            <div class="card-line">
+                <span class="card-number">XXXXXXXXXXXX{{ card_last_four|default('1234') }}</span>
+                <span class="card-indicator">{{ card_type_code|default('H') }}</span>
+            </div>
+            <div class="payment-detail">AID: {{ aid_code|default('A000000004047043') }}</div>
+            <div class="payment-detail">Seq# {{ sequence_number|default('316594') }}    App#: {{ app_number|default('09497D') }}</div>
+            <div class="payment-detail">{{ card_type|default('Visa') }}      Resp: {{ response_code|default('APPROVED') }}</div>
+            <div class="payment-detail">Tran_ID#: {{ transaction_id|default('367400316821') }}....</div>
+        </div>
+
+        <!-- Approval Box -->
+        <div class="approval-section">
+            <div class="approval-box">
+                <div class="approval-line">APPROVED - Purchase</div>
+                <div class="approval-line">AMOUNT: ${{ "%.2f"|format(total_amount_raw|default(217.06)) }}</div>
+                <div class="approval-line">{{ invoice_date|default('10/31/2042') }} {{ transaction_time|default('12:46') }} {{ terminal_id|default('2258 315 211 057') }}</div>
+            </div>
+        </div>
+
+        <!-- Payment Summary -->
+        <table class="totals-table">
+            <tr>
+                <td class="total-label">{{ card_type|default('Visa') }}</td>
+                <td class="total-value">{{ total_amount }}</td>
+            </tr>
+            <tr>
+                <td class="total-label">CHANGE</td>
+                <td class="total-value">0.00</td>
+            </tr>
+        </table>
+
+        <!-- Tax Breakdown -->
+        <div class="tax-breakdown">
+            <div class="tax-row">
+                <span class="tax-label">A {{ tax_rate|default('10') }}% TAX</span>
+                <span class="tax-value">{{ tax_amount }}</span>
+            </div>
+            <div class="tax-row">
+                <span class="tax-label">TOTAL TAX</span>
+                <span class="tax-value">{{ tax_amount }}</span>
+            </div>
+            <div class="items-count-row">
+                <span class="items-label">TOTAL NUMBER OF ITEMS SOLD =</span>
+                <span class="items-value">{{ items|length|default(item_count)|default(16) }}</span>
+            </div>
+            <div class="terminal-info">
+                {{ register_number|default('034547024048') }} {{ invoice_date }} {{ transaction_time }} {{ terminal_id|default('2258 315 211 057') }}
+            </div>
+        </div>
+
+        <!-- Barcode Section -->
+        <div class="barcode-section">
+            {% if barcode_base64 %}
+            <img src="data:image/png;base64,{{ barcode_base64 }}" alt="Barcode" class="barcode-image">
+            {% else %}
+            <div class="barcode-placeholder">
+                <svg width="240" height="45" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0" y="0" width="3" height="45" fill="#000"/>
+                    <rect x="5" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="8" y="0" width="2" height="45" fill="#000"/>
+                    <rect x="12" y="0" width="4" height="45" fill="#000"/>
+                    <rect x="18" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="21" y="0" width="3" height="45" fill="#000"/>
+                    <rect x="26" y="0" width="2" height="45" fill="#000"/>
+                    <rect x="30" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="33" y="0" width="4" height="45" fill="#000"/>
+                    <rect x="39" y="0" width="2" height="45" fill="#000"/>
+                    <rect x="43" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="46" y="0" width="3" height="45" fill="#000"/>
+                    <rect x="51" y="0" width="2" height="45" fill="#000"/>
+                    <rect x="55" y="0" width="4" height="45" fill="#000"/>
+                    <rect x="61" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="64" y="0" width="2" height="45" fill="#000"/>
+                    <rect x="68" y="0" width="3" height="45" fill="#000"/>
+                    <rect x="73" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="76" y="0" width="4" height="45" fill="#000"/>
+                    <rect x="82" y="0" width="2" height="45" fill="#000"/>
+                    <rect x="86" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="89" y="0" width="3" height="45" fill="#000"/>
+                    <rect x="94" y="0" width="4" height="45" fill="#000"/>
+                    <rect x="100" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="103" y="0" width="2" height="45" fill="#000"/>
+                    <rect x="107" y="0" width="3" height="45" fill="#000"/>
+                    <rect x="112" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="115" y="0" width="4" height="45" fill="#000"/>
+                    <rect x="121" y="0" width="2" height="45" fill="#000"/>
+                    <rect x="125" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="128" y="0" width="3" height="45" fill="#000"/>
+                    <rect x="133" y="0" width="2" height="45" fill="#000"/>
+                    <rect x="137" y="0" width="4" height="45" fill="#000"/>
+                    <rect x="143" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="146" y="0" width="3" height="45" fill="#000"/>
+                    <rect x="151" y="0" width="2" height="45" fill="#000"/>
+                    <rect x="155" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="158" y="0" width="4" height="45" fill="#000"/>
+                    <rect x="164" y="0" width="2" height="45" fill="#000"/>
+                    <rect x="168" y="0" width="3" height="45" fill="#000"/>
+                    <rect x="173" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="176" y="0" width="2" height="45" fill="#000"/>
+                    <rect x="180" y="0" width="4" height="45" fill="#000"/>
+                    <rect x="186" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="189" y="0" width="3" height="45" fill="#000"/>
+                    <rect x="194" y="0" width="2" height="45" fill="#000"/>
+                    <rect x="198" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="201" y="0" width="4" height="45" fill="#000"/>
+                    <rect x="207" y="0" width="2" height="45" fill="#000"/>
+                    <rect x="211" y="0" width="3" height="45" fill="#000"/>
+                    <rect x="216" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="219" y="0" width="4" height="45" fill="#000"/>
+                    <rect x="225" y="0" width="2" height="45" fill="#000"/>
+                    <rect x="229" y="0" width="1" height="45" fill="#000"/>
+                    <rect x="232" y="0" width="3" height="45" fill="#000"/>
+                    <rect x="237" y="0" width="3" height="45" fill="#000"/>
+                </svg>
+            </div>
+            {% endif %}
+            <div class="barcode-number">{{ barcode_value|default('22329630413344520121456') }}</div>
+        </div>
+
+        <!-- Operator Info -->
+        <div class="operator-section">
+            <span>OP#: {{ operator_id|default('204') }}</span>
+            <span>Name: {{ cashier_name|default(cashier_id)|default('JAMES') }}</span>
+        </div>
+
+        <!-- Thank You Message -->
+        <div class="thank-you-section">
+            <div class="thank-you-script">Thank You!</div>
+            <div class="thank-you-script">Please Come Again</div>
+            <div class="warehouse-info">Whse: {{ warehouse_number|default('01') }} Trn:{{ transaction_number|default('307') }} Trm:{{ terminal_number|default('211') }} OP:{{ operator_id|default('204') }}</div>
+        </div>
+
+        <!-- Footer Summary -->
+        <div class="footer-summary">
+            <div class="summary-line items-sold">Items Sold: {{ items|length|default(item_count)|default(16) }}</div>
+            <div class="summary-line timestamp">{{ warehouse_code|default('7M') }} {{ invoice_date }} {{ transaction_time }}</div>
+        </div>
+    </div>
+</body>
+</html>

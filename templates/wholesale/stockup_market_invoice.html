@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stockup Market Invoice - {{ invoice_number }}</title>
+    <link rel="stylesheet" href="../css/stockup_market_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="logo-section">
+                {% if supplier_logo %}
+                <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="company-logo">
+                {% else %}
+                <div class="logo-text">
+                    <span class="brand-name">STOCKUP</span>
+                    <span class="brand-tagline">WHOLESALE. DELIVERED.</span>
+                </div>
+                {% endif %}
+            </div>
+            <div class="invoice-info">
+                <div class="invoice-title">INVOICE</div>
+                <div class="company-details">
+                    <div class="company-name">{{ supplier_name|default('Stockup Market') }}</div>
+                    <div class="company-line">{{ supplier_name|default('Stockup Market Inc.') }}</div>
+                    <div class="company-line">{{ supplier_address|default('600 Clayson Road, North York, Ontario, Canada') }}</div>
+                    <div class="company-line">{{ supplier_email|default('samuelk@stockupmarket.com') }} | {{ supplier_phone|default('(855) 994-3338') }} | M9M 2H2</div>
+                    <div class="company-line">{{ tax_id|default('761680677RT0001') }}</div>
+                    <div class="company-line">www.stockupmarket.com</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary Bar -->
+        <div class="order-summary-bar">
+            <div class="summary-left">
+                <span class="summary-label">Amount:</span>
+                <span class="summary-value amount">{{ total_amount }}</span>
+            </div>
+            <div class="summary-right">
+                <div class="summary-item">
+                    <span class="summary-label">Invoice Number:</span>
+                    <span class="summary-value">#{{ invoice_number }}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Order Number:</span>
+                    <span class="summary-value">{{ order_number|default(invoice_number) }}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-label">Order Date:</span>
+                    <span class="summary-value">{{ invoice_date }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shipping Address -->
+        <div class="shipping-section">
+            <div class="section-title">SHIPPING ADDRESS</div>
+            <div class="address-content">
+                <div class="address-line name">{{ buyer_name }}</div>
+                {% if buyer_company %}
+                <div class="address-line">{{ buyer_company }}</div>
+                {% endif %}
+                {% if buyer_phone %}
+                <div class="address-line">{{ buyer_phone }}</div>
+                {% endif %}
+                {% if buyer_email %}
+                <div class="address-line">{{ buyer_email }}</div>
+                {% endif %}
+                <div class="address-line">{{ buyer_address }}</div>
+            </div>
+        </div>
+
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-logo">
+                <span class="brand-name-small">STOCKUP</span>
+            </div>
+            <div class="cont-info">
+                Invoice #{{ invoice_number }} | Page {{ _current_page }} of {{ _total_pages }}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Line Items Table -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-item" colspan="2">Items</th>
+                        <th class="col-qty">Qty</th>
+                        <th class="col-price">Price</th>
+                        <th class="col-subtotal">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row">
+                        <td class="image-cell">
+                            {% if item.image_url %}
+                            <img src="{{ item.image_url }}" alt="{{ item.description }}" class="product-image">
+                            {% else %}
+                            <div class="image-placeholder">
+                                <span class="placeholder-icon">📦</span>
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td class="desc-cell">
+                            <div class="item-name">{{ item.description }}</div>
+                            <div class="item-sku">SKU: {{ item.sku|default(item.upc|default('N/A')) }}</div>
+                        </td>
+                        <td class="qty-cell">{{ item.quantity }}</td>
+                        <td class="price-cell">{{ item.unit_price }}</td>
+                        <td class="subtotal-cell">{{ item.total }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <table class="totals-table">
+                <tr>
+                    <td class="totals-label">Subtotal</td>
+                    <td class="totals-spacer"></td>
+                    <td class="totals-value">{{ subtotal }}</td>
+                </tr>
+                {% if shipping_cost_raw and shipping_cost_raw > 0 %}
+                <tr>
+                    <td class="totals-label">Shipping</td>
+                    <td class="totals-method">{{ shipping_method|default('UPS Standard') }}</td>
+                    <td class="totals-value">{{ shipping_cost }}</td>
+                </tr>
+                {% endif %}
+                {% if tax_amount_raw and tax_amount_raw > 0 %}
+                <tr>
+                    <td class="totals-label">Tax</td>
+                    <td class="totals-method">{{ tax_rate|default('HST: 13%') }}</td>
+                    <td class="totals-value">{{ tax_amount }}</td>
+                </tr>
+                {% endif %}
+                <tr class="grand-total-row">
+                    <td class="totals-label grand">Grand total</td>
+                    <td class="totals-spacer"></td>
+                    <td class="totals-value grand">{{ total_amount }}</td>
+                </tr>
+                {% if amount_paid %}
+                <tr>
+                    <td class="totals-label">Paid by customer</td>
+                    <td class="totals-spacer"></td>
+                    <td class="totals-value">{{ amount_paid }}</td>
+                </tr>
+                <tr>
+                    <td class="totals-label">Net payment</td>
+                    <td class="totals-spacer"></td>
+                    <td class="totals-value">{{ net_payment|default(total_amount) }}</td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+
+        <!-- Payment Information -->
+        <div class="payment-section">
+            <div class="section-title">PAYMENT INFORMATION</div>
+            <div class="payment-content">
+                <div class="payment-line">{{ buyer_name }}</div>
+                {% if buyer_company %}
+                <div class="payment-line">{{ buyer_company }}</div>
+                {% endif %}
+                <div class="payment-line">{{ buyer_address }}</div>
+                {% if payment_tags %}
+                <div class="payment-tags">
+                    {% for tag in payment_tags %}
+                    <span class="payment-tag">#{{ tag }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="payment-tags">
+                    <span class="payment-tag">#shopify_store_credit</span>
+                    <span class="payment-tag">#Shopify Payment</span>
+                </div>
+                {% endif %}
+                {% if payment_method %}
+                <div class="payment-method">{{ payment_method }}</div>
+                {% else %}
+                <div class="payment-method">Visa: •••• •••• •••• {{ card_last_four|default('3495') }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-text">Continued on next page...</div>
+            <div class="cont-page">Page {{ _current_page }} of {{ _total_pages }}</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

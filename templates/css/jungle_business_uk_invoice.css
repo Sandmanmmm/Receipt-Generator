@@ -1,0 +1,507 @@
+/* Jungle Business UK VAT Invoice - Amazon Business UK Style */
+
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    line-height: 1.4;
+    color: #232f3e;
+    background: #fff;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 25px 35px;
+    background: #fff;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Header Table */
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    table-layout: fixed;
+}
+
+.header-left {
+    width: 60%;
+    vertical-align: middle;
+}
+
+.header-right {
+    width: 40%;
+    vertical-align: middle;
+    text-align: right;
+}
+
+/* Logo Section */
+.logo-section {
+    display: inline-block;
+}
+
+.logo-jungle {
+    font-size: 28px;
+    font-weight: normal;
+    color: #232f3e;
+    letter-spacing: -1px;
+}
+
+.logo-business {
+    font-size: 28px;
+    font-weight: 300;
+    color: #1a73a7;
+    letter-spacing: -1px;
+}
+
+.logo-jungle-sm {
+    font-size: 16px;
+    font-weight: normal;
+    color: #232f3e;
+}
+
+.logo-business-sm {
+    font-size: 16px;
+    font-weight: 300;
+    color: #1a73a7;
+}
+
+/* Invoice Label */
+.invoice-label {
+    font-size: 24px;
+    font-weight: normal;
+    color: #1a73a7;
+}
+
+/* Info Table */
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    table-layout: fixed;
+}
+
+.billing-address-cell {
+    width: 50%;
+    vertical-align: top;
+    padding-right: 20px;
+}
+
+.payment-box-cell {
+    width: 50%;
+    vertical-align: top;
+}
+
+/* Billing Address */
+.billing-address {
+    padding: 10px 0;
+}
+
+.billing-name {
+    font-size: 11px;
+    font-weight: bold;
+    color: #232f3e;
+    margin-bottom: 3px;
+}
+
+.billing-line {
+    font-size: 10px;
+    color: #232f3e;
+    margin-bottom: 2px;
+}
+
+/* Payment Box */
+.payment-box {
+    border: 1px solid #ddd;
+    padding: 10px 12px;
+    background: #f7f7f7;
+    margin-bottom: 8px;
+}
+
+.paid-label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #067d62;
+    margin-bottom: 5px;
+}
+
+.payment-ref {
+    font-size: 9px;
+    color: #555;
+    margin-bottom: 2px;
+}
+
+.sold-by-line {
+    font-size: 9px;
+    color: #555;
+    margin-bottom: 2px;
+}
+
+.vat-line {
+    font-size: 9px;
+    color: #555;
+}
+
+/* Invoice Info Table */
+.invoice-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.invoice-info-table td {
+    padding: 3px 0;
+    font-size: 10px;
+    color: #232f3e;
+}
+
+.info-label {
+    width: 55%;
+    color: #555;
+}
+
+.info-value {
+    width: 45%;
+    text-align: right;
+    font-weight: normal;
+}
+
+/* Support Link */
+.support-link {
+    font-size: 9px;
+    color: #555;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.link-text {
+    color: #1a73a7;
+    text-decoration: none;
+}
+
+/* Address Table */
+.address-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    table-layout: fixed;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.address-col {
+    width: 33.33%;
+    vertical-align: top;
+    padding: 10px 10px 10px 0;
+    border-right: 1px solid #eee;
+}
+
+.address-col:last-child {
+    border-right: none;
+    padding-left: 10px;
+}
+
+.address-col:nth-child(2) {
+    padding-left: 10px;
+}
+
+.address-header {
+    font-size: 11px;
+    font-weight: bold;
+    color: #232f3e;
+    margin-bottom: 6px;
+}
+
+.address-line {
+    font-size: 9px;
+    color: #232f3e;
+    margin-bottom: 2px;
+}
+
+.address-line.company-name {
+    font-weight: bold;
+}
+
+/* Order Information */
+.order-info-section {
+    margin-bottom: 15px;
+}
+
+.order-info-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: #232f3e;
+    margin-bottom: 8px;
+}
+
+.order-info-table {
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.order-info-table td {
+    padding: 2px 0;
+    font-size: 10px;
+}
+
+.order-label {
+    color: #555;
+    padding-right: 20px;
+}
+
+.order-value {
+    color: #232f3e;
+}
+
+/* Invoice Details Title */
+.invoice-details-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: #232f3e;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    table-layout: fixed;
+}
+
+.items-table .header-row {
+    border-bottom: 1px solid #ccc;
+}
+
+.items-table th {
+    padding: 8px 5px;
+    font-size: 9px;
+    font-weight: normal;
+    color: #555;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+    vertical-align: bottom;
+}
+
+.items-table th.col-qty,
+.items-table th.col-price-excl,
+.items-table th.col-vat-rate,
+.items-table th.col-price-incl,
+.items-table th.col-subtotal {
+    text-align: right;
+}
+
+/* Column Widths */
+.col-description { width: 40%; }
+.col-qty { width: 8%; text-align: center; }
+.col-price-excl { width: 13%; text-align: right; }
+.col-vat-rate { width: 10%; text-align: right; }
+.col-price-incl { width: 13%; text-align: right; }
+.col-subtotal { width: 16%; text-align: right; }
+
+/* Item Row */
+.item-row td {
+    padding: 10px 5px;
+    font-size: 10px;
+    color: #232f3e;
+    vertical-align: top;
+    border-bottom: 1px solid #eee;
+}
+
+.item-description {
+    text-align: left;
+}
+
+.item-name {
+    font-size: 10px;
+    color: #232f3e;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.item-asin {
+    font-size: 9px;
+    color: #555;
+}
+
+.item-qty {
+    text-align: center;
+}
+
+.item-price-excl,
+.item-vat-rate,
+.item-price-incl,
+.item-subtotal {
+    text-align: right;
+}
+
+/* Invoice Total */
+.invoice-total-section {
+    text-align: right;
+    margin-bottom: 20px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.invoice-total-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #232f3e;
+    margin-right: 40px;
+}
+
+.invoice-total-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: #232f3e;
+}
+
+/* VAT Summary Table */
+.vat-summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    table-layout: fixed;
+}
+
+.vat-summary-table th {
+    padding: 8px 5px;
+    font-size: 9px;
+    font-weight: normal;
+    color: #555;
+    text-align: right;
+    border-bottom: 1px solid #ccc;
+}
+
+.vat-summary-table th:first-child {
+    width: 40%;
+}
+
+.vat-col {
+    width: 20%;
+}
+
+.vat-summary-table td {
+    padding: 8px 5px;
+    font-size: 10px;
+    color: #232f3e;
+    text-align: right;
+}
+
+.vat-value {
+    text-align: right;
+}
+
+.vat-total-row td {
+    border-top: 1px solid #ddd;
+    font-weight: bold;
+}
+
+.vat-total-label {
+    text-align: right;
+    font-weight: bold;
+}
+
+/* Footer */
+.footer-section {
+    position: absolute;
+    bottom: 60px;
+    left: 35px;
+    right: 35px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+
+.footer-line {
+    font-size: 8px;
+    color: #555;
+    margin-bottom: 3px;
+    line-height: 1.4;
+}
+
+.footer-line.small {
+    font-size: 7px;
+    color: #777;
+}
+
+/* Page Number */
+.page-number {
+    position: absolute;
+    bottom: 25px;
+    right: 35px;
+    font-size: 10px;
+    color: #232f3e;
+}
+
+/* Continuation Header */
+.continuation-header {
+    display: table;
+    width: 100%;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cont-logo {
+    display: table-cell;
+    width: 50%;
+    vertical-align: middle;
+}
+
+.cont-info {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+    vertical-align: middle;
+    font-size: 10px;
+    color: #555;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    text-align: center;
+    font-size: 9px;
+    color: #888;
+    padding: 10px 0;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: #fff;
+    }
+    
+    .invoice-page {
+        width: 100%;
+        padding: 15px;
+    }
+    
+    .footer-section {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        margin-top: 30px;
+    }
+    
+    .page-number {
+        position: relative;
+        bottom: auto;
+        right: auto;
+        text-align: right;
+        margin-top: 15px;
+    }
+}

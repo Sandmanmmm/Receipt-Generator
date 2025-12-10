@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dollar Store Receipt{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
+    <link rel="stylesheet" href="../css/pos_receipt_dollar_store.css">
+</head>
+<body>
+    <div class="dollar-store-receipt">
+        <!-- Store Header - Ultra Dense / MR. DOLLAR Style -->
+        <div class="receipt-header">
+            <div class="store-name">{{ store_name|default(supplier_name) }}</div>
+            {% if company_reg %}
+            <div class="company-reg">({{ company_reg }})</div>
+            {% endif %}
+            {% if tagline %}
+            <div class="store-tagline">{{ tagline }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Address Block - Ultra Compact -->
+        <div class="address-block">
+            <div class="address-line">{{ street_address|default('NO. 15, JALAN NILAI 3/2') }}</div>
+            <div class="address-line">{{ area_name|default('PUSAT DAGANGAN NILAI') }}</div>
+            <div class="address-line">{{ postcode|default('71800') }} {{ city|default('NILAI') }}, {{ state|default('N.SEMBILAN') }}</div>
+            <div class="contact-line">TEL: {{ store_phone|default('06-7991234') }}</div>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- GST/SST Info - Compact -->
+        <div class="tax-id-block">
+            {% if gst_id %}
+            <span class="tax-label">GST:</span>
+            <span class="tax-value">{{ gst_id }}</span>
+            {% endif %}
+            {% if sst_id %}
+            <span class="tax-label">SST:</span>
+            <span class="tax-value">{{ sst_id }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Transaction Header - Single Line Dense -->
+        <div class="txn-header">
+            <div class="txn-line">
+                <span class="txn-label">RCP#:</span>
+                <span class="txn-value">{{ invoice_number|default('240315-001547') }}</span>
+            </div>
+            <div class="txn-line">
+                <span class="txn-date">{{ invoice_date|default('15/03/2024') }}</span>
+                <span class="txn-time">{{ transaction_time|default('10:43') }}</span>
+                {% if terminal_id %}
+                <span class="txn-term">T{{ terminal_id }}</span>
+                {% endif %}
+            </div>
+            {% if cashier_name %}
+            <div class="txn-line">
+                <span class="txn-label">CASHIER:</span>
+                <span class="txn-value">{{ cashier_name }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Column Headers - Ultra Compact -->
+        <div class="column-headers">
+            <span class="col-desc">ITEM</span>
+            <span class="col-qty">Q</span>
+            <span class="col-price">EA</span>
+            <span class="col-amt">RM</span>
+        </div>
+
+        <!-- Thin Divider -->
+        <div class="thin-divider"></div>
+
+        <!-- Items Section - Ultra Dense (45-50 lines/page) -->
+        <div class="items-section">
+            {% for item in items|default(line_items, true) %}
+            <div class="item-row{% if item.is_deal %} deal-item{% endif %}{% if item.is_bulk %} bulk-item{% endif %}">
+                <span class="item-desc">{{ item.description|upper|truncate(18, true, '') }}</span>
+                <span class="item-qty">{{ item.quantity }}</span>
+                <span class="item-price">{{ item.unit_price_display|default(item.unit_price) }}</span>
+                <span class="item-amt">{{ item.total_display|default(item.total) }}</span>
+            </div>
+            {% if item.barcode %}
+            <div class="barcode-row">
+                <span class="item-barcode">{{ item.barcode }}</span>
+            </div>
+            {% endif %}
+            {% if item.promo_text %}
+            <div class="promo-row">
+                <span class="promo-text">*{{ item.promo_text }}</span>
+            </div>
+            {% endif %}
+            {% if item.bulk_deal %}
+            <div class="bulk-row">
+                <span class="bulk-text">{{ item.bulk_deal }}</span>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Item Count -->
+        <div class="item-count-row">
+            <span class="count-label">ITEM(S):</span>
+            <span class="count-value">{{ item_count|default(line_items|length) }}</span>
+            <span class="unit-label">UNIT(S):</span>
+            <span class="unit-value">{{ total_units|default(line_items|sum(attribute='quantity')) }}</span>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Totals Section - Compact -->
+        <div class="totals-section">
+            <div class="total-row">
+                <span class="total-label">SUBTOTAL</span>
+                <span class="total-value">{{ subtotal }}</span>
+            </div>
+            {% if total_discount_raw|default(0) > 0 %}
+            <div class="total-row discount-row">
+                <span class="total-label">DISC</span>
+                <span class="total-value">-{{ total_discount }}</span>
+            </div>
+            {% endif %}
+            {% if bag_charge_raw|default(0) > 0 %}
+            <div class="total-row bag-row">
+                <span class="total-label">BAG(S) x{{ bag_count|default(1) }}</span>
+                <span class="total-value">{{ bag_charge }}</span>
+            </div>
+            {% endif %}
+            {% if rounding_adjustment %}
+            <div class="total-row rounding-row">
+                <span class="total-label">ROUND</span>
+                <span class="total-value">{{ rounding_adjustment }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Tax Breakdown - Compact -->
+        <div class="tax-breakdown">
+            <div class="tax-row">
+                <span class="tax-label">SST {{ tax_rate|default(6) }}%</span>
+                <span class="tax-value">{{ tax_amount }}</span>
+            </div>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Grand Total - Emphasized -->
+        <div class="grand-total-section">
+            <div class="grand-total-row">
+                <span class="grand-total-label">TOTAL</span>
+                <span class="grand-total-value">RM{{ total_amount }}</span>
+            </div>
+        </div>
+
+        <!-- Double Dashed Divider -->
+        <div class="double-dashed-divider"></div>
+
+        <!-- Payment Section -->
+        <div class="payment-section">
+            {% if payment_method == "Cash" or payment_method == "CASH" %}
+            <div class="pay-row">
+                <span class="pay-label">CASH</span>
+                <span class="pay-value">{{ cash_tendered|default(total_amount) }}</span>
+            </div>
+            {% if change_amount %}
+            <div class="pay-row change-row">
+                <span class="pay-label">CHANGE</span>
+                <span class="pay-value">{{ change_amount }}</span>
+            </div>
+            {% endif %}
+            {% elif payment_method == "Card" or payment_method == "CARD" %}
+            <div class="pay-row">
+                <span class="pay-label">{{ card_type|default('DEBIT')|upper }}</span>
+                <span class="pay-value">{{ total_amount }}</span>
+            </div>
+            <div class="pay-row card-row">
+                <span class="card-info">****{{ card_last_four|default('1234') }}</span>
+                {% if approval_code %}
+                <span class="approval-code">APP:{{ approval_code }}</span>
+                {% endif %}
+            </div>
+            {% elif payment_method == "E-Wallet" or payment_method == "EWALLET" %}
+            <div class="pay-row">
+                <span class="pay-label">{{ ewallet_type|default('TOUCH N GO')|upper }}</span>
+                <span class="pay-value">{{ total_amount }}</span>
+            </div>
+            {% if ewallet_ref %}
+            <div class="pay-row">
+                <span class="pay-label">REF:</span>
+                <span class="pay-value">{{ ewallet_ref }}</span>
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="pay-row">
+                <span class="pay-label">{{ payment_method|upper }}</span>
+                <span class="pay-value">{{ total_amount }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Savings Summary (Dollar Store Emphasis) -->
+        {% if total_savings_raw|default(0) > 0 %}
+        <div class="savings-section">
+            <div class="savings-banner">
+                <span class="savings-text">*** ANDA JIMAT / YOU SAVED ***</span>
+            </div>
+            <div class="savings-amount">
+                <span class="savings-value">RM{{ total_savings }}</span>
+            </div>
+        </div>
+        <div class="dashed-divider"></div>
+        {% endif %}
+
+        <!-- Points/Rewards Section -->
+        {% if points_earned or points_balance %}
+        <div class="points-section">
+            {% if points_earned %}
+            <div class="points-row">
+                <span class="points-label">POINTS EARNED:</span>
+                <span class="points-value">{{ points_earned }}</span>
+            </div>
+            {% endif %}
+            {% if points_balance %}
+            <div class="points-row">
+                <span class="points-label">TOTAL POINTS:</span>
+                <span class="points-value">{{ points_balance }}</span>
+            </div>
+            {% endif %}
+        </div>
+        <div class="dashed-divider"></div>
+        {% endif %}
+
+        <!-- Footer - Return Policy -->
+        <div class="footer-section">
+            <div class="policy-line">{{ return_policy|default('GOODS SOLD ARE NOT RETURNABLE')|upper }}</div>
+            <div class="policy-line">{{ exchange_policy|default('EXCHANGE WITHIN 7 DAYS WITH RECEIPT')|upper }}</div>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Barcode Section -->
+        {% if barcode_value %}
+        <div class="barcode-section">
+            <div class="barcode-display">||| |||| ||| |||| ||| |||| |||</div>
+            <div class="barcode-text">{{ barcode_value }}</div>
+        </div>
+        <div class="dashed-divider"></div>
+        {% endif %}
+
+        <!-- Thank You Footer - Bilingual -->
+        <div class="thank-you-section">
+            <div class="thank-you-line">TERIMA KASIH</div>
+            <div class="thank-you-line">THANK YOU FOR SHOPPING</div>
+            {% if promo_message %}
+            <div class="promo-message">{{ promo_message }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Store Hours (Optional) -->
+        {% if store_hours %}
+        <div class="store-hours">
+            <div class="hours-line">{{ store_hours }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Receipt End Marker -->
+        <div class="receipt-end">
+            <div class="end-marker">- - - END - - -</div>
+        </div>
+    </div>
+</body>
+</html>

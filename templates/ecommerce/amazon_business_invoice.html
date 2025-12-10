@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Invoice</title>
+    <link rel="stylesheet" href="../css/amazon_business_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page %}
+        <!-- First Page Header -->
+        <div class="page-header">
+            <table class="header-table">
+                <tr>
+                    <td class="header-left">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="company-logo" />
+                        {% else %}
+                        <div class="logo-fallback">
+                            <span class="logo-initial">{{ supplier_name[:1]|upper }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="company-info">
+                            <div class="company-name">{{ supplier_name }}</div>
+                            <div class="business-tagline">Anazon Business Account</div>
+                        </div>
+                    </td>
+                    <td class="header-right">
+                        <div class="invoice-title">INVOICE</div>
+                        <div class="invoice-meta">
+                            <table class="meta-table">
+                                <tr>
+                                    <td class="meta-label">Invoice #:</td>
+                                    <td class="meta-value">{{ invoice_number }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="meta-label">Date:</td>
+                                    <td class="meta-value">{{ invoice_date }}</td>
+                                </tr>
+                                {% if po_number %}
+                                <tr>
+                                    <td class="meta-label">PO #:</td>
+                                    <td class="meta-value">{{ po_number }}</td>
+                                </tr>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Business Details Section -->
+        <div class="details-section">
+            <table class="details-table">
+                <tr>
+                    <td class="detail-box seller-box">
+                        <div class="box-header">Seller Information</div>
+                        <div class="box-content">
+                            <div class="business-name">{{ supplier_name }}</div>
+                            {% if supplier_address %}
+                            <div class="address-text">{{ supplier_address }}</div>
+                            {% endif %}
+                            {% if supplier_email %}
+                            <div class="contact-detail">
+                                <span class="detail-icon">✉</span>
+                                <span class="detail-text">{{ supplier_email }}</span>
+                            </div>
+                            {% endif %}
+                            {% if supplier_phone %}
+                            <div class="contact-detail">
+                                <span class="detail-icon">☎</span>
+                                <span class="detail-text">{{ supplier_phone }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="detail-box buyer-box">
+                        <div class="box-header">Bill To</div>
+                        <div class="box-content">
+                            <div class="business-name">{{ buyer_name }}</div>
+                            {% if buyer_address %}
+                            <div class="address-text">{{ buyer_address }}</div>
+                            {% endif %}
+                            {% if buyer_email %}
+                            <div class="contact-detail">
+                                <span class="detail-icon">✉</span>
+                                <span class="detail-text">{{ buyer_email }}</span>
+                            </div>
+                            {% endif %}
+                            {% if buyer_phone %}
+                            <div class="contact-detail">
+                                <span class="detail-icon">☎</span>
+                                <span class="detail-text">{{ buyer_phone }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="detail-box ship-box">
+                        <div class="box-header">Ship To</div>
+                        <div class="box-content">
+                            <div class="business-name">{{ buyer_name }}</div>
+                            {% if buyer_address %}
+                            <div class="address-text">{{ buyer_address }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Transaction Info Bar -->
+        <div class="transaction-bar">
+            <table class="transaction-table">
+                <tr>
+                    <td class="trans-cell">
+                        <span class="trans-label">Payment Method:</span>
+                        <span class="trans-value">{{ payment_method or 'Business Account' }}</span>
+                    </td>
+                    <td class="trans-cell">
+                        <span class="trans-label">Payment Terms:</span>
+                        <span class="trans-value">{{ payment_terms or 'Net 30' }}</span>
+                    </td>
+                    <td class="trans-cell">
+                        <span class="trans-label">Due Date:</span>
+                        <span class="trans-value">{{ due_date or invoice_date }}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="cont-header">
+            <table class="cont-header-table">
+                <tr>
+                    <td class="cont-left">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="cont-logo" />
+                        {% endif %}
+                        <span class="cont-supplier">{{ supplier_name }}</span>
+                    </td>
+                    <td class="cont-center">
+                        <span class="cont-invoice">Invoice #{{ invoice_number }}</span>
+                    </td>
+                    <td class="cont-right">
+                        <span class="cont-page">Page {{ _current_page }} of {{ _total_pages }}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Line Items Section -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-item">Item #</th>
+                        <th class="col-description">Description</th>
+                        <th class="col-sku">SKU</th>
+                        <th class="col-qty">Qty</th>
+                        <th class="col-unit">Unit Price</th>
+                        <th class="col-discount">Discount</th>
+                        <th class="col-amount">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row {% if loop.index is odd %}row-odd{% else %}row-even{% endif %}">
+                        <td class="td-item">{{ loop.index }}</td>
+                        <td class="td-description">
+                            <div class="item-name">{{ item.description }}</div>
+                            {% if item.variant %}
+                            <div class="item-details">{{ item.variant }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="td-sku">{{ item.upc or item.sku or '—' }}</td>
+                        <td class="td-qty">{{ item.quantity }}</td>
+                        <td class="td-unit">${{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                        <td class="td-discount">
+                            {% if (item.discount|to_float or 0) > 0 %}
+                            -${{ "%.2f"|format(item.discount|to_float) }}
+                            {% else %}
+                            $0.00
+                            {% endif %}
+                        </td>
+                        <td class="td-amount">${{ "%.2f"|format(item.total|to_float) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page %}
+        <!-- Summary and Totals Section -->
+        <div class="summary-section">
+            <table class="summary-table">
+                <tr>
+                    <td class="summary-left">
+                        {% if notes %}
+                        <div class="notes-box">
+                            <div class="notes-title">Notes & Instructions</div>
+                            <div class="notes-body">{{ notes }}</div>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="terms-box">
+                            <div class="terms-title">Payment Terms & Conditions</div>
+                            <div class="terms-body">
+                                Payment is due within 30 days of invoice date. Late payments may incur additional fees. 
+                                This invoice is subject to the terms and conditions agreed upon in the Anazon Business Agreement.
+                            </div>
+                        </div>
+                    </td>
+                    <td class="summary-right">
+                        <table class="totals-table">
+                            <tr class="totals-row">
+                                <td class="totals-label">Subtotal:</td>
+                                <td class="totals-value">${{ "%.2f"|format((subtotal_amount|default(subtotal)|default(subtotal_raw)|default(0))|to_float) }}</td>
+                            </tr>
+                            {% if (discount_amount|default(discount)|default(0)|to_float) > 0 %}
+                            <tr class="totals-row">
+                                <td class="totals-label">Discount:</td>
+                                <td class="totals-value totals-negative">-${{ "%.2f"|format((discount_amount|default(discount)|default(0))|to_float) }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if (shipping_amount|default(shipping_cost)|default(shipping)|default(0)|to_float) > 0 %}
+                            <tr class="totals-row">
+                                <td class="totals-label">Shipping & Handling:</td>
+                                <td class="totals-value">${{ "%.2f"|format((shipping_amount|default(shipping_cost)|default(shipping)|default(0))|to_float) }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="totals-row">
+                                <td class="totals-label">Subtotal (Before Tax):</td>
+                                <td class="totals-value">${{ "%.2f"|format(((subtotal_amount|default(subtotal)|default(subtotal_raw)|default(0))|to_float) - ((discount_amount|default(discount)|default(0))|to_float) + ((shipping_amount|default(shipping_cost)|default(shipping)|default(0))|to_float)) }}</td>
+                            </tr>
+                            {% if (tax_amount|default(tax)|default(0)|to_float) > 0 %}
+                            <tr class="totals-row">
+                                <td class="totals-label">Sales Tax{% if tax_rate %} ({{ "%.1f"|format(tax_rate|to_float) }}%){% endif %}:</td>
+                                <td class="totals-value">${{ "%.2f"|format((tax_amount|default(tax)|default(0))|to_float) }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="totals-row total-row">
+                                <td class="totals-label">Total Amount Due:</td>
+                                <td class="totals-value">${{ "%.2f"|format((total_amount|default(total)|default(grand_total)|default(0))|to_float) }}</td>
+                            </tr>
+                        </table>
+                        
+                        <div class="amount-due">
+                            <div class="due-label">Amount Due (USD)</div>
+                            <div class="due-amount">${{ "%.2f"|format(total_amount|to_float) }}</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="page-footer">
+            <div class="footer-divider"></div>
+            <table class="footer-table">
+                <tr>
+                    <td class="footer-left">
+                        <div class="footer-text">Thank you for your business</div>
+                        <div class="footer-contact">Questions? Contact {{ supplier_email or supplier_phone or 'customer service' }}</div>
+                    </td>
+                    <td class="footer-right">
+                        <div class="footer-disclaimer">This is a computer-generated invoice and is valid without signature.</div>
+                        <div class="footer-legal">Subject to Anazon Business Terms and Conditions</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="cont-footer">
+            <div class="cont-footer-line"></div>
+            <div class="cont-footer-text">Continued on page {{ _current_page + 1 }}...</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

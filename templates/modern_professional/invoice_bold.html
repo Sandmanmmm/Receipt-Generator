@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bold Modern Invoice</title>
+    <title>Bold Modern Invoice{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <style>
         @page {
             size: A4;
@@ -36,12 +36,16 @@
             padding: 40px;
         }
         .info-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            border-spacing: 20px 0;
             margin-bottom: 40px;
         }
         .card {
+            display: table-cell;
+            width: 33.33%;
+            vertical-align: top;
             background: #f8f9fa;
             padding: 20px;
             border-left: 5px solid {{ brand_primary_color }};
@@ -111,6 +115,8 @@
     </style>
 </head>
 <body>
+    {% if _is_first_page|default(true) %}
+    <!-- Full Header - First Page Only -->
     <div class="header-banner">
         <div class="invoice-title">INVOICE</div>
         <div class="invoice-subtitle">#{{ invoice_number }}</div>
@@ -145,6 +151,14 @@
                 <div class="card-value">{{ due_date }}</div>
             </div>
         </div>
+    {% else %}
+    <!-- Compact Header - Continuation Pages -->
+    <div class="content" style="padding-top: 20px;">
+        <div style="background: linear-gradient(135deg, {{ brand_primary_color }} 0%, #2c3e50 100%); color: white; padding: 20px 40px; margin: -40px -40px 30px -40px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-size: 18px; font-weight: 900;">{{ company_name }} | Invoice #{{ invoice_number }}</div>
+            <div style="font-size: 14px; opacity: 0.9;">Page {{ _page_number }} of {{ _total_pages }}</div>
+        </div>
+    {% endif %}
 
         <table>
             <thead>
@@ -160,31 +174,41 @@
                 <tr>
                     <td><strong>{{ item.description }}</strong></td>
                     <td style="text-align: center;">{{ item.quantity }}</td>
-                    <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price) }}</td>
-                    <td style="text-align: right;"><strong>{{ currency_symbol }}{{ "%.2f"|format(item.amount) }}</strong></td>
+                    <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                    <td style="text-align: right;"><strong>{{ currency_symbol }}{{ "%.2f"|format(item.amount|to_float) }}</strong></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
 
+        {% if _is_last_page|default(true) %}
+        <!-- Totals - Last Page Only -->
         <div class="totals-section">
             <div class="total-row">
                 <span>Subtotal</span>
-                <span>{{ currency_symbol }}{{ "%.2f"|format(subtotal) }}</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(subtotal|to_float) }}</span>
             </div>
             <div class="total-row">
                 <span>Tax ({{ tax_rate }})</span>
-                <span>{{ currency_symbol }}{{ "%.2f"|format(tax) }}</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(tax|to_float) }}</span>
             </div>
             <div class="total-row grand">
                 <span>TOTAL DUE</span>
-                <span>{{ currency_symbol }}{{ "%.2f"|format(total) }}</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(total|to_float) }}</span>
             </div>
         </div>
     </div>
 
+    <!-- Footer - Last Page Only -->
     <div class="footer-bar">
         Thank you for your business! Payment is due by {{ due_date }}.
     </div>
+    {% else %}
+    <!-- Continuation Notice -->
+    </div>
+    <div style="text-align: right; font-size: 12px; color: #666; font-style: italic; padding: 20px 40px;">
+        Continued on page {{ (_page_number|default(1)) + 1 }}...
+    </div>
+    {% endif %}
 </body>
 </html>

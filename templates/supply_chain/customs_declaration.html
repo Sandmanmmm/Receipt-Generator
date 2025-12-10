@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customs Declaration - {{ declaration_number }}</title>
+    <link rel="stylesheet" href="../css/customs_declaration.css">
+</head>
+<body>
+    <div class="customs-page">
+        <!-- Header Section -->
+        {% if _is_first_page|default(true) %}
+        <div class="customs-header">
+            <div class="header-left">
+                {% if supplier_logo %}
+                <img src="{{ supplier_logo }}" alt="{{ exporter_name|default(supplier_name) }}" class="company-logo">
+                {% endif %}
+                <div class="document-type">
+                    <div class="doc-title">COMMERCIAL INVOICE</div>
+                    <div class="doc-subtitle">CUSTOMS DECLARATION</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <table class="header-info">
+                    <tr>
+                        <td class="info-label">Declaration #:</td>
+                        <td class="info-value declaration-num">{{ declaration_number|default(invoice_number) }}</td>
+                    </tr>
+                    <tr>
+                        <td class="info-label">Date:</td>
+                        <td class="info-value">{{ declaration_date|default(invoice_date) }}</td>
+                    </tr>
+                    <tr>
+                        <td class="info-label">Export Reference:</td>
+                        <td class="info-value">{{ export_reference|default('') }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Shipping Reference Bar -->
+        <div class="reference-bar">
+            <div class="ref-item">
+                <span class="ref-label">Carrier:</span>
+                <span class="ref-value">{{ carrier_name|default('International Freight') }}</span>
+            </div>
+            <div class="ref-item">
+                <span class="ref-label">Tracking #:</span>
+                <span class="ref-value">{{ tracking_number|default('') }}</span>
+            </div>
+            <div class="ref-item">
+                <span class="ref-label">AWB/B/L #:</span>
+                <span class="ref-value">{{ awb_number|default(bol_number)|default('') }}</span>
+            </div>
+            <div class="ref-item">
+                <span class="ref-label">Ship Date:</span>
+                <span class="ref-value">{{ ship_date|default('') }}</span>
+            </div>
+        </div>
+
+        <!-- Parties Section: Exporter and Importer -->
+        <table class="parties-table">
+            <tr>
+                <!-- Exporter/Shipper -->
+                <td class="party-cell exporter-cell">
+                    <div class="party-header">
+                        <span class="party-icon">&#9650;</span>
+                        <span class="party-title">EXPORTER / SHIPPER</span>
+                    </div>
+                    <div class="party-content">
+                        <div class="party-name">{{ exporter_name|default(supplier_name) }}</div>
+                        <div class="party-address">
+                            {{ exporter_address|default(supplier_address) }}<br>
+                            {{ exporter_city|default(supplier_city) }}, {{ exporter_state|default(supplier_state) }} {{ exporter_zip|default(supplier_zip) }}<br>
+                            {{ exporter_country|default('United States') }}
+                        </div>
+                        <div class="party-details">
+                            {% if exporter_phone|default(supplier_phone) %}
+                            <div class="detail-row">
+                                <span class="detail-label">Tel:</span>
+                                <span class="detail-value">{{ exporter_phone|default(supplier_phone) }}</span>
+                            </div>
+                            {% endif %}
+                            {% if exporter_email %}
+                            <div class="detail-row">
+                                <span class="detail-label">Email:</span>
+                                <span class="detail-value">{{ exporter_email }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="tax-id-row">
+                            <span class="tax-label">Tax ID / VAT / EIN:</span>
+                            <span class="tax-value">{{ exporter_tax_id|default('') }}</span>
+                        </div>
+                    </div>
+                </td>
+
+                <!-- Importer/Consignee -->
+                <td class="party-cell importer-cell">
+                    <div class="party-header">
+                        <span class="party-icon">&#9660;</span>
+                        <span class="party-title">IMPORTER / CONSIGNEE</span>
+                    </div>
+                    <div class="party-content">
+                        <div class="party-name">{{ importer_name|default(buyer_name) }}</div>
+                        <div class="party-address">
+                            {{ importer_address|default(buyer_address) }}<br>
+                            {{ importer_city|default(buyer_city) }}, {{ importer_state|default(buyer_state) }} {{ importer_zip|default(buyer_zip) }}<br>
+                            {{ importer_country|default(destination_country)|default('') }}
+                        </div>
+                        <div class="party-details">
+                            {% if importer_phone|default(buyer_phone) %}
+                            <div class="detail-row">
+                                <span class="detail-label">Tel:</span>
+                                <span class="detail-value">{{ importer_phone|default(buyer_phone) }}</span>
+                            </div>
+                            {% endif %}
+                            {% if importer_email|default(buyer_email) %}
+                            <div class="detail-row">
+                                <span class="detail-label">Email:</span>
+                                <span class="detail-value">{{ importer_email|default(buyer_email) }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="tax-id-row">
+                            <span class="tax-label">Tax ID / VAT / EORI:</span>
+                            <span class="tax-value">{{ importer_tax_id|default('') }}</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Shipment Details Bar -->
+        <div class="shipment-bar">
+            <table class="shipment-details">
+                <tr>
+                    <td class="shipment-cell">
+                        <span class="ship-label">Country of Origin:</span>
+                        <span class="ship-value origin-country">{{ origin_country|default('United States') }}</span>
+                    </td>
+                    <td class="shipment-cell">
+                        <span class="ship-label">Destination:</span>
+                        <span class="ship-value dest-country">{{ destination_country|default('') }}</span>
+                    </td>
+                    <td class="shipment-cell">
+                        <span class="ship-label">Currency:</span>
+                        <span class="ship-value currency">{{ currency_code|default('USD') }}</span>
+                    </td>
+                    <td class="shipment-cell">
+                        <span class="ship-label">Incoterms:</span>
+                        <span class="ship-value incoterm">{{ incoterms|default('FOB') }}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-left">
+                <span class="cont-doc">COMMERCIAL INVOICE / CUSTOMS DECLARATION</span>
+            </div>
+            <div class="cont-center">
+                <span class="cont-num">{{ declaration_number|default(invoice_number) }}</span>
+            </div>
+            <div class="cont-right">
+                <span class="cont-page">Page {{ _page_number }} of {{ _total_pages }}</span>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Items Section Header -->
+        <div class="items-header">
+            <span class="section-title">ITEMIZED GOODS DESCRIPTION</span>
+            {% if _total_pages|default(1) > 1 %}
+            <span class="page-indicator">Page {{ _page_number|default(1) }} of {{ _total_pages }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-line">#</th>
+                    <th class="col-qty">Qty</th>
+                    <th class="col-unit">Unit</th>
+                    <th class="col-desc">Description of Goods</th>
+                    <th class="col-hs">HS Code</th>
+                    <th class="col-origin">Origin</th>
+                    <th class="col-weight">Weight (kg)</th>
+                    <th class="col-unit-val">Unit Value</th>
+                    <th class="col-total">Total Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="item-row">
+                    <td class="col-line">{{ loop.index + (_page_offset|default(0)) }}</td>
+                    <td class="col-qty">{{ item.quantity }}</td>
+                    <td class="col-unit">{{ item.unit_type|default('PCS') }}</td>
+                    <td class="col-desc">
+                        <div class="item-name">{{ item.description|default(item.name) }}</div>
+                        {% if item.sku %}
+                        <div class="item-sku">SKU: {{ item.sku }}</div>
+                        {% endif %}
+                        {% if item.material %}
+                        <div class="item-material">Material: {{ item.material }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="col-hs">{{ item.hs_code|default('-') }}</td>
+                    <td class="col-origin">{{ item.country_of_origin|default(origin_country)|default('US') }}</td>
+                    <td class="col-weight">{{ "%.2f"|format(item.weight|to_float) }}</td>
+                    <td class="col-unit-val">{{ currency_symbol|default('$') }}{{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                    <td class="col-total">{{ currency_symbol|default('$') }}{{ "%.2f"|format((item.total|default(item.unit_price|to_float * item.quantity))|to_float) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Totals and Summary Section (Last Page Only) -->
+        {% if _is_last_page|default(true) %}
+        <div class="totals-section">
+            <table class="totals-table">
+                <tr>
+                    <!-- Weight Summary -->
+                    <td class="totals-left">
+                        <div class="totals-box weight-box">
+                            <div class="box-title">WEIGHT SUMMARY</div>
+                            <div class="box-row">
+                                <span class="box-label">Total Packages:</span>
+                                <span class="box-value">{{ total_packages|default(_total_items)|default(items|length) }}</span>
+                            </div>
+                            <div class="box-row">
+                                <span class="box-label">Net Weight:</span>
+                                <span class="box-value">{{ "%.2f"|format(net_weight|default(0)) }} kg</span>
+                            </div>
+                            <div class="box-row">
+                                <span class="box-label">Gross Weight:</span>
+                                <span class="box-value">{{ "%.2f"|format(gross_weight|default(0)) }} kg</span>
+                            </div>
+                            {% if dimensions %}
+                            <div class="box-row">
+                                <span class="box-label">Dimensions:</span>
+                                <span class="box-value">{{ dimensions }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </td>
+
+                    <!-- Value Summary -->
+                    <td class="totals-center">
+                        <div class="totals-box value-box">
+                            <div class="box-title">VALUE SUMMARY</div>
+                            <div class="box-row">
+                                <span class="box-label">Goods Value:</span>
+                                <span class="box-value">{{ currency_symbol|default('$') }}{{ "%.2f"|format(subtotal|default(total_amount)|default(0)) }}</span>
+                            </div>
+                            <div class="box-row">
+                                <span class="box-label">Freight Charges:</span>
+                                <span class="box-value">{{ currency_symbol|default('$') }}{{ "%.2f"|format(freight_charges|default(0)) }}</span>
+                            </div>
+                            <div class="box-row">
+                                <span class="box-label">Insurance:</span>
+                                <span class="box-value">{{ currency_symbol|default('$') }}{{ "%.2f"|format(insurance_charges|default(0)) }}</span>
+                            </div>
+                            <div class="box-row">
+                                <span class="box-label">Other Charges:</span>
+                                <span class="box-value">{{ currency_symbol|default('$') }}{{ "%.2f"|format(other_charges|default(0)) }}</span>
+                            </div>
+                            <div class="box-row total-row">
+                                <span class="box-label">TOTAL DECLARED VALUE:</span>
+                                <span class="box-value total-value">{{ currency_symbol|default('$') }}{{ "%.2f"|format(declared_value|default(total_amount)|default(0)) }}</span>
+                            </div>
+                        </div>
+                    </td>
+
+                    <!-- Export Details -->
+                    <td class="totals-right">
+                        <div class="totals-box export-box">
+                            <div class="box-title">EXPORT DETAILS</div>
+                            <div class="box-row">
+                                <span class="box-label">Export Type:</span>
+                                <span class="box-value">{{ export_type|default('Permanent') }}</span>
+                            </div>
+                            <div class="box-row">
+                                <span class="box-label">Reason for Export:</span>
+                                <span class="box-value">{{ export_reason|default('Sale') }}</span>
+                            </div>
+                            <div class="box-row">
+                                <span class="box-label">Terms of Trade:</span>
+                                <span class="box-value incoterm-value">{{ incoterms|default('FOB') }} {{ incoterm_location|default('') }}</span>
+                            </div>
+                            {% if license_number %}
+                            <div class="box-row">
+                                <span class="box-label">Export License:</span>
+                                <span class="box-value">{{ license_number }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Certification Statement -->
+        <div class="certification-section">
+            <div class="cert-header">EXPORTER CERTIFICATION</div>
+            <div class="cert-text">
+                I/We hereby certify that the information contained in this invoice is true and correct, 
+                and that the contents of this shipment are as stated above. The exporter of the products 
+                covered by this document (customs authorization no. <span class="auth-num">{{ customs_auth_number|default('N/A') }}</span>) 
+                declares that, except where otherwise clearly indicated, these products are of 
+                <span class="origin-cert">{{ origin_country|default('United States') }}</span> preferential origin.
+            </div>
+            <table class="signature-table">
+                <tr>
+                    <td class="sig-cell">
+                        <div class="sig-line">
+                            <span class="sig-value">{{ exporter_signature|default('') }}</span>
+                        </div>
+                        <div class="sig-label">Authorized Signature</div>
+                    </td>
+                    <td class="sig-cell">
+                        <div class="sig-line">
+                            <span class="sig-value">{{ signatory_name|default('') }}</span>
+                        </div>
+                        <div class="sig-label">Name and Title</div>
+                    </td>
+                    <td class="sig-cell">
+                        <div class="sig-line">
+                            <span class="sig-value">{{ signature_date|default(declaration_date)|default('') }}</span>
+                        </div>
+                        <div class="sig-label">Date</div>
+                    </td>
+                    <td class="sig-cell stamp-cell">
+                        <div class="stamp-placeholder">
+                            {% if company_stamp %}
+                            <img src="{{ company_stamp }}" alt="Company Stamp" class="stamp-img">
+                            {% else %}
+                            <span class="stamp-text">COMPANY STAMP</span>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Special Notes -->
+        {% if special_notes or handling_instructions %}
+        <div class="notes-section">
+            <div class="notes-header">SPECIAL NOTES & HANDLING INSTRUCTIONS</div>
+            <div class="notes-content">
+                {% if special_notes %}
+                <p>{{ special_notes }}</p>
+                {% endif %}
+                {% if handling_instructions %}
+                <p>{{ handling_instructions }}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="customs-footer">
+            <div class="footer-left">
+                <div class="footer-notice">
+                    This document serves as a commercial invoice for customs purposes. 
+                    Falsification of this document may result in penalties under applicable trade laws.
+                </div>
+            </div>
+            <div class="footer-right">
+                {% if _total_pages|default(1) > 1 %}
+                <span class="page-number">Page {{ _page_number|default(1) }} of {{ _total_pages }}</span>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <span class="cont-notice">Continued on next page...</span>
+            <span class="cont-subtotal">Page Subtotal: {{ currency_symbol|default('$') }}{{ "%.2f"|format(_page_subtotal|default(0)) }}</span>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

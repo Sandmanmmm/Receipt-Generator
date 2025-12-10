@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jungle Business Invoice (UK VAT)</title>
+    <link rel="stylesheet" href="../css/jungle_business_uk_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Header Section -->
+        <table class="header-table">
+            <tr>
+                <td class="header-left">
+                    <div class="logo-section">
+                        <span class="logo-jungle">jungle</span><span class="logo-business">business</span>
+                    </div>
+                </td>
+                <td class="header-right">
+                    <div class="invoice-label">Invoice</div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Payment Status and Invoice Info -->
+        <table class="info-table">
+            <tr>
+                <td class="billing-address-cell">
+                    <div class="billing-address">
+                        <div class="billing-name">{{ buyer_name|default('CUSTOMER NAME') }}</div>
+                        <div class="billing-line">{{ buyer_address|default('Street Address') }}</div>
+                        <div class="billing-line">{{ buyer_city|default('City') }}</div>
+                        <div class="billing-line">{{ buyer_state|default('County') }}, {{ buyer_zip|default('POSTCODE') }}</div>
+                        <div class="billing-line">{{ buyer_country|default('GB') }}</div>
+                    </div>
+                </td>
+                <td class="payment-box-cell">
+                    <div class="payment-box">
+                        <div class="paid-label">Paid</div>
+                        <div class="payment-ref">Payment reference ID {{ payment_reference|default('SRyWzk7SRVMjDqgCfoNr') }}</div>
+                        <div class="sold-by-line">Sold by {{ sold_by_name|default('Jungle EU S.à r.l., UK Branch') }}</div>
+                        <div class="vat-line">VAT # {{ seller_vat|default('GB727255821') }}</div>
+                    </div>
+                    <table class="invoice-info-table">
+                        <tr>
+                            <td class="info-label">Invoice date / Delivery date</td>
+                            <td class="info-value">{{ invoice_date|default('16 December 2019') }}</td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Invoice #</td>
+                            <td class="info-value">{{ invoice_number|default('AEU-INV-GB-2019-321425532') }}</td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Total payable</td>
+                            <td class="info-value">{{ total_amount|default('£17.99') }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Customer Support Link -->
+        <div class="support-link">
+            For customer support visit <span class="link-text">www.junglebusiness.co.uk/contact-us</span>
+        </div>
+
+        <!-- Three Address Columns -->
+        <table class="address-table">
+            <tr>
+                <td class="address-col">
+                    <div class="address-header">Business address</div>
+                    <div class="address-line company-name">{{ business_company|default('COMPANY LTD') }}</div>
+                    <div class="address-line">{{ business_address|default('Unit B 102 Business Centre') }}</div>
+                    <div class="address-line">{{ business_city|default('City') }}, {{ business_postcode|default('B5 4TD') }}</div>
+                    <div class="address-line">{{ business_country|default('GB') }}</div>
+                    <div class="address-line">VAT # {{ business_vat|default('GB227158410') }}</div>
+                </td>
+                <td class="address-col">
+                    <div class="address-header">Delivery address</div>
+                    <div class="address-line">{{ delivery_name|default(buyer_name)|default('CUSTOMER NAME') }}</div>
+                    <div class="address-line">{{ delivery_address|default(buyer_address)|default('Delivery Street') }}</div>
+                    <div class="address-line">{{ delivery_address2|default('Building Name') }}</div>
+                    <div class="address-line">{{ delivery_city|default(buyer_city)|default('City') }}, {{ delivery_postcode|default(buyer_zip)|default('B5 4ST') }}</div>
+                    <div class="address-line">{{ delivery_country|default('GB') }}</div>
+                </td>
+                <td class="address-col">
+                    <div class="address-header">Sold by</div>
+                    <div class="address-line">{{ sold_by_name|default('Jungle EU S.à r.l., UK Branch') }}</div>
+                    <div class="address-line">{{ sold_by_address|default('1 Principal Place, Worship Street') }}</div>
+                    <div class="address-line">{{ sold_by_city|default('London') }}, {{ sold_by_postcode|default('EC2A 2FA') }}</div>
+                    <div class="address-line">{{ sold_by_country|default('United Kingdom') }}</div>
+                    <div class="address-line">VAT # {{ seller_vat|default('GB727255821') }}</div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Order Information -->
+        <div class="order-info-section">
+            <div class="order-info-title">Order information</div>
+            <table class="order-info-table">
+                <tr>
+                    <td class="order-label">Order date</td>
+                    <td class="order-value">{{ order_date|default(invoice_date)|default('15 December 2019') }}</td>
+                </tr>
+                <tr>
+                    <td class="order-label">Order #</td>
+                    <td class="order-value">{{ order_number|default('026-1912479-0125155') }}</td>
+                </tr>
+                <tr>
+                    <td class="order-label">Order placed by</td>
+                    <td class="order-value">{{ order_placed_by|default(buyer_name)|default('customer') }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Invoice Details Section -->
+        <div class="invoice-details-title">Invoice details</div>
+        <table class="items-table">
+            <thead>
+                <tr class="header-row">
+                    <th class="col-description">Description</th>
+                    <th class="col-qty">Qty</th>
+                    <th class="col-price-excl">Unit price<br>(excl. VAT)</th>
+                    <th class="col-vat-rate">VAT rate</th>
+                    <th class="col-price-incl">Unit price<br>(incl. VAT)</th>
+                    <th class="col-subtotal">Item subtotal<br>(incl. VAT)</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-logo">
+                <span class="logo-jungle-sm">jungle</span><span class="logo-business-sm">business</span>
+            </div>
+            <div class="cont-info">Invoice #{{ invoice_number }} (Page {{ _page_number }} of {{ _total_pages }})</div>
+        </div>
+
+        <table class="items-table">
+            <thead>
+                <tr class="header-row">
+                    <th class="col-description">Description</th>
+                    <th class="col-qty">Qty</th>
+                    <th class="col-price-excl">Unit price<br>(excl. VAT)</th>
+                    <th class="col-vat-rate">VAT rate</th>
+                    <th class="col-price-incl">Unit price<br>(incl. VAT)</th>
+                    <th class="col-subtotal">Item subtotal<br>(incl. VAT)</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% endif %}
+
+                {% for item in items %}
+                <tr class="item-row">
+                    <td class="item-description">
+                        <div class="item-name">{{ item.name|default(item.description)|default('Product') }}</div>
+                        {% if item.asin or item.sku %}
+                        <div class="item-asin">ASIN: {{ item.asin|default(item.sku)|default('B07FCMKK5X') }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="item-qty">{{ item.quantity|default(1) }}</td>
+                    <td class="item-price-excl">
+                        {% if item.price_excl_vat is defined %}
+                            {{ item.price_excl_vat }}
+                        {% elif item.unit_price is defined and item.unit_price is not none %}
+                            {% if item.unit_price is string %}
+                                {{ item.unit_price|replace('$', '£') }}
+                            {% else %}
+                                £{{ "%.2f"|format(item.unit_price / 1.2) }}
+                            {% endif %}
+                        {% else %}
+                            £0.00
+                        {% endif %}
+                    </td>
+                    <td class="item-vat-rate">{{ item.vat_rate|default('20%') }}</td>
+                    <td class="item-price-incl">
+                        {% if item.price_incl_vat is defined %}
+                            {{ item.price_incl_vat }}
+                        {% elif item.unit_price is defined and item.unit_price is not none %}
+                            {% if item.unit_price is string %}
+                                {{ item.unit_price|replace('$', '£') }}
+                            {% else %}
+                                £{{ "%.2f"|format(item.unit_price|to_float) }}
+                            {% endif %}
+                        {% else %}
+                            £0.00
+                        {% endif %}
+                    </td>
+                    <td class="item-subtotal">
+                        {% if item.total is defined and item.total is not none %}
+                            {% if item.total is string %}
+                                {{ item.total|replace('$', '£') }}
+                            {% else %}
+                                £{{ "%.2f"|format(item.total|to_float) }}
+                            {% endif %}
+                        {% else %}
+                            £0.00
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Invoice Total -->
+        <div class="invoice-total-section">
+            <span class="invoice-total-label">Invoice total</span>
+            <span class="invoice-total-value">{{ total_amount|default('£17.99') }}</span>
+        </div>
+
+        <!-- VAT Summary Table -->
+        <table class="vat-summary-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="vat-col">VAT rate</th>
+                    <th class="vat-col">Item subtotal<br>(excl. VAT)</th>
+                    <th class="vat-col">VAT subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td class="vat-value">{{ vat_rate|default('20%') }}</td>
+                    <td class="vat-value">{{ subtotal_excl_vat|default('£14.99') }}</td>
+                    <td class="vat-value">{{ vat_amount|default('£3.00') }}</td>
+                </tr>
+                <tr class="vat-total-row">
+                    <td class="vat-total-label">Total</td>
+                    <td></td>
+                    <td class="vat-value">{{ subtotal_excl_vat|default('£14.99') }}</td>
+                    <td class="vat-value">{{ vat_amount|default('£3.00') }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Footer -->
+        <div class="footer-section">
+            <div class="footer-line">Jungle encourages customers to help protect the environment by recycling old or unwanted electrical products. Find out where you can recycle them at recycle-more.co.uk.</div>
+            <div class="footer-line small">LU-BIO-04</div>
+            <div class="footer-line small">Jungle EU S.à r.l. - 38 avenue John F. Kennedy, L-1866 Luxembourg</div>
+            <div class="footer-line small">R.C.S. Luxembourg: B 101818</div>
+            <div class="footer-line small">Jungle EU S.à r.l., UK Branch – Registered Office: 1 Principal Place, Worship Street, London, EC2A 2FA, GB</div>
+            <div class="footer-line small">Registered in England and Wales • Branch Registration No. BR017427 • VAT No. GB 727266821</div>
+        </div>
+
+        <!-- Page Number -->
+        <div class="page-number">Page {{ _page_number|default(1) }} of {{ _total_pages|default(1) }}</div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            Page {{ _page_number }} of {{ _total_pages }} — Continued...
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

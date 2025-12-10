@@ -1,0 +1,623 @@
+/* ==========================================================================
+   FASHION WHOLESALE PURCHASE ORDER - CHIC BLACK & GOLD THEME
+   Colors: Black (#000000), Gold (#d4af37), Champagne (#f4e4c1)
+   Use Case: Apparel wholesale, size runs, color assortments, style codes
+   ========================================================================== */
+
+/* Header Styling */
+.po-header {
+    margin-bottom: 20px;
+}
+
+.header-top {
+    margin-bottom: 15px;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.header-left {
+    width: 60%;
+    vertical-align: middle;
+}
+
+.header-right {
+    width: 40%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.supplier-logo {
+    height: 50px;
+    width: auto;
+    max-width: 150px;
+    margin-right: 12px;
+    vertical-align: middle;
+}
+
+.logo-placeholder {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: #000000;  /* was: linear-gradient(135deg, #000000 0%, #333333 100%...) */
+    border-radius: 6px;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 12px;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: #d4af37;
+    line-height: 50px;
+}
+
+.supplier-info {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.supplier-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 2px;
+}
+
+.supplier-tagline {
+    font-size: 10px;
+    color: #666666;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.doc-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #000000;
+    margin: 0 0 8px 0;
+    letter-spacing: 1px;
+}
+
+.po-number {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000000;
+    background: #d4af37;
+    padding: 6px 12px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.season-badge {
+    font-size: 11px;
+    font-weight: 600;
+    color: #d4af37;
+    background: #000000;
+    padding: 4px 10px;
+    border-radius: 3px;
+    display: inline-block;
+    letter-spacing: 0.5px;
+}
+
+/* Header Details */
+.header-details {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.details-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.detail-cell {
+    width: 25%;
+    padding: 4px 8px;
+    vertical-align: top;
+}
+
+.detail-label {
+    font-size: 9px;
+    color: #666666;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+}
+
+.detail-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #000000;
+}
+
+/* Address Cards */
+.address-section {
+    margin: 15px 0;
+}
+
+.address-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 0;
+}
+
+.address-card {
+    width: 33.33%;
+    background: #ffffff;
+    border: 1px solid #d4af37;
+    border-radius: 6px;
+    padding: 12px;
+    vertical-align: top;
+}
+
+.card-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #d4af37;
+}
+
+.card-line {
+    font-size: 10px;
+    color: #333333;
+    margin-bottom: 3px;
+    line-height: 1.4;
+}
+
+/* Continuation Header */
+.continuation-header {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #d4af37;
+}
+
+.cont-header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-left {
+    width: 70%;
+    vertical-align: middle;
+}
+
+.cont-right {
+    width: 30%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.logo-cont {
+    height: 30px;
+    width: auto;
+    max-width: 100px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.cont-po {
+    font-size: 14px;
+    font-weight: 700;
+    color: #000000;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.cont-season {
+    font-size: 10px;
+    font-weight: 600;
+    color: #ffffff;
+    background: #d4af37;
+    padding: 3px 8px;
+    border-radius: 3px;
+    vertical-align: middle;
+}
+
+.cont-page {
+    font-size: 10px;
+    color: #666666;
+}
+
+/* Line Items Table */
+.items-section {
+    margin: 15px 0;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.items-table thead {
+    background: #000000;
+}
+
+.items-table th {
+    font-size: 9px;
+    font-weight: 700;
+    color: #d4af37;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    padding: 10px 8px;
+    text-align: left;
+    border-bottom: 2px solid #d4af37;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.items-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.items-table tbody tr:hover {
+    background: #fafafa;
+}
+
+.items-table td {
+    font-size: 10px;
+    color: #333333;
+    padding: 10px 8px;
+    vertical-align: top;
+}
+
+/* Column Widths */
+.col-line { width: 3%; text-align: center; font-weight: 600; color: #666666; }
+.col-style { width: 10%; }
+.col-description { width: 22%; }
+.col-color { width: 10%; }
+.col-size-run { width: 18%; }
+.col-qty { width: 8%; text-align: right; }
+.col-unit-price { width: 10%; text-align: right; }
+.col-msrp { width: 9%; text-align: right; }
+.col-total { width: 10%; text-align: right; font-weight: 600; }
+
+/* Item Details */
+.style-code {
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 2px;
+}
+
+.collection-tag {
+    font-size: 8px;
+    color: #d4af37;
+    background: #fffef0;
+    padding: 2px 4px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-top: 2px;
+}
+
+.item-name {
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 3px;
+}
+
+.item-detail {
+    font-size: 9px;
+    color: #666666;
+    margin-bottom: 2px;
+}
+
+.color-name {
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 2px;
+}
+
+.color-code {
+    font-size: 8px;
+    color: #666666;
+}
+
+.size-breakdown {
+    font-size: 9px;
+    line-height: 1.4;
+}
+
+.size-item {
+    display: inline-block;
+    margin-right: 6px;
+    margin-bottom: 2px;
+    padding: 2px 4px;
+    background: #f4e4c1;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+
+.single-size {
+    font-weight: 600;
+    color: #000000;
+}
+
+/* Totals Section */
+.totals-section {
+    margin: 20px 0;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-table tr {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.totals-table tr:last-child {
+    border-bottom: none;
+}
+
+.totals-label {
+    font-size: 11px;
+    color: #333333;
+    padding: 8px 12px;
+    text-align: right;
+    width: 70%;
+}
+
+.totals-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #000000;
+    padding: 8px 12px;
+    text-align: right;
+    width: 30%;
+}
+
+.totals-value.discount {
+    color: #c41e3a;
+}
+
+.total-row {
+    background: #f4e4c1;
+    border-top: 2px solid #d4af37;
+}
+
+.total-row .totals-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.total-row .totals-value {
+    font-size: 15px;
+    font-weight: 800;
+    color: #000000;
+}
+
+/* Summary Section */
+.summary-section {
+    margin: 15px 0;
+    background: #f9f9f9;
+    border: 1px solid #d4af37;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.section-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #d4af37;
+}
+
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.summary-table td {
+    padding: 4px 8px;
+    font-size: 10px;
+}
+
+.summary-label {
+    width: 25%;
+    font-weight: 600;
+    color: #666666;
+}
+
+.summary-value {
+    width: 25%;
+    font-weight: 600;
+    color: #000000;
+}
+
+/* Terms Section */
+.terms-section {
+    margin: 15px 0;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.terms-grid {
+    display: block;
+}
+
+.term-block {
+    margin-bottom: 8px;
+    padding: 6px 8px;
+    background: #fafafa;
+    border-left: 3px solid #d4af37;
+    border-radius: 3px;
+}
+
+.term-block:last-child {
+    margin-bottom: 0;
+}
+
+.term-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+}
+
+.term-value {
+    font-size: 10px;
+    color: #333333;
+    line-height: 1.4;
+}
+
+/* Instructions Section */
+.instructions-section {
+    margin: 15px 0;
+    background: #fffef0;
+    border: 1px solid #d4af37;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.instruction-block {
+    font-size: 10px;
+    color: #333333;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.instruction-block:last-child {
+    margin-bottom: 0;
+}
+
+.instruction-block strong {
+    color: #000000;
+}
+
+/* Footer */
+.po-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #d4af37;
+    position: relative;
+}
+
+.footer-content {
+    margin-bottom: 15px;
+}
+
+.approval-section {
+    margin-bottom: 12px;
+}
+
+.approval-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 20px 0;
+}
+
+.approval-col {
+    width: 50%;
+    vertical-align: top;
+}
+
+.approval-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 8px;
+}
+
+.signature-line {
+    height: 40px;
+    border-bottom: 1px solid #333333;
+    margin-bottom: 5px;
+}
+
+.signature-info {
+    font-size: 9px;
+    color: #666666;
+}
+
+.signature-info span {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.date-field {
+    color: #999999;
+}
+
+.footer-note {
+    font-size: 9px;
+    color: #666666;
+    font-style: italic;
+    text-align: center;
+    padding: 8px;
+    background: #f9f9f9;
+    border-radius: 4px;
+}
+
+.page-number {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 9px;
+    color: #999999;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    margin-top: 20px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-top: 2px solid #d4af37;
+    border-radius: 4px;
+    position: relative;
+}
+
+.cont-footer-text {
+    font-size: 10px;
+    color: #666666;
+    font-style: italic;
+    text-align: center;
+}
+
+.cont-page-number {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 9px;
+    color: #999999;
+}
+
+/* Print Optimization */
+@media print {
+    .invoice-page {
+        page-break-after: always;
+    }
+    
+    .continuation-footer {
+        page-break-after: always;
+    }
+    
+    .po-footer {
+        page-break-inside: avoid;
+    }
+}

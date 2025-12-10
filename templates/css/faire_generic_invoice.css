@@ -1,0 +1,292 @@
+/* Fayre Generic Invoice - Minimalist Platform Style
+ * Plain black & white invoice format for all retailers
+ * No branding/colors - clean text-based layout
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.4;
+    color: #1a1a1a;
+    background-color: #ffffff;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 50px 60px;
+    background-color: #ffffff;
+    position: relative;
+}
+
+/* Header Section */
+.header {
+    margin-bottom: 25px;
+}
+
+.order-info {
+    margin-bottom: 15px;
+}
+
+.order-line {
+    font-size: 12px;
+    color: #333333;
+    margin-bottom: 5px;
+}
+
+.invoice-line {
+    font-size: 12px;
+    color: #1a1a1a;
+}
+
+/* Three Column Address Section */
+.address-section {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.address-column {
+    width: 33.33%;
+    vertical-align: top;
+    padding-right: 20px;
+}
+
+.address-label {
+    font-size: 11px;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.address-content {
+    font-size: 11px;
+    color: #333333;
+    line-height: 1.5;
+}
+
+.address-content div {
+    margin-bottom: 2px;
+}
+
+/* VAT Section */
+.vat-section {
+    font-size: 11px;
+    color: #1a1a1a;
+    margin-bottom: 30px;
+    padding-top: 10px;
+}
+
+/* Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.items-table thead tr {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.items-table th {
+    font-size: 10px;
+    font-weight: 400;
+    color: #666666;
+    text-align: left;
+    padding: 10px 8px 10px 0;
+    vertical-align: bottom;
+}
+
+.items-table th.col-price,
+.items-table th.col-qty,
+.items-table th.col-subtotal {
+    text-align: right;
+}
+
+.items-table tbody tr {
+    border-bottom: none;
+}
+
+.items-table td {
+    font-size: 11px;
+    color: #1a1a1a;
+    padding: 12px 8px 12px 0;
+    vertical-align: top;
+}
+
+.items-table td.col-price,
+.items-table td.col-qty,
+.items-table td.col-subtotal {
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* Column Widths */
+.col-item {
+    width: 38%;
+}
+
+.col-sku {
+    width: 14%;
+}
+
+.col-gtin {
+    width: 14%;
+}
+
+.col-price {
+    width: 12%;
+}
+
+.col-qty {
+    width: 8%;
+}
+
+.col-subtotal {
+    width: 14%;
+}
+
+/* Item Description */
+.item-description {
+    font-size: 11px;
+    color: #1a1a1a;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.item-variant {
+    font-size: 10px;
+    color: #666666;
+    margin-top: 2px;
+}
+
+/* Totals Section */
+.totals-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-table tr {
+    border: none;
+}
+
+.totals-table td {
+    padding: 4px 0;
+    font-size: 11px;
+    border: none;
+}
+
+.totals-label {
+    text-align: right;
+    color: #666666;
+    padding-right: 20px;
+}
+
+.totals-value {
+    text-align: right;
+    color: #1a1a1a;
+    width: 120px;
+}
+
+.total-row {
+    margin-top: 10px;
+}
+
+.total-row .totals-label {
+    padding-top: 15px;
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+.total-row .totals-value {
+    padding-top: 15px;
+    font-weight: 600;
+}
+
+.payment-method {
+    font-size: 11px;
+}
+
+.total-amount {
+    font-size: 12px;
+}
+
+/* Import Notice */
+.import-notice {
+    margin-top: 40px;
+    padding-top: 30px;
+}
+
+.notice-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.notice-text {
+    font-size: 11px;
+    color: #333333;
+    line-height: 1.5;
+    max-width: 90%;
+}
+
+/* Continuation Header */
+.continuation-header {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 11px;
+    color: #333333;
+}
+
+.continuation-header span:first-child {
+    display: table-cell;
+    text-align: left;
+}
+
+.page-indicator {
+    display: table-cell;
+    text-align: right;
+    color: #666666;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    right: 60px;
+    text-align: center;
+    font-size: 10px;
+    color: #666666;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .invoice-page {
+        padding: 40px 50px;
+        page-break-after: always;
+    }
+}

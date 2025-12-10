@@ -1,0 +1,779 @@
+/* Shopify Premium Detailed Order Invoice */
+/* Comprehensive styling for production e-commerce invoices */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    line-height: 1.5;
+    color: #1a1a2e;
+    background: #ffffff;
+}
+
+.invoice-container {
+    width: 794px; /* A4 width at 96 DPI */
+    margin: 0 auto;
+    padding: 30px 35px;
+    min-height: 1123px; /* A4 height */
+}
+
+/* ============================================
+   HEADER SECTION
+   ============================================ */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #5c6ac4;
+}
+
+.brand-section {
+
+
+
+                display: flex;
+    align-items: center;
+        /*     /*     /* gap: 15px; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
+}
+
+
+
+
+.logo-placeholder {
+    width: 60px;
+    height: 60px;
+    background: #5c6ac4;  /* was: linear-gradient(135deg, #5c6ac4, #8b5cf6...) */
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 11px;
+    text-align: center;
+    padding: 5px;
+}
+
+/* Brand logo image styling */
+.brand-logo {
+    height: 60px;
+    width: auto;
+    max-width: 180px;
+    object-fit: contain;
+}
+
+.logo-text {
+    word-break: break-word;
+    line-height: 1.2;
+}
+
+.brand-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.store-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 2px;
+}
+
+.store-tagline {
+    font-size: 9px;
+    color: #6b7280;
+    font-style: italic;
+}
+
+.order-badge {
+    text-align: right;
+    background: #f8f9ff;  /* was: linear-gradient(135deg, #f8f9ff, #eef0ff...) */
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: 1px solid #e0e4ff;
+}
+
+.order-type {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #5c6ac4;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.order-number {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 3px;
+}
+
+.order-date {
+    font-size: 10px;
+    color: #6b7280;
+}
+
+.tracking {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed #d1d5db;
+}
+
+.tracking-label {
+    font-size: 8px;
+    color: #6b7280;
+    text-transform: uppercase;
+}
+
+.tracking-number {
+    font-size: 9px;
+    font-weight: 600;
+    color: #059669;
+    font-family: 'Courier New', monospace;
+}
+
+/* ============================================
+   CONTACT BAR
+   ============================================ */
+.contact-bar {
+
+
+
+                display: flex;
+    justify-content: center;
+        /*     /*     /* gap: 30px; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
+    padding: 10px 0;
+    margin-bottom: 15px;
+    background: #f9fafb;
+    border-radius: 6px;
+}
+
+
+
+
+.contact-item {
+
+
+
+                display: flex;
+    align-items: center;
+        /*     /*     /* gap: 6px; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
+    font-size: 9px;
+    color: #4b5563;
+}
+
+
+
+
+.contact-item .icon {
+    font-size: 11px;
+}
+
+/* ============================================
+   CUSTOMER & SHIPPING CARDS
+   ============================================ */
+.customer-shipping-section {
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 15px;
+
+    margin-bottom: 20px;
+}
+
+.customer-shipping-section > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
+
+.info-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.card-header {
+
+
+
+                display: flex;
+    align-items: center;
+        /*     /*     /* gap: 8px; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
+    padding: 8px 12px;
+    background: #f3f4f6;  /* was: linear-gradient(135deg, #f3f4f6, #e5e7eb...) */
+    border-bottom: 1px solid #e5e7eb;
+}
+
+
+
+
+.card-icon {
+    font-size: 12px;
+}
+
+.card-header h3 {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #374151;
+}
+
+.card-body {
+    padding: 10px 12px;
+}
+
+.card-body p {
+    font-size: 9px;
+    color: #4b5563;
+    margin-bottom: 3px;
+    line-height: 1.4;
+}
+
+.card-body .customer-name {
+    font-weight: 600;
+    color: #1a1a2e;
+    font-size: 10px;
+    margin-bottom: 5px;
+}
+
+/* ============================================
+   CONTINUATION HEADER (Pages 2+)
+   ============================================ */
+.continuation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    background: #5c6ac4;  /* was: linear-gradient(90deg, #5c6ac4, #8b5cf6...) */
+    color: white;
+    border-radius: 6px;
+    font-size: 9px;
+}
+
+.cont-left {
+    font-weight: 600;
+}
+
+.cont-right {
+    opacity: 0.9;
+}
+
+/* ============================================
+   ITEMS SECTION
+   ============================================ */
+.items-section {
+    margin-bottom: 20px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.section-header h2 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.item-count {
+    font-size: 9px;
+    color: #6b7280;
+    background: #f3f4f6;
+    padding: 3px 10px;
+    border-radius: 12px;
+}
+
+/* ============================================
+   ITEMS TABLE
+   ============================================ */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9px;
+}
+
+.items-table thead {
+    background: #5c6ac4;  /* was: linear-gradient(135deg, #5c6ac4, #7c3aed...) */
+    color: white;
+}
+
+.items-table th {
+    padding: 10px 8px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Column widths - optimized for detailed view */
+.col-product { width: 30%; }
+.col-sku { width: 14%; }
+.col-variant { width: 14%; }
+.col-qty { width: 7%; text-align: center; }
+.col-price { width: 11%; text-align: right; }
+.col-discount { width: 11%; text-align: right; }
+.col-total { width: 13%; text-align: right; }
+
+/* Item rows - 55px height for ~9 items per page */
+.items-table tbody tr.item-row {
+    border-bottom: 1px solid #e5e7eb;
+    height: 55px;
+    transition: background 0.2s;
+}
+
+.items-table tbody tr.item-row:nth-child(even) {
+    background: #fafafa;
+}
+
+.items-table tbody tr.item-row:hover {
+    background: #f0f4ff;
+}
+
+.items-table td {
+    padding: 8px;
+    vertical-align: middle;
+}
+
+/* Product cell styling */
+.product-info {
+
+
+
+                display: flex;
+    flex-direction: column;
+        /*     /*     /* gap: 2px; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
+}
+
+
+
+
+.product-name {
+    font-weight: 600;
+    color: #1a1a2e;
+    font-size: 10px;
+}
+
+.product-brand {
+    font-size: 8px;
+    color: #6b7280;
+    font-style: italic;
+}
+
+.product-material {
+    font-size: 8px;
+    color: #9ca3af;
+}
+
+/* SKU cell styling */
+.sku-value {
+    display: block;
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+    color: #374151;
+}
+
+.upc-value {
+    display: block;
+    font-size: 7px;
+    color: #9ca3af;
+    margin-top: 2px;
+}
+
+/* Variant cell styling */
+.variant-info {
+    display: inline-block;
+    padding: 3px 8px;
+    background: #e0e7ff;
+    color: #4338ca;
+    border-radius: 4px;
+    font-size: 8px;
+    font-weight: 500;
+}
+
+.variant-default {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+/* Price cells */
+.discount-amount {
+    color: #dc2626;
+    font-weight: 600;
+}
+
+.no-discount {
+    color: #d1d5db;
+}
+
+.line-total {
+    font-weight: 700;
+    color: #1a1a2e;
+    font-size: 10px;
+}
+
+/* Extra rows (personalization, serial) */
+.item-extra {
+    background: #fffbeb !important;
+    border-bottom: 1px solid #fcd34d;
+}
+
+.item-extra td {
+    padding: 6px 8px;
+}
+
+.personalization {
+
+
+
+                display: flex;
+    align-items: center;
+        /*     /*     /* gap: 8px; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
+    font-size: 8px;
+}
+
+
+
+
+.pers-icon {
+    font-size: 11px;
+}
+
+.pers-label {
+    font-weight: 600;
+    color: #92400e;
+}
+
+.pers-text {
+    color: #78350f;
+    font-style: italic;
+}
+
+.serial-info {
+    font-size: 8px;
+    color: #6b7280;
+    font-family: 'Courier New', monospace;
+}
+
+.serial-label {
+    font-weight: 600;
+}
+
+.warranty-info {
+    color: #059669;
+}
+
+/* ============================================
+   FOOTER SECTION (Last Page Only)
+   ============================================ */
+.footer-section {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 2px solid #e5e7eb;
+}
+
+.footer-section > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.footer-section .notes-section {
+    /* Flexible width - takes remaining space */
+}
+
+.footer-section .summary-section {
+    width: 280px;
+}
+
+/* Notes Section */
+.notes-section {
+
+
+
+                display: flex;
+    flex-direction: column;
+        /*     /*     /* gap: 12px; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
+}
+
+
+
+
+.order-notes, .gift-message {
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.order-notes {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+}
+
+.order-notes h4 {
+    font-size: 10px;
+    color: #0369a1;
+    margin-bottom: 6px;
+}
+
+.order-notes p {
+    font-size: 9px;
+    color: #0c4a6e;
+    line-height: 1.5;
+}
+
+.gift-message {
+    background: #fef3c7;
+    border: 1px solid #fcd34d;
+}
+
+.gift-message h4 {
+    font-size: 10px;
+    color: #92400e;
+    margin-bottom: 6px;
+}
+
+.gift-text {
+    font-size: 9px;
+    color: #78350f;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+/* Summary Section */
+.summary-section {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.summary-card {
+    width: 100%;
+    background: #f8f9ff;  /* was: linear-gradient(135deg, #f8f9ff, #eef0ff...) */
+    border: 1px solid #c7d2fe;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.summary-card h4 {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #c7d2fe;
+}
+
+.summary-table {
+    width: 100%;
+}
+
+.summary-table tr {
+    border-bottom: 1px solid #e0e4ff;
+}
+
+.summary-table td {
+    padding: 8px 0;
+    font-size: 10px;
+}
+
+.summary-table td.amount {
+    text-align: right;
+    font-weight: 500;
+}
+
+.summary-table .discount-row .amount {
+    color: #dc2626;
+}
+
+.summary-table .free-shipping .amount.free {
+    color: #059669;
+    font-weight: 700;
+}
+
+.summary-table .total-row {
+    border-bottom: none;
+    background: #5c6ac4;  /* was: linear-gradient(135deg, #5c6ac4, #7c3aed...) */
+    margin: 10px -15px -15px -15px;
+    padding: 0 15px;
+    border-radius: 0 0 10px 10px;
+}
+
+.summary-table .total-row td {
+    color: white;
+    padding: 12px 0;
+    font-size: 13px;
+}
+
+.summary-table .total-row .amount.total {
+    font-size: 15px;
+}
+
+/* ============================================
+   LOYALTY SECTION
+   ============================================ */
+.loyalty-section {
+    margin: 15px 0;
+}
+
+.loyalty-card {
+
+
+
+                display: flex;
+    align-items: center;
+        /*     /*     /* gap: 12px; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
+    padding: 12px 20px;
+    background: #fef3c7;  /* was: linear-gradient(135deg, #fef3c7, #fde68a...) */
+    border: 1px solid #f59e0b;
+    border-radius: 8px;
+}
+
+
+
+
+.loyalty-icon {
+    font-size: 20px;
+}
+
+.loyalty-info {
+
+
+
+                display: flex;
+        /*     /*     /* gap: 15px; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
+}
+
+
+
+
+.points-earned {
+    font-weight: 700;
+    color: #92400e;
+    font-size: 11px;
+}
+
+.points-balance {
+    font-size: 10px;
+    color: #78350f;
+}
+
+/* ============================================
+   SUPPORT SECTION
+   ============================================ */
+.support-section {
+    margin: 15px 0;
+}
+
+.support-card {
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 15px;
+
+    padding: 15px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.support-card > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
+
+.support-item h5 {
+    font-size: 9px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.support-item p {
+    font-size: 9px;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+/* ============================================
+   THANK YOU BANNER
+   ============================================ */
+.thank-you-banner {
+    text-align: center;
+    padding: 20px;
+    margin-top: 15px;
+    background: #5c6ac4;  /* was: linear-gradient(135deg, #5c6ac4, #8b5cf6...) */
+    border-radius: 10px;
+    color: white;
+}
+
+.main-message {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.sub-message {
+    font-size: 10px;
+    opacity: 0.9;
+}
+
+/* ============================================
+   PAGE INDICATOR
+   ============================================ */
+.page-indicator {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 8px;
+    color: #9ca3af;
+}

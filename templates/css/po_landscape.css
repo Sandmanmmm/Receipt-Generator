@@ -1,0 +1,658 @@
+/* =============================================================================
+   Landscape Generic B2B Purchase Order Stylesheet
+   Target: 2112px width × 1632px height (Letter Landscape at 192 DPI)
+   Layout: 10-column wide format optimized for horizontal viewing
+============================================================================= */
+
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.4;
+    color: #1f2937;
+    background: #f9fafb;
+}
+
+/* Page Container - Landscape Dimensions */
+.page-container {
+    width: 2112px;           /* Landscape width (Letter 11" at 192 DPI) */
+    min-height: 1632px;      /* Landscape height (Letter 8.5" at 192 DPI) */
+    padding: 25px;           /* Compact padding for landscape */
+    background: #ffffff;
+    position: relative;
+}
+
+/* =============================================================================
+   Main Header (First Page Only)
+============================================================================= */
+.main-header {
+    margin-bottom: 15px;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.header-left {
+    width: 60%;
+    vertical-align: top;
+}
+
+.header-right {
+    width: 40%;
+    vertical-align: top;
+    text-align: right;
+}
+
+/* Supplier Logo */
+.supplier-logo {
+    display: inline-block;
+    height: 45px;
+    width: auto;
+    max-width: 140px;
+    margin-right: 15px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    background: #3b82f6;  /* was: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%...) */
+    border-radius: 10px;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+.logo-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 45px;
+}
+
+/* Supplier Info */
+.supplier-info {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.supplier-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 3px;
+}
+
+.supplier-detail {
+    font-size: 10px;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+/* PO Badge */
+.po-badge {
+    display: inline-block;
+    background: #3b82f6;  /* was: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%...) */
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.po-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+.po-number {
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 2px;
+}
+
+/* PO Meta */
+.po-meta {
+    text-align: right;
+}
+
+.meta-row {
+    margin-bottom: 4px;
+    font-size: 10px;
+}
+
+.meta-label {
+    color: #6b7280;
+    margin-right: 5px;
+}
+
+.meta-value {
+    color: #111827;
+    font-weight: 600;
+}
+
+/* =============================================================================
+   Address Section (4-column compact layout)
+============================================================================= */
+.address-section {
+    margin-bottom: 15px;
+}
+
+.address-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 0;
+}
+
+.address-card {
+    width: 25%;
+    vertical-align: top;
+    background: #f3f4f6;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+}
+
+.card-title {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #2563eb;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #2563eb;
+}
+
+.card-line {
+    font-size: 10px;
+    color: #374151;
+    line-height: 1.5;
+    margin-bottom: 3px;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #6b7280;
+}
+
+/* =============================================================================
+   Continuation Header (Page 2+)
+============================================================================= */
+.continuation-header {
+    margin-bottom: 12px;
+    padding: 8px 15px;
+    background: #f3f4f6;  /* was: linear-gradient(to right, #f3f4f6 0%, #e5e7eb 100%...) */
+    border-radius: 6px;
+}
+
+.cont-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-left {
+    width: 40%;
+    text-align: left;
+}
+
+.cont-center {
+    width: 30%;
+    text-align: center;
+}
+
+.cont-right {
+    width: 30%;
+    text-align: right;
+}
+
+.logo-small {
+    height: 24px;
+    width: auto;
+    max-width: 80px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.cont-supplier {
+    font-size: 12px;
+    font-weight: 700;
+    color: #111827;
+    vertical-align: middle;
+}
+
+.cont-po {
+    font-size: 13px;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+.cont-page {
+    font-size: 10px;
+    color: #6b7280;
+}
+
+/* =============================================================================
+   Items Table (10 columns for landscape)
+============================================================================= */
+.items-section {
+    margin-bottom: 15px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Table Header */
+.table-header {
+    background-color: #1e40af;  /* Solid color - wkhtmltoimage doesn't support linear-gradient */
+    background: #1e40af;
+    color: #ffffff;
+}
+
+.table-header th {
+    padding: 12px 8px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: left;
+    border-right: 1px solid rgba(255,255,255,0.2);
+    background-color: #1e40af;  /* Fallback for th cells */
+    color: #ffffff;
+}
+
+.table-header th:last-child {
+    border-right: none;
+}
+
+/* Column Widths - Optimized for landscape 2112px width */
+.col-sku { width: 10%; }          /* 211px - SKU codes */
+.col-description { width: 18%; }  /* 380px - Product name/brand */
+.col-category { width: 9%; }      /* 190px - Category tags */
+.col-attr1 { width: 11%; }        /* 232px - First attribute */
+.col-attr2 { width: 11%; }        /* 232px - Second attribute */
+.col-attr3 { width: 11%; }        /* 232px - Third attribute */
+.col-uom { width: 8%; }           /* 169px - Unit of measure */
+.col-qty { width: 7%; }           /* 148px - Quantity */
+.col-price { width: 8%; }         /* 169px - Unit price */
+.col-total { width: 7%; }         /* 148px - Total */
+
+/* Item Rows */
+.item-row {
+    border-bottom: 1px solid #e5e7eb;
+    background: #ffffff;
+}
+
+.item-row:nth-child(even) {
+    background: #f8fafc;
+}
+
+.item-row:hover {
+    background: #eff6ff;
+}
+
+.item-row td {
+    padding: 10px 8px;
+    vertical-align: middle;
+    font-size: 10px;
+    border-right: 1px solid #e5e7eb;
+}
+
+.item-row td:last-child {
+    border-right: none;
+}
+
+/* SKU Column */
+.cell-sku {
+    color: #111827;
+}
+
+.sku-primary {
+    font-size: 10px;
+    font-weight: 700;
+    color: #111827;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+.sku-secondary {
+    font-size: 8px;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+/* Description Column */
+.cell-description {
+    color: #111827;
+}
+
+.desc-name {
+    font-size: 10px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 2px;
+}
+
+.desc-brand {
+    font-size: 9px;
+    color: #2563eb;
+    margin-bottom: 2px;
+}
+
+.desc-model {
+    font-size: 8px;
+    color: #6b7280;
+}
+
+/* Category Column */
+.cell-category {
+    text-align: center;
+}
+
+.category-tag {
+    display: inline-block;
+    padding: 3px 8px;
+    font-size: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    border-radius: 4px;
+    margin-bottom: 3px;
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.subcategory-tag {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: 7px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 3px;
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+/* Attribute Columns */
+.cell-attr {
+    font-size: 9px;
+}
+
+.attr-item {
+    line-height: 1.5;
+}
+
+.attr-key {
+    font-weight: 700;
+    color: #6b7280;
+}
+
+.attr-value {
+    color: #111827;
+}
+
+.attr-none {
+    color: #d1d5db;
+    text-align: center;
+    display: block;
+}
+
+/* UOM Column */
+.cell-uom {
+    text-align: center;
+}
+
+.uom-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    font-size: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    background: #f3f4f6;
+    color: #374151;
+    border-radius: 4px;
+}
+
+/* Quantity Column */
+.cell-qty {
+    text-align: center;
+    font-weight: 700;
+    color: #111827;
+}
+
+/* Price Column */
+.cell-price {
+    text-align: right;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* Total Column */
+.cell-total {
+    text-align: right;
+    font-weight: 700;
+    color: #111827;
+    font-size: 11px;
+}
+
+/* =============================================================================
+   Totals Section (Last Page Only)
+============================================================================= */
+.totals-section {
+    margin-bottom: 15px;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-left {
+    width: 60%;
+    vertical-align: top;
+    padding-right: 20px;
+}
+
+.totals-right {
+    width: 40%;
+    vertical-align: top;
+}
+
+/* Notes Box */
+.notes-box {
+    background: #f9fafb;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+}
+
+.notes-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.notes-content {
+    font-size: 10px;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+/* Totals Calculation */
+.totals-calc {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f9fafb;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #d1d5db;
+}
+
+.total-row td {
+    padding: 10px 15px;
+    font-size: 11px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.total-row:last-child td {
+    border-bottom: none;
+}
+
+.total-label {
+    text-align: right;
+    color: #6b7280;
+    font-weight: 600;
+    width: 60%;
+}
+
+.total-value {
+    text-align: right;
+    color: #111827;
+    font-weight: 700;
+    width: 40%;
+}
+
+.total-value.discount {
+    color: #dc2626;
+}
+
+.grand-total {
+    background-color: #1e40af;  /* Solid color - wkhtmltoimage doesn't support linear-gradient well */
+    background: #1e40af;
+}
+
+.grand-total .total-label,
+.grand-total .total-value {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 12px 15px;
+    background-color: #1e40af;  /* Fallback for cell background */
+}
+
+/* =============================================================================
+   Footer (Last Page Only)
+============================================================================= */
+.main-footer {
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+    right: 25px;
+    border-top: 2px solid #e5e7eb;
+    padding-top: 12px;
+}
+
+.footer-content {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.footer-left {
+    display: table-cell;
+    width: 60%;
+    vertical-align: middle;
+}
+
+.footer-right {
+    display: table-cell;
+    width: 40%;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.footer-line {
+    font-size: 9px;
+    color: #6b7280;
+    line-height: 1.5;
+    margin-bottom: 3px;
+}
+
+/* Signature Box */
+.signature-box {
+    display: inline-block;
+    text-align: center;
+}
+
+.signature-line {
+    width: 250px;
+    height: 1px;
+    background: #9ca3af;
+    margin-bottom: 5px;
+}
+
+.signature-label {
+    font-size: 9px;
+    color: #6b7280;
+    margin-bottom: 3px;
+}
+
+.signature-date {
+    font-size: 9px;
+    color: #9ca3af;
+}
+
+/* =============================================================================
+   Continuation Footer (Page 1 to N-1)
+============================================================================= */
+.continuation-footer {
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+    right: 25px;
+    text-align: center;
+    padding: 10px;
+    background: #f3f4f6;
+    border-radius: 6px;
+    border: 1px dashed #9ca3af;
+}
+
+.cont-message {
+    font-size: 10px;
+    color: #6b7280;
+    font-style: italic;
+    margin-right: 15px;
+}
+
+.cont-page-num {
+    font-size: 10px;
+    color: #374151;
+    font-weight: 600;
+}
+
+/* =============================================================================
+   Print Optimizations
+============================================================================= */
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .page-container {
+        padding: 0;
+        box-shadow: none;
+    }
+    
+    .item-row:hover {
+        background: inherit;
+    }
+}

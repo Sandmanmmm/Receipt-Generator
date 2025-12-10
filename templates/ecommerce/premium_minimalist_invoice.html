@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - {{ order_number }}</title>
+    <link rel="stylesheet" href="../css/premium_minimalist_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page %}
+        <div class="header-section">
+            <table class="header-grid">
+                <tr>
+                    <td class="logo-area">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="company-logo" />
+                        {% else %}
+                        <div class="logo-initial">{{ supplier_name[:2]|upper }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="order-info">
+                        <div class="order-label">Order Number</div>
+                        <div class="order-number">{{ order_number }}</div>
+                        <div class="order-date">{{ order_date }}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="status-banner">
+            <table class="status-grid">
+                <tr>
+                    <td class="status-item">
+                        <div class="status-icon">✓</div>
+                        <div class="status-text">
+                            <div class="status-title">Payment Confirmed</div>
+                            <div class="status-detail">{{ payment_method or 'Card' }}</div>
+                        </div>
+                    </td>
+                    {% if shipping_method %}
+                    <td class="status-item">
+                        <div class="status-icon"></div>
+                        <div class="status-text">
+                            <div class="status-title">Shipping Method</div>
+                            <div class="status-detail">{{ shipping_method }}</div>
+                        </div>
+                    </td>
+                    {% endif %}
+                    {% if tracking_number %}
+                    <td class="status-item">
+                        <div class="status-icon"></div>
+                        <div class="status-text">
+                            <div class="status-title">Tracking</div>
+                            <div class="status-detail">{{ tracking_number }}</div>
+                        </div>
+                    </td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+
+        <table class="contact-grid">
+            <tr>
+                <td class="contact-section">
+                    <div class="section-heading">Bill To</div>
+                    <div class="contact-name">{{ buyer_name }}</div>
+                    {% if buyer_address %}<div class="contact-detail">{{ buyer_address }}</div>{% endif %}
+                    {% if buyer_email %}<div class="contact-detail light">{{ buyer_email }}</div>{% endif %}
+                    {% if buyer_phone %}<div class="contact-detail light">{{ buyer_phone }}</div>{% endif %}
+                </td>
+                <td class="contact-section">
+                    <div class="section-heading">Ship To</div>
+                    <div class="contact-name">{{ buyer_name }}</div>
+                    {% if buyer_address %}<div class="contact-detail">{{ buyer_address }}</div>{% endif %}
+                </td>
+                <td class="contact-section">
+                    <div class="section-heading">From</div>
+                    <div class="contact-name">{{ supplier_name }}</div>
+                    {% if supplier_address %}<div class="contact-detail">{{ supplier_address }}</div>{% endif %}
+                    {% if supplier_email %}<div class="contact-detail light">{{ supplier_email }}</div>{% endif %}
+                </td>
+            </tr>
+        </table>
+
+        <div class="section-divider"></div>
+        <div class="section-heading items-heading">Order Details</div>
+        {% else %}
+        <div class="continuation-header">
+            <table class="cont-grid">
+                <tr>
+                    <td class="cont-brand">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="cont-logo" />
+                        {% else %}
+                        <span class="cont-company">{{ supplier_name }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="cont-order">Order {{ order_number }} — Page {{ _current_page }} of {{ _total_pages }}</td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th class="col-product">Product</th>
+                    <th class="col-sku">SKU</th>
+                    <th class="col-qty">Quantity</th>
+                    <th class="col-price">Price</th>
+                    <th class="col-total">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="product-row">
+                    <td class="cell-product">
+                        <div class="product-name">{{ item.description }}</div>
+                        {% if item.variant %}<div class="product-variant">{{ item.variant }}</div>{% endif %}
+                    </td>
+                    <td class="cell-sku">{{ item.sku or '—' }}</td>
+                    <td class="cell-qty">{{ item.quantity }}</td>
+                    <td class="cell-price">${{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                    <td class="cell-total">${{ "%.2f"|format(item.total|to_float) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page %}
+        <div class="section-divider"></div>
+
+        <table class="summary-grid">
+            <tr>
+                <td class="support-section">
+                    <div class="support-heading">Need Help?</div>
+                    <div class="support-text">Contact our support team at {{ supplier_email }} and reference order {{ order_number }}.</div>
+                </td>
+                <td class="totals-section">
+                    <table class="totals-list">
+                        <tr><td class="label">Subtotal</td><td class="value">${{ "%.2f"|format(subtotal|to_float) }}</td></tr>
+                        {% if (discount|to_float or 0) > 0 %}<tr><td class="label">Discount</td><td class="value discount">-${{ "%.2f"|format(discount|to_float) }}</td></tr>{% endif %}
+                        {% if (shipping_cost or 0) > 0 %}<tr><td class="label">Shipping</td><td class="value">${{ "%.2f"|format(shipping_cost or 0) }}</td></tr>{% endif %}
+                        <tr><td class="label">Tax</td><td class="value">${{ "%.2f"|format(tax|to_float) }}</td></tr>
+                        <tr class="total-line"><td class="label">Total</td><td class="value">${{ "%.2f"|format(total_amount|to_float) }}</td></tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <div class="footer-section">
+            <div class="footer-bar"></div>
+            <div class="footer-info">{{ supplier_name }} • {{ supplier_address }}</div>
+            <div class="footer-contact">{{ supplier_email }} • {{ supplier_phone }}</div>
+        </div>
+        {% else %}
+        <div class="continuation-footer">Continued on next page…</div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -68,14 +68,12 @@
         <!-- Digital Products -->
         <div class="products-section">
             <h2 class="section-heading">
-                <span class="heading-icon">📦</span>
+                <span class="heading-icon"></span>
                 Your Digital Products
             </h2>
 
-            {# Smart pagination: First page shows fewer items due to large header #}
-            {% if _is_first_page|default(true) and _page_number|default(none) %}
-                {# Multi-page mode: Show only 2 items on first page #}
-                {% for item in (digital_items|default(line_items))[:2] %}
+            {# Pagination handled by template config - iterate over pre-sliced items #}
+            {% for item in (digital_items|default(line_items)) %}
             <div class="digital-product-card">
                 <div class="product-header">
                     <div class="product-icon-box">
@@ -174,7 +172,7 @@
                     {% if item.access_url %}
                     <div class="access-section">
                         <div class="access-header">
-                            <span class="access-icon">🌐</span>
+                            <span class="access-icon"></span>
                             <span class="access-title">Online Access</span>
                         </div>
                         <a href="{{ item.access_url }}" class="access-button">
@@ -188,7 +186,7 @@
                     {% if item.subscription_period %}
                     <div class="subscription-info">
                         <div class="sub-detail">
-                            <span class="sub-icon">📅</span>
+                            <span class="sub-icon"></span>
                             <span class="sub-label">Subscription:</span>
                             <span class="sub-value">{{ item.subscription_period }}</span>
                         </div>
@@ -218,167 +216,22 @@
                     <!-- Expiry Information -->
                     {% if item.expiry_date %}
                     <div class="expiry-notice">
-                        <span class="expiry-icon">⏰</span>
+                        <span class="expiry-icon"></span>
                         <span class="expiry-text">License expires: {{ item.expiry_date }}</span>
                     </div>
                     {% endif %}
                 </div>
             </div>
                 {% endfor %}
-            {% else %}
-                {# Single page mode OR continuation page: Show all assigned items #}
-                {% for item in (digital_items|default(line_items)) %}
-            <div class="digital-product-card">
-                <div class="product-header">
-                    <div class="product-icon-box">
-                        {% if item.product_type == 'software' %}
-                        <span class="product-icon">💿</span>
-                        {% elif item.product_type == 'game' %}
-                        <span class="product-icon">🎮</span>
-                        {% elif item.product_type == 'ebook' %}
-                        <span class="product-icon">📖</span>
-                        {% elif item.product_type == 'music' %}
-                        <span class="product-icon">🎵</span>
-                        {% elif item.product_type == 'video' %}
-                        <span class="product-icon">🎬</span>
-                        {% elif item.product_type == 'course' %}
-                        <span class="product-icon">🎓</span>
-                        {% else %}
-                        <span class="product-icon">📄</span>
-                        {% endif %}
-                    </div>
-                    <div class="product-main-info">
-                        <h3 class="product-name">{{ item.description }}</h3>
-                        {% if item.version %}
-                        <div class="product-version">Version {{ item.version }}</div>
-                        {% endif %}
-                        {% if item.platform %}
-                        <div class="product-platform">
-                            <span class="platform-label">Platform:</span>
-                            <span class="platform-value">{{ item.platform }}</span>
-                        </div>
-                        {% endif %}
-                    </div>
-                    <div class="product-price">{{ item.total }}</div>
-                </div>
-
-                <div class="product-details">
-                    <!-- License Key -->
-                    {% if item.license_key %}
-                    <div class="license-section">
-                        <div class="license-header">
-                            <span class="license-icon">🔑</span>
-                            <span class="license-title">License Key</span>
-                        </div>
-                        <div class="license-key-box">
-                            <code class="license-key">{{ item.license_key }}</code>
-                            <button class="copy-button">Copy</button>
-                        </div>
-                        {% if item.license_type %}
-                        <div class="license-type">{{ item.license_type }}</div>
-                        {% endif %}
-                    </div>
-                    {% endif %}
-
-                    <!-- Activation Code -->
-                    {% if item.activation_code %}
-                    <div class="activation-section">
-                        <div class="activation-header">
-                            <span class="activation-icon">✅</span>
-                            <span class="activation-title">Activation Code</span>
-                        </div>
-                        <div class="activation-code-box">
-                            <code class="activation-code">{{ item.activation_code }}</code>
-                            <button class="copy-button">Copy</button>
-                        </div>
-                    </div>
-                    {% endif %}
-
-                    <!-- Download Information -->
-                    {% if item.download_url %}
-                    <div class="download-section">
-                        <div class="download-header">
-                            <span class="download-icon">⬇️</span>
-                            <span class="download-title">Download</span>
-                        </div>
-                        <div class="download-info">
-                            {% if item.file_size %}
-                            <div class="download-detail">
-                                <span class="detail-label">File Size:</span>
-                                <span class="detail-value">{{ item.file_size }}</span>
-                            </div>
-                            {% endif %}
-                            {% if item.system_requirements %}
-                            <div class="download-detail">
-                                <span class="detail-label">Requirements:</span>
-                                <span class="detail-value">{{ item.system_requirements }}</span>
-                            </div>
-                            {% endif %}
-                            <a href="{{ item.download_url }}" class="download-button">
-                                <span class="download-btn-icon">⬇️</span>
-                                <span class="download-btn-text">Download Now</span>
-                            </a>
-                        </div>
-                    </div>
-                    {% endif %}
-
-                    <!-- Access Information (Streaming/Cloud) -->
-                    {% if item.access_url %}
-                    <div class="access-section">
-                        <div class="access-header">
-                            <span class="access-icon">🌐</span>
-                            <span class="access-title">Online Access</span>
-                        </div>
-                        <a href="{{ item.access_url }}" class="access-button">
-                            <span class="access-btn-text">Access Now</span>
-                            <span class="access-btn-icon">→</span>
-                        </a>
-                    </div>
-                    {% endif %}
-
-                    <!-- Subscription Information -->
-                    {% if item.subscription_period %}
-                    <div class="subscription-info">
-                        <div class="sub-detail">
-                            <span class="sub-icon">📅</span>
-                            <span class="sub-label">Subscription:</span>
-                            <span class="sub-value">{{ item.subscription_period }}</span>
-                        </div>
-                        {% if item.renewal_date %}
-                        <div class="sub-detail">
-                            <span class="sub-icon">🔄</span>
-                            <span class="sub-label">Renews:</span>
-                            <span class="sub-value">{{ item.renewal_date }}</span>
-                        </div>
-                        {% endif %}
-                        {% if item.auto_renew %}
-                        <div class="auto-renew-badge">Auto-Renew Enabled</div>
-                        {% endif %}
-                    </div>
-                    {% endif %}
-
-                    <!-- License Terms -->
-                    {% if item.license_seats %}
-                    <div class="license-terms">
-                        <div class="license-seats">
-                            <span class="seats-icon">👥</span>
-                            <span class="seats-text">{{ item.license_seats }} user license</span>
-                        </div>
-                    </div>
-                    {% endif %}
-
-                    <!-- Expiry Information -->
-                    {% if item.expiry_date %}
-                    <div class="expiry-notice">
-                        <span class="expiry-icon">⏰</span>
-                        <span class="expiry-text">License expires: {{ item.expiry_date }}</span>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-                {% endfor %}
-            {% endif %}
         </div>
+
+        <!-- Digital Delivery Information -->
+        {% if delivery_instructions %}
+        <div class="delivery-section">
+            <h3>Digital Delivery</h3>
+            <p>{{ delivery_instructions }}</p>
+        </div>
+        {% endif %}
 
         {% if _is_last_page|default(true) %}
         <!-- Order Summary -->
@@ -399,7 +252,7 @@
                     {% if tax_amount and tax_amount|float > 0 %}
                     <div class="total-row">
                         <span class="total-label">Tax:</span>
-                        <span class="total-value">${{ "%.2f"|format(tax_amount) }}</span>
+                        <span class="total-value">{{ tax_amount }}</span>
                     </div>
                     {% endif %}
                     <div class="total-row final-total">
@@ -418,12 +271,12 @@
         <!-- Payment Information -->
         <div class="payment-section">
             <h3 class="section-heading">
-                <span class="heading-icon">💳</span>
+                <span class="heading-icon"></span>
                 Payment Method
             </h3>
             <div class="payment-card">
                 <div class="payment-details">
-                    <span class="payment-icon">💳</span>
+                    <span class="payment-icon"></span>
                     <span class="payment-method">{{ payment_method }}</span>
                     <span class="card-info">{{ card_type }} •••• {{ card_last_four }}</span>
                 </div>

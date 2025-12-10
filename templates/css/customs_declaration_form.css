@@ -1,0 +1,811 @@
+/**
+ * Customs Declaration Form CSS - Government Form Style
+ * 
+ * Color Scheme: Burgundy (#7f1d1d) and Charcoal (#1f2937) with Cream (#fef3c7)
+ * Traditional official document styling with numbered sections
+ * Form-field layout like CN22/CN23 customs forms
+ * Serif typography for legal document feel
+ * wkhtmltoimage compatible (no CSS variables, grid, or flexbox gap)
+ */
+
+/* ==================== RESET & BASE ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Times New Roman', 'Georgia', 'Cambria', serif;
+    font-size: 10px;
+    line-height: 1.35;
+    color: #1f2937;
+    background: #ffffff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+/* ==================== PAGE CONTAINER ==================== */
+.form-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 20px 25px;
+    background: #ffffff;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+    border: 2px solid #1f2937;
+}
+
+/* ==================== FORM HEADER ==================== */
+.form-header {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 3px double #1f2937;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.header-left-cell {
+    width: 15%;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.company-logo {
+    height: 50px;
+    width: auto;
+    max-width: 100px;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    width: 50px;
+    height: 50px;
+    background: #7f1d1d;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    line-height: 50px;
+}
+
+.logo-initials {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+}
+
+.header-center-cell {
+    width: 55%;
+    vertical-align: middle;
+    text-align: center;
+    padding: 0 15px;
+}
+
+.form-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #7f1d1d;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 3px;
+}
+
+.form-subtitle {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1f2937;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.form-code {
+    font-size: 8px;
+    font-weight: 400;
+    color: #6b7280;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    background: #f3f4f6;
+    display: inline-block;
+    border: 1px dashed #9ca3af;
+}
+
+.header-right-cell {
+    width: 30%;
+    vertical-align: middle;
+    padding-left: 10px;
+}
+
+.form-number-box,
+.form-date-box {
+    border: 2px solid #1f2937;
+    padding: 4px 8px;
+    margin-bottom: 5px;
+}
+
+.form-number-box {
+    background: #fef3c7;
+}
+
+.form-date-box {
+    background: #ffffff;
+}
+
+.form-num-label,
+.form-date-label {
+    font-size: 7px;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-num-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: #7f1d1d;
+    font-family: 'Courier New', monospace;
+}
+
+.form-date-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+/* ==================== FORM SECTIONS ==================== */
+.form-section {
+    margin-bottom: 10px;
+    border: 1px solid #374151;
+}
+
+.form-section.nested {
+    border: none;
+    margin-bottom: 0;
+}
+
+.section-header {
+    background: #374151;  /* was: linear-gradient(180deg, #374151 0%, #1f2937 100%...) */
+    padding: 5px 10px;
+    display: table;
+    width: 100%;
+}
+
+.section-number {
+    display: table-cell;
+    width: 25px;
+    height: 18px;
+    background: #fef3c7;
+    color: #7f1d1d;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 2px;
+    font-family: 'Arial', sans-serif;
+}
+
+.section-title {
+    display: table-cell;
+    font-size: 10px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding-left: 10px;
+    vertical-align: middle;
+}
+
+.sheet-indicator {
+    display: table-cell;
+    text-align: right;
+    font-size: 9px;
+    font-weight: 500;
+    color: #9ca3af;
+    vertical-align: middle;
+}
+
+.small-header {
+    padding: 4px 10px;
+}
+
+.small-header .section-title {
+    font-size: 9px;
+}
+
+/* ==================== INFO GRID ==================== */
+.info-grid {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.grid-cell {
+    padding: 6px 8px;
+    border: 1px solid #d1d5db;
+    vertical-align: top;
+    background: #ffffff;
+}
+
+.half-width { width: 50%; }
+.third-width { width: 33.33%; }
+.quarter-width { width: 25%; }
+
+.field-label {
+    font-size: 7px;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+}
+
+.field-value {
+    font-size: 10px;
+    font-weight: 500;
+    color: #1f2937;
+    min-height: 14px;
+}
+
+.field-value.mono {
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+}
+
+.field-value.small-text {
+    font-size: 8px;
+}
+
+.field-value.company-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.field-value.country-value {
+    font-weight: 600;
+    color: #7f1d1d;
+}
+
+/* ==================== PARTIES SECTION ==================== */
+.parties-section {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 8px 0;
+    margin-bottom: 10px;
+    table-layout: fixed;
+}
+
+.party-column {
+    width: 50%;
+    vertical-align: top;
+}
+
+.party-box {
+    padding: 0;
+}
+
+.party-fields {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.party-field {
+    padding: 4px 8px;
+    border: 1px solid #d1d5db;
+    border-top: none;
+    background: #fafafa;
+}
+
+.party-field:first-child {
+    border-top: 1px solid #d1d5db;
+}
+
+.full-width { width: 100%; }
+
+/* ==================== CLASSIFICATION GRID ==================== */
+.classification-grid {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.class-cell {
+    padding: 6px 8px;
+    border: 1px solid #d1d5db;
+    vertical-align: top;
+    background: #ffffff;
+    width: 25%;
+}
+
+.origin-box {
+    color: #166534;
+    font-weight: 700;
+}
+
+.dest-box {
+    color: #7f1d1d;
+    font-weight: 700;
+}
+
+.currency-box {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.incoterm-box {
+    background: #1f2937;
+    color: #ffffff;
+    padding: 2px 6px;
+    font-size: 9px;
+    font-weight: 600;
+    display: inline-block;
+    font-family: 'Arial', sans-serif;
+}
+
+.checkbox-row {
+    margin-top: 3px;
+}
+
+.checkbox {
+    display: inline-block;
+    font-size: 14px;
+    margin-right: 3px;
+    color: #1f2937;
+}
+
+.checkbox.checked {
+    color: #7f1d1d;
+}
+
+.checkbox.checked::before {
+    content: "☑";
+}
+
+.checkbox:not(.checked)::before {
+    content: "☐";
+}
+
+.checkbox-label {
+    font-size: 9px;
+    margin-right: 12px;
+    color: #374151;
+}
+
+/* ==================== CONTINUATION HEADER ==================== */
+.continuation-header {
+    display: table;
+    width: 100%;
+    padding: 8px 10px;
+    background: #f3f4f6;
+    border: 2px solid #1f2937;
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.cont-left {
+    display: table-cell;
+    width: 45%;
+    vertical-align: middle;
+}
+
+.cont-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #7f1d1d;
+    text-transform: uppercase;
+}
+
+.cont-center {
+    display: table-cell;
+    width: 35%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.cont-invoice {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1f2937;
+    font-family: 'Courier New', monospace;
+}
+
+.cont-right {
+    display: table-cell;
+    width: 20%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.cont-page {
+    font-size: 10px;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+/* ==================== ITEMS TABLE ==================== */
+.items-section {
+    margin-bottom: 10px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.items-table thead tr {
+    background: #fef3c7;
+}
+
+.items-table th {
+    padding: 6px 4px;
+    font-size: 7px;
+    font-weight: 700;
+    color: #1f2937;
+    text-transform: uppercase;
+    text-align: center;
+    border: 1px solid #374151;
+    vertical-align: middle;
+    font-family: 'Arial', sans-serif;
+}
+
+.th-sub {
+    font-size: 6px;
+    font-weight: 400;
+    color: #6b7280;
+    font-style: italic;
+}
+
+.items-table td {
+    padding: 6px 4px;
+    font-size: 9px;
+    color: #1f2937;
+    border: 1px solid #d1d5db;
+    vertical-align: top;
+    word-wrap: break-word;
+    max-width: 0;
+}
+
+.items-table tbody tr:nth-child(even) {
+    background: #f9fafb;
+}
+
+/* Column widths */
+.col-item { width: 4%; text-align: center; }
+.col-desc { width: 28%; text-align: left; }
+.col-hs { width: 10%; text-align: center; font-family: 'Courier New', monospace; font-size: 8px; }
+.col-origin { width: 7%; text-align: center; }
+.col-qty { width: 7%; text-align: center; }
+.col-unit { width: 6%; text-align: center; }
+.col-weight { width: 10%; text-align: right; }
+.col-price { width: 12%; text-align: right; }
+.col-total { width: 16%; text-align: right; font-weight: 600; }
+
+.item-description {
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.item-sku {
+    font-size: 7px;
+    color: #6b7280;
+    font-family: 'Courier New', monospace;
+}
+
+.item-material {
+    font-size: 7px;
+    color: #6b7280;
+    font-style: italic;
+}
+
+/* ==================== SUMMARY SECTION ==================== */
+.summary-grid {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 8px 0;
+    table-layout: fixed;
+}
+
+.summary-column {
+    width: 35%;
+    vertical-align: top;
+}
+
+.summary-column.narrow {
+    width: 30%;
+}
+
+.summary-box {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #374151;
+    table-layout: fixed;
+}
+
+.summary-header-row td {
+    background: #374151;  /* was: linear-gradient(180deg, #374151 0%, #1f2937 100%...) */
+    padding: 4px 8px;
+}
+
+.summary-box-title {
+    font-size: 8px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: 'Arial', sans-serif;
+}
+
+.summary-box tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.summary-box tr:last-child {
+    border-bottom: none;
+}
+
+.summary-label {
+    padding: 5px 8px;
+    font-size: 9px;
+    color: #374151;
+    width: 60%;
+}
+
+.summary-value {
+    padding: 5px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #1f2937;
+    text-align: right;
+    width: 40%;
+}
+
+.value-box .summary-header-row td {
+    background: #7f1d1d;  /* was: linear-gradient(180deg, #7f1d1d 0%, #5c1414 100%...) */
+}
+
+.total-row {
+    background: #fef3c7;
+}
+
+.total-label {
+    font-weight: 700;
+    color: #7f1d1d;
+}
+
+.total-value {
+    font-size: 12px;
+    font-weight: 700;
+    color: #7f1d1d;
+}
+
+.license-box .summary-header-row td {
+    background: #6b7280;  /* was: linear-gradient(180deg, #6b7280 0%, #4b5563 100%...) */
+}
+
+.license-field {
+    padding: 6px 8px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.license-field:last-child {
+    border-bottom: none;
+}
+
+/* ==================== CERTIFICATION SECTION ==================== */
+.certification-section {
+    border: 2px solid #7f1d1d;
+}
+
+.certification-section .section-header {
+    background: #7f1d1d;  /* was: linear-gradient(180deg, #7f1d1d 0%, #5c1414 100%...) */
+}
+
+.certification-box {
+    padding: 10px;
+    background: #fffbeb;
+}
+
+.cert-text {
+    font-size: 9px;
+    color: #374151;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    text-align: justify;
+}
+
+.cert-text strong {
+    color: #7f1d1d;
+}
+
+.signature-grid {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.sig-field {
+    padding: 0 8px;
+    vertical-align: bottom;
+    width: 28%;
+}
+
+.sig-field.narrow-field {
+    width: 16%;
+}
+
+.sig-field.stamp-field {
+    width: 15%;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.sig-box {
+    border-bottom: 1px solid #1f2937;
+    min-height: 30px;
+    margin-bottom: 4px;
+}
+
+.sig-content {
+    font-size: 10px;
+    font-style: italic;
+    color: #1f2937;
+    padding: 5px 0;
+}
+
+.sig-label {
+    font-size: 7px;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.stamp-box {
+    width: 70px;
+    height: 55px;
+    border: 2px dashed #9ca3af;
+    margin: 0 auto;
+    display: table;
+}
+
+.stamp-placeholder {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 8px;
+    font-weight: 700;
+    color: #9ca3af;
+    font-family: 'Arial', sans-serif;
+}
+
+.stamp-img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* ==================== NOTES SECTION ==================== */
+.notes-section {
+    border: 1px dashed #9ca3af;
+}
+
+.notes-section .section-header {
+    background: #f3f4f6;
+}
+
+.notes-section .section-title {
+    color: #374151;
+}
+
+.notes-box {
+    padding: 8px 10px;
+    font-size: 9px;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+.notes-box p {
+    margin-bottom: 4px;
+}
+
+.notes-box p:last-child {
+    margin-bottom: 0;
+}
+
+/* ==================== FOOTER ==================== */
+.form-footer {
+    display: table;
+    width: 100%;
+    padding-top: 10px;
+    margin-top: 10px;
+    border-top: 1px solid #d1d5db;
+    position: absolute;
+    bottom: 20px;
+    left: 25px;
+    right: 25px;
+}
+
+.footer-left {
+    display: table-cell;
+    width: 75%;
+    vertical-align: bottom;
+}
+
+.footer-notice {
+    font-size: 7px;
+    color: #9ca3af;
+    font-style: italic;
+}
+
+.footer-right {
+    display: table-cell;
+    width: 25%;
+    text-align: right;
+    vertical-align: bottom;
+}
+
+.footer-page {
+    font-size: 9px;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+/* ==================== CONTINUATION FOOTER ==================== */
+.continuation-footer {
+    display: table;
+    width: 100%;
+    padding: 8px 10px;
+    background: #f3f4f6;
+    border: 1px dashed #9ca3af;
+    margin-top: 10px;
+}
+
+.cont-footer-left {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.cont-notice {
+    font-size: 9px;
+    color: #6b7280;
+    font-style: italic;
+}
+
+.cont-footer-right {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.cont-subtotal {
+    font-size: 10px;
+    font-weight: 600;
+    color: #7f1d1d;
+}
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .form-page {
+        margin: 0;
+        padding: 15px 20px;
+        border: 1px solid #1f2937;
+    }
+    
+    .form-footer {
+        position: fixed;
+        bottom: 15px;
+    }
+}

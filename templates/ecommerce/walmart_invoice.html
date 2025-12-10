@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malmart Invoice</title>
+    <link rel="stylesheet" href="../css/walmart_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page %}
+        <!-- ===== FIRST PAGE HEADER ===== -->
+        <div class="page-header">
+            <!-- Malmart Header Bar -->
+            <div class="walmart-header">
+                <table class="header-table">
+                    <tr>
+                        <td class="header-logo">
+                            <div class="walmart-logo">
+                                <div class="spark-icon">✱</div>
+                                <div class="walmart-text">Malmart</div>
+                            </div>
+                        </td>
+                        <td class="header-tagline">
+                            <div class="tagline-text">Save Money. Live Better.</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Store Information -->
+            <div class="store-section">
+                <table class="store-table">
+                    <tr>
+                        <td class="store-info">
+                            <div class="store-name">{{ supplier_name }}</div>
+                            {% if supplier_address %}
+                            <div class="store-address">{{ supplier_address }}</div>
+                            {% endif %}
+                            {% if supplier_phone %}
+                            <div class="store-contact">Phone: {{ supplier_phone }}</div>
+                            {% endif %}
+                            <div class="store-id">Store #{{ store_id or '00001' }} | Manager on Duty</div>
+                        </td>
+                        <td class="invoice-info">
+                            <table class="invoice-grid">
+                                <tr>
+                                    <td class="info-label">INVOICE #</td>
+                                    <td class="info-value">{{ invoice_number }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="info-label">DATE</td>
+                                    <td class="info-value">{{ order_date }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="info-label">TIME</td>
+                                    <td class="info-value">{{ order_time or '12:34 PM' }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="info-label">REGISTER</td>
+                                    <td class="info-value">#{{ register_number or '03' }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Customer Information Bar -->
+            <div class="customer-bar">
+                <table class="customer-table">
+                    <tr>
+                        <td class="customer-label">SOLD TO:</td>
+                        <td class="customer-info">
+                            <span class="customer-name">{{ buyer_name }}</span>
+                            {% if buyer_address %}
+                            <span class="customer-separator">|</span>
+                            <span class="customer-address">{{ buyer_address }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Department Divider -->
+            <div class="dept-divider">
+                <div class="divider-line"></div>
+                <div class="divider-text">ITEMS PURCHASED</div>
+                <div class="divider-line"></div>
+            </div>
+        </div>
+        {% else %}
+        <!-- ===== CONTINUATION HEADER ===== -->
+        <div class="cont-header">
+            <table class="cont-header-table">
+                <tr>
+                    <td class="cont-walmart">
+                        <span class="cont-spark">✱</span>
+                        <span class="cont-text">Malmart</span>
+                    </td>
+                    <td class="cont-invoice">Invoice #{{ invoice_number }}</td>
+                    <td class="cont-store">Store #{{ store_id or '00001' }}</td>
+                    <td class="cont-page">Page {{ _current_page }} of {{ _total_pages }}</td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- ===== ITEMS TABLE ===== -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="th-item">ITEM</th>
+                        <th class="th-upc">UPC</th>
+                        <th class="th-dept">DEPT</th>
+                        <th class="th-qty">QTY</th>
+                        <th class="th-price">PRICE</th>
+                        <th class="th-total">TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row">
+                        <td class="td-item">
+                            <div class="item-name">{{ item.description }}</div>
+                            {% if item.variant %}
+                            <div class="item-detail">{{ item.variant }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="td-upc">{{ item.sku or item.upc or '000000000000' }}</td>
+                        <td class="td-dept">{{ item.department or 'D01' }}</td>
+                        <td class="td-qty">{{ item.quantity }}</td>
+                        <td class="td-price">${{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                        <td class="td-total">${{ "%.2f"|format(item.total|to_float) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page %}
+        <!-- ===== TOTALS SECTION ===== -->
+        <div class="totals-section">
+            <div class="totals-divider">
+                <div class="divider-line"></div>
+                <div class="divider-text">PAYMENT SUMMARY</div>
+                <div class="divider-line"></div>
+            </div>
+
+            <table class="totals-layout">
+                <tr>
+                    <td class="totals-left">
+                        <!-- Savings Box -->
+                        <div class="savings-box">
+                            <div class="savings-icon"></div>
+                            <div class="savings-content">
+                                <div class="savings-title">YOU SAVED</div>
+                                <div class="savings-amount">${{ "%.2f"|format(discount|to_float) }}</div>
+                                <div class="savings-subtitle">on this purchase</div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Info -->
+                        <div class="payment-info">
+                            <div class="payment-row">
+                                <span class="payment-label">PAYMENT METHOD:</span>
+                                <span class="payment-value">{{ payment_method or 'CREDIT CARD' }}</span>
+                            </div>
+                            {% if card_type %}
+                            <div class="payment-row">
+                                <span class="payment-label">CARD TYPE:</span>
+                                <span class="payment-value">{{ card_type }} ****{{ card_last_four or '0000' }}</span>
+                            </div>
+                            {% endif %}
+                            {% if approval_code %}
+                            <div class="payment-row">
+                                <span class="payment-label">APPROVAL CODE:</span>
+                                <span class="payment-value">{{ approval_code }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="totals-right">
+                        <!-- Calculation Table -->
+                        <table class="calc-table">
+                            <tr class="calc-row">
+                                <td class="calc-label">SUBTOTAL</td>
+                                <td class="calc-value">${{ "%.2f"|format(subtotal|to_float) }}</td>
+                            </tr>
+                            {% if (discount|to_float or 0) > 0 %}
+                            <tr class="calc-row savings-row">
+                                <td class="calc-label">SAVINGS</td>
+                                <td class="calc-value">-${{ "%.2f"|format(discount|to_float) }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="calc-row">
+                                <td class="calc-label">TAX</td>
+                                <td class="calc-value">${{ "%.2f"|format(tax_amount|to_float) }}</td>
+                            </tr>
+                            {% if (shipping_cost or 0) > 0 %}
+                            <tr class="calc-row">
+                                <td class="calc-label">SHIPPING</td>
+                                <td class="calc-value">${{ "%.2f"|format(shipping_cost or 0) }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="calc-row total-row">
+                                <td class="calc-label">TOTAL</td>
+                                <td class="calc-value">${{ "%.2f"|format(total_amount|to_float) }}</td>
+                            </tr>
+                        </table>
+
+                        <!-- Paid Badge -->
+                        <div class="paid-badge">
+                            <div class="badge-check">✓</div>
+                            <div class="badge-text">PAID</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="page-footer">
+            <div class="footer-divider"></div>
+            <table class="footer-table">
+                <tr>
+                    <td class="footer-left">
+                        <div class="footer-line">THANK YOU FOR SHOPPING AT MALMART</div>
+                        <div class="footer-line">Return Policy: 90 days with receipt</div>
+                        <div class="footer-line">Questions? Visit Malmart.com or call 1-800-MALMART</div>
+                    </td>
+                    <td class="footer-right">
+                        <div class="footer-logo">
+                            <span class="footer-spark">✱</span>
+                            <span class="footer-walmart">Malmart</span>
+                        </div>
+                        <div class="footer-tagline">Save Money. Live Better.</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <!-- ===== CONTINUATION FOOTER ===== -->
+        <div class="cont-footer">
+            <div class="cont-line"></div>
+            <div class="cont-text">Continued on page {{ _current_page + 1 }}...</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

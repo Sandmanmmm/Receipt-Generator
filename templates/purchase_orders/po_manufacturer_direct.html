@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manufacturing Purchase Order - {{ po_number }}</title>
+    <link rel="stylesheet" href="../css/purchase_order_base.css">
+    <link rel="stylesheet" href="../css/po_manufacturer_direct.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page %}
+        <!-- Full Header - First Page Only -->
+        <header class="po-header">
+            <div class="header-top">
+                <div class="header-left">
+                    {% if supplier_logo %}
+                    <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="supplier-logo" />
+                    {% else %}
+                    <div class="logo-placeholder">
+                        <span class="logo-text">{{ supplier_name[:2]|upper }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="supplier-info">
+                        <div class="supplier-name">{{ supplier_name }}</div>
+                        <div class="supplier-tagline">Contract Manufacturing</div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <h1 class="doc-title">PURCHASE ORDER</h1>
+                    <div class="po-number">{{ po_number }}</div>
+                </div>
+            </div>
+            
+            <div class="header-details">
+                <table class="header-table">
+                    <tr>
+                        <td class="detail-col">
+                            <div class="detail-label">PO Date</div>
+                            <div class="detail-value">{{ po_date }}</div>
+                        </td>
+                        <td class="detail-col">
+                            <div class="detail-label">Required Date</div>
+                            <div class="detail-value">{{ requested_delivery_date or delivery_date }}</div>
+                        </td>
+                        <td class="detail-col">
+                            <div class="detail-label">Production Lead Time</div>
+                            <div class="detail-value">{{ production_lead_time or 'TBD' }} days</div>
+                        </td>
+                        <td class="detail-col">
+                            <div class="detail-label">Payment Terms</div>
+                            <div class="detail-value">{{ payment_terms }}</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </header>
+
+        <!-- Address Cards -->
+        <div class="address-section">
+            <table class="address-table">
+                <tr>
+                    <td class="address-card">
+                        <div class="card-title">Buyer (Bill To)</div>
+                        <div class="card-line">{{ buyer_company }}</div>
+                        {% if buyer_address %}
+                        <div class="card-line">{{ buyer_address }}</div>
+                        {% endif %}
+                        {% if buyer_email %}
+                        <div class="card-line">{{ buyer_email }}</div>
+                        {% endif %}
+                        {% if buyer_phone %}
+                        <div class="card-line">{{ buyer_phone }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="address-card">
+                        <div class="card-title">Manufacturer</div>
+                        <div class="card-line">{{ supplier_name }}</div>
+                        {% if supplier_address %}
+                        <div class="card-line">{{ supplier_address }}</div>
+                        {% endif %}
+                        {% if supplier_email %}
+                        <div class="card-line">{{ supplier_email }}</div>
+                        {% endif %}
+                        {% if supplier_phone %}
+                        <div class="card-line">{{ supplier_phone }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="address-card">
+                        <div class="card-title">Ship To</div>
+                        <div class="card-line">{{ ship_to_name or buyer_company }}</div>
+                        {% if ship_to_address or buyer_address %}
+                        <div class="card-line">{{ ship_to_address or buyer_address }}</div>
+                        {% endif %}
+                        {% if ship_to_contact %}
+                        <div class="card-line">Contact: {{ ship_to_contact }}</div>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Production Timeline Section -->
+        {% if production_timeline %}
+        <div class="production-timeline-section">
+            <div class="section-title">Production Timeline & Milestones</div>
+            <table class="timeline-table">
+                <thead>
+                    <tr>
+                        <th class="col-milestone">Milestone</th>
+                        <th class="col-date">Target Date</th>
+                        <th class="col-duration">Duration</th>
+                        <th class="col-notes">Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for milestone in production_timeline %}
+                    <tr>
+                        <td>{{ milestone.name }}</td>
+                        <td>{{ milestone.date }}</td>
+                        <td>{{ milestone.duration or '-' }}</td>
+                        <td>{{ milestone.notes or '-' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- QC Requirements Section -->
+        {% if qc_requirements %}
+        <div class="qc-requirements-section">
+            <div class="section-title">Quality Control & Inspection Requirements</div>
+            <div class="qc-grid">
+                {% for qc in qc_requirements %}
+                <div class="qc-item">
+                    <div class="qc-label">{{ qc.type }}</div>
+                    <div class="qc-value">{{ qc.requirement }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <!-- Continuation Header - Pages 2+ -->
+        <div class="continuation-header">
+            <table class="cont-header-table">
+                <tr>
+                    <td class="cont-header-left">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="logo-cont" />
+                        {% endif %}
+                        <span class="cont-po-number">{{ po_number }}</span>
+                    </td>
+                    <td class="cont-header-right">
+                        <span class="cont-page-info">Page {{ _current_page }} of {{ _total_pages }}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Line Items Table -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-line">#</th>
+                        <th class="col-part">Part Number</th>
+                        <th class="col-description">Description / Specifications</th>
+                        <th class="col-qty">Order Qty</th>
+                        <th class="col-unit">Unit</th>
+                        <th class="col-unit-price">Unit Price</th>
+                        <th class="col-tooling">Tooling Fee</th>
+                        <th class="col-setup">Setup Cost</th>
+                        <th class="col-total">Line Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items|default(line_items, true) %}
+                    <tr class="item-row">
+                        <td class="col-line">{{ loop.index }}</td>
+                        <td class="col-part">
+                            <div class="part-number">{{ item.supplier_sku }}</div>
+                            {% if item.drawing_reference %}
+                            <div class="drawing-ref">DWG: {{ item.drawing_reference }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="col-description">
+                            <div class="item-desc">{{ item.description }}</div>
+                            {% if item.material_spec %}
+                            <div class="spec-line">Material: {{ item.material_spec }}</div>
+                            {% endif %}
+                            {% if item.finish_spec %}
+                            <div class="spec-line">Finish: {{ item.finish_spec }}</div>
+                            {% endif %}
+                            {% if item.dimensions %}
+                            <div class="spec-line">Dimensions: {{ item.dimensions }}</div>
+                            {% endif %}
+                            {% if item.customization %}
+                            <div class="customization-note">⚙ Custom: {{ item.customization }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="col-qty">{{ "{:,}".format(item.quantity|int) }}</td>
+                        <td class="col-unit">{{ item.unit or 'EA' }}</td>
+                        <td class="col-unit-price">${{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                        <td class="col-tooling">
+                            {% if (item.tooling_fee|to_float or 0) > 0 %}
+                            ${{ "%.2f"|format(item.tooling_fee|to_float) }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                        <td class="col-setup">
+                            {% if (item.setup_cost|to_float or 0) > 0 %}
+                            ${{ "%.2f"|format(item.setup_cost|to_float) }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                        <td class="col-total">${{ "{:,.2f}".format(item.total|to_float) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page %}
+        <!-- Totals Section - Last Page Only -->
+        <div class="totals-section">
+            <table class="totals-table">
+                <tr>
+                    <td class="totals-label">Subtotal (Parts & Materials)</td>
+                    <td class="totals-value">${{ "{:,.2f}".format(subtotal|to_float) }}</td>
+                </tr>
+                {% if (tooling_fees_total or 0) > 0 %}
+                <tr>
+                    <td class="totals-label">Tooling Fees (One-time)</td>
+                    <td class="totals-value">${{ "{:,.2f}".format(tooling_fees_total) }}</td>
+                </tr>
+                {% endif %}
+                {% if (setup_costs_total or 0) > 0 %}
+                <tr>
+                    <td class="totals-label">Setup Costs</td>
+                    <td class="totals-value">${{ "{:,.2f}".format(setup_costs_total) }}</td>
+                </tr>
+                {% endif %}
+                {% if (shipping_cost or 0) > 0 %}
+                <tr>
+                    <td class="totals-label">Freight & Shipping</td>
+                    <td class="totals-value">${{ "{:,.2f}".format(shipping_cost) }}</td>
+                </tr>
+                {% endif %}
+                {% if (tax_amount|to_float or 0) > 0 %}
+                <tr>
+                    <td class="totals-label">Tax ({{ "%.1f"|format(tax_rate * 100) }}%)</td>
+                    <td class="totals-value">${{ "{:,.2f}".format(tax_amount|to_float) }}</td>
+                </tr>
+                {% endif %}
+                <tr class="total-row">
+                    <td class="totals-label">TOTAL ORDER VALUE</td>
+                    <td class="totals-value total-amount">${{ "{:,.2f}".format(total_amount|to_float) }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Engineering Documents Section -->
+        {% if engineering_documents %}
+        <div class="engineering-section">
+            <div class="section-title">Engineering Documents & CAD Files</div>
+            <table class="engineering-table">
+                <thead>
+                    <tr>
+                        <th class="col-doc-type">Document Type</th>
+                        <th class="col-doc-ref">Reference Number</th>
+                        <th class="col-doc-rev">Revision</th>
+                        <th class="col-doc-date">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doc in engineering_documents %}
+                    <tr>
+                        <td>{{ doc.type }}</td>
+                        <td>{{ doc.reference }}</td>
+                        <td>{{ doc.revision }}</td>
+                        <td>{{ doc.date }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Manufacturing Terms & Conditions -->
+        <div class="terms-section">
+            <div class="section-title">Manufacturing Terms & Conditions</div>
+            <div class="terms-grid">
+                <div class="term-item">
+                    <div class="term-label">Payment Terms:</div>
+                    <div class="term-value">{{ payment_terms }} ({{ deposit_percentage or 30 }}% deposit, balance upon completion)</div>
+                </div>
+                <div class="term-item">
+                    <div class="term-label">Delivery Terms:</div>
+                    <div class="term-value">{{ incoterms or 'EXW' }} - {{ supplier_address }}</div>
+                </div>
+                <div class="term-item">
+                    <div class="term-label">Inspection:</div>
+                    <div class="term-value">Buyer reserves right to inspect goods before shipment. Third-party inspection at buyer's expense.</div>
+                </div>
+                <div class="term-item">
+                    <div class="term-label">Tooling Ownership:</div>
+                    <div class="term-value">{{ tooling_ownership or 'Tooling remains manufacturer property unless specified otherwise' }}</div>
+                </div>
+                <div class="term-item">
+                    <div class="term-label">Warranty:</div>
+                    <div class="term-value">{{ warranty_terms or '12 months from delivery date against defects in materials and workmanship' }}</div>
+                </div>
+                <div class="term-item">
+                    <div class="term-label">Packaging:</div>
+                    <div class="term-value">{{ packaging_requirements or 'Export standard packaging suitable for transport' }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="po-footer">
+            <div class="footer-content">
+                <div class="approval-section">
+                    <div class="approval-line">
+                        <span class="approval-label">Buyer Approval:</span>
+                        <span class="signature-line">_________________________</span>
+                        <span class="date-label">Date: ___________</span>
+                    </div>
+                    <div class="approval-line">
+                        <span class="approval-label">Manufacturer Acceptance:</span>
+                        <span class="signature-line">_________________________</span>
+                        <span class="date-label">Date: ___________</span>
+                    </div>
+                </div>
+                <div class="footer-note">
+                    This Purchase Order constitutes a binding agreement upon manufacturer's acceptance. Changes require written approval from both parties.
+                </div>
+            </div>
+            <div class="page-number">Page {{ _current_page }} of {{ _total_pages }}</div>
+        </footer>
+
+        {% else %}
+        <!-- Continuation Footer - Pages 1 to N-1 -->
+        <div class="continuation-footer">
+            <div class="cont-footer-text">Continued on next page...</div>
+            <div class="cont-page-number">Page {{ _current_page }} of {{ _total_pages }}</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

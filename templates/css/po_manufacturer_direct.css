@@ -1,0 +1,645 @@
+/* ==========================================================================
+   MANUFACTURER DIRECT PURCHASE ORDER - INDUSTRIAL THEME
+   Colors: Steel Gray (#475569), Charcoal (#1e293b), Industrial Blue (#3b82f6)
+   Use Case: Contract manufacturing, custom production, tooling, QC
+   ========================================================================== */
+
+/* Header Styling */
+.po-header {
+    margin-bottom: 20px;
+}
+
+.header-top {
+    margin-bottom: 15px;
+}
+
+.header-top table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.header-left {
+    vertical-align: top;
+}
+
+.supplier-logo {
+    height: 50px;
+    width: auto;
+    max-width: 150px;
+    margin-right: 12px;
+    vertical-align: middle;
+}
+
+.logo-placeholder {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: #475569;  /* was: linear-gradient(135deg, #475569 0%, #1e293b 100%...) */
+    border-radius: 8px;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 12px;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 50px;
+}
+
+.supplier-info {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.supplier-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.supplier-tagline {
+    font-size: 10px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.header-right {
+    text-align: right;
+    vertical-align: top;
+}
+
+.doc-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #475569;
+    margin: 0 0 5px 0;
+    letter-spacing: 1px;
+}
+
+.po-number {
+    font-size: 16px;
+    font-weight: 700;
+    color: #3b82f6;
+    background: #eff6ff;
+    padding: 6px 12px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* Header Details Table */
+.header-details {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;  /* Prevents width issues */
+}
+
+.detail-col {
+    width: 25%;
+    vertical-align: top;
+    padding: 4px 8px;
+}
+
+.detail-label {
+    font-size: 9px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+}
+
+.detail-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+/* Address Cards */
+.address-section {
+    margin: 15px 0;
+}
+
+.address-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 0;
+}
+
+.address-card {
+    width: 33.33%;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 12px;
+    vertical-align: top;
+}
+
+.card-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #3b82f6;
+}
+
+.card-line {
+    font-size: 10px;
+    color: #334155;
+    margin-bottom: 3px;
+    line-height: 1.4;
+}
+
+/* Production Timeline Section */
+.production-timeline-section {
+    margin: 15px 0;
+    background: #fffbeb;
+    border: 1px solid #fde047;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.section-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1e293b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #3b82f6;
+}
+
+.timeline-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;  /* Prevents width issues */
+    background: #ffffff;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.timeline-table thead {
+    background: #f1f5f9;
+}
+
+.timeline-table th {
+    font-size: 9px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 2px solid #cbd5e1;
+}
+
+.timeline-table td {
+    font-size: 10px;
+    color: #334155;
+    padding: 8px 10px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.col-milestone { width: 30%; }
+.col-date { width: 20%; text-align: center; }
+.col-duration { width: 15%; text-align: center; }
+.col-notes { width: 35%; }
+
+/* QC Requirements Section */
+.qc-requirements-section {
+    margin: 15px 0;
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.qc-grid {
+    display: block;
+    background: #ffffff;
+    border-radius: 4px;
+    padding: 8px;
+}
+
+.qc-item {
+    margin-bottom: 8px;
+    padding: 6px 8px;
+    background: #f8fafc;
+    border-left: 3px solid #22c55e;
+    border-radius: 3px;
+}
+
+.qc-item:last-child {
+    margin-bottom: 0;
+}
+
+.qc-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #15803d;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+}
+
+.qc-value {
+    font-size: 10px;
+    color: #334155;
+    line-height: 1.4;
+}
+
+/* Continuation Header */
+.continuation-header {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #cbd5e1;
+}
+
+.cont-header-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;  /* Prevents width issues */
+}
+
+.cont-header-left {
+    width: 70%;
+    vertical-align: middle;
+}
+
+.cont-header-right {
+    width: 30%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.logo-cont {
+    height: 30px;
+    width: auto;
+    max-width: 100px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.cont-po-number {
+    font-size: 14px;
+    font-weight: 700;
+    color: #475569;
+    vertical-align: middle;
+}
+
+.cont-page-info {
+    font-size: 10px;
+    color: #64748b;
+}
+
+/* Line Items Table */
+.items-section {
+    margin: 15px 0;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;  /* Critical: Prevents width corruption with many columns */
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.items-table thead {
+    background: #475569;
+}
+
+.items-table th {
+    font-size: 9px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    padding: 10px 8px;
+    text-align: left;
+    border-bottom: 2px solid #1e293b;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.items-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.items-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.items-table td {
+    font-size: 10px;
+    color: #334155;
+    padding: 10px 8px;
+    vertical-align: top;
+    word-wrap: break-word;  /* Break long words to prevent overflow */
+    max-width: 0;  /* Works with table-layout: fixed to enforce column widths */
+}
+
+/* Column Widths */
+.col-line { width: 4%; text-align: center; font-weight: 600; color: #64748b; }
+.col-part { width: 12%; }
+.col-description { width: 28%; }
+.col-qty { width: 8%; text-align: right; }
+.col-unit { width: 6%; text-align: center; }
+.col-unit-price { width: 10%; text-align: right; }
+.col-tooling { width: 10%; text-align: right; }
+.col-setup { width: 10%; text-align: right; }
+.col-total { width: 12%; text-align: right; font-weight: 600; }
+
+/* Item Details */
+.part-number {
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.drawing-ref {
+    font-size: 8px;
+    color: #3b82f6;
+    background: #eff6ff;
+    padding: 2px 4px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-top: 2px;
+}
+
+.item-desc {
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 3px;
+}
+
+.spec-line {
+    font-size: 9px;
+    color: #64748b;
+    margin-bottom: 2px;
+    line-height: 1.3;
+}
+
+.customization-note {
+    font-size: 9px;
+    color: #ea580c;
+    background: #ffedd5;
+    padding: 3px 6px;
+    border-radius: 3px;
+    margin-top: 4px;
+    display: inline-block;
+}
+
+/* Totals Section */
+.totals-section {
+    margin: 20px 0;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;  /* Critical: Prevents width corruption */
+}
+
+.totals-table tr {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.totals-table tr:last-child {
+    border-bottom: none;
+}
+
+.totals-label {
+    font-size: 11px;
+    color: #475569;
+    padding: 8px 12px;
+    text-align: right;
+    width: 70%;
+}
+
+.totals-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1e293b;
+    padding: 8px 12px;
+    text-align: right;
+    width: 30%;
+}
+
+.total-row {
+    background: #f1f5f9;
+    border-top: 2px solid #475569;
+}
+
+.total-row .totals-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.total-row .totals-value {
+    font-size: 15px;
+    font-weight: 800;
+    color: #3b82f6;
+}
+
+/* Engineering Documents Section */
+.engineering-section {
+    margin: 15px 0;
+    background: #f0f9ff;
+    border: 1px solid #7dd3fc;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.engineering-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;  /* Critical: Prevents width corruption */
+    background: #ffffff;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.engineering-table thead {
+    background: #f1f5f9;
+}
+
+.engineering-table th {
+    font-size: 9px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 2px solid #cbd5e1;
+}
+
+.engineering-table td {
+    font-size: 10px;
+    color: #334155;
+    padding: 8px 10px;
+    border-bottom: 1px solid #e2e8f0;
+    word-wrap: break-word;  /* Break long words to prevent overflow */
+    max-width: 0;  /* Works with table-layout: fixed to enforce column widths */
+}
+
+.col-doc-type { width: 30%; }
+.col-doc-ref { width: 35%; }
+.col-doc-rev { width: 15%; text-align: center; }
+.col-doc-date { width: 20%; text-align: center; }
+
+/* Terms & Conditions Section */
+.terms-section {
+    margin: 15px 0;
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.terms-grid {
+    display: block;
+}
+
+.term-item {
+    margin-bottom: 8px;
+    padding: 6px 8px;
+    background: #ffffff;
+    border-left: 3px solid #475569;
+    border-radius: 3px;
+}
+
+.term-item:last-child {
+    margin-bottom: 0;
+}
+
+.term-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+}
+
+.term-value {
+    font-size: 10px;
+    color: #334155;
+    line-height: 1.4;
+}
+
+/* Footer */
+.po-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #cbd5e1;
+    position: relative;
+}
+
+.footer-content {
+    margin-bottom: 15px;
+}
+
+.approval-section {
+    margin-bottom: 12px;
+}
+
+.approval-line {
+    margin-bottom: 15px;
+    font-size: 10px;
+    color: #334155;
+}
+
+.approval-label {
+    display: inline-block;
+    width: 150px;
+    font-weight: 600;
+}
+
+.signature-line {
+    display: inline-block;
+    margin: 0 10px;
+    border-bottom: 1px solid #94a3b8;
+}
+
+.date-label {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.footer-note {
+    font-size: 9px;
+    color: #64748b;
+    font-style: italic;
+    text-align: center;
+    padding: 8px;
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+.page-number {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 9px;
+    color: #94a3b8;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    margin-top: 20px;
+    padding: 10px;
+    background: #f8fafc;
+    border-top: 2px solid #cbd5e1;
+    border-radius: 4px;
+    position: relative;
+}
+
+.cont-footer-text {
+    font-size: 10px;
+    color: #64748b;
+    font-style: italic;
+    text-align: center;
+}
+
+.cont-page-number {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 9px;
+    color: #94a3b8;
+}
+
+/* Print Optimization */
+@media print {
+    .invoice-page {
+        page-break-after: always;
+    }
+    
+    .continuation-footer {
+        page-break-after: always;
+    }
+    
+    .po-footer {
+        page-break-inside: avoid;
+    }
+}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exotics Wholesale Invoice - {{ invoice_number }}</title>
+    <link rel="stylesheet" href="../css/exotics_wholesale_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="brand-section">
+                <div class="brand-name">EXOTICS WHOLESALE</div>
+            </div>
+            <div class="barcode-section">
+                <div class="barcode-visual">
+                    <div class="barcode-bars">
+                        <span class="bar b1"></span><span class="bar b2"></span><span class="bar b1"></span><span class="bar b3"></span><span class="bar b2"></span><span class="bar b1"></span><span class="bar b2"></span><span class="bar b3"></span><span class="bar b1"></span><span class="bar b2"></span><span class="bar b1"></span><span class="bar b3"></span><span class="bar b2"></span><span class="bar b1"></span><span class="bar b2"></span><span class="bar b1"></span><span class="bar b3"></span><span class="bar b2"></span><span class="bar b1"></span><span class="bar b2"></span><span class="bar b3"></span><span class="bar b1"></span><span class="bar b2"></span><span class="bar b1"></span><span class="bar b2"></span><span class="bar b3"></span><span class="bar b1"></span><span class="bar b2"></span><span class="bar b1"></span><span class="bar b3"></span><span class="bar b2"></span><span class="bar b1"></span>
+                    </div>
+                </div>
+                <div class="invoice-ref">Receipt / Tax Invoice {{ invoice_number }}</div>
+                <div class="invoice-date">{{ invoice_date }}</div>
+            </div>
+        </div>
+
+        <!-- Address Section - Three Columns -->
+        <table class="address-table">
+            <tr>
+                <td class="address-cell shipping-cell">
+                    <div class="address-title">SHIPPING ADDRESS</div>
+                    <div class="address-content">
+                        <div class="address-line">{{ buyer_name }}</div>
+                        {% if buyer_company %}
+                        <div class="address-line">{{ buyer_company }}</div>
+                        {% endif %}
+                        <div class="address-line">{{ buyer_address_line1|default(buyer_address.split(',')[0] if buyer_address else '') }}</div>
+                        <div class="address-line">{{ buyer_city|default('') }} {{ buyer_state|default('') }} {{ buyer_postal|default('') }}</div>
+                        <div class="address-line">{{ buyer_country|default('Canada') }}</div>
+                        {% if buyer_phone %}
+                        <div class="address-line">Tel. {{ buyer_phone }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="address-cell customer-cell">
+                    <div class="address-title">CUSTOMER</div>
+                    <div class="address-content">
+                        <div class="address-line">{{ buyer_name }}</div>
+                        {% if buyer_company %}
+                        <div class="address-line">{{ buyer_company }}</div>
+                        {% endif %}
+                        <div class="address-line">{{ buyer_address_line1|default(buyer_address.split(',')[0] if buyer_address else '') }}</div>
+                        <div class="address-line">{{ buyer_city|default('') }} {{ buyer_state|default('') }} {{ buyer_postal|default('') }}</div>
+                        <div class="address-line">{{ buyer_country|default('Canada') }}</div>
+                        {% if buyer_phone %}
+                        <div class="address-line">Tel. {{ buyer_phone }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="address-cell method-cell">
+                    <div class="method-section">
+                        <div class="method-title">PAYMENT METHOD</div>
+                        <div class="method-value">{{ payment_method|default('Visa') }} ({{ card_last_four|default('****') }})</div>
+                        <div class="method-value">Due on ()</div>
+                    </div>
+                    <div class="method-section">
+                        <div class="method-title">SHIPPING METHOD</div>
+                        <div class="method-value">{{ shipping_method|default('Transparent Shipping') }}</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        {% else %}
+        <!-- Continuation Header for Page 2+ -->
+        <div class="continuation-header">
+            <div class="cont-brand">EXOTICS WHOLESALE</div>
+            <div class="cont-info">Invoice {{ invoice_number }} | Page {{ _current_page }} of {{ _total_pages }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Line Items Table -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-items" colspan="2">ITEMS</th>
+                        <th class="col-price">PRICE</th>
+                        <th class="col-tax">TAX</th>
+                        <th class="col-qty">QTY</th>
+                        <th class="col-total">ITEM TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row">
+                        <td class="image-cell">
+                            {% if item.image_url %}
+                            <img src="{{ item.image_url }}" alt="{{ item.description }}" class="product-image">
+                            {% else %}
+                            <div class="image-placeholder"></div>
+                            {% endif %}
+                        </td>
+                        <td class="desc-cell">
+                            <div class="item-name">{{ item.description }}</div>
+                        </td>
+                        <td class="price-cell">
+                            {% if item.original_price and item.original_price != item.unit_price %}
+                            <span class="original-price">{{ item.original_price }}</span>
+                            {% endif %}
+                            <span class="current-price">{{ item.unit_price }}</span>
+                        </td>
+                        <td class="tax-cell">{{ item.tax_rate|default('0%') }}</td>
+                        <td class="qty-cell">{{ item.quantity }}</td>
+                        <td class="total-cell">{{ item.total }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <table class="totals-table">
+                <tr>
+                    <td class="totals-label">Subtotal</td>
+                    <td class="totals-value">{{ subtotal }}</td>
+                </tr>
+                <tr>
+                    <td class="totals-label">Shipping</td>
+                    <td class="totals-value">{{ shipping_cost|default('$0.00') }}</td>
+                </tr>
+                {% if tax_amount_raw and tax_amount_raw > 0 %}
+                <tr>
+                    <td class="totals-label">{{ tax_label|default('HST 13.0%') }}</td>
+                    <td class="totals-value">{{ tax_amount }}</td>
+                </tr>
+                {% endif %}
+                <tr class="total-row">
+                    <td class="totals-label total">TOTAL (CAD)</td>
+                    <td class="totals-value total">{{ total_amount }}</td>
+                </tr>
+                <tr>
+                    <td class="totals-label">Total due</td>
+                    <td class="totals-value">{{ total_amount }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="thank-you">Thank you for shopping with us!</div>
+            <div class="company-info">
+                <div class="company-name">{{ supplier_name|default('Exotics Wholesale') }}</div>
+                <div class="company-line">{{ supplier_address|default('4800 Boulevard Kimber, Longueuil, QC, J3Y 8M3, Canada') }}</div>
+                <div class="company-line">{{ tax_id|default('738972330 RT 0001 / 1227384278 TQ 0001') }}</div>
+                <div class="company-line">{{ supplier_email|default('sales@exoticswholesale.com') }}</div>
+                <div class="company-line">exoticswholesale.com</div>
+            </div>
+        </div>
+
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-text">Continued on next page...</div>
+            <div class="cont-page">Page {{ _current_page }} of {{ _total_pages }}</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Adjustment Form</title>
+    <link rel="stylesheet" href="../css/inventory_adjustment_form.css">
+</head>
+<body>
+    <div class="page">
+        <!-- Header (first page only) -->
+        {% if _is_first_page|default(true) %}
+        <div class="header">
+            <div class="logo-section">
+                {% if logo_base64 %}
+                <img src="data:image/png;base64,{{ logo_base64 }}" alt="Company Logo" class="logo">
+                {% else %}
+                <div class="logo-placeholder">LOGO</div>
+                {% endif %}
+            </div>
+            <div class="title-section">
+                <h1>INVENTORY ADJUSTMENT</h1>
+                <div class="doc-type">STOCK CORRECTION</div>
+            </div>
+        </div>
+
+        <!-- Reference Bar -->
+        <div class="reference-bar">
+            <div class="ref-item">
+                <span class="ref-label">Adjustment #:</span>
+                <span class="ref-value">{{ adjustment_number }}</span>
+            </div>
+            <div class="ref-item">
+                <span class="ref-label">Date:</span>
+                <span class="ref-value">{{ adjustment_date }}</span>
+            </div>
+            <div class="ref-item">
+                <span class="ref-label">Type:</span>
+                <span class="ref-value type-badge type-{{ adjustment_type|lower|replace(' ', '-') }}">{{ adjustment_type }}</span>
+            </div>
+        </div>
+
+        <!-- Location Information -->
+        <div class="location-section">
+            <div class="location-box">
+                <div class="location-header">ADJUSTMENT LOCATION</div>
+                <div class="location-content">
+                    <div class="location-name">{{ location_name }}</div>
+                    <div class="location-code">Location Code: {{ location_code }}</div>
+                    <div class="location-address">
+                        {{ location_address }}<br>
+                        {{ location_city }}, {{ location_state }} {{ location_zip }}
+                    </div>
+                    {% if location_manager %}
+                    <div class="location-manager">Manager: {{ location_manager }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Adjustment Reason -->
+        <div class="reason-section">
+            <div class="reason-label">ADJUSTMENT REASON:</div>
+            <div class="reason-badge reason-{{ adjustment_reason|lower|replace(' ', '-')|replace('/', '-') }}">
+                {{ adjustment_reason }}
+            </div>
+            {% if adjustment_description %}
+            <div class="reason-description">{{ adjustment_description }}</div>
+            {% endif %}
+        </div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-left">
+                <strong>Inventory Adjustment</strong> - {{ adjustment_number }}
+            </div>
+            <div class="cont-right">
+                Page {{ _page_number }} of {{ _total_pages }}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-num">#</th>
+                    <th class="col-sku">SKU</th>
+                    <th class="col-name">Product Name</th>
+                    <th class="col-desc">Description</th>
+                    <th class="col-expected">Expected<br>Qty</th>
+                    <th class="col-actual">Actual<br>Qty</th>
+                    <th class="col-variance">Variance</th>
+                    <th class="col-cost">Unit<br>Cost</th>
+                    <th class="col-value">Variance<br>Value</th>
+                    <th class="col-reason">Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td class="col-num">{{ loop.index }}</td>
+                    <td class="col-sku">{{ item.sku }}</td>
+                    <td class="col-name">{{ item.get('name', item.description) }}</td>
+                    <td class="col-desc">{{ item.get('description', '') }}</td>
+                    <td class="col-expected">{{ item.expected_quantity }}</td>
+                    <td class="col-actual">{{ item.actual_quantity }}</td>
+                    <td class="col-variance">
+                        {% set variance = item.actual_quantity - item.expected_quantity %}
+                        <span class="variance-{{ 'positive' if variance > 0 else ('negative' if variance < 0 else 'zero') }}">
+                            {{ '+' if variance > 0 else '' }}{{ variance }}
+                        </span>
+                    </td>
+                    <td class="col-cost">
+                        {% if item.unit_cost is string %}
+                        {{ item.unit_cost }}
+                        {% else %}
+                        ${{ "%.2f"|format(item.unit_cost|to_float) }}
+                        {% endif %}
+                    </td>
+                    <td class="col-value">
+                        {% set variance = item.actual_quantity - item.expected_quantity %}
+                        {% set unit_cost_val = item.unit_cost if item.unit_cost is not string else item.unit_cost|replace('$', '')|replace(',', '')|float %}
+                        {% set var_value = variance * unit_cost_val %}
+                        <span class="variance-{{ 'positive' if var_value > 0 else ('negative' if var_value < 0 else 'zero') }}">
+                            {{ '+' if var_value > 0 else '' }}${{ "%.2f"|format(var_value|abs) if var_value < 0 else "%.2f"|format(var_value) }}
+                        </span>
+                    </td>
+                    <td class="col-reason">
+                        <span class="reason-code">{{ item.get('adjustment_reason_code', 'N/A') }}</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Last page: Summary and Approval -->
+        {% if _is_last_page|default(true) %}
+        <!-- Summary Section -->
+        <div class="summary-section">
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-header">ADJUSTMENT SUMMARY</div>
+                    <div class="summary-content">
+                        <div class="summary-row">
+                            <span class="summary-label">Total Items Adjusted:</span>
+                            <span class="summary-value">{{ total_items_adjusted|default(items|length) }}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Items Increased:</span>
+                            <span class="summary-value positive">{{ items_increased|default(0) }}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Items Decreased:</span>
+                            <span class="summary-value negative">{{ items_decreased|default(0) }}</span>
+                        </div>
+                        <div class="summary-row total-row">
+                            <span class="summary-label">Total Units Variance:</span>
+                            <span class="summary-value">
+                                {% set total_variance = total_units_variance|default(0) %}
+                                <span class="variance-{{ 'positive' if total_variance > 0 else ('negative' if total_variance < 0 else 'zero') }}">
+                                    {{ '+' if total_variance > 0 else '' }}{{ total_variance }}
+                                </span>
+                            </span>
+                        </div>
+                        <div class="summary-row total-row">
+                            <span class="summary-label">Total Variance Value:</span>
+                            <span class="summary-value">
+                                {% set total_value = total_variance_value|default(0.0) %}
+                                <span class="variance-{{ 'positive' if total_value > 0 else ('negative' if total_value < 0 else 'zero') }}">
+                                    {{ '+' if total_value > 0 else '' }}${{ "%.2f"|format(total_value|abs) if total_value < 0 else "%.2f"|format(total_value) }}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Approval Section -->
+        <div class="approval-section">
+            <div class="approval-header">AUTHORIZATION & APPROVAL</div>
+            <div class="approval-grid">
+                <div class="signature-box">
+                    <div class="signature-label">PREPARED BY</div>
+                    {% if prepared_by %}
+                    <div class="signature-line signed">{{ prepared_by }}</div>
+                    <div class="signature-info">
+                        <div>{{ prepared_by_title|default('Inventory Clerk') }}</div>
+                        <div>Date: {{ prepared_date|default(adjustment_date) }}</div>
+                    </div>
+                    {% else %}
+                    <div class="signature-line"></div>
+                    <div class="signature-info">
+                        <div>Name: _______________________</div>
+                        <div>Date: _______________________</div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="signature-box">
+                    <div class="signature-label">REVIEWED BY</div>
+                    {% if reviewed_by %}
+                    <div class="signature-line signed">{{ reviewed_by }}</div>
+                    <div class="signature-info">
+                        <div>{{ reviewed_by_title|default('Warehouse Manager') }}</div>
+                        <div>Date: {{ reviewed_date|default(adjustment_date) }}</div>
+                    </div>
+                    {% else %}
+                    <div class="signature-line"></div>
+                    <div class="signature-info">
+                        <div>Name: _______________________</div>
+                        <div>Date: _______________________</div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="signature-box">
+                    <div class="signature-label">APPROVED BY</div>
+                    {% if approved_by %}
+                    <div class="signature-line signed">{{ approved_by }}</div>
+                    <div class="signature-info">
+                        <div>{{ approved_by_title|default('Operations Director') }}</div>
+                        <div>Date: {{ approved_date|default(adjustment_date) }}</div>
+                    </div>
+                    {% else %}
+                    <div class="signature-line"></div>
+                    <div class="signature-info">
+                        <div>Name: _______________________</div>
+                        <div>Date: _______________________</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes Section -->
+        {% if adjustment_notes or investigation_details %}
+        <div class="notes-section">
+            <div class="notes-header">ADJUSTMENT NOTES & INVESTIGATION</div>
+            <div class="notes-content">
+                {% if adjustment_notes %}
+                <div class="notes-text">{{ adjustment_notes }}</div>
+                {% endif %}
+                {% if investigation_details %}
+                <div class="investigation-text">
+                    <strong>Investigation:</strong> {{ investigation_details }}
+                </div>
+                {% endif %}
+                {% if corrective_actions %}
+                <div class="corrective-text">
+                    <strong>Corrective Actions:</strong> {{ corrective_actions }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Audit Trail -->
+        <div class="audit-section">
+            <div class="audit-header">AUDIT TRAIL</div>
+            <div class="audit-content">
+                <div class="audit-item">
+                    <span class="audit-label">Adjustment ID:</span>
+                    <span class="audit-value">{{ adjustment_number }}</span>
+                </div>
+                <div class="audit-item">
+                    <span class="audit-label">Created:</span>
+                    <span class="audit-value">{{ adjustment_date }} at {{ adjustment_time|default('00:00:00') }}</span>
+                </div>
+                <div class="audit-item">
+                    <span class="audit-label">Created By:</span>
+                    <span class="audit-value">{{ created_by|default(prepared_by|default('System')) }}</span>
+                </div>
+                <div class="audit-item">
+                    <span class="audit-label">Location:</span>
+                    <span class="audit-value">{{ location_code }} - {{ location_name }}</span>
+                </div>
+                <div class="audit-item">
+                    <span class="audit-label">Status:</span>
+                    <span class="audit-value status-badge status-{{ adjustment_status|default('Pending')|lower }}">
+                        {{ adjustment_status|default('Pending') }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-left">
+                {% if company_name %}
+                {{ company_name }}
+                {% endif %}
+            </div>
+            <div class="footer-center">
+                Inventory Adjustment Form - {{ adjustment_number }}
+            </div>
+            <div class="footer-right">
+                Page {{ _page_number|default(1) }} of {{ _total_pages|default(1) }}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

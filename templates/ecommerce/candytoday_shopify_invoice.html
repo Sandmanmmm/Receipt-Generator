@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order #{{ order_number }} confirmed</title>
+    <link rel="stylesheet" href="../css/candytoday_shopify_invoice.css">
+</head>
+<body>
+    <div class="email-container">
+        {% if _is_first_page|default(true) %}
+        <!-- Header with Logo -->
+        <div class="header-section">
+            <table class="header-table">
+                <tr>
+                    <td class="logo-cell">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name|default('candytoday.ca') }}" class="company-logo">
+                        {% else %}
+                        <div class="logo-container">
+                            <div class="logo-icon">
+                                <svg viewBox="0 0 40 40" width="40" height="40">
+                                    <circle cx="20" cy="20" r="18" fill="#4ECDC4"/>
+                                    <path d="M12 20 Q20 10 28 20 Q20 30 12 20" fill="#FF6B6B"/>
+                                </svg>
+                            </div>
+                            <span class="logo-text">candytoday<span class="logo-domain">.ca</span></span>
+                        </div>
+                        <div class="logo-tagline">Specialty Candy Imports & Distribution</div>
+                        {% endif %}
+                    </td>
+                    <td class="order-number-cell">
+                        <span class="order-label">ORDER #{{ order_number|default(invoice_number) }}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Thank You Section -->
+        <div class="thank-you-section">
+            <h1 class="thank-you-title">Thank you for your purchase!</h1>
+            <p class="order-status">We're getting your order ready to be shipped. We will notify you when it has been sent.</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <table class="buttons-table">
+                <tr>
+                    <td class="button-cell">
+                        <a href="#" class="btn-view-order">View your order</a>
+                    </td>
+                    <td class="button-separator">or</td>
+                    <td class="button-cell">
+                        <a href="#" class="btn-visit-store">Visit our store</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-summary-section">
+            <h2 class="section-title">Order summary</h2>
+            
+            <div class="items-list">
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="continuation-logo">candytoday.ca</div>
+            <div class="continuation-order">Order #{{ order_number|default(invoice_number) }} (Page {{ _page_number }} of {{ _total_pages }})</div>
+        </div>
+
+        <div class="order-summary-section continuation-section">
+            <h2 class="section-title">Order summary (continued)</h2>
+            
+            <div class="items-list">
+        {% endif %}
+                {% for item in items %}
+                <div class="item-row">
+                    <table class="item-table">
+                        <tr>
+                            <td class="item-image-cell">
+                                {% if item.image_url %}
+                                <img src="{{ item.image_url }}" alt="{{ item.name|default(item.description) }}" class="item-image">
+                                {% else %}
+                                <div class="item-image-placeholder">
+                                    <span class="placeholder-icon">🍬</span>
+                                </div>
+                                {% endif %}
+                            </td>
+                            <td class="item-details-cell">
+                                <span class="item-name">{{ item.name|default(item.description) }}{% if item.variant %} - {{ item.variant }}{% endif %}</span>
+                                <span class="item-quantity"> × {{ item.quantity }}</span>
+                            </td>
+                            <td class="item-price-cell">
+                                <span class="item-price">${{ "%.2f"|format((item.total|default(item.amount)|default(item.unit_price|to_float * item.quantity))|to_float) }}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Customer Information -->
+        {% if _is_last_page|default(true) %}
+        <div class="customer-info-section">
+            <h2 class="section-title">Customer information</h2>
+            
+            <table class="addresses-table">
+                <tr>
+                    <td class="address-column">
+                        <div class="address-block">
+                            <h3 class="address-title">Shipping address</h3>
+                            <p class="address-name">{{ buyer_name|default(client_name) }}</p>
+                            <p class="address-name">{{ buyer_name|default(client_name) }}</p>
+                            <p class="address-line highlight">{{ shipping_address_line1|default(buyer_address)|default(client_address) }}</p>
+                            {% if shipping_address_line2 %}
+                            <p class="address-line highlight">{{ shipping_address_line2 }}</p>
+                            {% endif %}
+                            <p class="address-line highlight">{{ shipping_city|default(buyer_city) }} {{ shipping_state|default(buyer_state) }} {{ shipping_postal|default(buyer_zip) }}</p>
+                            <p class="address-line highlight">{{ shipping_country|default('Canada') }}</p>
+                        </div>
+                    </td>
+                    <td class="address-column">
+                        <div class="address-block">
+                            <h3 class="address-title">Billing address</h3>
+                            <p class="address-name">{{ buyer_name|default(client_name) }}</p>
+                            <p class="address-name">{{ buyer_name|default(client_name) }}</p>
+                            <p class="address-line highlight">{{ billing_address_line1|default(buyer_address)|default(client_address) }}</p>
+                            {% if billing_address_line2 %}
+                            <p class="address-line highlight">{{ billing_address_line2 }}</p>
+                            {% endif %}
+                            <p class="address-line highlight">{{ billing_city|default(buyer_city) }} {{ billing_state|default(buyer_state) }} {{ billing_postal|default(buyer_zip) }}</p>
+                            <p class="address-line highlight">{{ billing_country|default('Canada') }}</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            
+            <!-- Shipping Method -->
+            <div class="shipping-method">
+                <h3 class="method-title">Shipping method</h3>
+                <p class="method-value">{{ shipping_method|default('Free Shipping') }}</p>
+            </div>
+        </div>
+
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <table class="totals-table">
+                <tr>
+                    <td class="totals-label">Subtotal</td>
+                    <td class="totals-value">${{ "%.2f"|format(subtotal|to_float) }}</td>
+                </tr>
+                <tr>
+                    <td class="totals-label">Shipping</td>
+                    <td class="totals-value">${{ "%.2f"|format(shipping_cost|default(0)) }}</td>
+                </tr>
+                <tr>
+                    <td class="totals-label">Taxes</td>
+                    <td class="totals-value">${{ "%.2f"|format(tax|default(tax_amount)|default(0)) }}</td>
+                </tr>
+                <tr class="total-row">
+                    <td class="total-label">Total</td>
+                    <td class="total-value">${{ "%.2f"|format(total|default(total_amount)|to_float) }} {{ currency|default('CAD') }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-section">
+            <div class="footer-divider"></div>
+            <p class="footer-text">
+                If you have any questions, reply to this email or contact us at 
+                <a href="mailto:{{ supplier_email|default('info@candytoday.ca') }}" class="footer-link">{{ supplier_email|default('info@candytoday.ca') }}</a>
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

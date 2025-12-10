@@ -1,0 +1,399 @@
+/* Wholesale Compact Order - CSS */
+/* Professional B2B design optimized for high item counts */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 9pt;
+    line-height: 1.4;
+    color: #1a1a1a;
+    background: #ffffff;
+}
+
+.invoice-page {
+    width: 816px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 0;
+}
+
+/* Header Bar - Brand and Order Info */
+.header-bar {
+    width: 100%;
+    border-collapse: collapse;
+    background: #2c3e50;
+    color: #ffffff;
+    border-bottom: 3px solid #34495e;
+}
+
+.brand-col {
+    padding: 18px 24px;
+    width: 55%;
+    vertical-align: middle;
+}
+
+.logo-img {
+    width: 52px;
+    height: 52px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 14px;
+    border-radius: 4px;
+    background: #ffffff;
+    padding: 4px;
+}
+
+.logo-box {
+    width: 52px;
+    height: 52px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 14px;
+    background: #3498db;
+    color: #ffffff;
+    text-align: center;
+    line-height: 52px;
+    font-size: 18pt;
+    font-weight: 700;
+    border-radius: 4px;
+}
+
+.brand-details {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.brand-name {
+    font-size: 15pt;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.brand-info {
+    font-size: 8pt;
+    color: #bdc3c7;
+    font-weight: 400;
+}
+
+.order-col {
+    padding: 18px 24px;
+    width: 45%;
+    vertical-align: middle;
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-table td {
+    padding: 3px 0;
+    font-size: 9pt;
+}
+
+.order-table .label {
+    color: #95a5a6;
+    width: 50%;
+    font-weight: 500;
+}
+
+.order-table .data {
+    text-align: right;
+    font-weight: 600;
+}
+
+.order-table .status {
+    color: #2ecc71;
+}
+
+/* Info Bar - Billing, Shipping, Terms */
+.info-bar {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ecf0f1;
+    border-bottom: 1px solid #bdc3c7;
+}
+
+.info-col {
+    padding: 16px 24px;
+    width: 33.33%;
+    vertical-align: top;
+    border-right: 1px solid #d5dbdb;
+}
+
+.info-col:last-child {
+    border-right: none;
+}
+
+.info-label {
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #7f8c8d;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.info-name {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 4px;
+}
+
+.info-text {
+    font-size: 8.5pt;
+    color: #34495e;
+    line-height: 1.5;
+}
+
+.info-text.small {
+    font-size: 8pt;
+    color: #7f8c8d;
+}
+
+/* Continuation Header */
+.cont-bar {
+    width: 100%;
+    background: #34495e;
+    color: #ffffff;
+    padding: 12px 0;
+    border-bottom: 2px solid #2c3e50;
+}
+
+.cont-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-left {
+    padding-left: 24px;
+    width: 60%;
+    font-size: 9pt;
+    vertical-align: middle;
+}
+
+.cont-logo {
+    height: 32px;
+    width: auto;
+    background: #ffffff;
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.cont-brand {
+    font-weight: 700;
+    font-size: 11pt;
+}
+
+.cont-right {
+    padding-right: 24px;
+    text-align: right;
+    font-size: 8.5pt;
+    color: #bdc3c7;
+    vertical-align: middle;
+}
+
+/* Items Grid - Compact rows for high counts */
+.items-grid {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+.items-grid thead th {
+    background: #34495e;
+    color: #ffffff;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    border-bottom: 2px solid #2c3e50;
+}
+
+.col-sku { width: 15%; }
+.col-description { width: 45%; }
+.col-qty { width: 10%; text-align: center; }
+.col-unit { width: 15%; text-align: right; }
+.col-total { width: 15%; text-align: right; }
+
+.items-grid thead th.col-qty,
+.items-grid thead th.col-unit,
+.items-grid thead th.col-total {
+    text-align: right;
+    padding-right: 24px;
+}
+
+.item-line {
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.item-line:hover {
+    background: #f8f9fa;
+}
+
+.item-line td {
+    padding: 10px 12px;
+    font-size: 9pt;
+    vertical-align: middle;
+}
+
+.cell-sku {
+    font-family: 'Courier New', monospace;
+    color: #7f8c8d;
+    font-size: 8.5pt;
+    font-weight: 600;
+}
+
+.cell-description {
+    color: #2c3e50;
+}
+
+.desc-main {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.desc-variant {
+    display: block;
+    font-size: 8pt;
+    color: #7f8c8d;
+    font-weight: 400;
+}
+
+.cell-qty {
+    text-align: right;
+    padding-right: 24px;
+    font-weight: 600;
+    color: #34495e;
+}
+
+.cell-unit {
+    text-align: right;
+    padding-right: 12px;
+    color: #7f8c8d;
+}
+
+.cell-total {
+    text-align: right;
+    padding-right: 24px;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+/* Summary Bar - Notes and Totals */
+.summary-bar {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    background: #f8f9fa;
+    border: 1px solid #ecf0f1;
+}
+
+.notes-col {
+    width: 55%;
+    padding: 18px 24px;
+    vertical-align: top;
+    border-right: 1px solid #ecf0f1;
+}
+
+.notes-header {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #34495e;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.notes-body {
+    font-size: 8.5pt;
+    color: #7f8c8d;
+    line-height: 1.6;
+}
+
+.totals-col {
+    width: 45%;
+    padding: 18px 24px;
+    vertical-align: top;
+}
+
+.totals-grid {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-grid tr td {
+    padding: 6px 0;
+    font-size: 9pt;
+}
+
+.totals-grid tr td:first-child {
+    color: #7f8c8d;
+    font-weight: 500;
+}
+
+.totals-grid .num {
+    text-align: right;
+    font-weight: 600;
+    color: #2c3e50;
+    font-family: 'Courier New', monospace;
+}
+
+.totals-grid .disc {
+    color: #e74c3c;
+}
+
+.totals-grid .grand {
+    border-top: 2px solid #34495e;
+    padding-top: 8px;
+}
+
+.totals-grid .grand td {
+    padding-top: 10px;
+    font-size: 11pt;
+    font-weight: 700;
+}
+
+.totals-grid .grand .num {
+    color: #2c3e50;
+    font-size: 12pt;
+}
+
+/* Footer Bar */
+.footer-bar {
+    margin-top: 24px;
+    padding: 0 24px 18px 24px;
+}
+
+.footer-line {
+    height: 2px;
+    background: #ecf0f1;
+    margin-bottom: 12px;
+}
+
+.footer-text {
+    font-size: 7.5pt;
+    color: #95a5a6;
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* Continuation Note */
+.cont-note {
+    text-align: right;
+    padding: 12px 24px;
+    font-size: 8.5pt;
+    color: #7f8c8d;
+    font-style: italic;
+    background: #f8f9fa;
+    border-top: 1px solid #ecf0f1;
+}

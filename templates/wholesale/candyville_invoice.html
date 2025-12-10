@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CandyVille Invoice - {{ invoice_number }}</title>
+    <link rel="stylesheet" href="../css/candyville_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="logo-section">
+                <div class="logo-text">
+                    <span class="candy-icon">🍬</span>
+                    {% if supplier_name %}
+                    <span class="logo-candy">{{ supplier_name }}</span>
+                    {% else %}
+                    <span class="logo-candy">CANDY</span><span class="logo-ville">VILLE</span><span class="logo-ca">.ca</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="company-info">
+                <div class="company-website">{{ supplier_website|default('candyville.ca') }}</div>
+                <div class="company-line">{{ supplier_address|default('140 Finchdene Square / Scarborough ON M1X 1B1 / Canada') }}</div>
+                <div class="company-line">{{ supplier_phone|default('(416) 725-5304') }}</div>
+                <div class="company-line">{{ supplier_email|default('info@candyville.ca') }}</div>
+                <div class="company-line">www.{{ supplier_website|default('candyville.ca') }}</div>
+            </div>
+        </div>
+
+        <!-- Invoice Details and Addresses -->
+        <table class="info-table">
+            <tr>
+                <td class="info-cell invoice-cell">
+                    <div class="invoice-title">INVOICE</div>
+                    <div class="info-section">
+                        <div class="info-label">ORDER NO</div>
+                        <div class="info-value">#{{ invoice_number }}</div>
+                    </div>
+                    <div class="info-section">
+                        <div class="info-label">ORDER DATE</div>
+                        <div class="info-value">{{ invoice_date }}</div>
+                    </div>
+                </td>
+                <td class="info-cell address-cell">
+                    <div class="address-title">SHIP TO</div>
+                    <div class="address-content">
+                        <div class="address-line">{{ buyer_name }}</div>
+                        {% if buyer_email %}
+                        <div class="address-line">{{ buyer_email }}</div>
+                        {% endif %}
+                        {% if buyer_company %}
+                        <div class="address-line">{{ buyer_company }}</div>
+                        {% endif %}
+                        <div class="address-line">{{ buyer_address_line1|default(buyer_address.split(',')[0] if buyer_address else '') }}</div>
+                        {% if buyer_address_line2 %}
+                        <div class="address-line">{{ buyer_address_line2 }}</div>
+                        {% endif %}
+                        <div class="address-line">{{ buyer_city|default('') }}, {{ buyer_state|default('') }} {{ buyer_postal|default('') }}</div>
+                        <div class="address-line">{{ buyer_country|default('Canada') }}</div>
+                        {% if buyer_phone %}
+                        <div class="address-line">{{ buyer_phone }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="info-cell address-cell">
+                    <div class="address-title">BILL TO</div>
+                    <div class="address-content">
+                        <div class="address-line">{{ buyer_name }}</div>
+                        {% if buyer_email %}
+                        <div class="address-line">{{ buyer_email }}</div>
+                        {% endif %}
+                        {% if buyer_company %}
+                        <div class="address-line">{{ buyer_company }}</div>
+                        {% endif %}
+                        <div class="address-line">{{ buyer_address_line1|default(buyer_address.split(',')[0] if buyer_address else '') }}</div>
+                        {% if buyer_address_line2 %}
+                        <div class="address-line">{{ buyer_address_line2 }}</div>
+                        {% endif %}
+                        <div class="address-line">{{ buyer_city|default('') }}, {{ buyer_state|default('') }} {{ buyer_postal|default('') }}</div>
+                        <div class="address-line">{{ buyer_country|default('Canada') }}</div>
+                        {% if buyer_phone %}
+                        <div class="address-line">{{ buyer_phone }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        {% else %}
+        <!-- Continuation Header for Page 2+ -->
+        <div class="continuation-header">
+            <div class="cont-logo">
+                {% if supplier_name %}
+                <span class="logo-candy-small">{{ supplier_name }}</span>
+                {% else %}
+                <span class="logo-candy-small">CANDY</span><span class="logo-ville-small">VILLE</span><span class="logo-ca-small">.ca</span>
+                {% endif %}
+            </div>
+            <div class="cont-info">Order #{{ invoice_number }} | Page {{ _current_page }} of {{ _total_pages }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Line Items Table -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-item">ITEM</th>
+                        <th class="col-qty">QTTY</th>
+                        <th class="col-price">UNIT PRICE</th>
+                        <th class="col-total">TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row">
+                        <td class="item-cell">{{ item.description }}</td>
+                        <td class="qty-cell">{{ item.quantity }}</td>
+                        <td class="price-cell">{{ item.unit_price }}</td>
+                        <td class="total-cell">{{ item.total }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <table class="totals-table">
+                <tr>
+                    <td class="totals-label">SUB TOTAL :</td>
+                    <td class="totals-value">{{ subtotal }}</td>
+                </tr>
+                <tr>
+                    <td class="totals-label">SHIPPING :</td>
+                    <td class="totals-value">{{ shipping_cost|default('$ 0.00') }}</td>
+                </tr>
+                {% if tax_amount_raw and tax_amount_raw > 0 %}
+                <tr>
+                    <td class="totals-label">TAX :</td>
+                    <td class="totals-value">{{ tax_amount }}</td>
+                </tr>
+                {% endif %}
+                <tr class="total-row">
+                    <td class="totals-label total">TOTAL :</td>
+                    <td class="totals-value total">{{ total_amount }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="terms-section">
+                <div class="terms-title">Terms & Notes</div>
+                <div class="terms-text">{{ terms_and_conditions|default('Thank you for your valued business. We greatly value your trust and confidence and sincerely appreciate your loyalty to our business.') }}</div>
+            </div>
+            <div class="social-section">
+                <span class="social-icon">📘</span>
+                <span class="social-icon">✖</span>
+                <span class="social-icon">📷</span>
+                <span class="social-icon">▶️</span>
+                <span class="social-icon">💼</span>
+                <span class="social-icon">📌</span>
+            </div>
+        </div>
+
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-text">Continued on next page...</div>
+            <div class="cont-page">Page {{ _current_page }} of {{ _total_pages }}</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

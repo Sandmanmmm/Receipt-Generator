@@ -1,0 +1,678 @@
+/* ==========================================================================
+   Ingram Micro Invoice Template CSS
+   World's Largest IT Distributor - NYSE: INGM
+   Brand Colors: Deep Blue (#003366) with Light Blue (#0066CC) accents
+   ========================================================================== */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    font-size: 10px;
+    line-height: 1.4;
+    color: #1a1a1a;
+    background: #ffffff;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 25px 30px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ==========================================================================
+   HEADER STYLES - First Page
+   ========================================================================== */
+
+.main-header {
+    margin-bottom: 15px;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+}
+
+.logo-cell {
+    width: 60%;
+    vertical-align: middle;
+}
+
+.logo-container {
+    display: inline-block;
+}
+
+.logo-icon {
+    display: inline-block;
+    background: #003366;  /* was: linear-gradient(135deg, #003366 0%, #005599 100%...) */
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.logo-text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.logo-name {
+    font-size: 28px;
+    font-weight: 300;
+    color: #003366;
+    letter-spacing: -0.5px;
+}
+
+.logo-image {
+    height: 50px;
+    width: auto;
+    max-width: 200px;
+}
+
+.invoice-title-cell {
+    width: 40%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.invoice-badge {
+    display: inline-block;
+    background: #003366;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 10px 30px;
+    letter-spacing: 2px;
+}
+
+/* Details Bar */
+.details-bar {
+    background: #f0f5fa;
+    border: 1px solid #ccdce8;
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin-bottom: 12px;
+}
+
+.details-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.detail-item {
+    text-align: center;
+    padding: 0 8px;
+    border-right: 1px solid #ccdce8;
+}
+
+.detail-item:last-child {
+    border-right: none;
+}
+
+.detail-label {
+    display: block;
+    font-size: 8px;
+    color: #666666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+}
+
+.detail-value {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #003366;
+}
+
+/* Addresses Section */
+.addresses-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+}
+
+.address-cell {
+    width: 33.33%;
+    vertical-align: top;
+    padding: 10px 12px;
+    background: #ffffff;
+    border: 1px solid #dce5ed;
+}
+
+.address-cell.sold-to {
+    border-left: 3px solid #003366;
+}
+
+.address-cell.ship-to {
+    border-left: 3px solid #0066cc;
+}
+
+.address-cell.remit-to {
+    border-left: 3px solid #28a745;
+}
+
+.address-header {
+    font-size: 9px;
+    font-weight: 700;
+    color: #666666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.address-content .company-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 3px;
+}
+
+.address-content .address-line {
+    font-size: 9px;
+    color: #444444;
+    line-height: 1.5;
+}
+
+/* Shipping & Terms Bar */
+.shipping-terms-bar {
+    background: #003366;
+    color: #ffffff;
+    padding: 8px 15px;
+    border-radius: 4px;
+}
+
+.shipping-terms-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.term-item {
+    text-align: center;
+    padding: 0 10px;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.term-item:last-child {
+    border-right: none;
+}
+
+.term-label {
+    display: block;
+    font-size: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.term-value {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.term-value.tracking {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 9px;
+}
+
+/* ==========================================================================
+   CONTINUATION HEADER - Pages 2+
+   ========================================================================== */
+
+.continuation-header {
+    background: #f0f5fa;
+    border-bottom: 2px solid #003366;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+}
+
+.continuation-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-logo {
+    width: 30%;
+    font-size: 14px;
+    font-weight: 600;
+    color: #003366;
+}
+
+.cont-logo-text {
+    display: inline-block;
+}
+
+.cont-info {
+    width: 25%;
+    font-size: 10px;
+    color: #333333;
+}
+
+.cont-label {
+    color: #666666;
+}
+
+.cont-page {
+    width: 20%;
+    text-align: right;
+    font-size: 10px;
+    font-weight: 600;
+    color: #003366;
+}
+
+/* ==========================================================================
+   LINE ITEMS TABLE
+   ========================================================================== */
+
+.items-section {
+    margin-bottom: 15px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.items-table thead {
+    background: #003366;  /* was: linear-gradient(180deg, #003366 0%, #004488 100%...) */
+}
+
+.items-table th {
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 10px 8px;
+    text-align: left;
+    border: none;
+}
+
+.items-table th.col-line { width: 5%; text-align: center; }
+.items-table th.col-vpn { width: 14%; }
+.items-table th.col-sku { width: 12%; }
+.items-table th.col-description { width: 35%; }
+.items-table th.col-qty { width: 8%; text-align: center; }
+.items-table th.col-unit { width: 13%; text-align: right; }
+.items-table th.col-extended { width: 13%; text-align: right; }
+
+.items-table tbody tr {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.items-table tbody tr.odd {
+    background: #ffffff;
+}
+
+.items-table tbody tr.even {
+    background: #f8fafc;
+}
+
+.items-table tbody tr:hover {
+    background: #f0f5fa;
+}
+
+.items-table td {
+    padding: 10px 8px;
+    font-size: 9px;
+    vertical-align: top;
+    word-wrap: break-word;
+    max-width: 0;
+}
+
+.items-table td.col-line {
+    text-align: center;
+    color: #666666;
+    font-weight: 500;
+}
+
+.items-table td.col-vpn {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 9px;
+    color: #0066cc;
+}
+
+.items-table td.col-sku {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 9px;
+    color: #333333;
+}
+
+.items-table td.col-qty {
+    text-align: center;
+    font-weight: 600;
+}
+
+.items-table td.col-unit,
+.items-table td.col-extended {
+    text-align: right;
+    font-weight: 500;
+}
+
+.items-table td.col-extended {
+    font-weight: 600;
+    color: #003366;
+}
+
+.item-name {
+    font-size: 10px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 2px;
+}
+
+.item-mfr {
+    font-size: 8px;
+    color: #666666;
+}
+
+.item-upc {
+    font-size: 8px;
+    color: #888888;
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
+/* ==========================================================================
+   TOTALS SECTION - Last Page
+   ========================================================================== */
+
+.totals-section {
+    margin-bottom: 15px;
+}
+
+.totals-layout {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.notes-cell {
+    width: 55%;
+    vertical-align: top;
+    padding-right: 20px;
+}
+
+.totals-cell {
+    width: 45%;
+    vertical-align: top;
+}
+
+.notes-box {
+    background: #f8fafc;
+    border: 1px solid #dce5ed;
+    border-left: 3px solid #0066cc;
+    padding: 12px 15px;
+    margin-bottom: 12px;
+    border-radius: 0 4px 4px 0;
+}
+
+.notes-title {
+    font-size: 10px;
+    font-weight: 600;
+    color: #003366;
+    margin-bottom: 8px;
+}
+
+.notes-content {
+    font-size: 8px;
+    color: #555555;
+    line-height: 1.6;
+}
+
+.notes-content p {
+    margin-bottom: 5px;
+}
+
+.notes-content p:last-child {
+    margin-bottom: 0;
+}
+
+.custom-note {
+    font-style: italic;
+    color: #003366;
+}
+
+/* Payment Box */
+.payment-box {
+    background: #ffffff;
+    border: 1px solid #dce5ed;
+    padding: 12px 15px;
+    border-radius: 4px;
+}
+
+.payment-title {
+    font-size: 9px;
+    font-weight: 600;
+    color: #333333;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.payment-methods {
+    margin-bottom: 8px;
+}
+
+.pay-method {
+    display: inline-block;
+    background: #f0f5fa;
+    color: #003366;
+    font-size: 8px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin-right: 5px;
+}
+
+.payment-details {
+    font-size: 8px;
+    color: #555555;
+}
+
+.bank-info {
+    margin-bottom: 2px;
+}
+
+.bank-label {
+    font-weight: 600;
+    color: #333333;
+}
+
+/* Totals Table */
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f8fafc;
+    border: 1px solid #dce5ed;
+    border-radius: 4px;
+}
+
+.total-row td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.total-row:last-child td {
+    border-bottom: none;
+}
+
+.total-label {
+    font-size: 10px;
+    color: #555555;
+    text-align: left;
+}
+
+.total-value {
+    font-size: 10px;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-align: right;
+}
+
+.discount-row .total-value.discount {
+    color: #28a745;
+}
+
+.grand-total {
+    background: #003366;
+}
+
+.grand-total .total-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.grand-total .total-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.balance-due {
+    background: #0066cc;  /* was: linear-gradient(135deg, #0066cc 0%, #003366 100%...) */
+    color: #ffffff;
+    padding: 12px 15px;
+    margin-top: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.balance-label {
+    font-size: 10px;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.balance-value {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* ==========================================================================
+   FOOTER STYLES
+   ========================================================================== */
+
+.main-footer {
+    position: absolute;
+    bottom: 25px;
+    left: 30px;
+    right: 30px;
+    border-top: 2px solid #003366;
+    padding-top: 10px;
+}
+
+.footer-content {
+    float: left;
+}
+
+.footer-company {
+    font-size: 9px;
+    font-weight: 600;
+    color: #003366;
+    margin-bottom: 2px;
+}
+
+.footer-contact {
+    font-size: 8px;
+    color: #666666;
+    margin-bottom: 2px;
+}
+
+.footer-stock {
+    font-size: 8px;
+    color: #888888;
+}
+
+.footer-page {
+    float: right;
+    font-size: 9px;
+    color: #666666;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    position: absolute;
+    bottom: 25px;
+    left: 30px;
+    right: 30px;
+    background: #f0f5fa;
+    border-top: 1px solid #003366;
+    padding: 10px 15px;
+}
+
+.cont-footer-left {
+    float: left;
+    font-size: 9px;
+    color: #003366;
+    font-weight: 500;
+}
+
+.cont-footer-center {
+    text-align: center;
+    font-size: 9px;
+    color: #666666;
+    font-style: italic;
+}
+
+.cont-footer-right {
+    float: right;
+    font-size: 9px;
+    color: #003366;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   PRINT STYLES
+   ========================================================================== */
+
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .invoice-page {
+        width: 100%;
+        padding: 0.25in;
+        page-break-after: always;
+    }
+    
+    .items-table thead {
+        background: #003366 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .grand-total {
+        background: #003366 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVE ADJUSTMENTS (for preview in browsers)
+   ========================================================================== */
+
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}

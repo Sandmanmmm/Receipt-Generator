@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cycle Count Sheet</title>
+    <link rel="stylesheet" href="../css/cycle_count_sheet.css">
+</head>
+<body>
+    <div class="page">
+        <!-- Header (first page only) -->
+        {% if _is_first_page|default(true) %}
+        <div class="header">
+            <div class="logo-section">
+                {% if logo_base64 %}
+                <img src="data:image/png;base64,{{ logo_base64 }}" alt="Company Logo" class="logo">
+                {% else %}
+                <div class="logo-placeholder">LOGO</div>
+                {% endif %}
+            </div>
+            <div class="title-section">
+                <h1>CYCLE COUNT SHEET</h1>
+                <div class="doc-type">INVENTORY VERIFICATION</div>
+            </div>
+        </div>
+
+        <!-- Reference Bar -->
+        <div class="reference-bar">
+            <div class="ref-item">
+                <span class="ref-label">Count ID:</span>
+                <span class="ref-value">{{ count_id }}</span>
+            </div>
+            <div class="ref-item">
+                <span class="ref-label">Count Date:</span>
+                <span class="ref-value">{{ count_date }}</span>
+            </div>
+            <div class="ref-item">
+                <span class="ref-label">Status:</span>
+                <span class="ref-value status-badge status-{{ count_status|lower|replace(' ', '-') }}">{{ count_status }}</span>
+            </div>
+        </div>
+
+        <!-- Count Assignment Info -->
+        <table class="assignment-table">
+            <tr>
+                <td class="assignment-left">
+                    <div class="assignment-box">
+                        <div class="assignment-header">COUNT ASSIGNMENT</div>
+                        <div class="assignment-content">
+                            <div class="assignment-row">
+                                <span class="label">Location:</span>
+                                <span class="value">{{ location_name }} ({{ location_code }})</span>
+                            </div>
+                            <div class="assignment-row">
+                                <span class="label">Zone/Area:</span>
+                                <span class="value">{{ zone|default('All Zones') }}</span>
+                            </div>
+                            <div class="assignment-row">
+                                <span class="label">Category:</span>
+                                <span class="value">{{ category|default('All Categories') }}</span>
+                            </div>
+                            {% if abc_class %}
+                            <div class="assignment-row">
+                                <span class="label">ABC Class:</span>
+                                <span class="value abc-badge abc-{{ abc_class|lower }}">{{ abc_class }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </td>
+                <td class="assignment-right">
+                    <div class="assignment-box">
+                        <div class="assignment-header">ASSIGNED TO</div>
+                        <div class="assignment-content">
+                            <div class="assignment-row">
+                                <span class="label">Counter:</span>
+                                <span class="value">{{ counter_name }}</span>
+                            </div>
+                            <div class="assignment-row">
+                                <span class="label">Start Time:</span>
+                                <span class="value">{{ start_time|default('__:__ AM') }}</span>
+                            </div>
+                            <div class="assignment-row">
+                                <span class="label">End Time:</span>
+                                <span class="value">{{ end_time|default('__:__ PM') }}</span>
+                            </div>
+                            {% if supervisor %}
+                            <div class="assignment-row">
+                                <span class="label">Supervisor:</span>
+                                <span class="value">{{ supervisor }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Count Instructions -->
+        <div class="instructions-section">
+            <div class="instructions-header">COUNT INSTRUCTIONS</div>
+            <div class="instructions-content">
+                <div class="instruction-item">1. Count all items in assigned zone/category</div>
+                <div class="instruction-item">2. Record actual quantity in "Actual Qty" column</div>
+                <div class="instruction-item">3. Note any discrepancies or damaged items in "Notes" column</div>
+                <div class="instruction-item">4. Flag items for recount if variance exceeds {{ recount_threshold|default(5) }}%</div>
+                <div class="instruction-item">5. Sign and return completed sheet to supervisor</div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-left">
+                <strong>Cycle Count Sheet</strong> - {{ count_id }} - {{ location_code }}
+            </div>
+            <div class="cont-right">
+                Page {{ _page_number }} of {{ _total_pages }}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Items Count Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-num">#</th>
+                    <th class="col-sku">SKU</th>
+                    <th class="col-name">Product Name</th>
+                    <th class="col-location">Bin/Location</th>
+                    <th class="col-abc">ABC</th>
+                    <th class="col-expected">System<br>Qty</th>
+                    <th class="col-actual">Actual<br>Qty</th>
+                    <th class="col-variance">Variance</th>
+                    <th class="col-variance-pct">Var %</th>
+                    <th class="col-recount">Recount</th>
+                    <th class="col-notes">Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td class="col-num">{{ loop.index }}</td>
+                    <td class="col-sku">{{ item.sku }}</td>
+                    <td class="col-name">{{ item.get('name', item.description) }}</td>
+                    <td class="col-location">{{ item.get('bin_location', 'N/A') }}</td>
+                    <td class="col-abc">
+                        {% set abc = item.get('abc_class', 'C') %}
+                        <span class="abc-badge abc-{{ abc|lower }}">{{ abc }}</span>
+                    </td>
+                    <td class="col-expected">{{ item.expected_quantity }}</td>
+                    <td class="col-actual">
+                        {% if item.get('actual_quantity') is not none %}
+                        {{ item.actual_quantity }}
+                        {% else %}
+                        <span class="blank-field">_____</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-variance">
+                        {% if item.get('actual_quantity') is not none %}
+                        {% set variance = item.actual_quantity - item.expected_quantity %}
+                        <span class="variance-{{ 'positive' if variance > 0 else ('negative' if variance < 0 else 'zero') }}">
+                            {{ '+' if variance > 0 else '' }}{{ variance }}
+                        </span>
+                        {% else %}
+                        <span class="blank-field">___</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-variance-pct">
+                        {% if item.get('actual_quantity') is not none and item.expected_quantity > 0 %}
+                        {% set variance = item.actual_quantity - item.expected_quantity %}
+                        {% set var_pct = (variance / item.expected_quantity * 100)|abs %}
+                        <span class="variance-{{ 'positive' if variance > 0 else ('negative' if variance < 0 else 'zero') }}">
+                            {{ '+' if variance > 0 else '-' if variance < 0 else '' }}{{ "%.1f"|format(var_pct) }}%
+                        </span>
+                        {% else %}
+                        <span class="blank-field">___</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-recount">
+                        {% if item.get('needs_recount') %}
+                        <span class="recount-flag">[!]</span>
+                        {% else %}
+                        <span class="checkbox">☐</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-notes">
+                        {% if item.get('notes') %}
+                        {{ item.notes }}
+                        {% else %}
+                        <span class="blank-field">________________</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Last page: Summary and Signatures -->
+        {% if _is_last_page|default(true) %}
+        <!-- Count Summary -->
+        <div class="summary-section">
+            <div class="summary-header">COUNT SUMMARY</div>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-label">Total Items Counted:</div>
+                    <div class="summary-value">{{ total_items_counted|default(items|length) }}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Items with Variance:</div>
+                    <div class="summary-value warning">{{ items_with_variance|default(0) }}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Items Flagged for Recount:</div>
+                    <div class="summary-value error">{{ items_needing_recount|default(0) }}</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-label">Count Accuracy:</div>
+                    <div class="summary-value success">{{ count_accuracy|default('N/A') }}%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Variance Analysis -->
+        {% if items_with_variance and items_with_variance > 0 %}
+        <div class="variance-analysis">
+            <div class="variance-header">VARIANCE ANALYSIS</div>
+            <table class="variance-table">
+                <tr>
+                    <td class="var-label">Total Units Over:</td>
+                    <td class="var-value positive">{{ units_over|default(0) }}</td>
+                    <td class="var-label">Total Units Short:</td>
+                    <td class="var-value negative">{{ units_short|default(0) }}</td>
+                </tr>
+                <tr>
+                    <td class="var-label">Variance Value (Over):</td>
+                    <td class="var-value positive">${{ "%.2f"|format(value_over|default(0)) }}</td>
+                    <td class="var-label">Variance Value (Short):</td>
+                    <td class="var-value negative">${{ "%.2f"|format(value_short|default(0)) }}</td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Signature Section -->
+        <div class="signature-section">
+            <div class="signature-grid">
+                <div class="signature-box">
+                    <div class="signature-label">COUNTER SIGNATURE</div>
+                    {% if counter_signature %}
+                    <div class="signature-line signed">{{ counter_signature }}</div>
+                    <div class="signature-info">
+                        <div>Name: {{ counter_name }}</div>
+                        <div>Date: {{ completion_date|default(count_date) }}</div>
+                    </div>
+                    {% else %}
+                    <div class="signature-line"></div>
+                    <div class="signature-info">
+                        <div>Name: _______________________</div>
+                        <div>Date: _______________________</div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="signature-box">
+                    <div class="signature-label">SUPERVISOR REVIEW</div>
+                    {% if supervisor_signature %}
+                    <div class="signature-line signed">{{ supervisor_signature }}</div>
+                    <div class="signature-info">
+                        <div>Name: {{ supervisor }}</div>
+                        <div>Date: {{ review_date|default(count_date) }}</div>
+                    </div>
+                    {% else %}
+                    <div class="signature-line"></div>
+                    <div class="signature-info">
+                        <div>Name: _______________________</div>
+                        <div>Date: _______________________</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes Section -->
+        {% if count_notes %}
+        <div class="notes-section">
+            <div class="notes-header">ADDITIONAL NOTES</div>
+            <div class="notes-content">{{ count_notes }}</div>
+        </div>
+        {% endif %}
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-left">
+                {% if company_name %}
+                {{ company_name }}
+                {% endif %}
+            </div>
+            <div class="footer-center">
+                Cycle Count Sheet - {{ count_id }}
+            </div>
+            <div class="footer-right">
+                Page {{ _page_number|default(1) }} of {{ _total_pages|default(1) }}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

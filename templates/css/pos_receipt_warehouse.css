@@ -1,0 +1,468 @@
+/* Warehouse Club POS Receipt - Costco-style thermal receipt */
+/* Monospace font, narrow width, authentic thermal receipt appearance */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 10px;
+    line-height: 1.15;
+    color: #000000;
+    background-color: #ffffff;
+    letter-spacing: -0.3px;
+}
+
+.pos-receipt {
+    width: 280px;
+    margin: 0 auto;
+    padding: 8px 6px;
+    background-color: #ffffff;
+}
+
+/* ========== HEADER SECTION ========== */
+.receipt-header {
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.store-logo {
+    margin-bottom: 4px;
+}
+
+.logo-primary {
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: #000000;
+}
+
+.logo-tagline {
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 0;
+    margin-top: 2px;
+}
+
+.store-location-box {
+    margin-top: 4px;
+    border: 1px solid #000000;
+    padding: 3px 8px;
+}
+
+.store-location {
+    margin-top: 4px;
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+    padding: 3px 0;
+}
+
+.store-number {
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.1;
+}
+
+.store-address,
+.store-city {
+    font-size: 9px;
+    text-align: center;
+    line-height: 1.1;
+}
+
+/* ========== MEMBER SECTION ========== */
+.member-section {
+    margin: 4px 0 2px 0;
+    text-align: left;
+    font-size: 10px;
+    line-height: 1.1;
+}
+
+/* ========== CONTINUATION HEADER ========== */
+.continuation-header {
+    text-align: center;
+    padding: 6px 0;
+    border-bottom: 1px dashed #000000;
+    margin-bottom: 6px;
+}
+
+.cont-store {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.cont-page {
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+/* ========== ITEMS SECTION ========== */
+/* Using real table for proper column alignment */
+.items-section {
+    margin: 2px 0;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.items-table td {
+    font-size: 10px;
+    line-height: 1.1;
+    vertical-align: top;
+    padding: 0;
+}
+
+.items-table .col-sku {
+    width: 50px;
+    text-align: left;
+    padding-right: 4px;
+}
+
+.items-table .col-desc {
+    text-align: left;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: clip;
+}
+
+.items-table .col-price {
+    width: 50px;
+    text-align: right;
+}
+
+/* Fallback for div-based items */
+.item-row {
+    display: table;
+    width: 100%;
+    font-size: 10px;
+    line-height: 1.3;
+    table-layout: fixed;
+}
+
+.item-sku {
+    display: table-cell;
+    width: 52px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.item-desc {
+    display: table-cell;
+    text-align: left;
+    vertical-align: top;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.item-price {
+    display: table-cell;
+    width: 48px;
+    text-align: right;
+    vertical-align: top;
+}
+
+/* ========== BOTTOM OF BASKET DIVIDER ========== */
+.basket-divider {
+    text-align: center;
+    margin: 6px 0;
+    font-size: 9px;
+    letter-spacing: 0;
+}
+
+.bottom-items {
+    margin-bottom: 4px;
+}
+
+/* ========== TOTALS SECTION ========== */
+.totals-section {
+    margin: 4px 0;
+    padding-top: 2px;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-table td {
+    font-size: 10px;
+    line-height: 1.2;
+    padding: 0;
+}
+
+.totals-table .total-label {
+    text-align: left;
+}
+
+.totals-table .total-value {
+    text-align: right;
+}
+
+/* Grand total with BLACK HIGHLIGHT (inverted) - matches Costco style */
+.totals-table .grand-total-row td {
+    font-weight: bold;
+}
+
+.totals-table .grand-total-label {
+    text-align: left;
+}
+
+.totals-table .grand-total-value {
+    text-align: right;
+    background-color: #000000;
+    color: #ffffff;
+    padding: 1px 4px;
+}
+
+.totals-table .total-underline {
+    text-decoration: underline;
+}
+
+/* Div-based totals fallback */
+.total-row {
+    display: table;
+    width: 100%;
+    font-size: 10px;
+    line-height: 1.3;
+}
+
+.total-label {
+    display: table-cell;
+    text-align: left;
+}
+
+.total-value {
+    display: table-cell;
+    text-align: right;
+}
+
+.grand-total {
+    font-weight: bold;
+    border-top: 1px solid #000000;
+    padding-top: 2px;
+    margin-top: 2px;
+}
+
+/* ========== DASHED DIVIDER ========== */
+.dashed-divider {
+    border-top: 1px dashed #000000;
+    margin: 6px 0;
+}
+
+/* ========== PAYMENT SECTION ========== */
+.payment-section {
+    margin: 6px 0;
+    font-size: 9px;
+    line-height: 1.3;
+}
+
+.card-line {
+    display: table;
+    width: 100%;
+    margin-bottom: 2px;
+}
+
+.card-number {
+    display: table-cell;
+    text-align: left;
+}
+
+.card-indicator {
+    display: table-cell;
+    text-align: right;
+    width: 20px;
+}
+
+.payment-detail {
+    margin: 1px 0;
+}
+
+/* ========== APPROVAL SECTION ========== */
+.approval-section {
+    margin: 6px 0;
+}
+
+.approval-box {
+    border: 1px solid #000000;
+    padding: 5px 8px;
+    text-align: left;
+    font-size: 10px;
+    line-height: 1.3;
+}
+
+.approval-line {
+    margin: 1px 0;
+}
+
+/* ========== PAYMENT SUMMARY ========== */
+.payment-summary {
+    margin: 6px 0;
+}
+
+.summary-row {
+    display: table;
+    width: 100%;
+    font-size: 10px;
+    line-height: 1.3;
+}
+
+.summary-label {
+    display: table-cell;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.summary-value {
+    display: table-cell;
+    text-align: right;
+}
+
+/* ========== TAX BREAKDOWN ========== */
+.tax-breakdown {
+    margin: 6px 0;
+    border-top: 1px solid #000000;
+    padding-top: 3px;
+    font-size: 10px;
+    line-height: 1.3;
+}
+
+.tax-row {
+    display: table;
+    width: 100%;
+}
+
+.tax-label {
+    display: table-cell;
+    text-align: left;
+}
+
+.tax-value {
+    display: table-cell;
+    text-align: right;
+}
+
+.items-count-row {
+    margin-top: 3px;
+    font-weight: bold;
+}
+
+.terminal-info {
+    font-size: 9px;
+    margin-top: 2px;
+    word-break: break-all;
+}
+
+/* ========== BARCODE SECTION ========== */
+.barcode-section {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.barcode-image {
+    max-width: 230px;
+    height: 45px;
+}
+
+.barcode-placeholder {
+    display: inline-block;
+    padding: 8px 0;
+}
+
+.barcode-lines {
+    display: inline-block;
+    height: 40px;
+    white-space: nowrap;
+}
+
+.barcode-line {
+    display: inline-block;
+    background-color: #000000;
+    height: 40px;
+    vertical-align: bottom;
+    margin: 0 1px;
+}
+
+.barcode-number {
+    font-size: 9px;
+    margin-top: 3px;
+    letter-spacing: 1px;
+}
+
+/* ========== OPERATOR SECTION ========== */
+.operator-section {
+    text-align: center;
+    margin: 6px 0;
+    font-size: 10px;
+}
+
+/* ========== THANK YOU SECTION ========== */
+.thank-you-section {
+    text-align: center;
+    margin: 6px 0;
+}
+
+.thank-you-line {
+    font-size: 12px;
+    font-style: italic;
+    margin: 2px 0;
+}
+
+.thank-you-script {
+    font-size: 13px;
+    font-style: italic;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    margin: 2px 0;
+}
+
+.warehouse-info {
+    font-size: 9px;
+    margin-top: 4px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* ========== FOOTER SUMMARY ========== */
+.footer-summary {
+    text-align: center;
+    margin-top: 10px;
+    padding-top: 6px;
+    border-top: 1px dashed #000000;
+}
+
+.summary-line {
+    margin: 3px 0;
+}
+
+.items-sold {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.timestamp {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* ========== CONTINUATION FOOTER ========== */
+.continuation-footer {
+    text-align: center;
+    margin-top: 8px;
+    padding: 6px 0;
+    border-top: 1px dashed #000000;
+}
+
+.cont-info {
+    font-size: 10px;
+    font-style: italic;
+}
+
+.cont-page-num {
+    font-size: 9px;
+    margin-top: 2px;
+}

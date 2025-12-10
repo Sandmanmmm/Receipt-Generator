@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetEdge Invoice</title>
+    <link rel="stylesheet" href="../css/petedge_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- HEADER - First Page Only -->
+        <header class="main-header">
+            <table class="header-table">
+                <tr>
+                    <td class="logo-cell">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name|default('PetEdge') }}" class="logo-image">
+                        {% else %}
+                        <div class="logo-container">
+                            <div class="logo-icon">[PE]</div>
+                            <div class="logo-text">
+                                <span class="logo-name">{{ supplier_name|default('PetEdge') }}</span>
+                                <span class="logo-tagline">{{ supplier_tagline|default('Professional Pet Supplies Since 1956') }}</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </td>
+                    <td class="invoice-title-cell">
+                        <div class="invoice-badge">INVOICE</div>
+                        <div class="invoice-number-display">{{ invoice_number|default('PE-' ~ range(100000, 999999)|random) }}</div>
+                    </td>
+                </tr>
+            </table>
+            
+            <!-- Invoice Details Bar -->
+            <div class="details-bar">
+                <table class="details-table">
+                    <tr>
+                        <td class="detail-item">
+                            <span class="detail-label">Order Date</span>
+                            <span class="detail-value">{{ order_date|default(invoice_date|default('2024-12-07')) }}</span>
+                        </td>
+                        <td class="detail-item">
+                            <span class="detail-label">Invoice Date</span>
+                            <span class="detail-value">{{ invoice_date|default('2024-12-07') }}</span>
+                        </td>
+                        <td class="detail-item">
+                            <span class="detail-label">PO Number</span>
+                            <span class="detail-value">{{ po_number|default('PO-' ~ range(10000, 99999)|random) }}</span>
+                        </td>
+                        <td class="detail-item">
+                            <span class="detail-label">Account #</span>
+                            <span class="detail-value">{{ customer_account|default('PE' ~ range(100000, 999999)|random) }}</span>
+                        </td>
+                        <td class="detail-item">
+                            <span class="detail-label">Terms</span>
+                            <span class="detail-value">{{ payment_terms|default('Net 30') }}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <!-- Addresses Section -->
+            <table class="addresses-table">
+                <tr>
+                    <td class="address-cell bill-to">
+                        <div class="address-header">[BILL] Bill To</div>
+                        <div class="address-content">
+                            <div class="company-name">{{ buyer_name|default('Pet Grooming Salon') }}</div>
+                            {% if buyer_contact %}
+                            <div class="address-line">Attn: {{ buyer_contact }}</div>
+                            {% endif %}
+                            {% if buyer_address %}
+                            <div class="address-line">{{ buyer_address }}</div>
+                            {% endif %}
+                            {% if buyer_city or buyer_state or buyer_zip %}
+                            <div class="address-line">{{ buyer_city|default('') }}{% if buyer_state %}, {{ buyer_state }}{% endif %} {{ buyer_zip|default('') }}</div>
+                            {% endif %}
+                            {% if buyer_phone %}
+                            <div class="address-line">Phone: {{ buyer_phone }}</div>
+                            {% endif %}
+                            {% if buyer_email %}
+                            <div class="address-line">Email: {{ buyer_email }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="address-cell ship-to">
+                        <div class="address-header">[SHIP] Ship To</div>
+                        <div class="address-content">
+                            <div class="company-name">{{ shipping_name|default(buyer_name|default('Pet Grooming Salon')) }}</div>
+                            {% if shipping_contact %}
+                            <div class="address-line">Attn: {{ shipping_contact }}</div>
+                            {% elif buyer_contact %}
+                            <div class="address-line">Attn: {{ buyer_contact }}</div>
+                            {% endif %}
+                            {% if shipping_address %}
+                            <div class="address-line">{{ shipping_address }}</div>
+                            {% elif buyer_address %}
+                            <div class="address-line">{{ buyer_address }}</div>
+                            {% endif %}
+                            {% if shipping_city or shipping_state or shipping_zip %}
+                            <div class="address-line">{{ shipping_city|default('') }}{% if shipping_state %}, {{ shipping_state }}{% endif %} {{ shipping_zip|default('') }}</div>
+                            {% elif buyer_city or buyer_state or buyer_zip %}
+                            <div class="address-line">{{ buyer_city|default('') }}{% if buyer_state %}, {{ buyer_state }}{% endif %} {{ buyer_zip|default('') }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="address-cell from">
+                        <div class="address-header">[PE] {{ supplier_name|default('PetEdge') }}</div>
+                        <div class="address-content">
+                            <div class="company-name">{{ supplier_name|default('PetEdge') }}</div>
+                            <div class="address-line">{{ supplier_address|default('5 Cherry Hill Dr., Suite 301') }}</div>
+                            <div class="address-line">{{ supplier_city|default('Danvers') }}, {{ supplier_state|default('MA') }} {{ supplier_zip|default('01923') }}</div>
+                            <div class="address-line">Phone: {{ supplier_phone|default('1-800-738-3343') }}</div>
+                            <div class="address-line">Email: {{ supplier_email|default('support@PetEdge.com') }}</div>
+                            <div class="address-line">{{ supplier_website|default('www.petedge.com') }}</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            
+            <!-- Shipping & Order Info Bar -->
+            <div class="shipping-bar">
+                <table class="shipping-table">
+                    <tr>
+                        <td class="ship-item">
+                            <span class="ship-label">Ship Via</span>
+                            <span class="ship-value">{{ ship_via|default('UPS Ground') }}</span>
+                        </td>
+                        <td class="ship-item">
+                            <span class="ship-label">Ship Date</span>
+                            <span class="ship-value">{{ ship_date|default(invoice_date|default('2024-12-07')) }}</span>
+                        </td>
+                        <td class="ship-item">
+                            <span class="ship-label">Tracking #</span>
+                            <span class="ship-value tracking">{{ tracking_number|default('1Z999AA10123456784') }}</span>
+                        </td>
+                        <td class="ship-item">
+                            <span class="ship-label">Due Date</span>
+                            <span class="ship-value due-date">{{ due_date|default('2025-01-06') }}</span>
+                        </td>
+                        <td class="ship-item">
+                            <span class="ship-label">Sales Rep</span>
+                            <span class="ship-value">{{ sales_rep|default('Customer Service') }}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </header>
+        {% else %}
+        <!-- CONTINUATION HEADER - Pages 2+ -->
+        <header class="continuation-header">
+            <table class="continuation-table">
+                <tr>
+                    <td class="cont-logo">
+                        <span class="cont-logo-icon">[PE]</span>
+                        <span class="cont-logo-text">{{ supplier_name|default('PetEdge') }}</span>
+                    </td>
+                    <td class="cont-info">
+                        <span class="cont-label">Invoice:</span> {{ invoice_number|default('PE-000000') }}
+                    </td>
+                    <td class="cont-info">
+                        <span class="cont-label">Account:</span> {{ customer_account|default('PE000000') }}
+                    </td>
+                    <td class="cont-page">
+                        Page {{ _current_page }} of {{ _total_pages }}
+                    </td>
+                </tr>
+            </table>
+        </header>
+        {% endif %}
+        
+        <!-- LINE ITEMS TABLE -->
+        <section class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-line">Line</th>
+                        <th class="col-sku">Item #</th>
+                        <th class="col-description">Description</th>
+                        <th class="col-brand">Brand</th>
+                        <th class="col-qty">Qty</th>
+                        <th class="col-unit">Unit Price</th>
+                        <th class="col-discount">Disc %</th>
+                        <th class="col-total">Ext. Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row {% if loop.index is odd %}odd{% else %}even{% endif %}">
+                        <td class="col-line">{{ loop.index }}</td>
+                        <td class="col-sku">{{ item.sku|default('PE' ~ range(10000, 99999)|random) }}</td>
+                        <td class="col-description">
+                            <div class="item-name">{{ item.description|default(item.name|default('Pet Grooming Product')) }}</div>
+                            {% if item.style %}
+                            <div class="item-style">Style: {{ item.style }}</div>
+                            {% endif %}
+                            {% if item.category %}
+                            <div class="item-category">Category: {{ item.category }}</div>
+                            {% endif %}
+                            {% if item.size %}
+                            <div class="item-size">Size: {{ item.size }}</div>
+                            {% endif %}
+                            {% if item.color %}
+                            <div class="item-color">Color: {{ item.color }}</div>
+                            {% endif %}
+                            {% if item.upc %}
+                            <div class="item-upc">UPC: {{ item.upc }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="col-brand">{{ item.brand|default(item.manufacturer|default('-')) }}</td>
+                        <td class="col-qty">{{ item.quantity|default(1) }}</td>
+                        <td class="col-unit">{{ item.unit_price|default('$0.00') }}</td>
+                        <td class="col-discount">{{ item.discount_percent|default('0') }}%</td>
+                        <td class="col-total">{{ item.total|default('$0.00') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        
+        {% if _is_last_page|default(true) %}
+        <!-- TOTALS SECTION - Last Page Only -->
+        <section class="totals-section">
+            <table class="totals-layout">
+                <tr>
+                    <td class="notes-cell">
+                        <!-- Brand Badges -->
+                        <div class="brands-box">
+                            <div class="brands-title">[*] Our Exclusive Brands</div>
+                            <div class="brands-list">
+                                <span class="brand-badge">Master Equipment</span>
+                                <span class="brand-badge">Master Grooming Tools</span>
+                                <span class="brand-badge">Top Performance</span>
+                                <span class="brand-badge">ProSelect</span>
+                                <span class="brand-badge">Zanies</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Notes Box -->
+                        <div class="notes-box">
+                            <div class="notes-title">[i] Order Information</div>
+                            <div class="notes-content">
+                                <p>Thank you for your order! We appreciate your business.</p>
+                                <p>For returns or exchanges, please contact Customer Service within 30 days.</p>
+                                <p>Questions? Call 1-800-738-3343 or email support@PetEdge.com</p>
+                                {% if notes %}
+                                <p class="custom-note">{{ notes }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Promo Box -->
+                        {% if promo_code or promo_message %}
+                        <div class="promo-box">
+                            <div class="promo-title">[%] Special Offer</div>
+                            {% if promo_code %}
+                            <div class="promo-code">Use code: {{ promo_code }}</div>
+                            {% endif %}
+                            {% if promo_message %}
+                            <div class="promo-message">{{ promo_message }}</div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </td>
+                    <td class="totals-cell">
+                        <table class="totals-table">
+                            <tr class="total-row">
+                                <td class="total-label">Subtotal ({{ item_count|default(items|length) }} items):</td>
+                                <td class="total-value">{{ subtotal|default('$0.00') }}</td>
+                            </tr>
+                            {% if (discount_raw|default(0)) > 0 %}
+                            <tr class="total-row discount-row">
+                                <td class="total-label">Volume Discount:</td>
+                                <td class="total-value discount">-{{ discount|default('$0.00') }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if coupon_discount %}
+                            <tr class="total-row discount-row">
+                                <td class="total-label">Coupon Discount:</td>
+                                <td class="total-value discount">-{{ coupon_discount }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="total-row">
+                                <td class="total-label">Shipping & Handling:</td>
+                                <td class="total-value">{{ shipping_cost|default('$0.00') }}</td>
+                            </tr>
+                            {% if shipping_cost == '$0.00' or shipping_cost == '0.00' or shipping_free %}
+                            <tr class="total-row free-shipping">
+                                <td class="total-label" colspan="2">* Free shipping on orders over ${{ free_shipping_threshold|default('250') }}!</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="total-row">
+                                <td class="total-label">Sales Tax ({{ tax_rate|default('0.00') }}%):</td>
+                                <td class="total-value">{{ tax_amount|default('$0.00') }}</td>
+                            </tr>
+                            <tr class="total-row grand-total">
+                                <td class="total-label">ORDER TOTAL:</td>
+                                <td class="total-value">{{ total_amount|default('$0.00') }}</td>
+                            </tr>
+                        </table>
+                        
+                        <div class="balance-due">
+                            <span class="balance-label">Balance Due:</span>
+                            <span class="balance-value">{{ total_amount|default('$0.00') }}</span>
+                        </div>
+                        
+                        <!-- Payment Methods -->
+                        <div class="payment-methods">
+                            <div class="payment-title">Payment Methods Accepted</div>
+                            <div class="payment-icons">
+                                <span class="pay-icon">[VISA]</span>
+                                <span class="pay-icon">[MC]</span>
+                                <span class="pay-icon">[AMEX]</span>
+                                <span class="pay-icon">[DISC]</span>
+                                <span class="pay-icon">[CHK]</span>
+                                <span class="pay-icon">[ACH]</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+        
+        <!-- FOOTER -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-tagline">
+                    [PE] {{ supplier_tagline|default('Your Trusted Partner for Professional Pet Supplies Since 1956') }}
+                </div>
+                <div class="footer-company">
+                    <strong>{{ supplier_name|default('PetEdge') }}</strong> | {{ supplier_address|default('5 Cherry Hill Dr., Suite 301') }} | {{ supplier_city|default('Danvers') }}, {{ supplier_state|default('MA') }} {{ supplier_zip|default('01923') }}
+                </div>
+                <div class="footer-contact">
+                    {{ supplier_phone|default('1-800-738-3343') }} | {{ supplier_email|default('support@PetEdge.com') }} | {{ supplier_website|default('www.petedge.com') }}
+                </div>
+                <div class="footer-social">
+                    Follow us: [FB] [IG] [TW] [YT]
+                </div>
+            </div>
+            <div class="footer-page">
+                Page {{ _current_page|default(1) }} of {{ _total_pages|default(1) }}
+            </div>
+        </footer>
+        {% else %}
+        <!-- CONTINUATION FOOTER -->
+        <footer class="continuation-footer">
+            <div class="cont-footer-left">
+                Invoice {{ invoice_number|default('PE-000000') }} | Account {{ customer_account|default('PE000000') }}
+            </div>
+            <div class="cont-footer-center">
+                Continued on next page...
+            </div>
+            <div class="cont-footer-right">
+                Page {{ _current_page }} of {{ _total_pages }}
+            </div>
+        </footer>
+        {% endif %}
+    </div>
+</body>
+</html>

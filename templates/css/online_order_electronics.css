@@ -32,15 +32,24 @@ body {
 }
 
 .company-section {
-    display: flex;
-    gap: 4mm;
+
+
+
+                display: flex;
+        /*     /*     /* gap: 4mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     align-items: center;
 }
+
+
+
 
 .company-logo-box {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    background: #2563eb;  /* was: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%...) */
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -53,10 +62,19 @@ body {
 }
 
 .company-info {
-    display: flex;
+
+
+
+                display: flex;
     flex-direction: column;
-    gap: 1mm;
+        /*     /*     /* gap: 1mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
 }
+
+
+
 
 .company-name {
     font-size: 20pt;
@@ -189,11 +207,20 @@ body {
 
 /* Info Grid */
 .info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 5mm;
+
     margin-bottom: 8mm;
 }
+
+.info-grid > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 
 .info-panel {
     border: 2px solid #e5e7eb;
@@ -203,16 +230,25 @@ body {
 }
 
 .panel-title {
+
+
+
     font-size: 11pt;
     font-weight: 600;
     color: #1f2937;
     margin-bottom: 4mm;
-    display: flex;
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     padding-bottom: 3mm;
     border-bottom: 1px solid #e5e7eb;
 }
+
+
+
 
 .panel-icon {
     font-size: 13pt;
@@ -242,7 +278,7 @@ body {
     border-radius: 6px;
     display: inline-flex;
     align-items: center;
-    gap: 2mm;
+    /* gap removed for wkhtmltoimage compatibility */
 }
 
 .badge-icon {
@@ -262,14 +298,23 @@ body {
 }
 
 .shipping-method-box {
+
+
+
     margin-top: 3mm;
     padding: 2mm 3mm;
     background: #eff6ff;
     border-radius: 6px;
-    display: flex;
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
 }
+
+
+
 
 .method-icon {
     font-size: 11pt;
@@ -315,30 +360,53 @@ body {
 }
 
 .section-heading {
+
+
+
     font-size: 14pt;
     font-weight: 700;
     color: #1f2937;
     margin-bottom: 5mm;
-    display: flex;
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     padding-bottom: 3mm;
     border-bottom: 2px solid #e5e7eb;
 }
+
+
+
 
 .heading-icon {
     font-size: 16pt;
 }
 
 .product-card {
-    display: grid;
-    grid-template-columns: 100px 1fr 140px;
-    gap: 5mm;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
     padding: 5mm;
     border: 2px solid #e5e7eb;
     border-radius: 8px;
     margin-bottom: 5mm;
     background: #f9fafb;
+}
+
+.product-card > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.product-card .product-image-box {
+    width: 100px;
+}
+
+.product-card .product-pricing {
+    width: 140px;
+    text-align: right;
 }
 
 .product-image-box {
@@ -365,7 +433,7 @@ body {
 .product-details {
     display: flex;
     flex-direction: column;
-    gap: 2.5mm;
+    /* gap removed for wkhtmltoimage compatibility */
 }
 
 .product-name {
@@ -381,11 +449,20 @@ body {
 }
 
 .product-model {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     font-size: 9pt;
 }
+
+
+
 
 .model-label {
     font-weight: 500;
@@ -405,16 +482,25 @@ body {
 }
 
 .serial-number-box {
+
+
+
     margin-top: 2mm;
     padding: 2.5mm;
     background: #ffffff;
     border: 1px solid #fbbf24;
     border-left: 3px solid #f59e0b;
     border-radius: 4px;
-    display: flex;
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
 }
+
+
+
 
 .serial-icon {
     font-size: 12pt;
@@ -443,13 +529,22 @@ body {
 }
 
 .specs-header {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     margin-bottom: 2.5mm;
     padding-bottom: 2mm;
     border-bottom: 1px solid #e5e7eb;
 }
+
+
+
 
 .specs-icon {
     font-size: 11pt;
@@ -462,10 +557,19 @@ body {
 }
 
 .specs-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 2mm;
+
 }
+
+.specs-grid > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 
 .spec-item {
     font-size: 8.5pt;
@@ -493,11 +597,20 @@ body {
 }
 
 .warranty-header {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     margin-bottom: 2mm;
 }
+
+
+
 
 .warranty-icon {
     font-size: 12pt;
@@ -575,7 +688,7 @@ body {
     margin-bottom: 2mm;
     display: flex;
     align-items: center;
-    gap: 1.5mm;
+    /* gap removed for wkhtmltoimage compatibility */
 }
 
 .accessories-icon {
@@ -607,7 +720,7 @@ body {
 .product-pricing {
     display: flex;
     flex-direction: column;
-    gap: 1.5mm;
+    /* gap removed for wkhtmltoimage compatibility */
     text-align: right;
 }
 
@@ -668,14 +781,23 @@ body {
 }
 
 .protection-title {
+
+
+
     font-size: 11pt;
     font-weight: 600;
     color: #065f46;
     margin-bottom: 3mm;
-    display: flex;
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
 }
+
+
+
 
 .protection-icon {
     font-size: 13pt;
@@ -830,11 +952,20 @@ body {
 }
 
 .card-details {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
     font-size: 9.5pt;
 }
+
+
+
 
 .card-type-badge {
     padding: 1mm 2mm;
@@ -885,11 +1016,20 @@ body {
 
 /* Support Section */
 .support-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 5mm;
+
     margin-bottom: 8mm;
 }
+
+.support-section > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 
 .support-box {
     padding: 5mm;
@@ -899,14 +1039,23 @@ body {
 }
 
 .support-title {
+
+
+
     font-size: 11pt;
     font-weight: 600;
     color: #1f2937;
     margin-bottom: 3mm;
-    display: flex;
+                display: flex;
     align-items: center;
-    gap: 2mm;
+        /*     /*     /* gap: 2mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
 }
+
+
+
 
 .support-icon {
     font-size: 13pt;
@@ -956,16 +1105,25 @@ body {
 .rewards-banner {
     margin-bottom: 8mm;
     padding: 5mm;
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    background: #fef3c7;  /* was: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%...) */
     border: 2px solid #f59e0b;
     border-radius: 8px;
 }
 
 .rewards-content {
-    display: flex;
+
+
+
+                display: flex;
     align-items: center;
-    gap: 4mm;
+        /*     /*     /* gap: 4mm; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
 }
+
+
+
 
 .rewards-icon {
     font-size: 32pt;
@@ -1002,11 +1160,20 @@ body {
 }
 
 .footer-columns {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5mm;
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 5mm;
+
     margin-bottom: 5mm;
 }
+
+.footer-columns > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 
 .footer-column h4 {
     font-size: 10pt;

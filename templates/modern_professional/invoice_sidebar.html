@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sidebar Invoice</title>
+    <title>Sidebar Invoice{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <style>
         @page {
             size: A4;
@@ -126,6 +126,8 @@
     </style>
 </head>
 <body>
+    {% if _is_first_page|default(true) %}
+    <!-- Full Sidebar - First Page Only -->
     <div class="sidebar">
         <h1>INVOICE</h1>
         
@@ -162,12 +164,26 @@
         <div class="sidebar-section" style="margin-top: 40px;">
             <div class="sidebar-label">Amount Due</div>
             <div class="sidebar-value" style="font-size: 24px; font-weight: 600;">
-                {{ currency_symbol }}{{ "%.2f"|format(total) }}
+                {{ currency_symbol }}{{ "%.2f"|format(total|to_float) }}
             </div>
         </div>
     </div>
+    {% else %}
+    <!-- Compact Header - Continuation Pages -->
+    <div style="margin-left: 0; padding: 20px 50px; border-bottom: 3px solid {{ brand_primary_color }}; background: linear-gradient(135deg, {{ brand_primary_color }} 0%, {{ brand_primary_color }}dd 100%); color: white;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <strong style="font-size: 18px;">{{ company_name }}</strong><br>
+                <span style="font-size: 13px; opacity: 0.9;">Invoice {{ invoice_number }} (Continued)</span>
+            </div>
+            <div style="text-align: right;">
+                <span style="font-size: 14px; opacity: 0.9;">Page {{ _page_number }} of {{ _total_pages }}</span>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 
-    <div class="main-content">
+    <div class="main-content"{% if not _is_first_page|default(true) %} style="margin-left: 0;"{% endif %}>
         <div class="invoice-header">
             <div class="invoice-number">From</div>
             <div class="company-name">{{ company_name }}</div>
@@ -190,25 +206,27 @@
                 <tr>
                     <td class="item-description">{{ item.description }}</td>
                     <td style="text-align: center;">{{ item.quantity }}</td>
-                    <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price) }}</td>
-                    <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.amount) }}</td>
+                    <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                    <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.amount|to_float) }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
 
+        {% if _is_last_page|default(true) %}
+        <!-- Totals and Footer - Last Page Only -->
         <div class="summary-box">
             <div class="summary-row">
                 <span>Subtotal</span>
-                <span>{{ currency_symbol }}{{ "%.2f"|format(subtotal) }}</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(subtotal|to_float) }}</span>
             </div>
             <div class="summary-row">
                 <span>Tax ({{ tax_rate }})</span>
-                <span>{{ currency_symbol }}{{ "%.2f"|format(tax) }}</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(tax|to_float) }}</span>
             </div>
             <div class="summary-row total">
                 <span>Total</span>
-                <span>{{ currency_symbol }}{{ "%.2f"|format(total) }}</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(total|to_float) }}</span>
             </div>
         </div>
 
@@ -216,6 +234,12 @@
             <strong>Payment Terms:</strong> {{ payment_terms }}<br>
             {{ notes }}
         </div>
+        {% else %}
+        <!-- Continuation Notice -->
+        <div style="text-align: right; color: #666; font-style: italic; margin-top: 30px;">
+            Continued on page {{ (_page_number|default(1)) + 1 }}...
+        </div>
+        {% endif %}
     </div>
 </body>
 </html>

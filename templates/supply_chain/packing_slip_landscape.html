@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packing Slip - Landscape</title>
+    <link rel="stylesheet" href="../css/packing_slip_landscape.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- HEADER SECTION (First Page Only) -->
+        <div class="header-section">
+            <table class="header-table">
+                <tr>
+                    <td class="logo-cell">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="Logo" class="company-logo">
+                        {% endif %}
+                    </td>
+                    <td class="company-cell">
+                        <div class="company-name">{{ supplier_name }}</div>
+                        <div class="company-address">{{ supplier_address.street|default('') }}</div>
+                        <div class="company-address">{{ supplier_address.city|default('') }}, {{ supplier_address.state|default('') }} {{ supplier_address.zip|default('') }}</div>
+                    </td>
+                    <td class="title-cell">
+                        <h1>PACKING SLIP</h1>
+                    </td>
+                    <td class="info-cell">
+                        <table class="info-table">
+                            <tr>
+                                <td class="info-label">Order #:</td>
+                                <td class="info-value">{{ order_number }}</td>
+                            </tr>
+                            <tr>
+                                <td class="info-label">Order Date:</td>
+                                <td class="info-value">{{ order_date }}</td>
+                            </tr>
+                            <tr>
+                                <td class="info-label">Ship Date:</td>
+                                <td class="info-value">{{ ship_date|default(order_date) }}</td>
+                            </tr>
+                            {% if tracking_number %}
+                            <tr>
+                                <td class="info-label">Tracking:</td>
+                                <td class="info-value tracking">{{ tracking_number }}</td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- ADDRESSES AND SHIPPING INFO -->
+        <table class="details-table">
+            <tr>
+                <td class="detail-section ship-to-section">
+                    <div class="section-title">SHIP TO</div>
+                    <div class="detail-content">
+                        <div class="name-line">{{ buyer_name }}</div>
+                        <div class="address-line">{{ buyer_address.street|default('') }}</div>
+                        <div class="address-line">{{ buyer_address.city|default('') }}, {{ buyer_address.state|default('') }} {{ buyer_address.zip|default('') }}</div>
+                        {% if buyer_address.country %}
+                        <div class="address-line">{{ buyer_address.country }}</div>
+                        {% endif %}
+                        {% if buyer_phone %}
+                        <div class="contact-line">Phone: {{ buyer_phone }}</div>
+                        {% endif %}
+                        {% if buyer_email %}
+                        <div class="contact-line">Email: {{ buyer_email }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="detail-section ship-from-section">
+                    <div class="section-title">SHIP FROM</div>
+                    <div class="detail-content">
+                        <div class="name-line">{{ supplier_name }}</div>
+                        <div class="address-line">{{ supplier_address.street|default('') }}</div>
+                        <div class="address-line">{{ supplier_address.city|default('') }}, {{ supplier_address.state|default('') }} {{ supplier_address.zip|default('') }}</div>
+                        {% if supplier_address.country %}
+                        <div class="address-line">{{ supplier_address.country }}</div>
+                        {% endif %}
+                        <div class="contact-line">Returns: {{ supplier_phone|default(supplier_email) }}</div>
+                    </div>
+                </td>
+                <td class="detail-section shipping-section">
+                    <div class="section-title">SHIPPING INFO</div>
+                    <div class="detail-content">
+                        <div class="shipping-line"><strong>Carrier:</strong> {{ shipping_carrier|default('Standard Shipping') }}</div>
+                        <div class="shipping-line"><strong>Method:</strong> {{ shipping_method|default('Ground') }}</div>
+                        {% if package_count %}
+                        <div class="shipping-line"><strong>Package:</strong> {{ current_package|default(1) }} of {{ package_count }}</div>
+                        {% endif %}
+                        {% if package_weight %}
+                        <div class="shipping-line"><strong>Weight:</strong> {{ package_weight }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        {% else %}
+        <!-- CONTINUATION HEADER (Pages 2+) -->
+        <div class="continuation-header">
+            <table class="continuation-table">
+                <tr>
+                    <td class="cont-left">{{ supplier_name }}</td>
+                    <td class="cont-center">Order #{{ order_number }} - PACKING SLIP</td>
+                    <td class="cont-right">Page {{ _page_number }} of {{ _total_pages }}</td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- ITEMS TABLE -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-line">#</th>
+                    <th class="col-sku">SKU / UPC</th>
+                    <th class="col-description">ITEM DESCRIPTION</th>
+                    <th class="col-qty">QTY</th>
+                    {% if show_warehouse_location %}
+                    <th class="col-bin">BIN LOCATION</th>
+                    {% endif %}
+                    <th class="col-notes">NOTES</th>
+                    <th class="col-packed">PACKED</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="item-row">
+                    <td class="line-number">{{ loop.index }}</td>
+                    <td class="sku-cell">
+                        <div class="sku-main">{{ item.sku|default(item.upc)|default('—') }}</div>
+                        {% if item.upc and item.sku %}
+                        <div class="upc-sub">{{ item.upc }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="description-cell">
+                        <div class="item-description">{{ item.description }}</div>
+                        {% if item.variant_description %}
+                        <div class="item-variant">{{ item.variant_description }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="qty-cell">{{ item.quantity }}</td>
+                    {% if show_warehouse_location %}
+                    <td class="bin-cell">{{ item.warehouse_location|default('—') }}</td>
+                    {% endif %}
+                    <td class="notes-cell">
+                        {% if item.product_notes %}{{ item.product_notes }}{% else %}—{% endif %}
+                    </td>
+                    <td class="packed-cell">☐</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page|default(true) %}
+        <!-- SUMMARY AND NOTES SECTION -->
+        <table class="bottom-section">
+            <tr>
+                <td class="summary-cell">
+                    <div class="summary-box">
+                        <div class="summary-title">SUMMARY</div>
+                        <table class="summary-table">
+                            <tr>
+                                <td class="sum-label">Total Items:</td>
+                                <td class="sum-value">{{ total_items }}</td>
+                            </tr>
+                            <tr>
+                                <td class="sum-label">Total Quantity:</td>
+                                <td class="sum-value">{{ total_quantity }}</td>
+                            </tr>
+                            {% if package_weight %}
+                            <tr>
+                                <td class="sum-label">Package Weight:</td>
+                                <td class="sum-value">{{ package_weight }}</td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                </td>
+                <td class="notes-section-cell">
+                    {% if gift_message %}
+                    <div class="notes-box gift-box">
+                        <div class="notes-title">GIFT MESSAGE</div>
+                        <div class="notes-content">{{ gift_message }}</div>
+                    </div>
+                    {% endif %}
+                    {% if order_notes %}
+                    <div class="notes-box order-box">
+                        <div class="notes-title">ORDER NOTES</div>
+                        <div class="notes-content">{{ order_notes }}</div>
+                    </div>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+
+        <!-- RETURN POLICY -->
+        <div class="return-policy">
+            <div class="policy-title">RETURN POLICY & INSTRUCTIONS</div>
+            <div class="policy-content">
+                <div class="policy-text">
+                    {% if return_policy_text %}
+                    {{ return_policy_text }}
+                    {% else %}
+                    Returns accepted within 30 days of delivery for items in original, unused condition. 
+                    Please contact customer service before returning any items. Return shipping costs may apply.
+                    {% endif %}
+                </div>
+                <div class="policy-contact">
+                    For returns or questions, contact: <strong>{{ supplier_phone|default(supplier_email) }}</strong>
+                    {% if supplier_website %} | Visit: {{ supplier_website }}{% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer-section">
+            <div class="footer-left">Thank you for your order!</div>
+            <div class="footer-center">This packing slip does not include pricing information</div>
+            <div class="footer-right">Page {{ _current_page }} of {{ _total_pages }}</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

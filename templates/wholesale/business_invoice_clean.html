@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Invoice</title>
+    <link rel="stylesheet" href="../css/business_invoice_clean.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Header Logo -->
+        <div class="header-logo">
+            {% if supplier_logo %}
+            <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="company-logo" />
+            {% else %}
+            <span class="company-name-text">{{ supplier_name }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Company Info Section -->
+        <table class="company-table">
+            <tr>
+                <td class="company-info">
+                    <div class="company-name">{{ supplier_name }}</div>
+                    <div class="company-line">{{ supplier_address }}</div>
+                    <div class="company-line">{{ supplier_city }}, {{ supplier_state }} {{ supplier_zip }}</div>
+                    <div class="company-line">{{ supplier_phone }}</div>
+                    <div class="company-line">{{ supplier_email }}</div>
+                </td>
+                <td class="logo-cell">
+                    <!-- Empty cell for layout balance -->
+                </td>
+            </tr>
+        </table>
+
+        <!-- Invoice Info Bar -->
+        <div class="invoice-bar">
+            <span class="invoice-number">INVOICE NO: #{{ invoice_number }}</span>
+            <span class="invoice-date">DATE ISSUED: {{ invoice_date }}</span>
+        </div>
+
+        <!-- Recipient Details -->
+        <div class="recipient-section">
+            <div class="recipient-label">RECIPIENT DETAILS:</div>
+            <div class="recipient-name">{{ buyer_name }}</div>
+            <div class="recipient-line">{{ buyer_address }}</div>
+            <div class="recipient-line">{{ buyer_city }}, {{ buyer_state }} {{ buyer_zip }}</div>
+            <div class="recipient-line">{{ buyer_phone }}</div>
+            <div class="recipient-line">{{ buyer_email }}</div>
+        </div>
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr class="header-row">
+                    <th class="col-description">DESCRIPTION</th>
+                    <th class="col-price">UNIT PRICE</th>
+                    <th class="col-qty">QTY</th>
+                    <th class="col-total">TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <span class="cont-title">INVOICE</span>
+            <span class="cont-info">Invoice #{{ invoice_number }} — Page {{ _page_number }} of {{ _total_pages }}</span>
+        </div>
+
+        <table class="items-table">
+            <thead>
+                <tr class="header-row">
+                    <th class="col-description">DESCRIPTION</th>
+                    <th class="col-price">UNIT PRICE</th>
+                    <th class="col-qty">QTY</th>
+                    <th class="col-total">TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% endif %}
+
+                {% for item in items %}
+                <tr class="item-row">
+                    <td class="item-description">{{ item.name|default(item.description) }}</td>
+                    <td class="item-price">
+                        {% if item.unit_price is defined and item.unit_price is not none %}
+                            {% if item.unit_price is string %}
+                                {{ item.unit_price }}
+                            {% else %}
+                                ${{ "%.0f"|format(item.unit_price|to_float) }}
+                            {% endif %}
+                        {% else %}
+                            $0
+                        {% endif %}
+                    </td>
+                    <td class="item-qty">{{ item.quantity|default(1) }}</td>
+                    <td class="item-total">
+                        {% if item.total is defined and item.total is not none %}
+                            {% if item.total is string %}
+                                {{ item.total }}
+                            {% else %}
+                                ${{ "%.0f"|format(item.total|to_float) }}
+                            {% endif %}
+                        {% else %}
+                            $0
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Totals Section -->
+        <table class="totals-table">
+            <tr>
+                <td class="totals-spacer"></td>
+                <td class="totals-label">SUBTOTAL</td>
+                <td class="totals-value">{{ subtotal }}</td>
+            </tr>
+            <tr>
+                <td class="totals-spacer"></td>
+                <td class="totals-label-light">Tax</td>
+                <td class="totals-value-light">{{ tax_rate }}</td>
+            </tr>
+            <tr>
+                <td class="totals-spacer"></td>
+                <td class="totals-label">TOTAL</td>
+                <td class="totals-value total-final">{{ total_amount }}</td>
+            </tr>
+        </table>
+
+        <!-- Divider -->
+        <div class="section-divider"></div>
+
+        <!-- Payment Info Section -->
+        <table class="payment-table">
+            <tr>
+                <td class="payment-details">
+                    <div class="pay-to-label">PAY TO:</div>
+                    <div class="bank-name">{{ bank_name }}</div>
+                    <div class="bank-line">Account Name: {{ account_name }}</div>
+                    <div class="bank-line">Account No.: {{ account_number }}</div>
+                    <div class="bank-line">Bank Code: {{ bank_code }}</div>
+                </td>
+                <td class="payment-due-cell">
+                    <div class="payment-due-label">PAYMENT DUE:</div>
+                    <div class="payment-due-date">{{ payment_due_date }}</div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Footer Note -->
+        <div class="footer-note">
+            Payment accepted via debit card, credit card or<br>
+            PayPal within {{ payment_terms }} days. Late invoices subject to {{ late_fee }}% fee.
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            Page {{ _page_number }} of {{ _total_pages }} — Continued on next page...
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

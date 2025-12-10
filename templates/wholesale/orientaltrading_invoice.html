@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oriental Trading Invoice</title>
+    <link rel="stylesheet" href="../css/orientaltrading_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- HEADER - First Page Only -->
+        <header class="main-header">
+            <table class="header-table">
+                <tr>
+                    <td class="logo-cell">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name|default('Oriental Trading') }}" class="logo-image">
+                        {% else %}
+                        <div class="logo-container">
+                            <div class="logo-icon">[OTC]</div>
+                            <div class="logo-text">
+                                <span class="logo-name">{{ supplier_name|default('Oriental Trading') }}</span>
+                                <span class="logo-tagline">{{ supplier_tagline|default('Nobody Delivers More Fun!') }}</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </td>
+                    <td class="invoice-title-cell">
+                        <div class="invoice-type">
+                            {% if document_type == 'packing_slip' %}
+                            <span class="doc-badge packing-slip">PACKING SLIP</span>
+                            {% else %}
+                            <span class="doc-badge invoice">INVOICE</span>
+                            {% endif %}
+                        </div>
+                        <div class="order-number-display">Order #{{ order_number|default(invoice_number|default('OTC-' ~ range(10000000, 99999999)|random)) }}</div>
+                    </td>
+                </tr>
+            </table>
+            
+            <!-- Order Details Bar -->
+            <div class="details-bar">
+                <table class="details-table">
+                    <tr>
+                        <td class="detail-item">
+                            <span class="detail-label">Order Date</span>
+                            <span class="detail-value">{{ order_date|default(invoice_date|default('2024-12-07')) }}</span>
+                        </td>
+                        <td class="detail-item">
+                            <span class="detail-label">Invoice Date</span>
+                            <span class="detail-value">{{ invoice_date|default('2024-12-07') }}</span>
+                        </td>
+                        <td class="detail-item">
+                            <span class="detail-label">Customer #</span>
+                            <span class="detail-value">{{ customer_account|default(range(10000000, 99999999)|random) }}</span>
+                        </td>
+                        <td class="detail-item">
+                            <span class="detail-label">PO Number</span>
+                            <span class="detail-value">{{ po_number|default('-') }}</span>
+                        </td>
+                        <td class="detail-item">
+                            <span class="detail-label">Payment Method</span>
+                            <span class="detail-value">{{ payment_method|default('Credit Card') }}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <!-- Addresses Section -->
+            <table class="addresses-table">
+                <tr>
+                    <td class="address-cell bill-to">
+                        <div class="address-header">[BILL] Billing Address</div>
+                        <div class="address-content">
+                            <div class="customer-name">{{ buyer_name|default('Customer Name') }}</div>
+                            {% if buyer_address %}
+                            <div class="address-line">{{ buyer_address }}</div>
+                            {% endif %}
+                            {% if buyer_city or buyer_state or buyer_zip %}
+                            <div class="address-line">{{ buyer_city|default('') }}{% if buyer_state %}, {{ buyer_state }}{% endif %} {{ buyer_zip|default('') }}</div>
+                            {% endif %}
+                            {% if buyer_phone %}
+                            <div class="address-line">Phone: {{ buyer_phone }}</div>
+                            {% endif %}
+                            {% if buyer_email %}
+                            <div class="address-line">{{ buyer_email }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="address-cell ship-to">
+                        <div class="address-header">[SHIP] Shipping Address</div>
+                        <div class="address-content">
+                            <div class="customer-name">{{ shipping_name|default(buyer_name|default('Customer Name')) }}</div>
+                            {% if shipping_address %}
+                            <div class="address-line">{{ shipping_address }}</div>
+                            {% elif buyer_address %}
+                            <div class="address-line">{{ buyer_address }}</div>
+                            {% endif %}
+                            {% if shipping_city or shipping_state or shipping_zip %}
+                            <div class="address-line">{{ shipping_city|default('') }}{% if shipping_state %}, {{ shipping_state }}{% endif %} {{ shipping_zip|default('') }}</div>
+                            {% elif buyer_city or buyer_state or buyer_zip %}
+                            <div class="address-line">{{ buyer_city|default('') }}{% if buyer_state %}, {{ buyer_state }}{% endif %} {{ buyer_zip|default('') }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="address-cell from">
+                        <div class="address-header">[OTC] {{ supplier_name|default('Oriental Trading') }}</div>
+                        <div class="address-content">
+                            <div class="customer-name">{{ supplier_name|default('Oriental Trading Company') }}</div>
+                            <div class="address-line">{{ supplier_address|default('5455 S 90th St') }}</div>
+                            <div class="address-line">{{ supplier_city|default('Omaha') }}, {{ supplier_state|default('NE') }} {{ supplier_zip|default('68127') }}</div>
+                            <div class="address-line">{{ supplier_phone|default('1-800-875-8480') }}</div>
+                            <div class="address-line">{{ supplier_email|default('orders@oriental.com') }}</div>
+                            <div class="address-line">{{ supplier_website|default('orientaltrading.com') }}</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            
+            <!-- Shipping Info Bar -->
+            <div class="shipping-bar">
+                <table class="shipping-table">
+                    <tr>
+                        <td class="ship-item">
+                            <span class="ship-label">Ship Method</span>
+                            <span class="ship-value">{{ ship_via|default('Standard Shipping') }}</span>
+                        </td>
+                        <td class="ship-item">
+                            <span class="ship-label">Ship Date</span>
+                            <span class="ship-value">{{ ship_date|default(invoice_date|default('2024-12-07')) }}</span>
+                        </td>
+                        <td class="ship-item">
+                            <span class="ship-label">Est. Delivery</span>
+                            <span class="ship-value">{{ delivery_date|default('5-7 Business Days') }}</span>
+                        </td>
+                        <td class="ship-item">
+                            <span class="ship-label">Tracking #</span>
+                            <span class="ship-value tracking">{{ tracking_number|default('Available after shipment') }}</span>
+                        </td>
+                        <td class="ship-item">
+                            <span class="ship-label">Packages</span>
+                            <span class="ship-value">{{ package_count|default('1') }} of {{ total_packages|default('1') }}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </header>
+        {% else %}
+        <!-- CONTINUATION HEADER - Pages 2+ -->
+        <header class="continuation-header">
+            <table class="continuation-table">
+                <tr>
+                    <td class="cont-logo">
+                        <span class="cont-logo-icon">[OTC]</span>
+                        <span class="cont-logo-text">{{ supplier_name|default('Oriental Trading') }}</span>
+                    </td>
+                    <td class="cont-info">
+                        <span class="cont-label">Order:</span> {{ order_number|default(invoice_number|default('OTC-00000000')) }}
+                    </td>
+                    <td class="cont-info">
+                        <span class="cont-label">Customer:</span> {{ customer_account|default('00000000') }}
+                    </td>
+                    <td class="cont-page">
+                        Page {{ _current_page }} of {{ _total_pages }}
+                    </td>
+                </tr>
+            </table>
+        </header>
+        {% endif %}
+        
+        <!-- LINE ITEMS TABLE -->
+        <section class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-item">Item #</th>
+                        <th class="col-description">Description</th>
+                        <th class="col-color">Color/Size</th>
+                        <th class="col-qty-ord">Qty Ord</th>
+                        <th class="col-qty-ship">Qty Ship</th>
+                        <th class="col-price">Unit Price</th>
+                        <th class="col-total">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row {% if loop.index is odd %}odd{% else %}even{% endif %}">
+                        <td class="col-item">{{ item.sku|default('OTC' ~ range(100000, 999999)|random) }}</td>
+                        <td class="col-description">
+                            <div class="item-name">{{ item.description|default(item.name|default('Party Supply Item')) }}</div>
+                            {% if item.personalization %}
+                            <div class="item-personalization">[P] Personalized: {{ item.personalization }}</div>
+                            {% endif %}
+                            {% if item.category %}
+                            <div class="item-category">{{ item.category }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="col-color">
+                            {% if item.color %}{{ item.color }}{% endif %}
+                            {% if item.color and item.size %}/{% endif %}
+                            {% if item.size %}{{ item.size }}{% endif %}
+                            {% if not item.color and not item.size %}-{% endif %}
+                        </td>
+                        <td class="col-qty-ord">{{ item.quantity_ordered|default(item.quantity|default(1)) }}</td>
+                        <td class="col-qty-ship">{{ item.quantity_shipped|default(item.quantity|default(1)) }}</td>
+                        <td class="col-price">{{ item.unit_price|default('$0.00') }}</td>
+                        <td class="col-total">{{ item.total|default('$0.00') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        
+        {% if _is_last_page|default(true) %}
+        <!-- TOTALS SECTION - Last Page Only -->
+        <section class="totals-section">
+            <table class="totals-layout">
+                <tr>
+                    <td class="notes-cell">
+                        <!-- Fun Rewards Box -->
+                        {% if fun_rewards_earned or fun_rewards_used %}
+                        <div class="rewards-box">
+                            <div class="rewards-title">[*] Fun Rewards+</div>
+                            {% if fun_rewards_earned %}
+                            <div class="rewards-earned">Points Earned: {{ fun_rewards_earned }}</div>
+                            {% endif %}
+                            {% if fun_rewards_used %}
+                            <div class="rewards-used">Points Used: -{{ fun_rewards_used }}</div>
+                            {% endif %}
+                            {% if fun_rewards_balance %}
+                            <div class="rewards-balance">Balance: {{ fun_rewards_balance }}</div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Order Notes -->
+                        <div class="notes-box">
+                            <div class="notes-title">[i] Order Information</div>
+                            <div class="notes-content">
+                                <p>Thank you for your order!</p>
+                                <p>Ships from Omaha, NE in 1 Business Day.</p>
+                                <p>Questions? Call 1-800-875-8480 or email orders@oriental.com</p>
+                                {% if notes %}
+                                <p class="custom-note">{{ notes }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Return Policy -->
+                        <div class="policy-box">
+                            <div class="policy-title">[R] 100% Happiness Guarantee</div>
+                            <div class="policy-content">
+                                Not satisfied? Return within 90 days for a full refund.
+                                Visit orientaltrading.com/returns or call us.
+                            </div>
+                        </div>
+                        
+                        <!-- Promo Code Used -->
+                        {% if promo_code %}
+                        <div class="promo-box">
+                            <div class="promo-title">[%] Promo Applied</div>
+                            <div class="promo-code">{{ promo_code }}</div>
+                        </div>
+                        {% endif %}
+                    </td>
+                    <td class="totals-cell">
+                        <table class="totals-table">
+                            <tr class="total-row">
+                                <td class="total-label">Merchandise Subtotal:</td>
+                                <td class="total-value">{{ subtotal|default('$0.00') }}</td>
+                            </tr>
+                            {% if (discount_raw|default(0)) > 0 %}
+                            <tr class="total-row discount-row">
+                                <td class="total-label">Discount:</td>
+                                <td class="total-value discount">-{{ discount|default('$0.00') }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if coupon_discount %}
+                            <tr class="total-row discount-row">
+                                <td class="total-label">Coupon Savings:</td>
+                                <td class="total-value discount">-{{ coupon_discount }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="total-row">
+                                <td class="total-label">Shipping & Handling:</td>
+                                <td class="total-value">{{ shipping_cost|default('$0.00') }}</td>
+                            </tr>
+                            {% if expedited_fee %}
+                            <tr class="total-row">
+                                <td class="total-label">Expedited Fee:</td>
+                                <td class="total-value">{{ expedited_fee }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="total-row">
+                                <td class="total-label">Sales Tax:</td>
+                                <td class="total-value">{{ tax_amount|default('$0.00') }}</td>
+                            </tr>
+                            <tr class="total-row grand-total">
+                                <td class="total-label">ORDER TOTAL:</td>
+                                <td class="total-value">{{ total_amount|default('$0.00') }}</td>
+                            </tr>
+                        </table>
+                        
+                        <div class="payment-summary">
+                            <div class="payment-row">
+                                <span class="payment-label">Payment Method:</span>
+                                <span class="payment-value">{{ payment_method|default('Credit Card') }}</span>
+                            </div>
+                            {% if payment_last_four %}
+                            <div class="payment-row">
+                                <span class="payment-label">Card Ending:</span>
+                                <span class="payment-value">****{{ payment_last_four }}</span>
+                            </div>
+                            {% endif %}
+                            <div class="payment-row total">
+                                <span class="payment-label">Amount Charged:</span>
+                                <span class="payment-value">{{ total_amount|default('$0.00') }}</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment Icons -->
+                        <div class="payment-icons">
+                            <span class="pay-icon">[VISA]</span>
+                            <span class="pay-icon">[MC]</span>
+                            <span class="pay-icon">[AMEX]</span>
+                            <span class="pay-icon">[DISC]</span>
+                            <span class="pay-icon">[PP]</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </section>
+        
+        <!-- FOOTER -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-tagline">
+                    [OTC] {{ supplier_tagline|default('Nobody Delivers More Fun!') }} - {{ founding_year|default('Since 1932') }}
+                </div>
+                <div class="footer-company">
+                    <strong>{{ supplier_name|default('Oriental Trading Company') }}</strong> - {{ parent_company|default('A Berkshire Hathaway Company') }}
+                </div>
+                <div class="footer-address">
+                    {{ supplier_address|default('5455 S 90th St') }}, {{ supplier_city|default('Omaha') }}, {{ supplier_state|default('NE') }} {{ supplier_zip|default('68127') }} | {{ supplier_phone|default('1-800-875-8480') }} | {{ supplier_website|default('orientaltrading.com') }}
+                </div>
+                <div class="footer-guarantees">
+                    {{ guarantees|default('[*] 110% Lowest Price Guarantee | [*] 100% Happiness Guarantee | [*] Ships in 1 Business Day') }}
+                </div>
+            </div>
+            <div class="footer-page">
+                Page {{ _current_page|default(1) }} of {{ _total_pages|default(1) }}
+            </div>
+        </footer>
+        {% else %}
+        <!-- CONTINUATION FOOTER -->
+        <footer class="continuation-footer">
+            <div class="cont-footer-left">
+                Order {{ order_number|default(invoice_number|default('OTC-00000000')) }} | Customer {{ customer_account|default('00000000') }}
+            </div>
+            <div class="cont-footer-center">
+                Continued on next page...
+            </div>
+            <div class="cont-footer-right">
+                Page {{ _current_page }} of {{ _total_pages }}
+            </div>
+        </footer>
+        {% endif %}
+    </div>
+</body>
+</html>

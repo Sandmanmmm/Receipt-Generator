@@ -1,0 +1,510 @@
+/* WooCommerce Standard Invoice Template CSS */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #3c3c3c;
+    background: #ffffff;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 40px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* Header Section */
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    table-layout: fixed;
+}
+
+.header-left {
+    width: 50%;
+    vertical-align: top;
+    padding-right: 20px;
+}
+
+.header-right {
+    width: 50%;
+    vertical-align: top;
+    text-align: right;
+}
+
+.shop-logo {
+    height: 50px;
+    width: auto;
+    max-width: 180px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.shop-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: #7f54b3;
+    margin-bottom: 10px;
+}
+
+.shop-details {
+    margin-top: 10px;
+}
+
+.shop-line {
+    font-size: 10px;
+    color: #666666;
+    line-height: 1.6;
+}
+
+.invoice-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #7f54b3;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    table-layout: fixed;
+}
+
+.info-label {
+    font-size: 10px;
+    color: #666666;
+    padding: 4px 10px 4px 0;
+    text-align: left;
+    width: 45%;
+}
+
+.info-value {
+    font-size: 10px;
+    color: #3c3c3c;
+    font-weight: 600;
+    padding: 4px 0;
+    text-align: right;
+    width: 55%;
+}
+
+/* Address Section */
+.address-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    table-layout: fixed;
+}
+
+.address-cell {
+    width: 50%;
+    vertical-align: top;
+    padding: 15px;
+    border: 1px solid #e5e5e5;
+    background: #f9f9f9;
+}
+
+.address-cell:first-child {
+    padding-right: 20px;
+    border-right: none;
+}
+
+.address-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #7f54b3;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.address-content {
+    font-size: 10px;
+    color: #3c3c3c;
+}
+
+.address-line {
+    line-height: 1.7;
+    margin-bottom: 2px;
+}
+
+/* Continuation Header */
+.continuation-header {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #7f54b3;
+}
+
+.cont-header-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.cont-left {
+    width: 60%;
+    vertical-align: middle;
+}
+
+.cont-right {
+    width: 40%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.cont-logo {
+    height: 30px;
+    width: auto;
+    max-width: 120px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.cont-shop {
+    font-size: 14px;
+    font-weight: 700;
+    color: #7f54b3;
+}
+
+.cont-invoice {
+    font-size: 11px;
+    font-weight: 600;
+    color: #3c3c3c;
+    margin-right: 15px;
+}
+
+.cont-page {
+    font-size: 10px;
+    color: #666666;
+}
+
+/* Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+    table-layout: fixed;
+}
+
+.items-table thead {
+    background: #7f54b3;
+    color: #ffffff;
+}
+
+.items-table th {
+    padding: 12px 10px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: none;
+}
+
+.col-product {
+    width: 40%;
+}
+
+.col-sku {
+    width: 15%;
+}
+
+.col-qty {
+    width: 10%;
+    text-align: center;
+}
+
+.col-price {
+    width: 17.5%;
+    text-align: right;
+}
+
+.col-total {
+    width: 17.5%;
+    text-align: right;
+}
+
+.item-row {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.item-row:hover {
+    background: #f9f9f9;
+}
+
+.items-table td {
+    padding: 12px 10px;
+    font-size: 10px;
+    color: #3c3c3c;
+    vertical-align: top;
+    word-wrap: break-word;
+    max-width: 0;
+}
+
+.item-product {
+    text-align: left;
+}
+
+.product-name {
+    font-weight: 600;
+    color: #3c3c3c;
+    margin-bottom: 3px;
+}
+
+.product-category {
+    font-size: 9px;
+    color: #999999;
+    font-style: italic;
+}
+
+.item-sku {
+    color: #666666;
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+}
+
+.item-qty {
+    text-align: center;
+    font-weight: 600;
+}
+
+.item-price {
+    text-align: right;
+    color: #666666;
+}
+
+.item-total {
+    text-align: right;
+    font-weight: 600;
+    color: #3c3c3c;
+}
+
+/* Totals Section */
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+    table-layout: fixed;
+}
+
+.totals-spacer {
+    width: 55%;
+}
+
+.totals-content {
+    width: 45%;
+    vertical-align: top;
+}
+
+.totals-inner {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+    table-layout: fixed;
+}
+
+.total-row td {
+    padding: 10px 15px;
+    font-size: 11px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.total-label {
+    text-align: left;
+    color: #666666;
+    width: 50%;
+}
+
+.total-value {
+    text-align: right;
+    font-weight: 600;
+    color: #3c3c3c;
+    width: 50%;
+}
+
+.total-discount {
+    color: #d63638;
+}
+
+.total-row-final td {
+    padding: 12px 15px;
+    font-size: 13px;
+    background: #7f54b3;
+    color: #ffffff;
+    border-bottom: none;
+}
+
+.total-label-final {
+    text-align: left;
+    font-weight: 700;
+    width: 50%;
+}
+
+.total-value-final {
+    text-align: right;
+    font-weight: 700;
+    font-size: 14px;
+    width: 50%;
+}
+
+/* Payment Information */
+.payment-info {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #f0f0f1;
+    border-left: 4px solid #7f54b3;
+}
+
+.payment-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #3c3c3c;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.payment-line {
+    font-size: 10px;
+    margin-bottom: 5px;
+    line-height: 1.6;
+}
+
+.payment-label {
+    color: #666666;
+    margin-right: 8px;
+}
+
+.payment-value {
+    color: #3c3c3c;
+    font-weight: 600;
+}
+
+.payment-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: 600;
+    font-size: 9px;
+    text-transform: uppercase;
+}
+
+.payment-status-paid {
+    background: #d4edda;
+    color: #155724;
+}
+
+.payment-status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.payment-status-processing {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.payment-status-failed {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.payment-status-refunded {
+    background: #e2e3e5;
+    color: #383d41;
+}
+
+/* Notes Section */
+.notes-section {
+    margin-bottom: 25px;
+}
+
+.notes-block {
+    margin-bottom: 15px;
+}
+
+.notes-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #7f54b3;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.notes-content {
+    font-size: 9px;
+    color: #666666;
+    line-height: 1.6;
+    padding: 10px;
+    background: #f9f9f9;
+    border-left: 3px solid #7f54b3;
+}
+
+/* Footer */
+.footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #e5e5e5;
+}
+
+.footer-content {
+    text-align: center;
+}
+
+.footer-line {
+    font-size: 9px;
+    color: #999999;
+    line-height: 1.7;
+    margin-bottom: 3px;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #e5e5e5;
+}
+
+.cont-footer-content {
+    text-align: center;
+    font-size: 9px;
+    color: #999999;
+    font-style: italic;
+}
+
+/* Page Number */
+.page-number {
+    position: absolute;
+    bottom: 20px;
+    right: 40px;
+    font-size: 9px;
+    color: #999999;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .invoice-page {
+        padding: 20px;
+    }
+    
+    .page-number {
+        display: block;
+    }
+}

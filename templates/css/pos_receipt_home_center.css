@@ -1,0 +1,578 @@
+/**
+ * Home Center POS Receipt - Home Master Hardware Style
+ * Based on SROIE dataset analysis
+ * 
+ * Key Features:
+ * - 85mm thermal receipt width
+ * - Arial font (primary), Courier for values
+ * - Colon-aligned registration labels
+ * - Solid line dividers
+ * - Dual registration (Company Reg + GST Reg)
+ * - Unit code format (U13/EG)
+ */
+
+/* ========================================
+   BASE STYLES
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 9pt;
+    line-height: 1.3;
+    background-color: #ffffff;
+    color: #000000;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ========================================
+   RECEIPT CONTAINER
+   ======================================== */
+
+.home-center-receipt {
+    width: 321px;  /* 85mm at 96 DPI */
+    max-width: 321px;
+    margin: 0 auto;
+    padding: 15px 12px;
+    background-color: #ffffff;
+    font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+/* ========================================
+   HEADER SECTION
+   ======================================== */
+
+.receipt-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.store-name {
+    font-size: 12pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.store-tagline {
+    font-size: 8.5pt;
+    font-style: italic;
+    color: #333333;
+    margin-top: 2px;
+}
+
+/* ========================================
+   ADDRESS BLOCK
+   ======================================== */
+
+.address-block {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.address-line {
+    font-size: 9pt;
+    text-transform: uppercase;
+    line-height: 1.35;
+}
+
+/* ========================================
+   DIVIDERS
+   ======================================== */
+
+.solid-divider {
+    border-top: 1px solid #000000;
+    margin: 8px 0;
+}
+
+.double-divider {
+    border-top: 3px double #000000;
+    margin: 10px 0;
+}
+
+/* ========================================
+   REGISTRATION BLOCK - COLON ALIGNED
+   ======================================== */
+
+.registration-block {
+    margin: 8px 0;
+}
+
+.reg-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 9pt;
+    line-height: 1.4;
+}
+
+.reg-label {
+    display: table-cell;
+    width: 130px;
+    text-align: left;
+    font-weight: normal;
+}
+
+.reg-colon {
+    display: table-cell;
+    width: 10px;
+    text-align: center;
+}
+
+.reg-value {
+    display: table-cell;
+    text-align: left;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: normal;
+}
+
+/* ========================================
+   INVOICE TYPE BANNER
+   ======================================== */
+
+.invoice-type-banner {
+    text-align: center;
+    padding: 6px 0;
+}
+
+.invoice-type {
+    font-size: 11pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ========================================
+   TRANSACTION BLOCK - COLON ALIGNED
+   ======================================== */
+
+.transaction-block {
+    margin: 8px 0;
+}
+
+.trans-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 9pt;
+    line-height: 1.4;
+}
+
+.trans-label {
+    display: table-cell;
+    width: 80px;
+    text-align: left;
+}
+
+.trans-colon {
+    display: table-cell;
+    width: 10px;
+    text-align: center;
+}
+
+.trans-value {
+    display: table-cell;
+    text-align: left;
+    font-family: 'Courier New', Courier, monospace;
+    text-transform: uppercase;
+}
+
+/* ========================================
+   COLUMN HEADERS
+   ======================================== */
+
+.column-headers {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 9pt;
+    font-weight: bold;
+    padding: 4px 0;
+}
+
+.col-code {
+    display: table-cell;
+    width: 22%;
+    text-align: left;
+}
+
+.col-desc {
+    display: table-cell;
+    width: 33%;
+    text-align: left;
+}
+
+.col-qty {
+    display: table-cell;
+    width: 12%;
+    text-align: center;
+}
+
+.col-price {
+    display: table-cell;
+    width: 16%;
+    text-align: right;
+}
+
+.col-amount {
+    display: table-cell;
+    width: 17%;
+    text-align: right;
+}
+
+/* ========================================
+   ITEMS SECTION
+   ======================================== */
+
+.items-section {
+    margin: 5px 0;
+}
+
+.item-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 9pt;
+    line-height: 1.5;
+    padding: 2px 0;
+}
+
+.item-code {
+    display: table-cell;
+    width: 22%;
+    text-align: left;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 8.5pt;
+    color: #333333;
+}
+
+.item-desc {
+    display: table-cell;
+    width: 33%;
+    text-align: left;
+    font-size: 8.5pt;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.item-qty {
+    display: table-cell;
+    width: 12%;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.item-price {
+    display: table-cell;
+    width: 16%;
+    text-align: right;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.item-amount {
+    display: table-cell;
+    width: 17%;
+    text-align: right;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+/* Discount Row */
+.discount-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    color: #666666;
+    padding-left: 22%;
+}
+
+.discount-label {
+    display: table-cell;
+    width: 60%;
+    text-align: left;
+    font-style: italic;
+}
+
+.discount-value {
+    display: table-cell;
+    width: 40%;
+    text-align: right;
+    font-family: 'Courier New', Courier, monospace;
+    color: #cc0000;
+}
+
+/* ========================================
+   TOTALS SECTION
+   ======================================== */
+
+.totals-section {
+    margin: 8px 0;
+}
+
+.total-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 9.5pt;
+    line-height: 1.5;
+}
+
+.total-label {
+    display: table-cell;
+    width: 55%;
+    text-align: right;
+    padding-right: 5px;
+}
+
+.total-colon {
+    display: table-cell;
+    width: 5%;
+    text-align: center;
+}
+
+.total-value {
+    display: table-cell;
+    width: 40%;
+    text-align: right;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.discount-total .total-value {
+    color: #cc0000;
+}
+
+/* ========================================
+   GRAND TOTAL SECTION
+   ======================================== */
+
+.grand-total-section {
+    margin: 10px 0;
+    padding: 8px 0;
+    background-color: #f5f5f5;
+}
+
+.grand-total-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.grand-total-label {
+    display: table-cell;
+    width: 45%;
+    text-align: right;
+    padding-right: 5px;
+}
+
+.grand-total-colon {
+    display: table-cell;
+    width: 5%;
+    text-align: center;
+}
+
+.grand-total-value {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13pt;
+}
+
+/* ========================================
+   PAYMENT SECTION
+   ======================================== */
+
+.payment-section {
+    margin: 8px 0;
+}
+
+.payment-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 9.5pt;
+    line-height: 1.5;
+}
+
+.payment-label {
+    display: table-cell;
+    width: 55%;
+    text-align: right;
+    padding-right: 5px;
+}
+
+.payment-colon {
+    display: table-cell;
+    width: 5%;
+    text-align: center;
+}
+
+.payment-value {
+    display: table-cell;
+    width: 40%;
+    text-align: right;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.card-info {
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px dashed #cccccc;
+}
+
+/* ========================================
+   ITEM COUNT SECTION
+   ======================================== */
+
+.item-count-section {
+    text-align: center;
+    padding: 6px 0;
+}
+
+.item-count {
+    font-size: 9pt;
+    font-weight: bold;
+}
+
+/* ========================================
+   FOOTER SECTION
+   ======================================== */
+
+.receipt-footer {
+    text-align: center;
+    margin-top: 10px;
+    padding-top: 5px;
+}
+
+.footer-message {
+    font-size: 9pt;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.footer-spacer {
+    height: 5px;
+}
+
+.return-policy {
+    margin: 8px 0;
+}
+
+.policy-line {
+    font-size: 8pt;
+    color: #666666;
+    line-height: 1.4;
+}
+
+.footer-contact {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    line-height: 1.4;
+    margin: 2px auto;
+    max-width: 200px;
+}
+
+.contact-label {
+    display: table-cell;
+    width: 40%;
+    text-align: right;
+    padding-right: 5px;
+}
+
+.contact-colon {
+    display: table-cell;
+    width: 10%;
+    text-align: center;
+}
+
+.contact-value {
+    display: table-cell;
+    width: 50%;
+    text-align: left;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* ========================================
+   BARCODE SECTION
+   ======================================== */
+
+.receipt-barcode-section {
+    text-align: center;
+    margin: 15px 0 10px 0;
+    padding: 10px 0;
+    border-top: 1px dashed #cccccc;
+}
+
+.receipt-barcode {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14pt;
+    letter-spacing: 3px;
+}
+
+/* ========================================
+   PAGE INDICATOR (MULTIPAGE)
+   ======================================== */
+
+.page-indicator {
+    text-align: center;
+    font-size: 8pt;
+    color: #999999;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed #cccccc;
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+    body {
+        background-color: #ffffff;
+    }
+    
+    .home-center-receipt {
+        width: 85mm;
+        max-width: 85mm;
+        padding: 5mm 3mm;
+    }
+    
+    .solid-divider {
+        border-top: 0.5pt solid #000000;
+    }
+    
+    .double-divider {
+        border-top: 1pt double #000000;
+    }
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+@media screen and (max-width: 340px) {
+    .home-center-receipt {
+        width: 100%;
+        padding: 10px 8px;
+    }
+    
+    .store-name {
+        font-size: 11pt;
+    }
+    
+    .reg-label,
+    .trans-label {
+        width: 110px;
+    }
+}

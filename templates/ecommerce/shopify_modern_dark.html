@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order #{{ order_number }}{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
+    <link rel="stylesheet" href="../css/shopify_modern_dark.css">
+</head>
+<body>
+    <div class="invoice-page">
+        
+        {% if _is_first_page %}
+        <!-- Modern Dark Header -->
+        <div class="header">
+            <table class="header-top-table">
+                <tr>
+                    <td class="brand-cell">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ store_name|default('MODERN STORE') }}" class="brand-logo" />
+                        <div class="brand-info">
+                            <div class="store-tagline">{{ store_tagline|default('Premium Shopping Experience') }}</div>
+                        </div>
+                        {% else %}
+                        <div class="logo-placeholder">◆</div>
+                        <div class="brand-info">
+                            <div class="store-name">{{ store_name|default('MODERN STORE') }}</div>
+                            <div class="store-tagline">{{ store_tagline|default('Premium Shopping Experience') }}</div>
+                        </div>
+                        {% endif %}
+                    </td>
+                    <td class="order-badge-cell">
+                        <div class="order-badge">
+                            <div class="badge-label">ORDER</div>
+                            <div class="badge-number">#{{ order_number }}</div>
+                            <div class="badge-status {{ order_status|default('confirmed')|lower }}">
+                                {{ order_status|default('CONFIRMED') }}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            
+            <table class="meta-table">
+                <tr>
+                    <td class="meta-card">
+                        <span class="meta-icon"></span>
+                        <span class="meta-label">ORDER DATE</span>
+                        <span class="meta-value">{{ date|default(transaction_date) }}</span>
+                    </td>
+                    <td class="meta-card">
+                        <span class="meta-icon"></span>
+                        <span class="meta-label">EST. DELIVERY</span>
+                        <span class="meta-value">{{ delivery_estimate|default('3-5 business days') }}</span>
+                    </td>
+                    <td class="meta-card">
+                        <span class="meta-icon"></span>
+                        <span class="meta-label">PAYMENT</span>
+                        <span class="meta-value">{{ payment_method|default('Card') }} {% if card_last_four %}****{{ card_last_four }}{% endif %}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- Customer & Shipping Cards -->
+        <table class="info-cards-table">
+            <tr>
+                <td class="info-card">
+                    <div class="card-header">👤 BILL TO</div>
+                    <div class="card-body">
+                        <div class="customer-name">{{ customer_name|default(billing_name) }}</div>
+                        {% if customer_email %}<div class="customer-email">{{ customer_email }}</div>{% endif %}
+                        {% if billing_address %}
+                        <div class="address">{{ billing_address }}</div>
+                        {% if billing_city %}<div class="address">{{ billing_city }}{% if billing_state %}, {{ billing_state }}{% endif %} {{ billing_zip }}</div>{% endif %}
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="info-card">
+                    <div class="card-header"> SHIP TO</div>
+                    <div class="card-body">
+                        <div class="customer-name">{{ shipping_name|default(customer_name) }}</div>
+                        {% if shipping_address %}
+                        <div class="address">{{ shipping_address }}</div>
+                        {% if shipping_city %}<div class="address">{{ shipping_city }}{% if shipping_state %}, {{ shipping_state }}{% endif %} {{ shipping_zip }}</div>{% endif %}
+                        {% endif %}
+                        {% if shipping_method %}
+                        <div class="method-badge">{{ shipping_method }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        
+        {% else %}
+        <!-- Continuation Header for Pages 2+ -->
+        <div class="continuation-header">
+            <span class="continuation-brand">{{ store_name|default('MODERN STORE') }}</span>
+            <span class="continuation-order">Order #{{ order_number }}</span>
+            <span class="page-indicator">Page {{ _current_page }} of {{ _total_pages }}</span>
+        </div>
+        {% endif %}
+        
+        <!-- Items Section -->
+        <div class="items-section">
+            <div class="section-header">
+                <span class="section-title">Order Items</span>
+                <span class="item-count">{{ items|length }} item(s) on this page</span>
+            </div>
+            
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-product">Product</th>
+                        <th class="col-details">Details</th>
+                        <th class="col-qty">Qty</th>
+                        <th class="col-price">Price</th>
+                        <th class="col-total">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row">
+                        <td class="col-product">
+                            <div class="product-name">{{ item.name|default(item.description) }}</div>
+                            <div class="product-sku">SKU: {{ item.sku|default(item.product_code)|default('N/A') }}</div>
+                            {% if item.condition and item.condition != 'New' %}
+                            <span class="condition-tag {{ item.condition|lower }}">{{ item.condition }}</span>
+                            {% endif %}
+                        </td>
+                        <td class="col-details">
+                            {% if item.variant %}<div class="detail-variant">{{ item.variant }}</div>{% endif %}
+                            {% if item.size %}<span class="detail-chip">Size: {{ item.size }}</span>{% endif %}
+                            {% if item.color %}<span class="detail-chip">Color: {{ item.color }}</span>{% endif %}
+                            {% if item.seller %}
+                            <div class="seller-info">Sold by {{ item.seller }}{% if item.seller_rating %} ★{{ item.seller_rating }}{% endif %}</div>
+                            {% endif %}
+                        </td>
+                        <td class="col-qty">
+                            <span class="qty-badge">{{ item.quantity }}</span>
+                        </td>
+                        <td class="col-price">
+                            {% if (item.discount|to_float or 0) > 0 %}
+                            <span class="original-price">${{ "%.2f"|format(item.unit_price|to_float) }}</span>
+                            <span class="sale-price">${{ "%.2f"|format(item.unit_price|to_float - item.discount|to_float) }}</span>
+                            {% else %}
+                            ${{ "%.2f"|format(item.unit_price|to_float) }}
+                            {% endif %}
+                        </td>
+                        <td class="col-total">
+                            <span class="line-total">${{ "%.2f"|format(item.total|to_float) }}</span>
+                            {% if (item.discount|to_float or 0) > 0 %}
+                            <div class="savings-badge">Save ${{ "%.2f"|format(item.discount|to_float * item.quantity|to_float) }}</div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% if item.personalization %}
+                    <tr class="personalization-row">
+                        <td colspan="5">
+                            <span class="personalization-icon">*</span> {{ item.personalization }}
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% if item.warranty_months %}
+                    <tr class="warranty-row">
+                        <td colspan="5">
+                             {{ item.warranty_months }} Month Warranty
+                            {% if item.serial_number %} | S/N: {{ item.serial_number }}{% endif %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <!-- Page Running Subtotal -->
+            {% if _total_pages > 1 and not _is_last_page %}
+            <div class="page-subtotal">
+                <span class="subtotal-label">Subtotal this page:</span>
+                <span class="subtotal-value">${{ "%.2f"|format(_page_subtotal|default(0)) }}</span>
+            </div>
+            {% endif %}
+        </div>
+        
+        {% if _is_last_page %}
+        <!-- Order Summary Section -->
+        <table class="summary-table">
+            <tr>
+                <td class="notes-cell">
+                    {% if order_notes %}
+                    <div class="notes-box">
+                        <div class="notes-title"> Order Notes</div>
+                        <p>{{ order_notes }}</p>
+                    </div>
+                    {% endif %}
+                    {% if gift_message %}
+                    <div class="gift-box">
+                        <div class="notes-title"> Gift Message</div>
+                        <p>"{{ gift_message }}"</p>
+                    </div>
+                    {% endif %}
+                </td>
+                <td class="totals-cell">
+                    <table class="totals-inner">
+                        <tr>
+                            <td class="total-label">Subtotal</td>
+                            <td class="total-value">${{ "%.2f"|format(subtotal|to_float) }}</td>
+                        </tr>
+                        {% if item_discount_total|default(0) > 0 %}
+                        <tr class="discount-row">
+                            <td class="total-label">Item Discounts</td>
+                            <td class="total-value discount-value">-${{ "%.2f"|format(item_discount_total) }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if promo_code %}
+                        <tr class="promo-row">
+                            <td class="total-label">Promo: <span class="promo-code">{{ promo_code }}</span></td>
+                            <td class="total-value discount-value">-${{ "%.2f"|format(promo_discount|default(0)) }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if discount|to_float > 0 and not promo_code %}
+                        <tr class="discount-row">
+                            <td class="total-label">Discount</td>
+                            <td class="total-value discount-value">-${{ "%.2f"|format(discount|to_float) }}</td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <td class="total-label">Shipping</td>
+                            <td class="total-value">
+                                {% if shipping_cost|to_float == 0 %}
+                                <span class="free-shipping">FREE</span>
+                                {% else %}
+                                ${{ "%.2f"|format(shipping_cost|to_float) }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="total-label">Tax</td>
+                            <td class="total-value">${{ "%.2f"|format(tax_amount|default(0)|to_float) }}</td>
+                        </tr>
+                        <tr class="grand-total-row">
+                            <td class="total-label">Order Total</td>
+                            <td class="total-value grand-total">${{ "%.2f"|format(total_amount|to_float) }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        
+        <!-- Tracking Section -->
+        {% if tracking_number %}
+        <div class="tracking-section">
+            <span class="tracking-icon"></span>
+            <span class="tracking-label">Tracking:</span>
+            <span class="tracking-carrier">{{ carrier|default('Standard') }}</span>
+            <span class="tracking-number">{{ tracking_number }}</span>
+        </div>
+        {% endif %}
+        
+        <!-- Footer -->
+        <div class="footer">
+            <table class="footer-table">
+                <tr>
+                    <td class="footer-section">
+                        <div class="footer-title">Need Help?</div>
+                        <div class="footer-text">Contact our support team</div>
+                        {% if store_phone %}<div class="footer-contact"> {{ store_phone }}</div>{% endif %}
+                        {% if store_email %}<div class="footer-contact"> {{ store_email }}</div>{% endif %}
+                    </td>
+                    <td class="footer-section">
+                        <div class="footer-title">Return Policy</div>
+                        <div class="footer-text">{{ return_policy|default('30-day hassle-free returns') }}</div>
+                    </td>
+                    <td class="footer-section">
+                        <div class="footer-title">Stay Connected</div>
+                        <div class="footer-text">Follow us for exclusive deals</div>
+                        {% if store_website %}<div class="footer-website">{{ store_website }}</div>{% endif %}
+                    </td>
+                </tr>
+            </table>
+            <div class="footer-bottom">
+                <span class="thank-you">Thank you for shopping with {{ store_name|default('us') }}! 🖤</span>
+                <span class="page-number">Page {{ _current_page }} of {{ _total_pages }}</span>
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer for Pages 1 to N-1 -->
+        <div class="continuation-footer">
+            <span class="continuation-note">Continued on next page...</span>
+            <span class="page-number">Page {{ _current_page }} of {{ _total_pages }}</span>
+        </div>
+        {% endif %}
+        
+    </div>
+</body>
+</html>

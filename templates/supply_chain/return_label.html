@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Return Shipping Label</title>
+    <link rel="stylesheet" href="../css/return_label.css">
+</head>
+<body>
+    <div class="label-container">
+        <!-- Main Label -->
+        <div class="shipping-label">
+            
+            <!-- Top Banner - Carrier Branding -->
+            <div class="carrier-banner">
+                <div class="carrier-logo">
+                    {% if carrier_logo %}
+                    <img src="{{ carrier_logo }}" alt="{{ carrier_name }}" class="carrier-img">
+                    {% else %}
+                    <span class="carrier-text">{{ carrier_name|default('SHIPPING CARRIER') }}</span>
+                    {% endif %}
+                </div>
+                <div class="service-type">
+                    <div class="service-name">{{ service_type|default('GROUND') }}</div>
+                    <div class="service-badge return-badge">RETURN SERVICE</div>
+                </div>
+                <div class="label-type">
+                    <div class="prepaid-indicator {% if is_prepaid|default(true) %}prepaid{% else %}postage-due{% endif %}">
+                        {% if is_prepaid|default(true) %}
+                        PREPAID
+                        {% else %}
+                        POSTAGE DUE
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tracking Section -->
+            <div class="tracking-section">
+                <div class="tracking-row">
+                    <div class="tracking-info">
+                        <div class="tracking-label">TRACKING NUMBER</div>
+                        <div class="tracking-number">{{ tracking_number|default('1Z999AA10123456784') }}</div>
+                    </div>
+                    <div class="rma-info">
+                        <div class="rma-label">RMA #</div>
+                        <div class="rma-number">{{ rma_number|default('RMA-000000') }}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Barcode -->
+            <div class="barcode-section">
+                <div class="barcode-container">
+                    <!-- Simulated Code 128 Barcode Pattern using CSS -->
+                    <div class="barcode">
+                        <div class="barcode-bars"></div>
+                    </div>
+                    <div class="barcode-text">{{ tracking_number|default('1Z999AA10123456784') }}</div>
+                </div>
+            </div>
+            
+            <!-- Address Section -->
+            <div class="address-section">
+                <!-- Ship FROM (Customer) -->
+                <div class="address-block from-address">
+                    <div class="address-header">
+                        <span class="address-type">FROM:</span>
+                    </div>
+                    <div class="address-content">
+                        <div class="address-name">{{ customer_name|default('CUSTOMER NAME') }}</div>
+                        <div class="address-line">{{ customer_address|default('123 Customer Street') }}</div>
+                        {% if customer_address2 %}
+                        <div class="address-line">{{ customer_address2 }}</div>
+                        {% endif %}
+                        <div class="address-city">{{ customer_city|default('ANYTOWN') }}, {{ customer_state|default('ST') }} {{ customer_zip|default('00000') }}</div>
+                        {% if customer_phone %}
+                        <div class="address-phone">{{ customer_phone }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Directional Arrow -->
+                <div class="direction-arrow">
+                    <div class="arrow-icon">▼</div>
+                </div>
+                
+                <!-- Ship TO (Return Center) -->
+                <div class="address-block to-address">
+                    <div class="address-header">
+                        <span class="address-type">SHIP TO:</span>
+                    </div>
+                    <div class="address-content">
+                        <div class="address-name">{{ return_center_name|default('RETURNS CENTER') }}</div>
+                        {% if return_center_dept %}
+                        <div class="address-dept">{{ return_center_dept }}</div>
+                        {% endif %}
+                        <div class="address-line">{{ return_center_address|default('456 Warehouse Blvd') }}</div>
+                        {% if return_center_address2 %}
+                        <div class="address-line">{{ return_center_address2 }}</div>
+                        {% endif %}
+                        <div class="address-city">{{ return_center_city|default('DISTRIBUTION CITY') }}, {{ return_center_state|default('ST') }} {{ return_center_zip|default('00000') }}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Postal Routing Codes -->
+            <div class="routing-section">
+                <div class="routing-codes">
+                    <div class="routing-code zone-code">
+                        <span class="code-label">ZONE</span>
+                        <span class="code-value">{{ zone_code|default('5') }}</span>
+                    </div>
+                    <div class="routing-code dest-code">
+                        <span class="code-label">DEST</span>
+                        <span class="code-value">{{ (dest_zip|default(return_center_zip)|default('00000'))[:3] }}</span>
+                    </div>
+                    <div class="routing-code weight-code">
+                        <span class="code-label">WT</span>
+                        <span class="code-value">{{ package_weight|default('2.5') }} LB</span>
+                    </div>
+                    <div class="routing-code dims-code">
+                        <span class="code-label">DIMS</span>
+                        <span class="code-value">{{ package_dims|default('12x10x6') }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MaxiCode / QR Code Section -->
+            <div class="secondary-barcode-section">
+                <div class="maxicode">
+                    <!-- Simulated MaxiCode/QR pattern using CSS -->
+                    <div class="qr-grid"></div>
+                </div>
+                <div class="routing-barcode">
+                    <!-- Postal routing barcode using CSS -->
+                    <div class="postal-barcode"></div>
+                    <div class="postal-code">{{ return_center_zip|default('00000') }}-{{ return_center_zip4|default('0000') }}</div>
+                </div>
+            </div>
+            
+            <!-- Return Details Section -->
+            <div class="return-details-section">
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <span class="detail-label">Order #:</span>
+                        <span class="detail-value">{{ order_number|default('ORD-000000') }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Return Reason:</span>
+                        <span class="detail-value">{{ return_reason|default('Customer Return') }}</span>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <span class="detail-label">Label Created:</span>
+                        <span class="detail-value">{{ label_date|default('01/01/2025') }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Valid Until:</span>
+                        <span class="detail-value">{{ expiry_date|default('03/01/2025') }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Instructions Strip -->
+            <div class="instructions-strip">
+                <div class="instruction-text">
+                    {{ instructions|default('Attach this label to the outside of your package. Cover or remove any old shipping labels.') }}
+                </div>
+            </div>
+            
+            <!-- Bottom Reference Bar -->
+            <div class="reference-bar">
+                <div class="ref-item">
+                    <span class="ref-label">REF1:</span>
+                    <span class="ref-value">{{ reference1|default(rma_number)|default('RMA-000000') }}</span>
+                </div>
+                <div class="ref-item">
+                    <span class="ref-label">REF2:</span>
+                    <span class="ref-value">{{ reference2|default(order_number)|default('ORD-000000') }}</span>
+                </div>
+                <div class="ref-item">
+                    <span class="ref-label">SHIP DATE:</span>
+                    <span class="ref-value">{{ ship_by_date|default('__/__/____') }}</span>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Detachable Customer Receipt -->
+        <div class="receipt-section">
+            <div class="perforation-line">
+                <span class="cut-indicator">✂ - - - - - - - - - DETACH AND KEEP FOR YOUR RECORDS - - - - - - - - - ✂</span>
+            </div>
+            
+            <div class="customer-receipt">
+                <div class="receipt-header">
+                    <div class="receipt-title">RETURN RECEIPT</div>
+                    <div class="receipt-company">{{ company_name|default('RETAILER NAME') }}</div>
+                </div>
+                
+                <div class="receipt-content">
+                    <div class="receipt-row">
+                        <div class="receipt-item">
+                            <span class="receipt-label">Tracking #:</span>
+                            <span class="receipt-value">{{ tracking_number|default('1Z999AA10123456784') }}</span>
+                        </div>
+                    </div>
+                    <div class="receipt-row">
+                        <div class="receipt-item">
+                            <span class="receipt-label">RMA #:</span>
+                            <span class="receipt-value">{{ rma_number|default('RMA-000000') }}</span>
+                        </div>
+                        <div class="receipt-item">
+                            <span class="receipt-label">Order #:</span>
+                            <span class="receipt-value">{{ order_number|default('ORD-000000') }}</span>
+                        </div>
+                    </div>
+                    <div class="receipt-row">
+                        <div class="receipt-item">
+                            <span class="receipt-label">Return To:</span>
+                            <span class="receipt-value">{{ return_center_name|default('Returns Center') }}, {{ return_center_city|default('City') }}, {{ return_center_state|default('ST') }}</span>
+                        </div>
+                    </div>
+                    <div class="receipt-row">
+                        <div class="receipt-item full-width">
+                            <span class="receipt-label">Reason:</span>
+                            <span class="receipt-value">{{ return_reason|default('Customer Return') }}</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Items Being Returned -->
+                    {% if items %}
+                    <div class="receipt-items">
+                        <div class="items-header">Items Being Returned:</div>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th class="col-qty">Qty</th>
+                                    <th class="col-sku">SKU</th>
+                                    <th class="col-desc">Description</th>
+                                    <th class="col-reason">Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                <tr>
+                                    <td class="col-qty">{{ item.quantity|default(1) }}</td>
+                                    <td class="col-sku">{{ item.sku|default('SKU') }}</td>
+                                    <td class="col-desc">{{ item.name|default(item.description)|default('Product') }}</td>
+                                    <td class="col-reason">{{ item.return_reason|default('Return') }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Refund Information -->
+                    <div class="refund-info">
+                        <div class="refund-row">
+                            <span class="refund-label">Expected Refund:</span>
+                            <span class="refund-value">${{ "%.2f"|format(refund_amount|default(0)) }}</span>
+                        </div>
+                        <div class="refund-row">
+                            <span class="refund-label">Refund Method:</span>
+                            <span class="refund-value">{{ refund_method|default('Original Payment Method') }}</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Receipt Footer Notes -->
+                    <div class="receipt-notes">
+                        <p>{{ receipt_notes|default('Please allow 5-7 business days for refund processing after we receive your return.') }}</p>
+                        <p class="support-info">Questions? Contact: {{ support_email|default('returns@company.com') }} | {{ support_phone|default('1-800-XXX-XXXX') }}</p>
+                    </div>
+                </div>
+                
+                <!-- Receipt Barcode -->
+                <div class="receipt-barcode">
+                    <div class="mini-barcode"></div>
+                    <div class="mini-barcode-text">{{ rma_number|default('RMA-000000') }}</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="label-footer">
+            <div class="footer-text">{{ footer_text|default('This label is valid for 60 days from issue date. Do not duplicate.') }}</div>
+        </div>
+        
+    </div>
+</body>
+</html>

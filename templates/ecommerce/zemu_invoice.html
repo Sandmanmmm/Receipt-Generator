@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt</title>
+    <link rel="stylesheet" href="../css/zemu_invoice.css">
+</head>
+<body>
+    <div class="receipt-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Browser-style Header -->
+        <div class="browser-header">
+            <span class="header-date">{{ print_date|default(invoice_date) }}</span>
+            <span class="header-title">Receipt</span>
+            <span class="header-spacer"></span>
+        </div>
+
+        <!-- Temu Logo Section -->
+        <div class="logo-section">
+            <div class="zemu-logo">
+                <div class="logo-icon">
+                    <span class="logo-text-inner">ZEMU</span>
+                </div>
+                <span class="logo-text">ZEMU</span>
+            </div>
+        </div>
+
+        <!-- Environmental Message -->
+        <div class="eco-message">
+            <span class="eco-icon">🌿</span>
+            <span class="eco-text">As we're committed to reducing our environmental impact, we have eliminated paper receipt.</span>
+        </div>
+
+        <!-- Order Summary Section -->
+        <div class="section">
+            <div class="section-title">Order summary</div>
+            <table class="summary-table">
+                <tr>
+                    <td class="label">Order ID:</td>
+                    <td class="value">{{ invoice_number|default(order_id|default(transaction_number)) }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Order time:</td>
+                    <td class="value">{{ invoice_date|default(order_date) }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Item(s) total:</td>
+                    <td class="value">{{ currency|default(currency_symbol|default('CA$')) }}{{ "%.2f"|format(subtotal_raw|default(0)) }}</td>
+                </tr>
+                {% if discount_raw|default(0) > 0 %}
+                <tr>
+                    <td class="label">Item(s) discount:</td>
+                    <td class="value discount-value">-{{ discount }}</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td class="label">Subtotal:</td>
+                    <td class="value">{{ currency|default(currency_symbol|default('CA$')) }}{{ "%.2f"|format(subtotal_raw - discount_raw|default(0)) }}</td>
+                </tr>
+                <tr class="divider-row">
+                    <td colspan="2"><div class="row-divider"></div></td>
+                </tr>
+                <tr>
+                    <td class="label">Shipping:</td>
+                    <td class="value {% if shipping_cost_raw|default(0) == 0 %}free-text{% endif %}">{% if shipping_cost_raw|default(0) == 0 %}FREE{% else %}{{ shipping_cost }}{% endif %}</td>
+                </tr>
+                {% if tax_amount_raw|default(0) > 0 %}
+                <tr>
+                    <td class="label">Estimated Tax:</td>
+                    <td class="value">{{ tax_amount }}</td>
+                </tr>
+                {% endif %}
+                <tr class="total-row">
+                    <td class="label total-label">Order total:</td>
+                    <td class="value total-value">{{ total_amount }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Shipping Address Section -->
+        <div class="section">
+            <div class="section-title">Shipping address</div>
+            <div class="shipping-address">
+                {{ buyer_name }}{% if buyer_phone %} {{ buyer_phone }}{% endif %} , {{ buyer_address }}{% if buyer_city %}, {{ buyer_city }}{% endif %}{% if buyer_country %}, {{ buyer_country }}{% endif %}
+            </div>
+        </div>
+
+        <!-- Payment Method Section -->
+        <div class="section">
+            <div class="section-title">Payment method</div>
+            <div class="security-notice">
+                <span class="security-icon">✓</span>
+                <span class="security-text"><span class="security-link">{{ supplier_name|default('Zemu') }} is committed to protecting your payment information.</span> We follow PCI DSS standards, use strong encryption, and perform regular reviews of its system to protect your privacy.</span>
+            </div>
+            <div class="payment-row">
+                <div class="payment-info">
+                    <div class="payment-icon">
+                        {% if payment_method|lower == 'paypal' or payment_method|default('PayPal')|lower == 'paypal' %}
+                        <span class="paypal-logo">PayPal</span>
+                        {% else %}
+                        <span class="card-icon">💳</span>
+                        {% endif %}
+                    </div>
+                    <div class="payment-details">
+                        <div class="payment-email">{{ payment_email|default('PayPal ****@outlook.com') }}</div>
+                        <div class="payment-date">Paid on {{ payment_date|default(invoice_date) }}</div>
+                    </div>
+                </div>
+                <div class="payment-amount">{{ total_amount }}</div>
+            </div>
+        </div>
+
+        {% endif %}
+
+        <!-- Item Details Section -->
+        <div class="section">
+            {% if _is_first_page|default(true) %}
+            <div class="section-title">Item details ({{ line_items|default(items)|length }})</div>
+            {% else %}
+            <div class="continuation-header">
+                <span class="cont-logo">ZEMU</span>
+                <span class="cont-info">Order {{ invoice_number }} — Page {{ _current_page }} of {{ _total_pages }}</span>
+            </div>
+            {% endif %}
+
+            {% for item in line_items|default(items) %}
+            <div class="item-card">
+                <div class="item-image">
+                    {% if item.image_url %}
+                    <img src="{{ item.image_url }}" alt="{{ item.description }}" class="product-img" />
+                    {% else %}
+                    <div class="image-placeholder">
+                        <span class="placeholder-icon">📦</span>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="item-details">
+                    <div class="item-name">{{ item.description|default(item.name)|truncate(45, true, '...') }}</div>
+                    {% if item.variant or item.color %}
+                    <div class="item-variant">{{ item.variant|default(item.color) }}</div>
+                    {% endif %}
+                    {% if item.style %}
+                    <div class="item-style">Style: {{ item.style }}</div>
+                    {% endif %}
+                    {% if item.category %}
+                    <div class="item-category">{{ item.category }}</div>
+                    {% endif %}
+                    <div class="item-seller">
+                        <span class="seller-prefix">By</span>
+                        <span class="seller-icon">🏪</span>
+                        <span class="seller-name">{{ item.seller_name|default(item.brand|default(item.manufacturer|default('Marketplace Seller'))) }}</span>
+                    </div>
+                </div>
+                <div class="item-pricing">
+                    <div class="item-price">{{ item.unit_price }}</div>
+                    <div class="item-qty">×{{ item.quantity }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-url">https://www.zemu.com/bgt_order_receipt.html?parent_order_sn={{ invoice_number }}&_x_sessn_id={{ session_id|default('opz3n3n251') }}&refer_page_name=bgt_or...</div>
+            <div class="page-number">{{ _current_page|default(1) }}/{{ _total_pages|default(1) }}</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

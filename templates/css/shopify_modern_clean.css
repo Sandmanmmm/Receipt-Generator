@@ -1,0 +1,734 @@
+/**
+ * Shopify Modern Clean Invoice Template
+ * A fresh, card-based design with subtle gradients and modern aesthetics
+ * wkhtmltoimage compatible - no CSS variables, table-based layout
+ */
+
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #1a1a2e;
+    background: #f8f9fa;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 35px 40px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* Header Table */
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.logo-cell {
+    width: 60%;
+    vertical-align: middle;
+}
+
+.logo-container {
+    display: inline-block;
+}
+
+.logo-icon {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: #5c6bc0;  /* was: linear-gradient(135deg, #5c6bc0 0%, #7e57c2 100%...) */
+    border-radius: 12px;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 50px;
+    letter-spacing: -1px;
+}
+
+/* Supplier logo image styling */
+.supplier-logo {
+    display: inline-block;
+    height: 50px;
+    width: auto;
+    max-width: 150px;
+    margin-right: 15px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.company-info {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.company-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a2e;
+    letter-spacing: -0.5px;
+}
+
+.company-tagline {
+    font-size: 11px;
+    color: #6c757d;
+    margin-top: 2px;
+}
+
+.invoice-badge-cell {
+    width: 40%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.invoice-badge {
+    display: inline-block;
+    text-align: right;
+}
+
+.badge-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #5c6bc0;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+}
+
+.badge-number {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a2e;
+    letter-spacing: -0.5px;
+}
+
+/* Meta Bar */
+.meta-bar {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+
+.meta-bar td {
+    padding: 12px 15px;
+    border-right: 1px solid #e9ecef;
+}
+
+.meta-bar td:last-child {
+    border-right: none;
+}
+
+.meta-item {
+    vertical-align: middle;
+}
+
+.meta-icon {
+    font-size: 14px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.meta-content {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.meta-label {
+    display: block;
+    font-size: 9px;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.meta-value {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-top: 2px;
+}
+
+.status-cell {
+    text-align: right;
+    width: 120px;
+}
+
+.status-pill {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-pill.paid {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-pill.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-pill.overdue {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.status-pill.processing {
+    background: #cce5ff;
+    color: #004085;
+}
+
+/* Addresses Table */
+.addresses-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.address-card {
+    width: 32%;
+    vertical-align: top;
+    padding: 15px;
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+}
+
+.address-spacer {
+    width: 2%;
+}
+
+.card-header {
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.card-icon {
+    font-size: 12px;
+    margin-right: 6px;
+}
+
+.card-title {
+    font-size: 10px;
+    font-weight: 600;
+    color: #5c6bc0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card-body {
+    font-size: 11px;
+}
+
+.address-name {
+    font-weight: 600;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+}
+
+.address-line {
+    color: #495057;
+    line-height: 1.6;
+}
+
+.address-line.tax-id {
+    margin-top: 6px;
+    font-size: 10px;
+    color: #6c757d;
+}
+
+.seller-card {
+    border-left: 3px solid #5c6bc0;
+}
+
+.buyer-card {
+    border-left: 3px solid #28a745;
+}
+
+.ship-card {
+    border-left: 3px solid #17a2b8;
+}
+
+/* Order Pills */
+.order-pills {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+}
+
+.pill {
+    padding: 8px 15px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    margin-right: 10px;
+}
+
+.pill-label {
+    font-size: 9px;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 8px;
+}
+
+.pill-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1a1a2e;
+}
+
+.pill-value.tracking {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+}
+
+/* Items Section */
+.items-section {
+    margin-bottom: 25px;
+}
+
+.section-header {
+    padding: 10px 15px;
+    background: #5c6bc0;  /* was: linear-gradient(135deg, #5c6bc0 0%, #7e57c2 100%...) */
+    border-radius: 8px 8px 0 0;
+    color: #ffffff;
+}
+
+.section-icon {
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.section-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.section-count {
+    float: right;
+    font-size: 11px;
+    opacity: 0.9;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e9ecef;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+}
+
+.items-table thead {
+    background: #f8f9fa;
+}
+
+.items-table th {
+    padding: 12px 15px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.items-table td {
+    padding: 12px 15px;
+    font-size: 11px;
+    border-bottom: 1px solid #f1f3f4;
+    vertical-align: middle;
+}
+
+.item-row.odd {
+    background: #ffffff;
+}
+
+.item-row.even {
+    background: #fafbfc;
+}
+
+.item-row:last-child td {
+    border-bottom: none;
+}
+
+.col-item {
+    width: 40%;
+}
+
+.col-sku {
+    width: 15%;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 10px;
+    color: #6c757d;
+}
+
+.col-qty {
+    width: 10%;
+    text-align: center;
+}
+
+.col-price {
+    width: 15%;
+    text-align: right;
+}
+
+.col-total {
+    width: 20%;
+    text-align: right;
+    font-weight: 600;
+    color: #1a1a2e;
+}
+
+.item-name {
+    font-weight: 500;
+    color: #1a1a2e;
+}
+
+.item-variant {
+    font-size: 10px;
+    color: #6c757d;
+    margin-top: 3px;
+}
+
+.discount-row td {
+    padding: 6px 15px;
+    background: #fff8e6;
+    font-size: 10px;
+}
+
+.discount-label {
+    color: #856404;
+}
+
+.discount-icon {
+    margin-right: 5px;
+}
+
+.discount-value {
+    text-align: right;
+    color: #28a745;
+    font-weight: 600;
+}
+
+/* Summary Table */
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+}
+
+.notes-column {
+    width: 55%;
+    vertical-align: top;
+    padding-right: 30px;
+}
+
+.totals-column {
+    width: 45%;
+    vertical-align: top;
+}
+
+.notes-box,
+.terms-box {
+    margin-bottom: 15px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 3px solid #5c6bc0;
+}
+
+.box-header {
+    margin-bottom: 8px;
+}
+
+.box-icon {
+    margin-right: 6px;
+}
+
+.box-title {
+    font-size: 10px;
+    font-weight: 600;
+    color: #5c6bc0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.box-content {
+    font-size: 10px;
+    color: #495057;
+    line-height: 1.6;
+}
+
+.terms-box {
+    border-left-color: #6c757d;
+}
+
+.terms-box .box-title {
+    color: #6c757d;
+}
+
+/* Totals Table */
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.total-row td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.total-row:last-child td {
+    border-bottom: none;
+}
+
+.total-label {
+    font-size: 11px;
+    color: #495057;
+}
+
+.total-value {
+    text-align: right;
+    font-size: 11px;
+    font-weight: 600;
+    color: #1a1a2e;
+}
+
+.total-row.discount .total-label {
+    color: #28a745;
+}
+
+.discount-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #d4edda;
+    color: #155724;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.total-row.discount .discount-value {
+    color: #28a745;
+}
+
+.total-row.grand {
+    background: #5c6bc0;  /* was: linear-gradient(135deg, #5c6bc0 0%, #7e57c2 100%...) */
+}
+
+.total-row.grand .total-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.total-row.grand .total-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.total-row.paid .total-label,
+.total-row.paid .total-value {
+    color: #28a745;
+}
+
+.total-row.balance {
+    background: #fff3cd;
+}
+
+.total-row.balance .total-label {
+    font-weight: 600;
+    color: #856404;
+}
+
+.total-row.balance .total-value {
+    font-weight: 700;
+    color: #856404;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+.footer-message {
+    margin-bottom: 10px;
+}
+
+.footer-icon {
+    font-size: 16px;
+    margin-right: 8px;
+}
+
+.footer-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a2e;
+}
+
+.footer-contact {
+    font-size: 10px;
+    color: #6c757d;
+    margin-bottom: 5px;
+}
+
+.footer-social {
+    font-size: 9px;
+    color: #adb5bd;
+}
+
+/* Continuation Header */
+.continuation-header {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.cont-logo {
+    vertical-align: middle;
+}
+
+.cont-icon {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: #5c6bc0;  /* was: linear-gradient(135deg, #5c6bc0 0%, #7e57c2 100%...) */
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 30px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* Continuation logo image styling */
+.cont-logo-img {
+    display: inline-block;
+    height: 30px;
+    width: auto;
+    max-width: 90px;
+    margin-right: 10px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.cont-company {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a2e;
+    vertical-align: middle;
+}
+
+.cont-info {
+    text-align: right;
+    vertical-align: middle;
+}
+
+.cont-invoice {
+    font-size: 12px;
+    font-weight: 600;
+    color: #5c6bc0;
+    margin-right: 15px;
+}
+
+.cont-page {
+    font-size: 11px;
+    color: #6c757d;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.cont-message {
+    font-size: 11px;
+    color: #6c757d;
+    margin-right: 15px;
+}
+
+.cont-pages {
+    font-size: 11px;
+    font-weight: 600;
+    color: #5c6bc0;
+}
+
+/* Page Indicator */
+.page-indicator {
+    position: absolute;
+    bottom: 20px;
+    right: 40px;
+    font-size: 9px;
+    color: #adb5bd;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .invoice-page {
+        padding: 20px;
+        width: 100%;
+        min-height: auto;
+    }
+    
+    .section-header {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .total-row.grand {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .logo-icon,
+    .cont-icon {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

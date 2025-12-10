@@ -31,7 +31,7 @@
         <!-- Project Information -->
         {% if project_name %}
         <div class="project-banner">
-            <div class="project-icon">🏠</div>
+            <div class="project-icon"></div>
             <div class="project-details">
                 <div class="project-name">{{ project_name }}</div>
                 <div class="project-description">{{ project_description }}</div>
@@ -51,7 +51,7 @@
                 <p class="customer-email">{{ buyer_email }}</p>
                 {% if pro_member %}
                 <div class="pro-badge">
-                    <span class="pro-icon">🔧</span>
+                    <span class="pro-icon"></span>
                     <span class="pro-text">PRO Member</span>
                 </div>
                 {% endif %}
@@ -59,13 +59,13 @@
 
             <div class="info-panel delivery-panel">
                 <h3 class="panel-title">
-                    <span class="panel-icon">🚚</span>
+                    <span class="panel-icon"></span>
                     Delivery Details
                 </h3>
                 <p class="delivery-address">{{ delivery_address }}</p>
                 <p class="delivery-city">{{ delivery_city }}, {{ delivery_state }} {{ delivery_zip }}</p>
                 <div class="delivery-method-box">
-                    <span class="method-icon">📦</span>
+                    <span class="method-icon"></span>
                     <span class="method-text">{{ delivery_method }}</span>
                 </div>
                 {% if estimated_delivery %}
@@ -78,7 +78,7 @@
             {% if installation_scheduled %}
             <div class="info-panel installation-panel">
                 <h3 class="panel-title">
-                    <span class="panel-icon">🔧</span>
+                    <span class="panel-icon"></span>
                     Installation Service
                 </h3>
                 <p class="installation-date">
@@ -110,16 +110,14 @@
         <!-- Materials & Products -->
         <div class="items-section">
             <h2 class="section-heading">
-                <span class="heading-icon">📦</span>
+                <span class="heading-icon"></span>
                 Order Items
             </h2>
 
-            {# Smart pagination: First page shows only first category due to large header #}
-            {% set show_limited = _is_first_page|default(true) and _page_number|default(none) %}
-
             {# Support both categorized and flat item lists #}
             {% if item_categories %}
-            {% for category in (item_categories[:1] if show_limited else item_categories) %}
+            {# Pagination handled by template config - iterate over full list #}
+            {% for category in item_categories %}
             <!-- Category Group -->
             <div class="category-group">
                 <div class="category-header">
@@ -157,7 +155,7 @@
                         <!-- Measurements & Specifications -->
                         {% if item.dimensions %}
                         <div class="item-dimensions">
-                            <span class="dim-icon">📏</span>
+                            <span class="dim-icon"></span>
                             <span class="dim-text">{{ item.dimensions }}</span>
                         </div>
                         {% endif %}
@@ -187,7 +185,7 @@
                         <!-- Coverage/Capacity -->
                         {% if item.coverage %}
                         <div class="item-coverage">
-                            <span class="coverage-icon">📐</span>
+                            <span class="coverage-icon"></span>
                             <span class="coverage-text">Coverage: {{ item.coverage }}</span>
                         </div>
                         {% endif %}
@@ -201,7 +199,7 @@
                         <!-- Bulk Quantity Indicator -->
                         {% if item.quantity > 10 %}
                         <div class="bulk-indicator">
-                            <span class="bulk-icon">📦</span>
+                            <span class="bulk-icon"></span>
                             <span class="bulk-text">Bulk Purchase</span>
                         </div>
                         {% endif %}
@@ -209,7 +207,7 @@
                         <!-- Installation Required -->
                         {% if item.installation_required %}
                         <div class="installation-badge">
-                            <span class="install-icon">🔧</span>
+                            <span class="install-icon"></span>
                             <span class="install-text">Professional Installation Required</span>
                         </div>
                         {% endif %}
@@ -217,7 +215,7 @@
                         <!-- Warranty Info -->
                         {% if item.warranty %}
                         <div class="warranty-info">
-                            <span class="warranty-icon">🛡️</span>
+                            <span class="warranty-icon"></span>
                             <span class="warranty-text">{{ item.warranty }}</span>
                         </div>
                         {% endif %}
@@ -236,7 +234,7 @@
                             {% if item.price_per_measure %}
                             <div class="price-per-measure">({{ item.price_per_measure }}/{{ item.measure_unit }})</div>
                             {% endif %}
-                            {% if item.discount > 0 %}
+                            {% if item.discount|to_float > 0 %}
                             <div class="item-discount">
                                 <span class="discount-badge">SAVE</span>
                                 <span class="discount-amount">{{ item.discount }}</span>
@@ -250,15 +248,15 @@
             </div>
             {% endfor %}
             {% else %}
-            {# Fallback for flat line_items list #}
+            {# Fallback for flat line_items list - pagination handled by template config #}
             <div class="category-group">
                 <div class="category-header">
                     <span class="category-icon">🛠️</span>
                     <span class="category-name">Products</span>
-                    <span class="category-count">({{ (line_items[:3] if show_limited else line_items)|length }} items)</span>
+                    <span class="category-count">({{ line_items|length }} items)</span>
                 </div>
 
-                {% for item in (line_items[:3] if show_limited else line_items) %}
+                {% for item in items|default(line_items, true) %}
                 <div class="item-card">
                     <div class="item-image-box">
                         <div class="item-image-placeholder">
@@ -301,7 +299,7 @@
         {% if installation_services %}
         <div class="services-section">
             <h3 class="services-title">
-                <span class="services-icon">🔧</span>
+                <span class="services-icon"></span>
                 Installation & Services
             </h3>
             {% for service in installation_services %}
@@ -353,7 +351,7 @@
                     </div>
                     {% if item_discounts and item_discounts|float > 0 %}
                     <div class="total-row discount-row">
-                        <span class="total-label">🏷️ Item Discounts:</span>
+                        <span class="total-label"> Item Discounts:</span>
                         <span class="total-value discount-value">-${{ "%.2f"|format(item_discounts) }}</span>
                     </div>
                     {% endif %}
@@ -381,7 +379,7 @@
                     {% endif %}
                     <div class="total-row">
                         <span class="total-label">Tax:</span>
-                        <span class="total-value">${{ "%.2f"|format(tax_amount) }}</span>
+                        <span class="total-value">{{ tax_amount }}</span>
                     </div>
                     <div class="total-row grand-total">
                         <span class="total-label">Order Total:</span>
@@ -389,7 +387,7 @@
                     </div>
                     {% if total_savings and total_savings|float > 0 %}
                     <div class="savings-highlight">
-                        <span class="savings-icon">💰</span>
+                        <span class="savings-icon"></span>
                         <span class="savings-text">Total Savings: {{ total_savings }}</span>
                     </div>
                     {% endif %}
@@ -400,12 +398,12 @@
         <!-- Payment Information -->
         <div class="payment-section">
             <h3 class="section-heading">
-                <span class="heading-icon">💳</span>
+                <span class="heading-icon"></span>
                 Payment Details
             </h3>
             <div class="payment-card">
                 <div class="payment-method">
-                    <span class="payment-icon">💳</span>
+                    <span class="payment-icon"></span>
                     <span class="payment-type">{{ payment_method }}</span>
                     <span class="card-details">{{ card_type }} •••• {{ card_last_four }}</span>
                 </div>
@@ -425,7 +423,7 @@
         {% if pro_member and rewards_earned %}
         <div class="rewards-section">
             <div class="rewards-banner">
-                <h3 class="rewards-title">🔧 PRO Rewards Update</h3>
+                <h3 class="rewards-title"> PRO Rewards Update</h3>
                 <div class="rewards-grid">
                     <div class="reward-stat">
                         <div class="stat-value">{{ rewards_earned }}</div>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Market Receipt{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
+    <link rel="stylesheet" href="../css/pos_receipt_mini_market.css">
+</head>
+<body>
+    <div class="mini-market-receipt">
+        <!-- Store Header - Asia Mart Style -->
+        <div class="receipt-header">
+            <div class="store-name">{{ store_name|default(supplier_name) }}</div>
+            {% if company_reg %}
+            <div class="company-reg">({{ company_reg }})</div>
+            {% endif %}
+        </div>
+
+        <!-- Address Block - Compact -->
+        <div class="address-block">
+            <div class="address-line">{{ street_address|default('NO. 25, JALAN MEGA 1/2') }}</div>
+            <div class="address-line">{{ area_name|default('TAMAN PERINDUSTRIAN MEGA') }}</div>
+            <div class="address-line">{{ postcode|default('43500') }} {{ city|default('SEMENYIH') }}, {{ state|default('SELANGOR') }}</div>
+        </div>
+
+        <!-- Contact Line -->
+        <div class="contact-line">
+            <span class="tel">TEL: {{ store_phone|default('03-87236548') }}</span>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- GST Information - Prominent -->
+        <div class="gst-block">
+            <span class="gst-label">GST NO:</span>
+            <span class="gst-value">{{ gst_id|default('001548796325') }}</span>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Invoice Type Banner -->
+        <div class="invoice-type-banner">
+            <span class="invoice-type">{{ document_type|default('SIMPLIFIED TAX INVOICE') }}</span>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Transaction Details - Compact -->
+        <div class="transaction-block">
+            <div class="trans-row">
+                <span class="trans-label">DOC NO:</span>
+                <span class="trans-value">{{ invoice_number|default('CS02070163') }}</span>
+            </div>
+            <div class="trans-row">
+                <span class="trans-label">DATE:</span>
+                <span class="trans-value">{{ invoice_date|default('15/03/2024') }}</span>
+                <span class="trans-label time-label">TIME:</span>
+                <span class="trans-value">{{ transaction_time|default('14:25:32') }}</span>
+            </div>
+            {% if salesperson %}
+            <div class="trans-row">
+                <span class="trans-label">SALES:</span>
+                <span class="trans-value">{{ salesperson }}</span>
+            </div>
+            {% endif %}
+            {% if cashier_name %}
+            <div class="trans-row">
+                <span class="trans-label">CASHIER:</span>
+                <span class="trans-value">{{ cashier_name }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Column Headers - Compact -->
+        <div class="column-headers">
+            <span class="col-desc">ITEM</span>
+            <span class="col-qty">QTY</span>
+            <span class="col-price">U/P</span>
+            <span class="col-amt">AMT</span>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Items Section - Dense Layout -->
+        <div class="items-section">
+            {% for item in items|default(line_items, true) %}
+            <div class="item-row">
+                <span class="item-desc">{{ item.description|upper|truncate(20, true, '..') }}</span>
+                <span class="item-qty">{{ item.quantity }}</span>
+                <span class="item-price">{{ item.unit_price }}</span>
+                <span class="item-amt">{{ item.total }}</span>
+            </div>
+            {% if item.barcode %}
+            <div class="barcode-row">
+                <span class="item-barcode">{{ item.barcode }}</span>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Totals Section - Compact -->
+        <div class="totals-section">
+            <div class="total-row">
+                <span class="total-label">SUBTOTAL</span>
+                <span class="total-value">{{ subtotal }}</span>
+            </div>
+            {% if total_discount_raw|default(0) > 0 %}
+            <div class="total-row discount-row">
+                <span class="total-label">DISCOUNT</span>
+                <span class="total-value">-{{ total_discount }}</span>
+            </div>
+            {% endif %}
+            {% if rounding_adjustment %}
+            <div class="total-row">
+                <span class="total-label">ROUNDING</span>
+                <span class="total-value">{{ rounding_adjustment }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- GST Breakdown -->
+        <div class="gst-breakdown">
+            <div class="gst-row">
+                <span class="gst-label">GST {{ tax_rate|default(6) }}%</span>
+                <span class="gst-value">{{ tax_amount }}</span>
+            </div>
+            <div class="gst-row">
+                <span class="gst-label">INCL GST</span>
+                <span class="gst-value">{{ tax_amount }}</span>
+            </div>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Grand Total -->
+        <div class="grand-total-section">
+            <div class="grand-total-row">
+                <span class="grand-total-label">TOTAL</span>
+                <span class="grand-total-value">RM {{ total_amount }}</span>
+            </div>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Payment Section -->
+        <div class="payment-section">
+            <div class="payment-row">
+                <span class="payment-label">{{ payment_method|default('CASH') }}</span>
+                <span class="payment-value">RM {{ amount_tendered|default(total_amount) }}</span>
+            </div>
+            {% if change_due %}
+            <div class="payment-row">
+                <span class="payment-label">CHANGE</span>
+                <span class="payment-value">RM {{ change_due }}</span>
+            </div>
+            {% endif %}
+            {% if card_last_four %}
+            <div class="payment-row card-row">
+                <span class="payment-label">CARD</span>
+                <span class="payment-value">****{{ card_last_four }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Item Count -->
+        <div class="item-count-section">
+            <span class="item-count">ITEMS: {{ line_items|length }}</span>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Footer Section -->
+        <div class="receipt-footer">
+            <div class="footer-message">TERIMA KASIH / THANK YOU</div>
+            <div class="footer-message secondary">SILA DATANG LAGI</div>
+            <div class="footer-spacer"></div>
+            {% if return_policy %}
+            <div class="return-policy">
+                <div class="policy-line">{{ return_policy }}</div>
+            </div>
+            {% else %}
+            <div class="return-policy">
+                <div class="policy-line">NO REFUND OR EXCHANGE</div>
+                <div class="policy-line">AFTER PURCHASE</div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Barcode Section (if enabled) -->
+        {% if receipt_barcode %}
+        <div class="receipt-barcode-section">
+            <div class="receipt-barcode">{{ receipt_barcode }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Page Indicator (for multipage) -->
+        {% if _page_number is defined and _total_pages > 1 %}
+        <div class="page-indicator">
+            {{ _page_number }}/{{ _total_pages }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

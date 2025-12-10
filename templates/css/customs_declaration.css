@@ -1,0 +1,773 @@
+/**
+ * Customs Declaration / Commercial Invoice CSS
+ * 
+ * Color Scheme: Navy Blue (#1e3a5f) and Teal (#0d9488) with Gold (#d97706) accents
+ * Professional international trade document styling
+ * wkhtmltoimage compatible (no CSS variables, grid, or flexbox gap)
+ */
+
+/* ==================== RESET & BASE ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    line-height: 1.4;
+    color: #1e293b;
+    background: #ffffff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+/* ==================== PAGE CONTAINER ==================== */
+.customs-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 25px 30px;
+    background: #ffffff;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+/* ==================== HEADER SECTION ==================== */
+.customs-header {
+    display: table;
+    width: 100%;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #1e3a5f;
+}
+
+.header-left {
+    display: table-cell;
+    width: 55%;
+    vertical-align: middle;
+}
+
+.company-logo {
+    display: inline-block;
+    height: 45px;
+    width: auto;
+    max-width: 120px;
+    margin-right: 15px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.document-type {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.doc-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e3a5f;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.doc-subtitle {
+    font-size: 12px;
+    font-weight: 500;
+    color: #0d9488;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.header-right {
+    display: table-cell;
+    width: 45%;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.header-info {
+    display: inline-block;
+    text-align: left;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: #f8fafc;
+    padding: 8px 12px;
+}
+
+.header-info td {
+    padding: 3px 8px;
+}
+
+.info-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.info-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.declaration-num {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e3a5f;
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
+/* ==================== REFERENCE BAR ==================== */
+.reference-bar {
+    display: table;
+    width: 100%;
+    background: #1e3a5f;  /* was: linear-gradient(135deg, #1e3a5f 0%, #2d4a6f 100%...) */
+    border-radius: 6px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+}
+
+.ref-item {
+    display: table-cell;
+    width: 25%;
+    text-align: left;
+    padding-right: 10px;
+}
+
+.ref-label {
+    font-size: 8px;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.ref-value {
+    font-size: 10px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+/* ==================== PARTIES SECTION ==================== */
+.parties-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 0;
+    margin-bottom: 15px;
+    table-layout: fixed;
+}
+
+.party-cell {
+    width: 50%;
+    vertical-align: top;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: #ffffff;
+    padding: 0;
+}
+
+.party-header {
+    padding: 8px 12px;
+    border-radius: 6px 6px 0 0;
+}
+
+.exporter-cell .party-header {
+    background: #0d9488;  /* was: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%...) */
+}
+
+.importer-cell .party-header {
+    background: #d97706;  /* was: linear-gradient(135deg, #d97706 0%, #f59e0b 100%...) */
+}
+
+.party-icon {
+    display: inline-block;
+    font-size: 10px;
+    color: #ffffff;
+    margin-right: 6px;
+}
+
+.party-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.party-content {
+    padding: 12px;
+}
+
+.party-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 6px;
+}
+
+.party-address {
+    font-size: 10px;
+    color: #475569;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.party-details {
+    margin-bottom: 8px;
+}
+
+.detail-row {
+    margin-bottom: 3px;
+}
+
+.detail-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: #64748b;
+    margin-right: 4px;
+}
+
+.detail-value {
+    font-size: 9px;
+    color: #1e293b;
+}
+
+.tax-id-row {
+    padding-top: 8px;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.tax-label {
+    font-size: 8px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.tax-value {
+    font-size: 10px;
+    font-weight: 700;
+    color: #1e3a5f;
+    font-family: 'Consolas', 'Monaco', monospace;
+    margin-left: 6px;
+}
+
+/* ==================== SHIPMENT BAR ==================== */
+.shipment-bar {
+    margin-bottom: 15px;
+}
+
+.shipment-details {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    table-layout: fixed;
+}
+
+.shipment-cell {
+    width: 25%;
+    padding: 8px 12px;
+    border-right: 1px solid #e2e8f0;
+    text-align: center;
+}
+
+.shipment-cell:last-child {
+    border-right: none;
+}
+
+.ship-label {
+    display: block;
+    font-size: 8px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+}
+
+.ship-value {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.origin-country {
+    color: #0d9488;
+}
+
+.dest-country {
+    color: #d97706;
+}
+
+.currency {
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.incoterm {
+    background: #1e3a5f;
+    color: #ffffff;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+}
+
+/* ==================== CONTINUATION HEADER ==================== */
+.continuation-header {
+    display: table;
+    width: 100%;
+    padding: 10px 15px;
+    background: #f8fafc;
+    border-bottom: 2px solid #1e3a5f;
+    margin-bottom: 15px;
+}
+
+.cont-left {
+    display: table-cell;
+    width: 50%;
+    text-align: left;
+}
+
+.cont-doc {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1e3a5f;
+    text-transform: uppercase;
+}
+
+.cont-center {
+    display: table-cell;
+    width: 30%;
+    text-align: center;
+}
+
+.cont-num {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0d9488;
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.cont-right {
+    display: table-cell;
+    width: 20%;
+    text-align: right;
+}
+
+.cont-page {
+    font-size: 10px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+/* ==================== ITEMS SECTION ==================== */
+.items-header {
+    display: table;
+    width: 100%;
+    padding: 8px 12px;
+    background: #1e3a5f;  /* was: linear-gradient(135deg, #1e3a5f 0%, #2d4a6f 100%...) */
+    border-radius: 4px 4px 0 0;
+    margin-bottom: 0;
+}
+
+.section-title {
+    display: table-cell;
+    font-size: 10px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.page-indicator {
+    display: table-cell;
+    text-align: right;
+    font-size: 9px;
+    font-weight: 500;
+    color: #94a3b8;
+}
+
+/* ==================== ITEMS TABLE ==================== */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    table-layout: fixed;
+}
+
+.items-table thead tr {
+    background: #f1f5f9;
+}
+
+.items-table th {
+    padding: 8px 6px;
+    font-size: 8px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    text-align: left;
+    border-bottom: 2px solid #e2e8f0;
+    letter-spacing: 0.3px;
+}
+
+.items-table td {
+    padding: 10px 6px;
+    font-size: 9px;
+    color: #1e293b;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: top;
+    word-wrap: break-word;
+    max-width: 0;
+}
+
+.items-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+/* Column widths */
+.col-line { width: 4%; text-align: center; }
+.col-qty { width: 6%; text-align: center; }
+.col-unit { width: 6%; text-align: center; }
+.col-desc { width: 30%; }
+.col-hs { width: 10%; font-family: 'Consolas', 'Monaco', monospace; }
+.col-origin { width: 8%; text-align: center; }
+.col-weight { width: 10%; text-align: right; }
+.col-unit-val { width: 12%; text-align: right; }
+.col-total { width: 14%; text-align: right; font-weight: 600; }
+
+.item-name {
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.item-sku {
+    font-size: 8px;
+    color: #64748b;
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.item-material {
+    font-size: 8px;
+    color: #64748b;
+    font-style: italic;
+}
+
+/* ==================== TOTALS SECTION ==================== */
+.totals-section {
+    margin-bottom: 15px;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 0;
+    table-layout: fixed;
+}
+
+.totals-left,
+.totals-center,
+.totals-right {
+    width: 33.33%;
+    vertical-align: top;
+}
+
+.totals-box {
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.box-title {
+    padding: 6px 10px;
+    font-size: 9px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.weight-box .box-title {
+    background: #475569;
+}
+
+.value-box .box-title {
+    background: #0d9488;
+}
+
+.export-box .box-title {
+    background: #d97706;
+}
+
+.box-row {
+    display: table;
+    width: 100%;
+    padding: 6px 10px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.box-row:last-child {
+    border-bottom: none;
+}
+
+.box-label {
+    display: table-cell;
+    width: 55%;
+    font-size: 9px;
+    color: #64748b;
+}
+
+.box-value {
+    display: table-cell;
+    width: 45%;
+    font-size: 10px;
+    font-weight: 600;
+    color: #1e293b;
+    text-align: right;
+}
+
+.total-row {
+    background: #f0fdf4;
+}
+
+.total-row .box-label {
+    font-weight: 700;
+    color: #0d9488;
+}
+
+.total-value {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0d9488;
+}
+
+.incoterm-value {
+    background: #1e3a5f;
+    color: #ffffff;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 9px;
+}
+
+/* ==================== CERTIFICATION SECTION ==================== */
+.certification-section {
+    margin-bottom: 15px;
+    border: 2px solid #1e3a5f;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.cert-header {
+    padding: 8px 12px;
+    background: #1e3a5f;
+    font-size: 10px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cert-text {
+    padding: 12px;
+    font-size: 9px;
+    color: #475569;
+    line-height: 1.6;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.auth-num {
+    font-weight: 700;
+    color: #1e3a5f;
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.origin-cert {
+    font-weight: 700;
+    color: #0d9488;
+    text-transform: uppercase;
+}
+
+.signature-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    table-layout: fixed;
+}
+
+.sig-cell {
+    width: 25%;
+    padding: 12px;
+    text-align: center;
+    border-right: 1px solid #e2e8f0;
+    vertical-align: bottom;
+}
+
+.sig-cell:last-child {
+    border-right: none;
+}
+
+.sig-line {
+    border-bottom: 1px solid #1e293b;
+    min-height: 30px;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.sig-value {
+    font-size: 10px;
+    font-style: italic;
+    color: #1e293b;
+}
+
+.sig-label {
+    font-size: 8px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.stamp-cell {
+    vertical-align: middle;
+}
+
+.stamp-placeholder {
+    width: 80px;
+    height: 60px;
+    margin: 0 auto;
+    border: 2px dashed #94a3b8;
+    border-radius: 4px;
+    display: table;
+}
+
+.stamp-text {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 8px;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+.stamp-img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* ==================== NOTES SECTION ==================== */
+.notes-section {
+    margin-bottom: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.notes-header {
+    padding: 6px 12px;
+    background: #f1f5f9;
+    font-size: 9px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+}
+
+.notes-content {
+    padding: 10px 12px;
+    font-size: 9px;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.notes-content p {
+    margin-bottom: 6px;
+}
+
+.notes-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* ==================== FOOTER ==================== */
+.customs-footer {
+    display: table;
+    width: 100%;
+    padding-top: 15px;
+    border-top: 1px solid #e2e8f0;
+    position: absolute;
+    bottom: 25px;
+    left: 30px;
+    right: 30px;
+}
+
+.footer-left {
+    display: table-cell;
+    width: 75%;
+    vertical-align: bottom;
+}
+
+.footer-notice {
+    font-size: 8px;
+    color: #94a3b8;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.footer-right {
+    display: table-cell;
+    width: 25%;
+    text-align: right;
+    vertical-align: bottom;
+}
+
+.page-number {
+    font-size: 9px;
+    font-weight: 600;
+    color: #64748b;
+}
+
+/* ==================== CONTINUATION FOOTER ==================== */
+.continuation-footer {
+    display: table;
+    width: 100%;
+    padding: 10px 15px;
+    background: #f8fafc;
+    border-top: 1px dashed #94a3b8;
+    margin-top: 15px;
+}
+
+.cont-notice {
+    display: table-cell;
+    font-size: 9px;
+    color: #64748b;
+    font-style: italic;
+}
+
+.cont-subtotal {
+    display: table-cell;
+    text-align: right;
+    font-size: 10px;
+    font-weight: 600;
+    color: #1e3a5f;
+}
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .customs-page {
+        margin: 0;
+        padding: 20px;
+        box-shadow: none;
+    }
+    
+    .customs-footer {
+        position: fixed;
+        bottom: 20px;
+    }
+}

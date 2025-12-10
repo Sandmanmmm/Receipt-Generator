@@ -1,0 +1,645 @@
+/* Amazon Business Invoice Stylesheet
+ * Professional B2B invoice design with blue/gray business theme
+ * Colors: Amazon Business Blue (#146EB4), Dark Blue (#0F1111), Light Gray (#F3F3F3)
+ */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 10px;
+    color: #111111;
+    background: #ffffff;
+    line-height: 1.4;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 25px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ===== FIRST PAGE HEADER ===== */
+.page-header {
+    margin-bottom: 20px;
+    border-bottom: 3px solid #146eb4;
+    padding-bottom: 15px;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.header-left {
+    width: 55%;
+    vertical-align: middle;
+}
+
+.company-logo {
+    display: inline-block;
+    height: 55px;
+    width: auto;
+    max-width: 180px;
+    vertical-align: middle;
+    margin-right: 12px;
+}
+
+.logo-fallback {
+    display: inline-block;
+    width: 55px;
+    height: 55px;
+    background: #146eb4;  /* was: linear-gradient(135deg, #146eb4 0%, #232f3e 100%...) */
+    border-radius: 8px;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 12px;
+}
+
+.logo-initial {
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 55px;
+}
+
+.company-info {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.company-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f1111;
+    margin-bottom: 2px;
+}
+
+.business-tagline {
+    font-size: 9px;
+    color: #146eb4;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.header-right {
+    width: 45%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.invoice-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #146eb4;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.invoice-meta {
+    display: inline-block;
+    text-align: left;
+}
+
+.meta-table {
+    border-collapse: collapse;
+}
+
+.meta-table tr {
+    line-height: 1.6;
+}
+
+.meta-label {
+    font-size: 9px;
+    color: #666666;
+    font-weight: 600;
+    padding-right: 8px;
+    text-align: right;
+}
+
+.meta-value {
+    font-size: 10px;
+    color: #0f1111;
+    font-weight: 600;
+}
+
+/* ===== BUSINESS DETAILS SECTION ===== */
+.details-section {
+    margin-bottom: 18px;
+}
+
+.details-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.detail-box {
+    width: 33.33%;
+    vertical-align: top;
+    padding: 0 6px;
+}
+
+.detail-box:first-child {
+    padding-left: 0;
+}
+
+.detail-box:last-child {
+    padding-right: 0;
+}
+
+.box-header {
+    background: #146eb4;
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    letter-spacing: 0.5px;
+}
+
+.box-content {
+    border: 1px solid #d5d9d9;
+    border-top: none;
+    padding: 12px 10px;
+    min-height: 100px;
+    background: #fafafa;
+}
+
+.business-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: #0f1111;
+    margin-bottom: 6px;
+}
+
+.address-text {
+    font-size: 9px;
+    color: #333333;
+    line-height: 1.5;
+    margin-bottom: 6px;
+}
+
+.contact-detail {
+    font-size: 9px;
+    color: #333333;
+    margin-top: 4px;
+}
+
+.detail-icon {
+    display: inline-block;
+    width: 12px;
+    color: #146eb4;
+    font-size: 8px;
+}
+
+.detail-text {
+    display: inline-block;
+}
+
+/* ===== TRANSACTION BAR ===== */
+.transaction-bar {
+    background: #f3f3f3;
+    border: 1px solid #d5d9d9;
+    padding: 8px 12px;
+    margin-bottom: 18px;
+}
+
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.trans-cell {
+    width: 33.33%;
+    padding-right: 10px;
+}
+
+.trans-cell:last-child {
+    padding-right: 0;
+}
+
+.trans-label {
+    font-size: 8px;
+    color: #666666;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-right: 6px;
+}
+
+.trans-value {
+    font-size: 10px;
+    color: #0f1111;
+    font-weight: 600;
+}
+
+/* ===== CONTINUATION HEADER ===== */
+.cont-header {
+    border-bottom: 2px solid #146eb4;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.cont-header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-left {
+    width: 40%;
+    vertical-align: middle;
+}
+
+.cont-logo {
+    display: inline-block;
+    height: 30px;
+    width: auto;
+    max-width: 100px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.cont-supplier {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f1111;
+    vertical-align: middle;
+}
+
+.cont-center {
+    width: 30%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.cont-invoice {
+    font-size: 10px;
+    font-weight: 600;
+    color: #666666;
+}
+
+.cont-right {
+    width: 30%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.cont-page {
+    font-size: 9px;
+    color: #666666;
+}
+
+/* ===== LINE ITEMS SECTION ===== */
+.items-section {
+    margin-bottom: 20px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #d5d9d9;
+}
+
+.items-table thead {
+    background: #232f3e;
+}
+
+.items-table th {
+    padding: 8px 6px;
+    font-size: 8px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-right: 1px solid #404854;
+}
+
+.items-table th:last-child {
+    border-right: none;
+}
+
+.col-item {
+    width: 7%;
+    text-align: center;
+}
+
+.col-description {
+    width: 33%;
+}
+
+.col-sku {
+    width: 13%;
+}
+
+.col-qty {
+    width: 8%;
+    text-align: center;
+}
+
+.col-unit {
+    width: 13%;
+    text-align: right;
+}
+
+.col-discount {
+    width: 12%;
+    text-align: right;
+}
+
+.col-amount {
+    width: 14%;
+    text-align: right;
+}
+
+.item-row td {
+    padding: 8px 6px;
+    font-size: 9px;
+    color: #0f1111;
+    vertical-align: top;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.row-odd {
+    background: #ffffff;
+}
+
+.row-even {
+    background: #fafafa;
+}
+
+.td-item {
+    text-align: center;
+    color: #666666;
+    font-weight: 600;
+}
+
+.td-description {
+    vertical-align: top;
+}
+
+.item-name {
+    font-size: 9px;
+    color: #0f1111;
+    line-height: 1.4;
+    margin-bottom: 2px;
+}
+
+.item-details {
+    font-size: 8px;
+    color: #666666;
+    font-style: italic;
+}
+
+.td-sku {
+    font-size: 8px;
+    color: #666666;
+    font-family: 'Courier New', monospace;
+}
+
+.td-qty {
+    text-align: center;
+    font-weight: 600;
+}
+
+.td-unit {
+    text-align: right;
+}
+
+.td-discount {
+    text-align: right;
+    color: #b12704;
+}
+
+.td-amount {
+    text-align: right;
+    font-weight: 700;
+    color: #0f1111;
+}
+
+/* ===== SUMMARY AND TOTALS SECTION ===== */
+.summary-section {
+    margin-bottom: 18px;
+}
+
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.summary-left {
+    width: 55%;
+    vertical-align: top;
+    padding-right: 15px;
+}
+
+.summary-right {
+    width: 45%;
+    vertical-align: top;
+}
+
+/* Notes Box */
+.notes-box {
+    border: 1px solid #d5d9d9;
+    background: #fafafa;
+    padding: 10px;
+    margin-bottom: 12px;
+}
+
+.notes-title {
+    font-size: 9px;
+    font-weight: 700;
+    color: #0f1111;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.notes-body {
+    font-size: 9px;
+    color: #333333;
+    line-height: 1.5;
+}
+
+/* Terms Box */
+.terms-box {
+    border: 1px solid #d5d9d9;
+    background: #fffbf0;
+    padding: 10px;
+}
+
+.terms-title {
+    font-size: 9px;
+    font-weight: 700;
+    color: #0f1111;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.terms-body {
+    font-size: 8px;
+    color: #666666;
+    line-height: 1.5;
+}
+
+/* Totals Table */
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #d5d9d9;
+    background: #ffffff;
+    margin-bottom: 10px;
+}
+
+.totals-row td {
+    padding: 7px 12px;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.totals-row:last-child td {
+    border-bottom: none;
+}
+
+.totals-label {
+    font-size: 9px;
+    color: #333333;
+    text-align: left;
+    width: 60%;
+}
+
+.totals-value {
+    font-size: 10px;
+    color: #0f1111;
+    font-weight: 600;
+    text-align: right;
+    width: 40%;
+}
+
+.totals-negative {
+    color: #b12704;
+}
+
+.total-row {
+    background: #f3f3f3;
+}
+
+.total-row .totals-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #0f1111;
+}
+
+.total-row .totals-value {
+    font-size: 12px;
+    font-weight: 700;
+    color: #146eb4;
+}
+
+/* Amount Due Box */
+.amount-due {
+    background: #146eb4;
+    color: #ffffff;
+    padding: 12px 15px;
+    text-align: right;
+    border-radius: 4px;
+}
+
+.due-label {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.due-amount {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* ===== FOOTER SECTION ===== */
+.page-footer {
+    margin-top: 20px;
+}
+
+.footer-divider {
+    height: 2px;
+    background: #146eb4;  /* was: linear-gradient(to right, #146eb4 0%, #146eb4 50%, transparent 100...) */
+    margin-bottom: 10px;
+}
+
+.footer-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.footer-left {
+    width: 50%;
+    vertical-align: top;
+}
+
+.footer-right {
+    width: 50%;
+    text-align: right;
+    vertical-align: top;
+}
+
+.footer-text {
+    font-size: 10px;
+    color: #0f1111;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.footer-contact {
+    font-size: 8px;
+    color: #666666;
+}
+
+.footer-disclaimer {
+    font-size: 8px;
+    color: #666666;
+    margin-bottom: 2px;
+    font-style: italic;
+}
+
+.footer-legal {
+    font-size: 7px;
+    color: #999999;
+}
+
+/* ===== CONTINUATION FOOTER ===== */
+.cont-footer {
+    margin-top: 20px;
+}
+
+.cont-footer-line {
+    height: 1px;
+    background: #146eb4;  /* was: linear-gradient(to right, #146eb4 0%, #146eb4 40%, transparent 100...) */
+    margin-bottom: 8px;
+}
+
+.cont-footer-text {
+    font-size: 9px;
+    color: #666666;
+    text-align: center;
+    font-style: italic;
+}
+
+/* ===== PRINT OPTIMIZATION ===== */
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .invoice-page {
+        padding: 20px;
+    }
+}

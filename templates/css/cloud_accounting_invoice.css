@@ -1,0 +1,567 @@
+/* Cloud Accounting Invoice - Wave/Xero Inspired */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.5;
+    color: #374151;
+    background: #ffffff;
+}
+
+/* Page Layout */
+.invoice-page {
+    width: 816px;
+    padding: 30px;
+    position: relative;
+    background: #ffffff;
+}
+
+/* Header */
+.page-header {
+    margin-bottom: 24px;
+}
+
+.header-stripe {
+    height: 4px;
+    background: #10b981;  /* was: linear-gradient(90deg, #10b981 0%, #059669 100%...) */
+    margin-bottom: 18px;
+    border-radius: 2px;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.header-company {
+    width: 58%;
+    vertical-align: top;
+}
+
+.header-invoice {
+    width: 42%;
+    vertical-align: top;
+    text-align: right;
+}
+
+/* Company Logo */
+.company-logo {
+    width: 54px;
+    height: 54px;
+    border-radius: 8px;
+    float: left;
+    margin-right: 15px;
+    background: #ffffff;
+    padding: 3px;
+    object-fit: contain;
+}
+
+.logo-square {
+    width: 54px;
+    height: 54px;
+    border-radius: 8px;
+    background: #10b981;  /* was: linear-gradient(135deg, #10b981 0%, #059669 100%...) */
+    float: left;
+    margin-right: 15px;
+    text-align: center;
+}
+
+.logo-letter {
+    font-size: 28pt;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 54px;
+}
+
+.company-block {
+    overflow: hidden;
+}
+
+.company-name {
+    font-size: 15pt;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 6px;
+}
+
+.company-info {
+    font-size: 9.5pt;
+    color: #6b7280;
+    margin-bottom: 3px;
+}
+
+/* Invoice Meta */
+.invoice-label {
+    font-size: 22pt;
+    font-weight: 800;
+    color: #10b981;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+}
+
+.invoice-meta {
+    border-collapse: collapse;
+    border: 2px solid #d1fae5;
+    border-radius: 8px;
+    background: #f0fdf4;
+    padding: 12px;
+    display: inline-block;
+}
+
+.invoice-meta tr {
+    border-bottom: 1px solid #d1fae5;
+}
+
+.invoice-meta tr:last-child {
+    border-bottom: none;
+}
+
+.meta-key {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #047857;
+    padding: 6px 12px 6px 0;
+    text-align: left;
+}
+
+.meta-val {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #111827;
+    padding: 6px 0;
+    text-align: left;
+    font-family: 'Courier New', monospace;
+}
+
+.status-badge {
+    display: inline-block;
+    background: #10b981;
+    color: #ffffff;
+    font-size: 8pt;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Details Section */
+.details-section {
+    margin-bottom: 24px;
+}
+
+.details-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 0;
+}
+
+.detail-box {
+    width: 30%;
+    vertical-align: top;
+}
+
+.detail-spacer {
+    width: 1.66%;
+}
+
+.box-header {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #10b981;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 8px 14px;
+    background: #f0fdf4;
+    border-left: 3px solid #10b981;
+    margin-bottom: 10px;
+}
+
+.box-content {
+    padding: 0 14px;
+}
+
+.content-name {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.content-line {
+    font-size: 9.5pt;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.payment-box .box-header {
+    background: #fffbeb;
+    border-left-color: #f59e0b;
+    color: #b45309;
+}
+
+.payment-item {
+    font-size: 9.5pt;
+    margin-bottom: 6px;
+}
+
+.payment-item:last-child {
+    margin-bottom: 0;
+}
+
+.payment-key {
+    font-weight: 700;
+    color: #b45309;
+    margin-right: 5px;
+}
+
+.payment-val {
+    color: #374151;
+}
+
+/* Items Table */
+.items-section {
+    margin-bottom: 24px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.items-table thead {
+    background: #10b981;  /* was: linear-gradient(135deg, #10b981 0%, #059669 100%...) */
+}
+
+.items-table th {
+    padding: 12px 14px;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.th-desc { width: 38%; }
+.th-sku { width: 16%; }
+.th-qty { width: 12%; text-align: center; }
+.th-price { width: 17%; text-align: right; }
+.th-amount { width: 17%; text-align: right; }
+
+.item-row {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.item-row:last-child {
+    border-bottom: none;
+}
+
+.item-row:nth-child(odd) {
+    background: #ffffff;
+}
+
+.item-row:nth-child(even) {
+    background: #f9fafb;
+}
+
+.items-table td {
+    padding: 11px 14px;
+    font-size: 10pt;
+}
+
+.td-desc {
+    vertical-align: top;
+}
+
+.desc-name {
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 3px;
+}
+
+.desc-var {
+    font-size: 9pt;
+    color: #6b7280;
+    font-style: italic;
+}
+
+.td-sku {
+    color: #6b7280;
+    font-family: 'Courier New', monospace;
+    font-size: 9.5pt;
+}
+
+.td-qty {
+    text-align: center;
+    font-weight: 600;
+    color: #374151;
+}
+
+.td-price {
+    text-align: right;
+    color: #6b7280;
+    font-family: 'Courier New', monospace;
+}
+
+.td-amount {
+    text-align: right;
+    font-weight: 700;
+    color: #111827;
+    font-family: 'Courier New', monospace;
+}
+
+/* Summary Section */
+.summary-section {
+    margin-bottom: 60px;
+}
+
+.summary-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.notes-column {
+    width: 52%;
+    vertical-align: top;
+    padding-right: 20px;
+}
+
+.totals-column {
+    width: 48%;
+    vertical-align: top;
+}
+
+/* Notes Box */
+.notes-box {
+    background: #f9fafb;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 18px;
+}
+
+.notes-title {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #d1fae5;
+}
+
+.notes-text {
+    font-size: 9.5pt;
+    color: #6b7280;
+    line-height: 1.7;
+    margin-bottom: 14px;
+}
+
+.notes-thanks {
+    font-size: 9pt;
+    color: #10b981;
+    font-weight: 600;
+    font-style: italic;
+}
+
+/* Totals Box */
+.totals-box {
+    background: #ffffff;
+    border: 2px solid #d1fae5;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.totals-calc {
+    width: 100%;
+    border-collapse: collapse;
+    padding: 12px 18px;
+}
+
+.calc-row td {
+    padding: 10px 18px;
+    font-size: 10.5pt;
+}
+
+.calc-label {
+    font-weight: 500;
+    color: #6b7280;
+    text-align: left;
+}
+
+.calc-amount {
+    text-align: right;
+    font-weight: 600;
+    color: #111827;
+    font-family: 'Courier New', monospace;
+}
+
+.calc-neg {
+    color: #dc2626;
+}
+
+.grand-total {
+    background: #10b981;  /* was: linear-gradient(135deg, #10b981 0%, #059669 100%...) */
+    padding: 16px 18px;
+}
+
+.grand-label {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 6px;
+}
+
+.grand-amount {
+    font-size: 20pt;
+    font-weight: 800;
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+}
+
+/* Footer */
+.page-footer {
+    position: absolute;
+    bottom: 26px;
+    left: 30px;
+    right: 30px;
+}
+
+.footer-line {
+    height: 2px;
+    background: #10b981;  /* was: linear-gradient(90deg, #10b981 0%, #059669 50%, #10b981 100%...) */
+    margin-bottom: 10px;
+    border-radius: 1px;
+}
+
+.footer-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.footer-left {
+    width: 33%;
+    text-align: left;
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+.footer-center {
+    width: 34%;
+    text-align: center;
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+.footer-right {
+    width: 33%;
+    text-align: right;
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+.footer-bold {
+    font-weight: 700;
+    color: #111827;
+}
+
+/* Continuation Header */
+.cont-header {
+    background: #f0fdf4;
+    border: 2px solid #d1fae5;
+    border-left: 4px solid #10b981;
+    border-radius: 8px;
+    padding: 12px 18px;
+    margin-bottom: 24px;
+}
+
+.cont-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-company {
+    width: 40%;
+    vertical-align: middle;
+}
+
+.cont-invoice {
+    width: 30%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.cont-page {
+    width: 30%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.cont-logo {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    vertical-align: middle;
+    margin-right: 12px;
+    background: #ffffff;
+    padding: 2px;
+    object-fit: contain;
+}
+
+.cont-name {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #111827;
+    vertical-align: middle;
+}
+
+.cont-label {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #047857;
+    margin-right: 6px;
+}
+
+.cont-invoice {
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #10b981;
+    font-family: 'Courier New', monospace;
+}
+
+.cont-page {
+    font-size: 9.5pt;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+/* Continuation Footer */
+.cont-footer {
+    position: absolute;
+    bottom: 26px;
+    left: 30px;
+    right: 30px;
+}
+
+.cont-line {
+    height: 2px;
+    background: #e5e7eb;
+    margin-bottom: 10px;
+}
+
+.cont-text {
+    text-align: center;
+    font-size: 9pt;
+    color: #6b7280;
+    font-style: italic;
+}

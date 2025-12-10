@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice #{{ invoice_number }}</title>
+    <link rel="stylesheet" href="../css/magento_standard.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page %}
+        <!-- Main Header -->
+        <div class="main-header">
+            <table class="header-table">
+                <tr>
+                    <td class="header-left">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="store-logo" />
+                        {% else %}
+                        <div class="logo-placeholder">
+                            <span class="logo-text">{{ supplier_name[:2]|upper }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="store-info">
+                            <div class="store-name">{{ supplier_name }}</div>
+                            {% if supplier_address %}
+                            <div class="store-address">{{ supplier_address }}</div>
+                            {% endif %}
+                            {% if supplier_phone %}
+                            <div class="store-contact">{{ supplier_phone }}</div>
+                            {% endif %}
+                            {% if supplier_email %}
+                            <div class="store-contact">{{ supplier_email }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="header-right">
+                        <div class="invoice-badge">INVOICE</div>
+                        <div class="invoice-number">#{{ invoice_number }}</div>
+                        <div class="invoice-meta">
+                            <div class="meta-row">
+                                <span class="meta-label">Invoice Date:</span>
+                                <span class="meta-value">{{ invoice_date }}</span>
+                            </div>
+                            {% if order_date %}
+                            <div class="meta-row">
+                                <span class="meta-label">Order Date:</span>
+                                <span class="meta-value">{{ order_date }}</span>
+                            </div>
+                            {% endif %}
+                            {% if order_number %}
+                            <div class="meta-row">
+                                <span class="meta-label">Order #:</span>
+                                <span class="meta-value">{{ order_number }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Orange Accent Bar -->
+        <div class="accent-bar"></div>
+
+        <!-- Customer Information -->
+        <div class="customer-section">
+            <table class="customer-table">
+                <tr>
+                    <td class="customer-col">
+                        <div class="info-box">
+                            <div class="box-header">Sold To</div>
+                            <div class="box-content">
+                                <div class="customer-name">{{ buyer_name }}</div>
+                                {% if buyer_address %}
+                                <div class="customer-detail">{{ buyer_address }}</div>
+                                {% endif %}
+                                {% if buyer_email %}
+                                <div class="customer-detail">{{ buyer_email }}</div>
+                                {% endif %}
+                                {% if buyer_phone %}
+                                <div class="customer-detail">{{ buyer_phone }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="customer-col">
+                        <div class="info-box">
+                            <div class="box-header">Ship To</div>
+                            <div class="box-content">
+                                <div class="customer-name">{{ buyer_name }}</div>
+                                {% if buyer_address %}
+                                <div class="customer-detail">{{ buyer_address }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="customer-col">
+                        <div class="info-box">
+                            <div class="box-header">Payment Method</div>
+                            <div class="box-content">
+                                {% if payment_method %}
+                                <div class="payment-method">{{ payment_method }}</div>
+                                {% else %}
+                                <div class="payment-method">Credit Card</div>
+                                {% endif %}
+                                {% if payment_status %}
+                                <div class="payment-status-row">
+                                    <span class="status-badge status-{{ payment_status|lower }}">{{ payment_status }}</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <table class="cont-header-table">
+                <tr>
+                    <td class="cont-logo">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="logo-small" />
+                        {% endif %}
+                    </td>
+                    <td class="cont-details">
+                        <div class="cont-invoice">Invoice #{{ invoice_number }}</div>
+                        <div class="cont-page">Page {{ _current_page }} of {{ _total_pages }}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="accent-bar-thin"></div>
+        {% endif %}
+
+        <!-- Items Table -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-product">Product</th>
+                        <th class="col-sku">SKU</th>
+                        <th class="col-qty">Qty</th>
+                        <th class="col-price">Price</th>
+                        <th class="col-tax">Tax</th>
+                        <th class="col-subtotal">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row">
+                        <td class="item-product">
+                            <div class="product-name">{{ item.description }}</div>
+                        </td>
+                        <td class="item-sku">{{ item.sku or 'N/A' }}</td>
+                        <td class="item-qty">{{ item.quantity }}</td>
+                        <td class="item-price">{{ item.unit_price }}</td>
+                        <td class="item-tax">
+                            {% if item.tax_amount %}
+                            {{ item.tax_amount }}
+                            {% else %}
+                            $0.00
+                            {% endif %}
+                        </td>
+                        <td class="item-subtotal">{{ item.total }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page %}
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <table class="totals-wrapper">
+                <tr>
+                    <td class="totals-spacer"></td>
+                    <td class="totals-content">
+                        <table class="totals-table">
+                            <tr class="total-row">
+                                <td class="total-label">Subtotal:</td>
+                                <td class="total-value">{{ subtotal }}</td>
+                            </tr>
+                            {% if shipping_cost_raw and shipping_cost_raw > 0 %}
+                            <tr class="total-row">
+                                <td class="total-label">Shipping & Handling:</td>
+                                <td class="total-value">{{ shipping_cost }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if discount_raw and discount_raw > 0 %}
+                            <tr class="total-row">
+                                <td class="total-label">Discount:</td>
+                                <td class="total-value total-discount">{{ discount }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if tax_amount_raw and tax_amount_raw > 0 %}
+                            <tr class="total-row">
+                                <td class="total-label">Tax:</td>
+                                <td class="total-value">{{ tax_amount }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="total-row-grand">
+                                <td class="total-label-grand">Grand Total:</td>
+                                <td class="total-value-grand">{{ total_amount }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Additional Information -->
+        {% if notes %}
+        <div class="notes-section">
+            <div class="notes-box">
+                <div class="notes-header">Comments</div>
+                <div class="notes-content">{{ notes }}</div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="footer-section">
+            <div class="footer-divider"></div>
+            <div class="footer-content">
+                <div class="footer-text">Thank you for your business!</div>
+                {% if supplier_email %}
+                <div class="footer-text">Questions? Contact us at {{ supplier_email }}</div>
+                {% endif %}
+                <div class="footer-text">This is a computer-generated invoice and does not require a signature.</div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-divider"></div>
+            <div class="cont-footer-text">Continued on next page...</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

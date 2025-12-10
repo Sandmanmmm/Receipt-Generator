@@ -1,0 +1,233 @@
+# Template Category Mapping
+# Maps each e-commerce template to appropriate product categories for realistic data generation
+# Each template can have primary category (60-70% of items) and secondary categories (mix)
+
+templates:
+  # === FASHION & APPAREL ===
+  shopify_standard:
+    primary: fashion
+    secondary: [accessories, jewelry, beauty]
+    weights: [0.60, 0.20, 0.10, 0.10]
+    
+  shopify_premium_detailed:
+    primary: fashion
+    secondary: [jewelry, accessories, beauty]
+    weights: [0.50, 0.25, 0.15, 0.10]
+    
+  shopify_modern_dark:
+    primary: fashion
+    secondary: [accessories, beauty]
+    weights: [0.65, 0.25, 0.10]
+    
+  shopify_luxe_classic:
+    primary: jewelry
+    secondary: [fashion, accessories, beauty]
+    weights: [0.50, 0.30, 0.15, 0.05]
+    
+  shopify_modern_clean:
+    primary: fashion
+    secondary: [accessories, beauty]
+    weights: [0.60, 0.25, 0.15]
+    
+  boutique_luxe_invoice:
+    primary: fashion
+    secondary: [jewelry, accessories, beauty]
+    weights: [0.55, 0.25, 0.15, 0.05]
+    
+  etsy_invoice:
+    primary: marketplace_handmade
+    secondary: [marketplace_vintage, jewelry, home_garden]
+    weights: [0.50, 0.25, 0.15, 0.10]
+    
+  # === MARKETPLACE - GENERAL ===
+  amazon_style_order:
+    primary: electronics
+    secondary: [home_garden, toys_games, books_media, beauty]
+    weights: [0.35, 0.25, 0.15, 0.15, 0.10]
+    
+  amazon_invoice:
+    primary: electronics
+    secondary: [home_garden, toys_games, beauty, books_media]
+    weights: [0.35, 0.25, 0.15, 0.15, 0.10]
+    
+  amazon_business_invoice:
+    primary: electronics
+    secondary: [home_garden, toys_games, pet_supplies]
+    weights: [0.40, 0.30, 0.20, 0.10]
+    
+  amazon_seller_invoice:
+    primary: electronics
+    secondary: [home_garden, toys_games, sports_fitness]
+    weights: [0.40, 0.25, 0.20, 0.15]
+    
+  ebay_invoice:
+    primary: electronics
+    secondary: [toys_games, sports_fitness, home_garden, books_media]
+    weights: [0.35, 0.25, 0.15, 0.15, 0.10]
+    
+  marketplace_transactional:
+    primary: electronics
+    secondary: [home_garden, fashion, beauty]
+    weights: [0.40, 0.30, 0.20, 0.10]
+    
+  # === WAREHOUSE CLUBS ===
+  costco_invoice:
+    primary: food_beverage
+    secondary: [electronics, home_garden, health_wellness, pet_supplies]
+    weights: [0.40, 0.25, 0.15, 0.10, 0.10]
+    
+  walmart_invoice:
+    primary: food_beverage
+    secondary: [electronics, home_garden, toys_games, health_wellness]
+    weights: [0.35, 0.25, 0.15, 0.15, 0.10]
+    
+  # === WHOLESALE B2B ===
+  alibaba_invoice:
+    primary: wholesale_electronics
+    secondary: [wholesale_fashion, wholesale_general]
+    weights: [0.50, 0.30, 0.20]
+    
+  faire_invoice:
+    primary: marketplace_handmade
+    secondary: [home_garden, beauty, jewelry]
+    weights: [0.45, 0.25, 0.20, 0.10]
+    
+  wholesale_compact_order:
+    primary: wholesale_food
+    secondary: [wholesale_general]
+    weights: [0.70, 0.30]
+    
+  modern_wholesale_pro:
+    primary: wholesale_electronics
+    secondary: [wholesale_fashion, wholesale_general]
+    weights: [0.50, 0.30, 0.20]
+    
+  enterprise_wholesale_bold:
+    primary: wholesale_electronics
+    secondary: [wholesale_general]
+    weights: [0.60, 0.40]
+    
+  modern_b2b_clean:
+    primary: wholesale_electronics
+    secondary: [wholesale_general]
+    weights: [0.65, 0.35]
+    
+  marketplace_wholesale:
+    primary: wholesale_general
+    secondary: [wholesale_food, wholesale_electronics]
+    weights: [0.50, 0.30, 0.20]
+    
+  nordic_minimalist_wholesale:
+    primary: wholesale_fashion
+    secondary: [wholesale_general]
+    weights: [0.70, 0.30]
+    
+  premium_boutique_wholesale:
+    primary: wholesale_fashion
+    secondary: [beauty, jewelry]
+    weights: [0.60, 0.25, 0.15]
+    
+  # === PAYMENTS & DIGITAL ===
+  stripe_minimal_invoice:
+    primary: electronics
+    secondary: [fashion, beauty, home_garden]
+    weights: [0.35, 0.25, 0.20, 0.20]
+    
+  digital_payment_wholesale:
+    primary: wholesale_electronics
+    secondary: [wholesale_general]
+    weights: [0.60, 0.40]
+    
+  digital_payment_pro:
+    primary: electronics
+    secondary: [home_garden, fashion]
+    weights: [0.50, 0.30, 0.20]
+    
+  payment_processor_invoice:
+    primary: electronics
+    secondary: [fashion, beauty, home_garden]
+    weights: [0.35, 0.25, 0.20, 0.20]
+    
+  # === ACCOUNTING & ENTERPRISE ===
+  accounting_pro_wholesale:
+    primary: wholesale_general
+    secondary: [wholesale_electronics, wholesale_food]
+    weights: [0.50, 0.30, 0.20]
+    
+  modern_cloud_wholesale:
+    primary: wholesale_electronics
+    secondary: [wholesale_general]
+    weights: [0.60, 0.40]
+    
+  enterprise_accounting_invoice:
+    primary: wholesale_general
+    secondary: [wholesale_electronics, wholesale_food]
+    weights: [0.45, 0.35, 0.20]
+    
+  cloud_accounting_invoice:
+    primary: wholesale_general
+    secondary: [wholesale_electronics]
+    weights: [0.60, 0.40]
+    
+  saas_billing_invoice:
+    primary: electronics
+    secondary: [home_garden, beauty]
+    weights: [0.70, 0.20, 0.10]
+    
+  # === LOGISTICS & FULFILLMENT ===
+  logistics_pro_invoice:
+    primary: wholesale_general
+    secondary: [wholesale_electronics, wholesale_food]
+    weights: [0.50, 0.30, 0.20]
+    
+  # === PREMIUM DESIGNS ===
+  tech_modern_gradient:
+    primary: electronics
+    secondary: [home_garden, sports_fitness]
+    weights: [0.60, 0.25, 0.15]
+    
+  tech_gradient_template:
+    primary: electronics
+    secondary: [home_garden, sports_fitness]
+    weights: [0.60, 0.25, 0.15]
+    
+  aurora_glass_invoice:
+    primary: fashion
+    secondary: [beauty, jewelry, accessories]
+    weights: [0.50, 0.25, 0.15, 0.10]
+    
+  nordic_statement_invoice:
+    primary: fashion
+    secondary: [home_garden, beauty]
+    weights: [0.55, 0.25, 0.20]
+    
+  modern_receipt_card:
+    primary: fashion
+    secondary: [accessories, beauty]
+    weights: [0.60, 0.25, 0.15]
+    
+  premium_minimalist_invoice:
+    primary: fashion
+    secondary: [jewelry, accessories, beauty]
+    weights: [0.50, 0.25, 0.15, 0.10]
+
+# Category descriptions for reference
+category_info:
+  fashion: "Clothing, shoes, apparel"
+  accessories: "Bags, wallets, belts, hats"
+  jewelry: "Necklaces, rings, bracelets, watches"
+  beauty: "Cosmetics, skincare, haircare"
+  home_garden: "Furniture, decor, gardening, kitchen"
+  sports_fitness: "Exercise equipment, athletic wear, outdoor gear"
+  pet_supplies: "Pet food, toys, accessories"
+  books_media: "Books, magazines, DVDs, music"
+  toys_games: "Children's toys, board games, puzzles"
+  food_beverage: "Groceries, snacks, beverages"
+  health_wellness: "Vitamins, supplements, health products"
+  electronics: "Tech gadgets, computers, phones, accessories"
+  wholesale_general: "Mixed wholesale products"
+  wholesale_food: "Bulk food and beverages"
+  wholesale_electronics: "Bulk electronics"
+  wholesale_fashion: "Bulk clothing and apparel"
+  marketplace_handmade: "Handcrafted artisan products"
+  marketplace_vintage: "Vintage and antique items"

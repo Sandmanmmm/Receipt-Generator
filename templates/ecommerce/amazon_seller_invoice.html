@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Invoice</title>
+    <link rel="stylesheet" href="../css/amazon_seller_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page %}
+        <!-- First Page Header -->
+        <div class="page-header">
+            <table class="header-table">
+                <tr>
+                    <td class="header-logo">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="seller-logo" />
+                        {% else %}
+                        <div class="logo-box">
+                            <span class="logo-letter">{{ supplier_name[:1]|upper }}</span>
+                        </div>
+                        {% endif %}
+                    </td>
+                    <td class="header-center">
+                        <div class="marketplace-badge">Anazon Marketplace</div>
+                        <div class="invoice-heading">SELLER INVOICE</div>
+                    </td>
+                    <td class="header-info">
+                        <table class="info-table">
+                            <tr>
+                                <td class="info-key">Invoice #</td>
+                                <td class="info-val">{{ invoice_number }}</td>
+                            </tr>
+                            <tr>
+                                <td class="info-key">Date</td>
+                                <td class="info-val">{{ invoice_date }}</td>
+                            </tr>
+                            <tr>
+                                <td class="info-key">Order ID</td>
+                                <td class="info-val">{{ invoice_number }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Seller & Customer Info Section -->
+        <div class="info-section">
+            <table class="info-layout">
+                <tr>
+                    <td class="info-card seller-card">
+                        <div class="card-badge seller-badge">Sold By</div>
+                        <div class="card-body">
+                            <div class="entity-name">{{ supplier_name }}</div>
+                            {% if supplier_address %}
+                            <div class="entity-address">{{ supplier_address }}</div>
+                            {% endif %}
+                            <table class="contact-table">
+                                {% if supplier_email %}
+                                <tr>
+                                    <td class="contact-icon"></td>
+                                    <td class="contact-text">{{ supplier_email }}</td>
+                                </tr>
+                                {% endif %}
+                                {% if supplier_phone %}
+                                <tr>
+                                    <td class="contact-icon"></td>
+                                    <td class="contact-text">{{ supplier_phone }}</td>
+                                </tr>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </td>
+                    <td class="info-card customer-card">
+                        <div class="card-badge customer-badge">Customer</div>
+                        <div class="card-body">
+                            <div class="entity-name">{{ buyer_name }}</div>
+                            {% if buyer_address %}
+                            <div class="entity-address">{{ buyer_address }}</div>
+                            {% endif %}
+                            <table class="contact-table">
+                                {% if buyer_email %}
+                                <tr>
+                                    <td class="contact-icon"></td>
+                                    <td class="contact-text">{{ buyer_email }}</td>
+                                </tr>
+                                {% endif %}
+                                {% if buyer_phone %}
+                                <tr>
+                                    <td class="contact-icon"></td>
+                                    <td class="contact-text">{{ buyer_phone }}</td>
+                                </tr>
+                                {% endif %}
+                            </table>
+                        </div>
+                    </td>
+                    <td class="info-card shipping-card">
+                        <div class="card-badge shipping-badge">Ship To</div>
+                        <div class="card-body">
+                            <div class="entity-name">{{ buyer_name }}</div>
+                            {% if buyer_address %}
+                            <div class="entity-address">{{ buyer_address }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Order Details Bar -->
+        <div class="details-bar">
+            <table class="details-layout">
+                <tr>
+                    <td class="detail-item">
+                        <span class="detail-key">Payment:</span>
+                        <span class="detail-val">{{ payment_method or 'Credit Card' }}</span>
+                    </td>
+                    <td class="detail-item">
+                        <span class="detail-key">Shipping:</span>
+                        <span class="detail-val">Standard</span>
+                    </td>
+                    <td class="detail-item">
+                        <span class="detail-key">Terms:</span>
+                        <span class="detail-val">{{ payment_terms or 'Net 30' }}</span>
+                    </td>
+                    {% if po_number %}
+                    <td class="detail-item">
+                        <span class="detail-key">PO#:</span>
+                        <span class="detail-val">{{ po_number }}</span>
+                    </td>
+                    {% endif %}
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="cont-header">
+            <table class="cont-table">
+                <tr>
+                    <td class="cont-logo">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="cont-logo-img" />
+                        {% endif %}
+                        <span class="cont-seller">{{ supplier_name }}</span>
+                    </td>
+                    <td class="cont-invoice">
+                        <span class="cont-label">Invoice:</span> {{ invoice_number }}
+                    </td>
+                    <td class="cont-pages">
+                        Page {{ _current_page }} of {{ _total_pages }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Items Section -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-num">#</th>
+                        <th class="col-product">Product Details</th>
+                        <th class="col-asin">ASIN/SKU</th>
+                        <th class="col-condition">Condition</th>
+                        <th class="col-qty">Qty</th>
+                        <th class="col-price">Price</th>
+                        <th class="col-disc">Discount</th>
+                        <th class="col-total">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row">
+                        <td class="td-num">{{ loop.index }}</td>
+                        <td class="td-product">
+                            <div class="product-name">{{ item.description }}</div>
+                            {% if item.variant %}
+                            <div class="product-variant">{{ item.variant }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="td-asin">{{ item.upc or item.sku or '—' }}</td>
+                        <td class="td-condition">
+                            <span class="condition-badge">New</span>
+                        </td>
+                        <td class="td-qty">{{ item.quantity }}</td>
+                        <td class="td-price">${{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                        <td class="td-disc">
+                            {% if (item.discount|to_float or 0) > 0 %}
+                            <span class="discount-amt">-${{ "%.2f"|format(item.discount|to_float) }}</span>
+                            {% else %}
+                            —
+                            {% endif %}
+                        </td>
+                        <td class="td-total">${{ "%.2f"|format(item.total|to_float) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page %}
+        <!-- Summary Section -->
+        <div class="summary-section">
+            <table class="summary-layout">
+                <tr>
+                    <td class="summary-notes">
+                        {% if notes %}
+                        <div class="notes-container">
+                            <div class="notes-header">Order Notes</div>
+                            <div class="notes-text">{{ notes }}</div>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="seller-info">
+                            <div class="seller-header">Seller Information</div>
+                            <div class="seller-text">
+                                This invoice is issued by <strong>{{ supplier_name }}</strong>, 
+                                an independent seller on Anazon Marketplace. For questions about 
+                                this order, please contact the seller directly.
+                            </div>
+                        </div>
+                    </td>
+                    <td class="summary-totals">
+                        <table class="totals-calc">
+                            <tr class="calc-row">
+                                <td class="calc-label">Items Subtotal:</td>
+                                <td class="calc-amount">${{ "%.2f"|format((subtotal_amount|default(subtotal)|default(0))|to_float) }}</td>
+                            </tr>
+                            {% if ((discount_amount|default(discount)|default(0))|to_float) > 0 %}
+                            <tr class="calc-row discount-row">
+                                <td class="calc-label">Promotion Applied:</td>
+                                <td class="calc-amount">-${{ "%.2f"|format((discount_amount|default(discount)|default(0))|to_float) }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if ((shipping_amount|default(shipping_cost)|default(shipping)|default(0))|to_float) > 0 %}
+                            <tr class="calc-row">
+                                <td class="calc-label">Shipping & Handling:</td>
+                                <td class="calc-amount">${{ "%.2f"|format((shipping_amount|default(shipping_cost)|default(shipping)|default(0))|to_float) }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="calc-row subtotal-row">
+                                <td class="calc-label">Total Before Tax:</td>
+                                <td class="calc-amount">${{ "%.2f"|format(((subtotal_amount|default(subtotal)|default(0))|to_float) - ((discount_amount|default(discount)|default(0))|to_float) + ((shipping_amount|default(shipping_cost)|default(shipping)|default(0))|to_float)) }}</td>
+                            </tr>
+                            {% if ((tax_amount|default(tax)|default(0))|to_float) > 0 %}
+                            <tr class="calc-row">
+                                <td class="calc-label">Estimated Tax{% if tax_rate %} ({{ "%.1f"|format(tax_rate|to_float) }}%){% endif %}:</td>
+                                <td class="calc-amount">${{ "%.2f"|format((tax_amount|default(tax)|default(0))|to_float) }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="calc-row grand-total">
+                                <td class="calc-label">Order Total:</td>
+                                <td class="calc-amount">${{ "%.2f"|format((total_amount|default(total)|default(0))|to_float) }}</td>
+                            </tr>
+                        </table>
+                        
+                        <div class="payment-summary">
+                            <div class="payment-row">
+                                <span class="payment-label">Payment Method:</span>
+                                <span class="payment-value">{{ payment_method or 'Credit Card' }}</span>
+                            </div>
+                            <div class="payment-row grand-row">
+                                <span class="payment-label">Grand Total:</span>
+                                <span class="payment-value">${{ "%.2f"|format((total_amount|default(total)|default(0))|to_float) }}</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="page-footer">
+            <div class="footer-stripe"></div>
+            <table class="footer-layout">
+                <tr>
+                    <td class="footer-message">
+                        <div class="footer-thanks">Thank you for shopping with us!</div>
+                        <div class="footer-support">Questions? Contact {{ supplier_name }} at {{ supplier_email or supplier_phone or 'seller support' }}</div>
+                    </td>
+                    <td class="footer-legal">
+                        <div class="footer-disclaimer">This invoice is computer-generated and valid without signature.</div>
+                        <div class="footer-terms">Subject to Anazon Marketplace terms and seller policies.</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="cont-footer">
+            <div class="cont-divider"></div>
+            <div class="cont-message">Continued on next page ({{ _current_page + 1 }} of {{ _total_pages }})...</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

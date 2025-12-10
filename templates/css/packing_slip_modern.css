@@ -1,0 +1,545 @@
+/* MODERN PACKING SLIP STYLESHEET */
+/* Contemporary design with color accents and improved visual hierarchy */
+
+/* CRITICAL: Container constraint to prevent width corruption */
+.invoice-page {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+/* BASE STYLES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #ffffff;
+}
+
+/* LAYOUT TABLES */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+td {
+    word-wrap: break-word;
+    max-width: 0;
+}
+
+/* HEADER SECTION */
+.header-section {
+    margin-bottom: 20px;
+    border-bottom: 3px solid #2563eb;
+    padding-bottom: 15px;
+}
+
+.header-table {
+    table-layout: fixed;
+}
+
+.header-table td {
+    vertical-align: middle;
+    padding: 10px 5px;
+}
+
+.logo-section {
+    width: 25%;
+    text-align: left;
+}
+
+.company-logo {
+    max-width: 120px;
+    max-height: 50px;
+}
+
+.logo-placeholder {
+    width: 50px;
+    height: 50px;
+    background: #2563eb;  /* was: linear-gradient(135deg, #2563eb, #1d4ed8...) */
+    color: #ffffff;
+    font-size: 24pt;
+    font-weight: bold;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 8px;
+}
+
+.title-section {
+    width: 50%;
+    text-align: center;
+}
+
+.title-section h1 {
+    font-size: 22pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.order-number {
+    font-size: 12pt;
+    font-weight: 600;
+    color: #2563eb;
+}
+
+.barcode-section {
+    width: 25%;
+    text-align: right;
+}
+
+.tracking-barcode {
+    font-family: 'Courier New', monospace;
+    font-size: 16pt;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.tracking-number {
+    font-size: 8pt;
+    font-family: 'Courier New', monospace;
+    color: #666666;
+}
+
+/* INFO BAR */
+.info-bar {
+    margin-bottom: 20px;
+    background: #f3f4f6;  /* was: linear-gradient(135deg, #f3f4f6, #e5e7eb...) */
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.info-bar-table {
+    table-layout: fixed;
+}
+
+.info-bar-table td {
+    padding: 0 10px;
+}
+
+.info-item {
+    text-align: center;
+}
+
+.info-label {
+    display: block;
+    font-size: 8pt;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+}
+
+.info-value {
+    display: block;
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+/* ADDRESSES */
+.addresses-table {
+    margin-bottom: 20px;
+    border: none;
+}
+
+.addresses-table td {
+    width: 50%;
+    padding: 15px;
+    vertical-align: top;
+}
+
+.address-column {
+    border-radius: 8px;
+}
+
+.ship-to {
+    background: #dbeafe;
+    border: 2px solid #2563eb;
+}
+
+.ship-from {
+    background: #f3f4f6;
+    border: 2px solid #9ca3af;
+}
+
+.address-header {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #cbd5e1;
+}
+
+.ship-to .address-header {
+    color: #1d4ed8;
+    border-bottom-color: #2563eb;
+}
+
+.recipient-name,
+.warehouse-name {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.address-line {
+    font-size: 10pt;
+    color: #374151;
+    margin-bottom: 3px;
+}
+
+.contact-line {
+    font-size: 9pt;
+    color: #6b7280;
+    margin-top: 6px;
+}
+
+/* CONTINUATION HEADER */
+.continuation-header {
+    display: table;
+    width: 100%;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #2563eb;
+    padding-bottom: 8px;
+    font-size: 10pt;
+    font-weight: 600;
+}
+
+.cont-left {
+    display: table-cell;
+    width: 35%;
+    text-align: left;
+    color: #374151;
+}
+
+.cont-center {
+    display: table-cell;
+    width: 30%;
+    text-align: center;
+    color: #2563eb;
+    font-weight: 700;
+}
+
+.cont-right {
+    display: table-cell;
+    width: 35%;
+    text-align: right;
+    color: #6b7280;
+}
+
+/* ITEMS TABLE */
+.items-table {
+    margin-bottom: 20px;
+    border: 2px solid #2563eb;
+    border-radius: 8px;
+    overflow: hidden;
+    table-layout: fixed;
+}
+
+.items-table thead {
+    background: #2563eb;  /* was: linear-gradient(135deg, #2563eb, #1d4ed8...) */
+    color: #ffffff;
+}
+
+.items-table th {
+    padding: 12px 8px;
+    font-size: 9pt;
+    font-weight: 700;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Column widths */
+.col-item {
+    width: 6%;
+    text-align: center;
+}
+
+.col-sku {
+    width: 15%;
+}
+
+.col-description {
+    width: 45%;
+}
+
+.col-qty {
+    width: 10%;
+    text-align: center;
+}
+
+.col-bin {
+    width: 12%;
+    text-align: center;
+}
+
+.col-status {
+    width: 12%;
+    text-align: center;
+}
+
+/* Adjust description width when no BIN column */
+.items-table thead tr th:nth-child(3):nth-last-child(3) {
+    width: 57%;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    background: #ffffff;
+}
+
+.items-table tbody tr:nth-child(even) {
+    background: #f9fafb;
+}
+
+.items-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.items-table td {
+    padding: 12px 8px;
+    font-size: 10pt;
+    vertical-align: middle;
+}
+
+.item-number {
+    text-align: center;
+    font-weight: 700;
+    color: #6b7280;
+    font-size: 11pt;
+}
+
+.sku-code {
+    font-family: 'Courier New', monospace;
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.upc-code {
+    font-family: 'Courier New', monospace;
+    font-size: 8pt;
+    color: #9ca3af;
+    margin-top: 2px;
+}
+
+.item-name {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 3px;
+}
+
+.item-variant {
+    font-size: 9pt;
+    color: #2563eb;
+    margin-bottom: 3px;
+}
+
+.item-notes {
+    font-size: 8pt;
+    color: #dc2626;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.qty-badge {
+    display: inline-block;
+    background: #2563eb;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 12pt;
+    padding: 6px 14px;
+    border-radius: 6px;
+    text-align: center;
+    min-width: 40px;
+}
+
+.bin-cell {
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: #6b7280;
+    font-size: 10pt;
+}
+
+.status-checkbox {
+    font-size: 20pt;
+    color: #9ca3af;
+}
+
+/* SUMMARY SECTION */
+.summary-section {
+    margin-bottom: 20px;
+    background: #f3f4f6;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.summary-table {
+    table-layout: fixed;
+}
+
+.summary-table td {
+    padding: 5px 10px;
+}
+
+.summary-label {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #6b7280;
+    text-align: right;
+}
+
+.summary-value {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: left;
+}
+
+/* SPECIAL NOTES */
+.special-note {
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #2563eb;
+    display: table;
+    width: 100%;
+}
+
+.gift-note {
+    background: #fef3c7;
+    border-left-color: #f59e0b;
+}
+
+.order-note {
+    background: #dbeafe;
+    border-left-color: #2563eb;
+}
+
+.note-icon {
+    display: table-cell;
+    width: 40px;
+    font-size: 20pt;
+    vertical-align: top;
+    padding-right: 10px;
+}
+
+.note-content {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.note-title {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #374151;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+}
+
+.note-text {
+    font-size: 10pt;
+    color: #1a1a1a;
+    line-height: 1.6;
+}
+
+/* RETURN SECTION */
+.return-section {
+    margin-bottom: 20px;
+    border: 2px solid #9ca3af;
+    border-radius: 8px;
+    padding: 15px;
+    background: #f9fafb;
+}
+
+.return-header {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.return-icon {
+    font-size: 14pt;
+    margin-right: 8px;
+}
+
+.return-content p {
+    font-size: 9pt;
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.return-contact {
+    font-size: 9pt;
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+/* FOOTER */
+.footer-section {
+    margin-top: 20px;
+}
+
+.footer-line {
+    height: 2px;
+    background: #2563eb;  /* was: linear-gradient(90deg, #2563eb, #93c5fd, #2563eb...) */
+    margin-bottom: 10px;
+}
+
+.footer-text {
+    text-align: center;
+    padding: 10px;
+}
+
+.footer-main {
+    display: block;
+    font-size: 12pt;
+    font-weight: 700;
+    color: #2563eb;
+    margin-bottom: 5px;
+}
+
+.footer-disclaimer {
+    display: block;
+    font-size: 8pt;
+    color: #9ca3af;
+    font-style: italic;
+}
+
+/* PRINT OPTIMIZATION */
+@media print {
+    body {
+        margin: 0;
+        padding: 10mm;
+    }
+    
+    .invoice-page {
+        page-break-after: always;
+    }
+    
+    .invoice-page:last-child {
+        page-break-after: auto;
+    }
+}

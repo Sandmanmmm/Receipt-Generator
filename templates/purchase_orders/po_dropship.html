@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropship Purchase Order - {{ po_number }}</title>
+    <link rel="stylesheet" href="../css/purchase_order_base.css">
+    <link rel="stylesheet" href="../css/po_dropship.css">
+</head>
+<body>
+    <div class="page-container">
+        {% if _is_first_page|default(true) %}
+        <!-- Full Header Section - First Page Only -->
+        <table class="po-header">
+            <tr>
+                <td class="header-logo">
+                    {% if buyer_logo %}
+                    <img src="{{ buyer_logo }}" alt="{{ buyer_company }}" class="company-logo">
+                    {% endif %}
+                </td>
+                <td class="header-info">
+                    <h1 class="po-title">DROPSHIP PURCHASE ORDER</h1>
+                    <div class="po-number">{{ po_number }}</div>
+                    <div class="po-date">Date: {{ po_date }}</div>
+                    <div class="po-status status-{{ status|lower }}">{{ status }}</div>
+                    <div class="blind-ship-badge">BLIND SHIPMENT</div>
+                </td>
+            </tr>
+        </table>
+        {% else %}
+        <!-- Compact Header - Continuation Pages -->
+        <div style="border-bottom: 2px solid #4a90e2; padding: 15px 0; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <strong style="font-size: 16px;">{{ buyer_company }}</strong> | 
+                    <span style="color: #666;">PO #{{ po_number }}</span> | 
+                    <span style="background: #dc3545; color: white; padding: 2px 8px; border-radius: 3px; font-size: 11px;">BLIND SHIPMENT</span>
+                </div>
+                <div style="color: #666;">Page {{ _page_number }} of {{ _total_pages }}</div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- IMPORTANT NOTICE -->
+        <div class="blind-ship-notice">
+            <div class="notice-icon">[!]</div>
+            <div class="notice-content">
+                <strong>BLIND SHIPMENT - CRITICAL INSTRUCTIONS:</strong>
+                <ul class="notice-list">
+                    <li>DO NOT include any supplier branding, logos, or company information</li>
+                    <li>DO NOT include pricing, invoices, or cost information in package</li>
+                    <li>Use ONLY the buyer's branding and return address as specified below</li>
+                    <li>Include packing slip with buyer's SKU numbers (see SKU mapping table)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Address Section (3 columns: Fulfillment Center, Ship To Customer, Bill To Buyer) -->
+        <table class="address-section">
+            <tr>
+                <td class="address-block">
+                    <div class="address-label">FULFILLMENT CENTER</div>
+                    <div class="address-content">
+                        <strong>{{ supplier_name }}</strong><br>
+                        {{ supplier_address }}<br>
+                        {{ supplier_city }}, {{ supplier_state }} {{ supplier_zip }}<br>
+                        {% if supplier_phone %}Phone: {{ supplier_phone }}<br>{% endif %}
+                        {% if supplier_email %}Email: {{ supplier_email }}{% endif %}
+                    </div>
+                </td>
+                <td class="address-block ship-to-highlight">
+                    <div class="address-label">SHIP TO (END CUSTOMER)</div>
+                    <div class="address-content">
+                        <strong>{{ ship_to_name }}</strong><br>
+                        {{ ship_to_address }}<br>
+                        {{ ship_to_city }}, {{ ship_to_state }} {{ ship_to_zip }}<br>
+                        {% if ship_to_phone %}Phone: {{ ship_to_phone }}{% endif %}
+                        <div class="ship-to-note">[!] Ship directly to customer</div>
+                    </div>
+                </td>
+                <td class="address-block">
+                    <div class="address-label">BILL TO (BUYER)</div>
+                    <div class="address-content">
+                        <strong>{{ buyer_company }}</strong><br>
+                        {{ buyer_address }}<br>
+                        {{ buyer_city }}, {{ buyer_state }} {{ buyer_zip }}<br>
+                        {% if buyer_phone %}Phone: {{ buyer_phone }}<br>{% endif %}
+                        {% if buyer_email %}Email: {{ buyer_email }}{% endif %}
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Branding Instructions -->
+        <div class="branding-section">
+            <div class="branding-title"> PACKAGE BRANDING REQUIREMENTS</div>
+            <table class="branding-table">
+                <tr>
+                    <td class="branding-label">Return Address:</td>
+                    <td class="branding-value">
+                        {{ buyer_company }}<br>
+                        {{ buyer_address }}, {{ buyer_city }}, {{ buyer_state }} {{ buyer_zip }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="branding-label">Packing Slip Header:</td>
+                    <td class="branding-value">{{ buyer_company }} - Order Confirmation</td>
+                </tr>
+                <tr>
+                    <td class="branding-label">Custom Packaging:</td>
+                    <td class="branding-value">{{ custom_packaging|default('Plain packaging - no logos', true) }}</td>
+                </tr>
+                <tr>
+                    <td class="branding-label">Inserts/Marketing:</td>
+                    <td class="branding-value">{{ marketing_inserts|default('None - exclude all supplier materials', true) }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Terms Section -->
+        <table class="terms-section">
+            <tr>
+                <td class="term-cell">
+                    <div class="term-label">Payment Terms</div>
+                    <div class="term-value">{{ payment_terms }}</div>
+                </td>
+                <td class="term-cell">
+                    <div class="term-label">Shipping Method</div>
+                    <div class="term-value">{{ shipping_method }}</div>
+                </td>
+                <td class="term-cell">
+                    <div class="term-label">Ship By Date</div>
+                    <div class="term-value">{{ requested_delivery_date }}</div>
+                </td>
+                <td class="term-cell">
+                    <div class="term-label">Tracking Required</div>
+                    <div class="term-value">{{ tracking_required|default('YES', true) }}</div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- SKU MAPPING TABLE (Critical for Dropship) -->
+        <div class="sku-mapping-header">
+            <strong>SKU MAPPING REFERENCE</strong> - Use Buyer SKU on packing slip
+        </div>
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-line">Line</th>
+                    <th class="col-supplier-sku">Supplier SKU<br><span class="sku-note">(Internal Only)</span></th>
+                    <th class="col-buyer-sku">Buyer SKU<br><span class="sku-note">(Use on Packing Slip)</span></th>
+                    <th class="col-description">Product Description</th>
+                    <th class="col-qty">Qty</th>
+                    <th class="col-uom">UOM</th>
+                    <th class="col-unit-price">Unit Cost</th>
+                    <th class="col-total">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items|default(line_items, true) %}
+                <tr class="item-row {% if loop.index % 2 == 0 %}row-even{% else %}row-odd{% endif %}">
+                    <td class="col-line">{{ item.line_number }}</td>
+                    <td class="col-supplier-sku supplier-sku-cell">{{ item.supplier_sku }}</td>
+                    <td class="col-buyer-sku buyer-sku-cell">
+                        {% if item.buyer_sku %}
+                        <strong>{{ item.buyer_sku }}</strong>
+                        {% else %}
+                        <span class="missing-sku">[!] REQUIRED</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-description">
+                        <strong>{{ item.product_name }}</strong>
+                        {% if item.brand %}
+                        <div class="item-brand">Brand: {{ item.brand }}</div>
+                        {% endif %}
+                        {% if item.product_category %}
+                        <div class="item-category">{{ item.product_category }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="col-qty">{{ item.quantity_ordered|default(item.quantity) }}</td>
+                    <td class="col-uom">{{ item.unit_of_measure|default('Each') }}</td>
+                    <td class="col-unit-price">${{ "%.2f"|format(item.unit_cost|default(item.unit_price)|to_float) }}</td>
+                    <td class="col-total">${{ "%.2f"|format((item.line_total|default(item.amount)|default((item.quantity_ordered|default(item.quantity)) * (item.unit_cost|default(item.unit_price)|to_float)))|to_float) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Totals Section - Last Page Only -->
+        <table class="totals-section">
+            <tr>
+                <td class="totals-label">Subtotal:</td>
+                <td class="totals-value">${{ "%.2f"|format(subtotal|to_float) }}</td>
+            </tr>
+            {% if shipping_cost and shipping_cost > 0 %}
+            <tr>
+                <td class="totals-label">Shipping & Handling:</td>
+                <td class="totals-value">${{ "%.2f"|format(shipping_cost) }}</td>
+            </tr>
+            {% endif %}
+            {% if tax and (tax|to_float) > 0 %}
+            <tr>
+                <td class="totals-label">Tax ({{ tax_rate }}):</td>
+                <td class="totals-value">${{ "%.2f"|format(tax_amount|default(tax)|to_float) }}</td>
+            </tr>
+            {% endif %}
+            <tr class="totals-final">
+                <td class="totals-label">Total:</td>
+                <td class="totals-value">${{ "%.2f"|format(total_amount|to_float) }}</td>
+            </tr>
+        </table>
+
+        <!-- Dropship-Specific Instructions -->
+        <div class="dropship-instructions">
+            <div class="instructions-title"> DROPSHIP FULFILLMENT CHECKLIST</div>
+            <div class="instructions-grid">
+                <div class="instruction-item">
+                    <div class="instruction-check">✓</div>
+                    <div class="instruction-text">Remove all supplier branding from package</div>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-check">✓</div>
+                    <div class="instruction-text">Use buyer's return address on label</div>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-check">✓</div>
+                    <div class="instruction-text">Include packing slip with BUYER SKU only</div>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-check">✓</div>
+                    <div class="instruction-text">Do NOT include pricing or invoices</div>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-check">✓</div>
+                    <div class="instruction-text">Provide tracking number to buyer</div>
+                </div>
+                <div class="instruction-item">
+                    <div class="instruction-check">✓</div>
+                    <div class="instruction-text">Ship within {{ ship_within_days|default('24-48', true) }} hours</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Special Packing Instructions -->
+        {% if special_instructions or packing_instructions %}
+        <div class="notes-section">
+            <div class="notes-title">Special Packing Instructions</div>
+            <div class="notes-content">
+                {% if packing_instructions %}
+                {{ packing_instructions }}
+                {% endif %}
+                {% if special_instructions %}
+                <br><strong>Additional Notes:</strong> {{ special_instructions }}
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Confirmation Section -->
+        <table class="signatures-section">
+            <tr>
+                <td class="signature-block">
+                    <div class="signature-label">Buyer Authorization</div>
+                    <div class="signature-line"></div>
+                    <div class="signature-info">
+                        <div class="signature-name">{{ buyer_contact_name }}</div>
+                        <div class="signature-title">{{ buyer_contact_title|default('Operations Manager', true) }}</div>
+                        <div class="signature-date">Date: _________________</div>
+                    </div>
+                </td>
+                <td class="signature-block">
+                    <div class="signature-label">Fulfillment Center Acknowledgment</div>
+                    <div class="signature-line"></div>
+                    <div class="signature-info">
+                        <div class="signature-name">_______________________________</div>
+                        <div class="signature-title">Warehouse Manager</div>
+                        <div class="signature-date">Date: _________________</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Footer -->
+        <div class="po-footer">
+            <div class="footer-text">
+                {{ buyer_company }} | {{ buyer_address }}, {{ buyer_city }}, {{ buyer_state }} {{ buyer_zip }}
+                {% if buyer_phone %} | Phone: {{ buyer_phone }}{% endif %}
+                {% if buyer_email %} | Email: {{ buyer_email }}{% endif %}
+            </div>
+            <div class="footer-page">{% if _page_number|default(none) %}Page {{ _page_number }} of {{ _total_pages }}{% endif %}</div>
+        </div>
+        {% else %}
+        <!-- Continuation Notice -->
+        <div style="text-align: right; color: #666; font-style: italic; margin-top: 20px;">
+            Continued on page {{ (_page_number|default(1)) + 1 }}...
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

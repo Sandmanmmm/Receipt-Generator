@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice {{ invoice_number }}{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
+    <link rel="stylesheet" href="../css/stripe_minimal_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Minimal Header -->
+        <table class="header-table">
+            <tr>
+                <td class="brand-cell">
+                    {% if supplier_logo %}
+                    <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="brand-logo" />
+                    <div class="brand-details">
+                        <div class="brand-meta">{{ supplier_email }}</div>
+                    </div>
+                    {% else %}
+                    <div class="brand-mark">
+                        <span class="brand-letter">{{ supplier_name[0]|upper }}</span>
+                    </div>
+                    <div class="brand-details">
+                        <div class="brand-name">{{ supplier_name }}</div>
+                        <div class="brand-meta">{{ supplier_email }}</div>
+                    </div>
+                    {% endif %}
+                </td>
+                <td class="invoice-meta-cell">
+                    <div class="invoice-label">INVOICE</div>
+                    <div class="invoice-id">{{ invoice_number }}</div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Status Bar -->
+        <table class="status-bar">
+            <tr>
+                <td class="status-item">
+                    <span class="status-label">Issue Date</span>
+                    <span class="status-value">{{ invoice_date }}</span>
+                </td>
+                <td class="status-item">
+                    <span class="status-label">Due Date</span>
+                    <span class="status-value">{{ due_date|default(invoice_date) }}</span>
+                </td>
+                <td class="status-item">
+                    <span class="status-label">Status</span>
+                    <span class="status-badge {{ payment_status|default('paid')|lower }}">{{ payment_status|default('Paid') }}</span>
+                </td>
+                <td class="status-item status-amount">
+                    <span class="status-label">Amount Due</span>
+                    <span class="status-total">{{ currency|default('$') }}{{ "%.2f"|format(total_amount|float) }}</span>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Parties Section -->
+        <table class="parties-table">
+            <tr>
+                <td class="party-cell from-cell">
+                    <div class="party-label">From</div>
+                    <div class="party-name">{{ supplier_name }}</div>
+                    <div class="party-detail">{{ supplier_address }}</div>
+                    <div class="party-detail">{{ supplier_phone }}</div>
+                    {% if supplier_tax_id %}
+                    <div class="party-detail tax-id">Tax ID: {{ supplier_tax_id }}</div>
+                    {% endif %}
+                </td>
+                <td class="party-cell to-cell">
+                    <div class="party-label">Bill To</div>
+                    <div class="party-name">{{ buyer_name }}</div>
+                    <div class="party-detail">{{ buyer_address }}</div>
+                    {% if buyer_email %}
+                    <div class="party-detail">{{ buyer_email }}</div>
+                    {% endif %}
+                    {% if buyer_phone %}
+                    <div class="party-detail">{{ buyer_phone }}</div>
+                    {% endif %}
+                </td>
+                {% if shipping_address %}
+                <td class="party-cell ship-cell">
+                    <div class="party-label">Ship To</div>
+                    <div class="party-name">{{ shipping_name|default(buyer_name) }}</div>
+                    <div class="party-detail">{{ shipping_address }}</div>
+                </td>
+                {% endif %}
+            </tr>
+        </table>
+
+        <!-- Order Reference -->
+        {% if order_number or tracking_number or payment_method %}
+        <table class="reference-table">
+            <tr>
+                {% if order_number %}
+                <td class="ref-item">
+                    <span class="ref-label">Order</span>
+                    <span class="ref-value">{{ order_number }}</span>
+                </td>
+                {% endif %}
+                {% if payment_method %}
+                <td class="ref-item">
+                    <span class="ref-label">Payment</span>
+                    <span class="ref-value">{{ payment_method }}{% if card_last_four %} •••• {{ card_last_four }}{% endif %}</span>
+                </td>
+                {% endif %}
+                {% if tracking_number %}
+                <td class="ref-item">
+                    <span class="ref-label">Tracking</span>
+                    <span class="ref-value ref-tracking">{{ tracking_number }}</span>
+                </td>
+                {% endif %}
+            </tr>
+        </table>
+        {% endif %}
+        {% else %}
+        <!-- Continuation Header -->
+        <table class="continuation-header">
+            <tr>
+                <td class="cont-brand">
+                    {% if supplier_logo %}
+                    <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="cont-logo" />
+                    {% else %}
+                    <span class="cont-mark">{{ supplier_name[0]|upper }}</span>
+                    {% endif %}
+                    <span class="cont-name">{{ supplier_name }}</span>
+                </td>
+                <td class="cont-meta">
+                    <span class="cont-invoice">Invoice {{ invoice_number }}</span>
+                    <span class="cont-page">Page {{ _page_number }} of {{ _total_pages }}</span>
+                </td>
+            </tr>
+        </table>
+        {% endif %}
+
+        <!-- Line Items Section -->
+        <div class="items-section">
+            <div class="section-title">Line Items</div>
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-desc">Description</th>
+                        <th class="col-qty">Qty</th>
+                        <th class="col-rate">Unit Price</th>
+                        <th class="col-amount">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row">
+                        <td class="col-desc">
+                            <div class="item-description">{{ item.description }}</div>
+                            {% if item.sku %}
+                            <div class="item-sku">SKU: {{ item.sku }}</div>
+                            {% endif %}
+                            {% if item.variant %}
+                            <div class="item-variant">{{ item.variant }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="col-qty">{{ item.quantity }}</td>
+                        <td class="col-rate">{{ currency|default('$') }}{{ "%.2f"|format(item.unit_price|float) }}</td>
+                        <td class="col-amount">{{ currency|default('$') }}{{ "%.2f"|format(item.total|float) }}</td>
+                    </tr>
+                    {% if (item.discount|to_float or 0) > 0 %}
+                    <tr class="discount-row">
+                        <td class="col-desc" colspan="3">
+                            <span class="discount-label">↳ {{ item.promotion|default('Discount') }}</span>
+                        </td>
+                        <td class="col-amount discount-amount">-{{ currency|default('$') }}{{ "%.2f"|format(item.discount|float) }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Summary Section -->
+        <table class="summary-section">
+            <tr>
+                <td class="summary-notes">
+                    {% if notes %}
+                    <div class="notes-block">
+                        <div class="notes-label">Notes</div>
+                        <div class="notes-text">{{ notes }}</div>
+                    </div>
+                    {% endif %}
+                    {% if terms %}
+                    <div class="terms-block">
+                        <div class="terms-label">Terms</div>
+                        <div class="terms-text">{{ terms }}</div>
+                    </div>
+                    {% endif %}
+                </td>
+                <td class="summary-totals">
+                    <table class="totals-table">
+                        <tr class="total-row">
+                            <td class="total-label">Subtotal</td>
+                            <td class="total-value">{{ currency|default('$') }}{{ "%.2f"|format(subtotal|float) }}</td>
+                        </tr>
+                        {% if (discount|to_float or 0) > 0 %}
+                        <tr class="total-row discount">
+                            <td class="total-label">Discount</td>
+                            <td class="total-value">-{{ currency|default('$') }}{{ "%.2f"|format(discount|float) }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if (shipping_cost or 0) > 0 %}
+                        <tr class="total-row">
+                            <td class="total-label">Shipping</td>
+                            <td class="total-value">{{ currency|default('$') }}{{ "%.2f"|format(shipping_cost|float) }}</td>
+                        </tr>
+                        {% endif %}
+                        <tr class="total-row">
+                            <td class="total-label">Tax ({{ tax_rate|default('0') }}%)</td>
+                            <td class="total-value">{{ currency|default('$') }}{{ "%.2f"|format(tax_amount|default(0)|float) }}</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td class="total-label">Total</td>
+                            <td class="total-value">{{ currency|default('$') }}{{ "%.2f"|format(total_amount|float) }}</td>
+                        </tr>
+                        {% if amount_paid and (amount_paid|float) > 0 %}
+                        <tr class="total-row paid">
+                            <td class="total-label">Amount Paid</td>
+                            <td class="total-value">-{{ currency|default('$') }}{{ "%.2f"|format(amount_paid|float) }}</td>
+                        </tr>
+                        <tr class="total-row balance">
+                            <td class="total-label">Balance Due</td>
+                            <td class="total-value">{{ currency|default('$') }}{{ "%.2f"|format((total_amount|float) - (amount_paid|float)) }}</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Payment Instructions -->
+        {% if payment_instructions or bank_name %}
+        <div class="payment-section">
+            <div class="payment-title">Payment Instructions</div>
+            <table class="payment-table">
+                <tr>
+                    {% if bank_name %}
+                    <td class="payment-item">
+                        <span class="payment-label">Bank</span>
+                        <span class="payment-value">{{ bank_name }}</span>
+                    </td>
+                    {% endif %}
+                    {% if account_number %}
+                    <td class="payment-item">
+                        <span class="payment-label">Account</span>
+                        <span class="payment-value">{{ account_number }}</span>
+                    </td>
+                    {% endif %}
+                    {% if routing_number %}
+                    <td class="payment-item">
+                        <span class="payment-label">Routing</span>
+                        <span class="payment-value">{{ routing_number }}</span>
+                    </td>
+                    {% endif %}
+                </tr>
+            </table>
+            {% if payment_instructions %}
+            <div class="payment-note">{{ payment_instructions }}</div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-thanks">Thank you for your business</div>
+            <div class="footer-contact">{{ supplier_email }} · {{ supplier_phone }}{% if store_website %} · {{ store_website }}{% endif %}</div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <span class="cont-text">Continued on next page</span>
+            <span class="cont-indicator">{{ _page_number }} / {{ _total_pages }}</span>
+        </div>
+        {% endif %}
+
+        <!-- Page Number (always visible) -->
+        {% if _page_number|default(none) %}
+        <div class="page-number">{{ _page_number }} / {{ _total_pages }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>

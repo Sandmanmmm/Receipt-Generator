@@ -1,0 +1,419 @@
+/* WaziExpress Invoice v2 - Clean AliExpress Style */
+
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    line-height: 1.4;
+    color: #333;
+    background: #fff;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 30px 40px;
+    background: #fff;
+    margin: 0 auto;
+}
+
+/* Header Table */
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.header-left {
+    width: 40%;
+    vertical-align: middle;
+}
+
+.header-right {
+    width: 60%;
+    vertical-align: top;
+    text-align: right;
+}
+
+/* Logo */
+.company-logo {
+    height: 40px;
+    width: auto;
+}
+
+.logo-text {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.logo-wazi {
+    color: #333;
+}
+
+.logo-express {
+    color: #e62e00;
+}
+
+.logo-wazi-sm {
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.logo-express-sm {
+    color: #e62e00;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Company Info */
+.company-info {
+    font-size: 11px;
+    color: #333;
+    line-height: 1.5;
+}
+
+/* Invoice Title Section */
+.invoice-title-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    table-layout: fixed;
+}
+
+.title-left {
+    width: 40%;
+    vertical-align: top;
+    padding-right: 20px;
+}
+
+.title-right {
+    width: 60%;
+    vertical-align: top;
+}
+
+.invoice-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.invoice-meta {
+    font-size: 11px;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+/* Customer Box */
+.customer-box {
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    background: #fafafa;
+}
+
+.customer-line {
+    font-size: 11px;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.customer-line:last-child {
+    margin-bottom: 0;
+}
+
+/* Store Bar */
+.store-bar {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    font-size: 11px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    table-layout: fixed;
+}
+
+.items-table thead tr {
+    background: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+}
+
+.items-table th {
+    padding: 10px 8px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.items-table td {
+    padding: 10px 8px;
+    font-size: 11px;
+    color: #333;
+    vertical-align: middle;
+    border-bottom: 1px solid #eee;
+}
+
+/* Column Widths */
+.col-product { width: 50%; }
+.col-price { width: 18%; text-align: center; }
+.col-qty { width: 14%; text-align: center; }
+.col-total { width: 18%; text-align: center; }
+
+.items-table th.col-price,
+.items-table th.col-qty,
+.items-table th.col-total {
+    text-align: center;
+}
+
+.items-table td.item-price,
+.items-table td.item-qty,
+.items-table td.item-total {
+    text-align: center;
+}
+
+/* Item Inner Table */
+.item-inner {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.item-image-cell {
+    width: 55px;
+    vertical-align: top;
+    padding-right: 10px;
+}
+
+.item-text-cell {
+    vertical-align: top;
+}
+
+.item-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border: 1px solid #eee;
+}
+
+.item-image-placeholder {
+    width: 50px;
+    height: 50px;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+}
+
+.item-name {
+    font-size: 11px;
+    color: #333;
+    margin-bottom: 4px;
+    word-wrap: break-word;
+}
+
+.item-attr {
+    font-size: 10px;
+    color: #666;
+    margin-bottom: 2px;
+}
+
+.color-box {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
+    margin-right: 3px;
+    border: 1px solid #ccc;
+}
+
+/* Item Row */
+.item-row {
+    height: 65px;
+}
+
+/* Section Headers */
+.section-header {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 0;
+}
+
+/* Totals Table */
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    table-layout: fixed;
+}
+
+.totals-table th {
+    padding: 8px 10px;
+    font-size: 10px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    background: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+}
+
+.totals-table td {
+    padding: 10px;
+    font-size: 11px;
+    color: #333;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+/* Payment Table */
+.payment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    table-layout: fixed;
+}
+
+.payment-table th {
+    padding: 8px 10px;
+    font-size: 10px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    background: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+}
+
+.payment-table td {
+    padding: 10px;
+    font-size: 11px;
+    color: #333;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+/* Logistics Table */
+.logistics-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.logistics-table th {
+    padding: 8px 10px;
+    font-size: 10px;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+    background: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+}
+
+.logistics-table td {
+    padding: 10px 8px;
+    font-size: 10px;
+    color: #333;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid #eee;
+}
+
+.col-shipping { width: 25%; }
+.col-tracking { width: 25%; }
+.col-remarks { width: 15%; }
+.col-details { width: 35%; }
+
+.details-cell {
+    padding: 8px !important;
+}
+
+.details-box {
+    background: #fff8e6;
+    border: 1px solid #ffe0a0;
+    padding: 8px 10px;
+    font-size: 9px;
+    line-height: 1.4;
+    color: #333;
+}
+
+.link-text {
+    color: #e62e00;
+    text-decoration: underline;
+}
+
+/* Seller Signature */
+.seller-signature {
+    text-align: right;
+    font-size: 12px;
+    color: #333;
+    margin-top: 30px;
+    padding-top: 15px;
+}
+
+.seller-name {
+    font-weight: normal;
+    color: #333;
+}
+
+/* Continuation Header */
+.continuation-header {
+    display: table;
+    width: 100%;
+    padding: 10px 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cont-left {
+    display: table-cell;
+    width: 50%;
+    vertical-align: middle;
+}
+
+.cont-right {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+    vertical-align: middle;
+    font-size: 11px;
+    color: #666;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    text-align: center;
+    font-size: 10px;
+    color: #888;
+    padding: 15px 0;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: #fff;
+    }
+    
+    .invoice-page {
+        width: 100%;
+        padding: 20px;
+        box-shadow: none;
+    }
+}

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WooCommerce Invoice</title>
+    <link rel="stylesheet" href="../css/woocommerce_standard.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page %}
+        <!-- Header Section -->
+        <table class="header-table">
+            <tr>
+                <td class="header-left">
+                    {% if supplier_logo %}
+                    <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="shop-logo" />
+                    {% else %}
+                    <div class="shop-name">{{ supplier_name }}</div>
+                    {% endif %}
+                    <div class="shop-details">
+                        {% if supplier_address %}
+                        <div class="shop-line">{{ supplier_address }}</div>
+                        {% endif %}
+                        {% if supplier_email %}
+                        <div class="shop-line">{{ supplier_email }}</div>
+                        {% endif %}
+                        {% if supplier_phone %}
+                        <div class="shop-line">{{ supplier_phone }}</div>
+                        {% endif %}
+                        {% if supplier_website %}
+                        <div class="shop-line">{{ supplier_website }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="header-right">
+                    <h1 class="invoice-title">INVOICE</h1>
+                    <table class="info-table">
+                        <tr>
+                            <td class="info-label">Invoice Number:</td>
+                            <td class="info-value">{{ invoice_number }}</td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Order Number:</td>
+                            <td class="info-value">{{ order_number }}</td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Invoice Date:</td>
+                            <td class="info-value">{{ invoice_date }}</td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Order Date:</td>
+                            <td class="info-value">{{ order_date }}</td>
+                        </tr>
+                        {% if payment_method %}
+                        <tr>
+                            <td class="info-label">Payment Method:</td>
+                            <td class="info-value">{{ payment_method }}</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Billing and Shipping Addresses -->
+        <table class="address-table">
+            <tr>
+                <td class="address-cell">
+                    <div class="address-title">Billing Address</div>
+                    <div class="address-content">
+                        {% if buyer_name %}
+                        <div class="address-line"><strong>{{ buyer_name }}</strong></div>
+                        {% endif %}
+                        {% if buyer_address %}
+                        <div class="address-line">{{ buyer_address }}</div>
+                        {% endif %}
+                        {% if buyer_email %}
+                        <div class="address-line">{{ buyer_email }}</div>
+                        {% endif %}
+                        {% if buyer_phone %}
+                        <div class="address-line">{{ buyer_phone }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="address-cell">
+                    <div class="address-title">Shipping Address</div>
+                    <div class="address-content">
+                        {% if buyer_name %}
+                        <div class="address-line"><strong>{{ buyer_name }}</strong></div>
+                        {% endif %}
+                        {% if buyer_address %}
+                        <div class="address-line">{{ buyer_address }}</div>
+                        {% else %}
+                        <div class="address-line"><em>Same as billing address</em></div>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <table class="cont-header-table">
+                <tr>
+                    <td class="cont-left">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="cont-logo" />
+                        {% else %}
+                        <span class="cont-shop">{{ supplier_name }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="cont-right">
+                        <span class="cont-invoice">Invoice {{ invoice_number }}</span>
+                        <span class="cont-page">Page {{ _current_page }} of {{ _total_pages }}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Order Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-product">Product</th>
+                    <th class="col-sku">SKU</th>
+                    <th class="col-qty">Qty</th>
+                    <th class="col-price">Price</th>
+                    <th class="col-total">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="item-row">
+                    <td class="item-product">
+                        <div class="product-name">{{ item.description }}</div>
+                    </td>
+                    <td class="item-sku">{{ item.sku or 'N/A' }}</td>
+                    <td class="item-qty">{{ item.quantity }}</td>
+                    <td class="item-price">{{ item.unit_price }}</td>
+                    <td class="item-total">{{ item.total }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page %}
+        <!-- Totals Section -->
+        <table class="totals-table">
+            <tr>
+                <td class="totals-spacer"></td>
+                <td class="totals-content">
+                    <table class="totals-inner">
+                        <tr class="total-row">
+                            <td class="total-label">Subtotal:</td>
+                            <td class="total-value">{{ subtotal }}</td>
+                        </tr>
+                        {% if discount_raw and discount_raw > 0 %}
+                        <tr class="total-row">
+                            <td class="total-label">Discount:</td>
+                            <td class="total-value total-discount">{{ discount }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if shipping_cost_raw and shipping_cost_raw > 0 %}
+                        <tr class="total-row">
+                            <td class="total-label">Shipping:</td>
+                            <td class="total-value">{{ shipping_cost }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if tax_amount_raw and tax_amount_raw > 0 %}
+                        <tr class="total-row">
+                            <td class="total-label">Tax{% if tax_rate %} ({{ tax_rate }}%){% endif %}:</td>
+                            <td class="total-value">{{ tax_amount }}</td>
+                        </tr>
+                        {% endif %}
+                        <tr class="total-row-final">
+                            <td class="total-label-final">Total:</td>
+                            <td class="total-value-final">{{ total_amount }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Payment Information -->
+        {% if payment_status or payment_method %}
+        <div class="payment-info">
+            <div class="payment-title">Payment Information</div>
+            {% if payment_status %}
+            <div class="payment-line">
+                <span class="payment-label">Status:</span>
+                <span class="payment-status payment-status-{{ payment_status|lower|replace(' ', '-') }}">{{ payment_status }}</span>
+            </div>
+            {% endif %}
+            {% if payment_method %}
+            <div class="payment-line">
+                <span class="payment-label">Method:</span>
+                <span class="payment-value">{{ payment_method }}</span>
+            </div>
+            {% endif %}
+            {% if transaction_id %}
+            <div class="payment-line">
+                <span class="payment-label">Transaction ID:</span>
+                <span class="payment-value">{{ transaction_id }}</span>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Notes Section -->
+        {% if notes or terms %}
+        <div class="notes-section">
+            {% if notes %}
+            <div class="notes-block">
+                <div class="notes-title">Notes:</div>
+                <div class="notes-content">{{ notes }}</div>
+            </div>
+            {% endif %}
+            {% if terms %}
+            <div class="notes-block">
+                <div class="notes-title">Terms & Conditions:</div>
+                <div class="notes-content">{{ terms }}</div>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-line">Thank you for your business!</div>
+                {% if supplier_name and supplier_website %}
+                <div class="footer-line">{{ supplier_name }} | {{ supplier_website }}</div>
+                {% endif %}
+                {% if supplier_tax_id %}
+                <div class="footer-line">Tax ID: {{ supplier_tax_id }}</div>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-footer-content">
+                Continued on next page... (Page {{ _current_page }} of {{ _total_pages }})
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Page Number -->
+        <div class="page-number">Page {{ _current_page }} of {{ _total_pages }}</div>
+    </div>
+</body>
+</html>

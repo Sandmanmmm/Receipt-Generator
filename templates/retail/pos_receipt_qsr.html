@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Receipt - QSR</title>
+    <title>Receipt - QSR{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <link rel="stylesheet" href="../css/pos_receipt_qsr.css">
 </head>
 <body>
@@ -50,7 +50,7 @@
 
         <!-- Order Items with Modifiers -->
         <div class="items-section">
-            {% for item in line_items %}
+            {% for item in items|default(line_items, true) %}
             <div class="item-group">
                 <div class="item-line">
                     <span class="item-qty">{{ item.quantity }}</span>
@@ -103,7 +103,7 @@
                 <span class="summary-value">{{ subtotal }}</span>
             </div>
             
-            {% if total_discount|default(0) > 0 %}
+            {% if total_discount_raw|default(0) > 0 %}
             <div class="summary-row discount-row">
                 <span class="summary-label">Discounts:</span>
                 <span class="summary-value">-{{ total_discount }}</span>
@@ -115,7 +115,7 @@
                 <span class="summary-value">{{ tax_amount }}</span>
             </div>
             
-            {% if tip_amount|default(0) > 0 %}
+            {% if tip_amount_raw|default(0) > 0 %}
             <div class="summary-row">
                 <span class="summary-label">Tip:</span>
                 <span class="summary-value">{{ tip_amount }}</span>
@@ -165,7 +165,7 @@
         
         <!-- Loyalty Program -->
         <div class="loyalty-section">
-            <div class="loyalty-header">🌟 REWARDS MEMBER 🌟</div>
+            <div class="loyalty-header">* REWARDS MEMBER *</div>
             {% if loyalty_points_earned %}
             <div class="loyalty-row">
                 <span>Points Earned:</span>
@@ -241,7 +241,7 @@
         </div>
         {% elif order_type == "DELIVERY" %}
         <div class="order-type-notice delivery">
-            <p>🚚 DELIVERY ORDER</p>
+            <p> DELIVERY ORDER</p>
             <p>Delivered by: {{ delivery_driver }}</p>
         </div>
         {% endif %}

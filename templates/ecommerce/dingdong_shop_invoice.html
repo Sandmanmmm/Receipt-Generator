@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DingDong Shop E-invoice</title>
+    <link rel="stylesheet" href="../css/dingdong_shop_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Header -->
+        <table class="header-table">
+            <tr>
+                <td class="logo-cell">
+                    <div class="logo">
+                        <span class="logo-icon">🔔</span>
+                        <span class="logo-text">DingDong<br>Shop</span>
+                    </div>
+                </td>
+                <td class="title-cell">
+                    <div class="einvoice-title">E-invoice</div>
+                </td>
+            </tr>
+        </table>
+        
+        <!-- Bill From Section -->
+        <div class="section-title">Bill From</div>
+        
+        <div class="company-name">{{ platform_company_name }}</div>
+        
+        <div class="info-row">
+            <span class="label">Company Registration No.:</span>
+            <span class="value">{{ company_registration_no }}</span>
+        </div>
+        
+        <div class="info-row">
+            <span class="label">Tax Identification Number (TIN):</span>
+            <span class="value">{{ platform_tin }}</span>
+        </div>
+        
+        <div class="info-row">
+            <span class="label">Address:</span>
+            <span class="value">{{ platform_address }}</span>
+        </div>
+        
+        <div class="info-row">
+            <span class="label">SST ID:</span>
+            <span class="value">{{ platform_sst_id }}</span>
+        </div>
+        
+        <div class="info-row">
+            <span class="label">MSIC Code:</span>
+            <span class="value">{{ msic_code }}</span>
+        </div>
+        
+        <!-- Invoice Info Box -->
+        <table class="invoice-info-box">
+            <tr>
+                <td class="info-label">Invoice number :</td>
+                <td class="info-value">{{ invoice_number }}</td>
+            </tr>
+            <tr>
+                <td class="info-label">Invoice date :</td>
+                <td class="info-value">{{ invoice_date }}</td>
+            </tr>
+            <tr>
+                <td class="info-label">Period :</td>
+                <td class="info-value">{{ billing_period }}</td>
+            </tr>
+        </table>
+        
+        <!-- Bill To Section -->
+        <div class="section-title bill-to">Bill To</div>
+        
+        <div class="info-row">
+            <span class="label">Client Name:</span>
+            <span class="value">{{ client_name }}</span>
+        </div>
+        
+        <div class="info-row">
+            <span class="label">Address:</span>
+            <span class="value">{{ client_address }}</span>
+        </div>
+        
+        <div class="info-row">
+            <span class="label">Tax Identification Number (TIN):</span>
+            <span class="value">{{ client_tin }}</span>
+        </div>
+        
+        <div class="info-row">
+            <span class="label">SST ID:</span>
+            <span class="value">{{ client_sst_id }}</span>
+        </div>
+        
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr class="header-row">
+                    <th class="col-desc">Description</th>
+                    <th class="col-qty">Quantity</th>
+                    <th class="col-price">Unit Price</th>
+                    <th class="col-amount">Amount</th>
+                    <th class="col-disc">Disc</th>
+                    <th class="col-tax">Tax Amount</th>
+                    <th class="col-total">Total Product / Service<br>Price (incl. tax)</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <span class="cont-title">DingDong Shop E-invoice</span>
+            <span class="cont-info">Invoice {{ invoice_number }} — Page {{ _page_number }} of {{ _total_pages }}</span>
+        </div>
+        
+        <table class="items-table">
+            <thead>
+                <tr class="header-row">
+                    <th class="col-desc">Description</th>
+                    <th class="col-qty">Quantity</th>
+                    <th class="col-price">Unit Price</th>
+                    <th class="col-amount">Amount</th>
+                    <th class="col-disc">Disc</th>
+                    <th class="col-tax">Tax Amount</th>
+                    <th class="col-total">Total Product / Service<br>Price (incl. tax)</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% endif %}
+        
+                {% for item in items %}
+                {% if item.is_category %}
+                <tr class="category-row">
+                    <td colspan="7" class="category-name">{{ item.name }}</td>
+                </tr>
+                {% else %}
+                <tr class="item-row">
+                    <td class="item-desc">- {{ item.name }}</td>
+                    <td class="item-qty">{{ item.quantity }}</td>
+                    <td class="item-price">{{ item.unit_price }}</td>
+                    <td class="item-amount">{{ item.amount }}</td>
+                    <td class="item-disc">{{ item.discount }}</td>
+                    <td class="item-tax">{{ item.tax_amount }}</td>
+                    <td class="item-total">{{ item.total }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+                
+                {% if _is_last_page|default(true) %}
+                <!-- Subtotal Row -->
+                <tr class="subtotal-row">
+                    <td class="subtotal-label">Subtotal</td>
+                    <td class="subtotal-empty"></td>
+                    <td class="subtotal-empty"></td>
+                    <td class="subtotal-value">{{ subtotal_amount }}</td>
+                    <td class="subtotal-value">{{ total_discount }}</td>
+                    <td class="subtotal-value">{{ total_tax }}</td>
+                    <td class="subtotal-value">{{ grand_total }}</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        
+        {% if _is_last_page|default(true) %}
+        <!-- Tax Summary Table -->
+        <table class="tax-summary-table">
+            <thead>
+                <tr>
+                    <th>Total Product /<br>Service Price</th>
+                    <th>Tax Type</th>
+                    <th>Tax Rate</th>
+                    <th>Tax Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ subtotal_amount }}</td>
+                    <td>{{ tax_type }}</td>
+                    <td>{{ tax_rate }}</td>
+                    <td>{{ total_tax }}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Footer Section -->
+        <div class="footer-section">
+            <div class="footer-left">
+                <div class="footer-row">
+                    <span class="footer-label">UUID:</span>
+                </div>
+                <div class="footer-row">
+                    <span class="footer-label">Digital Signature:</span>
+                </div>
+                <div class="digital-sig">{{ digital_signature }}</div>
+                <div class="footer-row">
+                    <span class="footer-label">Date and Time of Validation:</span>
+                    <span class="footer-value">{{ validation_datetime }}</span>
+                </div>
+            </div>
+            <div class="footer-right">
+                <div class="qr-placeholder">
+                    {% if qr_code %}
+                    <img src="{{ qr_code }}" alt="QR Code" class="qr-code" />
+                    {% else %}
+                    <div class="qr-box"></div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            This document is issued by DingDong Shop (Malaysia) Sdn. Bhd. for the purpose of compliance with the contemporaneous tax legislation and guidelines including, the E-invoice Guidelines under the Income Tax Act 1967. All contracts of sale are between the seller and buyer, to which DingDong Shop is not a party. DingDong Shop does not assume any responsibility for such contract. The issuance of this document does not change the nature of transaction nor commercial liability associated with the transaction.
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            Continued on next page... (Page {{ _page_number }} of {{ _total_pages }})
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

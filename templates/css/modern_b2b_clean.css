@@ -1,0 +1,467 @@
+/* Modern B2B Clean - Wholesale Invoice Template */
+/* Inspired by Shopify B2B and WooCommerce wholesale systems */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9.5pt;
+    line-height: 1.5;
+    color: #2d3748;
+    background: #ffffff;
+}
+
+.invoice-page {
+    width: 816px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 0;
+}
+
+/* Primary Header */
+.primary-header {
+    background: #667eea;  /* was: linear-gradient(135deg, #667eea 0%, #764ba2 100%...) */
+    color: #ffffff;
+    padding: 0;
+    margin-bottom: 22px;
+    border-radius: 0 0 8px 8px;
+}
+
+.header-layout {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.logo-section {
+    width: 30%;
+    padding: 22px 26px;
+    vertical-align: middle;
+}
+
+.brand-logo {
+    height: 56px;
+    width: auto;
+    max-width: 150px;
+    display: block;
+    background: #ffffff;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.brand-initial {
+    width: 56px;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    display: inline-block;
+    text-align: center;
+    line-height: 56px;
+    font-size: 20pt;
+    font-weight: 800;
+    border-radius: 6px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.title-section {
+    width: 70%;
+    padding: 22px 26px;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.doc-title {
+    font-size: 18pt;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.order-meta {
+    font-size: 9pt;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.meta-item {
+    display: inline;
+}
+
+.meta-sep {
+    margin: 0 10px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Info Cards */
+.info-card {
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+}
+
+.supplier-card {
+    background: #f7fafc;  /* was: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%...) */
+}
+
+.card-label {
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #718096;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.card-company {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 10px;
+}
+
+.contact-grid {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.contact-item {
+    padding: 3px 0;
+    font-size: 9pt;
+    color: #4a5568;
+}
+
+.contact-icon {
+    display: inline-block;
+    width: 18px;
+    font-size: 8pt;
+}
+
+.contact-text {
+    margin-left: 4px;
+}
+
+/* Customer Cards */
+.customer-cards {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.customer-cards td {
+    width: 50%;
+    vertical-align: top;
+}
+
+.billing-card {
+    margin-right: 8px;
+    margin-bottom: 0;
+}
+
+.shipping-card {
+    margin-left: 8px;
+    margin-bottom: 0;
+}
+
+.card-name {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+
+.card-line {
+    font-size: 9pt;
+    color: #4a5568;
+    line-height: 1.7;
+    margin-bottom: 4px;
+}
+
+/* Continuation Header */
+.continuation-header {
+    background: #edf2f7;
+    border-bottom: 2px solid #cbd5e0;
+    margin-bottom: 18px;
+    border-radius: 4px 4px 0 0;
+}
+
+.cont-layout {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-brand {
+    width: 50%;
+    padding: 12px 20px;
+    vertical-align: middle;
+}
+
+.cont-brand-logo {
+    height: 32px;
+    width: auto;
+    max-width: 100px;
+    display: inline-block;
+    vertical-align: middle;
+    background: #ffffff;
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.cont-brand-text {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+.cont-info {
+    width: 50%;
+    padding: 12px 20px;
+    text-align: right;
+    vertical-align: middle;
+    font-size: 9pt;
+    color: #4a5568;
+}
+
+.cont-order {
+    font-weight: 600;
+}
+
+.cont-divider {
+    margin: 0 10px;
+    color: #cbd5e0;
+}
+
+.cont-pagination {
+    font-weight: 400;
+}
+
+/* Order Items */
+.items-container {
+    margin-bottom: 20px;
+}
+
+.order-items {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.order-items thead {
+    background: #4a5568;
+    color: #ffffff;
+}
+
+.order-items thead th {
+    padding: 11px 14px;
+    text-align: left;
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 600;
+}
+
+.h-item { width: 40%; }
+.h-sku { width: 16%; }
+.h-quantity { width: 12%; text-align: center; }
+.h-price { width: 16%; text-align: right; }
+.h-amount { width: 16%; text-align: right; }
+
+.order-row {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.order-row:last-child {
+    border-bottom: none;
+}
+
+.order-row:nth-child(even) {
+    background: #f7fafc;
+}
+
+.order-row:hover {
+    background: #edf2f7;
+}
+
+.order-row td {
+    padding: 11px 14px;
+    vertical-align: middle;
+    font-size: 9pt;
+}
+
+.c-item {
+    color: #2d3748;
+}
+
+.item-title {
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.item-subtitle {
+    font-size: 8.5pt;
+    color: #718096;
+    font-weight: 400;
+}
+
+.c-sku {
+    font-family: 'Courier New', 'Consolas', monospace;
+    color: #4a5568;
+    font-size: 8.5pt;
+    font-weight: 500;
+}
+
+.c-quantity {
+    text-align: center;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.c-price {
+    text-align: right;
+    color: #4a5568;
+    font-family: 'Courier New', 'Consolas', monospace;
+}
+
+.c-amount {
+    text-align: right;
+    font-weight: 700;
+    color: #2d3748;
+    font-family: 'Courier New', 'Consolas', monospace;
+}
+
+/* Summary Section */
+.summary-layout {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 22px;
+}
+
+.notes-section {
+    width: 55%;
+    padding-right: 12px;
+    vertical-align: top;
+}
+
+.notes-card {
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 16px 18px;
+}
+
+.notes-title {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 10px;
+}
+
+.notes-text {
+    font-size: 8.5pt;
+    color: #4a5568;
+    line-height: 1.7;
+}
+
+.totals-section {
+    width: 45%;
+    padding-left: 12px;
+    vertical-align: top;
+}
+
+.totals-card {
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 16px 18px;
+}
+
+.totals-rows {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.total-line td {
+    padding: 8px 0;
+    font-size: 9.5pt;
+}
+
+.t-label {
+    color: #718096;
+    font-weight: 500;
+}
+
+.t-value {
+    text-align: right;
+    font-weight: 600;
+    color: #2d3748;
+    font-family: 'Courier New', 'Consolas', monospace;
+}
+
+.t-discount {
+    color: #e53e3e;
+}
+
+.total-final {
+    border-top: 2px solid #cbd5e0;
+    padding-top: 10px;
+}
+
+.total-final td {
+    padding-top: 12px;
+    font-size: 11pt;
+    font-weight: 700;
+}
+
+.total-final .t-label {
+    color: #2d3748;
+}
+
+.total-final .t-value {
+    font-size: 13pt;
+    color: #667eea;
+}
+
+/* Footer */
+.page-footer {
+    margin-top: 26px;
+    padding-bottom: 20px;
+}
+
+.footer-line {
+    height: 1px;
+    background: #667eea;  /* was: linear-gradient(90deg, #667eea 0%, #764ba2 100%...) */
+    margin-bottom: 12px;
+}
+
+.footer-text {
+    font-size: 8pt;
+    color: #a0aec0;
+    text-align: center;
+    line-height: 1.6;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    margin-top: 18px;
+    padding-bottom: 14px;
+}
+
+.cont-line {
+    height: 1px;
+    background: #e2e8f0;
+    margin-bottom: 10px;
+}
+
+.cont-text {
+    font-size: 8.5pt;
+    color: #718096;
+    text-align: right;
+    font-style: italic;
+    padding-right: 20px;
+}

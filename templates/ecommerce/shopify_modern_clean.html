@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice {{ invoice_number }}{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
+    <link rel="stylesheet" href="../css/shopify_modern_clean.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Modern Header with Gradient Accent -->
+        <table class="header-table">
+            <tr>
+                <td class="logo-cell">
+                    <div class="logo-container">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="supplier-logo" />
+                        <div class="company-info">
+                            <div class="company-tagline">{{ supplier_email }}</div>
+                        </div>
+                        {% else %}
+                        <div class="logo-icon">
+                            <span class="logo-text">{{ supplier_name[:2]|upper }}</span>
+                        </div>
+                        <div class="company-info">
+                            <div class="company-name">{{ supplier_name }}</div>
+                            <div class="company-tagline">{{ supplier_email }}</div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="invoice-badge-cell">
+                    <div class="invoice-badge">
+                        <div class="badge-label">INVOICE</div>
+                        <div class="badge-number">{{ invoice_number }}</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Date and Status Row -->
+        <table class="meta-bar">
+            <tr>
+                <td class="meta-item">
+                    <span class="meta-icon"></span>
+                    <span class="meta-content">
+                        <span class="meta-label">Issued</span>
+                        <span class="meta-value">{{ invoice_date }}</span>
+                    </span>
+                </td>
+                <td class="meta-item">
+                    <span class="meta-icon"></span>
+                    <span class="meta-content">
+                        <span class="meta-label">Due</span>
+                        <span class="meta-value">{{ due_date|default(invoice_date) }}</span>
+                    </span>
+                </td>
+                <td class="meta-item">
+                    <span class="meta-icon"></span>
+                    <span class="meta-content">
+                        <span class="meta-label">Payment</span>
+                        <span class="meta-value">{{ payment_method|default('Credit Card') }}</span>
+                    </span>
+                </td>
+                <td class="meta-item status-cell">
+                    <div class="status-pill {{ payment_status|default('paid')|lower }}">
+                        {{ payment_status|default('Paid') }}
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Addresses Section -->
+        <table class="addresses-table">
+            <tr>
+                <td class="address-card seller-card">
+                    <div class="card-header">
+                        <span class="card-icon"></span>
+                        <span class="card-title">Seller</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="address-name">{{ supplier_name }}</div>
+                        <div class="address-line">{{ supplier_address }}</div>
+                        <div class="address-line">{{ supplier_phone }}</div>
+                        {% if supplier_tax_id %}
+                        <div class="address-line tax-id">Tax ID: {{ supplier_tax_id }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="address-spacer"></td>
+                <td class="address-card buyer-card">
+                    <div class="card-header">
+                        <span class="card-icon">👤</span>
+                        <span class="card-title">Bill To</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="address-name">{{ buyer_name }}</div>
+                        <div class="address-line">{{ buyer_address }}</div>
+                        {% if buyer_email %}
+                        <div class="address-line">{{ buyer_email }}</div>
+                        {% endif %}
+                        {% if buyer_phone %}
+                        <div class="address-line">{{ buyer_phone }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+                {% if shipping_address %}
+                <td class="address-spacer"></td>
+                <td class="address-card ship-card">
+                    <div class="card-header">
+                        <span class="card-icon"></span>
+                        <span class="card-title">Ship To</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="address-name">{{ shipping_name|default(buyer_name) }}</div>
+                        <div class="address-line">{{ shipping_address }}</div>
+                    </div>
+                </td>
+                {% endif %}
+            </tr>
+        </table>
+
+        <!-- Order Info Pills -->
+        {% if order_number or tracking_number or transaction_id %}
+        <table class="order-pills">
+            <tr>
+                {% if order_number %}
+                <td class="pill">
+                    <span class="pill-label">Order</span>
+                    <span class="pill-value">{{ order_number }}</span>
+                </td>
+                {% endif %}
+                {% if tracking_number %}
+                <td class="pill">
+                    <span class="pill-label">Tracking</span>
+                    <span class="pill-value tracking">{{ tracking_number }}</span>
+                </td>
+                {% endif %}
+                {% if transaction_id %}
+                <td class="pill">
+                    <span class="pill-label">Transaction</span>
+                    <span class="pill-value">{{ transaction_id }}</span>
+                </td>
+                {% endif %}
+                {% if card_last_four %}
+                <td class="pill">
+                    <span class="pill-label">Card</span>
+                    <span class="pill-value">•••• {{ card_last_four }}</span>
+                </td>
+                {% endif %}
+            </tr>
+        </table>
+        {% endif %}
+        {% else %}
+        <!-- Continuation Header -->
+        <table class="continuation-header">
+            <tr>
+                <td class="cont-logo">
+                    {% if supplier_logo %}
+                    <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="cont-logo-img" />
+                    {% else %}
+                    <span class="cont-icon">{{ supplier_name[:2]|upper }}</span>
+                    {% endif %}
+                    <span class="cont-company">{{ supplier_name }}</span>
+                </td>
+                <td class="cont-info">
+                    <span class="cont-invoice">Invoice {{ invoice_number }}</span>
+                    <span class="cont-page">Page {{ _page_number }} of {{ _total_pages }}</span>
+                </td>
+            </tr>
+        </table>
+        {% endif %}
+
+        <!-- Items Section -->
+        <div class="items-section">
+            <div class="section-header">
+                <span class="section-icon"></span>
+                <span class="section-title">Order Items</span>
+                <span class="section-count">{{ items|length }} item{% if items|length != 1 %}s{% endif %}</span>
+            </div>
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-item">Item</th>
+                        <th class="col-sku">SKU</th>
+                        <th class="col-qty">Qty</th>
+                        <th class="col-price">Price</th>
+                        <th class="col-total">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row {% if loop.index is odd %}odd{% else %}even{% endif %}">
+                        <td class="col-item">
+                            <div class="item-name">{{ item.description }}</div>
+                            {% if item.variant or item.color or item.size %}
+                            <div class="item-variant">
+                                {% if item.color %}{{ item.color }}{% endif %}
+                                {% if item.size %} / {{ item.size }}{% endif %}
+                                {% if item.variant %} - {{ item.variant }}{% endif %}
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td class="col-sku">{{ item.sku|default(item.upc)|default('-') }}</td>
+                        <td class="col-qty">{{ item.quantity }}</td>
+                        <td class="col-price">{{ currency|default('$') }}{{ "%.2f"|format(item.unit_price|float) }}</td>
+                        <td class="col-total">{{ currency|default('$') }}{{ "%.2f"|format(item.total|float) }}</td>
+                    </tr>
+                    {% if (item.discount or 0)|float > 0 %}
+                    <tr class="discount-row">
+                        <td colspan="4" class="discount-label">
+                            <span class="discount-icon"></span>
+                            {{ item.promotion|default('Item Discount') }}
+                        </td>
+                        <td class="discount-value">-{{ currency|default('$') }}{{ "%.2f"|format(item.discount|float) }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Summary Section -->
+        <table class="summary-table">
+            <tr>
+                <td class="notes-column">
+                    {% if notes %}
+                    <div class="notes-box">
+                        <div class="box-header">
+                            <span class="box-icon"></span>
+                            <span class="box-title">Notes</span>
+                        </div>
+                        <div class="box-content">{{ notes }}</div>
+                    </div>
+                    {% endif %}
+                    {% if terms %}
+                    <div class="terms-box">
+                        <div class="box-header">
+                            <span class="box-icon"></span>
+                            <span class="box-title">Terms & Conditions</span>
+                        </div>
+                        <div class="box-content">{{ terms }}</div>
+                    </div>
+                    {% endif %}
+                </td>
+                <td class="totals-column">
+                    <table class="totals-table">
+                        <tr class="total-row">
+                            <td class="total-label">Subtotal</td>
+                            <td class="total-value">{{ currency|default('$') }}{{ "%.2f"|format(subtotal|float) }}</td>
+                        </tr>
+                        {% if (discount or 0)|float > 0 %}
+                        <tr class="total-row discount">
+                            <td class="total-label">
+                                <span class="discount-badge">Discount</span>
+                            </td>
+                            <td class="total-value discount-value">-{{ currency|default('$') }}{{ "%.2f"|format(discount|float) }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if (shipping_cost or 0)|float > 0 %}
+                        <tr class="total-row">
+                            <td class="total-label">Shipping</td>
+                            <td class="total-value">{{ currency|default('$') }}{{ "%.2f"|format(shipping_cost|float) }}</td>
+                        </tr>
+                        {% endif %}
+                        <tr class="total-row">
+                            <td class="total-label">Tax ({{ tax_rate|default('0') }}%)</td>
+                            <td class="total-value">{{ currency|default('$') }}{{ "%.2f"|format(tax_amount|default(0)|float) }}</td>
+                        </tr>
+                        <tr class="total-row grand">
+                            <td class="total-label">Total</td>
+                            <td class="total-value">{{ currency|default('$') }}{{ "%.2f"|format(total_amount|float) }}</td>
+                        </tr>
+                        {% if amount_paid and (amount_paid|float) > 0 %}
+                        <tr class="total-row paid">
+                            <td class="total-label">Paid</td>
+                            <td class="total-value">-{{ currency|default('$') }}{{ "%.2f"|format(amount_paid|float) }}</td>
+                        </tr>
+                        <tr class="total-row balance">
+                            <td class="total-label">Balance Due</td>
+                            <td class="total-value">{{ currency|default('$') }}{{ "%.2f"|format((total_amount|float) - (amount_paid|float)) }}</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-message">
+                <span class="footer-icon">💚</span>
+                <span class="footer-text">Thank you for shopping with us!</span>
+            </div>
+            <div class="footer-contact">
+                {{ supplier_email }} • {{ supplier_phone }}
+                {% if store_website %} • {{ store_website }}{% endif %}
+            </div>
+            <div class="footer-social">
+                Questions? Contact our support team for assistance.
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <span class="cont-message">Continued on next page...</span>
+            <span class="cont-pages">Page {{ _page_number }} of {{ _total_pages }}</span>
+        </div>
+        {% endif %}
+
+        <!-- Page Number -->
+        {% if _page_number|default(none) %}
+        <div class="page-indicator">{{ _page_number }} / {{ _total_pages }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>

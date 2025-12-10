@@ -1,0 +1,361 @@
+/* Business Invoice Clean - Salesforce Style (without branding) */
+
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #333;
+    background: #fff;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 40px 50px;
+    background: #fff;
+    margin: 0 auto;
+}
+
+/* Header Logo */
+.header-logo {
+    text-align: center;
+    margin-bottom: 25px;
+    min-height: 70px;
+    display: table;
+    width: 100%;
+}
+
+.company-logo {
+    max-height: 70px;
+    max-width: 250px;
+    object-fit: contain;
+    display: inline-block;
+}
+
+.company-name-text {
+    font-size: 28px;
+    font-weight: 600;
+    color: #0097a7;
+    letter-spacing: 2px;
+    display: inline-block;
+    line-height: 70px;
+}
+
+/* Company Table */
+.company-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.company-info {
+    width: 70%;
+    vertical-align: top;
+}
+
+.logo-cell {
+    width: 30%;
+    vertical-align: top;
+}
+
+.company-name {
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+}
+
+.company-line {
+    font-size: 10px;
+    color: #555;
+    margin-bottom: 2px;
+    letter-spacing: 0.5px;
+}
+
+/* Invoice Bar */
+.invoice-bar {
+    display: table;
+    width: 100%;
+    border-top: 3px solid #00a1e0;
+    border-bottom: 1px solid #ddd;
+    padding: 12px 0;
+    margin-bottom: 20px;
+}
+
+.invoice-number {
+    display: table-cell;
+    width: 50%;
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    letter-spacing: 1px;
+}
+
+.invoice-date {
+    display: table-cell;
+    width: 50%;
+    font-size: 11px;
+    color: #333;
+    text-align: right;
+    letter-spacing: 1px;
+}
+
+/* Recipient Section */
+.recipient-section {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.recipient-label {
+    font-size: 10px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.recipient-name {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.recipient-line {
+    font-size: 10px;
+    color: #555;
+    margin-bottom: 2px;
+}
+
+/* Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.items-table .header-row {
+    border-bottom: 1px solid #333;
+}
+
+.items-table th {
+    padding: 12px 8px;
+    font-size: 10px;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+    letter-spacing: 1px;
+}
+
+.items-table th.col-price,
+.items-table th.col-qty,
+.items-table th.col-total {
+    text-align: right;
+}
+
+/* Column Widths */
+.col-description { width: 45%; }
+.col-price { width: 20%; text-align: right; }
+.col-qty { width: 15%; text-align: center; }
+.col-total { width: 20%; text-align: right; }
+
+/* Item Row */
+.item-row td {
+    padding: 12px 8px;
+    font-size: 11px;
+    color: #333;
+    vertical-align: middle;
+    border-bottom: 1px solid #eee;
+}
+
+.item-description {
+    text-align: left;
+}
+
+.item-price,
+.item-total {
+    text-align: right;
+}
+
+.item-qty {
+    text-align: center;
+}
+
+/* Totals Table */
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+    table-layout: fixed;
+}
+
+.totals-spacer {
+    width: 50%;
+}
+
+.totals-label {
+    width: 25%;
+    padding: 8px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    text-align: right;
+    letter-spacing: 1px;
+}
+
+.totals-value {
+    width: 25%;
+    padding: 8px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    text-align: right;
+}
+
+.totals-label-light {
+    width: 25%;
+    padding: 8px;
+    font-size: 11px;
+    color: #666;
+    text-align: right;
+}
+
+.totals-value-light {
+    width: 25%;
+    padding: 8px;
+    font-size: 11px;
+    color: #666;
+    text-align: right;
+}
+
+.total-final {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* Section Divider */
+.section-divider {
+    border-top: 1px solid #ddd;
+    margin: 20px 0;
+}
+
+/* Payment Table */
+.payment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.payment-details {
+    width: 60%;
+    vertical-align: top;
+}
+
+.payment-due-cell {
+    width: 40%;
+    vertical-align: top;
+    text-align: right;
+}
+
+.pay-to-label {
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.bank-name {
+    font-size: 10px;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.bank-line {
+    font-size: 10px;
+    color: #555;
+    margin-bottom: 2px;
+}
+
+.payment-due-label {
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.payment-due-date {
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Footer Note */
+.footer-note {
+    font-size: 9px;
+    color: #666;
+    border-top: 1px solid #ddd;
+    padding-top: 15px;
+    line-height: 1.6;
+}
+
+/* Continuation Header */
+.continuation-header {
+    display: table;
+    width: 100%;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #00a1e0;
+}
+
+.cont-title {
+    display: table-cell;
+    width: 50%;
+    font-size: 18px;
+    font-weight: 300;
+    color: #333;
+    letter-spacing: 8px;
+    vertical-align: middle;
+}
+
+.cont-info {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+    vertical-align: middle;
+    font-size: 11px;
+    color: #555;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    text-align: center;
+    font-size: 10px;
+    color: #888;
+    padding: 15px 0;
+    margin-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: #fff;
+    }
+    
+    .invoice-page {
+        width: 100%;
+        padding: 20px;
+    }
+}

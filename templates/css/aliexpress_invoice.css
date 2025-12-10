@@ -1,0 +1,563 @@
+/* GlobalMart Express Invoice Stylesheet */
+/* Based on AliExpress invoice layout */
+/* Colors: AliExpress Orange (#E62E04), Dark Gray (#333), Light Gray (#f5f5f5) */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    color: #333333;
+    background: #ffffff;
+    line-height: 1.4;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 0;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ==================== HEADER ==================== */
+.header {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding: 20px 25px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.header-left {
+    display: table-cell;
+    vertical-align: middle;
+    width: 40%;
+}
+
+.header-right {
+    display: table-cell;
+    vertical-align: middle;
+    width: 60%;
+    text-align: right;
+}
+
+.platform-logo {
+    font-size: 32px;
+    font-weight: 400;
+    font-style: italic;
+    color: #E62E04;
+    letter-spacing: -0.5px;
+}
+
+.logo-express {
+    font-style: normal;
+    font-weight: 400;
+}
+
+.company-info {
+    text-align: right;
+}
+
+.company-name-header {
+    font-size: 12px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.company-address {
+    font-size: 10px;
+    color: #666;
+    margin-bottom: 1px;
+}
+
+.company-reg {
+    font-size: 10px;
+    color: #666;
+}
+
+/* ==================== INVOICE TITLE SECTION ==================== */
+.invoice-title-section {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding: 15px 25px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.invoice-title-left {
+    display: table-cell;
+    vertical-align: top;
+    width: 25%;
+}
+
+.invoice-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.invoice-details {
+    font-size: 10px;
+    color: #666;
+}
+
+.invoice-number {
+    margin-bottom: 2px;
+}
+
+.invoice-barcode {
+    display: table-cell;
+    vertical-align: top;
+    width: 25%;
+    text-align: center;
+    padding: 0 15px;
+}
+
+.barcode-placeholder {
+    background: #fff;
+    padding: 5px;
+}
+
+.barcode-img {
+    max-width: 150px;
+    height: 40px;
+}
+
+.barcode-number {
+    font-size: 9px;
+    color: #333;
+    margin-top: 3px;
+    font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.customer-info-box {
+    display: table-cell;
+    vertical-align: top;
+    width: 50%;
+    background: #f5f5f5;
+    padding: 10px 15px;
+}
+
+.customer-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.customer-label {
+    font-size: 10px;
+    color: #666;
+    font-weight: 600;
+    width: 100px;
+    padding: 2px 10px 2px 0;
+    vertical-align: top;
+}
+
+.customer-value {
+    font-size: 10px;
+    color: #E62E04;
+    font-weight: 600;
+    padding: 2px 0;
+}
+
+/* ==================== ITEMS TABLE HEADER ==================== */
+.items-header-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0;
+}
+
+.items-header-table thead {
+    background: #f9f9f9;
+}
+
+.items-header-table th {
+    font-size: 10px;
+    font-weight: 600;
+    color: #666;
+    padding: 10px 8px;
+    text-align: left;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.items-header-table .col-product {
+    width: 45%;
+    padding-left: 25px;
+}
+
+.items-header-table .col-price {
+    width: 15%;
+    text-align: center;
+}
+
+.items-header-table .col-tax {
+    width: 10%;
+    text-align: center;
+}
+
+.items-header-table .col-qty {
+    width: 10%;
+    text-align: center;
+}
+
+.items-header-table .col-amount {
+    width: 20%;
+    text-align: right;
+    padding-right: 25px;
+}
+
+/* ==================== ITEM CARDS ==================== */
+.item-card {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 12px 25px;
+    background: #fff;
+}
+
+.item-main-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.item-image-col {
+    display: table-cell;
+    vertical-align: top;
+    width: 60px;
+    padding-right: 10px;
+}
+
+.item-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border: 1px solid #e5e5e5;
+}
+
+.item-image-placeholder {
+    width: 50px;
+    height: 50px;
+    background: #f5f5f5;
+    border: 1px solid #e5e5e5;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.placeholder-icon {
+    font-size: 24px;
+}
+
+.item-details-col {
+    display: table-cell;
+    vertical-align: top;
+    width: 40%;
+}
+
+.item-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+
+.item-properties {
+    font-size: 9px;
+    color: #888;
+}
+
+.item-price-col,
+.item-tax-col,
+.item-qty-col,
+.item-amount-col {
+    display: table-cell;
+    vertical-align: top;
+    text-align: center;
+    font-size: 10px;
+    color: #333;
+}
+
+.item-price-col {
+    width: 15%;
+}
+
+.item-tax-col {
+    width: 10%;
+}
+
+.item-qty-col {
+    width: 10%;
+}
+
+.item-amount-col {
+    width: 15%;
+    text-align: right;
+    font-weight: 600;
+}
+
+/* Order Info Row */
+.item-order-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.order-info-left {
+    display: table-cell;
+    vertical-align: middle;
+    width: 45%;
+    font-size: 9px;
+}
+
+.order-label {
+    color: #888;
+    margin-right: 3px;
+}
+
+.order-value {
+    color: #333;
+    margin-right: 15px;
+}
+
+.order-id {
+    color: #E62E04;
+    font-weight: 600;
+}
+
+.order-amounts {
+    display: table-cell;
+    vertical-align: middle;
+    width: 55%;
+    text-align: right;
+}
+
+.amount-cell {
+    display: inline-block;
+    text-align: center;
+    margin-left: 10px;
+    min-width: 70px;
+}
+
+.amount-label {
+    font-size: 8px;
+    color: #888;
+    margin-bottom: 2px;
+}
+
+.amount-value {
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.price-highlight {
+    color: #E62E04;
+}
+
+/* Store Row */
+.item-store-row {
+    font-size: 9px;
+    margin-bottom: 3px;
+}
+
+.store-label {
+    color: #888;
+    margin-right: 3px;
+}
+
+.store-value {
+    color: #333;
+    margin-right: 15px;
+}
+
+.store-name {
+    color: #E62E04;
+    font-weight: 600;
+}
+
+/* Payment Row */
+.item-payment-row {
+    font-size: 9px;
+    margin-bottom: 3px;
+}
+
+.payment-label {
+    color: #888;
+    margin-right: 3px;
+}
+
+.payment-value {
+    color: #333;
+    margin-right: 15px;
+}
+
+.payment-method {
+    color: #E62E04;
+}
+
+.status-completed {
+    color: #28a745;
+    font-weight: 600;
+}
+
+/* Shipping Row */
+.item-shipping-row {
+    font-size: 9px;
+    background: #f9f9f9;
+    padding: 6px 10px;
+    margin-top: 5px;
+    margin-left: -25px;
+    margin-right: -25px;
+    margin-bottom: -12px;
+}
+
+.shipping-label {
+    color: #888;
+    margin-right: 3px;
+}
+
+.shipping-value {
+    color: #333;
+    margin-right: 15px;
+}
+
+.tracking-number {
+    color: #E62E04;
+    font-weight: 600;
+}
+
+/* ==================== TOTALS SECTION ==================== */
+.totals-section {
+    padding: 15px 25px;
+    background: #fff;
+    border-top: 2px solid #e5e5e5;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e5e5e5;
+}
+
+.totals-table td {
+    padding: 8px 10px;
+    border: 1px solid #e5e5e5;
+    font-size: 10px;
+}
+
+.totals-label {
+    font-weight: 700;
+    color: #333;
+    width: 60px;
+}
+
+.totals-header {
+    font-size: 9px;
+    color: #666;
+    text-align: right;
+    background: #f9f9f9;
+}
+
+.totals-value {
+    font-weight: 600;
+    color: #333;
+    text-align: right;
+}
+
+.totals-value.price-highlight {
+    color: #E62E04;
+}
+
+/* ==================== FOOTER ==================== */
+.invoice-footer {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 15px 25px;
+    border-top: 1px solid #e5e5e5;
+}
+
+.footer-note {
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 3px;
+}
+
+.footer-support {
+    font-size: 9px;
+    color: #888;
+}
+
+/* ==================== CONTINUATION HEADER/FOOTER ==================== */
+.continuation-header {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding: 15px 25px;
+    border-bottom: 1px solid #e5e5e5;
+    background: #f9f9f9;
+}
+
+.cont-logo {
+    display: table-cell;
+    vertical-align: middle;
+    width: 50%;
+    font-size: 20px;
+    font-style: italic;
+    color: #E62E04;
+}
+
+.cont-logo .logo-express {
+    font-style: normal;
+}
+
+.cont-info {
+    display: table-cell;
+    vertical-align: middle;
+    width: 50%;
+    text-align: right;
+    font-size: 10px;
+    color: #666;
+}
+
+.continuation-footer {
+    padding: 15px 25px;
+    text-align: center;
+    border-top: 1px solid #e5e5e5;
+    background: #f9f9f9;
+}
+
+.cont-footer-text {
+    font-size: 10px;
+    color: #666;
+    font-style: italic;
+}
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .invoice-page {
+        width: 100%;
+        min-height: auto;
+    }
+    
+    .invoice-footer {
+        position: relative;
+        bottom: auto;
+    }
+}

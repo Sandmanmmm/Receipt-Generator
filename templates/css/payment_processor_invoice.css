@@ -1,0 +1,513 @@
+/* Payment Processor Invoice - Stripe/Square Inspired */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #ffffff;
+}
+
+/* Page Layout */
+.invoice-page {
+    width: 816px;
+    padding: 36px;
+    position: relative;
+    background: #ffffff;
+}
+
+/* Page Header */
+.page-header {
+    margin-bottom: 28px;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.header-left {
+    width: 55%;
+    vertical-align: top;
+}
+
+.header-right {
+    width: 45%;
+    vertical-align: top;
+    text-align: right;
+}
+
+/* Company Logo */
+.company-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    float: left;
+    margin-right: 14px;
+    background: #ffffff;
+    padding: 3px;
+    object-fit: contain;
+}
+
+.logo-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    background: #635bff;  /* was: linear-gradient(135deg, #635bff 0%, #4f46e5 100%...) */
+    float: left;
+    margin-right: 14px;
+    text-align: center;
+}
+
+.logo-initial {
+    font-size: 22pt;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 50px;
+}
+
+.company-info {
+    overflow: hidden;
+}
+
+.company-name {
+    font-size: 14pt;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+}
+
+.company-detail {
+    font-size: 9.5pt;
+    color: #6b7280;
+    margin-bottom: 3px;
+}
+
+/* Invoice Badge */
+.invoice-badge {
+    display: inline-block;
+    background: #635bff;
+    color: #ffffff;
+    font-size: 12pt;
+    font-weight: 700;
+    padding: 10px 24px;
+    border-radius: 6px;
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+}
+
+/* Invoice Meta */
+.invoice-meta {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    display: inline-block;
+    text-align: left;
+}
+
+.meta-table {
+    border-collapse: collapse;
+}
+
+.meta-table tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.meta-table tr:last-child {
+    border-bottom: none;
+}
+
+.meta-label {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #6b7280;
+    padding: 8px 16px 8px 0;
+    white-space: nowrap;
+}
+
+.meta-value {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1a1a1a;
+    padding: 8px 0;
+    font-family: 'Courier New', monospace;
+}
+
+.status-pill {
+    display: inline-block;
+    background: #10b981;
+    color: #ffffff;
+    font-size: 8.5pt;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* Bill To Section */
+.bill-to-section {
+    margin-bottom: 24px;
+}
+
+.section-divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 20px 0;
+}
+
+.billing-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.billing-col {
+    width: 50%;
+    vertical-align: top;
+    padding-right: 20px;
+}
+
+.billing-col:last-child {
+    padding-right: 0;
+}
+
+.billing-header {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #635bff;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 12px;
+}
+
+.billing-content {
+    font-size: 10pt;
+    color: #1a1a1a;
+}
+
+.billing-name {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.billing-line {
+    font-size: 9.5pt;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-right: 4px;
+}
+
+/* Items Table */
+.items-section {
+    margin-bottom: 24px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.items-table thead {
+    background: #f9fafb;
+}
+
+.items-table th {
+    padding: 12px 14px;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.col-item { width: 36%; }
+.col-sku { width: 16%; }
+.col-qty { width: 14%; text-align: center; }
+.col-price { width: 16%; text-align: right; }
+.col-amount { width: 18%; text-align: right; }
+
+.item-row {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.item-row:last-child {
+    border-bottom: none;
+}
+
+.item-row:hover {
+    background: #f9fafb;
+}
+
+.items-table td {
+    padding: 12px 14px;
+    font-size: 10pt;
+}
+
+.item-desc {
+    vertical-align: top;
+}
+
+.desc-main {
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 3px;
+}
+
+.desc-variant {
+    font-size: 9pt;
+    color: #6b7280;
+    font-style: italic;
+}
+
+.item-sku {
+    color: #6b7280;
+    font-family: 'Courier New', monospace;
+    font-size: 9.5pt;
+}
+
+.item-qty {
+    text-align: center;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.item-price {
+    text-align: right;
+    color: #6b7280;
+    font-family: 'Courier New', monospace;
+}
+
+.item-amount {
+    text-align: right;
+    font-weight: 600;
+    color: #1a1a1a;
+    font-family: 'Courier New', monospace;
+}
+
+/* Totals Section */
+.totals-section {
+    margin-bottom: 40px;
+}
+
+.totals-wrapper {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.notes-area {
+    width: 50%;
+    vertical-align: top;
+    padding-right: 24px;
+}
+
+.totals-area {
+    width: 50%;
+    vertical-align: top;
+}
+
+.notes-box {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 18px;
+}
+
+.notes-title {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+}
+
+.notes-body {
+    font-size: 9.5pt;
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.total-row td {
+    padding: 10px 0;
+    font-size: 10.5pt;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.total-row:last-of-type {
+    border-bottom: none;
+}
+
+.total-label {
+    font-weight: 500;
+    color: #6b7280;
+    text-align: left;
+}
+
+.total-value {
+    text-align: right;
+    font-weight: 600;
+    color: #1a1a1a;
+    font-family: 'Courier New', monospace;
+    padding-left: 24px;
+}
+
+.total-negative {
+    color: #dc2626;
+}
+
+.total-final {
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 2px solid #635bff;
+}
+
+.total-final .total-label {
+    font-size: 12pt;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.total-final .total-value {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #635bff;
+}
+
+/* Footer */
+.page-footer {
+    position: absolute;
+    bottom: 30px;
+    left: 36px;
+    right: 36px;
+}
+
+.footer-divider {
+    height: 2px;
+    background: #635bff;  /* was: linear-gradient(90deg, #635bff 0%, #4f46e5 100%...) */
+    border-radius: 2px;
+    margin-bottom: 12px;
+}
+
+.footer-text {
+    text-align: center;
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+.footer-bold {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.footer-sep {
+    margin: 0 8px;
+    color: #d1d5db;
+}
+
+/* Continuation Header */
+.continuation-header {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-left: 4px solid #635bff;
+    border-radius: 6px;
+    padding: 12px 18px;
+    margin-bottom: 24px;
+}
+
+.cont-header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-left {
+    width: 35%;
+    vertical-align: middle;
+}
+
+.cont-center {
+    width: 30%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.cont-right {
+    width: 35%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.cont-logo {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-right: 10px;
+    background: #ffffff;
+    padding: 2px;
+    object-fit: contain;
+}
+
+.cont-company {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #1a1a1a;
+    vertical-align: middle;
+}
+
+.cont-invoice {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #635bff;
+    font-family: 'Courier New', monospace;
+}
+
+.cont-page {
+    font-size: 9.5pt;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    position: absolute;
+    bottom: 30px;
+    left: 36px;
+    right: 36px;
+}
+
+.cont-footer-line {
+    height: 1px;
+    background: #e5e7eb;
+    margin-bottom: 10px;
+}
+
+.cont-footer-text {
+    text-align: center;
+    font-size: 9pt;
+    color: #6b7280;
+    font-style: italic;
+}

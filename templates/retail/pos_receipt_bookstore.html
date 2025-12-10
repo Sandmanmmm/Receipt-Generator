@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore Receipt{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
+    <link rel="stylesheet" href="../css/pos_receipt_bookstore.css">
+</head>
+<body>
+    <div class="bookstore-receipt">
+        <!-- Store Header - Book Trading Style -->
+        <div class="receipt-header">
+            <div class="store-name">{{ store_name|default(supplier_name) }}</div>
+            {% if legal_suffix %}
+            <div class="legal-suffix">{{ legal_suffix }}</div>
+            {% endif %}
+            <div class="company-reg">({{ company_reg|default('002756834-A') }})</div>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Address Block -->
+        <div class="address-block">
+            <div class="address-line">{{ street_address|default('LOT 12, GROUND FLOOR') }}</div>
+            {% if address_line_2 %}
+            <div class="address-line">{{ address_line_2 }}</div>
+            {% endif %}
+            <div class="address-line">{{ building_name|default('WISMA BOOK CENTRE') }}</div>
+            <div class="address-line">{{ postcode|default('50200') }} {{ city|default('KUALA LUMPUR') }}</div>
+        </div>
+
+        <!-- Contact Line -->
+        <div class="contact-block">
+            <span class="contact-label">TEL:</span>
+            <span class="contact-value">{{ store_phone|default('03-2694 8532') }}</span>
+            {% if store_email %}
+            <span class="contact-sep">|</span>
+            <span class="contact-label">EMAIL:</span>
+            <span class="contact-value">{{ store_email }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- GST Information -->
+        {% if gst_id %}
+        <div class="gst-block">
+            <span class="gst-label">GST REG NO:</span>
+            <span class="gst-value">{{ gst_id }}</span>
+        </div>
+        <div class="dashed-divider"></div>
+        {% endif %}
+
+        <!-- Invoice Type Banner -->
+        <div class="invoice-type-banner">
+            <span class="invoice-type">{{ document_type|default('TAX INVOICE') }}</span>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Transaction Details with Date Code -->
+        <div class="transaction-block">
+            <div class="trans-row">
+                <span class="trans-label">DOC NO:</span>
+                <span class="trans-value">{{ invoice_number|default('BK240315/10042') }}</span>
+            </div>
+            <div class="trans-row">
+                <span class="trans-label">DATE:</span>
+                <span class="trans-value">{{ invoice_date|default('15/03/2024') }}</span>
+                <span class="trans-time">{{ transaction_time|default('15:24:08') }}</span>
+            </div>
+            {% if counter_no %}
+            <div class="trans-row">
+                <span class="trans-label">COUNTER:</span>
+                <span class="trans-value">{{ counter_no }}</span>
+            </div>
+            {% endif %}
+            {% if cashier_name %}
+            <div class="trans-row">
+                <span class="trans-label">STAFF:</span>
+                <span class="trans-value">{{ cashier_name }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Member Information Block -->
+        {% if member_id %}
+        <div class="member-block">
+            <div class="member-header">*** MEMBER PURCHASE ***</div>
+            <div class="member-row">
+                <span class="member-label">MEMBER NO:</span>
+                <span class="member-value">{{ member_id }}</span>
+            </div>
+            {% if member_name %}
+            <div class="member-row">
+                <span class="member-label">NAME:</span>
+                <span class="member-value">{{ member_name|upper|truncate(20, true, '..') }}</span>
+            </div>
+            {% endif %}
+            {% if member_tier %}
+            <div class="member-row">
+                <span class="member-label">TIER:</span>
+                <span class="member-value">{{ member_tier|upper }}</span>
+            </div>
+            {% endif %}
+        </div>
+        <div class="dashed-divider"></div>
+        {% endif %}
+
+        <!-- Column Headers - Bookstore Style with Member/Regular Price -->
+        <div class="column-headers">
+            <span class="col-isbn">ISBN/CODE</span>
+            <span class="col-title">TITLE</span>
+            <span class="col-qty">QTY</span>
+            {% if member_id %}
+            <span class="col-price">M.PRICE</span>
+            {% else %}
+            <span class="col-price">PRICE</span>
+            {% endif %}
+            <span class="col-amt">AMT</span>
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Items Section - ISBN/Book Layout -->
+        <div class="items-section">
+            {% for item in items|default(line_items, true) %}
+            <div class="item-block">
+                <!-- ISBN or Book Code Line -->
+                <div class="isbn-row">
+                    {% if item.isbn %}
+                    <span class="isbn-label">ISBN:</span>
+                    <span class="isbn-value">{{ item.isbn }}</span>
+                    {% elif item.item_code %}
+                    <span class="isbn-label">CODE:</span>
+                    <span class="isbn-value">{{ item.item_code }}</span>
+                    {% else %}
+                    <span class="isbn-label">SKU:</span>
+                    <span class="isbn-value">{{ item.sku|default('---') }}</span>
+                    {% endif %}
+                </div>
+                <!-- Title and Category Line -->
+                <div class="title-row">
+                    <span class="item-category">{% if item.category %}[{{ item.category|upper|truncate(5, true, '') }}]{% endif %}</span>
+                    <span class="item-title">{{ item.description|upper|truncate(22, true, '..') }}</span>
+                </div>
+                <!-- Price Line -->
+                <div class="price-row">
+                    <span class="item-qty">{{ item.quantity }}</span>
+                    <span class="item-at">x</span>
+                    {% if member_id and item.member_price %}
+                    <span class="item-price member-price">{{ item.member_price }}</span>
+                    <span class="regular-price-strike">({{ item.unit_price }})</span>
+                    {% else %}
+                    <span class="item-price">{{ item.unit_price }}</span>
+                    {% endif %}
+                    <span class="item-amt">{{ item.total }}</span>
+                </div>
+                {% if item.discount_percent %}
+                <div class="discount-row">
+                    <span class="discount-tag">DISC {{ item.discount_percent }}%</span>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Item Count -->
+        <div class="item-count-row">
+            <span class="item-count-label">TOTAL ITEMS:</span>
+            <span class="item-count-value">{{ line_items|length }}</span>
+            <span class="qty-label">QTY:</span>
+            <span class="qty-value">{{ total_quantity|default(line_items|length) }}</span>
+        </div>
+
+        <!-- Double Dashed Divider -->
+        <div class="double-dashed-divider"></div>
+
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <div class="total-row">
+                <span class="total-label">SUBTOTAL</span>
+                <span class="total-value">{{ subtotal }}</span>
+            </div>
+            {% if member_discount_amount %}
+            <div class="total-row member-savings">
+                <span class="total-label">MEMBER SAVINGS</span>
+                <span class="total-value">-{{ member_discount_amount }}</span>
+            </div>
+            {% endif %}
+            {% if total_discount_raw|default(0) > 0 %}
+            <div class="total-row discount-row">
+                <span class="total-label">DISCOUNT</span>
+                <span class="total-value">-{{ total_discount }}</span>
+            </div>
+            {% endif %}
+            {% if rounding_adjustment %}
+            <div class="total-row">
+                <span class="total-label">ROUNDING</span>
+                <span class="total-value">{{ rounding_adjustment }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- GST Breakdown -->
+        {% if tax_amount_raw|default(0) > 0 %}
+        <div class="gst-breakdown">
+            <div class="gst-row">
+                <span class="gst-label">EXCL. GST</span>
+                <span class="gst-value">{{ amount_excluding_gst|default(subtotal) }}</span>
+            </div>
+            <div class="gst-row">
+                <span class="gst-label">GST @ {{ tax_rate|default(6) }}%</span>
+                <span class="gst-value">{{ tax_amount }}</span>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Double Dashed Divider -->
+        <div class="double-dashed-divider"></div>
+
+        <!-- Grand Total -->
+        <div class="grand-total-section">
+            <div class="grand-total-row">
+                <span class="grand-total-label">TOTAL</span>
+                <span class="grand-total-currency">RM</span>
+                <span class="grand-total-value">{{ total_amount }}</span>
+            </div>
+        </div>
+
+        <!-- Double Dashed Divider -->
+        <div class="double-dashed-divider"></div>
+
+        <!-- Payment Section -->
+        <div class="payment-section">
+            <div class="payment-row">
+                <span class="payment-label">{{ payment_method|default('CASH') }}</span>
+                <span class="payment-value">RM {{ amount_tendered|default(total_amount) }}</span>
+            </div>
+            {% if change_due %}
+            <div class="payment-row">
+                <span class="payment-label">CHANGE</span>
+                <span class="payment-value">RM {{ change_due }}</span>
+            </div>
+            {% endif %}
+            {% if card_last_four %}
+            <div class="card-info">
+                <div class="payment-row">
+                    <span class="payment-label">CARD</span>
+                    <span class="payment-value">XXXX-XXXX-XXXX-{{ card_last_four }}</span>
+                </div>
+                {% if approval_code %}
+                <div class="payment-row">
+                    <span class="payment-label">APPROVAL</span>
+                    <span class="payment-value">{{ approval_code }}</span>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Dashed Divider -->
+        <div class="dashed-divider"></div>
+
+        <!-- Member Points Section -->
+        {% if member_id %}
+        <div class="points-section">
+            <div class="points-header">*** LOYALTY POINTS ***</div>
+            <div class="points-row">
+                <span class="points-label">POINTS EARNED:</span>
+                <span class="points-value">+{{ points_earned|default('0') }}</span>
+            </div>
+            {% if points_balance %}
+            <div class="points-row">
+                <span class="points-label">NEW BALANCE:</span>
+                <span class="points-value">{{ points_balance }}</span>
+            </div>
+            {% endif %}
+            {% if points_expiry %}
+            <div class="points-expiry">Points expire: {{ points_expiry }}</div>
+            {% endif %}
+        </div>
+        <div class="dashed-divider"></div>
+        {% endif %}
+
+        <!-- Footer Section -->
+        <div class="receipt-footer">
+            <div class="footer-message">*** TERIMA KASIH ***</div>
+            <div class="footer-submessage">THANK YOU FOR YOUR PURCHASE</div>
+            <div class="footer-spacer"></div>
+            <div class="return-policy">
+                <div class="policy-line">Books may be exchanged within {{ return_days|default(14) }} days</div>
+                <div class="policy-line">with original receipt & in original condition</div>
+            </div>
+            {% if promotion_message %}
+            <div class="promo-notice">
+                <div class="promo-line">{{ promotion_message }}</div>
+            </div>
+            {% endif %}
+            {% if member_promo %}
+            <div class="member-promo">
+                <div class="promo-line">*** MEMBER EXCLUSIVE ***</div>
+                <div class="promo-line">{{ member_promo }}</div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Barcode Section -->
+        {% if receipt_barcode %}
+        <div class="receipt-barcode-section">
+            <div class="receipt-barcode">||| {{ receipt_barcode }} |||</div>
+        </div>
+        {% endif %}
+
+        <!-- Page Indicator (for multipage) -->
+        {% if _page_number is defined and _total_pages > 1 %}
+        <div class="page-indicator">
+            Page {{ _page_number }} of {{ _total_pages }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

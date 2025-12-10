@@ -1,0 +1,2414 @@
+# Template Pagination Configuration
+# Defines how each template handles multipage rendering with standard page sizes
+# All measurements in pixels at 96 DPI
+# Standard Page Sizes: Letter (816×1056px), A4 (794×1123px), Legal (816×1344px)
+# Landscape Page Sizes: Letter (1056×816px), A4 (1123×794px)
+# Shipping Label Sizes: 4x6 (384×576px scaled)
+
+# WooCommerce Standard Invoice Template
+# Clean, minimalist e-commerce invoice with WooCommerce purple branding
+# Features product table with SKU, payment status, and customer addresses
+ecommerce/woocommerce_standard.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 260           # Header + addresses
+  item_row_height: 50          # Product rows with name + category
+  totals_height: 330           # Totals + payment info + notes + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 40
+  margin_top: 40
+  margin_bottom: 40
+
+# BigCommerce Standard Invoice Template
+# Professional corporate e-commerce invoice with BigCommerce blue branding (#0066FF)
+# Features structured layout with clear sections and modern typography
+ecommerce/bigcommerce_standard.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 280           # Header + company info + customer section
+  item_row_height: 48          # Standard product rows
+  totals_height: 350           # Summary + payment + notes + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 55
+  continuation_footer_height: 45
+  margin_top: 40
+  margin_bottom: 40
+
+# Magento Standard Invoice Template
+# Adobe Commerce / Magento 2 e-commerce invoice with signature orange branding (#f26322)
+# Features professional layout with 3-column customer info, tax column, and enterprise styling
+ecommerce/magento_standard.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 290           # Header + orange accent bar + 3-column customer section
+  item_row_height: 52          # Product rows with SKU and tax column
+  totals_height: 340           # Totals + notes + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 58
+  continuation_footer_height: 42
+  margin_top: 40
+  margin_bottom: 40
+
+# Return Shipping Label Template
+# Customer return labels for reverse logistics with carrier branding, barcodes, and receipt
+supply_chain/return_label.html:
+  supports_multipage: false
+  page_size: Custom
+  orientation: Portrait
+  page_width: 576              # 4x6 label scaled (6 inches × 96 DPI)
+  page_height: 864             # Plus receipt section
+  header_height: 0
+  item_row_height: 22          # Compact item rows in receipt section
+  totals_height: 0
+  footer_height: 0
+  margin_top: 0
+  margin_bottom: 0
+
+# Return Shipping Label Template - Modern
+# Teal/cyan card-based design with emoji icons and rounded corners
+supply_chain/return_label_modern.html:
+  supports_multipage: false
+  page_size: Custom
+  orientation: Portrait
+  page_width: 576              # 4x6 label scaled
+  page_height: 864             # Plus receipt section
+  header_height: 0
+  item_row_height: 22
+  totals_height: 0
+  footer_height: 0
+  margin_top: 0
+  margin_bottom: 0
+
+# Proforma Invoice Template - Classic
+# Pre-shipment invoice for international trade and customs clearance
+# Navy blue and gold professional theme with HS codes and country of origin
+supply_chain/proforma_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 420           # Full header + status + parties + shipping + package summary
+  item_row_height: 38          # 9-column table with HS code and origin
+  totals_height: 0             # Totals only on last page, included in footer_height
+  footer_height: 480           # Totals + bank details + declaration + terms + footer
+  continuation_header_height: 50
+  continuation_footer_height: 40
+  margin_top: 0
+  margin_bottom: 0
+
+# Proforma Invoice Template - Modern
+# Pre-shipment invoice with teal/emerald theme, card-based party layout, gradient headers
+# Modern visual approach with icons, rounded corners, and horizontal shipping grid
+supply_chain/proforma_invoice_modern.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 440           # Header + disclaimer + 3 party cards + trade terms + package bar
+  item_row_height: 36          # 9-column table with HS code and origin
+  totals_height: 0             # Totals only on last page, included in footer_height
+  footer_height: 460           # Totals + bank details + declaration + notes + footer
+  continuation_header_height: 50
+  continuation_footer_height: 40
+  margin_top: 0
+  margin_bottom: 0
+
+# Shipping Manifest Template
+# Fulfillment center document listing all items in a shipment
+# Navy blue and steel blue professional theme with carrier info and seal verification
+supply_chain/shipping_manifest.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 340           # Header + status bar + info grid (3 cards) + reference row
+  item_row_height: 36          # 9-column table with SKU, weight, dimensions
+  totals_height: 380           # Summary + instructions + verification signatures + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 60
+  continuation_footer_height: 40
+  margin_top: 0
+  margin_bottom: 0
+
+# Shipping Manifest Template - Landscape
+# Industrial warehouse aesthetic with charcoal, orange, and white
+# Horizontal 3-column layout: Parties | Items | Summary (route visualization banner)
+supply_chain/shipping_manifest_landscape.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Landscape
+  header_height: 220           # Top banner with route flow + partial columns
+  item_row_height: 32          # 9-column compact table
+  totals_height: 200           # Summary + handling + signatures + bottom bar
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 35
+  margin_top: 0
+  margin_bottom: 0
+
+# Bill of Lading Template - Portrait
+# Professional freight document with dark blue (#1a365d) and gold (#d69e2e) theme
+# Legal document for LTL/FTL freight: shipper/consignee, freight items, hazmat, signatures
+supply_chain/bill_of_lading.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 480           # Header + BOL info + shipper/consignee cards + third party + freight terms
+  item_row_height: 36          # 9-column freight table (H/U, Pkg, Pcs, HM, Description, Weight, NMFC#, Class, Cube)
+  totals_height: 0           # Accessorial + COD + declared value + instructions + hazmat + signatures
+  footer_height: 450             # Footer included in totals_height
+  continuation_header_height: 80
+  continuation_footer_height: 35
+  margin_top: 0
+  margin_bottom: 0
+
+# Customs Declaration / Commercial Invoice Template - Portrait
+# Navy blue (#1e3a5f) and Teal (#0d9488) with Gold (#d97706) accents
+# International trade document: exporter/importer, HS codes, declared values, certification
+supply_chain/customs_declaration.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 420           # Header + reference bar + parties table + shipment details bar
+  item_row_height: 38          # 9-column items table (Qty, Unit, Desc, HS Code, Origin, Weight, Unit Val, Total)
+  totals_height: 380           # Totals boxes + certification + signatures + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 60
+  continuation_footer_height: 35
+  margin_top: 0
+  margin_bottom: 0
+
+# Customs Declaration / Commercial Invoice Template - Official Form Style
+# Burgundy (#7f1d1d), Charcoal (#1f2937), and Cream (#fef3c7)
+# Government form aesthetic with numbered sections like CN22/CN23
+supply_chain/customs_declaration_form.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 460           # Header + section 1-3 (exporter, importer, shipment details)
+  item_row_height: 34          # 7-column items table (No., Description, HS Code, Origin, Qty, Weight, Value)
+  totals_height: 400           # Section 5-8 (value summary, export info, certification, official use)
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 55
+  continuation_footer_height: 40
+  margin_top: 0
+  margin_bottom: 0
+
+# Receiving Report Template - Landscape
+# Horizontal workflow-based goods receipt with orange/amber theme and 5-step progress bar
+supply_chain/receiving_report_landscape.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Landscape
+  header_height: 280           # Header + workflow bar + 4-column info panels
+  item_row_height: 44          # 12-column wide table (SKU, product, UoM, ordered, received, variance, condition, location, lot, expiry, action)
+  totals_height: 220           # Summary row + 3 signatures + notes + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 35
+  margin_top: 0
+  margin_bottom: 0
+
+# Receiving Report Template - Compact
+# Modern compact goods receipt with blue/indigo theme, visual match indicators and card-based reference
+supply_chain/receiving_report_compact.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 260           # Header + reference cards + quick stats
+  item_row_height: 44          # 9-column compact table with visual match indicators
+  totals_height: 260           # Inspection panel + notes + 3 signatures + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 45
+  continuation_footer_height: 35
+  margin_top: 0
+  margin_bottom: 0
+
+# Receiving Report Template - Classic
+# Goods receipt verification document comparing received items to PO with green/emerald theme
+supply_chain/receiving_report.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 320           # Header + info panels + receiving details
+  item_row_height: 50          # 9-column table with PO vs received comparison
+  totals_height: 380           # Summary + inspection checklist + 3 signatures + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 40
+  margin_top: 0
+  margin_bottom: 0
+
+# Cycle Count Sheet Template - Modern
+# Clean, minimalist cycle count with teal/cyan theme, card-based info layout and status icons
+supply_chain/cycle_count_sheet_modern.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 240           # Header + info cards grid + quick stats (if shown)
+  item_row_height: 42          # 10-column streamlined table with status icons
+  totals_height: 300           # Variance summary + notes + signatures + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 40
+  margin_top: 0
+  margin_bottom: 0
+
+# Cycle Count Sheet Template - Classic
+# Partial inventory counts with ABC classification and variance tracking with purple/indigo theme
+supply_chain/cycle_count_sheet.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 370           # Header + reference bar + assignment table + instructions
+  item_row_height: 48          # 11-column table with ABC class, system qty, actual qty, variance, recount flag
+  totals_height: 360           # Summary + variance analysis + signatures + notes + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 60
+  continuation_footer_height: 50
+  margin_top: 0
+  margin_bottom: 0
+
+# Inventory Adjustment Form Template
+# Manual inventory corrections for damage/loss/theft/count reconciliation with red/orange theme
+supply_chain/inventory_adjustment_form.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 330           # Header + reference bar + location + reason
+  item_row_height: 52          # 10-column table with product name, description, variance and reason codes
+  totals_height: 430           # Summary + approval (3-signature) + notes + audit + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 60
+  continuation_footer_height: 50
+  margin_top: 0
+  margin_bottom: 0
+
+# Stock Transfer Template
+# Inter-warehouse inventory transfer document with blue theme
+supply_chain/stock_transfer.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 340           # Header + reference bar + locations + reason + shipping
+  item_row_height: 48          # 8-column table with stock levels
+  totals_height: 420           # Summary + approval + notes + instructions + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 60
+  continuation_footer_height: 50
+  margin_top: 0
+  margin_bottom: 0
+
+# RMA Form Template
+# Return merchandise authorization form with green theme
+supply_chain/rma_form.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 330           # Header + reference bar + parties + reason + authorization
+  item_row_height: 50          # 8-column table with condition badges
+  totals_height: 400           # Totals + disposition + instructions + notes + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 60
+  continuation_footer_height: 50
+  margin_top: 0
+  margin_bottom: 0
+
+# eBay Marketplace Invoice Template
+# Online marketplace invoice with eBay blue and yellow branding
+ecommerce/ebay_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 250           # Blue header + info bar + seller/buyer cards + items header
+  item_row_height: 40          # 5-column marketplace rows with condition badges
+  totals_height: 270           # Summary table + payment status + protection box + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 48
+  continuation_footer_height: 50
+  margin_top: 0
+  margin_bottom: 0
+
+# Alibaba.com Wholesale Invoice Template
+# B2B bulk order invoice with Alibaba orange branding and trade assurance
+ecommerce/alibaba_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 295           # Orange header + info cards + trade terms + section header
+  item_row_height: 42          # 6-column wholesale rows with SKU and origin details
+  totals_height: 230           # Totals table + payment status + trade assurance + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 52
+  margin_top: 0
+  margin_bottom: 0
+
+# AliExpress/GlobalMart Express Invoice Template
+# Multi-currency e-commerce invoice with product thumbnails, order tracking per item
+# Based on real AliExpress invoice layout with orange branding (#E62E04)
+ecommerce/aliexpress_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 220           # Header + invoice title + barcode + customer info box
+  item_row_height: 95          # Compact item cards with image + details + order info + shipping
+  totals_height: 140           # Totals table + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 40
+  margin_top: 0
+  margin_bottom: 0
+
+# Costco Wholesale Invoice Template
+# Warehouse club invoice with red Costco branding and membership focus
+ecommerce/costco_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 205           # Costco header + warehouse info + member bar + divider
+  item_row_height: 38          # 5-column warehouse rows with item numbers
+  totals_height: 190           # Savings box + payment details + summary + paid stamp + reward
+  footer_height: 50            # Footer divider and return policy
+  continuation_header_height: 36
+  continuation_footer_height: 26
+  margin_top: 22
+  margin_bottom: 22
+
+# Walmart Invoice Template
+# Retail store invoice with Walmart blue and yellow branding
+ecommerce/walmart_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 218           # Walmart header + store info + customer bar + divider
+  item_row_height: 40          # 6-column rows with UPC and department codes
+  totals_height: 185           # Savings box + payment info + calculation + paid badge
+  footer_height: 52            # Footer divider and return policy info
+  continuation_header_height: 38
+  continuation_footer_height: 28
+  margin_top: 25
+  margin_bottom: 25
+
+# Faire Wholesale Invoice Template
+# B2B retail inventory purchase with professional marketplace design
+ecommerce/faire_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 225           # Faire brand bar + brand logo + parties cards + summary bar
+  item_row_height: 41          # 6-column rows with wholesale/retail pricing
+  totals_height: 180           # Terms box + benefits box + calculation + payment badge
+  footer_height: 48            # Footer divider and Faire contact info
+  continuation_header_height: 40
+  continuation_footer_height: 30
+  margin_top: 28
+  margin_bottom: 28
+
+# Etsy Invoice Template
+# Handmade marketplace invoice with warm Etsy orange and artisan aesthetic
+ecommerce/etsy_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 220           # Etsy banner + shop logo + receipt details + addresses + payment bar
+  item_row_height: 42          # 6-column rows with Personalization column
+  totals_height: 185           # Message box + Etsy notice + totals + paid badge
+  footer_height: 50            # Footer divider and "Thank you" message
+  continuation_header_height: 42
+  continuation_footer_height: 30
+  margin_top: 30
+  margin_bottom: 30
+
+# Zemu Marketplace Invoice Template
+# Modern marketplace receipt with browser-style header, item cards with images
+# Features eco message, PayPal integration, and continuation headers for multipage orders
+ecommerce/zemu_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  first_page_items: 6          # 6 items fit on first page with full header
+  continuation_items_per_page: 11  # 11 items fit on continuation pages
+  last_page_items: 11          # 11 items fit on last page (same as continuation, no extra totals section)
+  header_height: 430           # Browser header + logo + eco message + summary + shipping + payment
+  item_row_height: 75          # Item cards with image placeholder + details + pricing
+  totals_height: 0             # No totals section (included in header on first page)
+  footer_height: 55            # Footer URL and page number
+  continuation_header_height: 50  # Continuation logo + order info
+  continuation_footer_height: 55
+  margin_top: 30
+  margin_bottom: 30
+
+# Amazon Seller Central Invoice Template
+# Marketplace seller/vendor invoice with orange branding and condition badges
+ecommerce/amazon_seller_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 215           # Orange gradient header + info cards + details bar
+  item_row_height: 42          # Marketplace rows with condition badges
+  totals_height: 165           # Notes + seller info + totals + payment summary
+  footer_height: 48            # Footer stripe and marketplace info
+  continuation_header_height: 40
+  continuation_footer_height: 30
+  margin_top: 28
+  margin_bottom: 28
+
+# Amazon Business Invoice Template
+# Professional B2B invoice with blue theme and business compliance features
+ecommerce/amazon_business_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 210           # Header + business details + transaction bar
+  item_row_height: 40          # Professional B2B rows with alternating backgrounds
+  totals_height: 170           # Notes/terms + totals table + amount due box
+  footer_height: 50            # Footer divider and business info
+  continuation_header_height: 40
+  continuation_footer_height: 30
+  margin_top: 25
+  margin_bottom: 25
+
+# Amazon Invoice Template
+# Authentic Amazon-inspired e-commerce invoice with orange accents
+ecommerce/amazon_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 230           # Header + order bar + addresses + payment section
+  item_row_height: 38          # Compact rows with borders (like real Amazon invoices)
+  totals_height: 180           # Declaration + calculation table + signature + amount words
+  footer_height: 42            # Footer notes and info
+  continuation_header_height: 38
+  continuation_footer_height: 28
+  margin_top: 30
+  margin_bottom: 30
+
+# Cloud Accounting Invoice Template
+# Wave/Xero inspired cloud accounting platform with emerald green accents
+ecommerce/cloud_accounting_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 194           # Header stripe + table + details section
+  item_row_height: 42          # Clean rows with alternating backgrounds
+  totals_height: 150           # Notes box + totals box
+  footer_height: 48            # Footer line and table
+  continuation_header_height: 40
+  continuation_footer_height: 30
+  margin_top: 20
+  margin_bottom: 20
+
+# SaaS Billing Invoice Template
+# FreshBooks/Zoho inspired modern billing platform with coral/orange accents
+ecommerce/saas_billing_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 196           # Header + info bar + parties section
+  item_row_height: 42          # Compact rows with alternating backgrounds
+  totals_height: 152           # Notes card + totals card
+  footer_height: 50            # Footer bar and content
+  continuation_header_height: 42
+  continuation_footer_height: 30
+  margin_top: 22
+  margin_bottom: 22
+
+# Zylker Invoice Template
+# Clean professional invoice with coral/orange accent theme
+# Based on modern SaaS invoice layout with boxed sections
+ecommerce/zylker_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 280           # Header with logo + balance + company info + bill to + invoice details
+  item_row_height: 48          # Item rows with description
+  totals_height: 320           # Subtotal + totals box + notes/terms/payment + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 55
+  continuation_footer_height: 40
+  margin_top: 40
+  margin_bottom: 40
+
+# Payment Processor Invoice Template
+# Stripe/Square inspired modern payment processing design with purple accents
+ecommerce/payment_processor_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 198           # Header table + bill to section
+  item_row_height: 44          # Clean rows with hover effects
+  totals_height: 150           # Notes box + totals table
+  footer_height: 54            # Footer divider and text
+  continuation_header_height: 40
+  continuation_footer_height: 32
+  margin_top: 24
+  margin_bottom: 24
+
+# Digital Payment Pro Template
+# Bill.com/Tipalti inspired payment platform design with teal accents
+ecommerce/digital_payment_pro.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 188           # Header bar + info grid + parties section
+  item_row_height: 43          # Compact numbered rows with SKU
+  totals_height: 148           # Notes container + totals container
+  footer_height: 52            # Footer stripe and content
+  continuation_header_height: 38
+  continuation_footer_height: 30
+  margin_top: 22
+  margin_bottom: 22
+
+# Enterprise Accounting Invoice Template
+# Zoho Books/Sage inspired corporate design with purple accents
+ecommerce/enterprise_accounting_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 192           # Header + Billing section
+  item_row_height: 43          # Compact rows with numbered items
+  totals_height: 146           # Notes panel + totals panel
+  footer_height: 50            # Purple line and footer text
+  continuation_header_height: 38
+  continuation_footer_height: 28
+  margin_top: 22
+  margin_bottom: 22
+
+# Modern Cloud Wholesale Template
+# Xero/Wave inspired modern accounting design with card-based UI
+ecommerce/modern_cloud_wholesale.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 186           # Header card + Customer card
+  item_row_height: 44          # Compact rows with alternating backgrounds
+  totals_height: 148           # Notes card + totals card side-by-side
+  footer_height: 52            # Gradient bar and footer text
+  continuation_header_height: 38
+  continuation_footer_height: 30
+  margin_top: 22
+  margin_bottom: 22
+
+# Accounting Pro Wholesale Template
+# Quickbooks/FreshBooks inspired professional accounting design
+ecommerce/accounting_pro_wholesale.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 190           # Header with logo + Bill To section
+  item_row_height: 45          # Compact rows with alternating backgrounds
+  totals_height: 150           # Notes section + totals box
+  footer_height: 54            # Divider and footer text
+  continuation_header_height: 40
+  continuation_footer_height: 30
+  margin_top: 22
+  margin_bottom: 22
+
+# Digital Payment Wholesale Template
+# PayPal/Venmo inspired B2B design with card-based UI
+ecommerce/digital_payment_wholesale.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 188           # Gradient header card, info cards, payment grid
+  item_row_height: 46          # Card-style rows with SKU
+  totals_height: 155           # Notes card and totals card
+  footer_height: 56            # Gradient bar and footer
+  continuation_header_height: 42
+  continuation_footer_height: 32
+  margin_top: 22
+  margin_bottom: 22
+
+# Premium Boutique Wholesale Template
+# Luxury brand design with elegant typography
+ecommerce/premium_boutique_wholesale.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 194           # Header table, divider, details, addresses
+  item_row_height: 47          # Elegant rows with article numbers
+  totals_height: 158           # Terms box and totals table
+  footer_height: 60            # Divider and three-column footer
+  continuation_header_height: 44
+  continuation_footer_height: 34
+  margin_top: 22
+  margin_bottom: 22
+
+# Nordic Minimalist Wholesale Template
+# Scandinavian design with clean lines and ample whitespace
+ecommerce/nordic_minimalist_wholesale.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 192           # Header, address grid, details bar with whitespace
+  item_row_height: 48          # Clean rows with SKU and description
+  totals_height: 155           # Notes and minimalist totals
+  footer_height: 56            # Subtle footer line and info
+  continuation_header_height: 44
+  continuation_footer_height: 34
+  margin_top: 22
+  margin_bottom: 22
+
+# Marketplace Wholesale Template
+# Amazon Business/Alibaba inspired B2B invoice
+ecommerce/marketplace_wholesale.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 188           # Header section, divider, info grid, payment bar
+  item_row_height: 46          # Data-dense rows with SKU and description
+  totals_height: 158           # Notes box and totals table
+  footer_height: 56            # Footer divider and content
+  continuation_header_height: 42
+  continuation_footer_height: 32
+  margin_top: 22
+  margin_bottom: 22
+
+# Tech Gradient Template
+# Stripe/Square inspired modern wholesale invoice
+ecommerce/tech_gradient_template.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 190           # Top bar, info grid, customer section
+  item_row_height: 48          # Modern rows with SKU and description
+  totals_height: 155           # Notes box and gradient totals
+  footer_height: 58            # Gradient bar and footer text
+  continuation_header_height: 44
+  continuation_footer_height: 35
+  margin_top: 22
+  margin_bottom: 22
+
+# Logistics Pro Invoice
+# FedEx/UPS inspired commercial invoice design
+ecommerce/logistics_pro_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 185           # Doc header and parties grid
+  item_row_height: 47          # Compact rows with line numbers
+  totals_height: 150           # Payment instructions and totals
+  footer_height: 50            # Document footer with ID
+  continuation_header_height: 42
+  continuation_footer_height: 35
+  margin_top: 22
+  margin_bottom: 22
+
+# Modern B2B Clean
+# Shopify/WooCommerce inspired wholesale design
+ecommerce/modern_b2b_clean.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 200           # Gradient header, supplier card, customer cards
+  item_row_height: 50          # Clean rows with hover effects
+  totals_height: 160           # Notes and totals cards
+  footer_height: 55            # Gradient footer line
+  continuation_header_height: 48
+  continuation_footer_height: 38
+  margin_top: 24
+  margin_bottom: 24
+
+# Enterprise Wholesale Bold
+# Corporate design inspired by SAP/Oracle systems
+ecommerce/enterprise_wholesale_bold.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 195           # Banner, details bar, and parties grid
+  item_row_height: 48          # Numbered rows with SKU and description
+  totals_height: 155           # Terms box and totals section
+  footer_height: 55            # Footer stripe and info
+  continuation_header_height: 45
+  continuation_footer_height: 35
+  margin_top: 22
+  margin_bottom: 22
+
+# Modern Wholesale Pro
+# Clean professional design inspired by QuickBooks/Xero
+ecommerce/modern_wholesale_pro.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 195           # Main header and party section
+  item_row_height: 50          # Clean rows with alternating backgrounds
+  totals_height: 165           # Terms and totals section
+  footer_height: 60            # Footer with divider
+  continuation_header_height: 48
+  continuation_footer_height: 38
+  margin_top: 24
+  margin_bottom: 24
+
+# Wholesale Compact Order
+# Professional B2B design optimized for high item counts
+ecommerce/wholesale_compact_order.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 185           # Brand header, order info, bill/ship/terms
+  item_row_height: 48          # Compact rows with SKU and variant
+  totals_height: 160           # Notes and totals summary
+  footer_height: 55            # Footer bar with company details
+  continuation_header_height: 50
+  continuation_footer_height: 35
+  margin_top: 24
+  margin_bottom: 24
+
+# Shopify Modern Clean Invoice
+# Fresh card-based design with gradient accents and modern aesthetics
+ecommerce/shopify_modern_clean.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 340           # Logo, meta bar, addresses, order pills
+  item_row_height: 48          # Items with variant info
+  totals_height: 200           # Summary with notes/terms
+  footer_height: 85            # Thank you footer
+  continuation_header_height: 65
+  continuation_footer_height: 55
+  margin_top: 35
+  margin_bottom: 35
+
+# Stripe-Inspired Minimal Invoice
+# Clean tech aesthetic with purple gradient accents
+ecommerce/stripe_minimal_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 320           # Brand, status bar, parties, reference
+  item_row_height: 50          # Clean minimal rows with SKU
+  totals_height: 220           # Summary section with notes
+  footer_height: 80            # Thank you footer
+  continuation_header_height: 70
+  continuation_footer_height: 60
+  margin_top: 48
+  margin_bottom: 24
+
+# Marketplace Transactional Invoice
+# Email-style design inspired by Etsy/eBay order confirmations
+ecommerce/marketplace_transactional.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 420           # Email header, hero, summary, address cards
+  item_row_height: 100         # Card-based items with images (reduced padding)
+  totals_height: 0           # Totals card
+  footer_height: 320           # Help section and company details
+  continuation_header_height: 70
+  continuation_footer_height: 65
+  margin_top: 0
+  margin_bottom: 0
+
+# Boutique Luxe Invoice
+# Warm neutral fashion-inspired layout with premium accents
+ecommerce/boutique_luxe_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 300           # Logo + order pill + addresses
+  item_row_height: 64          # Table rows with subtitle line
+  totals_height: 170           # Notes + totals cards
+  footer_height: 100           # Footer text and line
+  continuation_header_height: 70
+  continuation_footer_height: 60
+  margin_top: 20
+  margin_bottom: 20
+
+# Tech Modern Gradient Invoice
+# Dark tech gradient layout with neon accents
+ecommerce/tech_modern_gradient.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 360           # Hero, order summary, addresses
+  item_row_height: 120         # Spacious multi-line item rows
+  totals_height: 0           # Notes + totals stack
+  footer_height: 320           # Footer contact and bar
+  continuation_header_height: 80
+  continuation_footer_height: 70
+  margin_top: 30
+  margin_bottom: 30
+
+# Aurora Glass Invoice
+# Light glassmorphic ecommerce layout with aurora gradients
+ecommerce/aurora_glass_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 240           # Brand + order capsule
+  item_row_height: 85          # Comfortable multi-line rows
+  totals_height: 140           # Notes + totals stack
+  footer_height: 70            # Contact footer
+  continuation_header_height: 70
+  continuation_footer_height: 55
+  margin_top: 24
+  margin_bottom: 24
+
+# Nordic Statement Invoice
+# Minimal Nordic-inspired light invoice with strong typography
+ecommerce/nordic_statement_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 230           # Brand + order meta
+  item_row_height: 85          # Spacious table rows
+  totals_height: 140           # Notes + totals cards
+  footer_height: 70            # Footer contact line
+  continuation_header_height: 70
+  continuation_footer_height: 55
+  margin_top: 24
+  margin_bottom: 24
+
+# Modern Receipt Card Invoice
+# Card-based receipt design with bold dark header
+ecommerce/modern_receipt_card.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 260           # Dark header + order summary + addresses
+  item_row_height: 85          # Comfortable item rows
+  totals_height: 150           # Thank you message + totals
+  footer_height: 75            # Footer divider and text
+  continuation_header_height: 70
+  continuation_footer_height: 60
+  margin_top: 28
+  margin_bottom: 28
+
+# Premium Minimalist Invoice
+# Clean high-end design with strong typography and minimal decoration
+ecommerce/premium_minimalist_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 250           # Header + status banner + contacts
+  item_row_height: 75          # Clean product rows
+  totals_height: 145           # Support section + totals
+  footer_height: 70            # Footer bar and info
+  continuation_header_height: 60
+  continuation_footer_height: 50
+  margin_top: 28
+  margin_bottom: 28
+
+# Modern Professional - A4 Format Invoice
+modern_professional/invoice_a4.html:
+  supports_multipage: true
+  page_size: A4
+  orientation: Portrait
+  header_height: 280           # Company logo/info + invoice meta + billing section
+  item_row_height: 45          # 5-column professional rows with SKU and tax
+  totals_height: 250           # Totals + payment info + notes + terms + footer
+  footer_height: 60            # Thank you message and company highlight
+  continuation_header_height: 60    # Compact header with page numbers
+  continuation_footer_height: 40    # Continuation notice
+  margin_top: 20
+  margin_bottom: 20
+
+# Modern Professional - Bold Typography Invoice
+modern_professional/invoice_bold.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 220           # Bold header banner + info cards (From, Bill To, Date)
+  item_row_height: 42          # 4-column bold design rows
+  totals_height: 230           # Totals section + footer bar
+  footer_height: 50            # Footer bar with payment due message
+  continuation_header_height: 50    # Compact banner header
+  continuation_footer_height: 35    # Continuation notice
+  margin_top: 25
+  margin_bottom: 25
+
+# Modern Professional - Elegant Serif Invoice
+modern_professional/invoice_elegant.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 260           # Centered elegant header + detail boxes with ornaments
+  item_row_height: 48          # 4-column serif table with refined spacing
+  totals_height: 270           # Ornate summary box + signature footer
+  footer_height: 55            # Signature section with company info
+  continuation_header_height: 55    # Centered continuation header
+  continuation_footer_height: 38    # Continuation notice
+  margin_top: 22
+  margin_bottom: 22
+
+# Modern Professional - E-commerce Packing Slip Invoice
+modern_professional/invoice_ecommerce.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 240           # Brand section + order details + addresses + info grid
+  item_row_height: 52          # 5-column with SKU, description, attributes
+  totals_height: 260           # Totals + return policy + footer
+  footer_height: 50            # Thank you message and contact info
+  continuation_header_height: 52    # Compact brand and order info
+  continuation_footer_height: 36    # Continuation notice
+  margin_top: 24
+  margin_bottom: 24
+
+modern_professional/invoice_compact.html:
+  supports_multipage: true
+  page_size: A4
+  orientation: Portrait
+  header_height: 180           # Compact header with logo + invoice meta
+  item_row_height: 38          # Compact 5-column rows with SKU
+  totals_height: 200           # Payment info grid + totals table + footer notes
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 45    # Compact header with page numbers
+  continuation_footer_height: 30    # Continuation notice
+  margin_top: 30
+  margin_bottom: 30
+
+modern_professional/invoice_compact_multipage.html:
+  supports_multipage: true
+  page_size: A4
+  orientation: Portrait
+  header_height: 180           # Same as invoice_compact but multipage-aware
+  item_row_height: 38          # Compact 5-column rows with SKU
+  totals_height: 200           # Payment info + totals (only on last page)
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 45    # Compact header with page indicator
+  continuation_footer_height: 30    # Continuation notice
+  margin_top: 30
+  margin_bottom: 30
+
+modern_professional/invoice_minimal.html:
+  supports_multipage: false
+  page_size: Letter
+  orientation: Portrait
+  
+modern_professional/invoice_minimal_multipage.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 200
+  item_row_height: 40
+  totals_height: 100
+  footer_height: 60
+  continuation_header_height: 100
+  continuation_footer_height: 60
+  margin_top: 30
+  margin_bottom: 30
+  
+modern_professional/invoice_sidebar.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 250           # Full sidebar on first page (sidebar width affects layout)
+  item_row_height: 44          # 4-column table with description, qty, price, total
+  totals_height: 240           # Summary box + notes section
+  footer_height: 0             # Footer included in notes section
+  continuation_header_height: 65  # Compact header without sidebar
+  continuation_footer_height: 40
+  margin_top: 20
+  margin_bottom: 20
+
+modern_professional/invoice_landscape.html:
+  supports_multipage: true
+  page_size: A4
+  orientation: Landscape
+  header_height: 200           # Compact header + billing section (side-by-side)
+  item_row_height: 40          # 4-column compact rows with SKU
+  totals_height: 220           # Totals sidebar + payment section + notes
+  footer_height: 45            # Footer bar
+  continuation_header_height: 45
+  continuation_footer_height: 32
+  margin_top: 18
+  margin_bottom: 18
+
+# Receipt Template (simple receipt style)
+receipt/invoice.html:
+  supports_multipage: false
+  renderer: simple
+  page_size: Custom
+  custom_width: 288            # 3 inches at 96 DPI (thermal printer width)
+  custom_height: 1200          # Variable height receipt
+  orientation: Portrait
+
+# Classic Invoices
+classic/invoice.html:
+  supports_multipage: false
+  page_size: Letter
+  orientation: Portrait
+  
+modern/invoice.html:
+  supports_multipage: false
+  page_size: Letter
+  orientation: Portrait
+
+# Online Order Templates - large product cards with images
+retail/online_order_electronics.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 320           # Logo, order info, customer details (status inline)
+  item_row_height: 150         # Large product cards with images and specs
+  totals_height: 0           # Subtotal, tax, shipping, total
+  footer_height: 260           # Contact info, return policy
+  continuation_header_height: 120  # Simplified header
+  continuation_footer_height: 80
+  margin_top: 40
+  margin_bottom: 40
+  
+retail/online_order_fashion.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 320           # Logo, order info, customer details
+  item_row_height: 150         # Product cards with images, sizes, colors
+  totals_height: 0
+  footer_height: 260
+  continuation_header_height: 120
+  continuation_footer_height: 80
+  margin_top: 40
+  margin_bottom: 40
+  
+retail/online_order_digital.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 280           # Logo, order info, account details
+  item_row_height: 200         # Large cards with download links, license keys
+  totals_height: 0
+  footer_height: 230
+  continuation_header_height: 120
+  continuation_footer_height: 70
+  margin_top: 40
+  margin_bottom: 40
+  
+retail/online_order_wholesale.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 360           # Wholesale buyer info, terms
+  item_row_height: 75          # Compact product lines with SKUs, quantities
+  totals_height: 0           # Detailed wholesale pricing breakdown
+  footer_height: 340           # Payment terms, shipping info
+  continuation_header_height: 160
+  continuation_footer_height: 100
+  margin_top: 40
+  margin_bottom: 40
+  
+retail/online_order_marketplace.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 300           # Marketplace branding, seller info
+  item_row_height: 85          # Products from multiple sellers
+  totals_height: 0             # Totals only on last page, included in footer_height
+  footer_height: 280           # Totals (160) + footer (120)
+  continuation_header_height: 140
+  continuation_footer_height: 80
+  margin_top: 30
+  margin_bottom: 30
+  
+retail/online_order_grocery.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 320           # Delivery slot info
+  item_row_height: 80          # Grocery items with quantities
+  totals_height: 0             # Totals only on last page, included in footer_height
+  footer_height: 300           # Totals (180) + footer (120)
+  continuation_header_height: 140
+  continuation_footer_height: 80
+  margin_top: 30
+  margin_bottom: 30
+  
+retail/online_order_home_improvement.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 320
+  item_row_height: 90          # Hardware/tools with specifications
+  totals_height: 0             # Totals only on last page, included in footer_height
+  footer_height: 280           # Totals (160) + footer (120)
+  continuation_header_height: 140
+  continuation_footer_height: 80
+  margin_top: 30
+  margin_bottom: 30
+  
+retail/online_order_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 280           # Standard invoice header
+  item_row_height: 70          # Simple line items
+  totals_height: 140
+  footer_height: 100
+  continuation_header_height: 120
+  continuation_footer_height: 70
+  margin_top: 30
+  margin_bottom: 30
+
+# Consumer Service Invoices
+retail/consumer_service_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 300           # Service provider info
+  item_row_height: 85          # Service line items with descriptions
+  totals_height: 0             # Totals only on last page, included in footer_height
+  footer_height: 280           # Totals (160) + footer (120)
+  continuation_header_height: 140
+  continuation_footer_height: 80
+  margin_top: 30
+  margin_bottom: 30
+
+# East Repair Invoice Template
+# Clean professional service invoice with navy/red accent theme
+# Classic repair shop invoice layout with signature and terms
+services/east_repair_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 200           # Invoice title + company + addresses + invoice details
+  item_row_height: 38          # Simple service/parts rows
+  totals_height: 280           # Totals + signature + footer with thank you/terms
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 55
+  continuation_footer_height: 40
+  margin_top: 50
+  margin_bottom: 50
+
+# Blue Wave Invoice Template
+# Modern retail invoice with blue wave header design
+# Clean layout with blue accent theme, payment info, and Thank You footer
+retail/blue_wave_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 320           # Wave header + title + parties + date
+  item_row_height: 38          # Simple item rows with left border accent
+  totals_height: 270           # Subtotal + tax + total + note + payment info + thank you
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 60
+  continuation_footer_height: 40
+  margin_top: 0
+  margin_bottom: 50
+
+# Business Tax Invoice - Professional service invoice with signature and QR code
+services/business_tax_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 280           # Dark header + meta bar + parties section
+  item_row_height: 40          # Standard service item rows
+  totals_height: 320           # Totals + signature + terms/QR footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 60
+  continuation_footer_height: 40
+  margin_top: 0
+  margin_bottom: 40
+
+# POS Receipts - narrow thermal printer format (3" width ~288px at 96 DPI)
+retail/pos_receipt.html:
+  supports_multipage: true
+  renderer: simple
+  page_size: Custom
+  custom_width: 288            # 3 inches at 96 DPI (thermal printer width)
+  custom_height: 2000          # Tall page for continuous receipt
+  orientation: Portrait
+  header_height: 180           # Store name, address, date/time
+  item_row_height: 45          # Single line per item with price
+  totals_height: 180           # Subtotal, tax, total, payment method
+  footer_height: 120           # Thank you message, return policy
+  continuation_header_height: 80
+  continuation_footer_height: 60
+  margin_top: 20
+  margin_bottom: 20
+
+# Warehouse Club POS Receipt (Costco-style)
+# Continuous thermal receipt - single tall page to fit all items
+retail/pos_receipt_warehouse.html:
+  supports_multipage: false      # Thermal receipts are continuous - no pagination
+  renderer: html
+  page_size: Custom
+  custom_width: 280              # Narrow width matching Costco (2.9")
+  custom_height: 1400            # Very tall to fit 20+ items + all sections
+  orientation: Portrait
+  header_height: 60
+  item_row_height: 11
+  totals_height: 320
+  footer_height: 0
+  continuation_header_height: 30
+  continuation_footer_height: 25
+  margin_top: 8
+  margin_bottom: 8
+
+# Superstore POS Receipt (Walmart-style)
+# Thermal receipt with logo, survey promo, barcode, and QR code
+retail/pos_receipt_superstore.html:
+  supports_multipage: false      # Thermal receipts are continuous
+  renderer: html
+  page_size: Custom
+  custom_width: 280              # Standard thermal width
+  custom_height: 1200            # Tall for QR code + barcode sections
+  orientation: Portrait
+  header_height: 180             # Logo + store info + transaction line
+  item_row_height: 14            # Item rows
+  totals_height: 500             # Totals + payment + barcode + QR
+  footer_height: 0
+  continuation_header_height: 40
+  continuation_footer_height: 30
+  margin_top: 10
+  margin_bottom: 8
+
+retail/pos_receipt_dense.html:
+  supports_multipage: true
+  renderer: simple
+  page_size: Custom
+  custom_width: 288
+  custom_height: 2000
+  orientation: Portrait
+  header_height: 150           # Compact header
+  item_row_height: 38          # Tighter line spacing
+  totals_height: 150
+  footer_height: 100
+  continuation_header_height: 60
+  continuation_footer_height: 50
+  margin_top: 15
+  margin_bottom: 15
+  
+retail/pos_receipt_fuel.html:
+  supports_multipage: true
+  renderer: simple
+  page_size: Custom
+  custom_width: 288
+  custom_height: 2000
+  orientation: Portrait
+  header_height: 200           # Gas station info, pump number
+  item_row_height: 50          # Fuel type, gallons, price per gallon
+  totals_height: 180           # Total fuel cost, convenience store items
+  footer_height: 140           # Rewards program, survey info
+  continuation_header_height: 80
+  continuation_footer_height: 60
+  margin_top: 20
+  margin_bottom: 20
+  
+retail/pos_receipt_pharmacy.html:
+  supports_multipage: true
+  renderer: simple
+  page_size: Custom
+  custom_width: 288
+  custom_height: 2000
+  orientation: Portrait
+  header_height: 220           # Pharmacy info, prescription warnings
+  item_row_height: 55          # Medication names, instructions
+  totals_height: 160
+  footer_height: 150           # Important medication info, refill instructions
+  continuation_header_height: 90
+  continuation_footer_height: 70
+  margin_top: 20
+  margin_bottom: 20
+  
+retail/pos_receipt_premium.html:
+  supports_multipage: true
+  renderer: simple
+  page_size: Custom
+  custom_width: 288
+  custom_height: 2000
+  orientation: Portrait
+  header_height: 240           # Premium branding, customer name
+  item_row_height: 60          # More spacing for luxury feel
+  totals_height: 200           # Detailed payment breakdown
+  footer_height: 160           # Customer service info, luxury messaging
+  continuation_header_height: 100
+  continuation_footer_height: 80
+  margin_top: 25
+  margin_bottom: 25
+  
+retail/pos_receipt_qsr.html:
+  supports_multipage: true
+  renderer: simple
+  page_size: Custom
+  custom_width: 288
+  custom_height: 2000
+  orientation: Portrait
+  header_height: 180           # Restaurant name, order number
+  item_row_height: 50          # Food items with customizations
+  totals_height: 160
+  footer_height: 120           # Feedback request, nutrition info
+  continuation_header_height: 80
+  continuation_footer_height: 60
+  margin_top: 20
+  margin_bottom: 20
+  
+retail/pos_receipt_wholesale.html:
+  supports_multipage: true
+  renderer: html
+  page_size: Custom
+  custom_width: 384            # Wider format (4") for more item details
+  custom_height: 1200          # Taller pages for more items
+  orientation: Portrait
+  header_height: 140           # Wholesale club info + transaction info
+  item_row_height: 85          # Product with SKU, quantity bar, price/unit
+  totals_height: 180           # Savings breakdown
+  footer_height: 60            # Continuation footer only
+  continuation_header_height: 100
+  continuation_footer_height: 50
+  margin_top: 20
+  margin_bottom: 20
+  
+retail/pos_receipt_wide.html:
+  supports_multipage: true
+  renderer: simple
+  page_size: Custom
+  custom_width: 384            # 4 inch width
+  custom_height: 2000
+  orientation: Portrait
+  header_height: 180
+  item_row_height: 45
+  totals_height: 170
+  footer_height: 120
+  continuation_header_height: 80
+  continuation_footer_height: 60
+  margin_top: 20
+  margin_bottom: 20
+
+# ============================================================================
+# SROIE Malaysian POS Receipt Templates (Based on ICDAR-SROIE Dataset)
+# ============================================================================
+
+# Hardware Store Receipt - MR D.I.Y. Style
+# 80mm thermal, Courier 9pt, model numbers, bulk pricing, GST breakdown
+retail/pos_receipt_hardware.html:
+  supports_multipage: true
+  renderer: simple
+  page_size: Custom
+  custom_width: 302            # 80mm at 96 DPI
+  custom_height: 2000
+  orientation: Portrait
+  header_height: 160           # Store name, registration, address
+  item_row_height: 42          # Item with model number, barcode
+  totals_height: 150           # GST breakdown, total
+  footer_height: 100           # Return policy, thank you
+  continuation_header_height: 70
+  continuation_footer_height: 50
+  margin_top: 15
+  margin_bottom: 15
+
+# Home Center Receipt - Home Master Hardware Style
+# 85mm thermal, Arial 9pt, company registration prominent, GST ID
+retail/pos_receipt_home_center.html:
+  supports_multipage: true
+  renderer: simple
+  page_size: Custom
+  custom_width: 321            # 85mm at 96 DPI
+  custom_height: 2000
+  orientation: Portrait
+  header_height: 170           # Store name, registration, address, phone/fax
+  item_row_height: 45          # Item with category code
+  totals_height: 160           # GST breakdown, total
+  footer_height: 110           # Return policy, thank you
+  continuation_header_height: 75
+  continuation_footer_height: 55
+  margin_top: 15
+  margin_bottom: 15
+
+# Automotive Parts Receipt - S.H.H. Motor Style
+# 85mm thermal, Arial 10pt, vehicle info, part numbers, service details
+retail/pos_receipt_auto_parts.html:
+  supports_multipage: true
+  renderer: simple
+  page_size: Custom
+  custom_width: 321            # 85mm at 96 DPI
+  custom_height: 2000
+  orientation: Portrait
+  header_height: 180           # Store, vehicle info section
+  item_row_height: 48          # Parts with part numbers
+  totals_height: 155           # GST, total, payment
+  footer_height: 105           # Service notes, thank you
+  continuation_header_height: 80
+  continuation_footer_height: 55
+  margin_top: 15
+  margin_bottom: 15
+
+# Mini Market Receipt - Asia Mart/Fuyi Style
+# 80mm thermal, Courier 9pt, GST prominent, dense layout (40-45 lines/page)
+retail/pos_receipt_mini_market.html:
+  supports_multipage: true
+  renderer: simple
+  page_size: Custom
+  custom_width: 302            # 80mm at 96 DPI
+  custom_height: 2000
+  orientation: Portrait
+  header_height: 140           # Store, GST ID, transaction info
+  item_row_height: 35          # Dense item rows
+  totals_height: 140           # GST breakdown, total
+  footer_height: 95            # Return policy, bilingual footer
+  continuation_header_height: 65
+  continuation_footer_height: 45
+  margin_top: 12
+  margin_bottom: 12
+
+# Trading Company Receipt - Perniagaan Zheng Hui Style
+# 85mm thermal, Arial 9.5pt, JM registration, GST prominent, multiple address lines
+retail/pos_receipt_trading.html:
+  supports_multipage: true
+  renderer: simple
+  page_size: Custom
+  custom_width: 321            # 85mm at 96 DPI
+  custom_height: 2000
+  orientation: Portrait
+  header_height: 175           # Store, JM reg, full address block
+  item_row_height: 44          # Standard item rows
+  totals_height: 155           # GST breakdown, total
+  footer_height: 100           # Return policy, thank you
+  continuation_header_height: 75
+  continuation_footer_height: 50
+  margin_top: 14
+  margin_bottom: 14
+
+# Stationery Shop Receipt - Teo Heng Style
+# 80mm thermal, Courier 9pt, item codes, Qty/U/P/DISC% columns, batch tracking
+retail/pos_receipt_stationery.html:
+  supports_multipage: true
+  renderer: simple
+  page_size: Custom
+  custom_width: 302            # 80mm at 96 DPI
+  custom_height: 2000
+  orientation: Portrait
+  header_height: 145           # Store, registration, GST ID
+  item_row_height: 38          # Compact items with codes
+  totals_height: 145           # GST breakdown, total
+  footer_height: 95            # Policy, bilingual footer
+  continuation_header_height: 65
+  continuation_footer_height: 45
+  margin_top: 12
+  margin_bottom: 12
+
+# Bookstore Receipt - Book Trading Style
+# 85mm thermal, Courier 9pt, ISBN codes, member pricing tiers, points system
+retail/pos_receipt_bookstore.html:
+  supports_multipage: true
+  renderer: simple
+  page_size: Custom
+  custom_width: 321            # 85mm at 96 DPI
+  custom_height: 2000
+  orientation: Portrait
+  header_height: 165           # Store, member info, transaction
+  item_row_height: 46          # Books with ISBN, member price
+  totals_height: 170           # Subtotal, discount, GST, points
+  footer_height: 110           # Policy, thank you, member promo
+  continuation_header_height: 70
+  continuation_footer_height: 50
+  margin_top: 14
+  margin_bottom: 14
+
+# Wholesale Supply Receipt - Yongfatt Enterprise Style
+# 85mm thermal, Arial 9pt, batch orders, bulk quantities, credit terms, B2B format
+retail/pos_receipt_wholesale_supply.html:
+  supports_multipage: true
+  renderer: simple
+  page_size: Custom
+  custom_width: 321            # 85mm at 96 DPI
+  custom_height: 2000
+  orientation: Portrait
+  header_height: 200           # Store, GST, customer info, batch/PO
+  item_row_height: 50          # Bulk items with unit types (CTN/DOZ)
+  totals_height: 190           # Subtotal, discount, GST, credit terms
+  footer_height: 120           # Bank details, policy, thank you
+  continuation_header_height: 85
+  continuation_footer_height: 60
+  margin_top: 15
+  margin_bottom: 15
+
+# Dollar Store Receipt - MR. DOLLAR / Kedai RM2 Style
+# 80mm thermal, Courier 8.5pt, ultra-dense (45-50 lines/page), low prices, bag charge
+retail/pos_receipt_dollar_store.html:
+  supports_multipage: true
+  renderer: simple
+  page_size: Custom
+  custom_width: 302            # 80mm at 96 DPI
+  custom_height: 2000
+  orientation: Portrait
+  header_height: 130           # Compact store header
+  item_row_height: 32          # Ultra-dense item rows
+  totals_height: 135           # Subtotal, bag charge, SST, savings
+  footer_height: 90            # Policy, bilingual footer
+  continuation_header_height: 60
+  continuation_footer_height: 40
+  margin_top: 10
+  margin_bottom: 10
+
+# ============================================================================
+# PHASE 2: Shopify-Focused Templates (B2B Wholesale + Retail E-commerce)
+# ============================================================================
+
+# B2B Wholesale Templates
+wholesale/bulk_order_compact.html:
+  supports_multipage: true
+  page_size: A4
+  orientation: Portrait
+  header_height: 200
+  item_row_height: 40  # Compact wholesale: 40px for ~15 items/page
+  totals_height: 150
+  footer_height: 100
+  continuation_header_height: 80
+  continuation_footer_height: 60
+  margin_top: 30
+  margin_bottom: 30
+
+# FashionGo Wholesale Invoice Template
+# Fashion-focused B2B invoice with color/size variants, MSRP, and case pack info
+wholesale/fashiongo_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 260           # FashionGo brand header + vendor/buyer boxes
+  item_row_height: 48          # 9-column fashion table: Style, Description, Color, Size, UPC, Qty, Unit Price, MSRP, Total
+  totals_height: 240           # Totals table + wholesale info box + footer
+  footer_height: 60            # Thank you message + terms
+  continuation_header_height: 42
+  continuation_footer_height: 30
+  margin_top: 30
+  margin_bottom: 30
+
+# Stockup Market Wholesale Invoice Template
+# Candy/confectionery wholesaler with product images, case quantities, and clean green branding
+# Features image thumbnails for each product, SKU display, and multi-page support
+wholesale/stockup_market_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 220           # Logo + company details + order summary + shipping address
+  item_row_height: 75          # Product rows with 55x55px images + description + SKU
+  totals_height: 280           # Totals table + payment information section
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 45
+  margin_top: 30
+  margin_bottom: 30
+
+# Exotics Wholesale Invoice Template
+# Candy/confectionery wholesaler with clean minimalist design, barcode header, per-item tax
+# Features product images, three-column address layout, and CAD currency
+wholesale/exotics_wholesale_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 200           # Brand name + barcode + 3-column address section
+  item_row_height: 90          # Product rows with 60x60px images + description
+  totals_height: 220           # Totals table + thank you + company info footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 55
+  continuation_footer_height: 45
+  margin_top: 40
+  margin_bottom: 40
+
+# CandyVille Invoice Template
+# Colorful candy wholesaler with orange/teal branding, no product images, compact text rows
+# Features ITEM/QTTY/UNIT PRICE/TOTAL columns, social media footer
+wholesale/candyville_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 230           # Logo + company info + 3-column invoice/address section
+  item_row_height: 32          # Compact text-only rows (no images)
+  totals_height: 180           # Totals table + terms & notes + social icons
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 45
+  margin_top: 40
+  margin_bottom: 40
+
+# Faire Generic Invoice Template
+# Plain black & white invoice format used by Faire platform for all retailers
+# Features: 3-column address layout, Item/SKU/GTIN/Price/Qty/Subtotal columns, import fees notice
+wholesale/faire_generic_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 200           # Order/Invoice # + 3-column address + VAT number
+  item_row_height: 45          # Text-only rows with multi-line descriptions
+  totals_height: 250           # Subtotal/Shipping/Discount/Total + import notice
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 45
+  continuation_footer_height: 40
+  margin_top: 50
+  margin_bottom: 40
+
+# Orderchamp Invoice Template
+# European B2B wholesale marketplace (Amsterdam, Netherlands)
+# Features: Purple branding (#6C63FF), 3-column party layout, EUR/VAT format, Net 60 terms
+wholesale/orderchamp_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 220           # Logo + details row + 3-column parties section
+  item_row_height: 50          # Product name + SKU/EAN + variant info
+  totals_height: 280           # Totals + payment info + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 45
+  margin_top: 40
+  margin_bottom: 40
+
+# Beauty Joint Invoice Template
+# USA Beauty/Cosmetics wholesale distributor (Los Angeles, California)
+# Features: Pink branding (#E91E63), 3-column addresses, UPC codes, tiered wholesale pricing
+wholesale/beautyjoint_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 250           # Logo + details bar + 3-column addresses + optional brand banner
+  item_row_height: 45          # Brand + description + variant/shade + UPC
+  totals_height: 320           # Notes + totals + payment methods + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 45
+  margin_top: 35
+  margin_bottom: 25
+
+# Wayfair Professional Invoice Template
+# B2B Home Furnishings wholesale (Boston, Massachusetts)
+# Features: Purple branding (#7B2D8E), 3-column addresses, color/finish column, business discounts
+wholesale/wayfair_professional_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 240           # Logo + details bar + 3-column addresses + optional category banner
+  item_row_height: 48          # SKU + description/brand/dimensions + color + pricing
+  totals_height: 340           # Notes + business notice + totals + payment methods + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 45
+  margin_top: 35
+  margin_bottom: 25
+
+# Ingram Micro Invoice Template
+# World's Largest IT Distributor (Irvine, California) - NYSE: INGM
+# Features: Deep blue branding (#003366), VPN/IM Part#, IT products, reseller-focused
+wholesale/ingrammicro_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 250           # Logo + invoice badge + details bar + 3-column addresses + shipping terms
+  item_row_height: 48          # VPN + IM Part# + description/mfr/upc + qty + pricing
+  totals_height: 320           # Notes + payment box + totals + balance due + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 45
+  margin_top: 25
+  margin_bottom: 25
+
+# PetEdge Invoice Template
+# Professional Pet Supplies Since 1956 (Danvers, Massachusetts)
+# Features: Green branding (#2E7D32), Master Equipment/Top Performance brands, wholesale grooming supplies
+wholesale/petedge_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 260           # Logo + invoice badge + details bar + 3-column addresses + shipping bar
+  item_row_height: 50          # SKU + description/size/color + brand + qty + pricing + discount
+  totals_height: 330           # Brands box + notes + promo box + totals + payment methods + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 45
+  margin_top: 25
+  margin_bottom: 25
+
+# Oriental Trading Invoice Template
+# Fun Party Supplies Since 1932 (Omaha, Nebraska) - Berkshire Hathaway subsidiary
+# Features: Orange branding (#FF6B00), OTC item numbers, Fun Rewards+ program, party/school supplies
+wholesale/orientaltrading_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 270           # Logo + confetti + invoice badge + details + 3-column addresses + shipping bar
+  item_row_height: 48          # OTC item # + description + qty + pricing + discount
+  totals_height: 340           # Fun Rewards+ box + notes + promo box + totals + payment methods + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 45
+  margin_top: 25
+  margin_bottom: 25
+
+# Zysco Foodservice Invoice Template
+# Foodservice distribution invoice based on real Sysco invoice layout
+# Features: Account info bar with TSO/LOAD/DROP fields, weight-based pricing,
+# pack sizes, delivery quantities, VAT summary table, driver/customer signatures
+wholesale/zysco_foodservice_invoice.html:
+  supports_multipage: true
+  page_size: A4
+  orientation: Portrait
+  header_height: 300           # Logo + tagline + Invoice To/Deliver To + Account Info bar
+  item_row_height: 32          # Compact rows for many line items (foodservice typical)
+  totals_height: 420           # VAT summary table + totals + signature section + amendment notice
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 60   # Continuation header with account/invoice reference
+  continuation_footer_height: 45
+  margin_top: 20
+  margin_bottom: 20
+
+# Waliwaba Proforma Invoice Template
+# International B2B marketplace proforma invoice based on Alibaba format
+# Features: Customer details + Waliwaba address, membership/service items,
+# discount/TDS/IGST breakdown, bank transfer details, A&V terms, payment notes
+wholesale/waliwaba_proforma_invoice.html:
+  supports_multipage: true
+  page_size: A4
+  orientation: Portrait
+  header_height: 350           # Logo + company info + title bar + invoice header + customer/company details
+  item_row_height: 28          # Compact rows for service/membership items
+  totals_height: 460           # Empty rows + discount/final/TDS/IGST + grand total + payment methods + notes
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 40
+  margin_top: 20
+  margin_bottom: 20
+
+# International Trade Invoice Template
+# Generic international wholesale commercial invoice
+# Features: Green color scheme, trade stamp with anchor icon,
+# incoterms, HS codes, bank wire details, certification badges, 
+# shipping/trade terms box, amount in words
+wholesale/international_trade_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 320           # Top banner + company bar + buyer/consignee boxes + meta grid
+  item_row_height: 50          # Compact 8-column table rows with reduced padding
+  totals_height: 0             # Totals only on last page, included in footer_height
+  footer_height: 360           # Compact: trade terms + totals + amount words + bank/cert + signatures + footer
+  continuation_header_height: 50
+  continuation_footer_height: 40
+  margin_top: 25
+  margin_bottom: 25
+
+# Global Export Invoice Template
+# International trade commercial invoice with navy blue theme
+# Features: Diamond-shaped stamp, container/pallet tracking, HS codes,
+# multi-currency bank details, ISO/compliance certifications
+wholesale/global_export_invoice.html:
+  supports_multipage: true
+  page_size: A4
+  orientation: Portrait
+  header_height: 280           # Logo + title + parties + trade reference table
+  item_row_height: 45          # Compact rows with description and HS code
+  totals_height: 0             # Totals included in footer_height (last page only)
+  footer_height: 350           # Shipping summary + bank details + terms + stamp
+  continuation_header_height: 60   # Document title + invoice number + page reference
+  continuation_footer_height: 40   # Signature line + page numbers
+  margin_top: 25
+  margin_bottom: 25
+
+# Maritime Trade Invoice Template
+# US-based international wholesale with teal/copper maritime theme
+# Features: Compass rose stamp with anchor, wave accents, card-style parties,
+# shipping logistics grid, wire transfer details
+wholesale/maritime_trade_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 250           # Banner (12px) + header + divider + parties + trade grid
+  item_row_height: 40          # Compact rows with product details
+  totals_height: 0             # Totals included in footer_height (last page only)
+  footer_height: 360           # Shipping + totals + bank + signature with stamp + footer bar
+  continuation_header_height: 45   # Teal header bar with company + invoice info
+  continuation_footer_height: 35   # Continuation notice
+  margin_top: 0                # Banner starts at top
+  margin_bottom: 35
+
+# WaziExpress Invoice Template
+# E-commerce marketplace invoice based on AliExpress format
+# Features: Barcode, product images, logistics tracking,
+# total breakdown, payment received, VAT info, shipping address, seller signature
+ecommerce/waziexpress_invoice.html:
+  supports_multipage: true
+  page_size: A4
+  orientation: Portrait
+  header_height: 280           # Header table + title section + store info bar
+  item_row_height: 55          # Compact rows with product images and details
+  totals_height: 0             # Totals only on last page, included in footer_height
+  footer_height: 580           # Total amount + payment + additional info + shipping + logistics + seller sign
+  continuation_header_height: 50
+  continuation_footer_height: 40
+  margin_top: 15
+  margin_bottom: 15
+
+# WaziExpress Invoice v2 - Clean AliExpress Style
+# Exact replica of real AliExpress invoice layout with WaziExpress branding
+# Features: Simple header, customer box, store bar, product table with images,
+# total amount breakdown, payment received, logistics information, seller signature
+ecommerce/waziexpress_invoice_v2.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 200           # Header + invoice title + customer box + store bar
+  item_row_height: 65          # Product rows with images
+  totals_height: 350           # Totals + payment + logistics + seller signature
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 45
+  continuation_footer_height: 35
+  margin_top: 30
+  margin_bottom: 30
+
+# SHINE Fashion Invoice Template
+# Fashion e-commerce invoice inspired by SHEIN style
+# Features: Pink/gray color scheme, retail price strikethrough, Shine Points,
+# shipping guarantee, brand badges, clean modern design
+ecommerce/shine_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 200           # Logo + header bar + customer info
+  item_row_height: 65          # Product rows with image placeholders
+  totals_height: 250           # Totals + shipping guarantee + Shine Points
+  footer_height: 60            # Footer with badges
+  continuation_header_height: 50
+  continuation_footer_height: 40
+  margin_top: 25
+  margin_bottom: 25
+
+# IT Supplier Invoice Template
+# Electronics/IT wholesale invoice inspired by Bangladeshi B2B invoices
+# Features: Blue color scheme, company stamp, ISO badge, serial numbers,
+# warranty box, amount in words, dual signature areas
+ecommerce/it_supplier_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 280           # Logo + company info + invoice box + customer details
+  item_row_height: 55          # Product rows with serial numbers
+  totals_height: 380           # Grand total + amount words + warranty + signatures + stamp
+  footer_height: 50            # Footer with website
+  continuation_header_height: 55
+  continuation_footer_height: 40
+  margin_top: 20
+  margin_bottom: 20
+
+# Jungle Business Invoice - Amazon Business Style
+# B2B invoice with payment box header, per-item breakdown rows
+# Features: Logo + payment summary box, items with tax/discount/shipping breakdown,
+# total for shipment, total taxes in parentheses
+ecommerce/jungle_business_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 120           # Logo + payment box
+  item_row_height: 95          # Product row + 5 breakdown rows (Tax, Discount, Shipping, Gift Wrap, Regulatory Fee)
+  totals_height: 80            # Total + taxes
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 35
+  margin_top: 40
+  margin_bottom: 40
+
+# Jungle Business UK VAT Invoice - Amazon Business UK Style
+# Formal B2B VAT invoice with UK tax structure
+# Features: Paid status box, 3-column addresses, order info section,
+# 6-column VAT item table, invoice total, VAT summary, legal footer
+ecommerce/jungle_business_uk_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 320           # Header + payment box + addresses + order info
+  item_row_height: 45          # Compact product rows with ASIN
+  totals_height: 220           # Invoice total + VAT summary + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 45
+  continuation_footer_height: 35
+  margin_top: 25
+  margin_bottom: 25
+
+# Business Invoice Clean - Salesforce-style B2B Invoice
+# Generic professional invoice template without branding
+# Features: Company info section, cyan accent bar, recipient details,
+# 4-column items table, totals with tax, bank payment info
+wholesale/business_invoice_clean.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 260           # Company info + invoice bar + recipient details
+  item_row_height: 40          # Simple 4-column rows
+  totals_height: 220           # Totals + payment info + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 35
+  margin_top: 40
+  margin_bottom: 40
+
+# CircleSpace Order Confirmation - Squarespace Style
+# E-commerce order confirmation with billing/shipping addresses
+# Features: Order title, two-column addresses, 5-column items with tax,
+# shipping row, totals breakdown, store footer
+ecommerce/circlespace_order.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 320           # Title + thank you + order info + addresses + section title
+  item_row_height: 55          # Item rows with name/sku/variant
+  totals_height: 200           # Totals + divider + store footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 40
+  margin_top: 50
+  margin_bottom: 50
+
+# DingDong Shop E-invoice - TikTok Shop Style
+# Malaysian e-commerce platform invoice with tax compliance
+# Features: Logo + E-invoice title, Bill From/To sections, 7-column items table,
+# tax summary box, digital signature, QR code, disclaimer
+ecommerce/dingdong_shop_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 380           # Header + Bill From + Invoice box + Bill To
+  item_row_height: 35          # Compact fee rows with category headers
+  totals_height: 280           # Subtotal + tax summary + footer + disclaimer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 40
+  margin_top: 40
+  margin_bottom: 40
+
+# Retail E-commerce Templates
+ecommerce/shopify_standard.html:
+  supports_multipage: true
+  page_size: A4
+  orientation: Portrait
+  header_height: 210
+  item_row_height: 65  # Standard e-commerce: 65px for ~7 items/page
+  totals_height: 180
+  footer_height: 140
+  continuation_header_height: 80
+  continuation_footer_height: 60
+  margin_top: 35
+  margin_bottom: 35
+
+# CandyToday Shopify Invoice Template
+# Clean Shopify-style order confirmation email for candy e-commerce store
+# Features product images, customer info, and minimalist styling
+ecommerce/candytoday_shopify_invoice.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 280  # Header + logo + thank you section + action buttons
+  item_row_height: 75  # Items with image placeholder and quantity
+  totals_height: 320   # Customer info + totals + footer
+  footer_height: 0     # Footer included in totals_height
+  continuation_header_height: 70
+  continuation_footer_height: 0
+  margin_top: 40
+  margin_bottom: 40
+
+# Premium Detailed E-commerce Template (Shopify Premium)
+# Shows all available data fields with 85px detailed item cards
+ecommerce/shopify_premium_detailed.html:
+  supports_multipage: true
+  page_size: Letter
+  header_height: 280  # Full header with logo, addresses, payment/shipping info
+  item_row_height: 85  # Premium: 85px for detailed item cards with images
+  totals_height: 0   # Extended totals with all discount/shipping/tax lines
+  footer_height: 380   # Full footer with return policy, support, tracking
+  continuation_header_height: 100  # Continuation header with order context
+  continuation_footer_height: 60
+  margin_top: 35
+  margin_bottom: 35
+
+# Modern Dark Theme E-commerce Template (Shopify Dark)
+# Sleek dark-themed invoice with neon accents and card-based design
+ecommerce/shopify_modern_dark.html:
+  supports_multipage: true
+  page_size: Letter
+  header_height: 260  # Dark header with meta cards
+  item_row_height: 85  # Card-based items at 85px height
+  totals_height: 0     # Totals only on last page, included in footer_height
+  footer_height: 340   # Gradient totals (200) + three-column footer (140)
+  continuation_header_height: 80  # Slim dark continuation header
+  continuation_footer_height: 50
+  margin_top: 30
+  margin_bottom: 30
+
+# Luxe Classic Premium Template
+# Warm ivory + gold aesthetic with concierge blocks and expanded totals
+ecommerce/shopify_luxe_classic.html:
+  supports_multipage: true
+  page_size: Letter
+  header_height: 300  # Hero brand block plus summary tiles
+  item_row_height: 90  # Detailed line items with chips and extra rows
+  totals_height: 0   # Notes + dual-column totals grid
+  footer_height: 390   # Concierge footer with contact info
+  continuation_header_height: 90
+  continuation_footer_height: 60
+  margin_top: 35
+  margin_bottom: 35
+
+# Amazon-Style Order Confirmation
+# Clean professional layout with orange accent, table-based design
+ecommerce/amazon_style_order.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 280           # Logo, order badge, contact bar, info cards
+  item_row_height: 55          # Standard product rows with brand/variant
+  totals_height: 200           # Summary table, payment confirmation
+  footer_height: 100           # Notes, return policy, thank you box
+  continuation_header_height: 60
+  continuation_footer_height: 50
+  margin_top: 30
+  margin_bottom: 30
+
+# ========================================
+# PURCHASE ORDER TEMPLATES
+# ========================================
+
+# Alibaba International Purchase Order Template
+# Cross-border B2B sourcing with incoterms and compliance fields
+purchase_orders/po_alibaba.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 320           # Orange header + blind ship notice + 3 addresses + trade terms
+  item_row_height: 50          # 8-column rows with SKU, HS codes, origin, compliance
+  totals_height: 280           # Freight table + compliance section + totals + signatures + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 52
+  continuation_footer_height: 50
+  margin_top: 0
+  margin_bottom: 0
+
+# Domestic Distributor Purchase Order Template
+# Standard B2B wholesale purchase orders for US distributors
+purchase_orders/po_domestic_distributor.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 240           # Blue header + info cards + 3 addresses + terms bar
+  item_row_height: 45          # 6-column rows with UOM, brand, category details
+  totals_height: 260           # Totals table + special instructions + signatures + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 48
+  continuation_footer_height: 50
+  margin_top: 0
+  margin_bottom: 0
+
+# Dropship Purchase Order Template
+# Blind shipment POs with special branding and packaging instructions
+purchase_orders/po_dropship.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 380           # Header + blind ship notice + 3 addresses + branding section + SKU mapping
+  item_row_height: 55          # 7-column rows with supplier/buyer SKUs and packaging specs
+  totals_height: 300           # Totals + dropship terms + packaging checklist + signatures + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 52
+  continuation_footer_height: 50
+  margin_top: 0
+  margin_bottom: 0
+
+# Manufacturer Direct Purchase Order Template
+# Contract manufacturing POs with 9-column table (wide format requires landscape)
+purchase_orders/po_manufacturer_direct.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Landscape       # CRITICAL: 9 columns require landscape to prevent width corruption
+  header_height: 280           # Header + production timeline + QC requirements
+  item_row_height: 60          # 9-column rows with part specs, tooling, and setup costs
+  totals_height: 0           # Totals + technical docs table + terms + signatures + footer
+  footer_height: 320             # Footer included in totals_height
+  continuation_header_height: 48
+  continuation_footer_height: 50
+  margin_top: 0
+  margin_bottom: 0
+
+# SUPPLY CHAIN TEMPLATES
+# Fulfillment and inventory management documents (no pricing information)
+
+# Packing Slip Template (Classic)
+# Fulfillment document listing package contents (goes inside package, not invoice)
+supply_chain/packing_slip.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 280           # Header + addresses + shipping info
+  item_row_height: 35          # Compact checklist format with SKU, description, quantity
+  totals_height: 280           # Item totals + gift message + order notes + return policy + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 40
+  continuation_footer_height: 0
+  margin_top: 0
+  margin_bottom: 0
+
+# Packing Slip Template (Modern)
+# Contemporary fulfillment document with color accents and improved visual hierarchy
+supply_chain/packing_slip_modern.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 320           # Header bar + info bar + addresses
+  item_row_height: 42          # Modern styled rows with badges and icons
+  totals_height: 300           # Summary + gift/order notes + return section + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 35
+  continuation_footer_height: 0
+  margin_top: 0
+  margin_bottom: 0
+
+# Packing Slip Template (Landscape)
+# Wide horizontal layout optimized for 11" x 8.5" format with 7 columns
+supply_chain/packing_slip_landscape.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Landscape       # CRITICAL: Landscape format (11" wide x 8.5" tall)
+  header_height: 180           # Compact header + 3-column details (ship-to/from/info)
+  item_row_height: 32          # Compact rows with 7 columns (line#, SKU, desc, qty, bin, notes, packed)
+  totals_height: 200           # Summary box + notes + return policy + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 30
+  continuation_footer_height: 0
+  margin_top: 0
+  margin_bottom: 0
+
+# Modern E-commerce Packing Slip with Product Photos
+# Contemporary design with 70px product thumbnails and gradient purple branding
+supply_chain/packing_slip_ecommerce.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 310           # Gradient header (brand/order badge) + 3 address cards (ship-to/from/info)
+  item_row_height: 86          # Rows with 70px product photos + details + SKU + qty badge + bin + checkbox
+  totals_height: 0             # Totals only on last page, included in footer_height
+  footer_height: 350           # Footer cards (gift/notes/policy/support) + thank you message
+  continuation_header_height: 65
+  continuation_footer_height: 60
+  margin_top: 0
+  margin_bottom: 0
+
+# Delivery Note - Professional Supply Chain Document
+# Proof of delivery with signature fields, no pricing, focus on quantities and condition
+supply_chain/delivery_note.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 285           # Header (logo/company) + info bar (delivery date/tracking) + 2 address boxes
+  item_row_height: 48          # 7-column table (line, code, description, qty ordered/delivered, unit, condition)
+  totals_height: 350           # Summary table + notes + signature section (delivered by/received by) + terms + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 48
+  continuation_footer_height: 50
+  margin_top: 0
+  margin_bottom: 0
+
+# Modern Landscape Delivery Note with Product Photos
+# E-commerce style with 55px product photos, blue gradient header, signature fields
+supply_chain/delivery_note_landscape.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Landscape       # CRITICAL: 11" wide x 8.5" tall for 8-column table
+  header_height: 165           # Blue gradient header + 3 info boxes (from/to/details)
+  item_row_height: 67          # 8 columns with 55px photos (photo, item, code, ordered, delivered, unit, condition, notes)
+  totals_height: 180           # Footer table (summary card, 2 signature boxes, notes card) + terms bar
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 42
+  continuation_footer_height: 38
+  margin_top: 0
+  margin_bottom: 0
+
+# Credit Memo - Professional Refund Document
+# Red/orange theme for returns, refunds, and billing adjustments with credit tracking
+supply_chain/credit_memo.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 315           # Header (logo/company/badge) + reference bar (credit#/date/invoice#/RMA) + 2 address cards + reason
+  item_row_height: 52          # 7-column table (line#, description, SKU, qty, unit price, subtotal, credit amount)
+  totals_height: 390           # Totals breakdown + credit application card + notes + footer + terms
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 48
+  margin_top: 0
+  margin_bottom: 0
+
+# Modern Credit Memo - Clean Teal/Green Theme
+# Contemporary card-based design with info cards, modern typography, and gradient accents
+supply_chain/credit_memo_modern.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 340           # Header (logo/badge) + 4 info cards (credit/invoice/date/RMA) + parties boxes + reason banner
+  item_row_height: 48          # 7-column table with clean modern styling
+  totals_height: 360           # Totals layout (payment method card + totals card) + notes card + footer banner
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 48
+  continuation_footer_height: 45
+  margin_top: 0
+  margin_bottom: 0
+
+# Debit Memo - Professional Blue/Navy Theme
+# Additional charges document for undercharges, price adjustments, and additional fees
+supply_chain/debit_memo.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 310           # Header (logo/company/badge) + reference bar (debit#/date/invoice#/due) + 2 address cards + reason
+  item_row_height: 52          # 7-column table (line#, description, SKU, qty, unit price, subtotal, debit amount)
+  totals_height: 380           # Totals breakdown + payment information card + notes + footer
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 50
+  continuation_footer_height: 48
+  margin_top: 0
+  margin_bottom: 0
+
+# Debit Memo Modern - Purple/Indigo Card-Based Theme
+# Contemporary additional charges document with card layouts and gradient accents
+supply_chain/debit_memo_modern.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 355           # Header (logo/badge) + 4 info cards (amount/invoice/date/due) + party boxes + reason banner
+  item_row_height: 50          # 7-column table with modern card styling
+  totals_height: 350           # Payment card (left) + Totals card (right) + Notes card + Footer banner
+  footer_height: 0             # Footer included in totals_height
+  continuation_header_height: 48
+  continuation_footer_height: 50
+  margin_top: 0
+  margin_bottom: 0
+
+# ========================================
+# ADDITIONAL PURCHASE ORDER TEMPLATES
+# ========================================
+
+# Beauty/Cosmetics Purchase Order Template
+# Specialized PO for beauty product sourcing with lot tracking and expiry dates
+purchase_orders/po_beauty.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 280           # Header + vendor/buyer info + special cosmetics handling notes
+  item_row_height: 48          # Product rows with lot numbers and expiry tracking
+  totals_height: 260           # Totals + compliance notes + signatures
+  footer_height: 0
+  continuation_header_height: 50
+  continuation_footer_height: 45
+  margin_top: 0
+  margin_bottom: 0
+
+# Electronics Purchase Order Template
+# Tech product sourcing with warranty and certification requirements
+purchase_orders/po_electronics.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 300           # Header + vendor/buyer + warranty terms
+  item_row_height: 52          # Product rows with model numbers and certifications
+  totals_height: 280           # Totals + warranty summary + tech specs notes
+  footer_height: 0
+  continuation_header_height: 50
+  continuation_footer_height: 45
+  margin_top: 0
+  margin_bottom: 0
+
+# Fashion Wholesale Purchase Order Template
+# Apparel/accessories wholesale with size/color matrix support
+purchase_orders/po_fashion_wholesale.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 290           # Header + buyer/vendor + season/collection info
+  item_row_height: 50          # Style rows with size/color breakdowns
+  totals_height: 270           # Totals + delivery schedule + quality notes
+  footer_height: 0
+  continuation_header_height: 50
+  continuation_footer_height: 45
+  margin_top: 0
+  margin_bottom: 0
+
+# Food & Beverage Purchase Order Template
+# F&B sourcing with temperature requirements and allergen tracking
+purchase_orders/po_food_beverage.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 310           # Header + vendor/buyer + food safety certifications
+  item_row_height: 50          # Product rows with temp requirements and allergens
+  totals_height: 290           # Totals + handling instructions + compliance
+  footer_height: 0
+  continuation_header_height: 50
+  continuation_footer_height: 45
+  margin_top: 0
+  margin_bottom: 0
+
+# Generic Purchase Order Template
+# Standard multi-purpose PO suitable for any product category
+purchase_orders/po_generic.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 260           # Header + vendor/buyer addresses + terms
+  item_row_height: 45          # Standard product rows
+  totals_height: 250           # Totals + notes + signatures
+  footer_height: 0
+  continuation_header_height: 48
+  continuation_footer_height: 45
+  margin_top: 0
+  margin_bottom: 0
+
+# Home Goods Purchase Order Template
+# Furniture and home decor sourcing with dimensions and assembly info
+purchase_orders/po_home_goods.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Portrait
+  header_height: 280           # Header + vendor/buyer + shipping requirements
+  item_row_height: 52          # Product rows with dimensions and assembly notes
+  totals_height: 270           # Totals + freight details + installation notes
+  footer_height: 0
+  continuation_header_height: 50
+  continuation_footer_height: 45
+  margin_top: 0
+  margin_bottom: 0
+
+# Landscape Purchase Order Template - Classic
+# Wide-format PO for multi-column product tables
+purchase_orders/po_landscape.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Landscape       # Wide format for 8+ columns
+  header_height: 200           # Condensed header for landscape
+  item_row_height: 42          # Compact rows for wide tables
+  totals_height: 180           # Condensed totals for landscape
+  footer_height: 0
+  continuation_header_height: 45
+  continuation_footer_height: 40
+  margin_top: 0
+  margin_bottom: 0
+
+# Landscape Purchase Order Template - Modern
+# Contemporary wide-format PO with modern styling
+purchase_orders/po_landscape_modern.html:
+  supports_multipage: true
+  page_size: Letter
+  orientation: Landscape       # Wide format for 8+ columns
+  header_height: 210           # Modern header design
+  item_row_height: 44          # Product rows with modern styling
+  totals_height: 190           # Modern totals layout
+  footer_height: 0
+  continuation_header_height: 48
+  continuation_footer_height: 42
+  margin_top: 0
+  margin_bottom: 0
+
+# Receipt Paper Purchase Order Template
+# Thermal receipt-width PO for quick reference
+purchase_orders/po_receipt_paper.html:
+  supports_multipage: true
+  page_size: Custom
+  orientation: Portrait
+  page_width: 304              # Thermal receipt width (80mm)
+  page_height: 800             # Variable height per page
+  header_height: 120           # Compact header
+  item_row_height: 28          # Compact item rows
+  totals_height: 100           # Compact totals
+  footer_height: 0
+  continuation_header_height: 30
+  continuation_footer_height: 25
+  margin_top: 0
+  margin_bottom: 0
+
+
+

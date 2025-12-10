@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMA Form</title>
+    <link rel="stylesheet" href="../css/rma_form.css">
+</head>
+<body>
+    <div class="page">
+        <!-- Header (only on first page) -->
+        {% if _is_first_page|default(true) %}
+        <div class="header">
+            <div class="header-content">
+                <div class="logo-section">
+                    {% if supplier_logo %}
+                    <img src="{{ supplier_logo }}" alt="Logo" class="logo">
+                    {% else %}
+                    <div class="logo-placeholder">LOGO</div>
+                    {% endif %}
+                </div>
+                <div class="title-section">
+                    <h1>RMA FORM</h1>
+                    <div class="badge">RETURN AUTHORIZATION</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reference Bar -->
+        <div class="reference-bar">
+            <div class="ref-item">
+                <span class="ref-label">RMA Number:</span>
+                <span class="ref-value rma-number">{{ rma_number }}</span>
+            </div>
+            <div class="ref-item">
+                <span class="ref-label">Issue Date:</span>
+                <span class="ref-value">{{ issue_date }}</span>
+            </div>
+            <div class="ref-item">
+                <span class="ref-label">Original Order:</span>
+                <span class="ref-value">{{ original_order_number }}</span>
+            </div>
+            <div class="ref-item">
+                <span class="ref-label">Valid Until:</span>
+                <span class="ref-value expiration">{{ expiration_date }}</span>
+            </div>
+        </div>
+
+        <!-- Party Information -->
+        <div class="parties-container">
+            <div class="party-box">
+                <div class="party-header">Return To (Company)</div>
+                <div class="party-content">
+                    <strong>{{ supplier_name }}</strong><br>
+                    {{ supplier_street_address }}<br>
+                    {{ supplier_city }}, {{ supplier_state }} {{ supplier_postal_code }}<br>
+                    {% if supplier_country %}{{ supplier_country }}<br>{% endif %}
+                    {% if supplier_email %}Email: {{ supplier_email }}<br>{% endif %}
+                    {% if supplier_phone %}Phone: {{ supplier_phone }}{% endif %}
+                </div>
+            </div>
+            
+            <div class="party-box">
+                <div class="party-header">Returning From (Customer)</div>
+                <div class="party-content">
+                    <strong>{{ customer_name }}</strong><br>
+                    {{ customer_street_address }}<br>
+                    {{ customer_city }}, {{ customer_state }} {{ customer_postal_code }}<br>
+                    {% if customer_country %}{{ customer_country }}<br>{% endif %}
+                    {% if customer_email %}Email: {{ customer_email }}<br>{% endif %}
+                    {% if customer_phone %}Phone: {{ customer_phone }}{% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Return Reason Section -->
+        <div class="reason-section">
+            <div class="reason-header">Return Reason</div>
+            <div class="reason-content">
+                <strong>{{ return_reason }}</strong>
+                {% if return_notes %}
+                <div class="reason-notes">{{ return_notes }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Authorization Status (if approved/pending) -->
+        {% if authorization_status %}
+        <div class="authorization-bar">
+            <div class="auth-label">Authorization Status:</div>
+            <div class="auth-status status-{{ authorization_status|lower }}">{{ authorization_status|upper }}</div>
+            {% if authorized_by %}
+            <div class="auth-by">Authorized By: {{ authorized_by }}</div>
+            {% endif %}
+            {% if authorization_date %}
+            <div class="auth-date">Date: {{ authorization_date }}</div>
+            {% endif %}
+        </div>
+        {% endif %}
+        {% endif %}
+
+        <!-- Continuation Header (subsequent pages) -->
+        {% if not _is_first_page|default(true) %}
+        <div class="continuation-header">
+            <div class="continuation-title">RMA FORM (Continued)</div>
+            <div class="continuation-info">
+                <span>RMA Number: <strong>{{ rma_number }}</strong></span>
+                <span>Original Order: <strong>{{ original_order_number }}</strong></span>
+                <span>Page {{ _page_number }} of {{ _total_pages }}</span>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-line">#</th>
+                    <th class="col-description">Description</th>
+                    <th class="col-sku">SKU</th>
+                    <th class="col-qty">Qty Ordered</th>
+                    <th class="col-qty-return">Qty Returning</th>
+                    <th class="col-price">Unit Price</th>
+                    <th class="col-condition">Condition</th>
+                    <th class="col-amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                {% set price = item.unit_price if item.unit_price is not string else item.unit_price|replace('$', '')|replace(',', '')|float %}
+                {% set qty_ret = item.get('quantity_returning', item.quantity) %}
+                {% set qty_ordered = item.get('quantity_ordered', item.quantity) %}
+                {% set condition = item.get('condition', 'New') %}
+                <tr>
+                    <td class="col-line">{{ loop.index }}</td>
+                    <td class="col-description">{{ item.description }}</td>
+                    <td class="col-sku">{{ item.sku }}</td>
+                    <td class="col-qty">{{ qty_ordered }}</td>
+                    <td class="col-qty-return">{{ qty_ret }}</td>
+                    <td class="col-price">
+                        {% if item.unit_price is string %}
+                            {{ item.unit_price }}
+                        {% else %}
+                            ${{ "%.2f"|format(item.unit_price|to_float) }}
+                        {% endif %}
+                    </td>
+                    <td class="col-condition">
+                        <span class="condition-badge condition-{{ condition|lower }}">{{ condition }}</span>
+                    </td>
+                    <td class="col-amount return-amount">
+                        ${{ "%.2f"|format(qty_ret * price) }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Footer Section (only on last page) -->
+        {% if _is_last_page|default(true) %}
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <div class="totals-grid">
+                <div class="totals-card">
+                    <table class="totals-table">
+                        <tr>
+                            <td class="total-label">Subtotal:</td>
+                            <td class="total-value">
+                                {% if subtotal is string %}
+                                    {{ subtotal }}
+                                {% else %}
+                                    ${{ "%.2f"|format(subtotal|to_float) }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% if tax %}
+                        <tr>
+                            <td class="total-label">Tax:</td>
+                            <td class="total-value">
+                                {% if tax is string %}
+                                    {{ tax }}
+                                {% else %}
+                                    ${{ "%.2f"|format(tax|to_float) }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% if shipping_cost %}
+                        <tr>
+                            <td class="total-label">Shipping (Original):</td>
+                            <td class="total-value">
+                                {% if shipping_cost is string %}
+                                    {{ shipping_cost }}
+                                {% else %}
+                                    ${{ "%.2f"|format(shipping_cost) }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endif %}
+                        <tr class="total-row">
+                            <td class="total-label">Total Return Amount:</td>
+                            <td class="total-value return-total">
+                                {% if total is string %}
+                                    {{ total }}
+                                {% else %}
+                                    ${{ "%.2f"|format(total|to_float) }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Disposition Section -->
+                <div class="disposition-card">
+                    <div class="disposition-header">Disposition</div>
+                    <div class="disposition-content">
+                        {% if disposition %}
+                        <div class="disposition-option selected">
+                            <span class="disposition-icon">✓</span>
+                            <span class="disposition-text">{{ disposition }}</span>
+                        </div>
+                        {% else %}
+                        <div class="disposition-option">
+                            <span class="disposition-bullet">○</span>
+                            <span class="disposition-text">Refund</span>
+                        </div>
+                        <div class="disposition-option">
+                            <span class="disposition-bullet">○</span>
+                            <span class="disposition-text">Replace</span>
+                        </div>
+                        <div class="disposition-option">
+                            <span class="disposition-bullet">○</span>
+                            <span class="disposition-text">Repair</span>
+                        </div>
+                        <div class="disposition-option">
+                            <span class="disposition-bullet">○</span>
+                            <span class="disposition-text">Store Credit</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Return Instructions -->
+        <div class="instructions-section">
+            <div class="instructions-header">Return Instructions</div>
+            <div class="instructions-content">
+                <div class="instruction-item">
+                    <strong>Return Deadline:</strong> Items must be received by {{ expiration_date }}
+                </div>
+                <div class="instruction-item">
+                    <strong>Packaging:</strong> Pack items securely in original packaging if possible. Include this RMA form or reference RMA number {{ rma_number }} on the package.
+                </div>
+                <div class="instruction-item">
+                    <strong>Shipping:</strong> Ship to the "Return To" address above. Tracking number recommended.
+                </div>
+                <div class="instruction-item">
+                    <strong>Processing:</strong> Returns will be inspected within 3-5 business days of receipt. Refunds processed within 7-10 business days.
+                </div>
+                {% if return_shipping_paid %}
+                <div class="instruction-item shipping-paid">
+                    <strong>Note:</strong> Return shipping label has been provided. No additional shipping cost to customer.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Inspection Notes (if applicable) -->
+        {% if inspection_notes %}
+        <div class="notes-section">
+            <div class="notes-header">Inspection Notes</div>
+            <div class="notes-content">
+                {{ inspection_notes }}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <strong>Important:</strong> All returns subject to inspection. Items must be unused and in resalable condition unless defective.
+                    Refunds issued to original payment method. Store credit valid for 12 months.
+                </div>
+                <div class="footer-meta">
+                    <span>RMA Number: {{ rma_number }}</span>
+                    <span>|</span>
+                    <span>Issue Date: {{ issue_date }}</span>
+                    {% if _page_number and _total_pages %}
+                    <span>|</span>
+                    <span>Page {{ _page_number }} of {{ _total_pages }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

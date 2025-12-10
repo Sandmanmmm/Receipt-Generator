@@ -1,0 +1,350 @@
+/* Shopify Standard Order Invoice */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #212326;
+    background: white;
+}
+
+.invoice-container {
+    width: 794px; /* A4 width at 96 DPI */
+    margin: 0 auto;
+    padding: 35px 45px;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #5c6ac4;
+}
+
+/* Store logo styling */
+.store-logo {
+    display: block;
+    height: 50px;
+    width: auto;
+    max-width: 180px;
+    margin-bottom: 12px;
+    object-fit: contain;
+}
+
+.store-info h1 {
+    font-size: 22px;
+    color: #212326;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.store-info p {
+    font-size: 10px;
+    color: #637381;
+    line-height: 1.6;
+}
+
+.order-info {
+    text-align: right;
+}
+
+.order-info h2 {
+    font-size: 18px;
+    color: #5c6ac4;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.order-info p {
+    font-size: 10px;
+    color: #637381;
+    margin-bottom: 4px;
+}
+
+/* Customer Section */
+.customer-section {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 20px 0;
+    margin-bottom: 25px;
+}
+
+.customer-section > div {
+    display: table-cell;
+    width: 33.33%;
+    vertical-align: top;
+}
+
+.shipping-address, .billing-address, .shipping-method {
+    padding: 15px;
+    background: #f9fafb;
+    border-radius: 6px;
+    border: 1px solid #e1e3e5;
+}
+
+.shipping-address h3, .billing-address h3, .shipping-method h3 {
+    font-size: 10px;
+    color: #637381;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.shipping-address p, .billing-address p, .shipping-method p {
+    font-size: 10px;
+    color: #212326;
+    margin-bottom: 4px;
+    line-height: 1.6;
+}
+
+/* Continuation Header */
+.continuation-header {
+    background: #f4f6f8;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    border-left: 4px solid #5c6ac4;
+}
+
+.continuation-header p {
+    font-size: 11px;
+    color: #637381;
+}
+
+/* Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+    font-size: 10px;
+}
+
+.items-table thead {
+    background: #5c6ac4;
+    color: white;
+}
+
+.items-table th {
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 10px;
+}
+
+/* Column widths for e-commerce layout */
+.col-product { width: 32%; }
+.col-variant { width: 18%; }
+.col-sku { width: 15%; }
+.col-qty { width: 8%; text-align: center; }
+.col-price { width: 12%; text-align: right; }
+.col-total { width: 15%; text-align: right; }
+
+.items-table tbody tr.item-row {
+    border-bottom: 1px solid #e1e3e5;
+    height: 65px; /* Standard: 65px per item for ~7 items/page */
+}
+
+.items-table tbody tr.item-row:hover {
+    background: #f9fafb;
+}
+
+.items-table td {
+    padding: 10px 12px;
+    vertical-align: top;
+}
+
+.product-name {
+    font-weight: 500;
+    color: #212326;
+    margin-bottom: 3px;
+}
+
+.product-detail {
+    font-size: 9px;
+    color: #637381;
+}
+
+.item-note td {
+    padding: 8px 12px;
+    background: #fff9e6;
+    border-bottom: 1px solid #e1e3e5;
+    font-size: 9px;
+    font-style: italic;
+    color: #5c5f62;
+}
+
+.note-icon {
+    color: #ffc107;
+    margin-right: 4px;
+}
+
+.item-discount td {
+    padding: 6px 12px;
+    background: #e3f5ff;
+    border-bottom: 1px solid #e1e3e5;
+    text-align: right;
+    font-size: 9px;
+}
+
+.discount-badge {
+    background: #0084ff;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-right: 8px;
+}
+
+/* Totals Section */
+.totals-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.order-notes {
+    flex: 1;
+    padding: 15px;
+    background: #f9fafb;
+    border-radius: 6px;
+    margin-right: 40px;
+}
+
+.order-notes h3 {
+    font-size: 12px;
+    color: #212326;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.order-notes p {
+    font-size: 10px;
+    line-height: 1.6;
+    color: #637381;
+}
+
+.gift-message {
+    margin-top: 12px;
+    padding: 10px;
+    background: white;
+    border: 1px solid #e1e3e5;
+    border-radius: 4px;
+}
+
+.gift-message strong {
+    color: #5c6ac4;
+}
+
+.gift-message p {
+    margin-top: 4px;
+    font-style: italic;
+}
+
+.totals {
+    min-width: 300px;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-table tr {
+    border-bottom: 1px solid #e1e3e5;
+}
+
+.totals-table td {
+    padding: 8px 12px;
+    font-size: 11px;
+}
+
+.totals-table td:first-child {
+    text-align: right;
+    color: #637381;
+}
+
+.totals-table td:last-child {
+    text-align: right;
+    font-weight: 500;
+    color: #212326;
+}
+
+.totals-table .discount-row td {
+    color: #0084ff;
+}
+
+.totals-table .total-row {
+    background: #5c6ac4;
+    color: white;
+    border-bottom: none;
+}
+
+.totals-table .total-row td {
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Footer Info */
+.footer-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding: 20px;
+    background: #f9fafb;
+    border-radius: 6px;
+}
+
+.support-info, .return-policy {
+    flex: 1;
+}
+
+.support-info {
+    margin-right: 30px;
+}
+
+.support-info p, .return-policy p {
+    font-size: 9px;
+    margin-bottom: 4px;
+    line-height: 1.6;
+    color: #637381;
+}
+
+.support-info p:first-child strong, .return-policy p:first-child strong {
+    color: #212326;
+    font-size: 10px;
+}
+
+/* Thank You */
+.thank-you {
+    text-align: center;
+    margin-top: 25px;
+    padding: 15px;
+}
+
+.thank-you p {
+    font-size: 14px;
+    color: #5c6ac4;
+    font-weight: 500;
+}
+
+/* Page Number */
+.page-number {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 9px;
+    color: #919eab;
+}

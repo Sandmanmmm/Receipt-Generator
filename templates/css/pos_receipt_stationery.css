@@ -1,0 +1,545 @@
+/**
+ * Stationery Shop POS Receipt Stylesheet
+ * Style: Teo Heng Stationery & Books (Malaysian)
+ * Width: 80mm thermal receipt
+ * Font: Courier 9pt primary (monospace)
+ * Features: Item codes, Qty/U/P/DISC% columns, batch tracking, educational supplies
+ * Density: 38-42 lines/page (compact)
+ */
+
+/* ===== Reset and Base Styles ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    line-height: 1.2;
+    background-color: #ffffff;
+    color: #000000;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Receipt Container ===== */
+.stationery-receipt {
+    width: 302px;  /* 80mm at 96 DPI */
+    max-width: 302px;
+    margin: 0 auto;
+    padding: 6px 5px;
+    background-color: #ffffff;
+}
+
+/* ===== Header Section ===== */
+.receipt-header {
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.store-name {
+    font-size: 12pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1px;
+}
+
+.legal-suffix {
+    font-size: 8.5pt;
+    font-weight: normal;
+    text-transform: uppercase;
+    margin-bottom: 1px;
+}
+
+.company-reg {
+    font-size: 9pt;
+    font-weight: bold;
+    color: #333333;
+}
+
+/* ===== Address Block ===== */
+.address-block {
+    text-align: center;
+    margin: 3px 0;
+}
+
+.address-line {
+    font-size: 8pt;
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+/* ===== Dividers ===== */
+.dashed-divider {
+    border-top: 1px dashed #000000;
+    margin: 4px 0;
+}
+
+.double-dashed-divider {
+    border-top: 2px dashed #000000;
+    margin: 4px 0;
+}
+
+.solid-divider {
+    border-top: 1px solid #000000;
+    margin: 4px 0;
+}
+
+/* ===== Contact Block ===== */
+.contact-block {
+    text-align: center;
+    margin: 3px 0;
+    font-size: 8.5pt;
+}
+
+.contact-label {
+    font-weight: bold;
+}
+
+.contact-value {
+    margin-left: 2px;
+}
+
+.contact-sep {
+    margin: 0 6px;
+    color: #666666;
+}
+
+/* ===== GST Block ===== */
+.gst-block {
+    text-align: center;
+    padding: 2px 0;
+    font-size: 9pt;
+}
+
+.gst-block .gst-label {
+    font-weight: bold;
+}
+
+.gst-block .gst-value {
+    font-weight: bold;
+    margin-left: 3px;
+    letter-spacing: 1px;
+}
+
+/* ===== Invoice Type Banner ===== */
+.invoice-type-banner {
+    text-align: center;
+    padding: 3px 0;
+}
+
+.invoice-type {
+    font-size: 10pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ===== Transaction Block ===== */
+.transaction-block {
+    margin: 3px 0;
+}
+
+.trans-row {
+    display: block;
+    margin: 1px 0;
+    font-size: 8.5pt;
+}
+
+.trans-label {
+    font-weight: bold;
+    display: inline-block;
+    width: 60px;
+}
+
+.trans-value {
+    font-weight: normal;
+}
+
+.trans-time {
+    margin-left: 12px;
+    color: #444444;
+}
+
+/* ===== Column Headers ===== */
+.column-headers {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 7.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 2px 0;
+    letter-spacing: 0.5px;
+}
+
+.col-code {
+    display: table-cell;
+    width: 18%;
+    text-align: left;
+}
+
+.col-desc {
+    display: table-cell;
+    width: 30%;
+    text-align: left;
+}
+
+.col-qty {
+    display: table-cell;
+    width: 10%;
+    text-align: center;
+}
+
+.col-price {
+    display: table-cell;
+    width: 14%;
+    text-align: right;
+}
+
+.col-disc {
+    display: table-cell;
+    width: 12%;
+    text-align: center;
+}
+
+.col-amt {
+    display: table-cell;
+    width: 16%;
+    text-align: right;
+}
+
+/* ===== Items Section ===== */
+.items-section {
+    margin: 2px 0;
+}
+
+.item-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding: 2px 0;
+    font-size: 8.5pt;
+    border-bottom: 1px dotted #dddddd;
+}
+
+.item-row:last-child {
+    border-bottom: none;
+}
+
+.item-code {
+    display: table-cell;
+    width: 18%;
+    text-align: left;
+    vertical-align: top;
+    font-weight: bold;
+    font-size: 7.5pt;
+}
+
+.item-desc {
+    display: table-cell;
+    width: 30%;
+    text-align: left;
+    vertical-align: top;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font-size: 8pt;
+}
+
+.item-qty {
+    display: table-cell;
+    width: 10%;
+    text-align: center;
+    vertical-align: top;
+}
+
+.item-price {
+    display: table-cell;
+    width: 14%;
+    text-align: right;
+    vertical-align: top;
+}
+
+.item-disc {
+    display: table-cell;
+    width: 12%;
+    text-align: center;
+    vertical-align: top;
+    font-size: 7.5pt;
+    color: #cc0000;
+}
+
+.item-amt {
+    display: table-cell;
+    width: 16%;
+    text-align: right;
+    vertical-align: top;
+    font-weight: bold;
+}
+
+/* Batch Row */
+.batch-row {
+    padding: 0 0 2px 18%;
+    font-size: 7pt;
+    color: #666666;
+}
+
+.batch-label {
+    font-weight: bold;
+}
+
+.batch-value {
+    margin-left: 3px;
+}
+
+/* ===== Item Count ===== */
+.item-count-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8pt;
+    padding: 2px 0;
+}
+
+.item-count-label,
+.qty-label {
+    display: table-cell;
+    font-weight: bold;
+}
+
+.item-count-label {
+    width: 35%;
+    text-align: left;
+}
+
+.item-count-value {
+    display: table-cell;
+    width: 15%;
+    text-align: left;
+}
+
+.qty-label {
+    width: 25%;
+    text-align: right;
+}
+
+.qty-value {
+    display: table-cell;
+    width: 25%;
+    text-align: right;
+}
+
+/* ===== Totals Section ===== */
+.totals-section {
+    margin: 3px 0;
+}
+
+.total-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding: 1px 0;
+    font-size: 9pt;
+}
+
+.total-label {
+    display: table-cell;
+    width: 60%;
+    text-align: right;
+    padding-right: 8px;
+    font-weight: bold;
+}
+
+.total-value {
+    display: table-cell;
+    width: 40%;
+    text-align: right;
+}
+
+.discount-row .total-value {
+    color: #cc0000;
+}
+
+/* ===== GST Breakdown ===== */
+.gst-breakdown {
+    margin: 3px 0;
+    padding: 3px;
+    background-color: #f8f8f8;
+    border: 1px dashed #cccccc;
+}
+
+.gst-breakdown .gst-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding: 1px 0;
+    font-size: 8pt;
+}
+
+.gst-breakdown .gst-label {
+    display: table-cell;
+    width: 60%;
+    text-align: right;
+    padding-right: 8px;
+    font-weight: normal;
+}
+
+.gst-breakdown .gst-value {
+    display: table-cell;
+    width: 40%;
+    text-align: right;
+    font-weight: normal;
+    letter-spacing: 0;
+    margin-left: 0;
+}
+
+/* ===== Grand Total ===== */
+.grand-total-section {
+    margin: 3px 0;
+    padding: 3px 0;
+}
+
+.grand-total-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.grand-total-label {
+    display: table-cell;
+    width: 40%;
+    text-align: left;
+}
+
+.grand-total-currency {
+    display: table-cell;
+    width: 15%;
+    text-align: right;
+    padding-right: 2px;
+}
+
+.grand-total-value {
+    display: table-cell;
+    width: 45%;
+    text-align: right;
+}
+
+/* ===== Payment Section ===== */
+.payment-section {
+    margin: 3px 0;
+}
+
+.payment-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding: 1px 0;
+    font-size: 9pt;
+}
+
+.payment-label {
+    display: table-cell;
+    width: 40%;
+    text-align: left;
+    font-weight: bold;
+}
+
+.payment-value {
+    display: table-cell;
+    width: 60%;
+    text-align: right;
+}
+
+.card-info {
+    margin-top: 2px;
+    padding-top: 2px;
+    border-top: 1px dotted #cccccc;
+}
+
+/* ===== Footer Section ===== */
+.receipt-footer {
+    text-align: center;
+    margin-top: 6px;
+}
+
+.footer-message {
+    font-size: 10pt;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.footer-submessage {
+    font-size: 8pt;
+    margin-bottom: 3px;
+}
+
+.footer-spacer {
+    height: 3px;
+}
+
+.return-policy {
+    font-size: 7pt;
+    color: #555555;
+    line-height: 1.2;
+}
+
+.policy-line {
+    margin: 1px 0;
+}
+
+.promo-notice {
+    margin-top: 4px;
+    padding: 3px;
+    background-color: #fff0f0;
+    border: 1px dashed #cc0000;
+}
+
+.promo-line {
+    font-size: 8pt;
+    font-weight: bold;
+    color: #cc0000;
+}
+
+/* ===== Barcode Section ===== */
+.receipt-barcode-section {
+    text-align: center;
+    margin-top: 6px;
+    padding-top: 4px;
+}
+
+.receipt-barcode {
+    font-size: 9pt;
+    letter-spacing: 2px;
+}
+
+/* ===== Page Indicator ===== */
+.page-indicator {
+    text-align: center;
+    font-size: 7.5pt;
+    color: #888888;
+    margin-top: 6px;
+    padding-top: 3px;
+    border-top: 1px dashed #cccccc;
+}
+
+/* ===== Print Styles ===== */
+@media print {
+    body {
+        background-color: #ffffff;
+    }
+    
+    .stationery-receipt {
+        width: 80mm;
+        margin: 0;
+        padding: 2mm;
+    }
+    
+    .dashed-divider,
+    .double-dashed-divider {
+        border-color: #000000;
+    }
+}

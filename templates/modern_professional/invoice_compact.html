@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Compact Invoice</title>
+    <title>Compact Invoice{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <style>
         @page {
             size: A4;
@@ -44,12 +44,24 @@
             color: {{ brand_primary_color }};
         }
         .party-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
+            display: table;
+            width: 100%;
+            table-layout: fixed;
             margin-bottom: 25px;
             background: #f8f9fa;
             padding: 15px;
+        }
+        .party-info > .party-box {
+            display: table-cell;
+            width: 33.33%;
+            vertical-align: top;
+            padding: 0 10px;
+        }
+        .party-info > .party-box:first-child {
+            padding-left: 0;
+        }
+        .party-info > .party-box:last-child {
+            padding-right: 0;
         }
         .party-box h3 {
             margin: 0 0 8px 0;
@@ -88,10 +100,20 @@
             font-size: 9px;
         }
         .totals-grid {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 30px;
+            display: table;
+            width: 100%;
+            table-layout: fixed;
             margin-top: 20px;
+        }
+        .totals-grid > .payment-info {
+            display: table-cell;
+            width: 50%;
+            vertical-align: top;
+        }
+        .totals-grid > .totals-table {
+            display: table-cell;
+            width: 300px;
+            vertical-align: top;
         }
         .payment-info {
             font-size: 10px;
@@ -185,8 +207,8 @@
                 </td>
                 <td><strong>{{ item.description }}</strong></td>
                 <td style="text-align: center;">{{ item.quantity }}</td>
-                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price) }}</td>
-                <td style="text-align: right;"><strong>{{ currency_symbol }}{{ "%.2f"|format(item.amount) }}</strong></td>
+                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                <td style="text-align: right;"><strong>{{ currency_symbol }}{{ "%.2f"|format(item.amount|to_float) }}</strong></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -204,15 +226,15 @@
         <table class="totals-table">
             <tr>
                 <td>Subtotal</td>
-                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(subtotal) }}</td>
+                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(subtotal|to_float) }}</td>
             </tr>
             <tr>
                 <td>Tax ({{ tax_rate }})</td>
-                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(tax) }}</td>
+                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(tax|to_float) }}</td>
             </tr>
             <tr class="total-row">
                 <td>TOTAL DUE</td>
-                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(total) }}</td>
+                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(total|to_float) }}</td>
             </tr>
         </table>
     </div>

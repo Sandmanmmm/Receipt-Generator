@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Manifest - {{ manifest_number }}</title>
+    <link rel="stylesheet" href="../css/shipping_manifest_landscape.css">
+</head>
+<body>
+    <div class="manifest-page">
+        <!-- Top Banner with Route Visualization -->
+        <div class="top-banner">
+            <div class="banner-left">
+                {% if supplier_logo %}
+                <img src="{{ supplier_logo }}" alt="{{ shipper_name }}" class="company-logo">
+                {% endif %}
+                <div class="banner-title">
+                    <span class="doc-type">SHIPPING MANIFEST</span>
+                    <span class="doc-number">{{ manifest_number }}</span>
+                </div>
+            </div>
+            <div class="banner-center">
+                <!-- Route Flow Visualization -->
+                <div class="route-flow">
+                    <div class="route-point origin">
+                        <div class="point-marker">A</div>
+                        <div class="point-label">{{ origin_city|default('Origin') }}</div>
+                    </div>
+                    <div class="route-line">
+                        <div class="route-arrow"></div>
+                        <div class="carrier-badge">{{ carrier_name|default('Carrier') }}</div>
+                    </div>
+                    <div class="route-point destination">
+                        <div class="point-marker">B</div>
+                        <div class="point-label">{{ destination_city|default('Destination') }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="banner-right">
+                <div class="status-chip status-{{ status|default('pending')|lower|replace(' ', '-') }}">
+                    {{ status|default('PENDING') }}
+                </div>
+                <div class="date-info">
+                    <div class="date-row"><span class="date-label">Created:</span> {{ manifest_date }}</div>
+                    <div class="date-row"><span class="date-label">Ship:</span> {{ ship_date }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <table class="main-grid">
+            <tr>
+                <!-- Left Column: Parties -->
+                <td class="parties-column">
+                    <!-- Origin Block -->
+                    <div class="party-block origin-block">
+                        <div class="party-header">
+                            <span class="party-badge">FROM</span>
+                            <span class="party-type">SHIPPER / ORIGIN</span>
+                        </div>
+                        <div class="party-content">
+                            <div class="party-name">{{ origin_name|default(shipper_name)|default(supplier_name) }}</div>
+                            <div class="party-address">
+                                {{ origin_address_line1|default(shipper_address) }}<br>
+                                {% if origin_address_line2 %}{{ origin_address_line2 }}<br>{% endif %}
+                                {{ origin_city|default(shipper_city) }}, {{ origin_state|default(shipper_state) }} {{ origin_postal_code|default(shipper_zip) }}
+                            </div>
+                            {% if origin_contact|default(shipper_contact) %}
+                            <div class="party-contact">{{ origin_contact|default(shipper_contact) }}</div>
+                            {% endif %}
+                            {% if origin_phone|default(shipper_phone) %}
+                            <div class="party-phone">{{ origin_phone|default(shipper_phone) }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Destination Block -->
+                    <div class="party-block destination-block">
+                        <div class="party-header">
+                            <span class="party-badge">TO</span>
+                            <span class="party-type">CONSIGNEE / DESTINATION</span>
+                        </div>
+                        <div class="party-content">
+                            <div class="party-name">{{ destination_name|default(consignee_name)|default(buyer_name) }}</div>
+                            <div class="party-address">
+                                {{ destination_address_line1|default(consignee_address)|default(buyer_address) }}<br>
+                                {% if destination_address_line2 %}{{ destination_address_line2 }}<br>{% endif %}
+                                {{ destination_city|default(consignee_city)|default(buyer_city) }}, {{ destination_state|default(consignee_state)|default(buyer_state) }} {{ destination_postal_code|default(consignee_zip)|default(buyer_zip) }}
+                            </div>
+                            {% if destination_contact|default(consignee_contact) %}
+                            <div class="party-contact">{{ destination_contact|default(consignee_contact) }}</div>
+                            {% endif %}
+                            {% if destination_phone|default(consignee_phone)|default(buyer_phone) %}
+                            <div class="party-phone">{{ destination_phone|default(consignee_phone)|default(buyer_phone) }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Carrier Details -->
+                    <div class="carrier-block">
+                        <div class="carrier-header">CARRIER DETAILS</div>
+                        <div class="carrier-grid">
+                            <div class="carrier-row">
+                                <span class="carrier-label">Carrier:</span>
+                                <span class="carrier-value">{{ carrier_name }}</span>
+                            </div>
+                            {% if scac_code %}
+                            <div class="carrier-row">
+                                <span class="carrier-label">SCAC:</span>
+                                <span class="carrier-value mono">{{ scac_code }}</span>
+                            </div>
+                            {% endif %}
+                            {% if tracking_number|default(pro_number) %}
+                            <div class="carrier-row">
+                                <span class="carrier-label">PRO/Track:</span>
+                                <span class="carrier-value mono">{{ tracking_number|default(pro_number) }}</span>
+                            </div>
+                            {% endif %}
+                            {% if bol_number %}
+                            <div class="carrier-row">
+                                <span class="carrier-label">BOL #:</span>
+                                <span class="carrier-value mono">{{ bol_number }}</span>
+                            </div>
+                            {% endif %}
+                            {% if vehicle_id|default(trailer_number) %}
+                            <div class="carrier-row">
+                                <span class="carrier-label">Trailer:</span>
+                                <span class="carrier-value mono">{{ vehicle_id|default(trailer_number) }}</span>
+                            </div>
+                            {% endif %}
+                            {% if seal_number %}
+                            <div class="carrier-row">
+                                <span class="carrier-label">Seal #:</span>
+                                <span class="carrier-value mono seal">{{ seal_number }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </td>
+
+                <!-- Center Column: Items Table -->
+                <td class="items-column">
+                    <div class="items-section">
+                        <div class="items-header">
+                            <span class="items-title">CARGO CONTENTS</span>
+                            {% if _total_pages|default(1) > 1 %}
+                            <span class="page-info">Page {{ _page_number|default(1) }} of {{ _total_pages }}</span>
+                            {% endif %}
+                        </div>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th class="col-line">#</th>
+                                    <th class="col-sku">SKU</th>
+                                    <th class="col-desc">Description</th>
+                                    <th class="col-lot">Lot/Batch</th>
+                                    <th class="col-qty">Qty</th>
+                                    <th class="col-uom">UoM</th>
+                                    <th class="col-weight">Weight</th>
+                                    <th class="col-dims">L x W x H</th>
+                                    <th class="col-loc">Location</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                <tr class="item-row">
+                                    <td class="col-line">{{ loop.index + ((_page_number|default(1) - 1) * 12) }}</td>
+                                    <td class="col-sku">{{ item.sku|default(item.item_code)|default('-') }}</td>
+                                    <td class="col-desc">
+                                        <div class="item-name">{{ item.description|default(item.name) }}</div>
+                                    </td>
+                                    <td class="col-lot">{{ item.lot_number|default('-') }}</td>
+                                    <td class="col-qty">{{ item.quantity|default(item.quantity_shipped) }}</td>
+                                    <td class="col-uom">{{ item.unit|default(item.unit_of_measure)|default('EA') }}</td>
+                                    <td class="col-weight">{{ item.weight|default('-') }}</td>
+                                    <td class="col-dims">
+                                        {% if item.length and item.width and item.height %}
+                                        {{ item.length }}x{{ item.width }}x{{ item.height }}
+                                        {% elif item.dimensions %}
+                                        {{ item.dimensions }}
+                                        {% else %}
+                                        -
+                                        {% endif %}
+                                    </td>
+                                    <td class="col-loc">{{ item.location|default('-') }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+
+                <!-- Right Column: Summary & Verification -->
+                <td class="summary-column">
+                    <!-- Package Summary -->
+                    <div class="summary-block">
+                        <div class="summary-header">SHIPMENT TOTALS</div>
+                        <div class="summary-grid">
+                            <div class="summary-row">
+                                <span class="summary-label">Line Items</span>
+                                <span class="summary-value">{{ _total_items|default(total_line_items)|default(items|length) }}</span>
+                            </div>
+                            <div class="summary-row">
+                                <span class="summary-label">Total Units</span>
+                                <span class="summary-value">{{ total_units|default('-') }}</span>
+                            </div>
+                            <div class="summary-row">
+                                <span class="summary-label">Packages</span>
+                                <span class="summary-value">{{ total_packages|default(_total_items)|default(items|length) }}</span>
+                            </div>
+                            {% if total_pallets %}
+                            <div class="summary-row">
+                                <span class="summary-label">Pallets</span>
+                                <span class="summary-value">{{ total_pallets }}</span>
+                            </div>
+                            {% endif %}
+                            <div class="summary-divider"></div>
+                            <div class="summary-row">
+                                <span class="summary-label">Gross Wt</span>
+                                <span class="summary-value">{{ gross_weight|default('-') }} {{ weight_unit|default('kg') }}</span>
+                            </div>
+                            <div class="summary-row">
+                                <span class="summary-label">Net Wt</span>
+                                <span class="summary-value">{{ net_weight|default('-') }} {{ weight_unit|default('kg') }}</span>
+                            </div>
+                            {% if total_cbm|default(total_volume) %}
+                            <div class="summary-row">
+                                <span class="summary-label">Volume</span>
+                                <span class="summary-value">{{ total_cbm|default(total_volume) }} {{ volume_unit|default('CBM') }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Handling Instructions -->
+                    <div class="handling-block">
+                        <div class="handling-header">HANDLING</div>
+                        <div class="handling-grid">
+                            <div class="handling-item {{ 'active' if fragile|default(is_fragile) else '' }}">
+                                <span class="handling-check">{% if fragile|default(is_fragile) %}[X]{% else %}[ ]{% endif %}</span>
+                                <span class="handling-text">FRAGILE</span>
+                            </div>
+                            <div class="handling-item {{ 'active' if hazmat|default(is_hazmat) else '' }}">
+                                <span class="handling-check">{% if hazmat|default(is_hazmat) %}[X]{% else %}[ ]{% endif %}</span>
+                                <span class="handling-text">HAZMAT</span>
+                            </div>
+                            <div class="handling-item {{ 'active' if temperature_controlled|default(requires_temperature) else '' }}">
+                                <span class="handling-check">{% if temperature_controlled|default(requires_temperature) %}[X]{% else %}[ ]{% endif %}</span>
+                                <span class="handling-text">TEMP CTRL</span>
+                            </div>
+                            <div class="handling-item {{ 'active' if keep_upright|default(no_stacking) else '' }}">
+                                <span class="handling-check">{% if keep_upright|default(no_stacking) %}[X]{% else %}[ ]{% endif %}</span>
+                                <span class="handling-text">NO STACK</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if _is_last_page|default(true) %}
+                    <!-- Seal Verification -->
+                    <div class="seal-block">
+                        <div class="seal-header">SEAL VERIFICATION</div>
+                        <div class="seal-content">
+                            <div class="seal-row">
+                                <span class="seal-label">Seal Intact:</span>
+                                <span class="seal-value">{% if seal_intact|default(true) %}YES{% else %}NO{% endif %}</span>
+                            </div>
+                            {% if seal_verified_by %}
+                            <div class="seal-row">
+                                <span class="seal-label">Verified:</span>
+                                <span class="seal-value">{{ seal_verified_by }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Signatures -->
+                    <div class="signatures-block">
+                        <div class="sig-row">
+                            <div class="sig-label">Prepared:</div>
+                            <div class="sig-line">{{ prepared_by|default('') }}</div>
+                            <div class="sig-date">{{ prepared_date|default('') }}</div>
+                        </div>
+                        <div class="sig-row">
+                            <div class="sig-label">Verified:</div>
+                            <div class="sig-line">{{ verified_by|default('') }}</div>
+                            <div class="sig-date">{{ verified_date|default('') }}</div>
+                        </div>
+                        <div class="sig-row">
+                            <div class="sig-label">Received:</div>
+                            <div class="sig-line"></div>
+                            <div class="sig-date"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+
+        <!-- Bottom Bar -->
+        <div class="bottom-bar">
+            <div class="bottom-left">
+                {% if notes %}
+                <div class="notes-text">Note: {{ notes }}</div>
+                {% endif %}
+            </div>
+            <div class="bottom-center">
+                <div class="ref-numbers">
+                    {% if po_reference|default(po_number) %}
+                    <span class="ref-item">PO: {{ po_reference|default(po_number) }}</span>
+                    {% endif %}
+                    {% if bol_reference|default(bol_number) %}
+                    <span class="ref-item">BOL: {{ bol_reference|default(bol_number) }}</span>
+                    {% endif %}
+                    {% if order_number|default(invoice_number) %}
+                    <span class="ref-item">Order: {{ order_number|default(invoice_number) }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="bottom-right">
+                {% if _total_pages|default(1) > 1 %}
+                <span class="page-number">{{ _page_number|default(1) }} / {{ _total_pages }}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -58,17 +58,19 @@ body {
 }
 
 .info-row {
-    display: flex;
-    justify-content: space-between;
+    width: 100%;
     font-size: 9pt;
     margin: 3px 0;
+    overflow: hidden;
 }
 
 .info-row .label {
+    float: left;
     font-weight: 700;
 }
 
 .info-row .value {
+    float: right;
     font-weight: 700;
 }
 
@@ -149,17 +151,19 @@ body {
 }
 
 .total-row {
-    display: flex;
-    justify-content: space-between;
+    width: 100%;
     font-size: 10pt;
     margin: 5px 0;
+    overflow: hidden;
 }
 
 .total-label {
+    float: left;
     font-weight: 600;
 }
 
 .total-value {
+    float: right;
     font-weight: 700;
 }
 
@@ -201,17 +205,19 @@ body {
 }
 
 .payment-row {
-    display: flex;
-    justify-content: space-between;
+    width: 100%;
     font-size: 10pt;
     margin: 5px 0;
+    overflow: hidden;
 }
 
 .payment-label {
+    float: left;
     font-weight: 700;
 }
 
 .payment-value {
+    float: right;
     font-weight: 700;
 }
 

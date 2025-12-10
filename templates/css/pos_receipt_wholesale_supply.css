@@ -1,0 +1,722 @@
+/**
+ * Wholesale Supply POS Receipt Stylesheet
+ * Style: Yongfatt Enterprise (Malaysian B2B Wholesale)
+ * Width: 85mm thermal receipt
+ * Font: Arial 9pt primary
+ * Features: Batch orders, bulk quantities, credit terms, tax ID prominent
+ * Density: 32-38 lines/page
+ */
+
+/* ===== Reset and Base Styles ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 9pt;
+    line-height: 1.3;
+    background-color: #ffffff;
+    color: #000000;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Receipt Container ===== */
+.wholesale-supply-receipt {
+    width: 321px;  /* 85mm at 96 DPI */
+    max-width: 321px;
+    margin: 0 auto;
+    padding: 6px 5px;
+    background-color: #ffffff;
+}
+
+/* ===== Header Section ===== */
+.receipt-header {
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.store-name {
+    font-size: 13pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.legal-suffix {
+    font-size: 9pt;
+    font-weight: normal;
+    text-transform: uppercase;
+    margin-bottom: 1px;
+}
+
+.company-reg {
+    font-size: 9.5pt;
+    font-weight: bold;
+    color: #333333;
+}
+
+/* ===== Address Block ===== */
+.address-block {
+    text-align: center;
+    margin: 4px 0;
+}
+
+.address-line {
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+/* ===== Dividers ===== */
+.solid-divider {
+    border-top: 1px solid #000000;
+    margin: 4px 0;
+}
+
+.double-solid-divider {
+    border-top: 2px solid #000000;
+    margin: 5px 0;
+}
+
+.dashed-divider {
+    border-top: 1px dashed #000000;
+    margin: 4px 0;
+}
+
+/* ===== Contact Block ===== */
+.contact-block {
+    text-align: center;
+    margin: 4px 0;
+}
+
+.contact-row {
+    font-size: 8.5pt;
+    margin-bottom: 1px;
+}
+
+.contact-label {
+    font-weight: bold;
+}
+
+.contact-value {
+    margin-left: 3px;
+}
+
+.contact-sep {
+    margin: 0 5px;
+    color: #666666;
+}
+
+.email-row {
+    font-size: 8pt;
+}
+
+/* ===== Tax ID Block - Prominent ===== */
+.tax-id-block {
+    text-align: center;
+    margin: 4px 0;
+    padding: 3px;
+    background-color: #f5f5f5;
+}
+
+.tax-row {
+    font-size: 9.5pt;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.tax-label {
+    font-weight: bold;
+}
+
+.tax-value {
+    margin-left: 5px;
+    letter-spacing: 0.5px;
+}
+
+/* ===== Invoice Type Banner ===== */
+.invoice-type-banner {
+    text-align: center;
+    margin: 4px 0;
+    padding: 3px 0;
+}
+
+.invoice-type {
+    font-size: 11pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ===== Transaction Block ===== */
+.transaction-block {
+    margin: 4px 0;
+}
+
+.trans-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 9pt;
+    margin-bottom: 2px;
+}
+
+.trans-label {
+    display: table-cell;
+    width: 85px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.trans-value {
+    display: table-cell;
+    text-align: left;
+}
+
+.trans-time {
+    display: table-cell;
+    text-align: right;
+    font-weight: normal;
+}
+
+/* ===== Customer Block ===== */
+.customer-block {
+    margin: 4px 0;
+    padding: 4px;
+    background-color: #fafafa;
+    border: 1px solid #e0e0e0;
+}
+
+.customer-header {
+    font-size: 9pt;
+    font-weight: bold;
+    margin-bottom: 3px;
+    text-decoration: underline;
+}
+
+.customer-name {
+    font-size: 10pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.customer-reg {
+    font-size: 8.5pt;
+    color: #555555;
+    margin-bottom: 2px;
+}
+
+.customer-address {
+    font-size: 8.5pt;
+    margin-bottom: 2px;
+}
+
+.customer-contact {
+    font-size: 8.5pt;
+    margin-bottom: 1px;
+}
+
+.customer-gst {
+    font-size: 8.5pt;
+    font-weight: bold;
+    color: #006600;
+}
+
+/* ===== Credit Terms Block ===== */
+.credit-terms-block {
+    text-align: center;
+    margin: 4px 0;
+    padding: 5px;
+    background-color: #fff8e1;
+    border: 1px dashed #e6c200;
+}
+
+.credit-header {
+    font-size: 9pt;
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #996600;
+}
+
+.credit-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    margin-bottom: 2px;
+    padding: 0 10px;
+}
+
+.credit-label {
+    display: table-cell;
+    width: 45%;
+    text-align: right;
+    font-weight: bold;
+    padding-right: 8px;
+}
+
+.credit-value {
+    display: table-cell;
+    width: 55%;
+    text-align: left;
+    font-weight: bold;
+    color: #cc6600;
+}
+
+/* ===== Column Headers ===== */
+.column-headers {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8pt;
+    font-weight: bold;
+    border-bottom: 1px solid #000000;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
+
+.col-code {
+    display: table-cell;
+    width: 15%;
+    text-align: left;
+}
+
+.col-desc {
+    display: table-cell;
+    width: 30%;
+    text-align: left;
+}
+
+.col-qty {
+    display: table-cell;
+    width: 10%;
+    text-align: center;
+}
+
+.col-unit {
+    display: table-cell;
+    width: 10%;
+    text-align: center;
+}
+
+.col-price {
+    display: table-cell;
+    width: 17%;
+    text-align: right;
+}
+
+.col-amt {
+    display: table-cell;
+    width: 18%;
+    text-align: right;
+}
+
+/* ===== Items Section ===== */
+.items-section {
+    margin: 3px 0;
+}
+
+.item-block {
+    margin-bottom: 4px;
+    padding-bottom: 3px;
+    border-bottom: 1px dotted #cccccc;
+}
+
+.item-block:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.item-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+}
+
+.item-code {
+    display: table-cell;
+    width: 15%;
+    text-align: left;
+    font-family: 'Courier New', monospace;
+    font-size: 8pt;
+}
+
+.item-desc {
+    display: table-cell;
+    width: 30%;
+    text-align: left;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.item-qty {
+    display: table-cell;
+    width: 10%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.item-unit {
+    display: table-cell;
+    width: 10%;
+    text-align: center;
+    font-size: 7.5pt;
+    color: #666666;
+}
+
+.item-price {
+    display: table-cell;
+    width: 17%;
+    text-align: right;
+}
+
+.item-amt {
+    display: table-cell;
+    width: 18%;
+    text-align: right;
+    font-weight: bold;
+}
+
+/* Case Info Row */
+.case-info {
+    font-size: 7.5pt;
+    color: #666666;
+    padding-left: 15%;
+    margin-top: 1px;
+}
+
+.case-label {
+    font-style: italic;
+}
+
+/* Item Discount Row */
+.item-discount {
+    font-size: 7.5pt;
+    text-align: right;
+    padding-right: 2px;
+    margin-top: 1px;
+}
+
+.discount-tag {
+    color: #cc0000;
+    font-weight: bold;
+}
+
+/* ===== Item Count ===== */
+.item-count-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 9pt;
+    margin: 3px 0;
+}
+
+.item-count-label {
+    display: table-cell;
+    width: 30%;
+    font-weight: bold;
+}
+
+.item-count-value {
+    display: table-cell;
+    width: 15%;
+    text-align: left;
+}
+
+.qty-label {
+    display: table-cell;
+    width: 30%;
+    text-align: right;
+    font-weight: bold;
+    padding-right: 5px;
+}
+
+.qty-value {
+    display: table-cell;
+    width: 25%;
+    text-align: right;
+    font-weight: bold;
+}
+
+/* ===== Totals Section ===== */
+.totals-section {
+    margin: 4px 0;
+}
+
+.total-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 9pt;
+    margin-bottom: 2px;
+}
+
+.total-label {
+    display: table-cell;
+    width: 60%;
+    text-align: left;
+    padding-left: 5px;
+}
+
+.total-value {
+    display: table-cell;
+    width: 40%;
+    text-align: right;
+    padding-right: 2px;
+}
+
+.discount-row .total-value {
+    color: #cc0000;
+    font-weight: bold;
+}
+
+/* ===== GST Breakdown ===== */
+.gst-breakdown {
+    margin: 4px 0;
+    padding: 3px 0;
+    background-color: #f9f9f9;
+}
+
+.gst-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    margin-bottom: 1px;
+}
+
+.gst-breakdown .gst-label {
+    display: table-cell;
+    width: 60%;
+    text-align: left;
+    padding-left: 5px;
+    font-weight: normal;
+}
+
+.gst-breakdown .gst-value {
+    display: table-cell;
+    width: 40%;
+    text-align: right;
+    padding-right: 2px;
+    margin-left: 0;
+}
+
+/* ===== Grand Total ===== */
+.grand-total-section {
+    margin: 4px 0;
+    padding: 4px 0;
+}
+
+.grand-total-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 13pt;
+    font-weight: bold;
+}
+
+.grand-total-label {
+    display: table-cell;
+    width: 35%;
+    text-align: left;
+}
+
+.grand-total-currency {
+    display: table-cell;
+    width: 15%;
+    text-align: right;
+}
+
+.grand-total-value {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+    padding-right: 2px;
+}
+
+/* ===== Payment Section ===== */
+.payment-section {
+    margin: 4px 0;
+}
+
+.payment-type-banner {
+    text-align: center;
+    font-size: 10pt;
+    font-weight: bold;
+    background-color: #e8f5e9;
+    padding: 3px;
+    margin-bottom: 4px;
+    color: #2e7d32;
+}
+
+.payment-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 9pt;
+    margin-bottom: 2px;
+}
+
+.payment-label {
+    display: table-cell;
+    width: 50%;
+    text-align: left;
+    font-weight: bold;
+}
+
+.payment-value {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+}
+
+.card-info {
+    margin-top: 3px;
+    padding-top: 2px;
+    border-top: 1px dotted #cccccc;
+}
+
+/* ===== Bank Details Block ===== */
+.bank-details-block {
+    margin: 4px 0;
+    padding: 4px;
+    background-color: #e3f2fd;
+    border: 1px solid #90caf9;
+}
+
+.bank-header {
+    font-size: 9pt;
+    font-weight: bold;
+    margin-bottom: 3px;
+    text-decoration: underline;
+}
+
+.bank-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    margin-bottom: 2px;
+}
+
+.bank-label {
+    display: table-cell;
+    width: 30%;
+    font-weight: bold;
+}
+
+.bank-value {
+    display: table-cell;
+    width: 70%;
+    font-family: 'Courier New', monospace;
+}
+
+/* ===== Footer Section ===== */
+.receipt-footer {
+    text-align: center;
+    margin-top: 5px;
+}
+
+.footer-message {
+    font-size: 10pt;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.footer-submessage {
+    font-size: 8.5pt;
+    margin-bottom: 4px;
+}
+
+.footer-spacer {
+    height: 4px;
+}
+
+.return-policy {
+    font-size: 7.5pt;
+    color: #555555;
+    margin: 4px 0;
+    line-height: 1.3;
+}
+
+.credit-notice {
+    font-size: 8pt;
+    color: #cc6600;
+    margin: 4px 0;
+    line-height: 1.3;
+    font-weight: bold;
+}
+
+.policy-line,
+.notice-line {
+    margin-bottom: 1px;
+}
+
+.promo-notice {
+    margin-top: 5px;
+    padding: 3px;
+    background-color: #ffe6e6;
+    font-size: 8pt;
+}
+
+.promo-line {
+    margin-bottom: 1px;
+}
+
+/* ===== Barcode Section ===== */
+.receipt-barcode-section {
+    text-align: center;
+    margin: 8px 0 4px 0;
+}
+
+.receipt-barcode {
+    font-family: 'Courier New', monospace;
+    font-size: 11pt;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+/* ===== Page Indicator ===== */
+.page-indicator {
+    text-align: center;
+    font-size: 8pt;
+    margin-top: 6px;
+    padding-top: 4px;
+    border-top: 1px dashed #cccccc;
+    color: #666666;
+}
+
+/* ===== Print Styles ===== */
+@media print {
+    body {
+        background-color: #ffffff;
+    }
+    
+    .wholesale-supply-receipt {
+        width: 85mm;
+        padding: 0;
+    }
+    
+    .tax-id-block,
+    .customer-block,
+    .credit-terms-block,
+    .bank-details-block {
+        background-color: #f5f5f5 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* ===== Thermal Printer Optimization ===== */
+@media screen and (max-width: 100mm) {
+    .wholesale-supply-receipt {
+        width: 100%;
+        max-width: 85mm;
+    }
+}

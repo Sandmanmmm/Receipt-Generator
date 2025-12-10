@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Parts Receipt{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
+    <link rel="stylesheet" href="../css/pos_receipt_auto_parts.css">
+</head>
+<body>
+    <div class="auto-parts-receipt">
+        <!-- Store Header - S.H.H. Motor Style -->
+        <div class="receipt-header">
+            <div class="store-name">{{ store_name|default(supplier_name) }} ( {{ store_location|default('SUNGAI RENGIT') }} )</div>
+            <div class="legal-suffix">{{ legal_suffix|default('SDN. BHD.') }} ( {{ company_reg|default('801580-T') }} )</div>
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- Address Block - Title Case -->
+        <div class="address-block">
+            <div class="address-line">{{ street_address|default('No. 343, Jalan Kurau, Sungai Rengit,') }}</div>
+            <div class="address-line">{{ postcode|default('81620') }} {{ city|default('Pengerang') }}, {{ state|default('Johor') }}.</div>
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- Contact Block -->
+        <div class="contact-block">
+            <div class="contact-row">
+                <span class="contact-label">Tel:</span>
+                <span class="contact-value">{{ store_phone|default('07-8263254') }}{% if store_phone_alt %}/{{ store_phone_alt }}{% endif %}</span>
+                {% if store_fax %}
+                <span class="contact-separator"></span>
+                <span class="contact-label">Fax:</span>
+                <span class="contact-value">{{ store_fax }}</span>
+                {% endif %}
+            </div>
+            {% if store_email %}
+            <div class="email-row">
+                <span class="email-value">{{ store_email|upper }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- GST Information -->
+        {% if gst_id %}
+        <div class="gst-block">
+            <span class="gst-label">GST ID :</span>
+            <span class="gst-value">{{ gst_id }}</span>
+        </div>
+        <div class="solid-divider"></div>
+        {% endif %}
+
+        <!-- Invoice Type Banner -->
+        <div class="invoice-type-banner">
+            <span class="invoice-type">{{ document_type|default('INVOICE') }}</span>
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- Transaction Details -->
+        <div class="transaction-block">
+            {% if document_type == 'CASH SALES' %}
+            <div class="trans-row">
+                <span class="trans-label">CASH SALES Doc No.</span>
+                <span class="trans-value">{{ invoice_number|default('CS00004040') }}</span>
+            </div>
+            {% else %}
+            <div class="trans-row">
+                <span class="trans-label">Invoice No.:</span>
+                <span class="trans-value">{{ invoice_number|default('INV-00001') }}</span>
+            </div>
+            {% endif %}
+            <div class="trans-row">
+                <span class="trans-label">Date:</span>
+                <span class="trans-value">{{ invoice_date|default('11/01/2019') }}</span>
+            </div>
+            {% if cashier_name %}
+            <div class="trans-row">
+                <span class="trans-label">Served by:</span>
+                <span class="trans-value">{{ cashier_name }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- Column Headers -->
+        <div class="column-headers">
+            <span class="col-item">ITEM/DESC.</span>
+            <span class="col-qty">QTY</span>
+            <span class="col-price">U.PRICE</span>
+            <span class="col-total">RM(TOTAL)</span>
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- Items Section - Two Line Format -->
+        <div class="items-section">
+            {% for item in items|default(line_items, true) %}
+            <div class="item-block">
+                <!-- Part Number Row -->
+                <div class="part-number-row">
+                    <span class="part-number">{{ item.part_number|default(item.item_code)|default('0000') }}</span>
+                    <span class="item-qty">{{ item.quantity }}</span>
+                    <span class="item-price">{{ item.unit_price }}</span>
+                    <span class="item-total">{{ item.total }}</span>
+                </div>
+                <!-- Description Row -->
+                <div class="description-row">
+                    <span class="item-description">{{ item.description|upper }}{% if item.dimensions %} {{ item.dimensions }}{% endif %}</span>
+                </div>
+            </div>
+            {% if not loop.last %}
+            <div class="item-divider"></div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <div class="total-row">
+                <span class="total-label">SUB TOTAL :</span>
+                <span class="total-value">{{ subtotal }}</span>
+            </div>
+            {% if total_discount_raw|default(0) > 0 %}
+            <div class="total-row discount-row">
+                <span class="total-label">DISCOUNT :</span>
+                <span class="total-value">-{{ total_discount }}</span>
+            </div>
+            {% endif %}
+            {% if tax_amount_raw|default(0) > 0 %}
+            <div class="total-row">
+                <span class="total-label">GST ({{ tax_rate|default(6) }}%) :</span>
+                <span class="total-value">{{ tax_amount }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Grand Total -->
+        <div class="grand-total-section">
+            <div class="grand-total-row">
+                <span class="grand-total-label">TOTAL :</span>
+                <span class="grand-total-value">RM {{ total_amount }}</span>
+            </div>
+        </div>
+
+        <!-- Double Solid Divider -->
+        <div class="double-divider"></div>
+
+        <!-- Payment Section -->
+        <div class="payment-section">
+            <div class="payment-row">
+                <span class="payment-label">{{ payment_method|default('CASH') }} :</span>
+                <span class="payment-value">RM {{ amount_tendered|default(total_amount) }}</span>
+            </div>
+            {% if change_due %}
+            <div class="payment-row">
+                <span class="payment-label">CHANGE :</span>
+                <span class="payment-value">RM {{ change_due }}</span>
+            </div>
+            {% endif %}
+            {% if card_last_four %}
+            <div class="card-info">
+                <div class="payment-row">
+                    <span class="payment-label">Card No. :</span>
+                    <span class="payment-value">**** **** **** {{ card_last_four }}</span>
+                </div>
+                {% if approval_code %}
+                <div class="payment-row">
+                    <span class="payment-label">Approval :</span>
+                    <span class="payment-value">{{ approval_code }}</span>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- Item Count -->
+        <div class="item-count-section">
+            <span class="item-count">Total Items: {{ line_items|length }}</span>
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- Footer Section -->
+        <div class="receipt-footer">
+            <div class="footer-message">*** THANK YOU ***</div>
+            <div class="footer-spacer"></div>
+            <div class="return-policy">
+                <div class="policy-line">Parts sold are not returnable</div>
+                <div class="policy-line">unless defective within warranty period</div>
+            </div>
+            {% if warranty_terms %}
+            <div class="warranty-notice">
+                <div class="warranty-line">{{ warranty_terms }}</div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Barcode Section (if enabled) -->
+        {% if receipt_barcode %}
+        <div class="receipt-barcode-section">
+            <div class="receipt-barcode">||| {{ receipt_barcode }} |||</div>
+        </div>
+        {% endif %}
+
+        <!-- Page Indicator (for multipage) -->
+        {% if _page_number is defined and _total_pages > 1 %}
+        <div class="page-indicator">
+            Page {{ _page_number }} of {{ _total_pages }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

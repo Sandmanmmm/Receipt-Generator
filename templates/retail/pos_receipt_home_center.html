@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Center Receipt{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
+    <link rel="stylesheet" href="../css/pos_receipt_home_center.css">
+</head>
+<body>
+    <div class="home-center-receipt">
+        <!-- Store Header - Home Master Style -->
+        <div class="receipt-header">
+            <div class="store-name">{{ store_name|default(supplier_name) }}</div>
+            {% if store_tagline %}
+            <div class="store-tagline">{{ store_tagline }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Address Block -->
+        <div class="address-block">
+            <div class="address-line">{{ street_address|default('NO.113G & 115G, JALAN SETIA GEMBILANG') }}</div>
+            <div class="address-line">{{ unit_code|default('U13/EG') }} {{ area_name|default('BANDAR SETIA ALAM') }},</div>
+            <div class="address-line">{{ postcode|default('40170') }} {{ city|default('BANDAR SETIA ALAM') }}, {{ state|default('SELANGOR') }}.</div>
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- Registration Block - Colon Aligned -->
+        <div class="registration-block">
+            <div class="reg-row">
+                <span class="reg-label">Company Reg No.</span>
+                <span class="reg-colon">:</span>
+                <span class="reg-value">{{ company_reg|default('SA03711551-P') }}</span>
+            </div>
+            <div class="reg-row">
+                <span class="reg-label">GST Reg No.</span>
+                <span class="reg-colon">:</span>
+                <span class="reg-value">{{ gst_reg|default('001637511168') }}</span>
+            </div>
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- Invoice Type Banner -->
+        <div class="invoice-type-banner">
+            <span class="invoice-type">{{ document_type|default('TAX INVOICE') }}</span>
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- Transaction Details - Colon Aligned -->
+        <div class="transaction-block">
+            <div class="trans-row">
+                <span class="trans-label">Invoice No.</span>
+                <span class="trans-colon">:</span>
+                <span class="trans-value">{{ invoice_prefix|default('CS') }} {{ invoice_number|default('67832') }}</span>
+            </div>
+            <div class="trans-row">
+                <span class="trans-label">Date</span>
+                <span class="trans-colon">:</span>
+                <span class="trans-value">{{ invoice_date|default('22/12/2017') }}  {{ transaction_time|default('14:03') }}</span>
+            </div>
+            <div class="trans-row">
+                <span class="trans-label">Cashier #</span>
+                <span class="trans-colon">:</span>
+                <span class="trans-value">{{ cashier_name|default('CASHIER') }}</span>
+            </div>
+            {% if terminal_id %}
+            <div class="trans-row">
+                <span class="trans-label">Terminal</span>
+                <span class="trans-colon">:</span>
+                <span class="trans-value">{{ terminal_id }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- Column Headers -->
+        <div class="column-headers">
+            <span class="col-code">Code</span>
+            <span class="col-desc">Description</span>
+            <span class="col-qty">Qty</span>
+            <span class="col-price">Price</span>
+            <span class="col-amount">Amt</span>
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- Items Section -->
+        <div class="items-section">
+            {% for item in items|default(line_items, true) %}
+            <div class="item-row">
+                <span class="item-code">{{ item.item_code|default('RM 0000') }}</span>
+                <span class="item-desc">{{ item.description|upper }}</span>
+                <span class="item-qty">{{ item.quantity }}</span>
+                <span class="item-price">{{ item.unit_price }}</span>
+                <span class="item-amount">{{ item.total }}</span>
+            </div>
+            {% if item.discount_amount %}
+            <div class="discount-row">
+                <span class="discount-label">DISC</span>
+                <span class="discount-value">{{ item.discount_amount }}</span>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <div class="total-row">
+                <span class="total-label">Sub Total</span>
+                <span class="total-colon">:</span>
+                <span class="total-value">{{ subtotal }}</span>
+            </div>
+            {% if total_discount_raw|default(0) > 0 %}
+            <div class="total-row discount-total">
+                <span class="total-label">Discount</span>
+                <span class="total-colon">:</span>
+                <span class="total-value">-{{ total_discount }}</span>
+            </div>
+            {% endif %}
+            <div class="total-row">
+                <span class="total-label">GST ({{ tax_rate|default(6) }}%)</span>
+                <span class="total-colon">:</span>
+                <span class="total-value">{{ tax_amount }}</span>
+            </div>
+        </div>
+
+        <!-- Grand Total -->
+        <div class="grand-total-section">
+            <div class="grand-total-row">
+                <span class="grand-total-label">TOTAL</span>
+                <span class="grand-total-colon">:</span>
+                <span class="grand-total-value">RM {{ total_amount }}</span>
+            </div>
+        </div>
+
+        <!-- Double Solid Divider -->
+        <div class="double-divider"></div>
+
+        <!-- Payment Section -->
+        <div class="payment-section">
+            <div class="payment-row">
+                <span class="payment-label">{{ payment_method|default('CASH') }}</span>
+                <span class="payment-colon">:</span>
+                <span class="payment-value">RM {{ amount_tendered|default(total_amount) }}</span>
+            </div>
+            {% if change_due %}
+            <div class="payment-row">
+                <span class="payment-label">CHANGE</span>
+                <span class="payment-colon">:</span>
+                <span class="payment-value">RM {{ change_due }}</span>
+            </div>
+            {% endif %}
+            {% if card_last_four %}
+            <div class="card-info">
+                <div class="payment-row">
+                    <span class="payment-label">Card No.</span>
+                    <span class="payment-colon">:</span>
+                    <span class="payment-value">**** **** **** {{ card_last_four }}</span>
+                </div>
+                {% if approval_code %}
+                <div class="payment-row">
+                    <span class="payment-label">Approval</span>
+                    <span class="payment-colon">:</span>
+                    <span class="payment-value">{{ approval_code }}</span>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- Item Count -->
+        <div class="item-count-section">
+            <span class="item-count">Total Items: {{ line_items|length }}</span>
+        </div>
+
+        <!-- Solid Divider -->
+        <div class="solid-divider"></div>
+
+        <!-- Footer Section -->
+        <div class="receipt-footer">
+            <div class="footer-message">*** THANK YOU FOR YOUR PURCHASE ***</div>
+            <div class="footer-spacer"></div>
+            <div class="return-policy">
+                <div class="policy-line">Exchange within 7 days with receipt</div>
+                <div class="policy-line">in original condition and packaging</div>
+            </div>
+            {% if store_phone %}
+            <div class="footer-contact">
+                <span class="contact-label">Tel</span>
+                <span class="contact-colon">:</span>
+                <span class="contact-value">{{ store_phone }}</span>
+            </div>
+            {% endif %}
+            {% if store_email %}
+            <div class="footer-contact">
+                <span class="contact-label">Email</span>
+                <span class="contact-colon">:</span>
+                <span class="contact-value">{{ store_email }}</span>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Barcode Section (if enabled) -->
+        {% if receipt_barcode %}
+        <div class="receipt-barcode-section">
+            <div class="receipt-barcode">||| {{ receipt_barcode }} |||</div>
+        </div>
+        {% endif %}
+
+        <!-- Page Indicator (for multipage) -->
+        {% if _page_number is defined and _total_pages > 1 %}
+        <div class="page-indicator">
+            Page {{ _page_number }} of {{ _total_pages }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

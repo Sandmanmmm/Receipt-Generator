@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Memo #{{ invoice_number }}</title>
+    <link rel="stylesheet" href="../css/credit_memo_modern.css">
+</head>
+<body>
+    <div class="invoice-page">
+        <!-- Header -->
+        {% if _is_first_page|default(true) %}
+        <div class="header">
+            <table class="header-table">
+                <tr>
+                    <td class="header-left">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="supplier-logo" />
+                        {% else %}
+                        <div class="logo-placeholder">
+                            <span class="logo-text">{{ supplier_name[:2]|upper }}</span>
+                        </div>
+                        {% endif %}
+                    </td>
+                    <td class="header-right">
+                        <div class="doc-type-badge">CREDIT MEMO</div>
+                        <div class="doc-number">{{ invoice_number }}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Info Cards Grid -->
+        <div class="info-cards">
+            <table class="cards-table">
+                <tr>
+                    <td class="card-col">
+                        <div class="info-card card-green">
+                            <div class="card-icon">↩</div>
+                            <div class="card-label">Credit Amount</div>
+                            <div class="card-value">{{ total_amount }}</div>
+                        </div>
+                    </td>
+                    <td class="card-col">
+                        <div class="info-card card-blue">
+                            <div class="card-icon">📄</div>
+                            <div class="card-label">Original Invoice</div>
+                            <div class="card-value">{{ original_invoice_number|default('N/A') }}</div>
+                        </div>
+                    </td>
+                    <td class="card-col">
+                        <div class="info-card card-teal">
+                            <div class="card-icon"></div>
+                            <div class="card-label">Issue Date</div>
+                            <div class="card-value">{{ invoice_date }}</div>
+                        </div>
+                    </td>
+                    <td class="card-col">
+                        <div class="info-card card-purple">
+                            <div class="card-icon">🔖</div>
+                            <div class="card-label">RMA Number</div>
+                            <div class="card-value">{{ rma_number|default('N/A') }}</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Parties Section -->
+        <div class="parties-section">
+            <table class="parties-table">
+                <tr>
+                    <td class="party-col">
+                        <div class="party-box">
+                            <div class="party-header">
+                                <span class="party-icon"></span>
+                                <span class="party-title">From</span>
+                            </div>
+                            <div class="party-content">
+                                <div class="party-name">{{ supplier_name }}</div>
+                                {% if supplier_address %}
+                                <div class="party-detail">{{ supplier_address }}</div>
+                                {% endif %}
+                                {% if supplier_email %}
+                                <div class="party-detail">✉ {{ supplier_email }}</div>
+                                {% endif %}
+                                {% if supplier_phone %}
+                                <div class="party-detail"> {{ supplier_phone }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="party-col">
+                        <div class="party-box">
+                            <div class="party-header">
+                                <span class="party-icon">👤</span>
+                                <span class="party-title">Credit To</span>
+                            </div>
+                            <div class="party-content">
+                                <div class="party-name">{{ buyer_name }}</div>
+                                {% if buyer_address %}
+                                <div class="party-detail">{{ buyer_address }}</div>
+                                {% endif %}
+                                {% if buyer_email %}
+                                <div class="party-detail">✉ {{ buyer_email }}</div>
+                                {% endif %}
+                                {% if buyer_phone %}
+                                <div class="party-detail"> {{ buyer_phone }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Reason Banner -->
+        {% if credit_reason %}
+        <div class="reason-banner">
+            <div class="reason-title">💬 Reason for Credit</div>
+            <div class="reason-content">{{ credit_reason }}</div>
+        </div>
+        {% endif %}
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <table class="cont-table">
+                <tr>
+                    <td class="cont-left">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="logo-small" />
+                        {% endif %}
+                        <span class="cont-company">{{ supplier_name }}</span>
+                    </td>
+                    <td class="cont-center">
+                        <span class="cont-badge">CREDIT MEMO</span>
+                    </td>
+                    <td class="cont-right">
+                        <div class="cont-number">{{ invoice_number }}</div>
+                        <div class="cont-page">Page {{ _current_page }} of {{ _total_pages }}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Items Table -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-line">#</th>
+                        <th class="col-desc">Description</th>
+                        <th class="col-sku">SKU</th>
+                        <th class="col-qty">Qty</th>
+                        <th class="col-price">Unit Price</th>
+                        <th class="col-total">Subtotal</th>
+                        <th class="col-credit">Credit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row">
+                        <td class="text-center">{{ loop.index }}</td>
+                        <td>
+                            <div class="item-title">{{ item.description }}</div>
+                            {% if item.variant %}
+                            <div class="item-meta">{{ item.variant }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="text-center sku-cell">{{ item.sku|default('—') }}</td>
+                        <td class="text-center qty-cell">{{ item.quantity }}</td>
+                        <td class="text-right">{{ item.unit_price }}</td>
+                        <td class="text-right">{{ item.total }}</td>
+                        <td class="text-right credit-cell">{{ item.total }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Totals & Footer (Last Page Only) -->
+        {% if _is_last_page|default(true) %}
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <table class="totals-layout">
+                <tr>
+                    <td class="totals-left">
+                        <!-- Payment Method Card -->
+                        <div class="method-card">
+                            <div class="method-header">
+                                <span class="method-icon"></span>
+                                <span class="method-title">Refund Method</span>
+                            </div>
+                            <div class="method-row">
+                                <span class="method-label">Payment:</span>
+                                <span class="method-value">{{ payment_method|default('Original Method') }}</span>
+                            </div>
+                            {% if payment_details %}
+                            <div class="method-row">
+                                <span class="method-label">Details:</span>
+                                <span class="method-value">{{ payment_details }}</span>
+                            </div>
+                            {% endif %}
+                            <div class="method-row">
+                                <span class="method-label">Timeline:</span>
+                                <span class="method-value">3-5 business days</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="totals-right">
+                        <!-- Totals Breakdown -->
+                        <div class="totals-card">
+                            <table class="totals-breakdown">
+                                <tr class="total-row">
+                                    <td class="total-label">Subtotal</td>
+                                    <td class="total-value">{{ subtotal }}</td>
+                                </tr>
+                                {% if discount %}
+                                <tr class="total-row">
+                                    <td class="total-label">Discount</td>
+                                    <td class="total-value discount-text">-{{ discount }}</td>
+                                </tr>
+                                {% endif %}
+                                {% if shipping_cost %}
+                                <tr class="total-row">
+                                    <td class="total-label">Shipping</td>
+                                    <td class="total-value">-{{ shipping_cost }}</td>
+                                </tr>
+                                {% endif %}
+                                {% if tax_amount %}
+                                <tr class="total-row">
+                                    <td class="total-label">Tax</td>
+                                    <td class="total-value">-{{ tax_amount }}</td>
+                                </tr>
+                                {% endif %}
+                                <tr class="total-row-main">
+                                    <td class="total-label-main">Total Credit</td>
+                                    <td class="total-value-main">{{ total_amount }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Notes Section -->
+        {% if notes %}
+        <div class="notes-card">
+            <div class="notes-header">
+                <span class="notes-icon"></span>
+                <span class="notes-title">Additional Notes</span>
+            </div>
+            <div class="notes-text">{{ notes }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Footer Banner -->
+        <div class="footer-banner">
+            <div class="footer-text">
+                This credit memo confirms a refund of {{ total_amount }} to {{ buyer_name }}.
+                {% if terms %} {{ terms }}{% else %}
+                The credit will be processed to your original payment method within 3-5 business days.
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <span class="cont-footer-left">Continued on next page</span>
+            <span class="cont-footer-right">Page {{ _current_page }} of {{ _total_pages }}</span>
+        </div>
+        {% endif %}
+
+        <!-- Page Number -->
+        <div class="page-number">
+            Page {{ _current_page|default(1) }} of {{ _total_pages|default(1) }}
+        </div>
+    </div>
+</body>
+</html>

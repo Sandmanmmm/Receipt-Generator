@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Order - Receipt Paper Format</title>
+    <link rel="stylesheet" href="../css/po_receipt_paper.css">
+</head>
+<body>
+    <div class="receipt-container">
+        {% if _is_first_page %}
+        <!-- Header Section -->
+        <div class="header">
+            {% if supplier_logo %}
+            <div class="logo-wrapper">
+                <img src="{{ supplier_logo }}" alt="Logo" class="logo">
+            </div>
+            {% endif %}
+            <div class="company-name">{{ supplier_company }}</div>
+            <div class="contact-line">{{ supplier_phone }}</div>
+            <div class="contact-line">{{ supplier_email }}</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- PO Header -->
+        <div class="po-header">
+            <div class="po-title">PURCHASE ORDER</div>
+            <div class="po-number">{{ po_number }}</div>
+            <div class="po-date">{{ po_date }}</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Addresses -->
+        <div class="address-section">
+            <div class="address-label">VENDOR:</div>
+            <div class="address-name">{{ supplier_company }}</div>
+            <div class="address-text">{{ supplier_address }}</div>
+            <div class="address-text">{{ supplier_city }}, {{ supplier_state }} {{ supplier_zip }}</div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="address-section">
+            <div class="address-label">BILL TO:</div>
+            <div class="address-name">{{ buyer_company }}</div>
+            <div class="address-text">{{ buyer_address }}</div>
+            <div class="address-text">{{ buyer_city }}, {{ buyer_state }} {{ buyer_zip }}</div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="address-section">
+            <div class="address-label">SHIP TO:</div>
+            <div class="address-name">{{ ship_to_company }}</div>
+            <div class="address-text">{{ ship_to_address }}</div>
+            <div class="address-text">{{ ship_to_city }}, {{ ship_to_state }} {{ ship_to_zip }}</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Order Details -->
+        <div class="info-section">
+            <div class="info-row">
+                <span class="info-label">Terms:</span>
+                <span class="info-value">{{ payment_terms }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Ship Date:</span>
+                <span class="info-value">{{ ship_date }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Ship Via:</span>
+                <span class="info-value">{{ shipping_method }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">FOB:</span>
+                <span class="info-value">{{ fob_point }}</span>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-po">{{ po_number }}</div>
+            <div class="cont-page">Page {{ _current_page }}/{{ _total_pages }}</div>
+            <div class="cont-company">{{ supplier_company }}</div>
+        </div>
+        <div class="divider"></div>
+        {% endif %}
+
+        <!-- Items Section -->
+        <div class="items-header">ITEMS</div>
+        
+        {% for item in items %}
+        <div class="item-block">
+            <div class="item-row">
+                <span class="item-label">SKU:</span>
+                <span class="item-value">{{ item.sku }}</span>
+            </div>
+            <div class="item-name">{{ item.product_name }}</div>
+            {% if item.brand %}
+            <div class="item-detail">Brand: {{ item.brand }}</div>
+            {% endif %}
+            {% if item.category %}
+            <div class="item-detail">Category: {{ item.category }}</div>
+            {% endif %}
+            {% if item.upc %}
+            <div class="item-detail">UPC: {{ item.upc }}</div>
+            {% endif %}
+            {% if item.model %}
+            <div class="item-detail">Model: {{ item.model }}</div>
+            {% endif %}
+            {% if item.attributes %}
+            {% for key, value in item.attributes.items() %}
+            <div class="item-detail">{{ key }}: {{ value }}</div>
+            {% endfor %}
+            {% endif %}
+            <div class="item-pricing">
+                <div class="pricing-row">
+                    <span class="pricing-label">Qty:</span>
+                    <span class="pricing-value">{{ item.quantity }}</span>
+                </div>
+                <div class="pricing-row">
+                    <span class="pricing-label">Unit:</span>
+                    <span class="pricing-value">${{ "%.2f"|format(item.unit_price|to_float) }}</span>
+                </div>
+                <div class="pricing-row total-row">
+                    <span class="pricing-label">Total:</span>
+                    <span class="pricing-value">${{ "%.2f"|format((item.line_total|default(item.amount)|default(item.quantity * item.unit_price|to_float))|to_float) }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="item-divider"></div>
+        {% endfor %}
+
+        {% if _is_last_page %}
+        <div class="divider"></div>
+
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <div class="total-line">
+                <span class="total-label">Subtotal:</span>
+                <span class="total-value">${{ "%.2f"|format(subtotal|to_float) }}</span>
+            </div>
+            {% if discount_percent and discount_percent > 0 %}
+            <div class="total-line">
+                <span class="total-label">Discount ({{ discount_percent }}%):</span>
+                <span class="total-value discount">-${{ "%.2f"|format(discount_amount|to_float) }}</span>
+            </div>
+            {% endif %}
+            {% if shipping_cost and shipping_cost > 0 %}
+            <div class="total-line">
+                <span class="total-label">Shipping:</span>
+                <span class="total-value">${{ "%.2f"|format(shipping_cost) }}</span>
+            </div>
+            {% endif %}
+            {% if tax and (tax|to_float) > 0 %}
+            <div class="total-line">
+                <span class="total-label">Tax ({{ tax_rate }}):</span>
+                <span class="total-value">${{ "%.2f"|format(tax_amount|default(tax)|to_float) }}</span>
+            </div>
+            {% endif %}
+            <div class="divider"></div>
+            <div class="total-line grand-total">
+                <span class="total-label">TOTAL:</span>
+                <span class="total-value">${{ "%.2f"|format(total|to_float) }}</span>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Notes -->
+        {% if notes %}
+        <div class="notes-section">
+            <div class="notes-label">NOTES:</div>
+            <div class="notes-text">{{ notes }}</div>
+        </div>
+        <div class="divider"></div>
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-text">Thank you for your business!</div>
+            <div class="footer-text">Terms: {{ payment_terms }}</div>
+            <div class="footer-text">All sales subject to our standard terms</div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-footer-text">Continued on page {{ _current_page + 1 }}...</div>
+        </div>
+        {% endif %}
+
+        <!-- Page Number -->
+        {% if _total_pages and _total_pages > 1 %}
+        <div class="page-number">Page {{ _current_page }} of {{ _total_pages }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>

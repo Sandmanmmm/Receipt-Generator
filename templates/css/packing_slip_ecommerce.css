@@ -1,0 +1,633 @@
+/* Modern E-commerce Packing Slip with Product Photos */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    color: #1a1a1a;
+    background: #ffffff;
+    line-height: 1.5;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 0;
+    background: #ffffff;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+/* ======================
+   HEADER SECTION
+   ====================== */
+
+.header-section {
+    background: #667eea;  /* was: linear-gradient(135deg, #667eea 0%, #764ba2 100%...) */
+    padding: 30px;
+    margin-bottom: 25px;
+}
+
+.header-content {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.brand-area {
+    display: table-cell;
+    vertical-align: middle;
+    width: 60%;
+}
+
+.brand-logo {
+    display: inline-block;
+    height: 50px;
+    width: auto;
+    max-width: 150px;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+.logo-placeholder {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 15px;
+}
+
+.logo-initial {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 50px;
+}
+
+.brand-info {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.company-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 2px;
+}
+
+.tagline {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.85);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.order-badge {
+    display: table-cell;
+    vertical-align: middle;
+    width: 40%;
+    text-align: right;
+}
+
+.badge-label {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.75);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+}
+
+.badge-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 2px;
+}
+
+.badge-date {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* ======================
+   ADDRESS CARDS ROW
+   ====================== */
+
+.addresses-row {
+    display: table;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 15px 0;
+    margin: 0 15px 25px 15px;
+    width: calc(100% - 30px);
+}
+
+.address-card {
+    display: table-cell;
+    width: 33.33%;
+    vertical-align: top;
+    background: #f8f9fa;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+}
+
+.card-header {
+    background: #667eea;  /* was: linear-gradient(135deg, #667eea 0%, #764ba2 100%...) */
+    padding: 10px 15px;
+    color: #ffffff;
+}
+
+.card-icon {
+    font-size: 14px;
+    margin-right: 6px;
+}
+
+.card-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.recipient-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+}
+
+.address-line {
+    font-size: 10px;
+    color: #495057;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.contact-line {
+    font-size: 9px;
+    color: #6c757d;
+    margin-bottom: 4px;
+}
+
+.contact-icon {
+    font-size: 10px;
+    margin-right: 4px;
+}
+
+.info-row {
+    margin-bottom: 6px;
+}
+
+.info-label {
+    font-size: 9px;
+    color: #6c757d;
+    display: inline-block;
+    width: 65px;
+}
+
+.info-value {
+    font-size: 10px;
+    color: #1a1a1a;
+    font-weight: 500;
+}
+
+.tracking-number {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 9px;
+    background: #fff3cd;
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: #856404;
+}
+
+/* ======================
+   CONTINUATION HEADER
+   ====================== */
+
+.continuation-header {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    padding: 15px 30px;
+    background: #667eea;  /* was: linear-gradient(135deg, #667eea 0%, #764ba2 100%...) */
+    margin-bottom: 20px;
+}
+
+.cont-left {
+    display: table-cell;
+    vertical-align: middle;
+    width: 50%;
+}
+
+.cont-logo {
+    display: inline-block;
+    height: 30px;
+    width: auto;
+    max-width: 100px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.cont-company {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    vertical-align: middle;
+}
+
+.cont-right {
+    display: table-cell;
+    vertical-align: middle;
+    width: 50%;
+    text-align: right;
+}
+
+.cont-order {
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-right: 15px;
+}
+
+.cont-page {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* ======================
+   ITEMS SECTION
+   ====================== */
+
+.items-section {
+    margin: 0 30px 25px 30px;
+}
+
+.section-header {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    padding: 12px 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #e9ecef;
+}
+
+.section-icon {
+    display: table-cell;
+    width: 30px;
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.section-title {
+    display: table-cell;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a1a;
+    vertical-align: middle;
+}
+
+.item-count {
+    display: table-cell;
+    text-align: right;
+    font-size: 10px;
+    color: #6c757d;
+    vertical-align: middle;
+}
+
+/* ======================
+   ITEMS TABLE
+   ====================== */
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.items-table thead tr {
+    background: #667eea;  /* was: linear-gradient(135deg, #667eea 0%, #764ba2 100%...) */
+    color: #ffffff;
+}
+
+.items-table th {
+    padding: 10px 8px;
+    text-align: left;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.items-table tbody tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+.items-table tbody tr:nth-child(odd) {
+    background: #ffffff;
+}
+
+.items-table td {
+    padding: 12px 8px;
+    vertical-align: top;
+    font-size: 10px;
+    word-wrap: break-word;
+    max-width: 0;
+}
+
+/* Column widths */
+.col-photo { width: 15%; text-align: center; }
+.col-product { width: 35%; }
+.col-sku { width: 15%; }
+.col-qty { width: 10%; text-align: center; }
+.col-bin { width: 15%; text-align: center; }
+.col-packed { width: 10%; text-align: center; }
+
+/* Photo cell */
+.photo-cell {
+    text-align: center;
+    padding: 8px;
+}
+
+.product-image {
+    width: 70px;
+    height: 70px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    margin: 0 auto;
+}
+
+.placeholder-image {
+    background: #f8f9fa;  /* was: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%...) */
+    display: table;
+    text-align: center;
+}
+
+.placeholder-icon {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 28px;
+    color: #adb5bd;
+    width: 70px;
+    height: 70px;
+}
+
+/* Product details */
+.product-cell {
+    padding-right: 10px;
+}
+
+.product-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.product-variant {
+    font-size: 9px;
+    color: #6c757d;
+    margin-bottom: 4px;
+    font-style: italic;
+}
+
+.product-notes {
+    font-size: 9px;
+    color: #495057;
+    background: #fff3cd;
+    padding: 4px 6px;
+    border-radius: 4px;
+    margin-top: 6px;
+}
+
+.notes-icon {
+    font-size: 10px;
+    margin-right: 3px;
+}
+
+/* SKU cell */
+.sku-cell {
+    text-align: left;
+}
+
+.sku-code {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 9px;
+    color: #1a1a1a;
+    background: #e9ecef;
+    padding: 3px 6px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 3px;
+}
+
+.upc-code {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 8px;
+    color: #6c757d;
+}
+
+/* Quantity cell */
+.qty-cell {
+    text-align: center;
+}
+
+.qty-badge {
+    display: inline-block;
+    background: #667eea;  /* was: linear-gradient(135deg, #667eea 0%, #764ba2 100%...) */
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 20px;
+    min-width: 35px;
+    text-align: center;
+}
+
+/* Bin location cell */
+.bin-cell {
+    text-align: center;
+}
+
+.bin-location {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 10px;
+    color: #1a1a1a;
+    background: #d1ecf1;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    border: 1px solid #bee5eb;
+}
+
+.bin-empty {
+    font-size: 14px;
+    color: #dee2e6;
+}
+
+/* Packed checkbox */
+.packed-cell {
+    text-align: center;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #667eea;
+    border-radius: 4px;
+    margin: 0 auto;
+    background: #ffffff;
+}
+
+/* ======================
+   FOOTER SECTIONS
+   ====================== */
+
+.footer-sections {
+    margin: 0 30px 20px 30px;
+}
+
+.footer-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.footer-card-header {
+    background: #667eea;  /* was: linear-gradient(135deg, #667eea 0%, #764ba2 100%...) */
+    padding: 8px 15px;
+    color: #ffffff;
+}
+
+.footer-icon {
+    font-size: 12px;
+    margin-right: 6px;
+}
+
+.footer-title {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.footer-card-body {
+    padding: 12px 15px;
+    font-size: 9px;
+    color: #495057;
+    line-height: 1.6;
+}
+
+/* ======================
+   CONTINUATION FOOTER
+   ====================== */
+
+.continuation-footer {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    padding: 15px 30px;
+    background: #f8f9fa;
+    border-top: 2px solid #667eea;
+    margin-top: 20px;
+}
+
+.cont-message {
+    display: table-cell;
+    font-size: 11px;
+    color: #495057;
+    font-style: italic;
+    vertical-align: middle;
+}
+
+.cont-page-num {
+    display: table-cell;
+    text-align: right;
+    font-size: 10px;
+    color: #6c757d;
+    font-weight: 600;
+    vertical-align: middle;
+}
+
+/* ======================
+   THANK YOU MESSAGE
+   ====================== */
+
+.thank-you {
+    text-align: center;
+    padding: 20px 30px;
+    margin: 0 30px 20px 30px;
+    background: #667eea;  /* was: linear-gradient(135deg, #667eea 0%, #764ba2 100%...) */
+    border-radius: 12px;
+}
+
+.thank-you-text {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 4px;
+}
+
+.thank-you-subtext {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* ======================
+   PAGE NUMBER
+   ====================== */
+
+.page-number {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    font-size: 9px;
+    color: #adb5bd;
+}
+
+/* ======================
+   PRINT OPTIMIZATIONS
+   ====================== */
+
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .invoice-page {
+        width: 100%;
+        min-height: auto;
+        page-break-after: always;
+    }
+    
+    .items-table tbody tr {
+        page-break-inside: avoid;
+    }
+}

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Order - Home Goods Wholesale</title>
+    <link rel="stylesheet" href="../css/po_home_goods.css">
+</head>
+<body>
+    <div class="page-container">
+        {% if _is_first_page %}
+        <!-- Header Section -->
+        <div class="header">
+            <div class="logo-section">
+                {% if supplier_logo %}
+                <img src="{{ supplier_logo }}" alt="Supplier Logo" class="logo">
+                {% else %}
+                <div class="logo-placeholder">
+                    <span class="company-name">{{ supplier_company }}</span>
+                </div>
+                {% endif %}
+            </div>
+            <div class="po-info">
+                <h1>PURCHASE ORDER</h1>
+                <div class="po-number">{{ po_number }}</div>
+            </div>
+        </div>
+
+        <!-- Meta Information -->
+        <div class="meta-info">
+            <div class="meta-row">
+                <div class="meta-field">
+                    <span class="meta-label">PO Date:</span>
+                    <span class="meta-value">{{ po_date }}</span>
+                </div>
+                <div class="meta-field">
+                    <span class="meta-label">Expected Ship Date:</span>
+                    <span class="meta-value">{{ ship_date }}</span>
+                </div>
+            </div>
+            <div class="meta-row">
+                <div class="meta-field">
+                    <span class="meta-label">Payment Terms:</span>
+                    <span class="meta-value">{{ payment_terms }}</span>
+                </div>
+                <div class="meta-field">
+                    <span class="meta-label">FOB:</span>
+                    <span class="meta-value">{{ fob_point }}</span>
+                </div>
+            </div>
+            <div class="meta-row">
+                <div class="meta-field">
+                    <span class="meta-label">Shipping Method:</span>
+                    <span class="meta-value">{{ shipping_method }}</span>
+                </div>
+                <div class="meta-field">
+                    <span class="meta-label">Carrier:</span>
+                    <span class="meta-value">{{ carrier }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Address Section -->
+        <div class="address-section">
+            <table class="address-table">
+                <tr>
+                    <th>Vendor</th>
+                    <th>Bill To</th>
+                    <th>Ship To</th>
+                </tr>
+                <tr>
+                    <td class="address-card">
+                        <div class="address-content">
+                            <div class="company">{{ supplier_company }}</div>
+                            <div class="contact">{{ supplier_contact }}</div>
+                            <div>{{ supplier_address }}</div>
+                            <div>{{ supplier_city }}, {{ supplier_state }} {{ supplier_zip }}</div>
+                            <div class="contact-info">Phone: {{ supplier_phone }}</div>
+                            <div class="contact-info">Email: {{ supplier_email }}</div>
+                        </div>
+                    </td>
+                    <td class="address-card">
+                        <div class="address-content">
+                            <div class="company">{{ buyer_company }}</div>
+                            <div class="contact">{{ buyer_contact }}</div>
+                            <div>{{ buyer_address }}</div>
+                            <div>{{ buyer_city }}, {{ buyer_state }} {{ buyer_zip }}</div>
+                            <div class="contact-info">Phone: {{ buyer_phone }}</div>
+                            <div class="contact-info">Email: {{ buyer_email }}</div>
+                        </div>
+                    </td>
+                    <td class="address-card">
+                        <div class="address-content">
+                            <div class="company">{{ ship_to_company }}</div>
+                            <div class="contact">{{ ship_to_contact }}</div>
+                            <div>{{ ship_to_address }}</div>
+                            <div>{{ ship_to_city }}, {{ ship_to_state }} {{ ship_to_zip }}</div>
+                            <div class="contact-info">Phone: {{ ship_to_phone }}</div>
+                            {% if delivery_instructions %}
+                            <div class="delivery-note">{{ delivery_instructions }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <!-- Continuation Header for Pages 2+ -->
+        <div class="continuation-header">
+            <div class="continuation-info">
+                <span class="po-number-small">{{ po_number }}</span>
+                <span class="page-info">Page {{ _current_page }} of {{ _total_pages }}</span>
+            </div>
+            <div class="continuation-company">{{ supplier_company }} → {{ buyer_company }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Items Table -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-product">Product Code</th>
+                        <th class="col-description">Description</th>
+                        <th class="col-dimensions">Dimensions<br><span class="sub-header">(L × W × H)</span></th>
+                        <th class="col-specs">Weight / Cu Ft<br><span class="sub-header">(lbs / cu.ft)</span></th>
+                        <th class="col-material">Material /<br><span class="sub-header">Finish</span></th>
+                        <th class="col-freight">Freight<br><span class="sub-header">Class</span></th>
+                        <th class="col-qty">Qty</th>
+                        <th class="col-unit-price">Unit Price</th>
+                        <th class="col-total">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td class="product-code">
+                            <div class="sku">{{ item.sku }}</div>
+                            {% if item.upc %}
+                            <div class="upc">UPC: {{ item.upc }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="description">
+                            <div class="product-name">{{ item.product_name }}</div>
+                            {% if item.room_category %}
+                            <div class="room-tag">{{ item.room_category }}</div>
+                            {% endif %}
+                            {% if item.assembly_required %}
+                            <div class="assembly-info">
+                                <span class="assembly-badge">Assembly Required</span>
+                                {% if item.assembly_time %}
+                                <span class="assembly-time">{{ item.assembly_time }} min</span>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                            {% if item.certifications %}
+                            <div class="certifications">
+                                {% for cert in item.certifications %}
+                                <span class="cert-badge cert-{{ cert.lower().replace(' ', '-').replace('/', '-') }}">{{ cert }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td class="dimensions">
+                            {% if item.length and item.width and item.height %}
+                            <div class="dimension-value">{{ item.length }}" × {{ item.width }}" × {{ item.height }}"</div>
+                            {% else %}
+                            <div class="dimension-value">—</div>
+                            {% endif %}
+                        </td>
+                        <td class="specs">
+                            {% if item.weight %}
+                            <div class="weight">{{ item.weight }} lbs</div>
+                            {% endif %}
+                            {% if item.cubic_feet %}
+                            <div class="cubic-ft">{{ item.cubic_feet }} cu.ft</div>
+                            {% endif %}
+                        </td>
+                        <td class="material">
+                            {% if item.material %}
+                            <div class="material-type">{{ item.material }}</div>
+                            {% endif %}
+                            {% if item.finish %}
+                            <div class="finish-type">{{ item.finish }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="freight-class">
+                            {% if item.freight_class %}
+                            <div class="freight-value">{{ item.freight_class }}</div>
+                            {% else %}
+                            <div class="freight-value">—</div>
+                            {% endif %}
+                        </td>
+                        <td class="quantity">{{ item.quantity }}</td>
+                        <td class="unit-price">${{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                        <td class="line-total">${{ "%.2f"|format((item.line_total|default(item.amount)|default(item.quantity * item.unit_price|to_float))|to_float) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page %}
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <div class="notes-box">
+                <div class="notes-label">Special Instructions / Notes:</div>
+                <div class="notes-content">
+                    {% if notes %}
+                    {{ notes }}
+                    {% endif %}
+                    {% if prop65_warning %}
+                    <div class="prop65-warning">
+                        <strong>[!] California Prop 65 Warning:</strong> This product contains chemicals known to the State of California to cause cancer and birth defects or other reproductive harm.
+                    </div>
+                    {% endif %}
+                    {% if care_instructions %}
+                    <div class="care-instructions">
+                        <strong>Care Instructions:</strong> {{ care_instructions }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="totals-box">
+                <table class="totals-table">
+                    <tr>
+                        <td class="totals-label">Subtotal:</td>
+                        <td class="totals-value">${{ "%.2f"|format(subtotal|to_float) }}</td>
+                    </tr>
+                    {% if discount_percent and discount_percent > 0 %}
+                    <tr>
+                        <td class="totals-label">Discount ({{ discount_percent }}%):</td>
+                        <td class="totals-value discount">-${{ "%.2f"|format(discount_amount|to_float) }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if shipping_cost and shipping_cost > 0 %}
+                    <tr>
+                        <td class="totals-label">Freight Charges:</td>
+                        <td class="totals-value">${{ "%.2f"|format(shipping_cost) }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if tax and (tax|to_float) > 0 %}
+                    <tr>
+                        <td class="totals-label">Tax ({{ tax_rate }}):</td>
+                        <td class="totals-value">${{ "%.2f"|format(tax_amount|default(tax)|to_float) }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr class="total-row">
+                        <td class="totals-label">Total:</td>
+                        <td class="totals-value">${{ "%.2f"|format(total|to_float) }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Authorization Section -->
+        <div class="authorization">
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <div class="signature-label">Authorized Signature</div>
+                <div class="signature-date">Date: _______________</div>
+            </div>
+            <div class="signature-box">
+                <div class="signature-line"></div>
+                <div class="signature-label">Print Name</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <p class="footer-note">This purchase order is subject to our standard terms and conditions. All furniture and home goods are subject to inspection upon receipt. Damaged items must be reported within 48 hours of delivery.</p>
+                <p class="footer-note">Freight class and shipping weights are estimates and subject to verification. Actual freight charges may vary based on carrier measurements.</p>
+                {% if carb_compliance %}
+                <p class="footer-note"><strong>CARB Phase 2 Compliant:</strong> All composite wood products meet California Air Resources Board formaldehyde emission standards (≤0.09 ppm).</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Page Number -->
+        {% if _total_pages and _total_pages > 1 %}
+        <div class="page-number">Page {{ _current_page }} of {{ _total_pages }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eDay Purchase Invoice</title>
+    <link rel="stylesheet" href="../css/ebay_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page %}
+        <!-- Main Header -->
+        <div class="header">
+            <div class="header-content">
+                <div class="ebay-logo">
+                    <span class="logo-e">e</span><span class="logo-bay">Day</span>
+                </div>
+                <div class="header-right">
+                    <div class="invoice-badge">INVOICE</div>
+                    <div class="invoice-number">{{ invoice_number }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Date and Transaction Info Bar -->
+        <div class="info-bar">
+            <div class="info-item">
+                <span class="info-label">Invoice Date:</span>
+                <span class="info-value">{{ invoice_date }}</span>
+            </div>
+            {% if order_date %}
+            <div class="info-item">
+                <span class="info-label">Order Date:</span>
+                <span class="info-value">{{ order_date }}</span>
+            </div>
+            {% endif %}
+            <div class="info-item">
+                <span class="info-label">Payment Method:</span>
+                <span class="info-value">{{ payment_method or 'PayPal' }}</span>
+            </div>
+        </div>
+
+        <!-- Seller and Buyer Cards -->
+        <table class="parties-table">
+            <tr>
+                <td class="party-cell">
+                    <div class="party-card seller-card">
+                        <div class="card-header">
+                            <div class="card-icon"></div>
+                            <div class="card-title">SELLER INFORMATION</div>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-body">
+                            {% if supplier_logo %}
+                            <div class="seller-logo-box">
+                                <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="seller-logo-img" />
+                            </div>
+                            {% endif %}
+                            <div class="seller-name">{{ supplier_name }}</div>
+                            {% if supplier_address %}
+                            <div class="seller-detail">📍 {{ supplier_address }}</div>
+                            {% endif %}
+                            {% if supplier_phone %}
+                            <div class="seller-detail"> {{ supplier_phone }}</div>
+                            {% endif %}
+                            {% if supplier_email %}
+                            <div class="seller-detail"> {{ supplier_email }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </td>
+                <td class="party-cell">
+                    <div class="party-card buyer-card">
+                        <div class="card-header">
+                            <div class="card-icon">👤</div>
+                            <div class="card-title">BILL TO</div>
+                        </div>
+                        <div class="card-divider"></div>
+                        <div class="card-body">
+                            {% if buyer_name %}
+                            <div class="buyer-name">{{ buyer_name }}</div>
+                            {% endif %}
+                            {% if buyer_address %}
+                            <div class="buyer-detail">📍 {{ buyer_address }}</div>
+                            {% endif %}
+                            {% if buyer_phone %}
+                            <div class="buyer-detail"> {{ buyer_phone }}</div>
+                            {% endif %}
+                            {% if buyer_email %}
+                            <div class="buyer-detail"> {{ buyer_email }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Items Header -->
+        <div class="items-header-bar">
+            <span class="items-icon"></span>
+            <span class="items-title">ITEMS PURCHASED</span>
+        </div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-logo">
+                <span class="cont-e">e</span><span class="cont-bay">bay</span>
+            </div>
+            <div class="cont-info">
+                <span class="cont-invoice">Invoice {{ invoice_number }}</span>
+                <span class="cont-sep">•</span>
+                <span class="cont-page">Page {{ _current_page }} of {{ _total_pages }}</span>
+            </div>
+        </div>
+        <div class="cont-divider"></div>
+        {% endif %}
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr class="table-header">
+                    <th class="col-item">Item</th>
+                    <th class="col-condition">Condition</th>
+                    <th class="col-qty">Qty</th>
+                    <th class="col-price">Price</th>
+                    <th class="col-total">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="item-row">
+                    <td class="item-cell">
+                        <div class="item-name">{{ item.description }}</div>
+                        {% if item.sku or item.upc %}
+                        <div class="item-sku">Item #: {{ item.sku or item.upc }}</div>
+                        {% endif %}
+                        {% if item.style %}
+                        <div class="item-style">Style: {{ item.style }}</div>
+                        {% endif %}
+                        {% if item.category %}
+                        <div class="item-category">{{ item.category }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="condition-cell">
+                        <div class="condition-badge">{{ item.condition or 'New' }}</div>
+                    </td>
+                    <td class="qty-cell">
+                        {{ item.quantity }}
+                    </td>
+                    <td class="price-cell">
+                        ${{ "%.2f"|format(item.unit_price|float) }}
+                    </td>
+                    <td class="total-cell">
+                        ${{ "%.2f"|format(item.total|float) }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page %}
+        <!-- Payment Summary -->
+        <div class="summary-section">
+            <div class="summary-box">
+                <table class="summary-table">
+                    <tr class="summary-row">
+                        <td class="summary-label">Items Subtotal:</td>
+                        <td class="summary-value">${{ "%.2f"|format(subtotal|float) }}</td>
+                    </tr>
+                    {% if ((discount or 0)|float) > 0 %}
+                    <tr class="summary-row">
+                        <td class="summary-label">Seller Discount:</td>
+                        <td class="summary-value discount-value">-${{ "%.2f"|format(discount|float) }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if ((shipping_cost or 0)|float) > 0 %}
+                    <tr class="summary-row">
+                        <td class="summary-label">Shipping & Handling:</td>
+                        <td class="summary-value">${{ "%.2f"|format(shipping_cost|float) }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if ((tax_amount or 0)|float) > 0 %}
+                    <tr class="summary-row">
+                        <td class="summary-label">Sales Tax ({{ "%.1f"|format(tax_rate or 0) }}%):</td>
+                        <td class="summary-value">${{ "%.2f"|format(tax_amount|float) }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr class="summary-row total-row">
+                        <td class="summary-label">Total Amount:</td>
+                        <td class="summary-value">${{ "%.2f"|format(total_amount|float) }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Payment Status -->
+        <div class="payment-section">
+            <div class="payment-box">
+                <div class="payment-status">
+                    <div class="status-icon">✓</div>
+                    <div class="status-text">
+                        <div class="status-title">PAYMENT COMPLETE</div>
+                        <div class="status-detail">Paid via {{ payment_method or 'PayPal' }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buyer Protection -->
+        <div class="protection-box">
+            <div class="protection-header">
+                <span class="protection-shield"></span>
+                <span class="protection-title">eDay Money Back Guarantee</span>
+            </div>
+            <div class="protection-content">
+                <div class="protection-text">
+                    <strong>You're covered!</strong> Get the item you ordered or your money back. 
+                    If your item doesn't arrive, arrives damaged, or doesn't match the listing, 
+                    you're protected by eDay's Money Back Guarantee.
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-divider"></div>
+        <div class="footer">
+            <div class="footer-row">
+                <div class="footer-col">
+                    <div class="footer-title">Need Help?</div>
+                    <div class="footer-text">Visit the Resolution Center</div>
+                    <div class="footer-text">Contact Seller</div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">eDay Customer Service</div>
+                    <div class="footer-text">Available 24/7</div>
+                    <div class="footer-text">www.eday.com/help</div>
+                </div>
+                <div class="footer-col">
+                    <div class="footer-title">Payment Questions</div>
+                    <div class="footer-text">PayPal Support</div>
+                    <div class="footer-text">www.paypal.com</div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-note">
+                    This invoice was generated by eDay. For questions about this order, please contact the seller directly.
+                </div>
+                <div class="footer-legal">
+                    © 2025 eDay Inc. All rights reserved.
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-footer-text">Continued on next page...</div>
+            <div class="cont-footer-page">Page {{ _current_page }} of {{ _total_pages }}</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

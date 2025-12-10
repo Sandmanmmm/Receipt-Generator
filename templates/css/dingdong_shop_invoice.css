@@ -1,0 +1,351 @@
+/* DingDong Shop E-invoice - TikTok Shop Style */
+
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    line-height: 1.4;
+    color: #333;
+    background: #fff;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 40px 50px;
+    background: #fff;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Header Table */
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+    table-layout: fixed;
+}
+
+.logo-cell {
+    width: 30%;
+    vertical-align: top;
+}
+
+.title-cell {
+    width: 70%;
+    text-align: right;
+    vertical-align: top;
+}
+
+/* Logo */
+.logo {
+    display: inline-block;
+}
+
+.logo-icon {
+    font-size: 36px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.logo-text {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: bold;
+    color: #00b4d8;
+    line-height: 1.1;
+    vertical-align: middle;
+}
+
+/* E-invoice Title */
+.einvoice-title {
+    font-size: 32px;
+    font-weight: 300;
+    color: #333;
+    font-style: italic;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+    margin-top: 5px;
+}
+
+.section-title.bill-to {
+    margin-top: 25px;
+}
+
+/* Company Name */
+.company-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Info Rows */
+.info-row {
+    margin-bottom: 6px;
+    font-size: 11px;
+}
+
+.info-row .label {
+    font-weight: bold;
+    color: #333;
+}
+
+.info-row .value {
+    color: #333;
+}
+
+/* Invoice Info Box */
+.invoice-info-box {
+    position: absolute;
+    top: 40px;
+    right: 50px;
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    font-size: 10px;
+    width: 280px;
+    margin-top: 60px;
+}
+
+.invoice-info-box td {
+    padding: 6px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.invoice-info-box .info-label {
+    color: #666;
+    width: 40%;
+}
+
+.invoice-info-box .info-value {
+    color: #00b4d8;
+    font-weight: normal;
+    text-align: right;
+}
+
+/* Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.items-table .header-row th {
+    font-size: 10px;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+    padding: 10px 6px;
+    border-top: 1px solid #333;
+    border-bottom: 1px solid #333;
+    vertical-align: bottom;
+}
+
+.col-desc { width: 22%; }
+.col-qty { width: 10%; text-align: center; }
+.col-price { width: 13%; text-align: right; }
+.col-amount { width: 13%; text-align: right; }
+.col-disc { width: 10%; text-align: right; }
+.col-tax { width: 13%; text-align: right; }
+.col-total { width: 19%; text-align: right; }
+
+/* Category Row */
+.category-row td {
+    padding: 12px 6px 6px 6px;
+    font-weight: bold;
+    color: #333;
+    font-size: 11px;
+}
+
+.category-name {
+    text-align: left;
+}
+
+/* Item Rows */
+.item-row td {
+    padding: 8px 6px;
+    font-size: 10px;
+    color: #333;
+    vertical-align: top;
+    border-bottom: none;
+}
+
+.item-desc {
+    text-align: left;
+    padding-left: 0;
+}
+
+.item-qty {
+    text-align: center;
+}
+
+.item-price,
+.item-amount,
+.item-disc,
+.item-tax,
+.item-total {
+    text-align: right;
+}
+
+/* Subtotal Row */
+.subtotal-row td {
+    padding: 12px 6px;
+    font-size: 10px;
+    border-top: 1px solid #333;
+    font-weight: normal;
+}
+
+.subtotal-label {
+    text-align: center;
+    font-weight: bold;
+}
+
+.subtotal-empty {
+    text-align: center;
+}
+
+.subtotal-value {
+    text-align: right;
+}
+
+/* Tax Summary Table */
+.tax-summary-table {
+    width: auto;
+    border-collapse: collapse;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    table-layout: fixed;
+}
+
+.tax-summary-table th {
+    font-size: 9px;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+    padding: 8px 12px;
+    border: 1px solid #333;
+    background: #fff;
+}
+
+.tax-summary-table td {
+    font-size: 10px;
+    color: #333;
+    padding: 8px 12px;
+    border: 1px solid #333;
+}
+
+/* Footer Section */
+.footer-section {
+    margin-top: 30px;
+    display: table;
+    width: 100%;
+}
+
+.footer-left {
+    display: table-cell;
+    width: 75%;
+    vertical-align: top;
+}
+
+.footer-right {
+    display: table-cell;
+    width: 25%;
+    vertical-align: top;
+    text-align: right;
+}
+
+.footer-row {
+    margin-bottom: 5px;
+    font-size: 10px;
+}
+
+.footer-label {
+    font-weight: normal;
+    color: #333;
+}
+
+.footer-value {
+    color: #333;
+}
+
+.digital-sig {
+    font-size: 9px;
+    color: #333;
+    margin-bottom: 8px;
+    word-break: break-all;
+    max-width: 450px;
+}
+
+/* QR Code */
+.qr-placeholder {
+    text-align: right;
+}
+
+.qr-code {
+    width: 80px;
+    height: 80px;
+}
+
+.qr-box {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #333;
+    display: inline-block;
+    background: #fff;
+}
+
+/* Disclaimer */
+.disclaimer {
+    margin-top: 20px;
+    font-size: 8px;
+    color: #666;
+    line-height: 1.4;
+    text-align: justify;
+}
+
+/* Continuation Header */
+.continuation-header {
+    display: table;
+    width: 100%;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cont-title {
+    display: table-cell;
+    font-size: 16px;
+    font-weight: bold;
+    color: #00b4d8;
+}
+
+.cont-info {
+    display: table-cell;
+    text-align: right;
+    font-size: 10px;
+    color: #666;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    text-align: center;
+    font-size: 10px;
+    color: #666;
+    padding-top: 20px;
+    margin-top: 30px;
+    border-top: 1px solid #ddd;
+}

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Receipt - Premium</title>
+    <title>Receipt - Premium{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <link rel="stylesheet" href="../css/pos_receipt_premium.css">
 </head>
 <body>
@@ -61,7 +61,7 @@
         <div class="items-section">
             <h2 class="section-title">Items Purchased</h2>
             
-            {% for item in line_items %}
+            {% for item in items|default(line_items, true) %}
             <div class="item-card">
                 <div class="item-header">
                     <h3 class="item-name">{{ item.description }}</h3>
@@ -105,7 +105,7 @@
                     <span class="summary-value">{{ subtotal }}</span>
                 </div>
                 
-                {% if total_discount|default(0) > 0 %}
+                {% if total_discount_raw|default(0) > 0 %}
                 <div class="summary-row savings-highlight">
                     <span class="summary-label">Total Savings</span>
                     <span class="summary-value savings">{{ total_discount }}</span>
@@ -117,7 +117,7 @@
                     <span class="summary-value">{{ tax_amount }}</span>
                 </div>
                 
-                {% if tip_amount|default(0) > 0 %}
+                {% if tip_amount_raw|default(0) > 0 %}
                 <div class="summary-row">
                     <span class="summary-label">Gratuity</span>
                     <span class="summary-value">{{ tip_amount }}</span>

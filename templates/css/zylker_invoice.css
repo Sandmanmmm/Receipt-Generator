@@ -1,0 +1,566 @@
+/* Zylker Invoice Stylesheet */
+/* Clean professional invoice with coral/orange accent theme */
+/* Based on modern SaaS invoice layout */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: #333333;
+    background: #ffffff;
+    line-height: 1.4;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 40px 50px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ==================== HEADER SECTION ==================== */
+.header-section {
+    display: table;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.header-left {
+    display: table-cell;
+    vertical-align: top;
+    width: 50%;
+}
+
+.header-right {
+    display: table-cell;
+    vertical-align: top;
+    width: 50%;
+    text-align: right;
+}
+
+/* Logo */
+.logo-container {
+    display: inline-block;
+}
+
+.logo-box {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: #E86B5A;
+    border-radius: 6px;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 2px;
+}
+
+.logo-z {
+    font-size: 32px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 50px;
+}
+
+.logo-text {
+    font-size: 32px;
+    font-weight: 400;
+    color: #E86B5A;
+    letter-spacing: 2px;
+    vertical-align: middle;
+}
+
+/* Invoice Title */
+.invoice-title {
+    font-size: 36px;
+    font-weight: 400;
+    color: #E86B5A;
+    margin-bottom: 5px;
+}
+
+.invoice-number {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.balance-due-section {
+    margin-top: 10px;
+    padding: 10px 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+.balance-label {
+    font-size: 12px;
+    color: #666;
+    text-align: right;
+    margin-bottom: 3px;
+}
+
+.balance-amount {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    text-align: right;
+}
+
+/* ==================== INFO SECTION ==================== */
+.info-section {
+    display: table;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.info-left {
+    display: table-cell;
+    vertical-align: top;
+    width: 50%;
+}
+
+.info-right {
+    display: table-cell;
+    vertical-align: top;
+    width: 50%;
+}
+
+/* Supplier Info */
+.supplier-info {
+    margin-bottom: 25px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.company-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.company-address,
+.company-city {
+    font-size: 11px;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Bill To Section */
+.bill-to-section {
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.bill-to-label {
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.customer-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.customer-address,
+.customer-city {
+    font-size: 11px;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Invoice Details Table */
+.invoice-details-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.invoice-details-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.invoice-details-table tr:last-child td {
+    border-bottom: none;
+}
+
+.detail-label {
+    font-size: 11px;
+    color: #666;
+    text-align: left;
+    width: 50%;
+}
+
+.detail-value {
+    font-size: 11px;
+    color: #E86B5A;
+    text-align: right;
+    font-weight: 600;
+}
+
+/* ==================== ITEMS TABLE ==================== */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-bottom: 0;
+}
+
+.items-table thead tr {
+    background: #E88B76;
+}
+
+.items-table th {
+    padding: 12px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: left;
+}
+
+.items-table th.col-num {
+    width: 8%;
+    text-align: center;
+}
+
+.items-table th.col-desc {
+    width: 42%;
+}
+
+.items-table th.col-qty {
+    width: 15%;
+    text-align: center;
+}
+
+.items-table th.col-rate {
+    width: 17%;
+    text-align: right;
+}
+
+.items-table th.col-amount {
+    width: 18%;
+    text-align: right;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.items-table td {
+    padding: 15px 10px;
+    font-size: 11px;
+    color: #333;
+    vertical-align: top;
+    word-wrap: break-word;
+}
+
+.items-table td.col-num {
+    text-align: center;
+    color: #666;
+}
+
+.items-table td.col-qty {
+    text-align: center;
+}
+
+.items-table td.col-rate,
+.items-table td.col-amount {
+    text-align: right;
+}
+
+.item-name {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.item-description {
+    font-size: 10px;
+    color: #888;
+    line-height: 1.4;
+}
+
+.qty-value {
+    display: block;
+    font-weight: 600;
+}
+
+.qty-unit {
+    display: block;
+    font-size: 9px;
+    color: #888;
+}
+
+/* ==================== SUBTOTAL ROW ==================== */
+.subtotal-row {
+    display: table;
+    width: 100%;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 12px 0;
+}
+
+.subtotal-label {
+    display: table-cell;
+    width: 75%;
+    text-align: right;
+    font-size: 11px;
+    color: #666;
+    padding-right: 20px;
+}
+
+.subtotal-value {
+    display: table-cell;
+    width: 25%;
+    text-align: right;
+    font-size: 11px;
+    font-weight: 600;
+    color: #333;
+    padding-right: 10px;
+}
+
+/* ==================== TOTALS BOX ==================== */
+.totals-box {
+    width: 300px;
+    margin-left: auto;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+}
+
+.totals-row {
+    display: table;
+    width: 100%;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.totals-row:last-child {
+    border-bottom: none;
+}
+
+.totals-label {
+    display: table-cell;
+    width: 60%;
+    padding: 10px 15px;
+    font-size: 11px;
+    color: #666;
+    text-align: left;
+}
+
+.totals-value {
+    display: table-cell;
+    width: 40%;
+    padding: 10px 15px;
+    font-size: 11px;
+    color: #333;
+    text-align: right;
+}
+
+.totals-value.discount {
+    color: #666;
+}
+
+.total-highlight {
+    background: #f5f5f5;
+}
+
+.total-highlight .totals-label {
+    font-weight: 700;
+    color: #333;
+}
+
+.total-highlight .totals-value {
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.balance-highlight {
+    background: #E8F4FC;
+}
+
+.balance-highlight .totals-label {
+    font-weight: 700;
+    color: #333;
+}
+
+.balance-highlight .totals-value {
+    font-weight: 700;
+    font-size: 13px;
+    color: #E86B5A;
+}
+
+/* ==================== NOTES/TERMS SECTIONS ==================== */
+.notes-section,
+.payment-section,
+.terms-section {
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    max-width: 350px;
+}
+
+.section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.section-content {
+    font-size: 10px;
+    color: #666;
+    line-height: 1.5;
+}
+
+.payment-icons {
+    font-size: 16px;
+}
+
+.payment-icon {
+    margin-right: 8px;
+}
+
+/* ==================== FOOTER ==================== */
+.invoice-footer {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 20px 50px;
+}
+
+.footer-logo {
+    margin-bottom: 8px;
+}
+
+.footer-logo-box {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background: #E86B5A;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    margin-right: 2px;
+}
+
+.footer-logo-text {
+    font-size: 14px;
+    color: #E86B5A;
+    font-weight: 400;
+}
+
+.footer-invoice-text {
+    font-size: 14px;
+    color: #333;
+    font-weight: 400;
+    margin-left: 3px;
+}
+
+.footer-tagline {
+    font-size: 10px;
+    color: #888;
+    margin-bottom: 3px;
+}
+
+.footer-url {
+    font-size: 10px;
+    color: #888;
+}
+
+/* ==================== CONTINUATION HEADER/FOOTER ==================== */
+.continuation-header {
+    display: table;
+    width: 100%;
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+}
+
+.cont-logo {
+    display: table-cell;
+    vertical-align: middle;
+    width: 50%;
+}
+
+.logo-box-small {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: #E86B5A;
+    border-radius: 4px;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 2px;
+}
+
+.logo-z-small {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 30px;
+}
+
+.logo-text-small {
+    font-size: 20px;
+    font-weight: 400;
+    color: #E86B5A;
+    letter-spacing: 1px;
+    vertical-align: middle;
+}
+
+.cont-info {
+    display: table-cell;
+    vertical-align: middle;
+    width: 50%;
+    text-align: right;
+    font-size: 11px;
+    color: #666;
+}
+
+.continuation-footer {
+    padding: 15px 0;
+    text-align: center;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 20px;
+}
+
+.cont-footer-text {
+    font-size: 10px;
+    color: #666;
+    font-style: italic;
+}
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .invoice-page {
+        width: 100%;
+        min-height: auto;
+        padding: 30px;
+    }
+    
+    .invoice-footer {
+        position: relative;
+        bottom: auto;
+    }
+}

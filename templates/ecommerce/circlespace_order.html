@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - CircleSpace</title>
+    <link rel="stylesheet" href="../css/circlespace_order.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Order Header -->
+        <h1 class="order-title">Order Confirmed: #{{ order_number }}</h1>
+        
+        <p class="thank-you">Thank you for your order at {{ store_name }}. Once your package ships we will send you a notification email. Your order confirmation is below.</p>
+        
+        <p class="order-info">Order Number: <strong>#{{ order_number }}</strong> (placed on {{ order_date }})</p>
+        
+        <!-- Addresses Section -->
+        <table class="addresses-table">
+            <tr>
+                <td class="address-column">
+                    <div class="address-label">BILLED TO:</div>
+                    <div class="address-line">{{ buyer_name }}</div>
+                    <div class="address-line">{{ billing_address_line1 }}</div>
+                    {% if billing_address_line2 %}
+                    <div class="address-line">{{ billing_address_line2 }}</div>
+                    {% endif %}
+                    <div class="address-line">{{ billing_city }}, {{ billing_zip }}</div>
+                    <div class="address-line">{{ billing_country }}</div>
+                    <div class="address-line">CC: {{ payment_last_four }}</div>
+                    <div class="address-line">{{ buyer_email }}</div>
+                </td>
+                <td class="address-column">
+                    <div class="address-label">SHIPPING TO:</div>
+                    <div class="address-line">{{ shipping_name }}</div>
+                    <div class="address-line">{{ shipping_address_line1 }}</div>
+                    {% if shipping_address_line2 %}
+                    <div class="address-line">{{ shipping_address_line2 }}</div>
+                    {% endif %}
+                    <div class="address-line">{{ shipping_city }}, {{ shipping_zip }}</div>
+                    <div class="address-line">{{ shipping_country }}</div>
+                    <div class="address-line">{{ shipping_method }}</div>
+                </td>
+            </tr>
+        </table>
+        
+        <!-- Order Summary Header -->
+        <h2 class="section-title">Order Summary</h2>
+        
+        <!-- Items Table Header -->
+        <table class="items-table">
+            <thead>
+                <tr class="header-row">
+                    <th class="col-item">ITEM</th>
+                    <th class="col-qty">QTY</th>
+                    <th class="col-price">UNIT PRICE</th>
+                    <th class="col-subtotal">SUBTOTAL</th>
+                    <th class="col-tax">TAX</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <span class="cont-title">Order #{{ order_number }}</span>
+            <span class="cont-page">Page {{ _page_number }} of {{ _total_pages }}</span>
+        </div>
+        
+        <table class="items-table">
+            <thead>
+                <tr class="header-row">
+                    <th class="col-item">ITEM</th>
+                    <th class="col-qty">QTY</th>
+                    <th class="col-price">UNIT PRICE</th>
+                    <th class="col-subtotal">SUBTOTAL</th>
+                    <th class="col-tax">TAX</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% endif %}
+        
+                {% for item in items %}
+                <tr class="item-row">
+                    <td class="item-details">
+                        <div class="item-name">{{ item.name }}</div>
+                        <div class="item-sku">{{ item.sku }}</div>
+                        {% if item.variant %}
+                        <div class="item-variant">{{ item.variant }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="item-qty">{{ item.quantity }}</td>
+                    <td class="item-price">{{ item.unit_price }}</td>
+                    <td class="item-subtotal">{{ item.subtotal }}</td>
+                    <td class="item-tax">
+                        <div class="tax-amount">{{ item.tax_amount }}</div>
+                        <div class="tax-rate">{{ item.tax_rate }}%</div>
+                    </td>
+                </tr>
+                {% endfor %}
+                
+                {% if _is_last_page|default(true) %}
+                <!-- Shipping Row -->
+                <tr class="shipping-row">
+                    <td class="item-details">
+                        <div class="shipping-label">Shipping & Handling</div>
+                    </td>
+                    <td class="item-qty"></td>
+                    <td class="item-price"></td>
+                    <td class="item-subtotal">{{ shipping_cost }}</td>
+                    <td class="item-tax">
+                        <div class="tax-amount">{{ shipping_tax }}</div>
+                        <div class="tax-rate">{{ shipping_tax_rate }}%</div>
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        
+        {% if _is_last_page|default(true) %}
+        <!-- Totals Section -->
+        <table class="totals-table">
+            <tr>
+                <td class="totals-spacer"></td>
+                <td class="totals-labels">
+                    <div class="total-line">Item Subtotal</div>
+                    <div class="total-line">Shipping & Handling</div>
+                    <div class="total-line">Net Total</div>
+                    <div class="total-line">Tax</div>
+                    <div class="total-line total-final">TOTAL</div>
+                </td>
+                <td class="totals-values">
+                    <div class="total-line">{{ subtotal }}</div>
+                    <div class="total-line">{{ shipping_cost }}</div>
+                    <div class="total-line">{{ net_total }}</div>
+                    <div class="total-line">{{ tax_amount }}</div>
+                    <div class="total-line total-final">{{ total_amount }}</div>
+                </td>
+            </tr>
+        </table>
+        
+        <!-- Divider -->
+        <div class="section-divider"></div>
+        
+        <!-- Store Footer -->
+        <div class="store-url">{{ store_url }}</div>
+        <div class="store-address">{{ store_name }} • {{ store_address }}</div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            Continued on next page... (Page {{ _page_number }} of {{ _total_pages }})
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

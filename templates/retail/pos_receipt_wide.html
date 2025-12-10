@@ -28,14 +28,18 @@
         <!-- Transaction info in columns -->
         <div class="transaction-info">
             <div class="info-col">
-                <p><strong>Receipt #:</strong> {{ invoice_number }}</p>
-                <p><strong>Date:</strong> {{ invoice_date }}</p>
-                <p><strong>Time:</strong> {{ transaction_time }}</p>
+                <p><strong>Receipt #:</strong> {{ invoice_number|default(order_number, true) }}</p>
+                <p><strong>Date:</strong> {{ invoice_date|default(order_date, true) }}</p>
+                <p><strong>Time:</strong> {{ transaction_time|default(order_time, true)|default('—', true) }}</p>
             </div>
             <div class="info-col">
+                {% if register_number|default(none) %}
                 <p><strong>Register:</strong> {{ register_number }}</p>
+                {% endif %}
+                {% if cashier_id|default(none) %}
                 <p><strong>Cashier:</strong> {{ cashier_id }}</p>
-                {% if customer_id %}
+                {% endif %}
+                {% if customer_id|default(none) %}
                 <p><strong>Member:</strong> {{ customer_id }}</p>
                 {% endif %}
             </div>
@@ -56,26 +60,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in line_items %}
+                    {% for item in items|default(line_items, true) %}
                     <tr class="item-row">
-                        <td class="item-desc">{{ item.description }}</td>
-                        <td class="item-upc">{{ item.upc }}</td>
-                        <td class="item-qty">{{ item.quantity }}</td>
-                        <td class="item-price">{{ item.unit_price }}</td>
-                        <td class="item-total">{{ item.total }}</td>
+                        <td class="item-desc">{{ item.description|default(item.name, true) }}</td>
+                        <td class="item-upc">{{ item.upc|default(item.sku, true)|default('—', true) }}</td>
+                        <td class="item-qty">{{ item.quantity|default(1) }}</td>
+                        <td class="item-price">{{ item.unit_price|default(item.price, true)|default(0) }}</td>
+                        <td class="item-total">{{ item.total|default(item.amount, true)|default(0) }}</td>
                     </tr>
-                    {% if item.promotion %}
+                    {% if item.promotion|default(false) %}
                     <tr class="promo-row">
                         <td colspan="4" class="promo-desc">
-                            <span class="promo-icon">🏷️</span> {{ item.promotion }}
+                            <span class="promo-icon"></span> {{ item.promotion }}
                         </td>
                         <td class="promo-discount">-{{ item.discount }}</td>
                     </tr>
                     {% endif %}
-                    {% if item.rewards_earned %}
+                    {% if (item.rewards_earned|default(0))|int > 0 %}
                     <tr class="rewards-row">
                         <td colspan="5" class="rewards-info">
-                            <span class="rewards-icon">⭐</span> Earned {{ item.rewards_earned }} rewards points on this item
+                            <span class="rewards-icon">*</span> Earned {{ item.rewards_earned }} rewards points on this item
                         </td>
                     </tr>
                     {% endif %}
@@ -91,27 +95,27 @@
             <div class="totals-box">
                 <div class="total-row">
                     <span class="total-label">Subtotal:</span>
-                    <span class="total-value">{{ subtotal }}</span>
+                    <span class="total-value">{{ subtotal|default(sub_total, true)|default(0) }}</span>
                 </div>
-                {% if total_discount|default(0) > 0 %}
+                {% if ((total_discount|default(discount, true)|default(0))|float) > 0 %}
                 <div class="total-row savings-row">
                     <span class="total-label">Your Savings:</span>
-                    <span class="total-value savings-value">-{{ total_discount }}</span>
+                    <span class="total-value savings-value">-{{ total_discount|default(discount, true) }}</span>
                 </div>
                 {% endif %}
                 <div class="total-row">
-                    <span class="total-label">Tax ({{ tax_rate }}%):</span>
-                    <span class="total-value">{{ tax_amount }}</span>
+                    <span class="total-label">Tax ({{ tax_rate|default(0) }}%):</span>
+                    <span class="total-value">{{ tax_amount|default(tax, true)|default(0) }}</span>
                 </div>
-                {% if tip_amount|default(0) > 0 %}
+                {% if ((tip_amount|default(tip, true)|default(0))|float) > 0 %}
                 <div class="total-row">
                     <span class="total-label">Tip:</span>
-                    <span class="total-value">{{ tip_amount }}</span>
+                    <span class="total-value">{{ tip_amount|default(tip, true) }}</span>
                 </div>
                 {% endif %}
                 <div class="total-row grand-total">
                     <span class="total-label">TOTAL:</span>
-                    <span class="total-value">{{ total_amount }}</span>
+                    <span class="total-value">{{ total_amount|default(total, true)|default(0) }}</span>
                 </div>
             </div>
         </div>
@@ -124,53 +128,57 @@
             <div class="payment-details">
                 <div class="payment-row">
                     <span class="payment-label">Method:</span>
-                    <span class="payment-value">{{ payment_method }}</span>
+                    <span class="payment-value">{{ payment_method|default('N/A') }}</span>
                 </div>
-                {% if payment_method != "Cash" %}
+                {% if payment_method|default('') != "Cash" and card_type|default(none) %}
                 <div class="payment-row">
                     <span class="payment-label">Card:</span>
                     <span class="payment-value">{{ card_type }} ending {{ card_last_four }}</span>
                 </div>
-                {% if approval_code %}
+                {% if approval_code|default(none) %}
                 <div class="payment-row">
                     <span class="payment-label">Approval:</span>
                     <span class="payment-value">{{ approval_code }}</span>
                 </div>
                 {% endif %}
-                {% else %}
+                {% elif payment_method|default('') == "Cash" %}
+                {% if cash_tendered|default(none) %}
                 <div class="payment-row">
                     <span class="payment-label">Cash Tendered:</span>
                     <span class="payment-value">{{ cash_tendered }}</span>
                 </div>
+                {% endif %}
+                {% if change_amount|default(none) %}
                 <div class="payment-row">
                     <span class="payment-label">Change:</span>
                     <span class="payment-value">{{ change_amount }}</span>
                 </div>
                 {% endif %}
+                {% endif %}
             </div>
         </div>
 
         <!-- Rewards program -->
-        {% if loyalty_points_earned or loyalty_points_balance %}
+        {% if ((loyalty_points_earned|default(0))|int) > 0 or ((loyalty_points_balance|default(0))|int) > 0 %}
         <div class="divider-single"></div>
         <div class="rewards-section">
             <h3 class="section-header">REWARDS PROGRAM</h3>
             <div class="rewards-summary">
-                {% if loyalty_points_earned %}
+                {% if ((loyalty_points_earned|default(0))|int) > 0 %}
                 <div class="rewards-item">
                     <span class="rewards-label">Points Earned Today:</span>
                     <span class="rewards-value">{{ loyalty_points_earned }}</span>
                 </div>
                 {% endif %}
-                {% if loyalty_points_balance %}
+                {% if ((loyalty_points_balance|default(0))|int) > 0 %}
                 <div class="rewards-item">
                     <span class="rewards-label">Total Points Balance:</span>
                     <span class="rewards-value">{{ loyalty_points_balance }}</span>
                 </div>
                 {% endif %}
-                {% if loyalty_rewards_available %}
+                {% if ((loyalty_rewards_available|default(0))|int) > 0 %}
                 <div class="rewards-banner">
-                    🎁 You have {{ loyalty_rewards_available }} reward(s) available to use!
+                     You have {{ loyalty_rewards_available }} reward(s) available to use!
                 </div>
                 {% endif %}
             </div>
@@ -181,12 +189,14 @@
 
         <!-- Footer sections -->
         <div class="footer-sections">
+            {% if return_policy|default(none) %}
             <div class="return-policy">
                 <h4>Return Policy</h4>
                 <p>{{ return_policy }}</p>
             </div>
+            {% endif %}
 
-            {% if survey_url %}
+            {% if survey_url|default(none) %}
             <div class="survey-section">
                 <h4>Share Your Feedback!</h4>
                 <p>Visit: {{ survey_url }}</p>
@@ -194,7 +204,7 @@
             </div>
             {% endif %}
 
-            {% if barcode_value %}
+            {% if barcode_value|default(none) %}
             <div class="barcode-section">
                 <div class="barcode-placeholder">
                     <div class="barcode-lines">|||| |||| |||| |||| ||||</div>
@@ -205,7 +215,9 @@
         </div>
 
         <div class="thank-you">
+            {% if footer_message|default(none) %}
             <p class="thank-you-message">{{ footer_message }}</p>
+            {% endif %}
             <p class="visit-again">Thank You For Shopping With Us!</p>
         </div>
     </div>

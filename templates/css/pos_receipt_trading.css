@@ -1,0 +1,564 @@
+/**
+ * Trading Company POS Receipt Stylesheet
+ * Style: Perniagaan Zheng Hui (Malaysian JM Registration)
+ * Width: 85mm thermal receipt
+ * Font: Arial 9.5pt primary
+ * Features: JM registration format, GST prominent, multiple address lines
+ */
+
+/* ===== Reset and Base Styles ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 9.5pt;
+    line-height: 1.3;
+    background-color: #ffffff;
+    color: #000000;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Receipt Container ===== */
+.trading-receipt {
+    width: 321px;  /* 85mm at 96 DPI */
+    max-width: 321px;
+    margin: 0 auto;
+    padding: 8px 6px;
+    background-color: #ffffff;
+}
+
+/* ===== Header Section ===== */
+.receipt-header {
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.store-name {
+    font-size: 13pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.legal-suffix {
+    font-size: 9pt;
+    font-weight: normal;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.company-reg {
+    font-size: 10pt;
+    font-weight: bold;
+    color: #333333;
+}
+
+/* ===== Address Block ===== */
+.address-block {
+    text-align: center;
+    margin: 4px 0;
+}
+
+.address-line {
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    line-height: 1.4;
+}
+
+/* ===== Dividers ===== */
+.solid-divider {
+    border-top: 1px solid #000000;
+    margin: 5px 0;
+}
+
+.double-divider {
+    border-top: 2px double #000000;
+    margin: 5px 0;
+}
+
+.dashed-divider {
+    border-top: 1px dashed #000000;
+    margin: 5px 0;
+}
+
+/* ===== Contact Block ===== */
+.contact-block {
+    text-align: center;
+    margin: 4px 0;
+}
+
+.contact-row {
+    font-size: 9pt;
+    margin: 2px 0;
+}
+
+.contact-label {
+    font-weight: bold;
+}
+
+.contact-value {
+    margin-left: 3px;
+}
+
+.contact-sep {
+    margin: 0 8px;
+    color: #666666;
+}
+
+/* ===== GST Block ===== */
+.gst-block {
+    text-align: center;
+    padding: 4px 0;
+}
+
+.gst-label {
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+.gst-value {
+    font-size: 10pt;
+    font-weight: bold;
+    font-family: 'Consolas', 'Courier New', monospace;
+    margin-left: 5px;
+    letter-spacing: 1px;
+}
+
+/* ===== Invoice Type Banner ===== */
+.invoice-type-banner {
+    text-align: center;
+    padding: 4px 0;
+}
+
+.invoice-type {
+    font-size: 11pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ===== Transaction Block ===== */
+.transaction-block {
+    margin: 4px 0;
+}
+
+.trans-row {
+    display: block;
+    margin: 2px 0;
+    font-size: 9pt;
+}
+
+.trans-label {
+    font-weight: bold;
+    display: inline-block;
+    width: 70px;
+}
+
+.trans-value {
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+.trans-time {
+    font-family: 'Consolas', 'Courier New', monospace;
+    margin-left: 15px;
+    color: #444444;
+}
+
+/* ===== Customer Block (B2B) ===== */
+.customer-block {
+    margin: 5px 0;
+    padding: 5px;
+    background-color: #f5f5f5;
+    border: 1px solid #e0e0e0;
+}
+
+.customer-header {
+    font-size: 8.5pt;
+    font-weight: bold;
+    color: #666666;
+    margin-bottom: 3px;
+}
+
+.customer-name {
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+.customer-company {
+    font-size: 9pt;
+    color: #333333;
+}
+
+.customer-phone {
+    font-size: 8.5pt;
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+/* ===== Column Headers ===== */
+.column-headers {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 3px 0;
+}
+
+.col-desc {
+    display: table-cell;
+    width: 42%;
+    text-align: left;
+}
+
+.col-qty {
+    display: table-cell;
+    width: 12%;
+    text-align: center;
+}
+
+.col-price {
+    display: table-cell;
+    width: 22%;
+    text-align: right;
+}
+
+.col-amt {
+    display: table-cell;
+    width: 24%;
+    text-align: right;
+}
+
+/* ===== Items Section ===== */
+.items-section {
+    margin: 3px 0;
+}
+
+.item-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding: 3px 0;
+    font-size: 9pt;
+    border-bottom: 1px dotted #cccccc;
+}
+
+.item-row:last-child {
+    border-bottom: none;
+}
+
+.item-desc {
+    display: table-cell;
+    width: 42%;
+    text-align: left;
+    vertical-align: top;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.item-qty {
+    display: table-cell;
+    width: 12%;
+    text-align: center;
+    vertical-align: top;
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+.item-price {
+    display: table-cell;
+    width: 22%;
+    text-align: right;
+    vertical-align: top;
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+.item-amt {
+    display: table-cell;
+    width: 24%;
+    text-align: right;
+    vertical-align: top;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-weight: bold;
+}
+
+/* Item Code Row */
+.item-code-row {
+    padding: 1px 0 3px 0;
+}
+
+.item-code {
+    font-size: 7.5pt;
+    color: #666666;
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+/* ===== Item Count ===== */
+.item-count-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 8.5pt;
+    padding: 3px 0;
+}
+
+.item-count-label,
+.qty-count-label {
+    display: table-cell;
+    font-weight: bold;
+}
+
+.item-count-label {
+    width: 35%;
+    text-align: left;
+}
+
+.item-count-value {
+    display: table-cell;
+    width: 15%;
+    text-align: left;
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+.qty-count-label {
+    width: 25%;
+    text-align: right;
+}
+
+.qty-count-value {
+    display: table-cell;
+    width: 25%;
+    text-align: right;
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+/* ===== Totals Section ===== */
+.totals-section {
+    margin: 5px 0;
+}
+
+.total-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding: 2px 0;
+    font-size: 9.5pt;
+}
+
+.total-label {
+    display: table-cell;
+    width: 60%;
+    text-align: right;
+    padding-right: 10px;
+    font-weight: bold;
+}
+
+.total-value {
+    display: table-cell;
+    width: 40%;
+    text-align: right;
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+.discount-row .total-value {
+    color: #cc0000;
+}
+
+/* ===== GST Breakdown ===== */
+.gst-breakdown {
+    margin: 5px 0;
+    padding: 4px;
+    background-color: #f8f8f8;
+    border: 1px solid #e5e5e5;
+}
+
+.gst-header {
+    font-size: 8pt;
+    font-weight: bold;
+    color: #666666;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+}
+
+.gst-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding: 2px 0;
+    font-size: 8.5pt;
+}
+
+.gst-breakdown .gst-label {
+    display: table-cell;
+    width: 60%;
+    text-align: right;
+    padding-right: 10px;
+    font-weight: normal;
+    font-size: 8.5pt;
+}
+
+.gst-breakdown .gst-value {
+    display: table-cell;
+    width: 40%;
+    text-align: right;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 8.5pt;
+    font-weight: normal;
+    letter-spacing: 0;
+    margin-left: 0;
+}
+
+/* ===== Grand Total ===== */
+.grand-total-section {
+    margin: 5px 0;
+    padding: 5px 0;
+}
+
+.grand-total-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    font-size: 13pt;
+    font-weight: bold;
+}
+
+.grand-total-label {
+    display: table-cell;
+    width: 40%;
+    text-align: left;
+}
+
+.grand-total-currency {
+    display: table-cell;
+    width: 15%;
+    text-align: right;
+    padding-right: 3px;
+}
+
+.grand-total-value {
+    display: table-cell;
+    width: 45%;
+    text-align: right;
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+/* ===== Payment Section ===== */
+.payment-section {
+    margin: 5px 0;
+}
+
+.payment-row {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    padding: 2px 0;
+    font-size: 9.5pt;
+}
+
+.payment-label {
+    display: table-cell;
+    width: 40%;
+    text-align: left;
+    font-weight: bold;
+}
+
+.payment-value {
+    display: table-cell;
+    width: 60%;
+    text-align: right;
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+.card-info {
+    margin-top: 3px;
+    padding-top: 3px;
+    border-top: 1px dotted #cccccc;
+}
+
+/* ===== Footer Section ===== */
+.receipt-footer {
+    text-align: center;
+    margin-top: 8px;
+}
+
+.footer-message {
+    font-size: 11pt;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.footer-spacer {
+    height: 4px;
+}
+
+.return-policy {
+    font-size: 7.5pt;
+    color: #555555;
+    line-height: 1.3;
+}
+
+.policy-line {
+    margin: 1px 0;
+}
+
+.business-hours {
+    margin-top: 5px;
+    padding-top: 4px;
+    border-top: 1px dotted #cccccc;
+}
+
+.hours-label {
+    font-size: 7.5pt;
+    font-weight: bold;
+    color: #666666;
+}
+
+.hours-value {
+    font-size: 8pt;
+}
+
+/* ===== Barcode Section ===== */
+.receipt-barcode-section {
+    text-align: center;
+    margin-top: 8px;
+    padding-top: 5px;
+}
+
+.receipt-barcode {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 10pt;
+    letter-spacing: 2px;
+}
+
+/* ===== Page Indicator ===== */
+.page-indicator {
+    text-align: center;
+    font-size: 8pt;
+    color: #888888;
+    margin-top: 8px;
+    padding-top: 4px;
+    border-top: 1px dashed #cccccc;
+}
+
+/* ===== Print Styles ===== */
+@media print {
+    body {
+        background-color: #ffffff;
+    }
+    
+    .trading-receipt {
+        width: 85mm;
+        margin: 0;
+        padding: 2mm;
+    }
+    
+    .solid-divider,
+    .double-divider,
+    .dashed-divider {
+        border-color: #000000;
+    }
+}

@@ -1,0 +1,272 @@
+/* Wholesale Bulk Order Invoice - Compact Layout */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 10px;
+    line-height: 1.4;
+    color: #222;
+    background: white;
+}
+
+.invoice-container {
+    width: 794px; /* A4 width at 96 DPI */
+    margin: 0 auto;
+    padding: 30px 40px;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #2c5aa0;
+}
+
+.company-info h1 {
+    font-size: 18px;
+    color: #2c5aa0;
+    margin-bottom: 5px;
+}
+
+.company-info p {
+    font-size: 9px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.invoice-details {
+    text-align: right;
+}
+
+.invoice-details h2 {
+    font-size: 16px;
+    color: #2c5aa0;
+    margin-bottom: 5px;
+}
+
+.invoice-details p {
+    font-size: 9px;
+    margin-bottom: 3px;
+}
+
+/* Info Section */
+.info-section {
+
+        display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+        /* gap: 40px; - removed for wkhtmltoimage, use margins on children */
+
+}
+
+
+.bill-to, .terms {
+    flex: 1;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.bill-to h3, .terms h3 {
+    font-size: 11px;
+    color: #2c5aa0;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 4px;
+}
+
+.bill-to p, .terms p {
+    font-size: 9px;
+    margin-bottom: 3px;
+    line-height: 1.4;
+}
+
+/* Continuation Header */
+.continuation-header {
+    background: #f0f0f0;
+    padding: 8px 12px;
+    margin-bottom: 15px;
+    border-left: 4px solid #2c5aa0;
+}
+
+.continuation-header p {
+    font-size: 10px;
+    color: #555;
+}
+
+/* Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 9px;
+}
+
+.items-table thead {
+    background: #2c5aa0;
+    color: white;
+}
+
+.items-table th {
+    padding: 8px 6px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 9px;
+    border-right: 1px solid #4a7ac0;
+}
+
+.items-table th:last-child {
+    border-right: none;
+}
+
+/* Column widths for compact wholesale layout */
+.col-sku { width: 12%; }
+.col-description { width: 26%; }
+.col-qty { width: 8%; text-align: center; }
+.col-units { width: 10%; text-align: center; }
+.col-total-units { width: 10%; text-align: center; }
+.col-price { width: 12%; text-align: right; }
+.col-discount { width: 10%; text-align: right; }
+.col-total { width: 12%; text-align: right; }
+
+.items-table tbody tr.item-row {
+    border-bottom: 1px solid #e0e0e0;
+    height: 40px; /* Compact: 40px per item for ~15 items/page */
+}
+
+.items-table tbody tr.item-row:nth-child(even) {
+    background: #fafafa;
+}
+
+.items-table tbody tr.item-row:hover {
+    background: #f0f7ff;
+}
+
+.items-table td {
+    padding: 6px;
+    vertical-align: top;
+}
+
+.item-detail {
+    font-size: 8px;
+    color: #666;
+    margin-top: 2px;
+}
+
+.item-note td {
+    padding: 4px 6px;
+    background: #fff9e6;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 8px;
+}
+
+/* Totals Section */
+.totals-section {
+
+        display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+        /* gap: 40px; - removed for wkhtmltoimage, use margins on children */
+
+}
+
+
+.notes {
+    flex: 1;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.notes h3 {
+    font-size: 11px;
+    color: #2c5aa0;
+    margin-bottom: 6px;
+}
+
+.notes p {
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.totals {
+    min-width: 280px;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-table tr {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.totals-table td {
+    padding: 6px 10px;
+    font-size: 10px;
+}
+
+.totals-table td:first-child {
+    text-align: right;
+    color: #555;
+}
+
+.totals-table td:last-child {
+    text-align: right;
+    font-weight: 500;
+}
+
+.totals-table .total-row {
+    background: #2c5aa0;
+    color: white;
+    border-bottom: none;
+}
+
+.totals-table .total-row td {
+    padding: 10px;
+    font-size: 12px;
+}
+
+/* Footer Info */
+.footer-info {
+
+        display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 2px solid #e0e0e0;
+        /* gap: 40px; - removed for wkhtmltoimage, use margins on children */
+
+}
+
+
+.payment-instructions, .thank-you {
+    flex: 1;
+}
+
+.payment-instructions p, .thank-you p {
+    font-size: 9px;
+    margin-bottom: 4px;
+    line-height: 1.5;
+}
+
+.payment-instructions p:first-child, .thank-you p:first-child {
+    font-weight: 600;
+    color: #2c5aa0;
+}
+
+/* Page Number */
+.page-number {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 8px;
+    color: #888;
+}

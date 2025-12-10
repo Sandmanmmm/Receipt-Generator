@@ -1,0 +1,581 @@
+/* Generic B2B Wholesale Purchase Order Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 9px;
+    line-height: 1.4;
+    color: #1a1a1a;
+    background: #ffffff;
+}
+
+.page-container {
+    width: 816px;
+    min-height: 1056px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    background: #ffffff;
+}
+
+/* Header Section */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid #2563eb;
+}
+
+.logo-section {
+    flex: 0 0 200px;
+}
+
+.logo {
+    max-width: 180px;
+    max-height: 60px;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    width: 180px;
+    height: 60px;
+    background: #2563eb;  /* was: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%...) */
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+}
+
+.company-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.po-info {
+    text-align: right;
+    flex: 1;
+}
+
+.po-info h1 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.po-number {
+    display: inline-block;
+    background: #2563eb;  /* was: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%...) */
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Meta Information */
+.meta-info {
+    margin-bottom: 15px;
+    background: #f8fafc;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+}
+
+.meta-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.meta-row:last-child {
+    margin-bottom: 0;
+}
+
+.meta-field {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.meta-label {
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-right: 6px;
+    font-size: 8px;
+}
+
+.meta-value {
+    color: #1a1a1a;
+    font-size: 9px;
+}
+
+/* Address Section */
+.address-section {
+    margin-bottom: 15px;
+}
+
+.address-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.address-table th {
+    background: #2563eb;  /* was: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%...) */
+    color: #ffffff;
+    padding: 8px;
+    text-align: left;
+    font-size: 9px;
+    font-weight: 600;
+    border: 1px solid #1d4ed8;
+}
+
+.address-card {
+    background: #fefefe;
+    border: 1px solid #e2e8f0;
+    padding: 10px;
+    vertical-align: top;
+    font-size: 8px;
+    line-height: 1.5;
+}
+
+.address-content {
+    color: #1a1a1a;
+}
+
+.address-content .company {
+    font-weight: 700;
+    font-size: 9px;
+    margin-bottom: 4px;
+    color: #1e3a8a;
+}
+
+.address-content .contact {
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #1a1a1a;
+}
+
+.contact-info {
+    font-size: 8px;
+    color: #475569;
+    margin-top: 2px;
+}
+
+.delivery-note {
+    margin-top: 6px;
+    padding: 4px;
+    background: #fef3c7;
+    border-left: 2px solid #f59e0b;
+    font-size: 7px;
+    font-style: italic;
+    color: #92400e;
+}
+
+/* Continuation Header */
+.continuation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #2563eb;  /* was: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%...) */
+    color: #ffffff;
+    margin-bottom: 12px;
+    border-radius: 4px;
+}
+
+.continuation-info {
+
+
+
+                display: flex;
+    align-items: center;
+        /*     /*     /* gap: 12px; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
+}
+
+
+
+
+.po-number-small {
+    font-weight: 700;
+    font-size: 10px;
+}
+
+.page-info {
+    font-size: 8px;
+}
+
+.continuation-company {
+    font-size: 9px;
+    font-weight: 600;
+}
+
+/* Items Table */
+.items-section {
+    margin-bottom: 15px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8px;
+}
+
+.items-table thead tr {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.items-table th {
+    padding: 8px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 8px;
+    border: 1px solid #1d4ed8;
+    line-height: 1.2;
+}
+
+/* Column Widths */
+.col-product { width: 12%; }
+.col-description { width: 22%; }
+.col-category { width: 10%; }
+.col-attributes { width: 18%; }
+.col-uom { width: 8%; text-align: center; }
+.col-qty { width: 6%; text-align: center; }
+.col-unit-price { width: 12%; text-align: right; }
+.col-total { width: 12%; text-align: right; }
+
+.items-table tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.items-table tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+.items-table tbody tr:hover {
+    background: #f1f5f9;
+}
+
+.items-table td {
+    padding: 8px;
+    vertical-align: top;
+    border-left: 1px solid #f1f5f9;
+    border-right: 1px solid #f1f5f9;
+}
+
+/* Product Code */
+.product-code {
+    font-family: 'Courier New', monospace;
+}
+
+.sku {
+    font-weight: 700;
+    font-size: 8px;
+    color: #1a1a1a;
+    margin-bottom: 3px;
+}
+
+.upc {
+    font-size: 7px;
+    color: #64748b;
+}
+
+.mfr-part {
+    font-size: 7px;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+/* Description */
+.description {
+    line-height: 1.4;
+}
+
+.product-name {
+    font-weight: 700;
+    font-size: 9px;
+    color: #1a1a1a;
+    margin-bottom: 3px;
+}
+
+.brand {
+    font-size: 7px;
+    color: #2563eb;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.model {
+    font-size: 7px;
+    color: #64748b;
+    font-style: italic;
+}
+
+/* Category */
+.category {
+    text-align: center;
+}
+
+.category-tag {
+    display: inline-block;
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-size: 7px;
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.subcategory {
+    font-size: 7px;
+    color: #64748b;
+    text-align: center;
+}
+
+/* Attributes */
+.attributes {
+    line-height: 1.5;
+}
+
+.attribute-line {
+    margin-bottom: 2px;
+    font-size: 7px;
+}
+
+.attr-key {
+    font-weight: 600;
+    color: #475569;
+}
+
+.attr-value {
+    color: #1a1a1a;
+    margin-left: 3px;
+}
+
+.no-attributes {
+    text-align: center;
+    color: #94a3b8;
+    font-style: italic;
+}
+
+/* Unit of Measure */
+.uom {
+    text-align: center;
+    font-weight: 600;
+    font-size: 8px;
+    color: #1a1a1a;
+}
+
+/* Quantity */
+.quantity {
+    text-align: center;
+    font-weight: 700;
+    font-size: 9px;
+    color: #1a1a1a;
+}
+
+/* Pricing */
+.unit-price,
+.line-total {
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+    color: #1a1a1a;
+}
+
+.line-total {
+    font-weight: 700;
+}
+
+/* Totals Section */
+.totals-section {
+
+
+
+                display: flex;
+        /*     /*     /* gap: 15px; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
+    margin-bottom: 15px;
+}
+
+
+
+
+.notes-box {
+    flex: 1;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.notes-label {
+    font-weight: 700;
+    font-size: 8px;
+    color: #1e3a8a;
+    margin-bottom: 6px;
+}
+
+.notes-content {
+    font-size: 8px;
+    color: #1a1a1a;
+    line-height: 1.5;
+}
+
+.totals-box {
+    flex: 0 0 280px;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-table tr {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.totals-table td {
+    padding: 6px 8px;
+    font-size: 9px;
+}
+
+.totals-label {
+    text-align: left;
+    color: #475569;
+    font-weight: 600;
+}
+
+.totals-value {
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+.totals-value.discount {
+    color: #dc2626;
+}
+
+.total-row {
+    background: #f1f5f9;
+    border-top: 2px solid #2563eb;
+}
+
+.total-row .totals-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.total-row .totals-value {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1e40af;
+}
+
+/* Authorization Section */
+.authorization {
+
+
+
+                display: flex;
+        /*     /*     /* gap: 20px; - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+ - removed for wkhtmltoimage, use margins on children */
+
+    margin-bottom: 15px;
+    padding: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+}
+
+
+
+
+.signature-box {
+    flex: 1;
+}
+
+.signature-line {
+    border-bottom: 2px solid #2563eb;
+    height: 40px;
+    margin-bottom: 6px;
+}
+
+.signature-label {
+    font-size: 8px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 4px;
+}
+
+.signature-date {
+    font-size: 8px;
+    color: #64748b;
+}
+
+/* Footer */
+.footer {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.footer-content {
+    font-size: 7px;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+.footer-note {
+    margin-bottom: 4px;
+}
+
+.footer-note:last-child {
+    margin-bottom: 0;
+}
+
+/* Page Number */
+.page-number {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    font-size: 8px;
+    color: #64748b;
+    font-style: italic;
+}
+
+/* Print Optimization */
+@media print {
+    .page-container {
+        padding: 0;
+        margin: 0;
+    }
+    
+    .page-number {
+        bottom: 5px;
+        right: 10px;
+    }
+}

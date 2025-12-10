@@ -1,0 +1,558 @@
+/* Cycle Count Sheet - Modern Design */
+/* Clean, minimalist layout with teal/cyan accent colors */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    font-size: 9pt;
+    line-height: 1.4;
+    color: #1f2937;
+    background: white;
+}
+
+.page {
+    width: 8.5in;
+    min-height: 11in;
+    padding: 0.4in 0.5in;
+    position: relative;
+}
+
+/* ==================== HEADER ==================== */
+.header {
+    display: table;
+    width: 100%;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #0891b2;
+    padding-bottom: 15px;
+}
+
+.header-left {
+    display: table-cell;
+    width: 50%;
+    vertical-align: middle;
+}
+
+.logo {
+    height: 50px;
+    width: auto;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.logo-placeholder {
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 20px;
+    background: #0891b2;  /* was: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%...) */
+    color: white;
+    font-weight: 700;
+    font-size: 14pt;
+    letter-spacing: 2px;
+    vertical-align: middle;
+}
+
+.header-meta {
+    display: inline-block;
+    margin-left: 20px;
+    vertical-align: middle;
+}
+
+.doc-id {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #0891b2;
+    margin-bottom: 2px;
+}
+
+.doc-date {
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+.header-right {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.header-right h1 {
+    font-size: 22pt;
+    font-weight: 300;
+    color: #111827;
+    margin-bottom: 5px;
+    letter-spacing: -0.5px;
+}
+
+.status-tag {
+    display: inline-block;
+    padding: 6px 16px;
+    font-size: 9pt;
+    font-weight: 600;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-not-started {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+.status-in-progress {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.status-completed {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-pending-review {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-discrepancy-found {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ==================== INFO CARDS GRID ==================== */
+.info-grid {
+    display: table;
+    width: 100%;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.info-card {
+    display: table-cell;
+    width: 25%;
+    padding: 12px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-right: none;
+}
+
+.info-card:first-child {
+    border-left: 3px solid #0891b2;
+}
+
+.info-card:last-child {
+    border-right: 1px solid #e5e7eb;
+}
+
+.card-label {
+    font-size: 7pt;
+    text-transform: uppercase;
+    color: #6b7280;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.card-value {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 2px;
+}
+
+.card-subtext {
+    font-size: 8pt;
+    color: #9ca3af;
+}
+
+/* ==================== QUICK STATS ==================== */
+.quick-stats {
+    display: table;
+    width: 100%;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.stat-box {
+    display: table-cell;
+    width: 25%;
+    text-align: center;
+    padding: 15px 10px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-right: none;
+}
+
+.stat-box:last-child {
+    border-right: 1px solid #e5e7eb;
+}
+
+.stat-box.stat-primary {
+    background: #0891b2;  /* was: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%...) */
+    border-color: #0891b2;
+}
+
+.stat-box.stat-primary .stat-value {
+    color: white;
+}
+
+.stat-box.stat-primary .stat-label {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.stat-value {
+    font-size: 18pt;
+    font-weight: 700;
+    color: #0891b2;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 8pt;
+    text-transform: uppercase;
+    color: #6b7280;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* ==================== CONTINUATION HEADER ==================== */
+.continuation-header {
+    display: table;
+    width: 100%;
+    padding: 10px 0;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.continuation-left {
+    display: table-cell;
+    width: 70%;
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+.continuation-right {
+    display: table-cell;
+    width: 30%;
+    text-align: right;
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+/* ==================== ITEMS TABLE ==================== */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.items-table thead {
+    background: #0891b2;  /* was: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%...) */
+    color: white;
+}
+
+.items-table th {
+    padding: 10px 6px;
+    text-align: left;
+    font-size: 8pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.items-table th:last-child {
+    border-right: none;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.items-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.items-table tbody tr.recount-needed {
+    background: #fef3c7;
+}
+
+.items-table td {
+    padding: 8px 6px;
+    font-size: 8pt;
+    vertical-align: middle;
+}
+
+/* Column widths */
+.col-num { width: 4%; text-align: center; }
+.col-sku { width: 10%; }
+.col-name { width: 24%; font-weight: 500; }
+.col-location { width: 9%; }
+.col-class { width: 6%; text-align: center; }
+.col-system { width: 8%; text-align: right; }
+.col-actual { width: 8%; text-align: right; }
+.col-diff { width: 7%; text-align: right; }
+.col-pct { width: 8%; text-align: right; }
+.col-status { width: 6%; text-align: center; }
+
+/* Actual column highlight */
+.actual-col {
+    background: #ecfeff;
+    font-weight: 600;
+}
+
+/* ABC Tags */
+.abc-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 7pt;
+    font-weight: 700;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.abc-a {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.abc-b {
+    background: #fed7aa;
+    color: #92400e;
+}
+
+.abc-c {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+/* Difference values */
+.diff-pos {
+    color: #059669;
+    font-weight: 600;
+}
+
+.diff-neg {
+    color: #dc2626;
+    font-weight: 600;
+}
+
+.diff-zero {
+    color: #9ca3af;
+}
+
+/* Status icons */
+.status-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 11pt;
+    font-weight: 700;
+}
+
+.status-icon.ok {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-icon.warning {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-icon.recount {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.status-icon.pending {
+    background: #f3f4f6;
+    color: #9ca3af;
+}
+
+/* Blank fields */
+.blank {
+    color: #d1d5db;
+    font-style: italic;
+}
+
+/* ==================== SUMMARY SECTION ==================== */
+.summary-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f9fafb;
+    border-left: 3px solid #0891b2;
+}
+
+.summary-title {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.summary-grid {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.summary-item {
+    display: table-cell;
+    width: 25%;
+    text-align: center;
+    padding: 10px;
+    border-right: 1px solid #e5e7eb;
+}
+
+.summary-item:last-child {
+    border-right: none;
+}
+
+.summary-label {
+    font-size: 8pt;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.summary-value {
+    font-size: 14pt;
+    font-weight: 700;
+}
+
+.summary-value.positive {
+    color: #059669;
+}
+
+.summary-value.negative {
+    color: #dc2626;
+}
+
+/* ==================== NOTES SECTION ==================== */
+.notes-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: white;
+    border: 1px solid #e5e7eb;
+}
+
+.notes-label {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+.notes-content {
+    font-size: 8pt;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+.blank-line {
+    color: #d1d5db;
+    letter-spacing: 1px;
+}
+
+/* ==================== SIGNATURE SECTION ==================== */
+.signature-section {
+    display: table;
+    width: 100%;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.signature-box {
+    display: table-cell;
+    width: 50%;
+    padding: 15px;
+    border: 1px solid #e5e7eb;
+    background: #fafafa;
+}
+
+.signature-box:first-child {
+    border-right: none;
+}
+
+.signature-line {
+    height: 40px;
+    border-bottom: 2px solid #0891b2;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.signature-text {
+    font-size: 12pt;
+    font-weight: 600;
+    font-style: italic;
+    color: #0891b2;
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+}
+
+.signature-label {
+    font-size: 8pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #374151;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+
+.signature-date {
+    font-size: 8pt;
+    color: #6b7280;
+}
+
+/* ==================== FOOTER ==================== */
+.footer {
+    display: table;
+    width: 100%;
+    position: absolute;
+    bottom: 0.3in;
+    left: 0.5in;
+    right: 0.5in;
+    padding-top: 10px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.footer-left {
+    display: table-cell;
+    width: 70%;
+    font-size: 7pt;
+    color: #9ca3af;
+}
+
+.footer-right {
+    display: table-cell;
+    width: 30%;
+    text-align: right;
+    font-size: 7pt;
+    color: #9ca3af;
+}
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+    .page {
+        margin: 0;
+        padding: 0.4in 0.5in;
+    }
+    
+    .items-table tbody tr {
+        page-break-inside: avoid;
+    }
+}

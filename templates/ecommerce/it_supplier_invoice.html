@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ supplier_name|default('Global Brand') }} Invoice</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 11px;
+            line-height: 1.3;
+            color: #000;
+            background: #fff;
+        }
+        
+        .invoice-page {
+            width: 816px;
+            min-height: 1056px;
+            padding: 20px 40px;
+            background: #fff;
+        }
+        
+        /* Header Section */
+        .header {
+            display: table;
+            width: 100%;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #1a4d7c;
+            padding-bottom: 8px;
+        }
+        
+        .header-left {
+            display: table-cell;
+            width: 70%;
+            vertical-align: top;
+        }
+        
+        .header-right {
+            display: table-cell;
+            width: 30%;
+            vertical-align: top;
+            text-align: right;
+        }
+        
+        .logo-section {
+            display: table;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        
+        .logo-icon {
+            display: table-cell;
+            width: 40px;
+            vertical-align: middle;
+        }
+        
+        .logo-icon img {
+            width: 35px;
+            height: 35px;
+        }
+        
+        .logo-icon-placeholder {
+            width: 35px;
+            height: 35px;
+            background: #1a4d7c;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            color: #fff;
+            font-size: 16px;
+        }
+        
+        .logo-text {
+            display: table-cell;
+            vertical-align: middle;
+            padding-left: 8px;
+        }
+        
+        .company-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1a4d7c;
+            letter-spacing: 1px;
+        }
+        
+        .company-tagline {
+            font-size: 10px;
+            font-style: italic;
+            color: #666;
+            margin-top: 2px;
+        }
+        
+        .company-address {
+            font-size: 9px;
+            color: #333;
+            line-height: 1.4;
+            margin-top: 5px;
+        }
+        
+        .iso-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid #1a4d7c;
+            font-size: 9px;
+            color: #1a4d7c;
+            text-align: center;
+        }
+        
+        .iso-badge-check {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        /* Warranty Box */
+        .warranty-box {
+            background: #fffacd;
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            margin: 10px 0;
+            font-size: 9px;
+            line-height: 1.4;
+        }
+        
+        .warranty-title {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        /* Page Info Row */
+        .page-info-row {
+            display: table;
+            width: 100%;
+            margin-bottom: 5px;
+            font-size: 9px;
+        }
+        
+        .page-info-left {
+            display: table-cell;
+            width: 50%;
+            text-align: left;
+            color: #1a4d7c;
+            font-weight: bold;
+        }
+        
+        .page-info-right {
+            display: table-cell;
+            width: 50%;
+            text-align: right;
+        }
+        
+        .print-info {
+            font-size: 9px;
+            color: #666;
+        }
+        
+        /* Claim Message */
+        .claim-message {
+            text-align: center;
+            font-weight: bold;
+            font-size: 11px;
+            margin: 10px 0 20px 0;
+            color: #333;
+        }
+        
+        /* Invoice Details Section */
+        .invoice-details-section {
+            display: table;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .invoice-details-left {
+            display: table-cell;
+            width: 55%;
+            vertical-align: top;
+            padding-right: 20px;
+        }
+        
+        .invoice-details-right {
+            display: table-cell;
+            width: 45%;
+            vertical-align: top;
+        }
+        
+        .detail-row {
+            display: table;
+            width: 100%;
+            margin-bottom: 4px;
+            font-size: 11px;
+        }
+        
+        .detail-label {
+            display: table-cell;
+            width: 100px;
+            font-weight: bold;
+            vertical-align: top;
+        }
+        
+        .detail-value {
+            display: table-cell;
+            vertical-align: top;
+        }
+        
+        /* Invoice/Bill Box */
+        .invoice-bill-box {
+            border: 2px dashed #1a4d7c;
+            padding: 10px;
+        }
+        
+        .invoice-bill-title {
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #1a4d7c;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #1a4d7c;
+            padding-bottom: 5px;
+        }
+        
+        .bill-detail-row {
+            display: table;
+            width: 100%;
+            margin-bottom: 3px;
+            font-size: 10px;
+        }
+        
+        .bill-label {
+            display: table-cell;
+            width: 90px;
+            font-weight: bold;
+        }
+        
+        .bill-value {
+            display: table-cell;
+        }
+        
+        /* Items Table */
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        
+        .items-table thead {
+            background: #f0f0f0;
+        }
+        
+        .items-table th {
+            padding: 8px 6px;
+            text-align: left;
+            font-size: 10px;
+            font-weight: bold;
+            border: 1px solid #000;
+        }
+        
+        .items-table th.col-sl { width: 6%; text-align: center; }
+        .items-table th.col-desc { width: 50%; }
+        .items-table th.col-price { width: 14%; text-align: right; }
+        .items-table th.col-qty { width: 12%; text-align: center; }
+        .items-table th.col-total { width: 18%; text-align: right; }
+        
+        .items-table td {
+            padding: 8px 6px;
+            font-size: 10px;
+            border: 1px solid #000;
+            vertical-align: top;
+        }
+        
+        .items-table td.col-sl { text-align: center; }
+        .items-table td.col-price { text-align: right; }
+        .items-table td.col-qty { text-align: center; }
+        .items-table td.col-total { text-align: right; font-weight: bold; }
+        
+        .item-name {
+            font-weight: bold;
+        }
+        
+        .item-serial {
+            font-size: 9px;
+            color: #666;
+            margin-top: 2px;
+        }
+        
+        .item-specs {
+            font-size: 9px;
+            color: #555;
+            margin-top: 2px;
+        }
+        
+        /* Grand Total Row */
+        .grand-total-row {
+            display: table;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        .grand-total-label {
+            display: table-cell;
+            width: 82%;
+            text-align: right;
+            font-weight: bold;
+            font-size: 11px;
+            padding-right: 10px;
+        }
+        
+        .grand-total-value {
+            display: table-cell;
+            width: 18%;
+            text-align: right;
+            font-weight: bold;
+            font-size: 12px;
+            border-top: 2px solid #000;
+            padding-top: 5px;
+        }
+        
+        /* Amount in Words */
+        .amount-words {
+            margin-bottom: 30px;
+            font-size: 11px;
+        }
+        
+        .amount-words-label {
+            font-weight: bold;
+            display: inline;
+        }
+        
+        .amount-words-currency {
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-left: 10px;
+        }
+        
+        .amount-words-text {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        /* Signature Section */
+        .signature-section {
+            display: table;
+            width: 100%;
+            margin-top: 40px;
+        }
+        
+        .signature-left {
+            display: table-cell;
+            width: 50%;
+            vertical-align: bottom;
+        }
+        
+        .signature-right {
+            display: table-cell;
+            width: 50%;
+            vertical-align: bottom;
+            text-align: right;
+        }
+        
+        .signature-label {
+            font-size: 10px;
+            margin-bottom: 5px;
+        }
+        
+        .signature-line {
+            width: 180px;
+            border-bottom: 1px solid #000;
+            height: 40px;
+            display: inline-block;
+        }
+        
+        /* Company Stamp - Realistic Circular Seal */
+        .company-stamp {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            display: inline-block;
+            transform: rotate(-8deg);
+            margin-top: 10px;
+        }
+        
+        .stamp-outer-ring {
+            width: 100px;
+            height: 100px;
+            border: 3px solid #c41e3a;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+        }
+        
+        .stamp-inner-ring {
+            width: 80px;
+            height: 80px;
+            border: 2px dashed #c41e3a;
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            box-sizing: border-box;
+        }
+        
+        .stamp-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 60px;
+        }
+        
+        .stamp-verified {
+            font-size: 9px;
+            font-weight: bold;
+            color: #c41e3a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stamp-year {
+            font-size: 8px;
+            color: #c41e3a;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+        
+        .stamp-company-name {
+            position: absolute;
+            top: 12px;
+            left: 0;
+            width: 100px;
+            text-align: center;
+            font-size: 6px;
+            font-weight: bold;
+            color: #c41e3a;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        
+        .stamp-location {
+            position: absolute;
+            bottom: 12px;
+            left: 0;
+            width: 100px;
+            text-align: center;
+            font-size: 6px;
+            font-weight: bold;
+            color: #c41e3a;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 10px;
+            border-top: 1px solid #ccc;
+        }
+        
+        .footer-website {
+            font-size: 10px;
+            color: #1a4d7c;
+        }
+        
+        /* Continuation Header */
+        .continuation-header {
+            display: table;
+            width: 100%;
+            padding: 10px 0;
+            border-bottom: 2px solid #1a4d7c;
+            margin-bottom: 15px;
+        }
+        
+        .cont-logo {
+            display: table-cell;
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a4d7c;
+        }
+        
+        .cont-info {
+            display: table-cell;
+            text-align: right;
+            font-size: 10px;
+            color: #666;
+            vertical-align: middle;
+        }
+        
+        /* Page Number */
+        .page-number {
+            text-align: center;
+            font-size: 9px;
+            color: #999;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Main Header -->
+        <div class="header">
+            <div class="header-left">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" />
+                        {% else %}
+                        <div class="logo-icon-placeholder">⚙</div>
+                        {% endif %}
+                    </div>
+                    <div class="logo-text">
+                        <div class="company-name">{{ platform_name|default(supplier_name)|default('GLOBAL BRAND PVT. LTD.') }}</div>
+                        <div class="company-tagline">{{ company_tagline|default('Add value to your IT life...') }}</div>
+                    </div>
+                </div>
+                <div class="company-address">
+                    {{ supplier_address|default('Head Office: 19/2, West Panthapath (3rd-5th & 7th Fl) Dhanmondi, Dhaka-1205, Bangladesh') }}<br>
+                    {% if supplier_phone %}Tel: {{ supplier_phone }}{% endif %}
+                    {% if supplier_email %}, {{ supplier_email }}{% endif %}
+                </div>
+            </div>
+            <div class="header-right">
+                {% if show_iso_badge|default(true) %}
+                <div class="iso-badge">
+                    {{ iso_standard|default('An ISO 9001:2008') }}<br>
+                    <span class="iso-badge-check">✓ CERTIFIED</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Warranty Box -->
+        {% if show_warranty_box|default(true) %}
+        <div class="warranty-box">
+            <span class="warranty-title">Warranty Void:</span> {{ warranty_terms|default('Sticker removed/torn, burned case and physically damaged goods.') }}
+        </div>
+        {% endif %}
+        
+        <!-- Page Info Row -->
+        <div class="page-info-row">
+            <div class="page-info-left">
+                {% if printed_by %}Printed by: {{ printed_by }}{% endif %}
+            </div>
+            <div class="page-info-right">
+                <span class="print-info">
+                    Page {{ _current_page|default(_page_number)|default(1) }} of {{ _total_pages|default(1) }}
+                    &nbsp;&nbsp;&nbsp;
+                    Date of Printing: {{ print_date|default(invoice_date) }}
+                    &nbsp;&nbsp;&nbsp;
+                    Time of Printing: {{ print_time|default('11:59:38AM') }}
+                </span>
+            </div>
+        </div>
+        
+        <!-- Claim Message -->
+        <div class="claim-message">
+            {{ claim_message|default('Show your Invoice during warranty claim.') }}
+        </div>
+        
+        <!-- Invoice Details Section -->
+        <div class="invoice-details-section">
+            <div class="invoice-details-left">
+                <div class="detail-row">
+                    <div class="detail-label">Invoice No</div>
+                    <div class="detail-value">{{ invoice_number|default('INV-GBPEP-2012-001832') }}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Time</div>
+                    <div class="detail-value">{{ invoice_time|default('1:13:16 PM') }}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">S. Order No</div>
+                    <div class="detail-value">{{ sales_order_number|default(po_number)|default('PSO-GBP-EP-RABBI-2012-000331') }}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Sold to</div>
+                    <div class="detail-value">
+                        {{ buyer_name|default('TECH WORLD - E PLUS') }}<br>
+                        {{ buyer_address|default('33, TOP KHANA ROAD') }}<br>
+                        {{ buyer_country|default('BANGLADESH') }}
+                    </div>
+                </div>
+                {% if remarks or notes %}
+                <div class="detail-row" style="margin-top: 10px;">
+                    <div class="detail-label">Remarks</div>
+                    <div class="detail-value">:</div>
+                    <div class="detail-value">{{ remarks|default(notes) }}</div>
+                </div>
+                {% endif %}
+            </div>
+            <div class="invoice-details-right">
+                <div class="invoice-bill-box">
+                    <div class="invoice-bill-title">Invoice/ Bill</div>
+                    <div class="bill-detail-row">
+                        <div class="bill-label">Date</div>
+                        <div class="bill-value">{{ invoice_date|default('10/17/2012') }}</div>
+                    </div>
+                    <div class="bill-detail-row">
+                        <div class="bill-label">Sold by</div>
+                        <div class="bill-value">{{ sold_by|default(cashier_name)|default('RABBI') }}</div>
+                    </div>
+                    <div class="bill-detail-row">
+                        <div class="bill-label">Verified By</div>
+                        <div class="bill-value">{{ verified_by|default('SHAFIUL') }}</div>
+                    </div>
+                    <div class="bill-detail-row">
+                        <div class="bill-label">Billing by</div>
+                        <div class="bill-value">{{ billing_by|default('SHAFIUL') }}</div>
+                    </div>
+                    <div class="bill-detail-row">
+                        <div class="bill-label">Assurance Date</div>
+                        <div class="bill-value">{{ assurance_date|default(warranty_start_date)|default('10/18/2012') }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Header for multipage -->
+        <div class="continuation-header">
+            <div class="cont-logo">{{ platform_name|default(supplier_name)|default('GLOBAL BRAND PVT. LTD.') }}</div>
+            <div class="cont-info">Invoice {{ invoice_number }} — Page {{ _current_page|default(_page_number) }} of {{ _total_pages }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-sl">Sl No</th>
+                    <th class="col-desc">Description of Items</th>
+                    <th class="col-price">Unit Price</th>
+                    <th class="col-qty">Quantity</th>
+                    <th class="col-total">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items|default(line_items) %}
+                <tr>
+                    <td class="col-sl">{{ loop.index }}</td>
+                    <td class="col-desc">
+                        <div class="item-name">
+                            {% if item.brand %}{{ item.brand }} {% endif %}{{ item.name|default(item.description) }}
+                        </div>
+                        {% if item.model_number or item.tech_specs %}
+                        <div class="item-specs">
+                            {% if item.model_number %}{{ item.model_number }}{% endif %}
+                            {% if item.tech_specs %} {{ item.tech_specs }}{% endif %}
+                        </div>
+                        {% endif %}
+                        {% if item.serial_number or item.sku %}
+                        <div class="item-serial">S/N: {{ item.serial_number|default(item.sku) }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="col-price">{{ '%.2f'|format(item.unit_price|default(item.price)|to_float) }}</td>
+                    <td class="col-qty">{{ '%.2f'|format(item.quantity|float) }}</td>
+                    <td class="col-total">{{ '{:,.2f}'.format((item.amount|default(item.total)|default(item.unit_price|to_float * item.quantity))|to_float) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Grand Total -->
+        <div class="grand-total-row">
+            <div class="grand-total-label">Grand Total:</div>
+            <div class="grand-total-value">{{ '{:,.2f}'.format(total_amount_raw|default(total)|float) }}</div>
+        </div>
+        
+        <!-- Amount in Words -->
+        <div class="amount-words">
+            <span class="amount-words-label">Amount in Word</span>
+            <span class="amount-words-currency">{{ currency_name|default('TAKA') }}</span>
+            <span class="amount-words-text">{{ amount_in_words|default('FORTY THOUSAND EIGHT HUNDRED ONLY') }}</span>
+        </div>
+        
+        <!-- Signature Section -->
+        <div class="signature-section">
+            <div class="signature-left">
+                <div class="signature-label">Received with good condition by</div>
+                <div class="signature-line"></div>
+            </div>
+            <div class="signature-right">
+                <div class="signature-label">Authorised Signature and Company Stamp</div>
+                <div class="company-stamp">
+                    <div class="stamp-outer-ring">
+                        <div class="stamp-inner-ring">
+                            <div class="stamp-center">
+                                <div class="stamp-verified">VERIFIED</div>
+                                <div class="stamp-year">{{ established_year|default('2015') }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stamp-company-name">{{ store_name|default(supplier_name)|default('GLOBAL BRAND') }}</div>
+                    <div class="stamp-location">{{ store_city|default('DHAKA') }}, {{ store_country|default('BANGLADESH') }}</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-website">{{ store_website|default('www.globalbrand.com.bd') }}</div>
+        </div>
+        {% endif %}
+
+        {% if _total_pages|default(1) > 1 %}
+        <div class="page-number">Page {{ _current_page|default(_page_number)|default(1) }} of {{ _total_pages|default(1) }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>

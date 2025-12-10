@@ -1,0 +1,693 @@
+/* Stripe-Inspired Minimal Invoice */
+/* wkhtmltoimage compatible - table layouts, no CSS variables */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #ffffff;
+    -webkit-font-smoothing: antialiased;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    margin: 0 auto;
+    padding: 48px 56px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 32px;
+}
+
+.brand-cell {
+    width: 60%;
+    vertical-align: middle;
+}
+
+.brand-mark {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    background: #635bff;  /* was: linear-gradient(135deg, #635bff 0%, #7c3aed 100%...) */
+    border-radius: 12px;
+    text-align: center;
+    line-height: 48px;
+    margin-right: 16px;
+    vertical-align: middle;
+}
+
+.brand-letter {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* Logo image styling */
+.brand-logo {
+    display: inline-block;
+    height: 50px;
+    width: auto;
+    max-width: 150px;
+    margin-right: 16px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.brand-details {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.brand-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a1a;
+    letter-spacing: -0.3px;
+}
+
+.brand-meta {
+    font-size: 13px;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+.invoice-meta-cell {
+    width: 40%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.invoice-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.invoice-id {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1a1a1a;
+    letter-spacing: -0.5px;
+}
+
+/* ============================================
+   STATUS BAR
+   ============================================ */
+
+.status-bar {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f9fafb;
+    border-radius: 8px;
+    margin-bottom: 32px;
+}
+
+.status-item {
+    padding: 16px 20px;
+    vertical-align: top;
+    border-right: 1px solid #e5e7eb;
+}
+
+.status-item:last-child {
+    border-right: none;
+}
+
+.status-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.status-value {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status-badge.paid,
+.status-badge.complete,
+.status-badge.confirmed {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-badge.pending,
+.status-badge.processing {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-badge.overdue,
+.status-badge.failed {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.status-badge.draft {
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+.status-amount {
+    text-align: right;
+}
+
+.status-total {
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+/* ============================================
+   PARTIES SECTION
+   ============================================ */
+
+.parties-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+}
+
+.party-cell {
+    width: 33.33%;
+    vertical-align: top;
+    padding-right: 24px;
+}
+
+.party-cell:last-child {
+    padding-right: 0;
+}
+
+.party-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.party-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+}
+
+.party-detail {
+    font-size: 13px;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+.tax-id {
+    margin-top: 8px;
+    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* ============================================
+   REFERENCE TABLE
+   ============================================ */
+
+.reference-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f9fafb;
+    border-radius: 6px;
+    margin-bottom: 32px;
+}
+
+.ref-item {
+    padding: 12px 16px;
+    vertical-align: top;
+    border-right: 1px solid #e5e7eb;
+}
+
+.ref-item:last-child {
+    border-right: none;
+}
+
+.ref-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.ref-value {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.ref-tracking {
+    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+    color: #635bff;
+}
+
+/* ============================================
+   CONTINUATION HEADER
+   ============================================ */
+
+.continuation-header {
+    width: 100%;
+    border-collapse: collapse;
+    border-bottom: 2px solid #e5e7eb;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+}
+
+.cont-brand {
+    text-align: left;
+    vertical-align: middle;
+    padding-bottom: 16px;
+}
+
+.cont-mark {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: #635bff;  /* was: linear-gradient(135deg, #635bff 0%, #7c3aed 100%...) */
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 32px;
+    margin-right: 12px;
+    vertical-align: middle;
+}
+
+/* Continuation logo styling */
+.cont-logo {
+    display: inline-block;
+    height: 32px;
+    width: auto;
+    max-width: 100px;
+    margin-right: 12px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.cont-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+    vertical-align: middle;
+}
+
+.cont-meta {
+    text-align: right;
+    vertical-align: middle;
+    padding-bottom: 16px;
+}
+
+.cont-invoice {
+    font-size: 14px;
+    color: #1a1a1a;
+    margin-right: 16px;
+}
+
+.cont-page {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* ============================================
+   ITEMS SECTION
+   ============================================ */
+
+.items-section {
+    margin-bottom: 32px;
+}
+
+.section-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.items-table thead tr {
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.items-table th {
+    padding: 12px 0;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.items-table td {
+    padding: 16px 0;
+    vertical-align: top;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.items-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Column widths */
+.col-desc { width: 50%; padding-right: 16px; }
+.col-qty { width: 12%; text-align: center; }
+.col-rate { width: 19%; text-align: right; }
+.col-amount { width: 19%; text-align: right; }
+
+.items-table th.col-qty,
+.items-table td.col-qty { text-align: center; }
+
+.items-table th.col-rate,
+.items-table td.col-rate,
+.items-table th.col-amount,
+.items-table td.col-amount { text-align: right; }
+
+/* Item details */
+.item-description {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 2px;
+}
+
+.item-sku {
+    font-size: 11px;
+    color: #6b7280;
+    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+}
+
+.item-variant {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 2px;
+}
+
+/* Discount row */
+.discount-row td {
+    padding: 6px 0 16px 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.discount-label {
+    font-size: 12px;
+    color: #059669;
+    padding-left: 16px;
+}
+
+.discount-amount {
+    color: #059669;
+    font-weight: 500;
+}
+
+/* ============================================
+   SUMMARY SECTION
+   ============================================ */
+
+.summary-section {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 2px solid #e5e7eb;
+    padding-top: 24px;
+}
+
+.summary-section > tbody > tr > td {
+    padding-top: 24px;
+}
+
+.summary-notes {
+    width: 50%;
+    vertical-align: top;
+    padding-right: 40px;
+}
+
+.summary-totals {
+    width: 50%;
+    vertical-align: top;
+}
+
+.notes-block,
+.terms-block {
+    margin-bottom: 16px;
+}
+
+.notes-label,
+.terms-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.notes-text,
+.terms-text {
+    font-size: 12px;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+/* Totals table */
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-table td {
+    padding: 8px 0;
+}
+
+.total-label {
+    text-align: left;
+    font-size: 13px;
+    color: #4b5563;
+}
+
+.total-value {
+    text-align: right;
+    font-size: 13px;
+    color: #1a1a1a;
+    font-weight: 500;
+}
+
+.total-row.discount .total-value {
+    color: #059669;
+}
+
+.total-row.grand {
+    border-top: 2px solid #1a1a1a;
+}
+
+.total-row.grand td {
+    padding-top: 12px;
+}
+
+.total-row.grand .total-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.total-row.grand .total-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.total-row.paid .total-value {
+    color: #059669;
+}
+
+.total-row.balance {
+    background: #f9fafb;
+}
+
+.total-row.balance td {
+    padding: 12px 8px;
+}
+
+.total-row.balance .total-label,
+.total-row.balance .total-value {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+/* ============================================
+   PAYMENT SECTION
+   ============================================ */
+
+.payment-section {
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 24px;
+    margin-bottom: 32px;
+}
+
+.payment-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+.payment-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.payment-item {
+    padding-right: 24px;
+    vertical-align: top;
+}
+
+.payment-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.payment-value {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a1a1a;
+    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+}
+
+.payment-note {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #4b5563;
+    line-height: 1.5;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.footer {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.footer-thanks {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+}
+
+.footer-contact {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* ============================================
+   CONTINUATION FOOTER
+   ============================================ */
+
+.continuation-footer {
+    text-align: center;
+    padding: 24px 0;
+    margin-top: 32px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.cont-text {
+    font-size: 12px;
+    color: #6b7280;
+    margin-right: 16px;
+}
+
+.cont-indicator {
+    font-size: 12px;
+    color: #635bff;
+    font-weight: 500;
+}
+
+/* ============================================
+   PAGE NUMBER
+   ============================================ */
+
+.page-number {
+    position: absolute;
+    bottom: 24px;
+    right: 56px;
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+    body {
+        background: white;
+    }
+    
+    .invoice-page {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+}

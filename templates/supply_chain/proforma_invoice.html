@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proforma Invoice - {{ proforma_number }}</title>
+    <link rel="stylesheet" href="../css/proforma_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        
+        {% if _is_first_page|default(true) %}
+        <!-- ===== HEADER SECTION ===== -->
+        <table class="header-table">
+            <tr>
+                <td class="header-left">
+                    {% if supplier_logo %}
+                    <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="company-logo">
+                    {% else %}
+                    <div class="logo-placeholder">
+                        <span class="logo-text">{{ supplier_name[:2]|upper }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="company-details">
+                        <div class="company-name">{{ supplier_name|default('EXPORTER COMPANY') }}</div>
+                        <div class="company-address">{{ supplier_address|default('123 Export Lane') }}</div>
+                        <div class="company-address">{{ supplier_city|default('Shanghai') }}, {{ supplier_country|default('China') }} {{ supplier_zip|default('200000') }}</div>
+                    </div>
+                </td>
+                <td class="header-right">
+                    <div class="document-title">PROFORMA INVOICE</div>
+                    <div class="document-badge">PRE-SHIPMENT DOCUMENT</div>
+                    <table class="doc-info-table">
+                        <tr>
+                            <td class="doc-label">Proforma No:</td>
+                            <td class="doc-value">{{ proforma_number|default('PI-2025-000001') }}</td>
+                        </tr>
+                        <tr>
+                            <td class="doc-label">Date:</td>
+                            <td class="doc-value">{{ proforma_date|default('01/01/2025') }}</td>
+                        </tr>
+                        <tr>
+                            <td class="doc-label">Valid Until:</td>
+                            <td class="doc-value">{{ valid_until|default('02/01/2025') }}</td>
+                        </tr>
+                        <tr>
+                            <td class="doc-label">Ref. Inquiry:</td>
+                            <td class="doc-value">{{ inquiry_ref|default('RFQ-00000') }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Status Banner -->
+        <div class="status-banner status-{{ proforma_status|default('draft')|lower }}">
+            <span class="status-icon">
+                {% if proforma_status|default('draft')|lower == 'confirmed' %}✓{% elif proforma_status|default('draft')|lower == 'expired' %}[!]{% else %}{% endif %}
+            </span>
+            <span class="status-text">{{ proforma_status|default('DRAFT')|upper }}</span>
+            <span class="status-note">{{ status_note|default('This is a quotation, not a tax invoice') }}</span>
+        </div>
+
+        <!-- ===== PARTIES SECTION (4-Column Grid) ===== -->
+        <table class="parties-table">
+            <tr>
+                <td class="party-cell exporter">
+                    <div class="party-header">
+                        <span class="party-icon">🏭</span>
+                        <span class="party-title">EXPORTER / SELLER</span>
+                    </div>
+                    <div class="party-body">
+                        <div class="party-name">{{ supplier_name|default('Export Trading Co., Ltd.') }}</div>
+                        <div class="party-line">{{ supplier_address|default('123 Manufacturing District') }}</div>
+                        <div class="party-line">{{ supplier_city|default('Shanghai') }}, {{ supplier_state|default('') }} {{ supplier_zip|default('200000') }}</div>
+                        <div class="party-line">{{ supplier_country|default('China') }}</div>
+                        <div class="party-contact">
+                            {% if supplier_phone %} {{ supplier_phone }}{% endif %}
+                        </div>
+                        <div class="party-contact">
+                            {% if supplier_email %} {{ supplier_email }}{% endif %}
+                        </div>
+                        {% if supplier_tax_id %}
+                        <div class="party-tax">Tax ID: {{ supplier_tax_id }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="party-cell importer">
+                    <div class="party-header">
+                        <span class="party-icon"></span>
+                        <span class="party-title">IMPORTER / BUYER</span>
+                    </div>
+                    <div class="party-body">
+                        <div class="party-name">{{ buyer_name|default('Import Company Inc.') }}</div>
+                        <div class="party-line">{{ buyer_address|default('456 Commerce Street') }}</div>
+                        <div class="party-line">{{ buyer_city|default('Los Angeles') }}, {{ buyer_state|default('CA') }} {{ buyer_zip|default('90001') }}</div>
+                        <div class="party-line">{{ buyer_country|default('United States') }}</div>
+                        <div class="party-contact">
+                            {% if buyer_phone %} {{ buyer_phone }}{% endif %}
+                        </div>
+                        <div class="party-contact">
+                            {% if buyer_email %} {{ buyer_email }}{% endif %}
+                        </div>
+                        {% if buyer_tax_id %}
+                        <div class="party-tax">EIN/Tax ID: {{ buyer_tax_id }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="party-cell consignee">
+                    <div class="party-header">
+                        <span class="party-icon"></span>
+                        <span class="party-title">CONSIGNEE (SHIP TO)</span>
+                    </div>
+                    <div class="party-body">
+                        <div class="party-name">{{ consignee_name|default(buyer_name)|default('Same as Importer') }}</div>
+                        <div class="party-line">{{ consignee_address|default(buyer_address)|default('') }}</div>
+                        <div class="party-line">{{ consignee_city|default(buyer_city)|default('') }}, {{ consignee_state|default(buyer_state)|default('') }} {{ consignee_zip|default(buyer_zip)|default('') }}</div>
+                        <div class="party-line">{{ consignee_country|default(buyer_country)|default('') }}</div>
+                        {% if consignee_phone %}
+                        <div class="party-contact"> {{ consignee_phone }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="party-cell notify">
+                    <div class="party-header">
+                        <span class="party-icon"></span>
+                        <span class="party-title">NOTIFY PARTY</span>
+                    </div>
+                    <div class="party-body">
+                        <div class="party-name">{{ notify_party_name|default('Same as Consignee') }}</div>
+                        {% if notify_party_address %}
+                        <div class="party-line">{{ notify_party_address }}</div>
+                        <div class="party-line">{{ notify_party_city }}, {{ notify_party_state }} {{ notify_party_zip }}</div>
+                        <div class="party-line">{{ notify_party_country }}</div>
+                        {% endif %}
+                        {% if notify_party_phone %}
+                        <div class="party-contact"> {{ notify_party_phone }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- ===== SHIPPING & TRADE TERMS ===== -->
+        <div class="section-title">
+            <span class="section-icon">🚢</span>
+            SHIPPING & TRADE TERMS
+        </div>
+        <table class="shipping-table">
+            <tr>
+                <td class="ship-cell">
+                    <div class="ship-label">INCOTERMS® 2020</div>
+                    <div class="ship-value incoterm">{{ incoterms|default('FOB Shanghai') }}</div>
+                </td>
+                <td class="ship-cell">
+                    <div class="ship-label">PAYMENT TERMS</div>
+                    <div class="ship-value">{{ payment_terms|default('T/T 30% Deposit, 70% Before Shipment') }}</div>
+                </td>
+                <td class="ship-cell">
+                    <div class="ship-label">CURRENCY</div>
+                    <div class="ship-value">{{ currency|default('USD') }}</div>
+                </td>
+                <td class="ship-cell">
+                    <div class="ship-label">TRANSPORT MODE</div>
+                    <div class="ship-value">{{ transport_mode|default('Sea Freight') }}</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="ship-cell">
+                    <div class="ship-label">PORT OF LOADING</div>
+                    <div class="ship-value">{{ port_of_loading|default('Shanghai, China') }}</div>
+                </td>
+                <td class="ship-cell">
+                    <div class="ship-label">PORT OF DISCHARGE</div>
+                    <div class="ship-value">{{ port_of_discharge|default('Los Angeles, USA') }}</div>
+                </td>
+                <td class="ship-cell">
+                    <div class="ship-label">FINAL DESTINATION</div>
+                    <div class="ship-value">{{ final_destination|default('Same as Port of Discharge') }}</div>
+                </td>
+                <td class="ship-cell">
+                    <div class="ship-label">LEAD TIME</div>
+                    <div class="ship-value">{{ lead_time|default('30-45 Days') }}</div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- ===== PACKAGE SUMMARY ===== -->
+        <table class="package-summary">
+            <tr>
+                <td class="pkg-cell">
+                    <div class="pkg-icon"></div>
+                    <div class="pkg-label">PACKAGES</div>
+                    <div class="pkg-value">{{ total_packages|default(1) }} {{ package_type|default('Cartons') }}</div>
+                </td>
+                <td class="pkg-cell">
+                    <div class="pkg-icon"></div>
+                    <div class="pkg-label">GROSS WEIGHT</div>
+                    <div class="pkg-value">{{ gross_weight|default('0.00') }} {{ weight_unit|default('KG') }}</div>
+                </td>
+                <td class="pkg-cell">
+                    <div class="pkg-icon"></div>
+                    <div class="pkg-label">NET WEIGHT</div>
+                    <div class="pkg-value">{{ net_weight|default('0.00') }} {{ weight_unit|default('KG') }}</div>
+                </td>
+                <td class="pkg-cell">
+                    <div class="pkg-icon"></div>
+                    <div class="pkg-label">VOLUME (CBM)</div>
+                    <div class="pkg-value">{{ total_cbm|default('0.00') }} m³</div>
+                </td>
+                <td class="pkg-cell">
+                    <div class="pkg-icon"></div>
+                    <div class="pkg-label">MARKS & NUMBERS</div>
+                    <div class="pkg-value marks">{{ marks_numbers|default('N/M') }}</div>
+                </td>
+            </tr>
+        </table>
+        {% else %}
+        <!-- ===== CONTINUATION HEADER ===== -->
+        <table class="continuation-header">
+            <tr>
+                <td class="cont-left">
+                    <span class="cont-title">PROFORMA INVOICE</span>
+                    <span class="cont-number">{{ proforma_number }}</span>
+                </td>
+                <td class="cont-center">
+                    <span class="cont-buyer">{{ buyer_name }}</span>
+                </td>
+                <td class="cont-right">
+                    <span class="cont-page">Page {{ _page_number }} of {{ _total_pages }}</span>
+                </td>
+            </tr>
+        </table>
+        {% endif %}
+
+        <!-- ===== LINE ITEMS TABLE ===== -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-line">#</th>
+                    <th class="col-sku">Item Code</th>
+                    <th class="col-description">Description</th>
+                    <th class="col-hs">HS Code</th>
+                    <th class="col-origin">Origin</th>
+                    <th class="col-qty">Qty</th>
+                    <th class="col-unit">Unit</th>
+                    <th class="col-price">Unit Price</th>
+                    <th class="col-total">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="item-row {% if loop.index is odd %}odd{% else %}even{% endif %}">
+                    <td class="col-line">{{ loop.index }}</td>
+                    <td class="col-sku">{{ item.sku|default(item.item_code)|default('-') }}</td>
+                    <td class="col-description">
+                        <div class="item-name">{{ item.name|default(item.description)|default('Product') }}</div>
+                        {% if item.specifications %}
+                        <div class="item-specs">{{ item.specifications }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="col-hs">{{ item.hs_code|default('-') }}</td>
+                    <td class="col-origin">{{ item.country_of_origin|default('CN') }}</td>
+                    <td class="col-qty">{{ item.quantity|default(1) }}</td>
+                    <td class="col-unit">{{ item.unit|default('PCS') }}</td>
+                    <td class="col-price">${{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                    <td class="col-total">${{ "%.2f"|format(item.total|to_float) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page|default(true) %}
+        <!-- ===== TOTALS SECTION ===== -->
+        <table class="totals-section">
+            <tr>
+                <td class="amount-words-cell">
+                    <div class="amount-words-label">AMOUNT IN WORDS:</div>
+                    <div class="amount-words-value">{{ amount_in_words|default('US Dollars Only') }}</div>
+                </td>
+                <td class="totals-cell">
+                    <table class="totals-table">
+                        <tr>
+                            <td class="total-label">Subtotal ({{ total_items|default(items|length) }} items):</td>
+                            <td class="total-value">${{ "%.2f"|format(subtotal|default(0)|to_float) }}</td>
+                        </tr>
+                        {% if (discount|default(0)) > 0 %}
+                        <tr class="discount-row">
+                            <td class="total-label">Discount:</td>
+                            <td class="total-value">-${{ "%.2f"|format(discount|to_float) }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if incoterms and 'FOB' not in incoterms|upper %}
+                        <tr>
+                            <td class="total-label">Freight ({{ incoterms }}):</td>
+                            <td class="total-value">${{ "%.2f"|format(freight_cost|default(0)) }}</td>
+                        </tr>
+                        {% if 'CIF' in incoterms|upper or 'CIP' in incoterms|upper %}
+                        <tr>
+                            <td class="total-label">Insurance:</td>
+                            <td class="total-value">${{ "%.2f"|format(insurance_cost|default(0)) }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endif %}
+                        <tr class="grand-total-row">
+                            <td class="total-label">TOTAL {{ currency|default('USD') }}:</td>
+                            <td class="total-value grand">${{ "%.2f"|format(total_amount|default(0)|to_float) }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <!-- ===== BANK DETAILS ===== -->
+        <div class="section-title">
+            <span class="section-icon"></span>
+            BANK DETAILS FOR PAYMENT
+        </div>
+        <table class="bank-table">
+            <tr>
+                <td class="bank-cell">
+                    <div class="bank-label">Beneficiary Name</div>
+                    <div class="bank-value">{{ bank_beneficiary|default(supplier_name)|default('Export Trading Co., Ltd.') }}</div>
+                </td>
+                <td class="bank-cell">
+                    <div class="bank-label">Bank Name</div>
+                    <div class="bank-value">{{ bank_name|default('Bank of China') }}</div>
+                </td>
+                <td class="bank-cell">
+                    <div class="bank-label">Bank Address</div>
+                    <div class="bank-value">{{ bank_address|default('Shanghai Branch, China') }}</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="bank-cell">
+                    <div class="bank-label">Account Number</div>
+                    <div class="bank-value mono">{{ bank_account|default('XXXX XXXX XXXX XXXX') }}</div>
+                </td>
+                <td class="bank-cell">
+                    <div class="bank-label">SWIFT / BIC Code</div>
+                    <div class="bank-value mono">{{ swift_code|default('BKCHCNBJ') }}</div>
+                </td>
+                <td class="bank-cell">
+                    <div class="bank-label">IBAN (if applicable)</div>
+                    <div class="bank-value mono">{{ iban|default('N/A') }}</div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- ===== CUSTOMS DECLARATION ===== -->
+        <div class="declaration-box">
+            <div class="declaration-header">
+                <span class="declaration-icon"></span>
+                DECLARATION FOR CUSTOMS
+            </div>
+            <div class="declaration-text">
+                {{ customs_declaration|default('I/We hereby certify that the information contained in this proforma invoice is true and correct and that the contents of this consignment are as stated above. The prices and values declared are the actual transaction values for customs purposes. This proforma invoice is issued for the purpose of importation and customs clearance only and does not constitute a demand for payment.') }}
+            </div>
+            <table class="signature-table">
+                <tr>
+                    <td class="sig-cell">
+                        <div class="sig-line"></div>
+                        <div class="sig-label">Authorized Signature</div>
+                        <div class="sig-name">{{ authorized_signatory|default('') }}</div>
+                    </td>
+                    <td class="sig-cell">
+                        <div class="sig-line"></div>
+                        <div class="sig-label">Date</div>
+                        <div class="sig-name">{{ signature_date|default(proforma_date)|default('') }}</div>
+                    </td>
+                    <td class="sig-cell stamp">
+                        <div class="company-stamp">
+                            <div class="stamp-circle">
+                                <div class="stamp-text">{{ supplier_name|default('COMPANY')|truncate(20, true, '') }}</div>
+                                <div class="stamp-sub">AUTHORIZED</div>
+                            </div>
+                        </div>
+                        <div class="sig-label">Company Stamp/Seal</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- ===== TERMS & CONDITIONS ===== -->
+        <div class="terms-section">
+            <div class="terms-title">TERMS & CONDITIONS</div>
+            <div class="terms-content">
+                <ol class="terms-list">
+                    <li>{{ term_1|default('This proforma invoice is valid for ' ~ (validity_days|default(30)) ~ ' days from the date of issue.') }}</li>
+                    <li>{{ term_2|default('Prices are subject to change without prior notice after the validity period.') }}</li>
+                    <li>{{ term_3|default('Payment terms as stated above. Goods will be dispatched upon receipt of payment per agreed terms.') }}</li>
+                    <li>{{ term_4|default('Delivery dates are estimated and subject to production schedule and shipping availability.') }}</li>
+                    <li>{{ term_5|default('All disputes are subject to arbitration under ICC rules.') }}</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer">
+            <table class="footer-table">
+                <tr>
+                    <td class="footer-left">
+                        <div class="footer-note">This is a proforma invoice for customs/import purposes only. Not a tax invoice.</div>
+                    </td>
+                    <td class="footer-center">
+                        <div class="footer-contact">
+                            {% if supplier_phone %} {{ supplier_phone }}{% endif %}
+                            {% if supplier_email %} |  {{ supplier_email }}{% endif %}
+                            {% if supplier_website %} |  {{ supplier_website }}{% endif %}
+                        </div>
+                    </td>
+                    <td class="footer-right">
+                        <div class="footer-page">Page {{ _page_number|default(1) }} of {{ _total_pages|default(1) }}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <!-- ===== CONTINUATION FOOTER ===== -->
+        <div class="continuation-footer">
+            <div class="cont-footer-left">Proforma #{{ proforma_number }} | {{ buyer_name }}</div>
+            <div class="cont-footer-right">Page {{ _page_number }} of {{ _total_pages }} — Continued on next page...</div>
+        </div>
+        {% endif %}
+
+    </div>
+</body>
+</html>

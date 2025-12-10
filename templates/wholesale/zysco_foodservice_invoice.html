@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zysco Foodservice Invoice - {{ invoice_number }}{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
+    <link rel="stylesheet" href="../css/zysco_foodservice_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- First Page Header -->
+        <div class="header-section">
+            <!-- Left: Invoice To / Deliver To -->
+            <div class="address-block">
+                <div class="address-box invoice-to">
+                    <div class="address-label">Invoice to</div>
+                    <div class="address-content">
+                        <div class="business-name">{{ buyer_name }}</div>
+                        <div>{{ buyer_address }}</div>
+                    </div>
+                </div>
+                <div class="address-box deliver-to">
+                    <div class="address-label">Deliver to</div>
+                    <div class="address-content">
+                        <div class="business-name">{{ shipping_name|default(buyer_name) }}</div>
+                        <div>{{ shipping_address|default(buyer_address) }}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right: Company Branding -->
+            <div class="company-block">
+                <div class="zysco-logo">
+                    <span class="zysco-text">Zysco</span>
+                </div>
+                <div class="zysco-tagline">At the heart of<br>food and service</div>
+                <div class="company-details">
+                    <div>{{ supplier_address|default('Distribution Center') }}</div>
+                    <div>Tel: {{ supplier_phone|default('(555) 123-4567') }}</div>
+                    <div>{{ supplier_website|default('www.zysco.com') }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Information Bar -->
+        <table class="account-info-table">
+            <thead>
+                <tr>
+                    <th>ACCT No.</th>
+                    <th>TSO</th>
+                    <th>LOAD</th>
+                    <th>DROP</th>
+                    <th>CASE</th>
+                    <th>UNIT</th>
+                    <th>ORD No.</th>
+                    <th>INV. DATE</th>
+                    <th>INV. No.</th>
+                    <th>TYPE</th>
+                    <th>PAGE<br>No.</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ account_number|default('') }}</td>
+                    <td>{{ tso_number|default('') }}</td>
+                    <td>{{ load_number|default('') }}</td>
+                    <td>{{ drop_number|default('') }}</td>
+                    <td>{{ total_cases|default('') }}</td>
+                    <td>{{ total_units|default('') }}</td>
+                    <td>{{ order_number|default('') }}</td>
+                    <td>{{ invoice_date }}</td>
+                    <td>{{ invoice_number }}</td>
+                    <td>{{ invoice_type|default('') }}</td>
+                    <td>{{ _page_number|default(1) }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Currency and Terms Bar -->
+        <table class="currency-terms-table">
+            <tr>
+                <td class="total-wgt-cell">
+                    <span class="cell-label">TOTAL WGT</span>
+                </td>
+                <td class="currency-cell">
+                    <span class="cell-label">CURRENCY</span>
+                    <span class="cell-value">{{ currency_code|default('EUR') }}</span>
+                </td>
+                <td class="terms-cell">
+                    <span class="cell-label">TERMS</span>
+                    <span class="cell-value">{{ payment_terms|default('') }}</span>
+                </td>
+            </tr>
+        </table>
+        {% else %}
+        <!-- Continuation Page Header -->
+        <div class="continuation-header">
+            <div class="cont-left">
+                <strong>{{ buyer_name }}</strong> - Invoice {{ invoice_number }}
+            </div>
+            <div class="cont-right">
+                <span class="zysco-text-small">Zysco</span>
+                Page {{ _page_number }} of {{ _total_pages }}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-code">CODE</th>
+                    <th class="col-description">DESCRIPTION</th>
+                    <th class="col-pack">PACK SIZE</th>
+                    <th class="col-qty-ord">QUANTITY<br>ORD</th>
+                    <th class="col-qty-del">QTY<br>DEL</th>
+                    <th class="col-price">PRICE</th>
+                    <th class="col-weight">WEIGHT</th>
+                    <th class="col-value">VALUE</th>
+                    <th class="col-vat">VAT<br>CODE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="item-row">
+                    <td class="col-code">{{ item.sku|default(item.product_code|default('')) }}</td>
+                    <td class="col-description">{{ item.description }}</td>
+                    <td class="col-pack">{{ item.pack_size|default(item.unit_size|default('')) }}</td>
+                    <td class="col-qty-ord">{{ item.quantity_ordered|default(item.quantity) }}</td>
+                    <td class="col-qty-del">{{ item.quantity_delivered|default(item.quantity) }}</td>
+                    <td class="col-price">{{ item.unit_price }}</td>
+                    <td class="col-weight">{{ item.weight|default('') }}</td>
+                    <td class="col-value">{{ item.total|default(item.line_total|default('')) }}</td>
+                    <td class="col-vat">{{ item.vat_code|default(item.tax_code|default('23')) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Subtotals Section -->
+        <div class="subtotals-section">
+            <!-- Left: Watermark area (empty or for office use) -->
+            <div class="watermark-area">
+                {% if vat_number %}
+                <div class="vat-info">VAT No. {{ vat_number }}</div>
+                {% endif %}
+            </div>
+            
+            <!-- Right: Calculations -->
+            <div class="calculations-area">
+                <table class="subtotal-table">
+                    <tr>
+                        <td class="subtotal-label">Sub Total Goods Value Excl. DRS</td>
+                        <td class="subtotal-value">{{ subtotal }}</td>
+                    </tr>
+                </table>
+                
+                <!-- Deposit Returns Section -->
+                <table class="deposits-table">
+                    <tr>
+                        <td class="deposit-label">Return Deposits</td>
+                        <td class="deposit-header">No of Containers</td>
+                        <td class="deposit-header">Deposit Per Container</td>
+                        <td class="deposit-header">Total Deposits</td>
+                    </tr>
+                    {% if deposit_small_count|default(0) > 0 %}
+                    <tr>
+                        <td class="deposit-label">Deposit 150ML-500ML</td>
+                        <td class="deposit-qty">{{ deposit_small_count }}</td>
+                        <td class="deposit-rate">{{ deposit_small_rate|default('0.15') }}</td>
+                        <td class="deposit-total">{{ deposit_small_total }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if deposit_large_count|default(0) > 0 %}
+                    <tr>
+                        <td class="deposit-label">Deposit 501ML-3L</td>
+                        <td class="deposit-qty">{{ deposit_large_count }}</td>
+                        <td class="deposit-rate">{{ deposit_large_rate|default('0.25') }}</td>
+                        <td class="deposit-total">{{ deposit_large_total }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr class="deposits-summary">
+                        <td class="deposit-label">Total Re-Turn Containers</td>
+                        <td class="deposit-qty">{{ total_return_containers|default('') }}</td>
+                        <td class="deposit-label-right">Total Re-Turn Deposit</td>
+                        <td class="deposit-total">{{ total_deposit|default('') }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- VAT Summary Section -->
+        <table class="vat-summary-table">
+            <thead>
+                <tr>
+                    <th class="vat-code-col">VAT<br>CODE</th>
+                    <th class="vat-rate-col">VAT RATE</th>
+                    <th class="taxable-col">TAXABLE GOODS</th>
+                    <th class="vat-amount-col">VAT</th>
+                    <th class="goods-total-col">GOODS TOTAL</th>
+                    <th class="vat-final-col">VAT</th>
+                    <th class="amount-payable-col">AMOUNT PAYABLE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="vat-code-col">{{ vat_code|default('23') }}</td>
+                    <td class="vat-rate-col">{{ tax_rate|default('23.00') }}</td>
+                    <td class="taxable-col">{{ taxable_amount|default(subtotal) }}</td>
+                    <td class="vat-amount-col">{{ tax_amount }}</td>
+                    <td class="goods-total-col">{{ subtotal }}</td>
+                    <td class="vat-final-col">{{ tax_amount }}</td>
+                    <td class="amount-payable-col">{{ total_amount }}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="vat-footer-note">
+                        ALL GOODS SUPPLIED AND ACCEPTED SUBJECT TO OUR CURRENT TERMS AND<br>
+                        CONDITIONS OF TRADING AVAILABLE ON REQUEST
+                    </td>
+                    <td colspan="3"></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <!-- Signature Section -->
+        <table class="signature-table">
+            <tr>
+                <td class="sig-cell">
+                    <div class="sig-label">CUSTOMERS SIGNATURE</div>
+                    <div class="sig-line"></div>
+                </td>
+                <td class="sig-cell">
+                    <div class="sig-label">CUSTOMER PRINT NAME</div>
+                    <div class="sig-line"></div>
+                </td>
+                <td class="sig-cell">
+                    <div class="sig-label">DRIVERS SIGNATURE</div>
+                    <div class="sig-line"></div>
+                </td>
+                <td class="sig-cell cash-cell">
+                    <div class="sig-label">CASH RECEIVED</div>
+                    <div class="sig-line"></div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Footer Notice -->
+        <div class="footer-section">
+            <div class="footer-notice">
+                If at any time you receive a notification from Zysco Foods requesting a change in bank<br>
+                account details, please place a call to Zysco Foods accounts department on {{ supplier_phone|default('+1-555-123-4567') }}<br>
+                to confirm legitimacy before changing any payment information.
+            </div>
+            <div class="amendment-box">
+                <div class="amendment-checkbox">☐</div>
+                <div class="amendment-label">AMENDMENT</div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-footer-text">Continued on next page...</div>
+            <div class="cont-footer-subtotal">Page {{ _page_number }} Subtotal: {{ _page_subtotal|default('') }}</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -7,6 +7,7 @@ from typing import List, Dict, Optional, Any
 import random
 from faker import Faker
 from .data_generator import SyntheticDataGenerator, InvoiceData, InvoiceItem
+from .production_randomizer import ProductionRandomizer
 try:
     from .visual_assets import VisualAssetGenerator
 except ImportError:
@@ -95,7 +96,8 @@ class ModernInvoiceGenerator(SyntheticDataGenerator):
                 'quantity': quantity,
                 'unit_price': price,
                 'amount': amount,
-                'tax_rate': 0.0  # Simplified for now
+                'tax_rate': 0.0,  # Simplified for now
+                'attributes': None  # Optional product attributes for ecommerce templates
             })
             
         # Calculate totals
@@ -160,9 +162,9 @@ class ModernInvoiceGenerator(SyntheticDataGenerator):
             'total': total,
             'currency_symbol': self.currencies.get(self.locale, '$'),
             
-            # Payment & Terms
-            'payment_terms': random.choice(["Net 30", "Due on Receipt", "Net 15"]),
-            'payment_method': random.choice(["Bank Transfer", "Credit Card", "Check"]),
+            # Payment & Terms - use B2B context
+            'payment_terms': random.choice(["Net 30", "Due on Receipt", "Net 15", "Net 60"]),
+            'payment_method': ProductionRandomizer.get_payment_method(context='b2b')[0],
             'bank_name': bank_name,
             'account_number': account_num,
             'routing_number': routing_num,
@@ -178,5 +180,40 @@ class ModernInvoiceGenerator(SyntheticDataGenerator):
             ]),
             'terms': "Payment is due within 30 days. Late payments may incur interest."
         }
+        
+        return data
+
+    def to_dict(self, invoice: Any) -> Dict[str, Any]:
+        """Passthrough helper to mirror other generators.
+        
+        Adds template compatibility aliases for field names that differ
+        between generators and templates (e.g., supplier_name vs company_name).
+        """
+        if isinstance(invoice, dict):
+            data = invoice
+        elif hasattr(invoice, "__dataclass_fields__"):
+            from dataclasses import asdict
+            data = asdict(invoice)
+        else:
+            data = dict(invoice)
+        
+        # Add template compatibility aliases
+        # Amazon/ecommerce templates use supplier_name, we have company_name
+        if 'company_name' in data and 'supplier_name' not in data:
+            data['supplier_name'] = data['company_name']
+        if 'company_address' in data and 'supplier_address' not in data:
+            data['supplier_address'] = data['company_address']
+        
+        # Some templates use _amount suffix for financial fields
+        if 'subtotal' in data and 'subtotal_amount' not in data:
+            data['subtotal_amount'] = data['subtotal']
+        if 'tax' in data and 'tax_amount' not in data:
+            data['tax_amount'] = data['tax']
+        if 'total' in data and 'total_amount' not in data:
+            data['total_amount'] = data['total']
+        if 'discount' in data and 'discount_amount' not in data:
+            data['discount_amount'] = data['discount']
+        if 'shipping' in data and 'shipping_cost' not in data:
+            data['shipping_cost'] = data['shipping']
         
         return data

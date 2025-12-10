@@ -1,0 +1,624 @@
+/* 
+ * Electronics B2B Purchase Order Template
+ * Tech-focused design with blue/gray color scheme
+ * Optimized for wkhtmltoimage rendering
+ */
+
+/* ========================================
+   RESET & BASE STYLES
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    color: #1a2332;
+    background: #ffffff;
+    line-height: 1.4;
+}
+
+/* ========================================
+   PAGE CONTAINER
+   ======================================== */
+.po-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 20px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ========================================
+   HEADER SECTION (FIRST PAGE)
+   ======================================== */
+.header-section {
+    margin-bottom: 15px;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.header-left {
+    width: 50%;
+    vertical-align: top;
+    padding-right: 15px;
+}
+
+.header-right {
+    width: 50%;
+    vertical-align: top;
+    text-align: right;
+}
+
+/* Logo Styling */
+.supplier-logo {
+    display: inline-block;
+    height: 45px;
+    width: auto;
+    max-width: 140px;
+    margin-bottom: 10px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    background: #0066cc;  /* was: linear-gradient(135deg, #0066cc 0%, #004999 100%...) */
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.logo-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 45px;
+}
+
+/* Supplier Info */
+.supplier-info {
+    margin-top: 5px;
+}
+
+.supplier-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a2332;
+    margin-bottom: 4px;
+}
+
+.supplier-detail {
+    font-size: 9px;
+    color: #4a5568;
+    margin-bottom: 2px;
+}
+
+/* PO Number Badge */
+.po-number-badge {
+    background: #0066cc;  /* was: linear-gradient(135deg, #0066cc 0%, #0052a3 100%...) */
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    display: inline-block;
+}
+
+.po-label {
+    display: block;
+    font-size: 9px;
+    font-weight: 600;
+    color: #a8d4ff;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.po-number {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+/* Header Meta Information */
+.header-meta {
+    background: #f8fafc;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+}
+
+.meta-row {
+    margin-bottom: 4px;
+    font-size: 10px;
+}
+
+.meta-row:last-child {
+    margin-bottom: 0;
+}
+
+.meta-label {
+    font-weight: 600;
+    color: #4a5568;
+    margin-right: 6px;
+}
+
+.meta-value {
+    color: #1a2332;
+    font-weight: 400;
+}
+
+/* ========================================
+   ADDRESS SECTION
+   ======================================== */
+.address-section {
+    margin-bottom: 15px;
+}
+
+.address-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 0;
+}
+
+.address-card {
+    width: 33.33%;
+    vertical-align: top;
+    background: #f8fafc;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    padding: 0;
+}
+
+.card-title {
+    background: #e2e8f0;
+    padding: 8px 12px;
+    font-size: 9px;
+    font-weight: 700;
+    color: #2d3748;
+    letter-spacing: 0.5px;
+    border-radius: 6px 6px 0 0;
+}
+
+.card-content {
+    padding: 10px 12px;
+}
+
+.card-line {
+    font-size: 9px;
+    color: #4a5568;
+    margin-bottom: 3px;
+    line-height: 1.5;
+}
+
+.card-line:last-child {
+    margin-bottom: 0;
+}
+
+.card-line.strong {
+    font-weight: 700;
+    color: #1a2332;
+    font-size: 10px;
+}
+
+.field-label {
+    font-weight: 600;
+    color: #2d3748;
+}
+
+/* ========================================
+   CONTINUATION HEADER
+   ======================================== */
+.continuation-header {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #0066cc;
+}
+
+.cont-header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-left {
+    width: 60%;
+    vertical-align: middle;
+}
+
+.cont-right {
+    width: 40%;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.logo-cont {
+    height: 28px;
+    width: auto;
+    max-width: 80px;
+    margin-right: 10px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.cont-supplier {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1a2332;
+    vertical-align: middle;
+}
+
+.cont-po {
+    font-size: 11px;
+    font-weight: 700;
+    color: #0066cc;
+    margin-right: 15px;
+}
+
+.cont-page {
+    font-size: 9px;
+    color: #718096;
+}
+
+/* ========================================
+   ITEMS TABLE
+   ======================================== */
+.items-section {
+    margin-bottom: 15px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.items-table thead {
+    background: #2c5282;  /* was: linear-gradient(180deg, #2c5282 0%, #2b4c7e 100%...) */
+}
+
+.items-table th {
+    padding: 8px 6px;
+    text-align: left;
+    font-size: 8px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-right: 1px solid #4a6fa5;
+}
+
+.items-table th:last-child {
+    border-right: none;
+}
+
+/* Column Widths */
+.col-sku { width: 10%; }
+.col-model { width: 10%; }
+.col-description { width: 18%; }
+.col-specs { width: 16%; }
+.col-qty { width: 6%; text-align: center; }
+.col-unit-price { width: 9%; text-align: right; }
+.col-warranty { width: 8%; text-align: center; }
+.col-compliance { width: 11%; text-align: center; }
+.col-total { width: 12%; text-align: right; }
+
+/* Item Rows */
+.item-row {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.item-row:nth-child(even) {
+    background: #f8fafc;
+}
+
+.item-row:hover {
+    background: #edf2f7;
+}
+
+.item-row td {
+    padding: 8px 6px;
+    vertical-align: top;
+    font-size: 9px;
+    color: #4a5568;
+}
+
+/* SKU Column */
+.sku-code {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    color: #1a2332;
+    margin-bottom: 2px;
+}
+
+.upc-code {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 8px;
+    color: #718096;
+}
+
+/* Model Column */
+.model-number {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 3px;
+}
+
+.manufacturer {
+    font-size: 8px;
+    color: #718096;
+}
+
+/* Description Column */
+.item-name {
+    font-size: 10px;
+    font-weight: 600;
+    color: #1a2332;
+    margin-bottom: 3px;
+    line-height: 1.4;
+}
+
+.item-brand {
+    font-size: 8px;
+    color: #0066cc;
+    margin-bottom: 2px;
+}
+
+.item-category {
+    font-size: 8px;
+    color: #718096;
+    font-style: italic;
+}
+
+/* Specifications Column */
+.specs-list {
+    font-size: 8px;
+}
+
+.spec-item {
+    color: #4a5568;
+    margin-bottom: 2px;
+    line-height: 1.4;
+}
+
+.spec-item:before {
+    content: "• ";
+    color: #0066cc;
+    font-weight: 700;
+}
+
+/* Warranty Badge */
+.warranty-badge {
+    display: inline-block;
+    background: #48bb78;
+    color: #ffffff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 8px;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* Certification Badges */
+.cert-badges {
+    text-align: center;
+}
+
+.cert-badge {
+    display: inline-block;
+    background: #4299e1;
+    color: #ffffff;
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-size: 7px;
+    font-weight: 700;
+    margin: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* ========================================
+   TOTALS SECTION
+   ======================================== */
+.totals-section {
+    margin-bottom: 15px;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-left {
+    width: 55%;
+    vertical-align: top;
+    padding-right: 15px;
+}
+
+.totals-right {
+    width: 45%;
+    vertical-align: top;
+}
+
+/* Notes Box */
+.notes-box {
+    background: #f8fafc;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.notes-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.notes-content {
+    font-size: 8px;
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+.note-item {
+    margin-bottom: 4px;
+}
+
+.note-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Totals Breakdown */
+.totals-breakdown {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f8fafc;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.total-row td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.total-row:last-child td {
+    border-bottom: none;
+}
+
+.total-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #4a5568;
+    text-align: right;
+    width: 60%;
+}
+
+.total-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1a2332;
+    text-align: right;
+    width: 40%;
+}
+
+.total-value.discount {
+    color: #e53e3e;
+}
+
+.total-final {
+    background: #0066cc;
+}
+
+.total-final .total-label,
+.total-final .total-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* ========================================
+   FOOTER SECTION
+   ======================================== */
+.footer-section {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 2px solid #e2e8f0;
+}
+
+.footer-content {
+    margin-bottom: 12px;
+}
+
+.footer-item {
+    display: inline-block;
+    margin-right: 30px;
+    font-size: 10px;
+}
+
+.footer-label {
+    font-weight: 600;
+    color: #4a5568;
+    margin-right: 8px;
+}
+
+.footer-line {
+    color: #cbd5e0;
+}
+
+.footer-note {
+    font-size: 8px;
+    color: #718096;
+    font-style: italic;
+    text-align: center;
+}
+
+/* ========================================
+   CONTINUATION FOOTER
+   ======================================== */
+.continuation-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.cont-footer-content {
+    text-align: center;
+}
+
+.cont-notice {
+    font-size: 10px;
+    font-weight: 600;
+    color: #0066cc;
+    margin-right: 15px;
+}
+
+.cont-page-num {
+    font-size: 9px;
+    color: #718096;
+}
+
+/* ========================================
+   PAGE NUMBER
+   ======================================== */
+.page-number {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    font-size: 8px;
+    color: #cbd5e0;
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+@media print {
+    .po-page {
+        padding: 20px;
+    }
+    
+    .item-row {
+        page-break-inside: avoid;
+    }
+    
+    .totals-section,
+    .footer-section {
+        page-break-inside: avoid;
+    }
+}

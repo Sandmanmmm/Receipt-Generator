@@ -1,0 +1,743 @@
+/* 
+ * Beauty & Cosmetics B2B Purchase Order Template
+ * Elegant pink/purple theme for cosmetics wholesalers
+ * Optimized for wkhtmltoimage rendering
+ */
+
+/* ========================================
+   RESET & BASE STYLES
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    color: #3d1d3d;
+    background: #ffffff;
+    line-height: 1.4;
+}
+
+/* ========================================
+   PAGE CONTAINER
+   ======================================== */
+.po-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 20px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ========================================
+   HEADER SECTION (FIRST PAGE)
+   ======================================== */
+.header-section {
+    margin-bottom: 15px;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.header-left {
+    width: 50%;
+    vertical-align: top;
+    padding-right: 15px;
+}
+
+.header-right {
+    width: 50%;
+    vertical-align: top;
+    text-align: right;
+}
+
+/* Logo Styling */
+.supplier-logo {
+    display: inline-block;
+    height: 45px;
+    width: auto;
+    max-width: 140px;
+    margin-bottom: 10px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    background-color: #d946ef;  /* Solid color for wkhtmltoimage */
+    background: #d946ef;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.logo-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 45px;
+}
+
+/* Supplier Info */
+.supplier-info {
+    margin-top: 5px;
+}
+
+.supplier-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #3d1d3d;
+    margin-bottom: 4px;
+}
+
+.supplier-detail {
+    font-size: 9px;
+    color: #71577d;
+    margin-bottom: 2px;
+}
+
+/* PO Number Badge */
+.po-number-badge {
+    background-color: #d946ef;  /* Solid color for wkhtmltoimage */
+    background: #d946ef;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    display: inline-block;
+}
+
+.po-label {
+    display: block;
+    font-size: 9px;
+    font-weight: 600;
+    color: #f5d0fe;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.po-number {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+/* Header Meta Information */
+.header-meta {
+    background: #fdf4ff;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid: #f0d9ff;
+}
+
+.meta-row {
+    margin-bottom: 4px;
+    font-size: 10px;
+}
+
+.meta-row:last-child {
+    margin-bottom: 0;
+}
+
+.meta-label {
+    font-weight: 600;
+    color: #71577d;
+    margin-right: 6px;
+}
+
+.meta-value {
+    color: #3d1d3d;
+    font-weight: 400;
+}
+
+/* ========================================
+   ADDRESS SECTION
+   ======================================== */
+.address-section {
+    margin-bottom: 15px;
+}
+
+.address-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 0;
+}
+
+.address-card {
+    width: 33.33%;
+    vertical-align: top;
+    background: #fdf4ff;
+    border: 1px solid #f0d9ff;
+    border-radius: 6px;
+    padding: 0;
+}
+
+.card-title {
+    background: #d946ef;
+    color: #ffffff;
+    padding: 8px 12px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-radius: 6px 6px 0 0;
+}
+
+.card-content {
+    padding: 10px 12px;
+}
+
+.card-line {
+    font-size: 9px;
+    color: #71577d;
+    margin-bottom: 3px;
+    line-height: 1.5;
+}
+
+.card-line:last-child {
+    margin-bottom: 0;
+}
+
+.card-line.strong {
+    font-weight: 700;
+    color: #3d1d3d;
+    font-size: 10px;
+}
+
+.field-label {
+    font-weight: 600;
+    color: #d946ef;
+}
+
+/* ========================================
+   CONTINUATION HEADER
+   ======================================== */
+.continuation-header {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #d946ef;
+}
+
+.cont-header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-left {
+    width: 60%;
+    vertical-align: middle;
+}
+
+.cont-right {
+    width: 40%;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.logo-cont {
+    height: 28px;
+    width: auto;
+    max-width: 80px;
+    margin-right: 10px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.cont-supplier {
+    font-size: 12px;
+    font-weight: 700;
+    color: #3d1d3d;
+    vertical-align: middle;
+}
+
+.cont-po {
+    font-size: 11px;
+    font-weight: 700;
+    color: #d946ef;
+    margin-right: 15px;
+}
+
+.cont-page {
+    font-size: 9px;
+    color: #a78baf;
+}
+
+/* ========================================
+   ITEMS TABLE
+   ======================================== */
+.items-section {
+    margin-bottom: 15px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #f0d9ff;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.items-table thead {
+    background-color: #d946ef;  /* Solid color - wkhtmltoimage doesn't support linear-gradient */
+    background: #d946ef;
+}
+
+.items-table th {
+    padding: 8px 6px;
+    text-align: left;
+    font-size: 8px;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-right: 1px solid #e879f9;
+    background-color: #d946ef;  /* Fallback for th cells */
+}
+
+.items-table th:last-child {
+    border-right: none;
+}
+
+/* Column Widths */
+.col-product-code { width: 10%; }
+.col-description { width: 22%; }
+.col-shade { width: 11%; }
+.col-batch { width: 11%; }
+.col-size { width: 8%; }
+.col-qty { width: 6%; text-align: center; }
+.col-unit-price { width: 9%; text-align: right; }
+.col-certification { width: 13%; text-align: center; }
+.col-total { width: 10%; text-align: right; }
+
+/* Item Rows */
+.item-row {
+    border-bottom: 1px solid #f0d9ff;
+}
+
+.item-row:nth-child(even) {
+    background: #fdf4ff;
+}
+
+.item-row:hover {
+    background: #fae8ff;
+}
+
+.item-row td {
+    padding: 8px 6px;
+    vertical-align: top;
+    font-size: 9px;
+    color: #71577d;
+}
+
+/* Product Code Column */
+.product-code {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    color: #3d1d3d;
+    margin-bottom: 2px;
+}
+
+.upc-code {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 8px;
+    color: #a78baf;
+}
+
+/* Description Column */
+.item-name {
+    font-size: 10px;
+    font-weight: 600;
+    color: #3d1d3d;
+    margin-bottom: 3px;
+    line-height: 1.4;
+}
+
+.item-category {
+    font-size: 8px;
+    color: #d946ef;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.item-brand {
+    font-size: 8px;
+    color: #71577d;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.item-ingredients {
+    font-size: 7px;
+    color: #a78baf;
+    font-style: italic;
+    line-height: 1.3;
+    margin-top: 2px;
+}
+
+/* Shade/Color Column */
+.shade-info {
+    display: block;
+}
+
+.color-swatch {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    border: 1px solid #e5e7eb;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+.shade-name {
+    font-size: 9px;
+    color: #3d1d3d;
+    font-weight: 600;
+    vertical-align: middle;
+}
+
+/* Batch/Lot Column */
+.batch-number {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 8px;
+    font-weight: 600;
+    color: #3d1d3d;
+    margin-bottom: 3px;
+}
+
+.exp-date {
+    font-size: 8px;
+    color: #dc2626;
+    font-weight: 600;
+}
+
+.pao-period {
+    font-size: 8px;
+    color: #71577d;
+}
+
+/* Size Column */
+.product-size {
+    font-size: 9px;
+    font-weight: 600;
+    color: #3d1d3d;
+    margin-bottom: 2px;
+}
+
+.unit-measure {
+    font-size: 8px;
+    color: #a78baf;
+}
+
+/* Quantity Column */
+.text-center {
+    text-align: center;
+}
+
+.quantity {
+    font-size: 10px;
+    font-weight: 600;
+    color: #3d1d3d;
+}
+
+/* Unit Price Column */
+.text-right {
+    text-align: right;
+}
+
+.unit-price {
+    font-size: 10px;
+    font-weight: 600;
+    color: #3d1d3d;
+}
+
+/* Certification Badges */
+.cert-badges {
+    display: block;
+}
+
+.cert-badge {
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-size: 7px;
+    font-weight: 700;
+    text-align: center;
+    margin: 1px;
+    white-space: nowrap;
+}
+
+.cert-badge.cert-cruelty-free {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+}
+
+.cert-badge.cert-vegan {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+}
+
+.cert-badge.cert-organic {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fcd34d;
+}
+
+.cert-badge.cert-natural {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+}
+
+.cert-badge.cert-paraben-free {
+    background: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #93c5fd;
+}
+
+.cert-badge.cert-sulfate-free {
+    background: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #93c5fd;
+}
+
+.cert-badge.cert-gluten-free {
+    background: #fce7f3;
+    color: #9f1239;
+    border: 1px solid #fbcfe8;
+}
+
+.cert-badge.cert-hypoallergenic {
+    background: #e0e7ff;
+    color: #3730a3;
+    border: 1px solid #c7d2fe;
+}
+
+.cert-badge.cert-dermatologist-tested {
+    background: #e0e7ff;
+    color: #3730a3;
+    border: 1px solid #c7d2fe;
+}
+
+.cert-badge.cert-fda-compliant {
+    background: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #93c5fd;
+}
+
+/* N/A Text */
+.na-text {
+    color: #d1d5db;
+    font-size: 9px;
+}
+
+/* Item Total */
+.item-total {
+    font-size: 11px;
+    font-weight: 700;
+    color: #3d1d3d;
+}
+
+/* ========================================
+   TOTALS SECTION
+   ======================================== */
+.totals-section {
+    margin-bottom: 15px;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-left {
+    width: 55%;
+    vertical-align: top;
+    padding-right: 15px;
+}
+
+.totals-right {
+    width: 45%;
+    vertical-align: top;
+}
+
+/* Notes Box */
+.notes-box {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.notes-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #92400e;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #fde68a;
+}
+
+.notes-content {
+    font-size: 8px;
+    color: #78350f;
+    line-height: 1.6;
+}
+
+.note-item {
+    margin-bottom: 4px;
+}
+
+.note-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Totals Breakdown */
+.totals-breakdown {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fdf4ff;
+    border: 1px solid #f0d9ff;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.total-row td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f0d9ff;
+}
+
+.total-row:last-child td {
+    border-bottom: none;
+}
+
+.total-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #71577d;
+    text-align: right;
+    width: 60%;
+}
+
+.total-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #3d1d3d;
+    text-align: right;
+    width: 40%;
+}
+
+.total-value.discount {
+    color: #dc2626;
+}
+
+.total-final {
+    background: #d946ef;
+}
+
+.total-final .total-label,
+.total-final .total-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* ========================================
+   FOOTER SECTION
+   ======================================== */
+.footer-section {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 2px solid #f0d9ff;
+}
+
+.footer-content {
+    margin-bottom: 12px;
+}
+
+.footer-item {
+    display: inline-block;
+    margin-right: 30px;
+    font-size: 10px;
+}
+
+.footer-label {
+    font-weight: 600;
+    color: #71577d;
+    margin-right: 8px;
+}
+
+.footer-line {
+    color: #f0d9ff;
+}
+
+.footer-note {
+    font-size: 8px;
+    color: #a78baf;
+    font-style: italic;
+    text-align: center;
+}
+
+/* ========================================
+   CONTINUATION FOOTER
+   ======================================== */
+.continuation-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #f0d9ff;
+}
+
+.cont-footer-content {
+    text-align: center;
+}
+
+.cont-notice {
+    font-size: 10px;
+    font-weight: 600;
+    color: #d946ef;
+    margin-right: 15px;
+}
+
+.cont-page-num {
+    font-size: 9px;
+    color: #a78baf;
+}
+
+/* ========================================
+   PAGE NUMBER
+   ======================================== */
+.page-number {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    font-size: 8px;
+    color: #f0d9ff;
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+@media print {
+    .po-page {
+        padding: 15px;
+    }
+    
+    .item-row {
+        page-break-inside: avoid;
+    }
+    
+    .totals-section,
+    .footer-section {
+        page-break-inside: avoid;
+    }
+}

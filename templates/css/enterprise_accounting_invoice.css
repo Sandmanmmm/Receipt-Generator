@@ -1,0 +1,571 @@
+/* Enterprise Accounting Invoice - Zoho Books/Sage Inspired */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.45;
+    color: #333333;
+    background: #ffffff;
+}
+
+/* Page Layout */
+.invoice-page {
+    width: 816px;
+    padding: 38px;
+    position: relative;
+    background: #ffffff;
+}
+
+/* Header Section */
+.page-header {
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+    border-bottom: 3px solid #6b46c1;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.header-left {
+    width: 55%;
+    vertical-align: top;
+}
+
+.header-right {
+    width: 45%;
+    vertical-align: top;
+    text-align: right;
+}
+
+.logo-img {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    vertical-align: top;
+    display: inline-block;
+    margin-right: 14px;
+    background: #f5f3ff;
+    padding: 4px;
+}
+
+.logo-box {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    background: #6b46c1;  /* was: linear-gradient(135deg, #6b46c1 0%, #553c9a 100%...) */
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 14px;
+    text-align: center;
+}
+
+.logo-icon {
+    font-size: 32pt;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 64px;
+}
+
+.company-info {
+    display: inline-block;
+    vertical-align: top;
+    max-width: 300px;
+}
+
+.company-name {
+    font-size: 16pt;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 6px;
+}
+
+.company-detail {
+    font-size: 9.5pt;
+    color: #666666;
+    margin-bottom: 4px;
+}
+
+.company-contact {
+    font-size: 9.5pt;
+    color: #666666;
+}
+
+.contact-sep {
+    margin: 0 6px;
+    color: #cccccc;
+}
+
+.invoice-title-block {
+    margin-bottom: 12px;
+}
+
+.invoice-title {
+    font-size: 26pt;
+    font-weight: 700;
+    color: #6b46c1;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.invoice-number {
+    font-size: 14pt;
+    font-weight: 600;
+    color: #333333;
+    font-family: 'Courier New', monospace;
+}
+
+.meta-table {
+    border-collapse: collapse;
+    background: #f5f3ff;
+    border-radius: 8px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.meta-table td {
+    padding: 8px 14px;
+    font-size: 9.5pt;
+}
+
+.meta-key {
+    font-weight: 600;
+    color: #6b46c1;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.meta-val {
+    font-weight: 500;
+    color: #333333;
+}
+
+/* Billing Section */
+.billing-section {
+    margin-bottom: 24px;
+}
+
+.billing-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 20px 0;
+}
+
+.bill-to-cell {
+    width: 50%;
+    vertical-align: top;
+}
+
+.payment-cell {
+    width: 50%;
+    vertical-align: top;
+}
+
+.section-title {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #6b46c1;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+}
+
+.client-box {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-left: 4px solid #6b46c1;
+    border-radius: 6px;
+    padding: 16px;
+}
+
+.client-name {
+    font-size: 12pt;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.client-info {
+    font-size: 10pt;
+    color: #666666;
+    margin-bottom: 4px;
+}
+
+.payment-box {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 16px;
+}
+
+.payment-info {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.payment-info td {
+    padding: 6px 0;
+    font-size: 10pt;
+}
+
+.payment-key {
+    font-weight: 600;
+    color: #666666;
+    width: 50%;
+}
+
+.payment-val {
+    font-weight: 500;
+    color: #333333;
+    text-align: right;
+}
+
+.status-tag {
+    display: inline-block;
+    background: #6b46c1;
+    color: #ffffff;
+    font-size: 8.5pt;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Items Section */
+.items-section {
+    margin-bottom: 24px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.items-table thead {
+    background: #6b46c1;  /* was: linear-gradient(135deg, #6b46c1 0%, #553c9a 100%...) */
+}
+
+.items-table th {
+    padding: 12px 10px;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.col-no { width: 6%; text-align: center; }
+.col-description { width: 36%; }
+.col-sku { width: 14%; }
+.col-quantity { width: 12%; text-align: center; }
+.col-rate { width: 16%; text-align: right; }
+.col-amount { width: 16%; text-align: right; }
+
+.item-row {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.item-row:last-child {
+    border-bottom: none;
+}
+
+.item-row:nth-child(odd) {
+    background: #ffffff;
+}
+
+.item-row:nth-child(even) {
+    background: #f9fafb;
+}
+
+.items-table td {
+    padding: 11px 10px;
+    font-size: 10pt;
+}
+
+.item-no {
+    text-align: center;
+    font-weight: 600;
+    color: #6b46c1;
+}
+
+.item-description {
+    vertical-align: top;
+}
+
+.item-name {
+    font-weight: 500;
+    color: #333333;
+    margin-bottom: 3px;
+}
+
+.item-variant {
+    font-size: 9pt;
+    color: #666666;
+    font-style: italic;
+}
+
+.item-sku {
+    color: #666666;
+    font-family: 'Courier New', monospace;
+    font-size: 9.5pt;
+}
+
+.item-quantity {
+    text-align: center;
+    font-weight: 600;
+    color: #333333;
+}
+
+.item-rate {
+    text-align: right;
+    color: #666666;
+    font-family: 'Courier New', monospace;
+}
+
+.item-amount {
+    text-align: right;
+    font-weight: 600;
+    color: #333333;
+    font-family: 'Courier New', monospace;
+}
+
+/* Summary Section */
+.summary-section {
+    margin-bottom: 50px;
+}
+
+.summary-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.summary-notes {
+    width: 52%;
+    vertical-align: top;
+    padding-right: 20px;
+}
+
+.summary-totals {
+    width: 48%;
+    vertical-align: top;
+}
+
+.notes-panel {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 18px;
+}
+
+.notes-title {
+    font-size: 10pt;
+    font-weight: 700;
+    color: #6b46c1;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.notes-content {
+    font-size: 9.5pt;
+    color: #666666;
+    line-height: 1.6;
+}
+
+.totals-panel {
+    background: #ffffff;
+    border: 2px solid #6b46c1;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.totals-list {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.total-line td {
+    padding: 11px 18px;
+    font-size: 10.5pt;
+    background: #ffffff;
+}
+
+.total-line {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.total-key {
+    font-weight: 500;
+    color: #666666;
+}
+
+.total-val {
+    text-align: right;
+    font-weight: 600;
+    color: #333333;
+    font-family: 'Courier New', monospace;
+}
+
+.total-neg {
+    color: #dc2626;
+}
+
+.total-grand {
+    background: #6b46c1;  /* was: linear-gradient(135deg, #6b46c1 0%, #553c9a 100%...) */
+}
+
+.total-grand td {
+    padding: 14px 18px;
+    font-size: 13pt;
+    background: transparent;
+    border: none;
+}
+
+.total-grand .total-key {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.total-grand .total-val {
+    color: #ffffff;
+    font-size: 14pt;
+}
+
+/* Footer */
+.page-footer {
+    position: absolute;
+    bottom: 30px;
+    left: 38px;
+    right: 38px;
+}
+
+.footer-line {
+    height: 2px;
+    background: #6b46c1;
+    margin-bottom: 10px;
+}
+
+.footer-info {
+    text-align: center;
+    font-size: 9pt;
+    color: #666666;
+}
+
+.footer-company {
+    font-weight: 600;
+    color: #333333;
+}
+
+.footer-sep {
+    margin: 0 10px;
+    color: #cccccc;
+}
+
+.footer-text {
+    color: #666666;
+}
+
+/* Continuation Header */
+.cont-header {
+    background: #f5f3ff;
+    border: 1px solid #e5e7eb;
+    border-left: 4px solid #6b46c1;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+}
+
+.cont-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-left {
+    width: 35%;
+    vertical-align: middle;
+}
+
+.cont-center {
+    width: 30%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.cont-right {
+    width: 35%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.cont-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    vertical-align: middle;
+    margin-right: 10px;
+    background: #ffffff;
+    padding: 2px;
+}
+
+.cont-name {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #333333;
+    vertical-align: middle;
+}
+
+.cont-label {
+    font-size: 9pt;
+    font-weight: 600;
+    color: #6b46c1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 6px;
+}
+
+.cont-num {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #333333;
+    font-family: 'Courier New', monospace;
+}
+
+.cont-pages {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #666666;
+}
+
+/* Continuation Footer */
+.cont-footer {
+    position: absolute;
+    bottom: 30px;
+    left: 38px;
+    right: 38px;
+}
+
+.cont-line {
+    height: 1px;
+    background: #e5e7eb;
+    margin-bottom: 8px;
+}
+
+.cont-info {
+    text-align: center;
+    font-size: 9pt;
+    color: #666666;
+    font-style: italic;
+}

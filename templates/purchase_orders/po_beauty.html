@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty & Cosmetics Purchase Order</title>
+    <link rel="stylesheet" href="../css/po_beauty.css">
+</head>
+<body>
+    <div class="po-page">
+        {% if _is_first_page %}
+        <!-- ============================================
+             FIRST PAGE HEADER
+             ============================================ -->
+        <div class="header-section">
+            <table class="header-table">
+                <tr>
+                    <td class="header-left">
+                        <!-- Supplier Logo & Info -->
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="supplier-logo" />
+                        {% else %}
+                        <div class="logo-placeholder">
+                            <span class="logo-text">{{ supplier_name[:2]|upper }}</span>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="supplier-info">
+                            <div class="supplier-name">{{ supplier_name }}</div>
+                            <div class="supplier-detail">{{ supplier_street }}</div>
+                            <div class="supplier-detail">{{ supplier_city }}, {{ supplier_state }} {{ supplier_zip }}</div>
+                            {% if supplier_phone %}
+                            <div class="supplier-detail">Phone: {{ supplier_phone }}</div>
+                            {% endif %}
+                            {% if supplier_email %}
+                            <div class="supplier-detail">{{ supplier_email }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="header-right">
+                        <!-- PO Number Badge -->
+                        <div class="po-number-badge">
+                            <span class="po-label">PURCHASE ORDER</span>
+                            <span class="po-number">{{ po_number }}</span>
+                        </div>
+                        
+                        <!-- Header Meta Info -->
+                        <div class="header-meta">
+                            <div class="meta-row">
+                                <span class="meta-label">Date:</span>
+                                <span class="meta-value">{{ po_date }}</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-label">Delivery Date:</span>
+                                <span class="meta-value">{{ delivery_date }}</span>
+                            </div>
+                            {% if payment_terms %}
+                            <div class="meta-row">
+                                <span class="meta-label">Terms:</span>
+                                <span class="meta-value">{{ payment_terms }}</span>
+                            </div>
+                            {% endif %}
+                            {% if fob %}
+                            <div class="meta-row">
+                                <span class="meta-label">FOB:</span>
+                                <span class="meta-value">{{ fob }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- ============================================
+             ADDRESS SECTION
+             ============================================ -->
+        <div class="address-section">
+            <table class="address-table">
+                <tr>
+                    <!-- Vendor/Supplier -->
+                    <td class="address-card">
+                        <div class="card-title">Vendor</div>
+                        <div class="card-content">
+                            <div class="card-line strong">{{ supplier_name }}</div>
+                            <div class="card-line">{{ supplier_street }}</div>
+                            <div class="card-line">{{ supplier_city }}, {{ supplier_state }} {{ supplier_zip }}</div>
+                            {% if supplier_phone %}
+                            <div class="card-line"><span class="field-label">Phone:</span> {{ supplier_phone }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    
+                    <!-- Bill To -->
+                    <td class="address-card">
+                        <div class="card-title">Bill To</div>
+                        <div class="card-content">
+                            <div class="card-line strong">{{ buyer_name }}</div>
+                            {% if buyer_address %}
+                            <div class="card-line">{{ buyer_address }}</div>
+                            {% endif %}
+                            {% if buyer_email %}
+                            <div class="card-line">{{ buyer_email }}</div>
+                            {% endif %}
+                            {% if buyer_phone %}
+                            <div class="card-line">{{ buyer_phone }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    
+                    <!-- Ship To -->
+                    <td class="address-card">
+                        <div class="card-title">Ship To</div>
+                        <div class="card-content">
+                            <div class="card-line strong">{{ buyer_name }}</div>
+                            {% if buyer_address %}
+                            <div class="card-line">{{ buyer_address }}</div>
+                            {% endif %}
+                            <div class="card-line"><span class="field-label">Contact:</span> {{ buyer_phone or 'N/A' }}</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <!-- ============================================
+             CONTINUATION HEADER (PAGE 2+)
+             ============================================ -->
+        <div class="continuation-header">
+            <table class="cont-header-table">
+                <tr>
+                    <td class="cont-left">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="logo-cont" />
+                        {% endif %}
+                        <span class="cont-supplier">{{ supplier_name }}</span>
+                    </td>
+                    <td class="cont-right">
+                        <span class="cont-po">PO #{{ po_number }}</span>
+                        <span class="cont-page">Page {{ _current_page }} of {{ _total_pages }}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- ============================================
+             ITEMS TABLE
+             ============================================ -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-product-code">Product Code</th>
+                        <th class="col-description">Product Description</th>
+                        <th class="col-shade">Shade/Color</th>
+                        <th class="col-batch">Batch/Lot</th>
+                        <th class="col-size">Size</th>
+                        <th class="col-qty">Qty</th>
+                        <th class="col-unit-price">Unit Price</th>
+                        <th class="col-certification">Certification</th>
+                        <th class="col-total">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row">
+                        <!-- Product Code Column -->
+                        <td>
+                            <div class="product-code">{{ item.sku }}</div>
+                            {% if item.upc %}
+                            <div class="upc-code">{{ item.upc }}</div>
+                            {% endif %}
+                        </td>
+                        
+                        <!-- Description Column -->
+                        <td>
+                            <div class="item-name">{{ item.description or item.product_name }}</div>
+                            {% if item.category %}
+                            <div class="item-category">{{ item.category }}</div>
+                            {% endif %}
+                            {% if item.brand %}
+                            <div class="item-brand">{{ item.brand }}</div>
+                            {% endif %}
+                            {% if item.ingredients %}
+                            <div class="item-ingredients">{{ item.ingredients }}</div>
+                            {% endif %}
+                        </td>
+                        
+                        <!-- Shade/Color Column -->
+                        <td>
+                            {% if item.shade %}
+                            <div class="shade-info">
+                                {% if item.shade_hex %}
+                                <span class="color-swatch" style="background-color: {{ item.shade_hex }};"></span>
+                                {% endif %}
+                                <span class="shade-name">{{ item.shade }}</span>
+                            </div>
+                            {% else %}
+                            <span class="na-text">—</span>
+                            {% endif %}
+                        </td>
+                        
+                        <!-- Batch/Lot Column -->
+                        <td>
+                            {% if item.batch_number %}
+                            <div class="batch-number">{{ item.batch_number }}</div>
+                            {% endif %}
+                            {% if item.expiration_date %}
+                            <div class="exp-date">Exp: {{ item.expiration_date }}</div>
+                            {% elif item.pao %}
+                            <div class="pao-period">PAO: {{ item.pao }}</div>
+                            {% endif %}
+                        </td>
+                        
+                        <!-- Size Column -->
+                        <td>
+                            {% if item.size %}
+                            <div class="product-size">{{ item.size }}</div>
+                            {% endif %}
+                            {% if item.unit %}
+                            <div class="unit-measure">{{ item.unit }}</div>
+                            {% endif %}
+                        </td>
+                        
+                        <!-- Quantity Column -->
+                        <td class="text-center">
+                            <div class="quantity">{{ item.quantity }}</div>
+                        </td>
+                        
+                        <!-- Unit Price Column -->
+                        <td class="text-right">
+                            <div class="unit-price">${{ "%.2f"|format(item.unit_price|to_float) }}</div>
+                        </td>
+                        
+                        <!-- Certification Column -->
+                        <td>
+                            {% if item.certifications %}
+                            <div class="cert-badges">
+                                {% for cert in item.certifications %}
+                                <span class="cert-badge cert-{{ cert|lower|replace(' ', '-')|replace('/', '-') }}">{{ cert }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <span class="na-text">—</span>
+                            {% endif %}
+                        </td>
+                        
+                        <!-- Total Column -->
+                        <td class="text-right">
+                            <div class="item-total">${{ "%.2f"|format(item.total|to_float) }}</div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page %}
+        <!-- ============================================
+             TOTALS SECTION (LAST PAGE ONLY)
+             ============================================ -->
+        <div class="totals-section">
+            <table class="totals-table">
+                <tr>
+                    <td class="totals-left">
+                        <!-- Special Notes -->
+                        <div class="notes-box">
+                            <div class="notes-title">Important Notes & Requirements</div>
+                            <div class="notes-content">
+                                <div class="note-item">• All products must comply with FDA cosmetic regulations and MoCRA 2022</div>
+                                <div class="note-item">• Batch numbers and ingredient lists required for all items</div>
+                                <div class="note-item">• Products must include proper labeling with ingredient nomenclature</div>
+                                <div class="note-item">• Shelf life or PAO (Period After Opening) information required</div>
+                                <div class="note-item">• Cruelty-free and vegan certifications must be documented</div>
+                                {% if notes %}
+                                <div class="note-item">{{ notes }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="totals-right">
+                        <!-- Totals Breakdown -->
+                        <table class="totals-breakdown">
+                            <tr class="total-row">
+                                <td class="total-label">Subtotal:</td>
+                                <td class="total-value">${{ "%.2f"|format(subtotal|to_float) }}</td>
+                            </tr>
+                            {% if (discount|to_float or 0) > 0 %}
+                            <tr class="total-row">
+                                <td class="total-label">Discount:</td>
+                                <td class="total-value discount">-${{ "%.2f"|format(discount|to_float) }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if (shipping|to_float or 0) > 0 %}
+                            <tr class="total-row">
+                                <td class="total-label">Shipping:</td>
+                                <td class="total-value">${{ "%.2f"|format(shipping|to_float) }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if (tax|to_float or 0) > 0 %}
+                            <tr class="total-row">
+                                <td class="total-label">Tax:</td>
+                                <td class="total-value">${{ "%.2f"|format(tax|to_float) }}</td>
+                            </tr>
+                            {% endif %}
+                            <tr class="total-row total-final">
+                                <td class="total-label">Total Amount:</td>
+                                <td class="total-value">${{ "%.2f"|format(total_amount|to_float) }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- ============================================
+             FOOTER (LAST PAGE ONLY)
+             ============================================ -->
+        <div class="footer-section">
+            <div class="footer-content">
+                <span class="footer-item">
+                    <span class="footer-label">Authorized By:</span>
+                    <span class="footer-line">_________________________</span>
+                </span>
+                <span class="footer-item">
+                    <span class="footer-label">Date:</span>
+                    <span class="footer-line">_____________</span>
+                </span>
+            </div>
+            <div class="footer-note">
+                All products are subject to quality inspection upon delivery. Maintain proper storage conditions for cosmetics.
+            </div>
+        </div>
+        {% else %}
+        <!-- ============================================
+             CONTINUATION FOOTER (PAGES 1 TO N-1)
+             ============================================ -->
+        <div class="continuation-footer">
+            <div class="cont-footer-content">
+                <span class="cont-notice">Continued on next page...</span>
+                <span class="cont-page-num">Page {{ _current_page }} of {{ _total_pages }}</span>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Page Number -->
+        <div class="page-number">Page {{ _current_page }} of {{ _total_pages }}</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,287 @@
+/* CircleSpace Order Confirmation - Squarespace Style */
+
+/* Reset and Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #333;
+    background: #fff;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 50px 60px;
+    background: #fff;
+    margin: 0 auto;
+}
+
+/* Order Title */
+.order-title {
+    font-size: 28px;
+    font-weight: 300;
+    color: #333;
+    margin-bottom: 25px;
+    font-style: italic;
+}
+
+/* Thank You Message */
+.thank-you {
+    font-size: 12px;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* Order Info */
+.order-info {
+    font-size: 12px;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.order-info strong {
+    font-weight: bold;
+}
+
+/* Addresses Table */
+.addresses-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 40px;
+    table-layout: fixed;
+}
+
+.address-column {
+    width: 50%;
+    vertical-align: top;
+    padding-right: 30px;
+}
+
+.address-label {
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.address-line {
+    font-size: 12px;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+/* Section Title */
+.section-title {
+    font-size: 22px;
+    font-weight: 300;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.header-row th {
+    font-size: 10px;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+    padding: 10px 8px;
+    border-bottom: 1px solid #ddd;
+    letter-spacing: 0.5px;
+}
+
+.col-item {
+    width: 35%;
+}
+
+.col-qty {
+    width: 10%;
+    text-align: center;
+}
+
+.col-price {
+    width: 20%;
+    text-align: right;
+}
+
+.col-subtotal {
+    width: 18%;
+    text-align: right;
+}
+
+.col-tax {
+    width: 17%;
+    text-align: right;
+}
+
+/* Item Rows */
+.item-row td,
+.shipping-row td {
+    padding: 15px 8px;
+    vertical-align: top;
+    border-bottom: 1px solid #eee;
+}
+
+.item-details {
+    text-align: left;
+}
+
+.item-name {
+    font-size: 12px;
+    font-weight: normal;
+    font-style: italic;
+    color: #333;
+    margin-bottom: 3px;
+}
+
+.item-sku {
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 2px;
+}
+
+.item-variant {
+    font-size: 11px;
+    color: #666;
+}
+
+.item-qty {
+    text-align: center;
+    font-size: 12px;
+    color: #333;
+}
+
+.item-price,
+.item-subtotal {
+    text-align: right;
+    font-size: 12px;
+    color: #333;
+}
+
+.item-tax {
+    text-align: right;
+}
+
+.tax-amount {
+    font-size: 12px;
+    color: #333;
+}
+
+.tax-rate {
+    font-size: 11px;
+    color: #666;
+}
+
+/* Shipping Row */
+.shipping-row td {
+    padding-top: 20px;
+}
+
+.shipping-label {
+    font-size: 12px;
+    font-style: italic;
+    color: #0066cc;
+}
+
+/* Totals Table */
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    table-layout: fixed;
+}
+
+.totals-spacer {
+    width: 50%;
+}
+
+.totals-labels {
+    width: 25%;
+    text-align: left;
+    vertical-align: top;
+}
+
+.totals-values {
+    width: 25%;
+    text-align: right;
+    vertical-align: top;
+}
+
+.total-line {
+    font-size: 12px;
+    color: #333;
+    padding: 4px 0;
+}
+
+.total-final {
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* Section Divider */
+.section-divider {
+    border-top: 1px solid #ddd;
+    margin: 30px 0;
+}
+
+/* Store Footer */
+.store-url {
+    font-size: 12px;
+    color: #0066cc;
+    margin-bottom: 15px;
+}
+
+.store-address {
+    font-size: 11px;
+    color: #666;
+}
+
+/* Continuation Header */
+.continuation-header {
+    display: table;
+    width: 100%;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cont-title {
+    display: table-cell;
+    font-size: 18px;
+    font-weight: 300;
+    font-style: italic;
+    color: #333;
+}
+
+.cont-page {
+    display: table-cell;
+    text-align: right;
+    font-size: 11px;
+    color: #666;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    text-align: center;
+    font-size: 11px;
+    color: #666;
+    padding-top: 20px;
+    margin-top: 30px;
+    border-top: 1px solid #ddd;
+}

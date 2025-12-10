@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wholesale Receipt</title>
+    <title>Wholesale Receipt{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <link rel="stylesheet" href="../css/pos_receipt_wholesale.css">
 </head>
 <body>
@@ -21,25 +21,33 @@
         </div>
 
         <!-- Member Information Banner -->
+        {% if member_id|default(none) or member_name|default(none) %}
         <div class="member-banner">
+            {% if member_id|default(none) %}
             <div class="member-info-section">
                 <div class="member-label">MEMBER #</div>
                 <div class="member-number">{{ member_id }}</div>
             </div>
+            {% endif %}
+            {% if member_name|default(none) %}
             <div class="member-info-section">
                 <div class="member-label">MEMBER NAME</div>
                 <div class="member-name">{{ member_name }}</div>
             </div>
+            {% endif %}
+            {% if member_tier|default(none) %}
             <div class="member-tier-badge {{ member_tier|lower }}">
                 {{ member_tier }} MEMBER
             </div>
+            {% endif %}
         </div>
+        {% endif %}
 
         <!-- Business Account Info (if applicable) -->
-        {% if business_account %}
+        {% if business_account|default(false) %}
         <div class="business-account-section">
             <div class="business-header">
-                <span class="business-icon">🏢</span>
+                <span class="business-icon"></span>
                 <span class="business-title">BUSINESS ACCOUNT</span>
             </div>
             <div class="business-details">
@@ -85,7 +93,7 @@
                 <span class="info-label">Register:</span>
                 <span class="info-value">{{ register_number }}</span>
             </div>
-            {% if warehouse_location %}
+            {% if warehouse_location|default(none) %}
             <div class="info-row">
                 <span class="info-label">Warehouse:</span>
                 <span class="info-value">{{ warehouse_location }}</span>
@@ -109,33 +117,33 @@
                 
                 <!-- Item Details Row -->
                 <div class="item-details-row">
-                    <div class="item-sku">SKU: {{ item.sku }}</div>
-                    {% if item.brand %}
+                    <div class="item-sku">SKU: {{ item.sku|default('N/A') }}</div>
+                    {% if item.brand|default(none) %}
                     <div class="item-brand">{{ item.brand }}</div>
                     {% endif %}
                 </div>
 
                 <!-- Bulk Quantity Display -->
                 <div class="bulk-quantity-row">
-                    {% if item.case_quantity %}
+                    {% if item.case_quantity|default(0)|int > 0 %}
                     <div class="case-info">
-                        <span class="quantity-icon">📦</span>
+                        <span class="quantity-icon"></span>
                         <span class="quantity-text">{{ item.case_quantity }} CASE{{ 's' if item.case_quantity > 1 else '' }}</span>
-                        <span class="case-detail">({{ item.units_per_case }} units/case)</span>
+                        <span class="case-detail">({{ item.units_per_case|default(1) }} units/case)</span>
                     </div>
                     {% endif %}
                     
-                    {% if item.pallet_quantity %}
+                    {% if item.pallet_quantity|default(0)|int > 0 %}
                     <div class="pallet-info">
                         <span class="quantity-icon">🚛</span>
                         <span class="quantity-text">{{ item.pallet_quantity }} PALLET{{ 's' if item.pallet_quantity > 1 else '' }}</span>
-                        <span class="pallet-detail">({{ item.cases_per_pallet }} cases/pallet)</span>
+                        <span class="pallet-detail">({{ item.cases_per_pallet|default(1) }} cases/pallet)</span>
                     </div>
                     {% endif %}
 
-                    {% if not item.case_quantity and not item.pallet_quantity %}
+                    {% if not (item.case_quantity|default(0)|int > 0) and not (item.pallet_quantity|default(0)|int > 0) %}
                     <div class="unit-info">
-                        <span class="quantity-text">{{ item.quantity }} UNIT{{ 's' if item.quantity > 1 else '' }}</span>
+                        <span class="quantity-text">{{ item.quantity|default(1) }} UNIT{{ 's' if item.quantity|default(1) > 1 else '' }}</span>
                     </div>
                     {% endif %}
                 </div>
@@ -143,28 +151,28 @@
                 <!-- Pricing Breakdown -->
                 <div class="pricing-row">
                     <div class="unit-price">
-                        {% if item.case_quantity %}
+                        {% if item.case_quantity|default(0)|int > 0 %}
                         <span class="price-label">Price/Case:</span>
-                        <span class="price-value">{{ item.price_per_case }}</span>
-                        {% elif item.pallet_quantity %}
+                        <span class="price-value">{{ item.price_per_case|default(item.unit_price|default(0)) }}</span>
+                        {% elif item.pallet_quantity|default(0)|int > 0 %}
                         <span class="price-label">Price/Pallet:</span>
-                        <span class="price-value">{{ item.price_per_pallet }}</span>
+                        <span class="price-value">{{ item.price_per_pallet|default(item.unit_price|default(0)) }}</span>
                         {% else %}
                         <span class="price-label">Price/Unit:</span>
-                        <span class="price-value">{{ item.unit_price }}</span>
+                        <span class="price-value">{{ item.unit_price|default(0) }}</span>
                         {% endif %}
                     </div>
                     
-                    {% if item.tiered_discount %}
+                    {% if item.tiered_discount|default(0)|int > 0 %}
                     <div class="tiered-savings">
-                        <span class="savings-icon">💰</span>
+                        <span class="savings-icon"></span>
                         <span class="savings-text">Tiered Discount: -{{ item.tiered_discount }}</span>
                     </div>
                     {% endif %}
                 </div>
 
                 <!-- Member Savings (if applicable) -->
-                {% if item.member_discount %}
+                {% if item.member_discount|default(0)|float > 0 %}
                 <div class="member-savings-row">
                     <span class="savings-badge">MEMBER SAVINGS</span>
                     <span class="savings-amount">-{{ item.member_discount }}</span>
@@ -172,15 +180,15 @@
                 {% endif %}
 
                 <!-- Weight/Measurement Info -->
-                {% if item.weight %}
+                {% if item.weight|default(0)|float > 0 %}
                 <div class="weight-info">
                     <span class="weight-label">Total Weight:</span>
-                    <span class="weight-value">{{ item.weight }} {{ item.weight_unit }}</span>
+                    <span class="weight-value">{{ item.weight }} {{ item.weight_unit|default('lbs') }}</span>
                 </div>
                 {% endif %}
 
                 <!-- Returnable Deposit -->
-                {% if item.deposit %}
+                {% if item.deposit|default(0)|float > 0 %}
                 <div class="deposit-info">
                     <span class="deposit-label">Container Deposit:</span>
                     <span class="deposit-value">{{ item.deposit }}</span>
@@ -188,15 +196,15 @@
                 {% endif %}
 
                 <!-- Expiration Date (for perishables) -->
-                {% if item.expiration_date %}
+                {% if item.expiration_date|default(none) %}
                 <div class="expiry-info">
-                    <span class="expiry-icon">📅</span>
+                    <span class="expiry-icon"></span>
                     <span class="expiry-text">Best By: {{ item.expiration_date }}</span>
                 </div>
                 {% endif %}
 
                 <!-- Country of Origin -->
-                {% if item.country_of_origin %}
+                {% if item.country_of_origin|default(none) %}
                 <div class="origin-info">
                     <span class="origin-label">Origin:</span>
                     <span class="origin-value">{{ item.country_of_origin }}</span>
@@ -206,59 +214,60 @@
             {% endfor %}
         </div>
 
+        {% if _is_last_page|default(true) %}
         <div class="section-divider"></div>
 
-        <!-- Subtotals and Discounts -->
+        <!-- Subtotals and Discounts (Last Page Only) -->
         <div class="totals-section">
             <div class="total-row">
                 <span class="total-label">SUBTOTAL</span>
                 <span class="total-value">{{ subtotal }}</span>
             </div>
 
-            {% if member_total_savings %}
+            {% if member_total_savings|default(0)|float > 0 %}
             <div class="total-row savings-row">
                 <span class="total-label">MEMBER SAVINGS</span>
                 <span class="total-value">-{{ member_total_savings }}</span>
             </div>
             {% endif %}
 
-            {% if bulk_discount %}
+            {% if bulk_discount|default(0)|float > 0 %}
             <div class="total-row savings-row">
                 <span class="total-label">BULK DISCOUNT</span>
                 <span class="total-value">-{{ bulk_discount }}</span>
             </div>
             {% endif %}
 
-            {% if coupon_savings %}
+            {% if coupon_savings|default(0)|float > 0 %}
             <div class="total-row savings-row">
                 <span class="total-label">COUPON SAVINGS</span>
                 <span class="total-value">-{{ coupon_savings }}</span>
             </div>
             {% endif %}
 
-            {% if tax_exempt %}
+            {% if tax_exempt|default(false) %}
             <div class="total-row tax-exempt-row">
                 <span class="total-label">SALES TAX (EXEMPT)</span>
                 <span class="total-value">$0.00</span>
             </div>
             <div class="tax-exempt-notice">
-                Tax Exempt - Resale Certificate: {{ resale_certificate }}
+                Tax Exempt - Resale Certificate: {{ resale_certificate|default('N/A') }}
             </div>
             {% else %}
             <div class="total-row">
-                <span class="total-label">SALES TAX ({{ tax_rate }}%)</span>
-                <span class="total-value">{{ sales_tax }}</span>
+                <span class="total-label">SALES TAX ({{ tax_rate|default(0) }}%)</span>
+                <span class="total-value">{{ sales_tax|default('$0.00') }}</span>
             </div>
             {% endif %}
 
-            {% if bottle_deposit %}
+            {% if bottle_deposit|default(0)|float > 0 %}
             <div class="total-row">
                 <span class="total-label">BOTTLE DEPOSIT</span>
                 <span class="total-value">{{ bottle_deposit }}</span>
             </div>
             {% endif %}
 
-            {% if delivery_fee %}
+            {% if delivery_fee|default(0)|float > 0 %}
             <div class="total-row">
                 <span class="total-label">DELIVERY FEE</span>
                 <span class="total-value">{{ delivery_fee }}</span>
@@ -284,16 +293,16 @@
                 <span class="payment-value">{{ total_amount }}</span>
             </div>
 
-            {% if card_type %}
+            {% if card_type|default(none) %}
             <div class="payment-details">
                 <div class="card-info">{{ card_type }} ending in {{ card_last_four }}</div>
-                {% if approval_code %}
+                {% if approval_code|default(none) %}
                 <div class="approval-info">Approval: {{ approval_code }}</div>
                 {% endif %}
             </div>
             {% endif %}
 
-            {% if change_due %}
+            {% if change_due|default(0)|float > 0 %}
             <div class="payment-row">
                 <span class="payment-label">CHANGE DUE</span>
                 <span class="payment-value">{{ change_due }}</span>
@@ -302,32 +311,32 @@
         </div>
 
         <!-- Rewards/Cash Back Section -->
-        {% if rewards_earned or cashback_earned %}
+        {% if rewards_earned|default(0)|float > 0 or cashback_earned|default(0)|float > 0 %}
         <div class="rewards-section">
             <div class="rewards-header">REWARDS & CASH BACK</div>
             
-            {% if rewards_earned %}
+            {% if rewards_earned|default(0)|float > 0 %}
             <div class="rewards-row">
-                <span class="rewards-label">⭐ Points Earned:</span>
+                <span class="rewards-label">* Points Earned:</span>
                 <span class="rewards-value">{{ rewards_earned }} points</span>
             </div>
             {% endif %}
 
-            {% if cashback_earned %}
+            {% if cashback_earned|default(0)|float > 0 %}
             <div class="rewards-row">
-                <span class="rewards-label">💵 Cash Back Earned:</span>
+                <span class="rewards-label"> Cash Back Earned:</span>
                 <span class="rewards-value">{{ cashback_earned }}</span>
             </div>
             {% endif %}
 
-            {% if rewards_balance %}
+            {% if rewards_balance|default(0)|float > 0 %}
             <div class="rewards-row balance">
                 <span class="rewards-label">Total Points Balance:</span>
                 <span class="rewards-value">{{ rewards_balance }} points</span>
             </div>
             {% endif %}
 
-            {% if cashback_balance %}
+            {% if cashback_balance|default(0)|float > 0 %}
             <div class="rewards-row balance">
                 <span class="rewards-label">Total Cash Back:</span>
                 <span class="rewards-value">{{ cashback_balance }}</span>
@@ -335,9 +344,11 @@
             {% endif %}
         </div>
         {% endif %}
+        {% endif %}
+        <!-- End of _is_last_page totals/payment/rewards section -->
 
         <!-- Total Savings Summary -->
-        {% if total_savings %}
+        {% if _is_last_page|default(true) and total_savings|default(0)|float > 0 %}
         <div class="savings-summary">
             <div class="savings-summary-header">
                 TODAY'S TOTAL SAVINGS
@@ -346,22 +357,23 @@
                 {{ total_savings }}
             </div>
             <div class="savings-summary-text">
-                You saved {{ savings_percentage }}% with your membership!
+                You saved {{ savings_percentage|default(0) }}% with your membership!
             </div>
         </div>
         {% endif %}
 
         <div class="section-divider"></div>
 
-        <!-- Return Policy -->
+        {% if _is_last_page|default(true) %}
+        <!-- Return Policy (Last Page Only) -->
         <div class="policy-section">
             <div class="policy-title">RETURN POLICY</div>
             <div class="policy-text">
-                Most items can be returned within {{ return_days }} days with receipt.
-                Electronics and special orders: {{ electronics_return_days }} days.
+                Most items can be returned within {{ return_days|default(90) }} days with receipt.
+                Electronics and special orders: {{ electronics_return_days|default(30) }} days.
                 Perishable items must be returned same day.
             </div>
-            {% if business_account %}
+            {% if business_account|default(false) %}
             <div class="policy-text">
                 Business accounts: Contact your account manager for returns.
             </div>
@@ -375,7 +387,7 @@
                 • Exclusive wholesale pricing on bulk purchases<br>
                 • Early access to special promotions<br>
                 • Extended return periods for members<br>
-                • Free business delivery on orders over {{ free_delivery_minimum }}<br>
+                • Free business delivery on orders over {{ free_delivery_minimum|default('$500') }}<br>
                 • Member-only fuel discount at our gas stations
             </div>
         </div>
@@ -384,15 +396,15 @@
         <div class="contact-section">
             <div class="contact-title">QUESTIONS?</div>
             <div class="contact-text">
-                Member Services: {{ customer_service_phone }}<br>
-                Business Center: {{ business_center_phone }}<br>
-                Online: {{ website }}
+                Member Services: {{ customer_service_phone|default(phone) }}<br>
+                Business Center: {{ business_center_phone|default(phone) }}<br>
+                Online: {{ website|default('www.wholesaleclub.com') }}
             </div>
         </div>
 
         <!-- Barcode -->
         <div class="barcode-section">
-            <div class="barcode-image">||||||||||||||||||||||||||||</div>
+            <div class="barcode-image">|||||||||||||||||||||||||||||||</div>
             <div class="barcode-number">{{ receipt_number }}</div>
         </div>
 
@@ -403,12 +415,19 @@
         </div>
 
         <!-- Survey/Feedback -->
-        {% if survey_code %}
+        {% if survey_code|default(none) %}
         <div class="survey-section">
             <div class="survey-text">TAKE OUR SURVEY</div>
             <div class="survey-url">{{ survey_url }}</div>
             <div class="survey-code">Survey Code: {{ survey_code }}</div>
             <div class="survey-incentive">Complete within 7 days to receive {{ survey_reward }}</div>
+        </div>
+        {% endif %}
+        {% else %}
+        <!-- Continuation footer for non-last pages -->
+        <div class="page-continuation">
+            <div class="continuation-text">--- Continued on next page ---</div>
+            <div class="page-indicator">Page {{ _page_number }} of {{ _total_pages }}</div>
         </div>
         {% endif %}
     </div>

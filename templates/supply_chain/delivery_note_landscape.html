@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Note - {{ invoice_number }}</title>
+    <link rel="stylesheet" href="../css/delivery_note_landscape.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Landscape Header -->
+        <div class="header-section">
+            <table class="header-table">
+                <tr>
+                    <td class="header-left">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="company-logo" />
+                        {% else %}
+                        <div class="logo-placeholder">
+                            <span class="logo-text">{{ supplier_name[:2]|upper }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="company-info">
+                            <div class="company-name">{{ supplier_name }}</div>
+                            <div class="company-tagline">Delivery Confirmation</div>
+                        </div>
+                    </td>
+                    <td class="header-center">
+                        <div class="doc-badge">
+                            <div class="badge-title">DELIVERY NOTE</div>
+                            <div class="badge-number">{{ invoice_number }}</div>
+                        </div>
+                    </td>
+                    <td class="header-right">
+                        <table class="header-info">
+                            <tr>
+                                <td class="info-label">Delivery Date:</td>
+                                <td class="info-value">{{ ship_date or invoice_date }}</td>
+                            </tr>
+                            <tr>
+                                <td class="info-label">Order Ref:</td>
+                                <td class="info-value">{{ invoice_number }}</td>
+                            </tr>
+                            {% if tracking_number %}
+                            <tr>
+                                <td class="info-label">Tracking:</td>
+                                <td class="info-value tracking">{{ tracking_number }}</td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Address & Delivery Info Row -->
+        <div class="info-row">
+            <table class="info-row-table">
+                <tr>
+                    <!-- Dispatched From -->
+                    <td class="info-box from-box">
+                        <div class="box-header">
+                            <span class="box-icon">📤</span>
+                            <span class="box-title">Dispatched From</span>
+                        </div>
+                        <div class="box-content">
+                            <div class="address-name">{{ supplier_name }}</div>
+                            {% if supplier_address %}
+                            <div class="address-line">{{ supplier_address }}</div>
+                            {% endif %}
+                            {% if supplier_phone %}
+                            <div class="contact-line">{{ supplier_phone }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    
+                    <!-- Deliver To -->
+                    <td class="info-box to-box">
+                        <div class="box-header">
+                            <span class="box-icon">📥</span>
+                            <span class="box-title">Deliver To</span>
+                        </div>
+                        <div class="box-content">
+                            <div class="address-name">{{ buyer_name }}</div>
+                            {% if buyer_address %}
+                            <div class="address-line">{{ buyer_address }}</div>
+                            {% endif %}
+                            {% if buyer_phone %}
+                            <div class="contact-line">{{ buyer_phone }}</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    
+                    <!-- Delivery Details -->
+                    <td class="info-box details-box">
+                        <div class="box-header">
+                            <span class="box-icon"></span>
+                            <span class="box-title">Delivery Details</span>
+                        </div>
+                        <div class="box-content">
+                            <div class="detail-row">
+                                <span class="detail-label">Method:</span>
+                                <span class="detail-value">{{ shipping_method or 'Standard' }}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Carrier:</span>
+                                <span class="detail-value">{{ shipping_carrier or 'N/A' }}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Packages:</span>
+                                <span class="detail-value">{{ (items|length / 8)|round(0, 'ceil')|int }}</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <table class="cont-header-table">
+                <tr>
+                    <td class="cont-left">
+                        {% if supplier_logo %}
+                        <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="cont-logo" />
+                        {% endif %}
+                        <span class="cont-company">{{ supplier_name }}</span>
+                    </td>
+                    <td class="cont-center">
+                        <span class="cont-title">DELIVERY NOTE</span>
+                        <span class="cont-separator">|</span>
+                        <span class="cont-number">{{ invoice_number }}</span>
+                    </td>
+                    <td class="cont-right">
+                        <span class="cont-page">Page {{ _current_page }} of {{ _total_pages }}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Items Table with Photos -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-photo">Photo</th>
+                        <th class="col-item">Item Description</th>
+                        <th class="col-code">Code</th>
+                        <th class="col-ordered">Ordered</th>
+                        <th class="col-delivered">Delivered</th>
+                        <th class="col-unit">Unit</th>
+                        <th class="col-condition">Condition</th>
+                        <th class="col-notes">Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row">
+                        <!-- Product Photo -->
+                        <td class="photo-cell">
+                            {% if item.image_url %}
+                            <div class="product-photo" style="background-image: url('{{ item.image_url }}');"></div>
+                            {% else %}
+                            <div class="product-photo placeholder">
+                                <span class="photo-icon"></span>
+                            </div>
+                            {% endif %}
+                        </td>
+                        
+                        <!-- Item Description -->
+                        <td class="item-desc">
+                            <div class="item-name">{{ item.description }}</div>
+                            {% if item.variant_description %}
+                            <div class="item-variant">{{ item.variant_description }}</div>
+                            {% endif %}
+                        </td>
+                        
+                        <!-- Item Code -->
+                        <td class="item-code">
+                            {% if item.sku %}
+                            <div class="code-sku">{{ item.sku }}</div>
+                            {% endif %}
+                            {% if item.upc %}
+                            <div class="code-upc">{{ item.upc }}</div>
+                            {% endif %}
+                        </td>
+                        
+                        <!-- Qty Ordered -->
+                        <td class="qty-ordered">
+                            <div class="qty-value">{{ item.quantity }}</div>
+                        </td>
+                        
+                        <!-- Qty Delivered -->
+                        <td class="qty-delivered">
+                            <div class="qty-badge">{{ item.quantity }}</div>
+                        </td>
+                        
+                        <!-- Unit -->
+                        <td class="item-unit">
+                            <div class="unit-badge">{{ item.unit or 'PCS' }}</div>
+                        </td>
+                        
+                        <!-- Condition -->
+                        <td class="item-condition">
+                            <div class="condition-badge good">Good</div>
+                        </td>
+                        
+                        <!-- Notes -->
+                        <td class="item-notes">
+                            {% if item.notes %}
+                            <div class="note-text">{{ item.notes }}</div>
+                            {% else %}
+                            <div class="note-empty">—</div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer Section -->
+        {% if _is_last_page|default(true) %}
+        <div class="footer-section">
+            <table class="footer-table">
+                <tr>
+                    <!-- Summary Column -->
+                    <td class="footer-col summary-col">
+                        <div class="summary-card">
+                            <div class="card-title">Delivery Summary</div>
+                            <table class="summary-items">
+                                <tr>
+                                    <td class="summary-label">Total Items:</td>
+                                    <td class="summary-value">{{ items|length }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="summary-label">Total Quantity:</td>
+                                    <td class="summary-value">{{ items|sum(attribute='quantity') }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="summary-label">Packages:</td>
+                                    <td class="summary-value">{{ (items|length / 8)|round(0, 'ceil')|int }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                    
+                    <!-- Signatures Column -->
+                    <td class="footer-col signatures-col">
+                        <table class="signatures-table">
+                            <tr>
+                                <td class="signature-box">
+                                    <div class="sig-title">Delivered By</div>
+                                    <div class="sig-line"></div>
+                                    <div class="sig-meta">
+                                        <span class="sig-label">Driver:</span>
+                                        <span class="sig-blank">_______________</span>
+                                    </div>
+                                    <div class="sig-meta">
+                                        <span class="sig-label">Date/Time:</span>
+                                        <span class="sig-blank">_______________</span>
+                                    </div>
+                                </td>
+                                <td class="signature-box">
+                                    <div class="sig-title">Received By</div>
+                                    <div class="sig-line"></div>
+                                    <div class="sig-meta">
+                                        <span class="sig-label">Name:</span>
+                                        <span class="sig-blank">_______________</span>
+                                    </div>
+                                    <div class="sig-meta">
+                                        <span class="sig-label">Date/Time:</span>
+                                        <span class="sig-blank">_______________</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    
+                    <!-- Notes Column -->
+                    <td class="footer-col notes-col">
+                        <div class="notes-card">
+                            <div class="card-title">Special Instructions</div>
+                            <div class="notes-text">
+                                {% if order_notes %}
+                                {{ order_notes }}
+                                {% else %}
+                                Inspect all items upon delivery. Report any damages or discrepancies immediately. Signature required.
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Terms Bar -->
+        <div class="terms-bar">
+            <span class="terms-icon">ℹ️</span>
+            <span class="terms-text">This document serves as proof of delivery. Claims for shortages or damages must be made within 24 hours.</span>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <table class="cont-footer-table">
+                <tr>
+                    <td class="cont-footer-left">
+                        <span class="cont-message">Continued on next page...</span>
+                    </td>
+                    <td class="cont-footer-right">
+                        <span class="cont-page-num">Page {{ _current_page }} of {{ _total_pages }}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% endif %}
+
+        <!-- Page Number -->
+        <div class="page-number">Page {{ _current_page|default(1) }} of {{ _total_pages|default(1) }}</div>
+    </div>
+</body>
+</html>

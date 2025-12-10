@@ -1,0 +1,858 @@
+/* =============================================================================
+   Modern Landscape B2B Purchase Order Stylesheet
+   Target: 2112px width × 1632px height (Letter Landscape at 192 DPI)
+   Design: Contemporary multipage with enhanced typography and visual hierarchy
+============================================================================= */
+
+/* Reset and Modern Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #0f172a;
+    background: #f8fafc;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Page Container - Landscape Dimensions */
+.page-container {
+    width: 2112px;
+    min-height: 1632px;
+    padding: 30px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* =============================================================================
+   Modern Header (First Page Only)
+============================================================================= */
+.modern-header {
+    margin-bottom: 20px;
+}
+
+/* Header Top Section */
+.header-top {
+    display: table;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.header-left {
+    display: table-cell;
+    width: 60%;
+    vertical-align: middle;
+}
+
+.header-right {
+    display: table-cell;
+    width: 40%;
+    vertical-align: middle;
+    text-align: right;
+}
+
+/* Brand Logo */
+.brand-logo {
+    display: inline-block;
+    height: 50px;
+    width: auto;
+    max-width: 150px;
+    margin-right: 15px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.brand-mark {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: #6366f1;  /* was: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%...) */
+    border-radius: 12px;
+    text-align: center;
+    vertical-align: middle;
+    margin-right: 15px;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.brand-initial {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 50px;
+}
+
+/* Brand Info */
+.brand-info {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.brand-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+    margin-bottom: 2px;
+}
+
+.brand-tagline {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* PO Card */
+.po-card {
+    display: inline-block;
+    background: #6366f1;  /* was: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%...) */
+    padding: 15px 25px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+}
+
+.po-type {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 4px;
+}
+
+.po-id {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+}
+
+.po-status {
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #10b981;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* Header Meta Grid */
+.header-meta {
+    background: #f8fafc;  /* was: linear-gradient(to bottom, #f8fafc 0%, #f1f5f9 100%...) */
+    border-radius: 10px;
+    padding: 12px 15px;
+    border: 1px solid #e2e8f0;
+}
+
+.meta-grid {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.meta-item {
+    display: table-cell;
+    width: 25%;
+    padding: 0 10px;
+    border-right: 1px solid #e2e8f0;
+}
+
+.meta-item:last-child {
+    border-right: none;
+}
+
+.meta-icon {
+    display: inline-block;
+    font-size: 16px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.meta-content {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.meta-label {
+    font-size: 9px;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+}
+
+.meta-value {
+    font-size: 11px;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+/* =============================================================================
+   Modern Address Cards
+============================================================================= */
+.address-section {
+    margin-bottom: 20px;
+}
+
+.card-grid {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 12px 0;
+}
+
+.info-card {
+    display: table-cell;
+    width: 25%;
+    background: #ffffff;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.card-header {
+    background: #f8fafc;  /* was: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%...) */
+    padding: 10px 12px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.card-icon {
+    font-size: 14px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.card-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #475569;
+    vertical-align: middle;
+}
+
+.card-body {
+    padding: 12px;
+}
+
+.info-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 6px;
+}
+
+.info-line {
+    font-size: 10px;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 3px;
+}
+
+.info-icon {
+    font-size: 10px;
+    margin-right: 4px;
+}
+
+.detail-key {
+    font-weight: 600;
+    color: #64748b;
+    margin-right: 4px;
+}
+
+.detail-val {
+    color: #0f172a;
+}
+
+/* Card Variants */
+.vendor-card { border-color: #6366f1; }
+.buyer-card { border-color: #3b82f6; }
+.ship-card { border-color: #10b981; }
+.shipping-card { border-color: #f59e0b; }
+
+/* =============================================================================
+   Continuation Header (Page 2+)
+============================================================================= */
+.continuation-header {
+    margin-bottom: 15px;
+    background: #f8fafc;  /* was: linear-gradient(to right, #f8fafc 0%, #f1f5f9 50%, #f8fafc 100%...) */
+    border-radius: 10px;
+    padding: 10px 15px;
+    border: 1px solid #e2e8f0;
+}
+
+.cont-table {
+    display: table;
+    width: 100%;
+}
+
+.cont-left {
+    display: table-cell;
+    width: 40%;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.cont-center {
+    display: table-cell;
+    width: 30%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.cont-right {
+    display: table-cell;
+    width: 30%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.cont-logo {
+    height: 28px;
+    width: auto;
+    max-width: 90px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.cont-brand {
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f172a;
+    vertical-align: middle;
+}
+
+.cont-po-badge {
+    display: inline-block;
+    background: #6366f1;  /* was: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%...) */
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 8px;
+}
+
+.cont-page-info {
+    display: inline-block;
+}
+
+.page-label {
+    font-size: 9px;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-right: 6px;
+}
+
+.page-numbers {
+    font-size: 13px;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+/* =============================================================================
+   Modern Items Table (10 columns)
+============================================================================= */
+.items-section {
+    margin-bottom: 20px;
+}
+
+.modern-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Table Header */
+.table-head {
+    background: #1e293b;  /* was: linear-gradient(135deg, #1e293b 0%, #0f172a 100%...) */
+    color: #ffffff;
+}
+
+.table-head th {
+    padding: 12px 8px;
+    font-weight: 600;
+    text-align: left;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.table-head th:last-child {
+    border-right: none;
+}
+
+.th-content {
+    display: block;
+}
+
+.th-icon {
+    font-size: 12px;
+    margin-right: 4px;
+    opacity: 0.9;
+}
+
+.th-text {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Column Widths - Optimized for landscape */
+.col-sku { width: 10%; }
+.col-product { width: 18%; }
+.col-category { width: 9%; }
+.col-spec { width: 10%; }
+.col-uom { width: 7%; }
+.col-qty { width: 6%; }
+.col-price { width: 9%; }
+.col-total { width: 10%; }
+
+/* Item Rows */
+.item-row {
+    border-bottom: 1px solid #e2e8f0;
+    background: #ffffff;
+    transition: background 0.2s;
+}
+
+.item-row:nth-child(even) {
+    background: #f8fafc;
+}
+
+.item-row:hover {
+    background: #f0f9ff;
+}
+
+.item-row td {
+    padding: 10px 8px;
+    vertical-align: middle;
+    font-size: 10px;
+}
+
+/* SKU Column */
+.cell-sku {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+.sku-code {
+    font-size: 11px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.sku-upc {
+    font-size: 8px;
+    color: #94a3b8;
+    margin-top: 2px;
+}
+
+/* Product Column */
+.product-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 3px;
+}
+
+.product-brand {
+    font-size: 9px;
+    color: #6366f1;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.product-model {
+    font-size: 8px;
+    color: #64748b;
+}
+
+/* Category Column */
+.cell-category {
+    text-align: center;
+}
+
+.cat-primary {
+    font-size: 9px;
+    font-weight: 700;
+    color: #0f172a;
+    background: #dbeafe;  /* was: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%...) */
+    padding: 4px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 4px;
+}
+
+.cat-secondary {
+    font-size: 8px;
+    font-weight: 600;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* Spec Columns */
+.cell-spec {
+    text-align: center;
+}
+
+.spec-label {
+    font-size: 8px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+}
+
+.spec-value {
+    font-size: 10px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.spec-empty {
+    font-size: 14px;
+    color: #cbd5e1;
+}
+
+/* UOM Column */
+.cell-uom {
+    text-align: center;
+}
+
+.uom-tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: #f1f5f9;
+    color: #475569;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+}
+
+/* Quantity Column */
+.cell-qty {
+    text-align: center;
+}
+
+.qty-value {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+/* Price Column */
+.cell-price {
+    text-align: right;
+}
+
+.price-value {
+    font-size: 11px;
+    font-weight: 700;
+    color: #475569;
+}
+
+/* Total Column */
+.cell-total {
+    text-align: right;
+}
+
+.total-value {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+/* =============================================================================
+   Modern Totals Section (Last Page Only)
+============================================================================= */
+.totals-section {
+    margin-bottom: 20px;
+}
+
+.totals-layout {
+    display: table;
+    width: 100%;
+}
+
+.totals-left {
+    display: table-cell;
+    width: 55%;
+    vertical-align: top;
+    padding-right: 20px;
+}
+
+.totals-right {
+    display: table-cell;
+    width: 45%;
+    vertical-align: top;
+}
+
+/* Notes Card */
+.notes-card {
+    background: #fef3c7;  /* was: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%...) */
+    border-radius: 10px;
+    padding: 12px;
+    border: 2px solid #fbbf24;
+}
+
+.notes-header {
+    margin-bottom: 8px;
+}
+
+.notes-icon {
+    font-size: 14px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.notes-title {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #78350f;
+    vertical-align: middle;
+}
+
+.notes-text {
+    font-size: 10px;
+    color: #92400e;
+    line-height: 1.6;
+}
+
+/* Calculation Card */
+.calculation-card {
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border: 2px solid #e2e8f0;
+}
+
+.calc-row {
+    display: table;
+    width: 100%;
+    padding: 10px 15px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.calc-row:last-child {
+    border-bottom: none;
+}
+
+.calc-label {
+    display: table-cell;
+    width: 60%;
+    font-size: 11px;
+    color: #475569;
+    font-weight: 600;
+    vertical-align: middle;
+}
+
+.calc-value {
+    display: table-cell;
+    width: 40%;
+    text-align: right;
+    font-size: 13px;
+    color: #0f172a;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.subtotal-row {
+    background: #f8fafc;
+}
+
+.discount-row {
+    background: #fef2f2;
+}
+
+.discount-badge {
+    display: inline-block;
+    background: #dc2626;
+    color: #ffffff;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.discount-value {
+    color: #dc2626;
+}
+
+.tax-row {
+    background: #f8fafc;
+}
+
+.shipping-row {
+    background: #f8fafc;
+}
+
+.grand-row {
+    background: #6366f1;  /* was: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%...) */
+    padding: 12px 15px;
+}
+
+.grand-row .calc-label,
+.grand-row .calc-value {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+/* =============================================================================
+   Modern Footer (Last Page Only)
+============================================================================= */
+.modern-footer {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    right: 30px;
+    background: #f8fafc;  /* was: linear-gradient(to bottom, #f8fafc 0%, #f1f5f9 100%...) */
+    border-radius: 10px;
+    padding: 15px;
+    border: 1px solid #e2e8f0;
+}
+
+.footer-grid {
+    display: table;
+    width: 100%;
+}
+
+.footer-section {
+    display: table-cell;
+    width: 50%;
+    vertical-align: middle;
+    padding: 0 10px;
+}
+
+.footer-heading {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #475569;
+    margin-bottom: 6px;
+}
+
+.footer-text {
+    font-size: 9px;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+/* Signature Area */
+.signature-area {
+    text-align: center;
+}
+
+.sig-line {
+    width: 280px;
+    height: 2px;
+    background: #e2e8f0;  /* was: linear-gradient(to right, #e2e8f0 0%, #cbd5e1 50%, #e2e8f0 100%...) */
+    margin: 0 auto 6px auto;
+}
+
+.sig-labels {
+    display: block;
+}
+
+.sig-label {
+    font-size: 9px;
+    color: #475569;
+    font-weight: 600;
+    margin-right: 15px;
+}
+
+.sig-date {
+    font-size: 9px;
+    color: #94a3b8;
+}
+
+/* =============================================================================
+   Continuation Footer (Page 1 to N-1)
+============================================================================= */
+.continuation-footer {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    right: 30px;
+    text-align: center;
+}
+
+.cont-footer-content {
+    display: inline-block;
+    background: #6366f1;  /* was: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%...) */
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.cont-icon {
+    font-size: 12px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.cont-text {
+    font-size: 11px;
+    font-weight: 600;
+    vertical-align: middle;
+}
+
+.cont-divider {
+    margin: 0 10px;
+    opacity: 0.6;
+    vertical-align: middle;
+}
+
+.cont-progress {
+    font-size: 11px;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+/* =============================================================================
+   Print Optimizations
+============================================================================= */
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .page-container {
+        padding: 0;
+        box-shadow: none;
+    }
+    
+    .item-row:hover {
+        background: inherit;
+    }
+    
+    .po-card,
+    .calculation-card,
+    .cont-footer-content {
+        box-shadow: none;
+    }
+}

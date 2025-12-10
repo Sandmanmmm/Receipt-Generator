@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Receipt</title>
+    <title>Receipt{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <link rel="stylesheet" href="../css/pos_receipt.css">
 </head>
 <body>
@@ -55,7 +55,7 @@
         <div class="items-section">
             <table class="items-table">
                 <tbody>
-                    {% for item in line_items %}
+                    {% for item in items|default(line_items, true) %}
                     <tr class="item-row">
                         <td class="item-name" colspan="3">{{ item.description }}</td>
                     </tr>
@@ -66,13 +66,13 @@
                     </tr>
                     {% if item.promotion %}
                     <tr class="promotion-row">
-                        <td class="promotion-label" colspan="2">🏷️ {{ item.promotion }}</td>
+                        <td class="promotion-label" colspan="2"> {{ item.promotion }}</td>
                         <td class="discount-amount">-{{ item.discount }}</td>
                     </tr>
                     {% endif %}
                     {% if item.rewards_earned %}
                     <tr class="rewards-row">
-                        <td colspan="3" class="rewards-label">⭐ {{ item.rewards_earned }} pts</td>
+                        <td colspan="3" class="rewards-label">* {{ item.rewards_earned }} pts</td>
                     </tr>
                     {% endif %}
                     {% endfor %}
@@ -89,7 +89,7 @@
                 <span class="total-label">Subtotal:</span>
                 <span class="total-value">{{ subtotal }}</span>
             </div>
-            {% if total_discount|default(0) > 0 %}
+            {% if total_discount_raw|default(0) > 0 %}
             <div class="total-row discount-total">
                 <span class="total-label">Total Savings:</span>
                 <span class="total-value">-{{ total_discount }}</span>
@@ -99,7 +99,7 @@
                 <span class="total-label">Tax ({{ tax_rate }}%):</span>
                 <span class="total-value">{{ tax_amount }}</span>
             </div>
-            {% if tip_amount|default(0) > 0 %}
+            {% if tip_amount_raw|default(0) > 0 %}
             <div class="total-row">
                 <span class="total-label">Tip:</span>
                 <span class="total-value">{{ tip_amount }}</span>
@@ -158,7 +158,7 @@
             <p class="loyalty-info">Points Balance: <strong>{{ loyalty_points_balance }}</strong></p>
             {% endif %}
             {% if loyalty_rewards_available %}
-            <p class="loyalty-rewards">🎁 You have {{ loyalty_rewards_available }} rewards available!</p>
+            <p class="loyalty-rewards"> You have {{ loyalty_rewards_available }} rewards available!</p>
             {% endif %}
         </div>
         {% endif %}
@@ -187,12 +187,14 @@
         {% endif %}
 
         <!-- Barcode -->
-        {% if barcode_value %}
+        {% if barcode_image %}
         <div class="barcode-section">
             <div class="barcode">
                 <img src="{{ barcode_image }}" alt="Barcode" class="barcode-image">
             </div>
+            {% if barcode_value %}
             <p class="barcode-value">{{ barcode_value }}</p>
+            {% endif %}
         </div>
         {% endif %}
 

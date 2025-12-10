@@ -23,10 +23,7 @@ body {
 
 /* Electric Bill - Blue/Green theme */
 .electric-bill {
-    --primary-color: #0ea5e9;
-    --accent-color: #06b6d4;
-    --light-bg: #e0f2fe;
-    --gradient: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+    /* Hardcoded colors for wkhtmltoimage compatibility */
 }
 
 /* Header */
@@ -36,7 +33,7 @@ body {
     align-items: flex-start;
     margin-bottom: 20px;
     padding: 15px;
-    background: var(--gradient);
+    background: #0ea5e9;  /* was: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%...) */
     border-radius: 8px;
     color: #ffffff;
 }
@@ -97,23 +94,32 @@ body {
 
 /* Account Summary */
 .account-summary {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 12px;
     margin-bottom: 20px;
     padding: 15px;
-    background: var(--light-bg);
+    background: #e0f2fe;
     border-radius: 8px;
 }
 
+.account-summary-row {
+    display: table-row;
+}
+
 .summary-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: table-cell;
+    width: 25%;
+}
+
+.summary-item {
     padding: 12px;
     background: #ffffff;
     border-radius: 6px;
     border: 2px solid transparent;
+    text-align: center;
+    vertical-align: top;
 }
 
 .summary-label {
@@ -141,13 +147,13 @@ body {
 }
 
 .total-item {
-    border-color: var(--primary-color);
-    background: var(--light-bg);
+    border-color: #0ea5e9;
+    background: #e0f2fe;
 }
 
 .total-due {
     font-size: 18pt;
-    color: var(--primary-color);
+    color: #0ea5e9;
 }
 
 /* Customer Information */
@@ -156,7 +162,7 @@ body {
     padding: 15px;
     background: #f9fafb;
     border-radius: 8px;
-    border-left: 4px solid var(--primary-color);
+    border-left: 4px solid #0ea5e9;
 }
 
 .customer-info-section h3 {
@@ -190,17 +196,32 @@ body {
 
 /* Usage Section */
 .usage-section {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 15px;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 15px 0;
     margin-bottom: 20px;
 }
 
+.usage-section > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
 .billing-period-box {
+    width: 33%;
     padding: 15px;
     background: #fffbeb;
     border-radius: 8px;
     border-left: 4px solid #fbbf24;
+}
+
+.meter-readings {
+    width: 67%;
+}
+
+.billing-period-box h3 {
+    border-left: 4px solid #059669;
 }
 
 .billing-period-box h3 {
@@ -221,13 +242,6 @@ body {
 .service-days {
     font-size: 9pt;
     color: #6b7280;
-}
-
-.meter-readings {
-    padding: 15px;
-    background: #f0fdf4;
-    border-radius: 8px;
-    border-left: 4px solid #059669;
 }
 
 .meter-readings h3 {
@@ -326,7 +340,7 @@ body {
 
 .usage-bar {
     width: 100%;
-    background: var(--gradient);
+    background: #0ea5e9;  /* was: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%...) */
     border-radius: 4px 4px 0 0;
     display: flex;
     align-items: flex-start;
@@ -372,7 +386,7 @@ body {
     color: #1a1a1a;
     margin-bottom: 10px;
     text-transform: uppercase;
-    border-bottom: 3px solid var(--primary-color);
+    border-bottom: 3px solid #0ea5e9;
     padding-bottom: 5px;
 }
 
@@ -384,7 +398,7 @@ body {
 }
 
 .charges-table thead {
-    background: var(--primary-color);
+    background: #0ea5e9;
     color: #ffffff;
 }
 
@@ -396,11 +410,11 @@ body {
 }
 
 .category-header td {
-    background: var(--light-bg);
+    background: #e0f2fe;
     padding: 8px;
     font-weight: 700;
-    color: var(--primary-color);
-    border-top: 2px solid var(--primary-color);
+    color: #0ea5e9;
+    border-top: 2px solid #0ea5e9;
 }
 
 .charges-table tbody tr {
@@ -445,7 +459,7 @@ body {
 }
 
 .charges-table tfoot {
-    border-top: 3px solid var(--primary-color);
+    border-top: 3px solid #0ea5e9;
 }
 
 .charges-table tfoot tr {
@@ -458,7 +472,7 @@ body {
 }
 
 .subtotal-row {
-    background: var(--light-bg);
+    background: #e0f2fe;
 }
 
 .subtotal {
@@ -473,7 +487,7 @@ body {
 }
 
 .total-row {
-    background: var(--primary-color);
+    background: #0ea5e9;
     color: #ffffff;
 }
 
@@ -500,34 +514,42 @@ body {
     color: #1a1a1a;
     margin-bottom: 12px;
     text-transform: uppercase;
-    border-bottom: 3px solid var(--primary-color);
+    border-bottom: 3px solid #0ea5e9;
     padding-bottom: 5px;
 }
 
 .payment-options {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 12px;
     margin-bottom: 15px;
 }
 
+.payment-options-row {
+    display: table-row;
+}
+
 .payment-option {
+    display: table-cell;
+    width: 33.33%;
     padding: 12px;
     background: #f9fafb;
     border: 2px solid #e5e7eb;
     border-radius: 6px;
     text-align: center;
+    vertical-align: top;
 }
 
 .payment-option:hover {
-    border-color: var(--primary-color);
-    background: var(--light-bg);
+    border-color: #0ea5e9;
+    background: #e0f2fe;
 }
 
 .payment-option h4 {
     font-size: 10pt;
     font-weight: 700;
-    color: var(--primary-color);
+    color: #0ea5e9;
     margin-bottom: 8px;
 }
 
@@ -594,7 +616,7 @@ body {
     padding: 15px;
     background: #f9fafb;
     border-radius: 8px;
-    border-top: 3px solid var(--primary-color);
+    border-top: 3px solid #0ea5e9;
 }
 
 .footer-info {

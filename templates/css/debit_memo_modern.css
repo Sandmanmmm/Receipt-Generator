@@ -1,0 +1,707 @@
+/* Debit Memo Modern Template - Purple/Indigo Card-Based Theme */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.6;
+    color: #1e293b;
+    background: #ffffff;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 30px;
+    background: #ffffff;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+/* Header Section */
+.header {
+    margin-bottom: 25px;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.header-left {
+    width: 50%;
+    vertical-align: middle;
+}
+
+.header-right {
+    width: 50%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+/* Logo Styling */
+.supplier-logo {
+    display: inline-block;
+    height: 50px;
+    width: auto;
+    max-width: 150px;
+    margin-bottom: 8px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: #8b5cf6;  /* was: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%...) */
+    border-radius: 12px;
+    text-align: center;
+    vertical-align: middle;
+    margin-bottom: 8px;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 50px;
+}
+
+.company-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-top: 5px;
+}
+
+.doc-title {
+    font-size: 32px;
+    font-weight: 700;
+    background: #8b5cf6;  /* was: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%...) */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.doc-badge {
+    display: inline-block;
+    background: #8b5cf6;  /* was: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%...) */
+    color: #ffffff;
+    padding: 8px 18px;
+    border-radius: 24px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+/* Info Cards Grid */
+.info-cards {
+    margin-bottom: 25px;
+}
+
+.cards-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 12px 0;
+    table-layout: fixed;
+}
+
+.card-cell {
+    width: 25%;
+    padding: 0;
+    vertical-align: top;
+}
+
+.info-card {
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    height: 90px;
+    display: table;
+    width: 100%;
+}
+
+.card-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.card-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* Card Color Variants */
+.card-debit {
+    background: #fef3c7;  /* was: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%...) */
+    border-color: #fbbf24;
+}
+
+.card-debit .card-value {
+    color: #92400e;
+    font-size: 18px;
+}
+
+.card-invoice {
+    background: #dbeafe;  /* was: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%...) */
+    border-color: #3b82f6;
+}
+
+.card-invoice .card-value {
+    color: #1e40af;
+}
+
+.card-date {
+    background: #e9d5ff;  /* was: linear-gradient(135deg, #e9d5ff 0%, #d8b4fe 100%...) */
+    border-color: #a855f7;
+}
+
+.card-date .card-value {
+    color: #6b21a8;
+}
+
+.card-due {
+    background: #fecaca;  /* was: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%...) */
+    border-color: #ef4444;
+}
+
+.card-due .card-value {
+    color: #991b1b;
+}
+
+/* Party Boxes */
+.parties {
+    margin-bottom: 25px;
+}
+
+.parties-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 15px 0;
+    table-layout: fixed;
+}
+
+.party-cell {
+    width: 50%;
+    padding: 0;
+    vertical-align: top;
+}
+
+.party-box {
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.party-header {
+    background: #f1f5f9;  /* was: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%...) */
+    padding: 12px 16px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.party-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.party-content {
+    padding: 16px;
+}
+
+.party-line {
+    font-size: 11px;
+    color: #334155;
+    margin-bottom: 5px;
+    line-height: 1.5;
+}
+
+.party-line strong {
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.party-from .party-header {
+    background: #f8fafc;  /* was: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%...) */
+}
+
+.party-to .party-header {
+    background: #ede9fe;  /* was: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%...) */
+    border-bottom-color: #a78bfa;
+}
+
+.party-to .party-title {
+    color: #6d28d9;
+}
+
+/* Reason Banner */
+.reason-banner {
+    background: #fef3c7;  /* was: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%...) */
+    border: 2px solid #fbbf24;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 25px;
+}
+
+.reason-content {
+
+.reason-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #92400e;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.reason-text {
+    font-size: 11px;
+    color: #78350f;
+    line-height: 1.6;
+}
+
+/* Continuation Header */
+.continuation-header {
+    padding: 12px 0;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #8b5cf6;
+}
+
+.cont-header-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.cont-left {
+    width: 35%;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.cont-center {
+    width: 30%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.cont-right {
+    width: 35%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.logo-small {
+    height: 30px;
+    width: auto;
+    max-width: 80px;
+    vertical-align: middle;
+    margin-right: 8px;
+    object-fit: contain;
+}
+
+.cont-company {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1e293b;
+    vertical-align: middle;
+}
+
+.cont-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #8b5cf6;
+    letter-spacing: 2px;
+}
+
+.cont-info {
+    font-size: 10px;
+    font-weight: 600;
+    color: #1e293b;
+    display: inline-block;
+    margin-right: 12px;
+}
+
+.cont-page {
+    font-size: 9px;
+    color: #64748b;
+    display: inline-block;
+}
+
+/* Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+    table-layout: fixed;
+}
+
+.items-table thead {
+    background: #8b5cf6;  /* was: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%...) */
+    color: #ffffff;
+}
+
+.items-table th {
+    padding: 14px 10px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: left;
+    border-bottom: 3px solid #7c3aed;
+}
+
+.items-table td {
+    padding: 14px 10px;
+    font-size: 11px;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: top;
+    word-wrap: break-word;
+    max-width: 0;
+}
+
+.item-row {
+    background: #ffffff;
+    transition: background-color 0.2s ease;
+}
+
+.item-row:hover {
+    background-color: #f8fafc;
+}
+
+/* Column Widths */
+.col-line {
+    width: 5%;
+    text-align: center;
+}
+
+.col-desc {
+    width: 28%;
+}
+
+.col-sku {
+    width: 12%;
+    text-align: center;
+}
+
+.col-qty {
+    width: 8%;
+    text-align: center;
+}
+
+.col-price {
+    width: 13%;
+    text-align: right;
+}
+
+.col-subtotal {
+    width: 13%;
+    text-align: right;
+}
+
+.col-debit {
+    width: 14%;
+    text-align: right;
+}
+
+/* Text Alignment */
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* Item Details */
+.item-name {
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 3px;
+}
+
+.item-variant {
+    font-size: 9px;
+    color: #64748b;
+    font-style: italic;
+}
+
+.debit-amount {
+    font-weight: 700;
+    color: #dc2626;
+}
+
+/* Bottom Section - Payment & Totals */
+.bottom-section {
+    margin-bottom: 25px;
+}
+
+.bottom-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 15px 0;
+    table-layout: fixed;
+}
+
+.payment-cell {
+    width: 45%;
+    vertical-align: top;
+    padding: 0;
+}
+
+.totals-cell {
+    width: 55%;
+    vertical-align: top;
+    padding: 0;
+}
+
+/* Payment Card */
+.payment-card {
+    background: #dbeafe;  /* was: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%...) */
+    border: 2px solid #3b82f6;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 100%;
+}
+
+.payment-header {
+    background: #3b82f6;  /* was: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%...) */
+    color: #ffffff;
+    padding: 12px 16px;
+    border-bottom: 2px solid #1e40af;
+}
+
+.payment-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.payment-body {
+    padding: 16px;
+}
+
+.payment-row {
+    margin-bottom: 10px;
+    display: table;
+    width: 100%;
+}
+
+.payment-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #1e40af;
+    display: table-cell;
+    width: 35%;
+}
+
+.payment-value {
+    font-size: 11px;
+    color: #1e293b;
+    font-weight: 600;
+    display: table-cell;
+}
+
+.due-highlight {
+    color: #dc2626;
+    font-weight: 700;
+}
+
+.payment-details {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #93c5fd;
+    font-size: 10px;
+    color: #1e40af;
+    line-height: 1.6;
+}
+
+/* Totals Card */
+.totals-card {
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.totals-breakdown {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.totals-breakdown tr {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.totals-breakdown tr:last-child {
+    border-bottom: none;
+}
+
+.total-label {
+    padding: 12px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #475569;
+    text-align: right;
+    width: 60%;
+}
+
+.total-value {
+    padding: 12px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #1e293b;
+    text-align: right;
+    width: 40%;
+}
+
+.discount-value {
+    color: #059669;
+}
+
+.total-final {
+    background: #8b5cf6;  /* was: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%...) */
+    color: #ffffff;
+}
+
+.total-label-main {
+    padding: 16px;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: right;
+    width: 60%;
+    color: #ffffff;
+}
+
+.total-value-main {
+    padding: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: right;
+    width: 40%;
+    color: #ffffff;
+}
+
+/* Notes Card */
+.notes-card {
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.notes-header {
+    background: #f1f5f9;  /* was: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%...) */
+    padding: 12px 16px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.notes-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.notes-body {
+    padding: 16px;
+    font-size: 11px;
+    color: #334155;
+    line-height: 1.7;
+}
+
+/* Footer */
+.footer {
+    margin-top: 25px;
+}
+
+.footer-banner {
+    background: #ede9fe;  /* was: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%...) */
+    border: 2px solid #a78bfa;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.footer-text {
+    font-size: 10px;
+    color: #4c1d95;
+    line-height: 1.6;
+}
+
+.footer-text strong {
+    font-weight: 700;
+    color: #5b21b6;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    position: absolute;
+    bottom: 50px;
+    left: 30px;
+    right: 30px;
+    padding: 12px 0;
+    border-top: 2px solid #e2e8f0;
+    text-align: center;
+}
+
+.cont-footer-text {
+    font-size: 10px;
+    color: #64748b;
+    margin-bottom: 5px;
+}
+
+.cont-footer-page {
+    font-size: 9px;
+    color: #94a3b8;
+}
+
+/* Page Number */
+.page-number {
+    position: absolute;
+    bottom: 15px;
+    right: 30px;
+    font-size: 9px;
+    color: #94a3b8;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: #ffffff;
+    }
+
+    .invoice-page {
+        width: 100%;
+        padding: 0;
+        page-break-after: always;
+    }
+
+    .continuation-footer,
+    .page-number {
+        position: fixed;
+    }
+}

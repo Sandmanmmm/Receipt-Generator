@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wholesale Bulk Order Invoice{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
+    <link rel="stylesheet" href="../css/wholesale_bulk_order_compact.css">
+</head>
+<body>
+    <div class="invoice-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="company-info">
+                <h1>{{ supplier_name }}</h1>
+                <p>{{ supplier_address }}</p>
+                <p>{{ supplier_phone }} | {{ supplier_email }}</p>
+            </div>
+            <div class="invoice-details">
+                <h2>WHOLESALE INVOICE</h2>
+                <p><strong>Invoice #:</strong> {{ invoice_number }}</p>
+                <p><strong>Date:</strong> {{ invoice_date }}</p>
+                {% if po_number %}
+                <p><strong>PO #:</strong> {{ po_number }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Customer & Payment Terms -->
+        <div class="info-section">
+            <div class="bill-to">
+                <h3>BILL TO</h3>
+                <p><strong>{{ buyer_name }}</strong></p>
+                <p>{{ buyer_address }}</p>
+                {% if buyer_phone %}
+                <p>{{ buyer_phone }}</p>
+                {% endif %}
+                {% if buyer_email %}
+                <p>{{ buyer_email }}</p>
+                {% endif %}
+                {% if account_number %}
+                <p><strong>Account #:</strong> {{ account_number }}</p>
+                {% endif %}
+            </div>
+            <div class="terms">
+                <h3>PAYMENT TERMS</h3>
+                {% if payment_terms %}
+                <p><strong>Terms:</strong> {{ payment_terms }}</p>
+                {% else %}
+                <p><strong>Terms:</strong> Net 30</p>
+                {% endif %}
+                {% if shipping_terms %}
+                <p><strong>Shipping:</strong> {{ shipping_terms }}</p>
+                {% endif %}
+                {% if account_manager %}
+                <p><strong>Rep:</strong> {{ account_manager }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Page header for continuation pages -->
+        {% if not _is_first_page %}
+        <div class="continuation-header">
+            <p><strong>Invoice {{ invoice_number }}</strong> - {{ buyer_name }} (Continued)</p>
+        </div>
+        {% endif %}
+
+        <!-- Line Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-sku">SKU</th>
+                    <th class="col-description">Description</th>
+                    <th class="col-qty">Cases</th>
+                    <th class="col-units">Units/Case</th>
+                    <th class="col-total-units">Total Units</th>
+                    <th class="col-price">Price/Case</th>
+                    <th class="col-discount">Discount</th>
+                    <th class="col-total">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="item-row">
+                    <td class="col-sku">{{ item.sku }}</td>
+                    <td class="col-description">
+                        {{ item.description }}
+                        {% if item.brand %}<div class="item-detail">Brand: {{ item.brand }}</div>{% endif %}
+                        {% if item.manufacturer %}<div class="item-detail">Mfr: {{ item.manufacturer }}</div>{% endif %}
+                    </td>
+                    <td class="col-qty">{{ item.case_quantity|default(item.quantity) }}</td>
+                    <td class="col-units">{{ item.units_per_case|default(1) }}</td>
+                    <td class="col-total-units">{{ item.total_units|default(item.quantity) }}</td>
+                    <td class="col-price">{{ currency }}{{ "%.2f"|format((item.price_per_case|default(item.unit_price))|to_float) }}</td>
+                    <td class="col-discount">
+                        {% if (item.volume_discount_amount|to_float or 0) > 0 %}
+                        -{{ currency }}{{ "%.2f"|format(item.volume_discount_amount|to_float) }}
+                        {% else %}
+                        -
+                        {% endif %}
+                    </td>
+                    <td class="col-total">{{ currency }}{{ "%.2f"|format((item.total|default(item.unit_price|to_float * item.quantity))|to_float) }}</td>
+                </tr>
+                {% if item.stock_status and item.stock_status != 'In Stock' %}
+                <tr class="item-note">
+                    <td colspan="8">
+                        <em>Stock Status: {{ item.stock_status }}
+                        {% if item.lead_time %} | Lead Time: {{ item.lead_time }}{% endif %}</em>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Footer (only on last page) -->
+        {% if _is_last_page %}
+        <div class="totals-section">
+            <div class="notes">
+                {% if notes %}
+                <h3>Notes</h3>
+                <p>{{ notes }}</p>
+                {% endif %}
+                {% if tax_exempt %}
+                <p><strong>Tax Exempt:</strong> {{ tax_exempt }}</p>
+                {% endif %}
+            </div>
+            <div class="totals">
+                <table class="totals-table">
+                    <tr>
+                        <td>Subtotal:</td>
+                        <td>{{ currency }}{{ "%.2f"|format(subtotal|to_float) }}</td>
+                    </tr>
+                    {% if discount|to_float > 0 %}
+                    <tr>
+                        <td>Discount:</td>
+                        <td>-{{ currency }}{{ "%.2f"|format(discount|to_float) }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if shipping_cost|to_float > 0 %}
+                    <tr>
+                        <td>Shipping:</td>
+                        <td>{{ currency }}{{ "%.2f"|format(shipping_cost|to_float) }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if tax_amount|to_float > 0 %}
+                    <tr>
+                        <td>Tax ({{ "%.1f"|format(tax_rate|default(0)) }}%):</td>
+                        <td>{{ currency }}{{ "%.2f"|format(tax_amount|to_float) }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr class="total-row">
+                        <td><strong>TOTAL DUE:</strong></td>
+                        <td><strong>{{ currency }}{{ "%.2f"|format(total_amount|default(total)|to_float) }}</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="footer-info">
+            <div class="payment-instructions">
+                <p><strong>Payment Instructions:</strong></p>
+                <p>Please reference Invoice #{{ invoice_number }} on all payments</p>
+                {% if bank_details %}
+                <p>{{ bank_details }}</p>
+                {% endif %}
+            </div>
+            <div class="thank-you">
+                <p>Thank you for your business!</p>
+                {% if supplier_phone %}
+                <p>Questions? Call {{ supplier_phone }}</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Page number -->
+        <div class="page-number">
+            Page {{ _current_page }} of {{ _total_pages }}
+        </div>
+    </div>
+</body>
+</html>
+
+
+

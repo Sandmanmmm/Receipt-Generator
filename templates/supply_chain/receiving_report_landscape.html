@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receiving Report - Landscape</title>
+    <link rel="stylesheet" href="../css/receiving_report_landscape.css">
+</head>
+<body>
+    <div class="page">
+        <!-- Header (first page only) -->
+        {% if _is_first_page|default(true) %}
+        <div class="header">
+            <div class="header-brand">
+                {% if logo_base64 %}
+                <img src="data:image/png;base64,{{ logo_base64 }}" alt="Logo" class="logo">
+                {% else %}
+                <div class="brand-name">{{ company_name|default('LOGISTICS') }}</div>
+                {% endif %}
+            </div>
+            <div class="header-title">
+                <h1>RECEIVING REPORT</h1>
+            </div>
+            <div class="header-id">
+                <div class="id-box">
+                    <div class="id-label">Report #</div>
+                    <div class="id-value">{{ report_id|default('000000') }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workflow Progress Bar -->
+        <div class="workflow-bar">
+            <div class="workflow-step completed">
+                <div class="step-icon">1</div>
+                <div class="step-label">PO Created</div>
+                <div class="step-date">{{ po_date|default('---') }}</div>
+            </div>
+            <div class="workflow-connector completed"></div>
+            <div class="workflow-step completed">
+                <div class="step-icon">2</div>
+                <div class="step-label">Shipped</div>
+                <div class="step-date">{{ ship_date|default('---') }}</div>
+            </div>
+            <div class="workflow-connector completed"></div>
+            <div class="workflow-step completed">
+                <div class="step-icon">3</div>
+                <div class="step-label">Received</div>
+                <div class="step-date">{{ received_date|default('---') }}</div>
+            </div>
+            <div class="workflow-connector {% if overall_status == 'Completed' %}completed{% endif %}"></div>
+            <div class="workflow-step {% if overall_status == 'Completed' %}completed{% endif %}">
+                <div class="step-icon">4</div>
+                <div class="step-label">Verified</div>
+                <div class="step-date">{{ verification_date|default('Pending') }}</div>
+            </div>
+        </div>
+
+        <!-- Info Strip -->
+        <div class="info-strip">
+            <div class="info-block">
+                <div class="info-icon"></div>
+                <div class="info-content">
+                    <div class="info-title">Purchase Order</div>
+                    <div class="info-main">{{ po_number|default('N/A') }}</div>
+                </div>
+            </div>
+            <div class="info-divider"></div>
+            <div class="info-block">
+                <div class="info-icon">🏭</div>
+                <div class="info-content">
+                    <div class="info-title">Supplier</div>
+                    <div class="info-main">{{ supplier_name|default('N/A') }}</div>
+                </div>
+            </div>
+            <div class="info-divider"></div>
+            <div class="info-block">
+                <div class="info-icon"></div>
+                <div class="info-content">
+                    <div class="info-title">Carrier / Tracking</div>
+                    <div class="info-main">{{ carrier|default('N/A') }} - {{ tracking_number|default('N/A') }}</div>
+                </div>
+            </div>
+            <div class="info-divider"></div>
+            <div class="info-block">
+                <div class="info-icon">📍</div>
+                <div class="info-content">
+                    <div class="info-title">Receiving Dock</div>
+                    <div class="info-main">{{ dock_number|default('Dock') }} - {{ location_name|default('Warehouse') }}</div>
+                </div>
+            </div>
+            <div class="info-divider"></div>
+            <div class="info-block">
+                <div class="info-icon">👤</div>
+                <div class="info-content">
+                    <div class="info-title">Receiver</div>
+                    <div class="info-main">{{ received_by|default('___________') }}</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Continuation Header (pages 2+) -->
+        {% if not (_is_first_page|default(true)) %}
+        <div class="continuation-header">
+            <div class="cont-left">
+                <strong>Receiving Report {{ report_id }}</strong> | PO: {{ po_number }} | Supplier: {{ supplier_name }}
+            </div>
+            <div class="cont-right">
+                Page {{ _page_number|default(1) }} of {{ _total_pages|default(1) }}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Wide Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-line">#</th>
+                    <th class="col-sku">SKU / UPC</th>
+                    <th class="col-product">Product Description</th>
+                    <th class="col-uom">UOM</th>
+                    <th class="col-ordered">PO Qty</th>
+                    <th class="col-received">Recv'd</th>
+                    <th class="col-variance">Var</th>
+                    <th class="col-pct">Var%</th>
+                    <th class="col-condition">Condition</th>
+                    <th class="col-lot">Lot/Batch</th>
+                    <th class="col-expiry">Expiry</th>
+                    <th class="col-bin">Put-Away Bin</th>
+                    <th class="col-status">Status</th>
+                    <th class="col-initials">Init</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="item-row{% if item.get('has_issue') %} row-issue{% endif %}">
+                    <td class="col-line">{{ loop.index }}</td>
+                    <td class="col-sku">
+                        <div class="sku-main">{{ item.sku }}</div>
+                        {% if item.get('upc') %}
+                        <div class="sku-sub">{{ item.upc }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="col-product">
+                        <div class="product-name">{{ item.name|default(item.description) }}</div>
+                        {% if item.get('notes') %}
+                        <div class="product-alert">{{ item.notes }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="col-uom">{{ item.uom|default('EA') }}</td>
+                    <td class="col-ordered">{{ item.ordered_quantity }}</td>
+                    <td class="col-received">
+                        {% if item.get('received_quantity') is not none %}
+                        <strong>{{ item.received_quantity }}</strong>
+                        {% else %}
+                        <span class="blank">____</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-variance">
+                        {% if item.get('received_quantity') is not none %}
+                        {% set var = item.received_quantity - item.ordered_quantity %}
+                        <span class="var-{{ 'zero' if var == 0 else ('over' if var > 0 else 'short') }}">
+                            {% if var != 0 %}{{ '+' if var > 0 else '' }}{{ var }}{% else %}—{% endif %}
+                        </span>
+                        {% else %}
+                        <span class="blank">__</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-pct">
+                        {% if item.get('received_quantity') is not none and item.ordered_quantity > 0 %}
+                        {% set var = item.received_quantity - item.ordered_quantity %}
+                        {% set pct = (var / item.ordered_quantity * 100)|abs %}
+                        {% if var != 0 %}
+                        <span class="var-{{ 'over' if var > 0 else 'short' }}">{{ "%.1f"|format(pct) }}%</span>
+                        {% else %}
+                        <span class="var-zero">0%</span>
+                        {% endif %}
+                        {% else %}
+                        <span class="blank">__</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-condition">
+                        {% if item.get('condition') %}
+                        <span class="cond cond-{{ item.condition|lower }}">{{ item.condition }}</span>
+                        {% else %}
+                        <span class="blank">_____</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-lot">
+                        {% if item.get('lot_number') %}
+                        {{ item.lot_number }}
+                        {% else %}
+                        <span class="blank">______</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-expiry">
+                        {% if item.get('expiry_date') %}
+                        {{ item.expiry_date }}
+                        {% else %}
+                        <span class="blank">_____</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-bin">
+                        {% if item.get('bin_location') %}
+                        {{ item.bin_location }}
+                        {% else %}
+                        <span class="blank">______</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-status">
+                        {% if item.get('status') %}
+                        <span class="status status-{{ item.status|lower|replace(' ', '-') }}">
+                            {% if item.status == 'Accepted' %}✓{% elif item.status == 'Rejected' %}✗{% elif item.status == 'Quarantine' %}Q{% else %}?{% endif %}
+                        </span>
+                        {% else %}
+                        <span class="blank">_</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-initials">
+                        {% if item.get('inspector_initials') %}
+                        {{ item.inspector_initials }}
+                        {% else %}
+                        <span class="blank">__</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Last page: Summary and Approvals -->
+        {% if _is_last_page|default(true) %}
+        
+        <!-- Bottom Section: 3-column layout -->
+        <table class="bottom-section">
+            <tr>
+                <!-- Summary Stats -->
+                <td class="section-stats">
+                    <div class="section-title">RECEIVING SUMMARY</div>
+                    <div class="stats-grid">
+                        <div class="stat-row">
+                            <span class="stat-label">Total Lines:</span>
+                            <span class="stat-value">{{ items|length }}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">PO Quantity:</span>
+                            <span class="stat-value">{{ total_ordered|default(0) }}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Received:</span>
+                            <span class="stat-value highlight">{{ total_received|default(0) }}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Variance:</span>
+                            <span class="stat-value {% if (total_received|default(0) - total_ordered|default(0)) != 0 %}alert{% endif %}">
+                                {{ (total_received|default(0) - total_ordered|default(0)) }}
+                            </span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Issues:</span>
+                            <span class="stat-value {% if items_with_issues > 0 %}alert{% endif %}">{{ items_with_issues|default(0) }}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Cartons:</span>
+                            <span class="stat-value">{{ total_cartons|default('___') }}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Pallets:</span>
+                            <span class="stat-value">{{ total_pallets|default('___') }}</span>
+                        </div>
+                    </div>
+                </td>
+
+                <!-- Quality Check -->
+                <td class="section-quality">
+                    <div class="section-title">QUALITY INSPECTION</div>
+                    <div class="check-list">
+                        <div class="check-item">
+                            <span class="check-box {% if packaging_intact %}checked{% endif %}">{% if packaging_intact %}✓{% else %}☐{% endif %}</span>
+                            <span class="check-text">Packaging intact / No damage</span>
+                        </div>
+                        <div class="check-item">
+                            <span class="check-box {% if labels_correct %}checked{% endif %}">{% if labels_correct %}✓{% else %}☐{% endif %}</span>
+                            <span class="check-text">Labels match PO / Correct items</span>
+                        </div>
+                        <div class="check-item">
+                            <span class="check-box {% if quantities_match %}checked{% endif %}">{% if quantities_match %}✓{% else %}☐{% endif %}</span>
+                            <span class="check-text">Quantities verified / Match PO</span>
+                        </div>
+                        <div class="check-item">
+                            <span class="check-box {% if temp_verified %}checked{% endif %}">{% if temp_verified %}✓{% else %}☐{% endif %}</span>
+                            <span class="check-text">Temperature verified (if applicable)</span>
+                        </div>
+                        <div class="check-item">
+                            <span class="check-box {% if docs_complete %}checked{% endif %}">{% if docs_complete %}✓{% else %}☐{% endif %}</span>
+                            <span class="check-text">Documentation complete</span>
+                        </div>
+                    </div>
+                    {% if inspection_notes %}
+                    <div class="notes-box">
+                        <div class="notes-label">Notes:</div>
+                        <div class="notes-text">{{ inspection_notes }}</div>
+                    </div>
+                    {% endif %}
+                </td>
+
+                <!-- Approvals -->
+                <td class="section-approvals">
+                    <div class="section-title">APPROVALS</div>
+                    <div class="approval-grid">
+                        <div class="approval-row">
+                            <div class="approval-label">Received By:</div>
+                            <div class="approval-sig">
+                                {% if receiver_signature %}{{ receiver_signature }}{% else %}_________________{% endif %}
+                            </div>
+                            <div class="approval-date">{{ received_date|default('Date: ______') }}</div>
+                        </div>
+                        <div class="approval-row">
+                            <div class="approval-label">QC Inspector:</div>
+                            <div class="approval-sig">
+                                {% if inspector_signature %}{{ inspector_signature }}{% else %}_________________{% endif %}
+                            </div>
+                            <div class="approval-date">{{ inspection_date|default('Date: ______') }}</div>
+                        </div>
+                        <div class="approval-row">
+                            <div class="approval-label">Manager:</div>
+                            <div class="approval-sig">
+                                {% if manager_signature %}{{ manager_signature }}{% else %}_________________{% endif %}
+                            </div>
+                            <div class="approval-date">{{ approval_date|default('Date: ______') }}</div>
+                        </div>
+                    </div>
+                    <div class="status-badge status-{{ overall_status|lower|replace(' ', '-')|default('pending') }}">
+                        {{ overall_status|default('PENDING REVIEW') }}
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-left">{{ company_name|default('Company') }} - Warehouse Operations</div>
+            <div class="footer-center">RR-{{ report_id }} | {{ report_date|default('Date') }}</div>
+            <div class="footer-right">Page {{ _page_number|default(1) }} of {{ _total_pages|default(1) }}</div>
+        </div>
+    </div>
+</body>
+</html>

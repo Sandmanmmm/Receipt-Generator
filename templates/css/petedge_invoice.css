@@ -1,0 +1,807 @@
+/**
+ * PetEdge Invoice Stylesheet
+ * Professional Pet Supplies Since 1956
+ * 
+ * Color Palette:
+ * - Primary Green: #2E7D32 (Pet industry standard)
+ * - Dark Green: #1B5E20
+ * - Light Green: #4CAF50
+ * - Accent Orange: #FF6F00 (Energy, pets)
+ * - Neutral Gray: #424242
+ * - Light Background: #F5F5F5
+ * 
+ * Compatible with wkhtmltoimage
+ * No CSS Grid, Flexbox gap, CSS variables, or modern features
+ */
+
+/* =====================================================
+   BASE STYLES
+   ===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.4;
+    color: #333333;
+    background-color: #ffffff;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    margin: 0 auto;
+    padding: 20px 30px;
+    background-color: #ffffff;
+    position: relative;
+}
+
+/* =====================================================
+   HEADER STYLES - First Page
+   ===================================================== */
+
+.main-header {
+    margin-bottom: 15px;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+}
+
+.logo-cell {
+    width: 60%;
+    vertical-align: middle;
+    padding: 10px 0;
+}
+
+.logo-image {
+    max-height: 60px;
+    width: auto;
+}
+
+.logo-container {
+    display: inline-block;
+}
+
+.logo-icon {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-color: #2E7D32;
+    color: #ffffff;
+    font-size: 18pt;
+    font-weight: bold;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 8px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.logo-text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.logo-name {
+    display: block;
+    font-size: 24pt;
+    font-weight: bold;
+    color: #2E7D32;
+    letter-spacing: -0.5px;
+}
+
+.logo-tagline {
+    display: block;
+    font-size: 9pt;
+    color: #666666;
+    font-style: italic;
+    margin-top: 2px;
+}
+
+.invoice-title-cell {
+    width: 40%;
+    text-align: right;
+    vertical-align: middle;
+    padding: 10px 0;
+}
+
+.invoice-badge {
+    display: inline-block;
+    background-color: #2E7D32;
+    color: #ffffff;
+    font-size: 18pt;
+    font-weight: bold;
+    padding: 10px 25px;
+    letter-spacing: 2px;
+    border-radius: 4px;
+}
+
+.invoice-number-display {
+    margin-top: 8px;
+    font-size: 12pt;
+    font-weight: bold;
+    color: #424242;
+}
+
+/* =====================================================
+   DETAILS BAR
+   ===================================================== */
+
+.details-bar {
+    background-color: #E8F5E9;
+    border: 1px solid #C8E6C9;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.details-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.detail-item {
+    text-align: center;
+    padding: 5px 10px;
+    border-right: 1px solid #C8E6C9;
+}
+
+.detail-item:last-child {
+    border-right: none;
+}
+
+.detail-label {
+    display: block;
+    font-size: 8pt;
+    color: #2E7D32;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+}
+
+.detail-value {
+    display: block;
+    font-size: 10pt;
+    font-weight: bold;
+    color: #1B5E20;
+}
+
+/* =====================================================
+   ADDRESS SECTION
+   ===================================================== */
+
+.addresses-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.address-cell {
+    width: 33.33%;
+    vertical-align: top;
+    padding: 10px;
+    border: 1px solid #E0E0E0;
+    background-color: #FAFAFA;
+}
+
+.address-cell.bill-to {
+    border-left: 3px solid #2E7D32;
+}
+
+.address-cell.ship-to {
+    border-left: 3px solid #FF6F00;
+}
+
+.address-cell.from {
+    border-left: 3px solid #1565C0;
+    background-color: #E3F2FD;
+}
+
+.address-header {
+    font-size: 9pt;
+    font-weight: bold;
+    color: #424242;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.address-content {
+    font-size: 9pt;
+    color: #424242;
+}
+
+.address-content .company-name {
+    font-weight: bold;
+    font-size: 10pt;
+    color: #1B5E20;
+    margin-bottom: 3px;
+}
+
+.address-content .address-line {
+    margin-bottom: 2px;
+}
+
+/* =====================================================
+   SHIPPING INFO BAR
+   ===================================================== */
+
+.shipping-bar {
+    background-color: #FFF3E0;
+    border: 1px solid #FFE0B2;
+    border-left: 3px solid #FF6F00;
+    border-radius: 4px;
+    padding: 8px 10px;
+    margin-bottom: 15px;
+}
+
+.shipping-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ship-item {
+    text-align: center;
+    padding: 3px 8px;
+    border-right: 1px solid #FFE0B2;
+}
+
+.ship-item:last-child {
+    border-right: none;
+}
+
+.ship-label {
+    display: block;
+    font-size: 7pt;
+    color: #E65100;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.ship-value {
+    display: block;
+    font-size: 9pt;
+    font-weight: bold;
+    color: #BF360C;
+}
+
+.ship-value.tracking {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 8pt;
+}
+
+.ship-value.due-date {
+    color: #D84315;
+}
+
+/* =====================================================
+   CONTINUATION HEADER - Pages 2+
+   ===================================================== */
+
+.continuation-header {
+    background-color: #E8F5E9;
+    border-bottom: 2px solid #2E7D32;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+}
+
+.continuation-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-logo {
+    width: 30%;
+}
+
+.cont-logo-icon {
+    display: inline-block;
+    background-color: #2E7D32;
+    color: #ffffff;
+    font-size: 10pt;
+    font-weight: bold;
+    padding: 3px 6px;
+    border-radius: 3px;
+    margin-right: 8px;
+}
+
+.cont-logo-text {
+    font-size: 14pt;
+    font-weight: bold;
+    color: #2E7D32;
+}
+
+.cont-info {
+    width: 25%;
+    text-align: center;
+    font-size: 9pt;
+}
+
+.cont-label {
+    color: #666666;
+}
+
+.cont-page {
+    width: 20%;
+    text-align: right;
+    font-size: 9pt;
+    font-weight: bold;
+    color: #2E7D32;
+}
+
+/* =====================================================
+   LINE ITEMS TABLE
+   ===================================================== */
+
+.items-section {
+    margin-bottom: 15px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+}
+
+.items-table thead tr {
+    background-color: #2E7D32;
+    color: #ffffff;
+}
+
+.items-table th {
+    padding: 10px 8px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid #1B5E20;
+}
+
+.items-table td {
+    padding: 8px;
+    border: 1px solid #E0E0E0;
+    vertical-align: top;
+}
+
+.item-row.odd {
+    background-color: #ffffff;
+}
+
+.item-row.even {
+    background-color: #F5F5F5;
+}
+
+.item-row:hover {
+    background-color: #E8F5E9;
+}
+
+/* Column widths */
+.col-line {
+    width: 5%;
+    text-align: center;
+}
+
+.col-sku {
+    width: 12%;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 8pt;
+}
+
+.col-description {
+    width: 33%;
+}
+
+.col-brand {
+    width: 12%;
+    font-size: 8pt;
+    color: #666666;
+}
+
+.col-qty {
+    width: 8%;
+    text-align: center;
+}
+
+.col-unit {
+    width: 12%;
+    text-align: right;
+}
+
+.col-discount {
+    width: 8%;
+    text-align: center;
+    color: #D32F2F;
+}
+
+.col-total {
+    width: 12%;
+    text-align: right;
+    font-weight: bold;
+}
+
+/* Item details */
+.item-name {
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 2px;
+}
+
+.item-size,
+.item-color,
+.item-upc {
+    font-size: 7pt;
+    color: #888888;
+}
+
+/* =====================================================
+   TOTALS SECTION
+   ===================================================== */
+
+.totals-section {
+    margin-top: 15px;
+}
+
+.totals-layout {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.notes-cell {
+    width: 55%;
+    vertical-align: top;
+    padding-right: 15px;
+}
+
+.totals-cell {
+    width: 45%;
+    vertical-align: top;
+}
+
+/* Brands Box */
+.brands-box {
+    background-color: #E8F5E9;
+    border: 1px solid #C8E6C9;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.brands-title {
+    font-size: 9pt;
+    font-weight: bold;
+    color: #2E7D32;
+    margin-bottom: 8px;
+}
+
+.brands-list {
+    line-height: 1.8;
+}
+
+.brand-badge {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: #ffffff;
+    font-size: 7pt;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin-right: 5px;
+    margin-bottom: 3px;
+}
+
+/* Notes Box */
+.notes-box {
+    background-color: #FFF8E1;
+    border: 1px solid #FFE082;
+    border-left: 3px solid #FFA000;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.notes-title {
+    font-size: 9pt;
+    font-weight: bold;
+    color: #F57C00;
+    margin-bottom: 5px;
+}
+
+.notes-content {
+    font-size: 8pt;
+    color: #5D4037;
+}
+
+.notes-content p {
+    margin-bottom: 4px;
+}
+
+.custom-note {
+    font-style: italic;
+    padding-top: 5px;
+    border-top: 1px dashed #FFE082;
+    margin-top: 5px;
+}
+
+/* Promo Box */
+.promo-box {
+    background-color: #FCE4EC;
+    border: 2px dashed #F06292;
+    border-radius: 4px;
+    padding: 10px;
+    text-align: center;
+}
+
+.promo-title {
+    font-size: 9pt;
+    font-weight: bold;
+    color: #C2185B;
+    margin-bottom: 5px;
+}
+
+.promo-code {
+    font-size: 12pt;
+    font-weight: bold;
+    color: #D81B60;
+    letter-spacing: 1px;
+}
+
+.promo-message {
+    font-size: 8pt;
+    color: #880E4F;
+    margin-top: 5px;
+}
+
+/* Totals Table */
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #F5F5F5;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+}
+
+.total-row td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.total-row:last-child td {
+    border-bottom: none;
+}
+
+.total-label {
+    font-size: 9pt;
+    color: #424242;
+}
+
+.total-value {
+    text-align: right;
+    font-size: 9pt;
+    font-weight: 600;
+}
+
+.total-value.discount {
+    color: #D32F2F;
+}
+
+.discount-row {
+    background-color: #FFEBEE;
+}
+
+.free-shipping td {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+    font-size: 8pt;
+    font-style: italic;
+    text-align: center;
+    padding: 5px;
+}
+
+.grand-total {
+    background-color: #2E7D32;
+}
+
+.grand-total td {
+    border-bottom: none;
+}
+
+.grand-total .total-label {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 10pt;
+}
+
+.grand-total .total-value {
+    color: #ffffff;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+/* Balance Due */
+.balance-due {
+    background-color: #1B5E20;
+    color: #ffffff;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.balance-label {
+    font-size: 10pt;
+    font-weight: 600;
+}
+
+.balance-value {
+    font-size: 16pt;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+/* Payment Methods */
+.payment-methods {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #ECEFF1;
+    border: 1px solid #CFD8DC;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.payment-title {
+    font-size: 8pt;
+    color: #546E7A;
+    margin-bottom: 8px;
+}
+
+.payment-icons {
+    display: inline-block;
+}
+
+.pay-icon {
+    display: inline-block;
+    background-color: #455A64;
+    color: #ffffff;
+    font-size: 7pt;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 3px;
+    margin: 2px;
+}
+
+/* =====================================================
+   FOOTER STYLES
+   ===================================================== */
+
+.main-footer {
+    position: absolute;
+    bottom: 20px;
+    left: 30px;
+    right: 30px;
+    border-top: 2px solid #2E7D32;
+    padding-top: 10px;
+}
+
+.footer-content {
+    text-align: center;
+}
+
+.footer-tagline {
+    font-size: 9pt;
+    font-weight: bold;
+    color: #2E7D32;
+    margin-bottom: 5px;
+}
+
+.footer-company {
+    font-size: 8pt;
+    color: #424242;
+    margin-bottom: 3px;
+}
+
+.footer-contact {
+    font-size: 8pt;
+    color: #666666;
+    margin-bottom: 3px;
+}
+
+.footer-social {
+    font-size: 8pt;
+    color: #888888;
+}
+
+.footer-social span {
+    margin: 0 3px;
+}
+
+.footer-page {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: 8pt;
+    color: #888888;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    position: absolute;
+    bottom: 20px;
+    left: 30px;
+    right: 30px;
+    border-top: 1px solid #E0E0E0;
+    padding-top: 10px;
+    font-size: 8pt;
+    color: #666666;
+}
+
+.cont-footer-left {
+    float: left;
+}
+
+.cont-footer-center {
+    text-align: center;
+    font-style: italic;
+    color: #FF6F00;
+}
+
+.cont-footer-right {
+    float: right;
+    font-weight: bold;
+    color: #2E7D32;
+}
+
+/* =====================================================
+   PRINT OPTIMIZATION
+   ===================================================== */
+
+@media print {
+    body {
+        background-color: #ffffff;
+    }
+    
+    .invoice-page {
+        width: 100%;
+        margin: 0;
+        padding: 15px;
+        page-break-after: always;
+    }
+    
+    .items-table {
+        page-break-inside: avoid;
+    }
+    
+    .totals-section {
+        page-break-inside: avoid;
+    }
+}
+
+/* =====================================================
+   MULTIPAGE SUPPORT
+   ===================================================== */
+
+.invoice-page {
+    page-break-after: always;
+}
+
+.invoice-page:last-child {
+    page-break-after: auto;
+}
+
+/* Ensure clean page breaks */
+.items-section {
+    page-break-inside: auto;
+}
+
+.item-row {
+    page-break-inside: avoid;
+}

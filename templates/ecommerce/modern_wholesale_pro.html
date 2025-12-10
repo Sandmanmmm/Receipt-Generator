@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice {{ order_number }}</title>
+    <link rel="stylesheet" href="../css/modern_wholesale_pro.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page %}
+        <!-- Main Header -->
+        <table class="main-header">
+            <tr>
+                <td class="header-left">
+                    <div class="invoice-label">INVOICE</div>
+                    <table class="meta-grid">
+                        <tr>
+                            <td class="meta-key">Invoice #</td>
+                            <td class="meta-val">{{ order_number }}</td>
+                        </tr>
+                        <tr>
+                            <td class="meta-key">Date</td>
+                            <td class="meta-val">{{ order_date }}</td>
+                        </tr>
+                        <tr>
+                            <td class="meta-key">Payment Terms</td>
+                            <td class="meta-val">{{ payment_method or 'Net 30' }}</td>
+                        </tr>
+                        {% if tracking_number %}
+                        <tr>
+                            <td class="meta-key">Tracking</td>
+                            <td class="meta-val">{{ tracking_number }}</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </td>
+                <td class="header-right">
+                    {% if supplier_logo %}
+                    <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="company-logo" />
+                    {% else %}
+                    <div class="logo-fallback">{{ supplier_name[:2]|upper }}</div>
+                    {% endif %}
+                    <div class="company-name">{{ supplier_name }}</div>
+                    <div class="company-details">
+                        {% if supplier_address %}<div class="detail-line">{{ supplier_address }}</div>{% endif %}
+                        {% if supplier_email %}<div class="detail-line">{{ supplier_email }}</div>{% endif %}
+                        {% if supplier_phone %}<div class="detail-line">{{ supplier_phone }}</div>{% endif %}
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Bill To / Ship To Section -->
+        <table class="party-section">
+            <tr>
+                <td class="party-box">
+                    <div class="party-title">Bill To</div>
+                    <div class="party-name">{{ buyer_name }}</div>
+                    {% if buyer_address %}
+                    <div class="party-line">{{ buyer_address }}</div>
+                    {% endif %}
+                    {% if buyer_email %}
+                    <div class="party-line">{{ buyer_email }}</div>
+                    {% endif %}
+                    {% if buyer_phone %}
+                    <div class="party-line">{{ buyer_phone }}</div>
+                    {% endif %}
+                </td>
+                <td class="party-box">
+                    <div class="party-title">Ship To</div>
+                    <div class="party-name">{{ buyer_name }}</div>
+                    {% if buyer_address %}
+                    <div class="party-line">{{ buyer_address }}</div>
+                    {% endif %}
+                    {% if shipping_method %}
+                    <div class="party-line">Method: {{ shipping_method }}</div>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+        {% else %}
+        <!-- Continuation Header -->
+        <table class="cont-header">
+            <tr>
+                <td class="cont-left">
+                    <span class="cont-invoice">Invoice {{ order_number }}</span>
+                </td>
+                <td class="cont-right">
+                    {% if supplier_logo %}
+                    <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="cont-logo" />
+                    {% endif %}
+                    <span class="cont-page">Page {{ _current_page }} of {{ _total_pages }}</span>
+                </td>
+            </tr>
+        </table>
+        {% endif %}
+
+        <!-- Line Items Table -->
+        <table class="line-items">
+            <thead>
+                <tr>
+                    <th class="col-item">Item</th>
+                    <th class="col-sku">SKU</th>
+                    <th class="col-qty">Quantity</th>
+                    <th class="col-rate">Unit Price</th>
+                    <th class="col-amount">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="item-row">
+                    <td class="cell-item">
+                        <div class="item-desc">{{ item.description }}</div>
+                        {% if item.variant %}
+                        <div class="item-variant">{{ item.variant }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="cell-sku">{{ item.sku or '—' }}</td>
+                    <td class="cell-qty">{{ item.quantity }}</td>
+                    <td class="cell-rate">${{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                    <td class="cell-amount">${{ "%.2f"|format(item.total|to_float) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page %}
+        <!-- Totals Section -->
+        <table class="totals-section">
+            <tr>
+                <td class="notes-area">
+                    <div class="notes-title">Terms & Conditions</div>
+                    <div class="notes-text">Payment is due within 30 days of invoice date. Please include invoice number {{ order_number }} with your payment. For questions regarding this invoice, contact {{ supplier_email }}.</div>
+                </td>
+                <td class="totals-area">
+                    <table class="totals-table">
+                        <tr>
+                            <td class="total-label">Subtotal</td>
+                            <td class="total-value">${{ "%.2f"|format(subtotal|to_float) }}</td>
+                        </tr>
+                        {% if (discount|to_float or 0) > 0 %}
+                        <tr>
+                            <td class="total-label">Discount</td>
+                            <td class="total-value discount">-${{ "%.2f"|format(discount|to_float) }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if (shipping_cost or 0) > 0 %}
+                        <tr>
+                            <td class="total-label">Shipping</td>
+                            <td class="total-value">${{ "%.2f"|format(shipping_cost or 0) }}</td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <td class="total-label">Tax</td>
+                            <td class="total-value">${{ "%.2f"|format(tax|to_float) }}</td>
+                        </tr>
+                        <tr class="total-final">
+                            <td class="total-label">Total Due</td>
+                            <td class="total-value">${{ "%.2f"|format(total_amount|to_float) }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Footer -->
+        <div class="page-footer">
+            <div class="footer-divider"></div>
+            <div class="footer-content">Thank you for your business • Questions? Contact us at {{ supplier_email }} or {{ supplier_phone }}</div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="cont-footer">
+            <div class="cont-divider"></div>
+            <div class="cont-text">Continued on page {{ _current_page|int + 1 }}...</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

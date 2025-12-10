@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FashionGo Vendor Invoice - {{ invoice_number }}</title>
+    <link rel="stylesheet" href="../css/fashiongo_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- FashionGo Platform Header Bar -->
+        <div class="fg-platform-bar">
+            <div class="fg-logo">
+                <span class="fg-brand">FASHION</span><span class="fg-brand-go">GO</span>
+                <span class="fg-tagline">Wholesale Marketplace</span>
+            </div>
+            <div class="fg-order-ref">
+                <span class="fg-order-label">FG Order #:</span>
+                <span class="fg-order-number">{{ tracking_number|default('FG-' ~ (invoice_number|default('000000'))[-6:]) }}</span>
+            </div>
+        </div>
+
+        <!-- Vendor Invoice Header -->
+        <div class="vendor-invoice-header">
+            <div class="vendor-brand-section">
+                {% if supplier_logo %}
+                <img src="{{ supplier_logo }}" alt="{{ supplier_name }}" class="vendor-logo">
+                {% else %}
+                <div class="vendor-logo-placeholder">
+                    <span class="vendor-initials">{{ supplier_name[:2]|upper }}</span>
+                </div>
+                {% endif %}
+                <div class="vendor-info">
+                    <div class="vendor-name">{{ supplier_name }}</div>
+                    <div class="vendor-type">FashionGo Verified Vendor</div>
+                </div>
+            </div>
+            <div class="invoice-details-box">
+                <div class="invoice-title">VENDOR INVOICE</div>
+                <table class="invoice-meta">
+                    <tr>
+                        <td class="meta-label">Invoice #:</td>
+                        <td class="meta-value">{{ invoice_number }}</td>
+                    </tr>
+                    <tr>
+                        <td class="meta-label">Invoice Date:</td>
+                        <td class="meta-value">{{ invoice_date }}</td>
+                    </tr>
+                    {% if order_date %}
+                    <tr>
+                        <td class="meta-label">Order Date:</td>
+                        <td class="meta-value">{{ order_date }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <td class="meta-label">Terms:</td>
+                        <td class="meta-value">{{ payment_terms|default('Net 30') }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Vendor and Buyer Information -->
+        <table class="parties-table">
+            <tr>
+                <td class="party-cell vendor-cell">
+                    <div class="party-header">SOLD BY (Vendor)</div>
+                    <div class="party-content">
+                        <div class="party-name">{{ supplier_name }}</div>
+                        {% if supplier_address %}
+                        <div class="party-line">{{ supplier_address }}</div>
+                        {% endif %}
+                        {% if supplier_phone %}
+                        <div class="party-line">Tel: {{ supplier_phone }}</div>
+                        {% endif %}
+                        {% if supplier_email %}
+                        <div class="party-line">{{ supplier_email }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+                <td class="party-cell buyer-cell">
+                    <div class="party-header">SHIP TO (Buyer)</div>
+                    <div class="party-content">
+                        {% if buyer_name %}
+                        <div class="party-name">{{ buyer_name }}</div>
+                        {% endif %}
+                        {% if buyer_address %}
+                        <div class="party-line">{{ buyer_address }}</div>
+                        {% endif %}
+                        {% if buyer_phone %}
+                        <div class="party-line">Tel: {{ buyer_phone }}</div>
+                        {% endif %}
+                        {% if buyer_email %}
+                        <div class="party-line">{{ buyer_email }}</div>
+                        {% endif %}
+                        {% if account_number %}
+                        <div class="party-line account">FG Account: {{ account_number }}</div>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        {% else %}
+        <!-- Continuation Header for Page 2+ -->
+        <div class="continuation-header">
+            <div class="cont-left">
+                <span class="fg-brand-small">FASHION</span><span class="fg-brand-go-small">GO</span>
+                <span class="cont-vendor">| {{ supplier_name }}</span>
+            </div>
+            <div class="cont-right">
+                Invoice #{{ invoice_number }} | Page {{ _current_page }} of {{ _total_pages }}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Line Items Table -->
+        <div class="items-section">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th class="col-style">Style #</th>
+                        <th class="col-description">Item Description</th>
+                        <th class="col-color">Color</th>
+                        <th class="col-size">Size</th>
+                        <th class="col-qty">Qty</th>
+                        <th class="col-unit">Unit Price</th>
+                        <th class="col-total">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr class="item-row {% if loop.index is odd %}odd{% else %}even{% endif %}">
+                        <td class="style-cell">
+                            <span class="style-number">{{ item.sku|default('N/A') }}</span>
+                        </td>
+                        <td class="desc-cell">
+                            <div class="item-name">{{ item.description }}</div>
+                            {% if item.brand %}
+                            <div class="item-brand">Brand: {{ item.brand }}</div>
+                            {% endif %}
+                            {% if item.style %}
+                            <div class="item-style">Style: {{ item.style }}</div>
+                            {% endif %}
+                            {% if item.category %}
+                            <div class="item-category">Category: {{ item.category }}</div>
+                            {% endif %}
+                            {% if item.material %}
+                            <div class="item-material">{{ item.material }}</div>
+                            {% endif %}
+                            {% if item.upc %}
+                            <div class="item-upc">UPC: {{ item.upc }}</div>
+                            {% endif %}
+                        </td>
+                        <td class="color-cell">{{ item.color|default('-') }}</td>
+                        <td class="size-cell">{{ item.size|default('-') }}</td>
+                        <td class="qty-cell">{{ item.quantity }}</td>
+                        <td class="unit-cell">{{ item.unit_price }}</td>
+                        <td class="total-cell">{{ item.total }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Totals and Summary Section -->
+        <div class="summary-section">
+            <div class="order-notes">
+                {% if note %}
+                <div class="notes-box">
+                    <div class="notes-header">Order Notes</div>
+                    <div class="notes-content">{{ note }}</div>
+                </div>
+                {% endif %}
+                
+                <div class="shipping-info">
+                    <div class="info-header">Shipping Information</div>
+                    <div class="info-content">
+                        {% if tracking_number %}
+                        <div class="info-line"><span class="label">Tracking #:</span> {{ tracking_number }}</div>
+                        {% endif %}
+                        <div class="info-line"><span class="label">Ship Method:</span> {{ payment_method|default('Standard Ground') }}</div>
+                        {% if line_items and line_items[0].lead_time %}
+                        <div class="info-line"><span class="label">Est. Delivery:</span> {{ line_items[0].lead_time }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="totals-box">
+                <table class="totals-table">
+                    <tr>
+                        <td class="totals-label">Subtotal:</td>
+                        <td class="totals-value">{{ subtotal }}</td>
+                    </tr>
+                    {% if discount_raw and discount_raw > 0 %}
+                    <tr>
+                        <td class="totals-label">Discount:</td>
+                        <td class="totals-value discount">-{{ discount }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if shipping_cost_raw and shipping_cost_raw > 0 %}
+                    <tr>
+                        <td class="totals-label">Shipping:</td>
+                        <td class="totals-value">{{ shipping_cost }}</td>
+                    </tr>
+                    {% else %}
+                    <tr class="free-shipping">
+                        <td class="totals-label">Shipping:</td>
+                        <td class="totals-value fg-free">FG FREE SHIPPING</td>
+                    </tr>
+                    {% endif %}
+                    {% if tax_amount_raw and tax_amount_raw > 0 %}
+                    <tr>
+                        <td class="totals-label">Tax:</td>
+                        <td class="totals-value">{{ tax_amount }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr class="grand-total">
+                        <td class="totals-label">TOTAL DUE:</td>
+                        <td class="totals-value">{{ total_amount }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="invoice-footer">
+            <div class="footer-terms">
+                <div class="terms-title">Terms & Conditions</div>
+                <div class="terms-text">
+                    {{ terms_and_conditions|default('Returns must be requested within 7 days of receipt. All items must be in original packaging. Buyer is responsible for return shipping costs. For disputes, contact vendor directly through FashionGo messaging.') }}
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="fg-footer-bar">
+                    <span class="fg-footer-text">Order placed via</span>
+                    <span class="fg-footer-brand">FASHION</span><span class="fg-footer-go">GO</span>
+                    <span class="fg-footer-contact">| Support: 213-745-2667 | info@fashiongo.net</span>
+                </div>
+                <div class="fg-copyright">© 2002-2025 FASHIONGO.NET | NHN Global, Inc. | 2250 Maple Avenue, Los Angeles, CA 90011</div>
+            </div>
+        </div>
+
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-footer-text">
+                Continued on next page... ({{ _current_page }}/{{ _total_pages }})
+            </div>
+            <div class="cont-subtotal">
+                Page Subtotal: {{ _page_subtotal|default(subtotal) }}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

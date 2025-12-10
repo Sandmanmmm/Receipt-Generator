@@ -1,0 +1,612 @@
+/* Receiving Report - Compact Modern Design */
+/* Blue/indigo theme with visual comparison indicators */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    font-size: 9pt;
+    line-height: 1.3;
+    color: #1e293b;
+    background: white;
+}
+
+.page {
+    width: 8.5in;
+    min-height: 11in;
+    padding: 0.35in 0.45in;
+    position: relative;
+}
+
+/* ==================== HEADER ==================== */
+.header {
+    margin-bottom: 18px;
+}
+
+.header-top {
+    display: table;
+    width: 100%;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #3b82f6;
+    table-layout: fixed;
+}
+
+.company-info {
+    display: table-cell;
+    width: 40%;
+    vertical-align: middle;
+}
+
+.logo {
+    height: 40px;
+    width: auto;
+    max-width: 100px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.logo-text {
+    display: inline-block;
+    font-size: 14pt;
+    font-weight: 700;
+    color: #1e40af;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.company-meta {
+    font-size: 8pt;
+    color: #64748b;
+}
+
+.location {
+    font-weight: 600;
+}
+
+.report-info {
+    display: table-cell;
+    width: 60%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.report-title {
+    font-size: 18pt;
+    font-weight: 300;
+    color: #1e293b;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+}
+
+.report-meta {
+    display: inline-block;
+    text-align: left;
+}
+
+.meta-item {
+    display: inline-block;
+    margin-left: 20px;
+    vertical-align: middle;
+}
+
+.meta-item:first-child {
+    margin-left: 0;
+}
+
+.meta-label {
+    font-size: 7pt;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.meta-value {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.status-pill {
+    display: inline-block;
+    padding: 4px 12px;
+    font-size: 8pt;
+    font-weight: 700;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.status-pending-inspection,
+.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-completed {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-partial {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.status-issues-found {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ==================== REFERENCE CARDS ==================== */
+.reference-cards {
+    display: table;
+    width: 100%;
+    margin-bottom: 15px;
+    border-collapse: separate;
+    border-spacing: 8px 0;
+    table-layout: fixed;
+}
+
+.ref-card {
+    display: table-cell;
+    width: 25%;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 10px;
+    vertical-align: top;
+}
+
+.card-po { border-left: 3px solid #3b82f6; }
+.card-supplier { border-left: 3px solid #8b5cf6; }
+.card-shipping { border-left: 3px solid #06b6d4; }
+.card-receiver { border-left: 3px solid #10b981; }
+
+.card-icon {
+    font-size: 16pt;
+    margin-bottom: 5px;
+}
+
+.card-title {
+    font-size: 7pt;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.card-main {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-sub {
+    font-size: 7pt;
+    color: #94a3b8;
+}
+
+/* ==================== QUICK STATS ==================== */
+.quick-stats {
+    display: table;
+    width: 100%;
+    margin-bottom: 15px;
+    background: #3b82f6;  /* was: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%...) */
+    border-radius: 6px;
+    padding: 12px 0;
+    table-layout: fixed;
+}
+
+.stat {
+    display: table-cell;
+    width: 25%;
+    text-align: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stat:last-child {
+    border-right: none;
+}
+
+.stat.stat-highlight {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.stat.stat-alert .stat-value {
+    color: #fecaca;
+}
+
+.stat-value {
+    font-size: 18pt;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 8pt;
+    color: rgba(255, 255, 255, 0.9);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* ==================== CONTINUATION HEADER ==================== */
+.continuation-header {
+    display: table;
+    width: 100%;
+    padding: 8px 0;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0;
+    table-layout: fixed;
+}
+
+.cont-left {
+    display: table-cell;
+    width: 70%;
+    font-size: 9pt;
+    color: #64748b;
+}
+
+.cont-right {
+    display: table-cell;
+    width: 30%;
+    text-align: right;
+    font-size: 9pt;
+    color: #64748b;
+}
+
+/* ==================== ITEMS TABLE ==================== */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    table-layout: fixed;
+}
+
+.items-table thead {
+    background: #3b82f6;  /* was: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%...) */
+    color: white;
+}
+
+.items-table th {
+    padding: 8px 4px;
+    text-align: left;
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.items-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.items-table tbody tr.row-issue {
+    background: #fef2f2;
+}
+
+.items-table tbody tr.row-issue:hover {
+    background: #fee2e2;
+}
+
+.items-table td {
+    padding: 8px 4px;
+    font-size: 8pt;
+    vertical-align: middle;
+}
+
+/* Column widths */
+.col-item { width: 4%; text-align: center; font-weight: 600; }
+.col-sku { width: 10%; }
+.col-product { width: 30%; }
+.col-ordered { width: 8%; text-align: right; color: #64748b; }
+.col-received { width: 8%; text-align: right; }
+.col-diff { width: 7%; text-align: center; }
+.col-match { width: 6%; text-align: center; }
+.col-condition { width: 9%; text-align: center; }
+.col-bin { width: 10%; text-align: center; font-size: 7pt; }
+
+/* Product column */
+.product-name {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.product-note {
+    font-size: 7pt;
+    color: #dc2626;
+    margin-top: 2px;
+}
+
+/* Received quantity highlight */
+.col-received strong {
+    color: #2563eb;
+    font-size: 9pt;
+}
+
+/* Difference indicators */
+.diff-zero {
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+.diff-over {
+    color: #2563eb;
+    font-weight: 700;
+}
+
+.diff-short {
+    color: #dc2626;
+    font-weight: 700;
+}
+
+/* Match icons */
+.match-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 10pt;
+    font-weight: 700;
+}
+
+.match-yes {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.match-no {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.match-pending {
+    background: #f3f4f6;
+    color: #9ca3af;
+}
+
+/* Condition tags */
+.cond-tag {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    font-size: 10pt;
+    font-weight: 700;
+    border-radius: 4px;
+}
+
+.cond-good {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.cond-acceptable {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.cond-damaged {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.cond-defective {
+    background: #fce7f3;
+    color: #831843;
+}
+
+/* Pending indicator */
+.pending {
+    color: #cbd5e1;
+    font-style: italic;
+}
+
+/* ==================== INSPECTION PANEL ==================== */
+.inspection-panel {
+    margin-bottom: 15px;
+    padding: 12px 15px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+}
+
+.panel-title {
+    font-size: 9pt;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.inspection-grid {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.inspect-item {
+    display: table-cell;
+    width: 25%;
+    text-align: center;
+}
+
+.inspect-check {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 50%;
+    background: #fee2e2;
+    color: #991b1b;
+    font-size: 14pt;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.inspect-check.checked {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.inspect-label {
+    font-size: 8pt;
+    color: #64748b;
+    font-weight: 600;
+}
+
+/* ==================== NOTES PANEL ==================== */
+.notes-panel {
+    margin-bottom: 15px;
+    padding: 12px 15px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+}
+
+.notes-title {
+    font-size: 8pt;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.notes-content {
+    font-size: 8pt;
+    color: #475569;
+    line-height: 1.5;
+}
+
+.blank {
+    color: #cbd5e1;
+    letter-spacing: 0.3px;
+}
+
+/* ==================== APPROVAL SECTION ==================== */
+.approval-section {
+    display: table;
+    width: 100%;
+    margin-bottom: 15px;
+    border-collapse: separate;
+    border-spacing: 8px 0;
+    table-layout: fixed;
+}
+
+.approval-box {
+    display: table-cell;
+    width: 33.33%;
+    padding: 10px;
+    background: #fafafa;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    vertical-align: top;
+}
+
+.approval-role {
+    font-size: 7pt;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.approval-line {
+    height: 35px;
+    border-bottom: 2px solid #3b82f6;
+    margin-bottom: 6px;
+    position: relative;
+}
+
+.sig-text {
+    font-size: 10pt;
+    font-weight: 600;
+    font-style: italic;
+    color: #3b82f6;
+    position: absolute;
+    bottom: 3px;
+    left: 0;
+}
+
+.approval-info {
+    font-size: 8pt;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+.approval-date {
+    font-size: 7pt;
+    color: #94a3b8;
+}
+
+/* ==================== FOOTER ==================== */
+.footer {
+    display: table;
+    width: 100%;
+    position: absolute;
+    bottom: 0.25in;
+    left: 0.45in;
+    right: 0.45in;
+    padding-top: 8px;
+    border-top: 1px solid #e2e8f0;
+    table-layout: fixed;
+}
+
+.footer-left {
+    display: table-cell;
+    width: 40%;
+    font-size: 7pt;
+    color: #94a3b8;
+}
+
+.footer-center {
+    display: table-cell;
+    width: 30%;
+    text-align: center;
+    font-size: 7pt;
+    color: #94a3b8;
+}
+
+.footer-right {
+    display: table-cell;
+    width: 30%;
+    text-align: right;
+    font-size: 7pt;
+    color: #94a3b8;
+}
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+    .page {
+        margin: 0;
+        padding: 0.35in 0.45in;
+    }
+    
+    .items-table tbody tr {
+        page-break-inside: avoid;
+    }
+}

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waliwaba Proforma Invoice</title>
+    <link rel="stylesheet" href="../css/waliwaba_proforma_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="logo-area">
+                {% if supplier_logo %}
+                <img src="{{ supplier_logo }}" alt="Waliwaba" class="company-logo" />
+                {% else %}
+                <div class="logo-placeholder">
+                    <span class="logo-icon">🌐</span>
+                    <span class="logo-text">Waliwaba.com</span>
+                </div>
+                {% endif %}
+                <div class="tagline">Global trade starts here.™</div>
+            </div>
+            <div class="company-info">
+                <div class="company-name">Waliwaba.com India E-Commerce Private Ltd</div>
+                <div class="company-subline">An Waliwaba.com Group Company</div>
+                <div class="company-address">Platina Building, Unit No 101A, Plot No c-59</div>
+                <div class="company-address">Block No 6, Bandra Kurla Complex</div>
+                <div class="company-address">Bandra Mumbai- 400051, Tel- {{ company_phone|default('022-4233 5233') }}</div>
+            </div>
+        </div>
+
+        <!-- Invoice Title -->
+        <div class="invoice-title-bar">
+            <div class="invoice-title">PROFORMA INVOICE</div>
+        </div>
+
+        <!-- Invoice Header Info -->
+        <table class="invoice-header-table">
+            <tr>
+                <td class="header-label">DATE:</td>
+                <td class="header-value">{{ invoice_date|default('29-09-2023') }}</td>
+                <td class="header-label-right">INVOICE #:</td>
+                <td class="header-value-right">{{ invoice_number|default('DVPI230929/AB52') }}</td>
+            </tr>
+        </table>
+
+        <!-- Customer and Alibaba Details -->
+        <table class="details-table">
+            <tr>
+                <td class="section-header" colspan="2">CUSTOMER DETAILS:</td>
+                <td class="section-header" colspan="2">WALIWABA (COMPLETE NAME & ADDRESS):</td>
+            </tr>
+            <tr>
+                <td class="details-content" colspan="2">
+                    <div class="contact-block">
+                        <div class="contact-line"><strong>Contact Person:</strong> {{ buyer_name|default('Swayam Bhate') }}</div>
+                        <div class="contact-line"><strong>Company Name:</strong> {{ buyer_company|default('Viva Composite Panel Private Limited') }}</div>
+                        <div class="contact-line"><strong>ADDRESS:</strong> {{ buyer_address|default('601, a Wing, 6th Floor , Timex Square,') }}</div>
+                        <div class="contact-line">{{ buyer_city|default('Andheri kurla Road, Marol indutrial estate, Mumbai City') }}</div>
+                        <div class="contact-line">{{ buyer_state|default('Maharashtra, 400059') }}</div>
+                        <div class="contact-line"><strong>TEL:</strong> {{ buyer_phone|default('79777 18030') }}</div>
+                        <div class="contact-line"><strong>MAIL:</strong> {{ buyer_email|default('mktghead@vivaacp.com') }}</div>
+                        <div class="contact-line"><strong>GST:</strong> {{ buyer_gst|default('27AAECY9909K1ZR') }}</div>
+                        <div class="contact-line"><strong>TAN:</strong> {{ buyer_tan|default('') }}</div>
+                    </div>
+                </td>
+                <td class="details-content" colspan="2">
+                    <div class="contact-block">
+                        <div class="contact-line"><strong>WALIWABA.COM INDIA E- COMMERCE PRIVATE LIMITED</strong></div>
+                        <div class="contact-line">UNIT 203, 204 & 205, 2ND FLOOR,</div>
+                        <div class="contact-line">INSPIRE BKC PLOT NO. 10, BHARAT NAGAR</div>
+                        <div class="contact-line">G BLOCK, BKC MAIN ROAD</div>
+                        <div class="contact-line">BANDRA KURLA COMPLEX</div>
+                        <div class="contact-line">MUMBAI - 400051</div>
+                        <div class="contact-line"><strong>TEL:</strong> {{ company_phone|default('022-4233-5233') }}</div>
+                        <div class="contact-line"><strong>AAC:</strong> {{ company_aac|default('AACCE37020') }}</div>
+                        <div class="contact-line"><strong>GST:</strong> {{ company_gst|default('27AACCE37026121') }}</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Items Table Header -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-mark">MARK</th>
+                    <th class="col-description">DESCRIPTION</th>
+                    <th class="col-type">TYPE</th>
+                    <th class="col-period">PERIOD</th>
+                    <th class="col-payment">PAYMENT</th>
+                    <th class="col-unit">UNIT</th>
+                    <th class="col-total">TOTAL (INR)</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-invoice-number">Invoice #{{ invoice_number }} (Page {{ _page_number }} of {{ _total_pages }})</div>
+        </div>
+
+        <table class="items-table continuation-table">
+            <thead>
+                <tr>
+                    <th class="col-mark">MARK</th>
+                    <th class="col-description">DESCRIPTION</th>
+                    <th class="col-type">TYPE</th>
+                    <th class="col-period">PERIOD</th>
+                    <th class="col-payment">PAYMENT</th>
+                    <th class="col-unit">UNIT</th>
+                    <th class="col-total">TOTAL (INR)</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% endif %}
+                
+                <!-- Line Items -->
+                {% for item in items %}
+                <tr class="item-row">
+                    <td class="col-mark">{{ loop.index }}</td>
+                    <td class="col-description">{{ item.description|default(item.name) }}</td>
+                    <td class="col-type">{{ item.type|default('BASIC') }}</td>
+                    <td class="col-period">{{ item.period|default('1YR') }}</td>
+                    <td class="col-payment">{{ item.payment_type|default('ADVANCE') }}</td>
+                    <td class="col-unit">{{ item.quantity|default(1) }}</td>
+                    <td class="col-total">{{ item.total|default(item.amount) }}</td>
+                </tr>
+                {% endfor %}
+                
+                {% if _is_last_page|default(true) %}
+                <!-- Empty rows for spacing -->
+                <tr class="empty-row"><td colspan="7">&nbsp;</td></tr>
+                <tr class="empty-row"><td colspan="7">&nbsp;</td></tr>
+                <tr class="empty-row"><td colspan="7">&nbsp;</td></tr>
+            </tbody>
+        </table>
+
+        <!-- Totals Section -->
+        <table class="totals-table">
+            <tr>
+                <td class="totals-spacer" colspan="5"></td>
+                <td class="totals-label">DISCOUNT</td>
+                <td class="totals-label-percent">{{ discount_percent|default('8%') }}</td>
+                <td class="totals-value">{{ discount|default('₹ 11,440.00') }}</td>
+            </tr>
+            <tr>
+                <td class="totals-spacer" colspan="5"></td>
+                <td class="totals-label">FINAL</td>
+                <td class="totals-label-percent">-</td>
+                <td class="totals-value">{{ subtotal|default('₹ 1,31,560.00') }}</td>
+            </tr>
+            <tr>
+                <td class="totals-spacer" colspan="5"></td>
+                <td class="totals-label">TDS</td>
+                <td class="totals-label-percent">{{ tds_percent|default('0%') }}</td>
+                <td class="totals-value">{{ tds_amount|default('₹ 0.00') }}</td>
+            </tr>
+            <tr>
+                <td class="totals-spacer" colspan="5"></td>
+                <td class="totals-label">IGST</td>
+                <td class="totals-label-percent">{{ igst_percent|default('18%') }}</td>
+                <td class="totals-value">{{ tax_amount|default('₹ 23,680.80') }}</td>
+            </tr>
+            <tr class="grand-total-row">
+                <td class="totals-word" colspan="5">
+                    <div class="amount-words-label">#NAME?</div>
+                </td>
+                <td class="grand-total-label" colspan="2">GRAND TOTAL:</td>
+                <td class="grand-total-value">{{ total_amount|default('₹ 1,55,240.80') }}</td>
+            </tr>
+        </table>
+
+        <!-- Payment Methods Section -->
+        <div class="payment-section">
+            <div class="payment-header">PAYMENT METHODS:</div>
+            <div class="payment-list">
+                <div class="payment-item">
+                    <span class="payment-number">1.</span>
+                    <span class="payment-text">CHEQUE SHOULD BE CROSSED AND MADE PAYABLE TO WALIWABA.COM INDIA E- COMMERCE PRIVATE LIMITED</span>
+                </div>
+                <div class="payment-item">
+                    <span class="payment-number">2.</span>
+                    <div class="payment-bank-details">
+                        <div class="bank-line"><strong>BANK TRANSFER</strong></div>
+                        <div class="bank-line"><strong>ACCOUNT NAME:</strong> {{ bank_account_name|default('Waliwaba.com India E-Commerce Private Ltd') }}</div>
+                        <div class="bank-line"><strong>ACCOUNT NUMBER:</strong> {{ bank_account_number|default('ALIG 0683 1007 96') }}</div>
+                        <div class="bank-line"><strong>BANK NAME:</strong> {{ bank_name|default('CITIBANK N.A.') }}</div>
+                        <div class="bank-line"><strong>IFSC:</strong> {{ bank_ifsc|default('CITI 0100000') }}</div>
+                        <div class="bank-line"><strong>SWIFT:</strong> {{ bank_swift|default('CITIIN8X') }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes Section -->
+        <div class="notes-section">
+            <div class="notes-header">NOTES:</div>
+            <div class="notes-list">
+                <div class="note-item">
+                    <span class="note-number">1.</span>
+                    <span class="note-text">REGISTRATION FOR GOLD SUPPLIER MEMBERSHIP IS SUBJECT TO THE AUTHENTICATION AND VERIFICATION (A&V) PROCESS. IN CASE OF THE FAILURE OF A&V REFUND WILL BE MADE IN ACCORDANCE WITH THE TERMS AND CONDITIONS STIPULATED IN THE WALIWABA.COM GOLD SUPPLIER SERVICES AGREEMENT.</span>
+                </div>
+                <div class="note-item">
+                    <span class="note-number">2.</span>
+                    <span class="note-text">MEMBERSHIP FEES IS INCLUSIVE OF ALL TAXES</span>
+                </div>
+                <div class="note-item">
+                    <span class="note-number">3.</span>
+                    <span class="note-text">WALIWABA.COM INDIA E-COMMERCE PVT. LTD., RESERVES ALL RIGHTS TO DETERMINE AND CONCLUDE ALL ITEMS AND AMOUNTS SET OUT IN THIS INVOICE AND ALL SERVICES AND PRODUCTS OFFERED HEREIN.</span>
+                </div>
+                <div class="note-item">
+                    <span class="note-number">4.</span>
+                    <span class="note-text">PAYMENT OF ANY FEE EXCEEDING THE RELEVANT PAYMENT TERM MAY RENDER THE HELD ANY ORDER LAPSED AUTOMATICALLY.</span>
+                </div>
+                <div class="note-item">
+                    <span class="note-number">5.</span>
+                    <span class="note-text">THIS IS A PROFORMA AND FINAL INVOICE WOULD BE GENERATED POST FULL PAYMENT OF FEES.</span>
+                </div>
+            </div>
+        </div>
+        {% else %}
+            </tbody>
+        </table>
+        
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-footer-text">Continued on next page...</div>
+            <div class="cont-footer-page">Page {{ _page_number }} of {{ _total_pages }}</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,457 @@
+/* Zemu Receipt Invoice Stylesheet */
+/* Precise replication of marketplace order receipt format */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #ffffff;
+}
+
+.receipt-page {
+    width: 816px;
+    min-height: 1056px;
+    margin: 0 auto;
+    padding: 20px 40px;
+    background: #ffffff;
+}
+
+/* Browser-style Header */
+.browser-header {
+    display: table;
+    width: 100%;
+    padding: 8px 0;
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: #666666;
+}
+
+.browser-header .header-date {
+    display: table-cell;
+    text-align: left;
+    width: 33%;
+}
+
+.browser-header .header-title {
+    display: table-cell;
+    text-align: center;
+    width: 34%;
+    font-weight: 400;
+}
+
+.browser-header .header-spacer {
+    display: table-cell;
+    width: 33%;
+}
+
+/* Zemu Logo Section */
+.logo-section {
+    margin-bottom: 15px;
+}
+
+.zemu-logo {
+    display: table;
+}
+
+.logo-icon {
+    display: table-cell;
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    background: #FF6B35;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.logo-text-inner {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.logo-text {
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 10px;
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a1a1a;
+    letter-spacing: -1px;
+}
+
+/* Environmental Message */
+.eco-message {
+    padding: 12px 0;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #333333;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.eco-icon {
+    color: #22c55e;
+    margin-right: 6px;
+}
+
+.eco-text {
+    color: #333333;
+}
+
+/* Section Styles */
+.section {
+    margin-bottom: 24px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 12px;
+}
+
+/* Order Summary Table */
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.summary-table tr {
+    height: 32px;
+}
+
+.summary-table td.label {
+    width: 200px;
+    font-size: 14px;
+    color: #666666;
+    vertical-align: middle;
+}
+
+.summary-table td.value {
+    text-align: right;
+    font-size: 14px;
+    color: #1a1a1a;
+    vertical-align: middle;
+}
+
+.summary-table .discount-value {
+    color: #FF6B35;
+    font-weight: 500;
+}
+
+.summary-table .free-text {
+    color: #22c55e;
+    font-weight: 600;
+}
+
+.summary-table .divider-row td {
+    height: 16px;
+}
+
+.row-divider {
+    height: 1px;
+    background: #e8e8e8;
+    margin: 8px 0;
+}
+
+.summary-table .total-row {
+    height: 40px;
+}
+
+.summary-table .total-label {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.summary-table .total-value {
+    font-weight: 700;
+    font-size: 16px;
+    color: #1a1a1a;
+}
+
+/* Shipping Address */
+.shipping-address {
+    font-size: 14px;
+    color: #1a1a1a;
+    line-height: 1.6;
+}
+
+/* Payment Method Section */
+.security-notice {
+    background: #f8f9fa;
+    padding: 12px 14px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.security-icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background: #22c55e;
+    color: #ffffff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 18px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.security-text {
+    color: #666666;
+}
+
+.security-link {
+    color: #22c55e;
+    text-decoration: none;
+}
+
+.payment-row {
+    display: table;
+    width: 100%;
+    padding: 12px 0;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.payment-info {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.payment-icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 12px;
+}
+
+.paypal-logo {
+    display: inline-block;
+    background: #003087;
+    color: #ffffff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    font-style: italic;
+}
+
+.card-icon {
+    font-size: 24px;
+}
+
+.payment-details {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.payment-email {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.payment-date {
+    font-size: 12px;
+    color: #888888;
+    margin-top: 2px;
+}
+
+.payment-amount {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+/* Continuation Header */
+.continuation-header {
+    display: table;
+    width: 100%;
+    padding: 12px 0;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.cont-logo {
+    display: table-cell;
+    font-size: 20px;
+    font-weight: 800;
+    color: #FF6B35;
+}
+
+.cont-info {
+    display: table-cell;
+    text-align: right;
+    font-size: 13px;
+    color: #888888;
+}
+
+/* Item Cards */
+.item-card {
+    display: table;
+    width: 100%;
+    padding: 16px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.item-card:last-child {
+    border-bottom: none;
+}
+
+.item-image {
+    display: table-cell;
+    width: 80px;
+    vertical-align: top;
+}
+
+.product-img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #e8e8e8;
+}
+
+.image-placeholder {
+    width: 70px;
+    height: 70px;
+    background: #f5f5f5;
+    border-radius: 6px;
+    border: 1px solid #e8e8e8;
+    text-align: center;
+    line-height: 70px;
+}
+
+.placeholder-icon {
+    font-size: 28px;
+    opacity: 0.5;
+}
+
+.item-details {
+    display: table-cell;
+    vertical-align: top;
+    padding: 0 16px;
+}
+
+.item-name {
+    font-size: 14px;
+    font-weight: 400;
+    color: #1a1a1a;
+    line-height: 1.4;
+    margin-bottom: 4px;
+}
+
+.item-variant {
+    font-size: 13px;
+    color: #888888;
+    margin-bottom: 2px;
+}
+
+.item-style {
+    font-size: 12px;
+    color: #888888;
+    margin-bottom: 2px;
+}
+
+.item-category {
+    font-size: 12px;
+    color: #666666;
+    margin-bottom: 4px;
+}
+
+.item-seller {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #888888;
+}
+
+.seller-prefix {
+    color: #888888;
+}
+
+.seller-icon {
+    margin: 0 4px;
+    font-size: 12px;
+}
+
+.seller-name {
+    color: #1a1a1a;
+    font-weight: 400;
+}
+
+.item-pricing {
+    display: table-cell;
+    width: 80px;
+    text-align: right;
+    vertical-align: top;
+}
+
+.item-price {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.item-qty {
+    font-size: 13px;
+    color: #888888;
+    margin-top: 4px;
+}
+
+/* Footer */
+.footer {
+    display: table;
+    width: 100%;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e8e8e8;
+    font-size: 11px;
+    color: #888888;
+}
+
+.footer-url {
+    display: table-cell;
+    text-align: left;
+    max-width: 600px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.page-number {
+    display: table-cell;
+    text-align: right;
+    font-weight: 500;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .receipt-page {
+        width: 100%;
+        padding: 10mm;
+    }
+}
+
+/* wkhtmltoimage compatibility - no flexbox/grid, use tables */
+/* All layouts use display: table/table-cell for cross-browser support */

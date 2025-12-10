@@ -1,0 +1,594 @@
+/* Marketplace Order Invoice Styles (eBay/Etsy Style) */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.5;
+    color: #333333;
+    background: #ffffff;
+}
+
+.marketplace-invoice {
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 10mm;
+    background: #ffffff;
+}
+
+/* Marketplace Header */
+.marketplace-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 6mm;
+    border-bottom: 3px solid #ff6b35;
+    margin-bottom: 6mm;
+}
+
+.marketplace-brand {
+    flex: 1;
+}
+
+.brand-logo {
+    font-size: 28pt;
+    font-weight: 700;
+    color: #ff6b35;
+    letter-spacing: -0.5px;
+    margin-bottom: 2mm;
+}
+
+.brand-tagline {
+    font-size: 10pt;
+    color: #666666;
+    font-style: italic;
+}
+
+.invoice-badge {
+    text-align: right;
+    background: #f7f7f7;
+    padding: 4mm;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.badge-label {
+    display: block;
+    font-size: 9pt;
+    font-weight: 600;
+    color: #666666;
+    letter-spacing: 1px;
+    margin-bottom: 2mm;
+}
+
+.order-number {
+    display: block;
+    font-size: 14pt;
+    font-weight: 700;
+    color: #333333;
+}
+
+/* Status Banner */
+.status-banner {
+
+        display: flex;
+    align-items: center;
+        /* gap: 10px; - removed for wkhtmltoimage, use margins on children */
+
+    padding: 4mm;
+    border-radius: 8px;
+    margin-bottom: 6mm;
+    font-weight: 600;
+}
+
+
+.status-banner.delivered {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+}
+
+.status-banner.shipped {
+    background: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #93c5fd;
+}
+
+.status-banner.processing {
+    background: #fef9c3;
+    color: #854d0e;
+    border: 1px solid #fde047;
+}
+
+.status-banner.pending {
+    background: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #d1d5db;
+}
+
+.status-icon {
+    font-size: 14pt;
+}
+
+.status-text {
+    font-size: 11pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-date {
+    margin-left: auto;
+    font-size: 10pt;
+    font-weight: 500;
+}
+
+/* Details Grid */
+.details-grid {
+
+        display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 4mm;
+
+    margin-bottom: 8mm;
+}
+
+.details-grid > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
+
+.detail-card {
+    background: #f7f7f7;
+    border-radius: 8px;
+    padding: 4mm;
+    border: 1px solid #e0e0e0;
+}
+
+.card-title {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 3mm;
+    padding-bottom: 2mm;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2mm;
+    font-size: 9pt;
+}
+
+.detail-row .label {
+    color: #666666;
+}
+
+.detail-row .value {
+    font-weight: 500;
+    color: #333333;
+}
+
+.buyer-username,
+.seller-username {
+    font-weight: 600;
+    color: #ff6b35;
+}
+
+.buyer-name,
+.seller-name {
+    font-size: 10pt;
+    margin-bottom: 1mm;
+}
+
+.buyer-email {
+    font-size: 9pt;
+    color: #666666;
+}
+
+.seller-rating {
+    font-size: 9pt;
+    color: #666666;
+    margin-top: 2mm;
+}
+
+.shipping-address {
+    font-size: 9pt;
+    color: #333333;
+    margin-bottom: 1mm;
+}
+
+.tracking-info {
+    font-size: 9pt;
+    color: #666666;
+    margin-top: 2mm;
+    background: #fff;
+    padding: 2mm;
+    border-radius: 4px;
+}
+
+/* Payment Status */
+.status-paid {
+    color: #166534;
+    font-weight: 600;
+}
+
+.status-pending {
+    color: #d97706;
+    font-weight: 600;
+}
+
+/* Items Section */
+.items-section {
+    margin-bottom: 8mm;
+}
+
+.section-title {
+    font-size: 14pt;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 4mm;
+    padding-bottom: 2mm;
+    border-bottom: 2px solid #ff6b35;
+}
+
+/* Item Card */
+.item-card {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    padding: 4mm;
+    background: #f7f7f7;
+    border-radius: 8px;
+    margin-bottom: 4mm;
+    border: 1px solid #e0e0e0;
+}
+
+.item-card > div {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.item-card .item-image-placeholder {
+    width: 80px;
+}
+
+.item-card .item-pricing {
+    width: 150px;
+    text-align: right;
+}
+
+.item-image-placeholder {
+    width: 80px;
+    height: 80px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-box {
+    font-size: 32pt;
+    color: #cccccc;
+}
+
+.item-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.item-title {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 2mm;
+}
+
+.item-sku,
+.item-variant {
+    font-size: 9pt;
+    color: #666666;
+    margin-bottom: 1mm;
+}
+
+.item-condition {
+    margin-bottom: 2mm;
+}
+
+.condition-badge {
+    display: inline-block;
+    font-size: 8pt;
+    font-weight: 600;
+    padding: 1mm 3mm;
+    border-radius: 4px;
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.item-seller {
+    font-size: 9pt;
+    color: #666666;
+}
+
+.seller-link {
+    color: #ff6b35;
+    font-weight: 500;
+}
+
+.item-pricing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: right;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2mm;
+    font-size: 9pt;
+}
+
+.price-label {
+    color: #666666;
+}
+
+.price-value {
+    font-weight: 500;
+    color: #333333;
+}
+
+.price-row.discount .price-value {
+    color: #dc2626;
+}
+
+.price-row.total {
+    margin-top: 2mm;
+    padding-top: 2mm;
+    border-top: 1px solid #e0e0e0;
+}
+
+.price-row.total .price-label,
+.price-row.total .price-value {
+    font-weight: 600;
+    color: #333333;
+}
+
+/* Summary Section */
+.summary-section {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 6mm;
+}
+
+.summary-box {
+    width: 280px;
+    background: #f7f7f7;
+    border-radius: 8px;
+    padding: 5mm;
+    border: 1px solid #e0e0e0;
+}
+
+.summary-title {
+    font-size: 12pt;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 4mm;
+    padding-bottom: 2mm;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2mm;
+    font-size: 10pt;
+}
+
+.summary-label {
+    color: #666666;
+}
+
+.summary-value {
+    font-weight: 500;
+    color: #333333;
+}
+
+.summary-row.discount .summary-value {
+    color: #dc2626;
+}
+
+.summary-divider {
+    height: 1px;
+    background: #e0e0e0;
+    margin: 3mm 0;
+}
+
+.summary-row.total {
+    font-size: 12pt;
+    margin-top: 3mm;
+}
+
+.summary-row.total .summary-label,
+.summary-row.total .summary-value {
+    font-weight: 700;
+    color: #333333;
+}
+
+/* Payment Section */
+.payment-section {
+    margin-bottom: 6mm;
+}
+
+.payment-card {
+
+        display: flex;
+    align-items: center;
+        /* gap: 4mm; - removed for wkhtmltoimage, use margins on children */
+
+    padding: 4mm;
+    background: #f7f7f7;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+
+.payment-method-icon {
+    font-size: 24pt;
+    width: 50px;
+    height: 50px;
+    background: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e0e0e0;
+}
+
+.payment-details {
+    flex: 1;
+}
+
+.payment-type {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 1mm;
+}
+
+.payment-number {
+    font-size: 10pt;
+    color: #666666;
+    font-family: 'Consolas', monospace;
+}
+
+.transaction-id {
+    font-size: 9pt;
+    color: #666666;
+    margin-top: 1mm;
+}
+
+.payment-amount {
+    font-size: 14pt;
+    font-weight: 700;
+    color: #166534;
+}
+
+/* Buyer Protection Section */
+.protection-section {
+
+        display: flex;
+    align-items: center;
+        /* gap: 4mm; - removed for wkhtmltoimage, use margins on children */
+
+    padding: 5mm;
+    background: #dcfce7;
+    border-radius: 8px;
+    border: 1px solid #86efac;
+    margin-bottom: 8mm;
+}
+
+
+.protection-badge {
+    font-size: 24pt;
+    width: 50px;
+    height: 50px;
+    background: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #166534;
+}
+
+.protection-content h3 {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #166534;
+    margin-bottom: 1mm;
+}
+
+.protection-content p {
+    font-size: 9pt;
+    color: #166534;
+}
+
+/* Footer */
+.marketplace-footer {
+    padding-top: 6mm;
+    border-top: 2px solid #e0e0e0;
+    text-align: center;
+}
+
+.footer-links {
+    margin-bottom: 4mm;
+}
+
+.footer-links a {
+    color: #ff6b35;
+    text-decoration: none;
+    font-size: 10pt;
+    font-weight: 500;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.separator {
+    color: #cccccc;
+    margin: 0 3mm;
+}
+
+.footer-info p {
+    font-size: 9pt;
+    color: #666666;
+    margin-bottom: 1mm;
+}
+
+/* Continuation Header (inline styles in HTML, but CSS fallback) */
+.continuation-header {
+    padding: 20px;
+    background: #f5f5f5;
+    border-bottom: 3px solid #ff6b35;
+    margin-bottom: 30px;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f5f5f5;
+    border-top: 2px solid #ddd;
+    text-align: center;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+    }
+    
+    .marketplace-invoice {
+        padding: 0;
+        max-width: none;
+    }
+    
+    .item-card,
+    .detail-card,
+    .summary-box,
+    .payment-card,
+    .protection-section {
+        break-inside: avoid;
+    }
+}

@@ -1,0 +1,818 @@
+/* Shipping Manifest - Professional Navy/Steel Theme */
+/* Designed for fulfillment centers and multi-item shipments */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.4;
+    color: #1e293b;
+    background: #ffffff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.manifest-container {
+    width: 816px;
+    min-height: 1056px;
+    margin: 0 auto;
+    padding: 20px 25px;
+    background: #ffffff;
+}
+
+/* ============================================
+   HEADER SECTION
+   ============================================ */
+.header-section {
+    display: table;
+    width: 100%;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #1e3a5f;
+}
+
+.header-left {
+    display: table-cell;
+    width: 35%;
+    vertical-align: middle;
+}
+
+.header-center {
+    display: table-cell;
+    width: 35%;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.header-right {
+    display: table-cell;
+    width: 30%;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.company-logo {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.company-logo img {
+    max-height: 45px;
+    max-width: 100px;
+}
+
+.company-info {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.company-name {
+    font-size: 14pt;
+    font-weight: 700;
+    color: #1e3a5f;
+    letter-spacing: 0.5px;
+}
+
+.company-tagline {
+    font-size: 8pt;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.document-title {
+    font-size: 20pt;
+    font-weight: 700;
+    color: #1e3a5f;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.document-subtitle {
+    font-size: 9pt;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+.manifest-number-box {
+    display: inline-block;
+    background: #1e3a5f;  /* was: linear-gradient(135deg, #1e3a5f, #2d4a6f...) */
+    color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.manifest-label {
+    font-size: 8pt;
+    opacity: 0.9;
+    letter-spacing: 0.5px;
+}
+
+.manifest-value {
+    font-size: 14pt;
+    font-weight: 700;
+    font-family: 'Consolas', 'Monaco', monospace;
+    letter-spacing: 1px;
+}
+
+/* ============================================
+   STATUS BAR
+   ============================================ */
+.status-bar {
+    display: table;
+    width: 100%;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    padding: 8px 15px;
+    margin-bottom: 12px;
+}
+
+.status-bar.status-pending {
+    background: #fef3c7;  /* was: linear-gradient(90deg, #fef3c7, #fef9c3...) */
+    border-color: #fbbf24;
+}
+
+.status-bar.status-shipped {
+    background: #d1fae5;  /* was: linear-gradient(90deg, #d1fae5, #ecfdf5...) */
+    border-color: #34d399;
+}
+
+.status-bar.status-in-transit {
+    background: #dbeafe;  /* was: linear-gradient(90deg, #dbeafe, #eff6ff...) */
+    border-color: #3b82f6;
+}
+
+.status-bar.status-delivered {
+    background: #d1fae5;  /* was: linear-gradient(90deg, #d1fae5, #dcfce7...) */
+    border-color: #22c55e;
+}
+
+.status-left,
+.status-center,
+.status-right {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.status-left {
+    width: 35%;
+    text-align: left;
+}
+
+.status-center {
+    width: 35%;
+    text-align: center;
+}
+
+.status-right {
+    width: 30%;
+    text-align: right;
+}
+
+.status-label {
+    font-size: 8pt;
+    color: #64748b;
+    margin-right: 5px;
+}
+
+.status-value {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+/* ============================================
+   INFO GRID (Origin, Destination, Carrier)
+   ============================================ */
+.info-grid {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    margin-bottom: 10px;
+}
+
+.info-card {
+    display: table-cell;
+    width: 33.33%;
+    padding: 0 5px;
+    vertical-align: top;
+}
+
+.info-card:first-child {
+    padding-left: 0;
+}
+
+.info-card:last-child {
+    padding-right: 0;
+}
+
+.card-header {
+    padding: 6px 10px;
+    border-radius: 5px 5px 0 0;
+    display: table;
+    width: 100%;
+}
+
+.card-icon {
+    display: table-cell;
+    width: 35px;
+    font-size: 10pt;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.card-title {
+    display: table-cell;
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    vertical-align: middle;
+}
+
+/* Card-specific colors */
+.origin-card .card-header {
+    background: #1e3a5f;  /* was: linear-gradient(135deg, #1e3a5f, #2d4a6f...) */
+    color: #ffffff;
+}
+
+.destination-card .card-header {
+    background: #059669;  /* was: linear-gradient(135deg, #059669, #10b981...) */
+    color: #ffffff;
+}
+
+.carrier-card .card-header {
+    background: #7c3aed;  /* was: linear-gradient(135deg, #7c3aed, #8b5cf6...) */
+    color: #ffffff;
+}
+
+.card-body {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    padding: 10px;
+    min-height: 100px;
+}
+
+.party-name,
+.carrier-name {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.party-address {
+    font-size: 8pt;
+    color: #475569;
+    line-height: 1.5;
+    margin-bottom: 5px;
+}
+
+.party-contact,
+.party-phone {
+    font-size: 8pt;
+    color: #64748b;
+}
+
+.carrier-detail {
+    display: table;
+    width: 100%;
+    margin-bottom: 3px;
+}
+
+.detail-label {
+    display: table-cell;
+    width: 40%;
+    font-size: 8pt;
+    color: #64748b;
+}
+
+.detail-value {
+    display: table-cell;
+    width: 60%;
+    font-size: 8pt;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.tracking-num {
+    font-family: 'Consolas', 'Monaco', monospace;
+    background: #e0f2fe;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 9pt;
+}
+
+/* ============================================
+   REFERENCE ROW
+   ============================================ */
+.reference-row {
+    display: table;
+    width: 100%;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    padding: 8px 0;
+    margin-bottom: 12px;
+}
+
+.ref-item {
+    display: table-cell;
+    text-align: center;
+    padding: 0 10px;
+    border-right: 1px solid #cbd5e1;
+}
+
+.ref-item:last-child {
+    border-right: none;
+}
+
+.ref-label {
+    font-size: 7pt;
+    color: #64748b;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.ref-value {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.ref-value.highlight {
+    background: #1e3a5f;
+    color: #ffffff;
+    padding: 2px 8px;
+    border-radius: 3px;
+}
+
+/* ============================================
+   ITEMS TABLE
+   ============================================ */
+.items-section {
+    margin-bottom: 12px;
+}
+
+.section-header {
+    display: table;
+    width: 100%;
+    background: #1e3a5f;
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 5px 5px 0 0;
+}
+
+.section-title {
+    display: table-cell;
+    font-size: 10pt;
+    font-weight: 700;
+    letter-spacing: 1px;
+    vertical-align: middle;
+}
+
+.page-indicator {
+    display: table-cell;
+    text-align: right;
+    font-size: 9pt;
+    opacity: 0.9;
+    vertical-align: middle;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border: 1px solid #e2e8f0;
+    border-top: none;
+}
+
+.items-table thead {
+    background: #e2e8f0;
+}
+
+.items-table th {
+    padding: 8px 5px;
+    font-size: 7pt;
+    font-weight: 600;
+    color: #475569;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-right: 1px solid #cbd5e1;
+}
+
+.items-table th:last-child {
+    border-right: none;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.items-table tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+.items-table tbody tr:hover {
+    background: #f1f5f9;
+}
+
+.items-table tbody tr.special-handling {
+    background: #fef3c7;
+}
+
+.items-table td {
+    padding: 8px 5px;
+    font-size: 8pt;
+    color: #1e293b;
+    vertical-align: top;
+    border-right: 1px solid #e2e8f0;
+}
+
+.items-table td:last-child {
+    border-right: none;
+}
+
+/* Column widths */
+.col-line { width: 4%; text-align: center; }
+.col-sku { width: 12%; font-family: 'Consolas', monospace; font-size: 8pt; }
+.col-desc { width: 22%; }
+.col-qty { width: 7%; text-align: center; font-weight: 600; }
+.col-uom { width: 6%; text-align: center; }
+.col-weight { width: 10%; text-align: right; }
+.col-dims { width: 14%; text-align: center; font-size: 7pt; }
+.col-package { width: 9%; text-align: center; }
+.col-handling { width: 12%; text-align: center; }
+
+.item-name {
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.item-lot {
+    font-size: 7pt;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+.handling-badge {
+    display: inline-block;
+    background: #fbbf24;
+    color: #78350f;
+    font-size: 7pt;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+}
+
+/* ============================================
+   SUMMARY SECTION
+   ============================================ */
+.summary-section {
+    display: table;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.summary-left {
+    display: table-cell;
+    width: 55%;
+    vertical-align: top;
+    padding-right: 15px;
+}
+
+.summary-right {
+    display: table-cell;
+    width: 45%;
+    vertical-align: top;
+}
+
+/* Instructions Box */
+.instructions-box {
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.instructions-title {
+    background: #fef3c7;
+    border-bottom: 1px solid #fbbf24;
+    padding: 6px 10px;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #92400e;
+    border-radius: 5px 5px 0 0;
+}
+
+.instructions-content {
+    padding: 10px;
+    background: #fffbeb;
+}
+
+.instruction-item {
+    display: table;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.instruction-item:last-child {
+    margin-bottom: 0;
+}
+
+.check-box {
+    display: table-cell;
+    width: 25px;
+    font-family: 'Consolas', monospace;
+    font-size: 10pt;
+    font-weight: 700;
+    color: #1e3a5f;
+    vertical-align: top;
+}
+
+.instruction-text {
+    display: table-cell;
+    font-size: 8pt;
+    color: #78350f;
+    vertical-align: top;
+}
+
+/* Notes Box */
+.notes-box {
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+}
+
+.notes-title {
+    background: #f1f5f9;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 6px 10px;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #475569;
+    border-radius: 5px 5px 0 0;
+}
+
+.notes-content {
+    padding: 10px;
+    font-size: 8pt;
+    color: #475569;
+    line-height: 1.5;
+}
+
+/* Totals Box */
+.totals-box {
+    border: 2px solid #1e3a5f;
+    border-radius: 5px;
+}
+
+.totals-title {
+    background: #1e3a5f;
+    color: #ffffff;
+    padding: 8px 12px;
+    font-size: 10pt;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-radius: 3px 3px 0 0;
+}
+
+.totals-grid {
+    padding: 10px 12px;
+    background: #f8fafc;
+}
+
+.total-row {
+    display: table;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.total-row.separator {
+    border-top: 1px dashed #cbd5e1;
+    padding-top: 5px;
+    margin-top: 5px;
+}
+
+.total-row.highlight {
+    background: #dbeafe;
+    margin: 0 -12px;
+    padding: 5px 12px;
+}
+
+.total-label {
+    display: table-cell;
+    width: 55%;
+    font-size: 8pt;
+    color: #64748b;
+}
+
+.total-value {
+    display: table-cell;
+    width: 45%;
+    text-align: right;
+    font-size: 9pt;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.total-row.highlight .total-label,
+.total-row.highlight .total-value {
+    font-weight: 700;
+    color: #1e3a5f;
+}
+
+/* ============================================
+   VERIFICATION SECTION
+   ============================================ */
+.verification-section {
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    margin-bottom: 12px;
+}
+
+.verification-title {
+    background: #475569;
+    color: #ffffff;
+    padding: 6px 12px;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-radius: 5px 5px 0 0;
+}
+
+.verification-grid {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    padding: 12px;
+    background: #f8fafc;
+}
+
+.verification-block {
+    display: table-cell;
+    width: 25%;
+    padding: 0 8px;
+    text-align: center;
+}
+
+.verification-label {
+    font-size: 8pt;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 5px;
+}
+
+.signature-line {
+    border-bottom: 1px solid #1e3a5f;
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+.signature-fields {
+    display: block;
+}
+
+.signature-name {
+    display: block;
+    font-size: 8pt;
+    color: #64748b;
+    margin-bottom: 2px;
+}
+
+.signature-date {
+    display: block;
+    font-size: 7pt;
+    color: #94a3b8;
+}
+
+/* ============================================
+   FOOTER SECTION
+   ============================================ */
+.footer-section {
+    display: table;
+    width: 100%;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 8px;
+    margin-top: auto;
+}
+
+.footer-left,
+.footer-center,
+.footer-right {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.footer-left {
+    width: 50%;
+    text-align: left;
+}
+
+.footer-center {
+    width: 25%;
+    text-align: center;
+    font-size: 9pt;
+    font-weight: 600;
+    color: #1e3a5f;
+}
+
+.footer-right {
+    width: 25%;
+    text-align: right;
+}
+
+.legal-notice {
+    font-size: 7pt;
+    color: #94a3b8;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.generated-info {
+    font-size: 7pt;
+    color: #94a3b8;
+}
+
+/* ============================================
+   BARCODE SECTION
+   ============================================ */
+.barcode-section {
+    text-align: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.barcode-placeholder {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 18pt;
+    letter-spacing: 3px;
+    color: #1e3a5f;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .manifest-container {
+        width: 100%;
+        padding: 15px 20px;
+        page-break-inside: avoid;
+    }
+    
+    .items-section {
+        page-break-inside: auto;
+    }
+    
+    .items-table tr {
+        page-break-inside: avoid;
+    }
+    
+    .summary-section,
+    .verification-section {
+        page-break-inside: avoid;
+    }
+}
+
+/* ============================================
+   CONTINUATION HEADER (for multipage)
+   ============================================ */
+.continuation-header {
+    display: table;
+    width: 100%;
+    background: #f1f5f9;
+    border-bottom: 2px solid #1e3a5f;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+}
+
+.continuation-header .manifest-info {
+    display: table-cell;
+    width: 50%;
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1e3a5f;
+}
+
+.continuation-header .page-info {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+    font-size: 9pt;
+    color: #64748b;
+}

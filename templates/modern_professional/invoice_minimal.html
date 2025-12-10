@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Minimal Invoice</title>
+    <title>Minimal Invoice{% if _page_number|default(none) %} - Page {{ _page_number }} of {{ _total_pages }}{% endif %}</title>
     <style>
         @page {
             size: A4;
@@ -27,10 +27,20 @@
             margin-bottom: 20px;
         }
         .meta-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            display: table;
+            width: 100%;
+            table-layout: fixed;
             margin-bottom: 60px;
+        }
+        .meta-grid > div {
+            display: table-cell;
+            width: 50%;
+            vertical-align: top;
+            padding-right: 40px;
+        }
+        .meta-grid > div:last-child {
+            padding-right: 0;
+            padding-left: 40px;
         }
         .meta-group {
             margin-bottom: 20px;
@@ -130,7 +140,7 @@
             </div>
             <div class="meta-group">
                 <div class="label">Amount Due</div>
-                <div class="value">{{ currency_symbol }}{{ "%.2f"|format(total) }}</div>
+                <div class="value">{{ currency_symbol }}{{ "%.2f"|format(total|to_float) }}</div>
             </div>
         </div>
     </div>
@@ -149,8 +159,8 @@
             <tr>
                 <td>{{ item.description }}</td>
                 <td style="text-align: center;">{{ item.quantity }}</td>
-                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price) }}</td>
-                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.amount) }}</td>
+                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.unit_price|to_float) }}</td>
+                <td style="text-align: right;">{{ currency_symbol }}{{ "%.2f"|format(item.amount|to_float) }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -160,15 +170,15 @@
         <div class="totals-box">
             <div class="total-row">
                 <span>Subtotal</span>
-                <span>{{ currency_symbol }}{{ "%.2f"|format(subtotal) }}</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(subtotal|to_float) }}</span>
             </div>
             <div class="total-row">
                 <span>Tax ({{ tax_rate }})</span>
-                <span>{{ currency_symbol }}{{ "%.2f"|format(tax) }}</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(tax|to_float) }}</span>
             </div>
             <div class="total-row final">
                 <span>Total</span>
-                <span>{{ currency_symbol }}{{ "%.2f"|format(total) }}</span>
+                <span>{{ currency_symbol }}{{ "%.2f"|format(total|to_float) }}</span>
             </div>
         </div>
     </div>

@@ -1,0 +1,684 @@
+/* Saleco Wholesale Invoice Stylesheet
+ * Warehouse club invoice with signature red and white branding
+ * Colors: Red (#E31837), Dark Red (#B01428), Black (#000000)
+ */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    font-size: 10px;
+    color: #000000;
+    background: #ffffff;
+    line-height: 1.35;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 22px;
+    background: #ffffff;
+    position: relative;
+}
+
+/* ===== FIRST PAGE HEADER ===== */
+.page-header {
+    margin-bottom: 15px;
+}
+
+/* Costco Header */
+.costco-header {
+    background: #e31837;
+    padding: 18px 20px;
+    margin: -22px -22px 15px -22px;
+    width: calc(100% + 44px);
+    border-bottom: 4px solid #b01428;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.header-logo {
+    width: 55%;
+    vertical-align: middle;
+}
+
+.costco-logo {
+    font-size: 42px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 3px;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+
+.costco-subtitle {
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 4px;
+}
+
+.header-info {
+    width: 45%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.membership-box {
+    background: #ffffff;
+    border: 3px solid #b01428;
+    padding: 10px 15px;
+    display: inline-block;
+    border-radius: 4px;
+}
+
+.membership-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #000000;
+    margin-right: 8px;
+}
+
+.membership-number {
+    font-size: 14px;
+    font-weight: 700;
+    color: #e31837;
+    font-family: 'Courier New', monospace;
+}
+
+/* Warehouse Section */
+.warehouse-section {
+    margin-bottom: 12px;
+}
+
+.warehouse-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.warehouse-info {
+    width: 55%;
+    vertical-align: top;
+}
+
+.warehouse-title {
+    font-size: 8px;
+    font-weight: 700;
+    color: #666666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+}
+
+.warehouse-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #e31837;
+    margin-bottom: 3px;
+}
+
+.warehouse-address {
+    font-size: 9px;
+    color: #000000;
+    margin-bottom: 2px;
+}
+
+.warehouse-phone {
+    font-size: 9px;
+    color: #000000;
+    margin-bottom: 2px;
+}
+
+.warehouse-id {
+    font-size: 8px;
+    color: #666666;
+    margin-top: 4px;
+}
+
+.transaction-info {
+    width: 45%;
+    vertical-align: top;
+    text-align: right;
+}
+
+.trans-box {
+    display: inline-block;
+    border: 2px solid #000000;
+    background: #f5f5f5;
+}
+
+.trans-grid {
+    border-collapse: collapse;
+}
+
+.trans-grid tr {
+    border-bottom: 1px solid #cccccc;
+}
+
+.trans-grid tr:last-child {
+    border-bottom: none;
+}
+
+.trans-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #666666;
+    padding: 7px 10px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.trans-value {
+    font-size: 10px;
+    font-weight: 700;
+    color: #000000;
+    padding: 7px 12px;
+    text-align: right;
+}
+
+/* Member Section */
+.member-section {
+    margin-bottom: 12px;
+}
+
+.member-bar {
+    background: #f5f5f5;
+    border: 2px solid #000000;
+    padding: 8px 12px;
+}
+
+.member-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.member-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #000000;
+    width: 75px;
+    text-transform: uppercase;
+}
+
+.member-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: #000000;
+    padding-right: 15px;
+}
+
+.member-address {
+    font-size: 9px;
+    color: #333333;
+}
+
+/* Items Divider */
+.items-divider {
+    margin-bottom: 10px;
+}
+
+.divider-bar {
+    height: 3px;
+    background: #000000;
+}
+
+/* ===== CONTINUATION HEADER ===== */
+.cont-header {
+    border-bottom: 3px solid #e31837;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+
+.cont-header-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cont-costco {
+    width: 30%;
+    font-size: 16px;
+    font-weight: 900;
+    color: #e31837;
+    vertical-align: middle;
+    letter-spacing: 1px;
+}
+
+.cont-warehouse {
+    width: 25%;
+    font-size: 9px;
+    font-weight: 700;
+    color: #000000;
+    vertical-align: middle;
+}
+
+.cont-invoice {
+    width: 25%;
+    text-align: right;
+    font-size: 9px;
+    font-weight: 600;
+    color: #333333;
+    vertical-align: middle;
+}
+
+.cont-page {
+    width: 20%;
+    text-align: right;
+    font-size: 9px;
+    color: #666666;
+    vertical-align: middle;
+}
+
+/* ===== ITEMS TABLE ===== */
+.items-section {
+    margin-bottom: 12px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #000000;
+}
+
+.items-table thead {
+    background: #000000;
+}
+
+.items-table th {
+    padding: 8px 6px;
+    font-size: 9px;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.th-item {
+    width: 40%;
+}
+
+.th-item-num {
+    width: 15%;
+}
+
+.th-qty {
+    width: 10%;
+    text-align: center;
+}
+
+.th-price {
+    width: 17%;
+    text-align: right;
+}
+
+.th-amount {
+    width: 18%;
+    text-align: right;
+}
+
+.item-row {
+    border-bottom: 1px solid #cccccc;
+}
+
+.item-row:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.item-row:last-child {
+    border-bottom: none;
+}
+
+.item-row td {
+    padding: 8px 6px;
+    font-size: 9px;
+    color: #000000;
+    vertical-align: top;
+}
+
+.td-item {
+    vertical-align: top;
+}
+
+.item-desc {
+    font-size: 10px;
+    color: #000000;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 2px;
+}
+
+.item-variant {
+    font-size: 8px;
+    color: #666666;
+}
+
+.td-item-num {
+    font-size: 9px;
+    color: #666666;
+    font-family: 'Courier New', monospace;
+}
+
+.td-qty {
+    text-align: center;
+    font-weight: 700;
+    font-size: 10px;
+}
+
+.td-price {
+    text-align: right;
+    font-weight: 600;
+}
+
+.td-amount {
+    text-align: right;
+    font-weight: 700;
+    font-size: 10px;
+}
+
+/* ===== TOTALS SECTION ===== */
+.totals-section {
+    margin-bottom: 12px;
+}
+
+.totals-divider {
+    margin-bottom: 15px;
+}
+
+.divider-bar-thick {
+    height: 4px;
+    background: #000000;
+}
+
+.totals-layout {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-left {
+    width: 48%;
+    vertical-align: top;
+    padding-right: 12px;
+}
+
+.totals-right {
+    width: 52%;
+    vertical-align: top;
+}
+
+/* Savings Box */
+.savings-box {
+    background: #e31837;  /* was: linear-gradient(135deg, #e31837 0%, #b01428 100%...) */
+    border: 4px solid #8a0f1e;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+.savings-header {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.savings-star {
+    display: table-cell;
+    font-size: 24px;
+    color: #ffdd00;
+    width: 35px;
+    vertical-align: middle;
+}
+
+.savings-title {
+    display: table-cell;
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffffff;
+    vertical-align: middle;
+    letter-spacing: 1px;
+}
+
+.savings-body {
+    text-align: center;
+}
+
+.savings-amount {
+    font-size: 28px;
+    font-weight: 900;
+    color: #ffdd00;
+    line-height: 1;
+    margin-bottom: 3px;
+}
+
+.savings-text {
+    font-size: 9px;
+    color: #ffffff;
+}
+
+/* Payment Details */
+.payment-details {
+    background: #f5f5f5;
+    border: 2px solid #000000;
+    padding: 12px;
+}
+
+.payment-title {
+    font-size: 9px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.payment-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.payment-table tr {
+    line-height: 1.8;
+}
+
+.pay-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #666666;
+    width: 70px;
+}
+
+.pay-value {
+    font-size: 10px;
+    font-weight: 700;
+    color: #000000;
+}
+
+/* Summary Table */
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 3px solid #000000;
+    background: #ffffff;
+    margin-bottom: 12px;
+}
+
+.summary-row td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #cccccc;
+}
+
+.summary-row:last-child td {
+    border-bottom: none;
+}
+
+.summary-label {
+    font-size: 11px;
+    color: #000000;
+    font-weight: 700;
+    text-align: left;
+    width: 60%;
+    text-transform: uppercase;
+}
+
+.summary-value {
+    font-size: 13px;
+    color: #000000;
+    font-weight: 700;
+    text-align: right;
+    width: 40%;
+}
+
+.discount-row .summary-value {
+    color: #e31837;
+}
+
+.total-row {
+    background: #e31837;
+}
+
+.total-row .summary-label {
+    font-size: 14px;
+    font-weight: 900;
+    color: #ffffff;
+}
+
+.total-row .summary-value {
+    font-size: 18px;
+    font-weight: 900;
+    color: #ffdd00;
+}
+
+/* Paid Stamp */
+.paid-stamp {
+    background: #ffffff;
+    border: 4px solid #e31837;
+    padding: 12px;
+    text-align: center;
+}
+
+.stamp-text {
+    font-size: 28px;
+    font-weight: 900;
+    color: #e31837;
+    letter-spacing: 6px;
+}
+
+/* Reward Section */
+.reward-section {
+    margin-top: 12px;
+}
+
+.reward-box {
+    background: #fff8e1;
+    border: 2px solid #ffdd00;
+    border-radius: 4px;
+    padding: 10px 12px;
+    text-align: center;
+}
+
+.reward-icon {
+    font-size: 16px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.reward-text {
+    font-size: 10px;
+    font-weight: 700;
+    color: #000000;
+    vertical-align: middle;
+}
+
+/* ===== FOOTER ===== */
+.page-footer {
+    margin-top: 15px;
+}
+
+.footer-divider {
+    height: 3px;
+    background: #000000;
+    margin-bottom: 10px;
+}
+
+.footer-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.footer-left {
+    width: 65%;
+    vertical-align: top;
+}
+
+.footer-right {
+    width: 35%;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.footer-line {
+    font-size: 9px;
+    color: #000000;
+    margin-bottom: 2px;
+}
+
+.footer-line:first-child {
+    font-weight: 700;
+    font-size: 10px;
+    margin-bottom: 4px;
+}
+
+.footer-logo {
+    font-size: 24px;
+    font-weight: 900;
+    color: #e31837;
+    letter-spacing: 2px;
+    margin-bottom: 2px;
+}
+
+.footer-tagline {
+    font-size: 10px;
+    font-weight: 700;
+    color: #000000;
+    letter-spacing: 2px;
+}
+
+/* ===== CONTINUATION FOOTER ===== */
+.cont-footer {
+    margin-top: 15px;
+}
+
+.cont-bar {
+    height: 2px;
+    background: #e31837;
+    margin-bottom: 6px;
+}
+
+.cont-text {
+    font-size: 9px;
+    color: #666666;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* ===== PRINT OPTIMIZATION ===== */
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .invoice-page {
+        padding: 18px;
+    }
+    
+    .costco-header {
+        margin: -18px -18px 15px -18px;
+        width: calc(100% + 36px);
+    }
+}

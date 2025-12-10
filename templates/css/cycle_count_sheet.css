@@ -1,0 +1,681 @@
+/* Cycle Count Sheet Styles */
+/* Purple/Indigo theme for inventory verification workflow */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 10pt;
+    line-height: 1.4;
+    color: #1f2937;
+    background-color: #ffffff;
+}
+
+.page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 30px;
+    position: relative;
+    background-color: #ffffff;
+}
+
+.page-break {
+    page-break-after: always;
+    break-after: page;
+}
+
+/* Header Styles */
+.header {
+    display: table;
+    width: 100%;
+    margin-bottom: 20px;
+    border-bottom: 3px solid #7c3aed;
+}
+
+.logo-section {
+    display: table-cell;
+    width: 25%;
+    vertical-align: middle;
+    padding-right: 15px;
+}
+
+.logo {
+    max-width: 120px;
+    max-height: 60px;
+    display: block;
+}
+
+.logo-placeholder {
+    width: 120px;
+    height: 60px;
+    background: #7c3aed;  /* was: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%...) */
+    display: inline-block;
+    text-align: center;
+    line-height: 60px;
+    color: white;
+    font-weight: bold;
+    font-size: 18pt;
+    border-radius: 4px;
+}
+
+.title-section {
+    display: table-cell;
+    width: 75%;
+    vertical-align: middle;
+    text-align: right;
+    padding-bottom: 10px;
+}
+
+.title-section h1 {
+    font-size: 28pt;
+    font-weight: bold;
+    color: #7c3aed;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.doc-type {
+    display: inline-block;
+    background: #7c3aed;  /* was: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%...) */
+    color: white;
+    padding: 6px 20px;
+    margin-top: 8px;
+    font-size: 11pt;
+    font-weight: bold;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+
+/* Reference Bar */
+.reference-bar {
+    display: table;
+    width: 100%;
+    background: #ede9fe;  /* was: linear-gradient(135deg, #ede9fe 0%, #e9d5ff 100%...) */
+    border: 2px solid #7c3aed;
+    border-radius: 6px;
+    padding: 12px 15px;
+    margin-bottom: 18px;
+}
+
+.ref-item {
+    display: table-cell;
+    width: 33.33%;
+    vertical-align: middle;
+    padding: 0 10px;
+    border-right: 1px solid #c4b5fd;
+}
+
+.ref-item:last-child {
+    border-right: none;
+}
+
+.ref-label {
+    font-weight: bold;
+    color: #5b21b6;
+    font-size: 9pt;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.ref-value {
+    color: #1f2937;
+    font-size: 10pt;
+    font-weight: 600;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 9pt;
+    font-weight: bold;
+    color: white;
+}
+
+.status-not-started {
+    background-color: #6b7280;
+}
+
+.status-in-progress {
+    background-color: #3b82f6;
+}
+
+.status-completed {
+    background-color: #10b981;
+}
+
+.status-pending-review {
+    background-color: #f59e0b;
+}
+
+.status-discrepancy-found {
+    background-color: #dc2626;
+}
+
+/* Assignment Table */
+.assignment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 18px;
+    table-layout: fixed;
+}
+
+.assignment-left,
+.assignment-right {
+    width: 50%;
+    vertical-align: top;
+}
+
+.assignment-left {
+    padding-right: 9px;
+}
+
+.assignment-right {
+    padding-left: 9px;
+}
+
+.assignment-box {
+    border: 2px solid #7c3aed;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.assignment-header {
+    background: #7c3aed;  /* was: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%...) */
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 10pt;
+    letter-spacing: 0.5px;
+}
+
+.assignment-content {
+    padding: 15px;
+    background-color: #faf5ff;
+}
+
+.assignment-row {
+    padding: 5px 0;
+    border-bottom: 1px solid #e9d5ff;
+}
+
+.assignment-row:last-child {
+    border-bottom: none;
+}
+
+.assignment-row .label {
+    display: inline-block;
+    width: 35%;
+    font-weight: 600;
+    color: #5b21b6;
+    font-size: 9pt;
+}
+
+.assignment-row .value {
+    display: inline-block;
+    width: 60%;
+    color: #1f2937;
+    font-size: 9pt;
+}
+
+/* ABC Classification Badges */
+.abc-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 8pt;
+    font-weight: bold;
+    color: white;
+}
+
+.abc-a {
+    background-color: #dc2626;  /* High value - Red */
+}
+
+.abc-b {
+    background-color: #f59e0b;  /* Medium value - Orange */
+}
+
+.abc-c {
+    background-color: #10b981;  /* Low value - Green */
+}
+
+/* Instructions Section */
+.instructions-section {
+    background-color: #fef3c7;
+    border: 2px solid #f59e0b;
+    border-radius: 6px;
+    padding: 12px 15px;
+    margin-bottom: 18px;
+}
+
+.instructions-header {
+    font-weight: bold;
+    color: #92400e;
+    font-size: 10pt;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.instructions-content {
+    font-size: 9pt;
+    color: #78350f;
+}
+
+.instruction-item {
+    padding: 3px 0;
+    padding-left: 10px;
+}
+
+/* Continuation Header */
+.continuation-header {
+    display: table;
+    width: 100%;
+    background-color: #ede9fe;
+    border: 2px solid #7c3aed;
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+}
+
+.cont-left {
+    display: table-cell;
+    width: 70%;
+    vertical-align: middle;
+    font-size: 10pt;
+    color: #5b21b6;
+}
+
+.cont-right {
+    display: table-cell;
+    width: 30%;
+    text-align: right;
+    vertical-align: middle;
+    font-size: 9pt;
+    color: #6b7280;
+}
+
+/* Items Count Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 18px;
+    font-size: 9pt;
+    table-layout: fixed;
+}
+
+.items-table thead {
+    background: #7c3aed;  /* was: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%...) */
+    color: white;
+}
+
+.items-table th {
+    padding: 10px 6px;
+    text-align: left;
+    font-weight: bold;
+    border: 1px solid #6d28d9;
+    font-size: 8.5pt;
+    line-height: 1.3;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.items-table tbody tr:nth-child(even) {
+    background-color: #faf5ff;
+}
+
+.items-table tbody tr:hover {
+    background-color: #ede9fe;
+}
+
+.items-table td {
+    padding: 8px 6px;
+    border: 1px solid #e5e7eb;
+    vertical-align: middle;
+}
+
+/* Column Widths */
+.col-num {
+    width: 3%;
+    text-align: center;
+}
+
+.col-sku {
+    width: 9%;
+}
+
+.col-name {
+    width: 16%;
+    font-weight: 600;
+}
+
+.col-location {
+    width: 8%;
+    text-align: center;
+}
+
+.col-abc {
+    width: 5%;
+    text-align: center;
+}
+
+.col-expected {
+    width: 7%;
+    text-align: center;
+}
+
+.col-actual {
+    width: 7%;
+    text-align: center;
+    background-color: #fef3c7;
+}
+
+.col-variance {
+    width: 7%;
+    text-align: center;
+}
+
+.col-variance-pct {
+    width: 7%;
+    text-align: center;
+}
+
+.col-recount {
+    width: 6%;
+    text-align: center;
+}
+
+.col-notes {
+    width: 18%;
+    font-size: 8pt;
+}
+
+/* Blank Fields */
+.blank-field {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+/* Variance Styling */
+.variance-positive {
+    color: #10b981;
+    font-weight: bold;
+}
+
+.variance-negative {
+    color: #dc2626;
+    font-weight: bold;
+}
+
+.variance-zero {
+    color: #6b7280;
+}
+
+/* Recount Flag */
+.recount-flag {
+    color: #dc2626;
+    font-size: 14pt;
+}
+
+.checkbox {
+    color: #6b7280;
+    font-size: 12pt;
+}
+
+/* Summary Section */
+.summary-section {
+    margin-bottom: 18px;
+    border: 2px solid #7c3aed;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.summary-header {
+    background: #7c3aed;  /* was: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%...) */
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 10pt;
+    letter-spacing: 0.5px;
+}
+
+.summary-grid {
+    display: table;
+    width: 100%;
+    background-color: #faf5ff;
+}
+
+.summary-item {
+    display: table-row;
+}
+
+.summary-label {
+    display: table-cell;
+    width: 70%;
+    padding: 10px 15px;
+    font-size: 9pt;
+    color: #1f2937;
+    border-bottom: 1px solid #e9d5ff;
+}
+
+.summary-value {
+    display: table-cell;
+    width: 30%;
+    padding: 10px 15px;
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1f2937;
+    text-align: right;
+    border-bottom: 1px solid #e9d5ff;
+}
+
+.summary-item:last-child .summary-label,
+.summary-item:last-child .summary-value {
+    border-bottom: none;
+}
+
+.summary-value.success {
+    color: #10b981;
+}
+
+.summary-value.warning {
+    color: #f59e0b;
+}
+
+.summary-value.error {
+    color: #dc2626;
+}
+
+/* Variance Analysis */
+.variance-analysis {
+    margin-bottom: 18px;
+    border: 2px solid #f59e0b;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.variance-header {
+    background: #f59e0b;  /* was: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%...) */
+    color: white;
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 10pt;
+    letter-spacing: 0.5px;
+}
+
+.variance-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fef3c7;
+    table-layout: fixed;
+}
+
+.variance-table tr {
+    border-bottom: 1px solid #fde68a;
+}
+
+.variance-table tr:last-child {
+    border-bottom: none;
+}
+
+.var-label {
+    width: 25%;
+    padding: 10px 15px;
+    font-size: 9pt;
+    font-weight: 600;
+    color: #78350f;
+}
+
+.var-value {
+    width: 25%;
+    padding: 10px 15px;
+    font-size: 10pt;
+    font-weight: bold;
+    text-align: right;
+}
+
+.var-value.positive {
+    color: #10b981;
+}
+
+.var-value.negative {
+    color: #dc2626;
+}
+
+/* Signature Section */
+.signature-section {
+    margin-bottom: 18px;
+    border: 2px solid #7c3aed;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.signature-grid {
+    display: table;
+    width: 100%;
+    background-color: #faf5ff;
+}
+
+.signature-box {
+    display: table-cell;
+    width: 50%;
+    padding: 15px;
+    vertical-align: top;
+    border-right: 1px solid #e9d5ff;
+}
+
+.signature-box:last-child {
+    border-right: none;
+}
+
+.signature-label {
+    font-weight: bold;
+    color: #5b21b6;
+    font-size: 9pt;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+.signature-line {
+    border-bottom: 2px solid #1f2937;
+    height: 40px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.signature-line.signed {
+    font-family: 'Brush Script MT', cursive, 'Segoe UI', sans-serif;
+    font-size: 14pt;
+    color: #1f2937;
+    text-align: left;
+    padding-left: 5px;
+    padding-top: 10px;
+    line-height: 30px;
+}
+
+.signature-info {
+    font-size: 8pt;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+/* Notes Section */
+.notes-section {
+    background-color: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 12px 15px;
+    margin-bottom: 18px;
+}
+
+.notes-header {
+    font-weight: bold;
+    color: #1f2937;
+    font-size: 9pt;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.notes-content {
+    font-size: 9pt;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+/* Footer */
+.footer {
+    position: absolute;
+    bottom: 20px;
+    left: 30px;
+    right: 30px;
+    display: table;
+    width: calc(100% - 60px);
+    padding-top: 10px;
+    border-top: 2px solid #7c3aed;
+    font-size: 8pt;
+    color: #6b7280;
+}
+
+.footer-left {
+    display: table-cell;
+    width: 33.33%;
+    text-align: left;
+}
+
+.footer-center {
+    display: table-cell;
+    width: 33.33%;
+    text-align: center;
+    font-weight: 600;
+}
+
+.footer-right {
+    display: table-cell;
+    width: 33.33%;
+    text-align: right;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .page {
+        margin: 0;
+        padding: 30px;
+        box-shadow: none;
+    }
+    
+    .page-break {
+        page-break-after: always;
+    }
+}

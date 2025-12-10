@@ -1,0 +1,152 @@
+/* Premium Minimalist Invoice */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fafafa;
+}
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 40px 36px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.header-section {
+    padding-bottom: 24px;
+    border-bottom: 2px solid #1a1a1a;
+    margin-bottom: 24px;
+}
+.header-grid { width: 100%; border-collapse: collapse; }
+.logo-area { width: 50%; vertical-align: middle; }
+.order-info { width: 50%; vertical-align: middle; text-align: right; }
+
+.company-logo { height: 46px; width: auto; max-width: 200px; }
+.logo-initial {
+    display: inline-block;
+    width: 54px; height: 54px;
+    border-radius: 8px;
+    background: #1a1a1a;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 22px;
+    text-align: center;
+    line-height: 54px;
+    letter-spacing: 1px;
+}
+
+.order-label { font-size: 10px; font-weight: 600; color: #888888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.order-number { font-size: 20px; font-weight: 700; color: #1a1a1a; margin-bottom: 2px; }
+.order-date { font-size: 11px; color: #666666; }
+
+.status-banner {
+    background: #f5f5f5;
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 24px;
+}
+.status-grid { width: 100%; border-collapse: collapse; }
+.status-item { width: 33.33%; padding: 0 12px; vertical-align: middle; }
+.status-icon {
+    display: inline-block;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    color: #ffffff;
+    font-size: 16px;
+    text-align: center;
+    line-height: 32px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.status-text { display: inline-block; vertical-align: middle; }
+.status-title { font-size: 10px; font-weight: 700; color: #1a1a1a; text-transform: uppercase; letter-spacing: 0.5px; }
+.status-detail { font-size: 11px; color: #666666; margin-top: 2px; }
+
+.contact-grid { width: 100%; border-collapse: separate; border-spacing: 16px 0; margin-bottom: 24px; }
+.contact-section { width: 33.33%; vertical-align: top; }
+.section-heading { font-size: 10px; font-weight: 700; color: #888888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.contact-name { font-size: 12px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
+.contact-detail { font-size: 11px; color: #1a1a1a; margin-bottom: 3px; }
+.contact-detail.light { color: #666666; }
+
+.section-divider { height: 1px; background: #e0e0e0; margin: 20px 0; }
+.items-heading { margin-bottom: 12px; font-size: 12px; }
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+}
+.product-table thead tr { border-bottom: 2px solid #1a1a1a; }
+.product-table th {
+    padding: 10px 8px;
+    text-align: left;
+    font-size: 10px;
+    color: #1a1a1a;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+.product-table td {
+    padding: 12px 8px;
+    font-size: 11px;
+    color: #1a1a1a;
+    border-bottom: 1px solid #f0f0f0;
+}
+.product-table tbody tr:last-child td { border-bottom: none; }
+
+.col-product { width: 40%; }
+.col-sku { width: 16%; }
+.col-qty { width: 12%; text-align: center; }
+.col-price { width: 16%; text-align: right; }
+.col-total { width: 16%; text-align: right; }
+
+.cell-product { line-height: 1.4; }
+.product-name { font-weight: 600; color: #1a1a1a; }
+.product-variant { font-size: 10px; color: #888888; margin-top: 2px; }
+.cell-sku { color: #888888; }
+.cell-qty { text-align: center; font-weight: 600; }
+.cell-price, .cell-total { text-align: right; }
+
+.summary-grid { width: 100%; border-collapse: separate; border-spacing: 20px 0; margin-top: 20px; }
+.support-section { width: 55%; vertical-align: top; }
+.support-heading { font-size: 12px; font-weight: 700; color: #1a1a1a; margin-bottom: 8px; }
+.support-text { font-size: 11px; color: #666666; line-height: 1.6; }
+
+.totals-section { width: 45%; vertical-align: top; }
+.totals-list { width: 100%; border-collapse: collapse; }
+.totals-list tr td { padding: 10px 8px; font-size: 11px; }
+.totals-list .label { color: #666666; }
+.totals-list .value { text-align: right; font-weight: 600; color: #1a1a1a; }
+.totals-list .value.discount { color: #d32f2f; }
+.total-line { border-top: 2px solid #1a1a1a; }
+.total-line .label { font-size: 13px; font-weight: 700; color: #1a1a1a; }
+.total-line .value { font-size: 16px; font-weight: 700; color: #1a1a1a; }
+
+.footer-section { text-align: center; margin-top: 32px; }
+.footer-bar { height: 2px; background: #1a1a1a; margin-bottom: 16px; }
+.footer-info { font-size: 11px; color: #1a1a1a; font-weight: 600; margin-bottom: 4px; }
+.footer-contact { font-size: 10px; color: #888888; }
+
+.continuation-header {
+    background: #1a1a1a;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 16px 0 12px 0;
+}
+.cont-grid { width: 100%; border-collapse: collapse; }
+.cont-brand { width: 60%; }
+.cont-order { width: 40%; text-align: right; font-size: 11px; color: #ffffff; font-weight: 600; }
+.cont-logo { height: 28px; width: auto; max-width: 120px; }
+.cont-company { font-size: 14px; font-weight: 700; color: #ffffff; }
+
+.continuation-footer { text-align: center; font-size: 10px; color: #888888; margin-top: 12px; }
+
+@media print {
+    body { background: #ffffff; }
+    .invoice-page { box-shadow: none; }
+}

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>East Repair Invoice</title>
+    <link rel="stylesheet" href="../css/east_repair_invoice.css">
+</head>
+<body>
+    <div class="invoice-page">
+        {% if _is_first_page|default(true) %}
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="header-left">
+                <div class="invoice-title">INVOICE</div>
+                <div class="company-info">
+                    <div class="company-name">{{ supplier_name|default('East Repair Inc.') }}</div>
+                    <div class="company-address">{{ supplier_address|default('1912 Harvest Lane') }}</div>
+                    <div class="company-city">{{ supplier_city|default('New York, NY 12210') }}</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="logo-circle">
+                    {% if supplier_logo %}
+                    <img src="{{ supplier_logo }}" alt="Logo" class="logo-img" />
+                    {% else %}
+                    <span class="logo-text">LOGO</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Address and Invoice Details Section -->
+        <div class="details-section">
+            <div class="address-column bill-to">
+                <div class="address-label">BILL TO</div>
+                <div class="address-name">{{ buyer_name|default('John Smith') }}</div>
+                <div class="address-line">{{ buyer_address|default('2 Court Square') }}</div>
+                <div class="address-line">{{ buyer_city|default('New York, NY 12210') }}</div>
+            </div>
+            <div class="address-column ship-to">
+                <div class="address-label">SHIP TO</div>
+                <div class="address-name">{{ shipping_name|default(buyer_name)|default('John Smith') }}</div>
+                <div class="address-line">{{ shipping_address|default('3787 Pineview Drive') }}</div>
+                <div class="address-line">{{ shipping_city|default('Cambridge, MA 12210') }}</div>
+            </div>
+            <div class="invoice-details-column">
+                <table class="invoice-details-table">
+                    <tr>
+                        <td class="detail-label">INVOICE #</td>
+                        <td class="detail-value">{{ invoice_number }}</td>
+                    </tr>
+                    <tr>
+                        <td class="detail-label">INVOICE DATE</td>
+                        <td class="detail-value">{{ invoice_date }}</td>
+                    </tr>
+                    <tr>
+                        <td class="detail-label">P.O.#</td>
+                        <td class="detail-value">{{ po_number|default('2312/2019') }}</td>
+                    </tr>
+                    <tr>
+                        <td class="detail-label">DUE DATE</td>
+                        <td class="detail-value">{{ due_date|default(invoice_date) }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Divider Line -->
+        <div class="header-divider">
+            <div class="divider-navy"></div>
+            <div class="divider-red"></div>
+        </div>
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-qty">QTY</th>
+                    <th class="col-desc">DESCRIPTION</th>
+                    <th class="col-price">UNIT PRICE</th>
+                    <th class="col-amount">AMOUNT</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% else %}
+        <!-- Continuation Header -->
+        <div class="continuation-header">
+            <div class="cont-title">INVOICE</div>
+            <div class="cont-info">{{ invoice_number }} — Page {{ _current_page }} of {{ _total_pages }}</div>
+        </div>
+
+        <!-- Divider Line -->
+        <div class="header-divider">
+            <div class="divider-navy"></div>
+            <div class="divider-red"></div>
+        </div>
+
+        <!-- Items Table (continuation) -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-qty">QTY</th>
+                    <th class="col-desc">DESCRIPTION</th>
+                    <th class="col-price">UNIT PRICE</th>
+                    <th class="col-amount">AMOUNT</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% endif %}
+
+        <!-- Line Items -->
+        {% for item in items %}
+        <tr class="item-row">
+            <td class="col-qty">{{ item.quantity|default(1) }}</td>
+            <td class="col-desc">{{ item.name|default(item.description) }}</td>
+            <td class="col-price">{{ (item.unit_price|default(0))|float|round(2) }}</td>
+            <td class="col-amount">{{ (item.total|default(item.line_total)|default(0))|float|round(2) }}</td>
+        </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Totals Section -->
+        <div class="totals-section">
+            <div class="totals-spacer"></div>
+            <div class="totals-box">
+                <div class="totals-row">
+                    <div class="totals-label">Subtotal</div>
+                    <div class="totals-value">{{ (subtotal_raw|default(subtotal)|default(0))|float|round(2) }}</div>
+                </div>
+                <div class="totals-row">
+                    <div class="totals-label">Sales Tax {{ tax_rate|default('6.25') }}%</div>
+                    <div class="totals-value">{{ (tax_amount_raw|default(tax_amount)|default(0))|float|round(2) }}</div>
+                </div>
+                <div class="totals-row total-row">
+                    <div class="totals-label">TOTAL</div>
+                    <div class="totals-value total-amount">{{ currency|default('$') }}{{ (total_amount_raw|default(total_amount)|default(0))|float|round(2) }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signature Section -->
+        <div class="signature-section">
+            <div class="signature-line">
+                <span class="signature-text">{{ signature_name|default('John Smith') }}</span>
+            </div>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="footer-section">
+            <div class="thank-you-text">Thank you</div>
+            <div class="terms-box">
+                <div class="terms-title">TERMS & CONDITIONS</div>
+                <div class="terms-content">
+                    <div class="terms-line">{{ terms_line1|default('Payment is due within 15 days') }}</div>
+                    <div class="terms-line">{{ terms_line2|default('Please make checks payable to: ' ~ supplier_name|default('East Repair Inc.')) }}</div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Continuation Footer -->
+        <div class="continuation-footer">
+            <div class="cont-footer-text">Continued on next page... (Page {{ _current_page }} of {{ _total_pages }})</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

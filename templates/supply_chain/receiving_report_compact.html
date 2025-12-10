@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receiving Report - Compact</title>
+    <link rel="stylesheet" href="../css/receiving_report_compact.css">
+</head>
+<body>
+    <div class="page">
+        <!-- Modern Header (first page only) -->
+        {% if _is_first_page|default(true) %}
+        <div class="header">
+            <div class="header-top">
+                <div class="company-info">
+                    {% if logo_base64 %}
+                    <img src="data:image/png;base64,{{ logo_base64 }}" alt="Logo" class="logo">
+                    {% else %}
+                    <div class="logo-text">{{ company_name|default('WAREHOUSE') }}</div>
+                    {% endif %}
+                    <div class="company-meta">
+                        <div class="location">{{ location_name|default('Distribution Center') }}</div>
+                    </div>
+                </div>
+                <div class="report-info">
+                    <div class="report-title">Goods Receipt</div>
+                    <div class="report-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Report #</span>
+                            <span class="meta-value">{{ report_id|default('000000') }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Date</span>
+                            <span class="meta-value">{{ report_date|default('Date') }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Status</span>
+                            <span class="status-pill status-{{ overall_status|lower|replace(' ', '-')|default('pending') }}">
+                                {{ overall_status|default('Pending') }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reference Cards -->
+            <div class="reference-cards">
+                <div class="ref-card card-po">
+                    <div class="card-icon"></div>
+                    <div class="card-content">
+                        <div class="card-title">Purchase Order</div>
+                        <div class="card-main">{{ po_number|default('N/A') }}</div>
+                        <div class="card-sub">Dated: {{ po_date|default('N/A') }}</div>
+                    </div>
+                </div>
+                <div class="ref-card card-supplier">
+                    <div class="card-icon">🏭</div>
+                    <div class="card-content">
+                        <div class="card-title">Supplier</div>
+                        <div class="card-main">{{ supplier_name|default('N/A') }}</div>
+                        <div class="card-sub">{{ supplier_contact|default('Contact N/A') }}</div>
+                    </div>
+                </div>
+                <div class="ref-card card-shipping">
+                    <div class="card-icon"></div>
+                    <div class="card-content">
+                        <div class="card-title">Shipment</div>
+                        <div class="card-main">{{ carrier|default('N/A') }}</div>
+                        <div class="card-sub">{{ tracking_number|default('No tracking') }}</div>
+                    </div>
+                </div>
+                <div class="ref-card card-receiver">
+                    <div class="card-icon">👤</div>
+                    <div class="card-content">
+                        <div class="card-title">Received By</div>
+                        <div class="card-main">{{ received_by|default('___________') }}</div>
+                        <div class="card-sub">{{ received_time|default('Time: ___') }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            {% if total_ordered %}
+            <div class="quick-stats">
+                <div class="stat">
+                    <div class="stat-value">{{ items|length }}</div>
+                    <div class="stat-label">Line Items</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">{{ total_ordered }}</div>
+                    <div class="stat-label">Ordered</div>
+                </div>
+                <div class="stat stat-highlight">
+                    <div class="stat-value">{{ total_received|default(0) }}</div>
+                    <div class="stat-label">Received</div>
+                </div>
+                <div class="stat{% if items_with_issues > 0 %} stat-alert{% endif %}">
+                    <div class="stat-value">{{ items_with_issues|default(0) }}</div>
+                    <div class="stat-label">Issues</div>
+                </div>
+            </div>
+            {% endif %}
+        {% endif %}
+
+        <!-- Continuation Header (pages 2+) -->
+        {% if not (_is_first_page|default(true)) %}
+        <div class="continuation-header">
+            <div class="cont-left">
+                <strong>Receiving Report {{ report_id }}</strong> - {{ po_number }}
+            </div>
+            <div class="cont-right">
+                Page {{ _page_number|default(1) }}/{{ _total_pages|default(1) }}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Items Table with Comparison Layout -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-item">#</th>
+                    <th class="col-sku">SKU</th>
+                    <th class="col-product">Product</th>
+                    <th class="col-ordered">Ordered</th>
+                    <th class="col-received">Received</th>
+                    <th class="col-diff">Δ</th>
+                    <th class="col-match">Match</th>
+                    <th class="col-condition">Condition</th>
+                    <th class="col-bin">Bin</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr class="item-row{% if item.get('has_issue') %} row-issue{% endif %}">
+                    <td class="col-item">{{ loop.index }}</td>
+                    <td class="col-sku">{{ item.sku }}</td>
+                    <td class="col-product">
+                        <div class="product-name">{{ item.name|default(item.description) }}</div>
+                        {% if item.get('notes') %}
+                        <div class="product-note">[!] {{ item.notes }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="col-ordered">{{ item.ordered_quantity }}</td>
+                    <td class="col-received">
+                        {% if item.get('received_quantity') is not none %}
+                        <strong>{{ item.received_quantity }}</strong>
+                        {% else %}
+                        <span class="pending">—</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-diff">
+                        {% if item.get('received_quantity') is not none %}
+                        {% set diff = item.received_quantity - item.ordered_quantity %}
+                        {% if diff == 0 %}
+                        <span class="diff-zero">0</span>
+                        {% elif diff > 0 %}
+                        <span class="diff-over">+{{ diff }}</span>
+                        {% else %}
+                        <span class="diff-short">{{ diff }}</span>
+                        {% endif %}
+                        {% else %}
+                        <span class="pending">—</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-match">
+                        {% if item.get('received_quantity') is not none %}
+                        {% set diff = item.received_quantity - item.ordered_quantity %}
+                        {% if diff == 0 %}
+                        <span class="match-icon match-yes">✓</span>
+                        {% else %}
+                        <span class="match-icon match-no">✗</span>
+                        {% endif %}
+                        {% else %}
+                        <span class="match-icon match-pending">○</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-condition">
+                        {% if item.get('condition') %}
+                        <span class="cond-tag cond-{{ item.condition|lower }}">{{ item.condition[0] }}</span>
+                        {% else %}
+                        <span class="pending">—</span>
+                        {% endif %}
+                    </td>
+                    <td class="col-bin">
+                        {% if item.get('bin_location') %}
+                        {{ item.bin_location }}
+                        {% else %}
+                        <span class="pending">—</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Last page: Inspection & Approval -->
+        {% if _is_last_page|default(true) %}
+        
+        <!-- Inspection Results -->
+        <div class="inspection-panel">
+            <div class="panel-title">Quality Inspection</div>
+            <div class="inspection-grid">
+                <div class="inspect-item">
+                    <div class="inspect-check {% if packaging_intact %}checked{% endif %}">
+                        {% if packaging_intact %}✓{% else %}✗{% endif %}
+                    </div>
+                    <div class="inspect-label">Packaging</div>
+                </div>
+                <div class="inspect-item">
+                    <div class="inspect-check {% if labels_correct %}checked{% endif %}">
+                        {% if labels_correct %}✓{% else %}✗{% endif %}
+                    </div>
+                    <div class="inspect-label">Labels</div>
+                </div>
+                <div class="inspect-item">
+                    <div class="inspect-check {% if quantities_match %}checked{% endif %}">
+                        {% if quantities_match %}✓{% else %}✗{% endif %}
+                    </div>
+                    <div class="inspect-label">Quantities</div>
+                </div>
+                <div class="inspect-item">
+                    <div class="inspect-check {% if no_visible_damage %}checked{% endif %}">
+                        {% if no_visible_damage %}✓{% else %}✗{% endif %}
+                    </div>
+                    <div class="inspect-label">No Damage</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes -->
+        {% if inspection_notes or items_with_issues > 0 %}
+        <div class="notes-panel">
+            <div class="notes-title">Receiving Notes</div>
+            <div class="notes-content">
+                {% if inspection_notes %}
+                {{ inspection_notes }}
+                {% else %}
+                <span class="blank">_____________________________________________</span><br>
+                <span class="blank">_____________________________________________</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Approval Section -->
+        <div class="approval-section">
+            <div class="approval-box">
+                <div class="approval-role">Receiver</div>
+                <div class="approval-line">
+                    {% if receiver_signature %}
+                    <span class="sig-text">{{ receiver_signature }}</span>
+                    {% endif %}
+                </div>
+                <div class="approval-info">{{ received_by|default('Name') }}</div>
+                <div class="approval-date">{{ received_date|default('Date') }}</div>
+            </div>
+            <div class="approval-box">
+                <div class="approval-role">Inspector</div>
+                <div class="approval-line">
+                    {% if inspector_signature %}
+                    <span class="sig-text">{{ inspector_signature }}</span>
+                    {% endif %}
+                </div>
+                <div class="approval-info">{{ inspector_name|default('_________') }}</div>
+                <div class="approval-date">{{ inspection_date|default('Date: _____') }}</div>
+            </div>
+            <div class="approval-box">
+                <div class="approval-role">Manager</div>
+                <div class="approval-line">
+                    {% if manager_signature %}
+                    <span class="sig-text">{{ manager_signature }}</span>
+                    {% endif %}
+                </div>
+                <div class="approval-info">{{ manager_name|default('_________') }}</div>
+                <div class="approval-date">{{ approval_date|default('Date: _____') }}</div>
+            </div>
+        </div>
+
+        {% endif %}
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-left">{{ company_name|default('Company') }} - Warehouse Management</div>
+            <div class="footer-center">Receiving Report</div>
+            <div class="footer-right">Page {{ _page_number|default(1) }}</div>
+        </div>
+    </div>
+</body>
+</html>

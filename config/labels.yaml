@@ -68,6 +68,28 @@ label_list:
   - "I-ITEM_TAX"
   - "B-ITEM_DISCOUNT"
   - "I-ITEM_DISCOUNT"
+  - "B-ITEM_BRAND"
+  - "I-ITEM_BRAND"
+  - "B-ITEM_MANUFACTURER"
+  - "I-ITEM_MANUFACTURER"
+  - "B-ITEM_VARIANT"
+  - "I-ITEM_VARIANT"
+  - "B-ITEM_SIZE"
+  - "I-ITEM_SIZE"
+  - "B-ITEM_COLOR"
+  - "I-ITEM_COLOR"
+  - "B-ITEM_STYLE"
+  - "I-ITEM_STYLE"
+  - "B-ITEM_CATEGORY"
+  - "I-ITEM_CATEGORY"
+  - "B-ITEM_MODEL"
+  - "I-ITEM_MODEL"
+  - "B-BARCODE"
+  - "I-BARCODE"
+  - "B-ITEM_MPN"
+  - "I-ITEM_MPN"
+  - "B-ITEM_COLLECTION"
+  - "I-ITEM_COLLECTION"
   - "B-TERMS_AND_CONDITIONS"
   - "I-TERMS_AND_CONDITIONS"
   - "B-NOTE"
@@ -111,6 +133,17 @@ label_descriptions:
   ITEM_PACK_SIZE: "Pack size (e.g., 10kg carton)"
   ITEM_TAX: "Line item tax amount"
   ITEM_DISCOUNT: "Line item discount"
+  ITEM_BRAND: "Product brand name (e.g., Nike, Samsung, Organic Valley)"
+  ITEM_MANUFACTURER: "Manufacturer/supplier of the product"
+  ITEM_VARIANT: "Product variant string (e.g., 'Color: Blue, Size: M')"
+  ITEM_SIZE: "Product size (e.g., 'M', 'L', 'XL', '10', '2XL')"
+  ITEM_COLOR: "Product color (e.g., 'Navy Blue', 'Black', 'Red')"
+  ITEM_STYLE: "Style number or style name (fashion/apparel)"
+  ITEM_CATEGORY: "Product category or type (e.g., 'Electronics', 'Apparel', 'Home Goods')"
+  ITEM_MODEL: "Model number or model name"
+  BARCODE: "Barcode/UPC/EAN/GTIN (separate from generic SKU for inventory tracking)"
+  ITEM_MPN: "Manufacturer Part Number (MPN) for B2B/wholesale"
+  ITEM_COLLECTION: "Product collection or line (e.g., 'Spring 2024', 'Pro Series')"
   TERMS_AND_CONDITIONS: "Legal terms and conditions text"
   NOTE: "Additional notes or comments"
   GENERIC_LABEL: "Fallback for unlisted fields"
@@ -159,6 +192,17 @@ entity_groups:
     - ITEM_PACK_SIZE
     - ITEM_TAX
     - ITEM_DISCOUNT
+    - ITEM_BRAND
+    - ITEM_MANUFACTURER
+    - ITEM_VARIANT
+    - ITEM_SIZE
+    - ITEM_COLOR
+    - ITEM_STYLE
+    - ITEM_CATEGORY
+    - ITEM_MODEL
+    - BARCODE
+    - ITEM_MPN
+    - ITEM_COLLECTION
   
   structural:
     - TABLE
@@ -168,4 +212,7 @@ entity_groups:
     - NOTE
     - GENERIC_LABEL
 
-# Total: 73 labels (1 O + 72 BIO entity labels = 36 entity types × 2)
+# Total: 95 labels (1 O + 94 BIO entity labels = 47 entity types × 2)
+# Phase 2 Enhancement: Added 11 Shopify-critical entities (22 BIO tags)
+# New entities: ITEM_BRAND, ITEM_MANUFACTURER, ITEM_VARIANT, ITEM_SIZE, ITEM_COLOR,
+#               ITEM_STYLE, ITEM_CATEGORY, ITEM_MODEL, BARCODE, ITEM_MPN, ITEM_COLLECTION

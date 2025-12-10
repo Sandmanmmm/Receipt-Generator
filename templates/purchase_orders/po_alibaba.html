@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>International Purchase Order - {{ po_number }}</title>
+    <link rel="stylesheet" href="../css/purchase_order_base.css">
+    <link rel="stylesheet" href="../css/po_alibaba.css">
+</head>
+<body>
+    <div class="page-container">
+        {% if _is_first_page|default(true) %}
+        <!-- Full Header Section - First Page Only -->
+        <table class="po-header">
+            <tr>
+                <td class="header-logo">
+                    {% if buyer_logo %}
+                    <img src="{{ buyer_logo }}" alt="{{ buyer_company }}" class="company-logo">
+                    {% endif %}
+                </td>
+                <td class="header-info">
+                    <h1 class="po-title">INTERNATIONAL PURCHASE ORDER</h1>
+                    <div class="po-number">{{ po_number }}</div>
+                    <div class="po-date">Date: {{ po_date }}</div>
+                    <div class="po-status status-{{ status|lower }}">{{ status }}</div>
+                    <div class="po-incoterms">{{ incoterms|default('FOB Shanghai', true) }}</div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Address Section (3 columns: Supplier, Ship To, Buyer) -->
+        <table class="address-section">
+            <tr>
+                <td class="address-block">
+                    <div class="address-label">SUPPLIER / MANUFACTURER</div>
+                    <div class="address-content">
+                        <strong>{{ supplier_name }}</strong><br>
+                        {{ supplier_address }}<br>
+                        {{ supplier_city }}, {{ supplier_state }} {{ supplier_zip }}<br>
+                        {% if supplier_phone %}Phone: {{ supplier_phone }}<br>{% endif %}
+                        {% if supplier_email %}Email: {{ supplier_email }}<br>{% endif %}
+                        {% if supplier_account_number %}Account #: {{ supplier_account_number }}{% endif %}
+                    </div>
+                </td>
+                <td class="address-block">
+                    <div class="address-label">SHIP TO (CONSIGNEE)</div>
+                    <div class="address-content">
+                        <strong>{{ ship_to_name }}</strong><br>
+                        {{ ship_to_address }}<br>
+                        {{ ship_to_city }}, {{ ship_to_state }} {{ ship_to_zip }}<br>
+                        {% if ship_to_phone %}Phone: {{ ship_to_phone }}{% endif %}
+                    </div>
+                </td>
+                <td class="address-block">
+                    <div class="address-label">BUYER / IMPORTER</div>
+                    <div class="address-content">
+                        <strong>{{ buyer_company }}</strong><br>
+                        {{ buyer_address }}<br>
+                        {{ buyer_city }}, {{ buyer_state }} {{ buyer_zip }}<br>
+                        {% if buyer_phone %}Phone: {{ buyer_phone }}<br>{% endif %}
+                        {% if buyer_email %}Email: {{ buyer_email }}{% endif %}
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- International Trade Terms -->
+        <table class="terms-section">
+            <tr>
+                <td class="term-cell">
+                    <div class="term-label">Incoterms 2020</div>
+                    <div class="term-value">{{ incoterms|default('FOB Shanghai', true) }}</div>
+                </td>
+                <td class="term-cell">
+                    <div class="term-label">Payment Terms</div>
+                    <div class="term-value">{{ payment_terms }}</div>
+                </td>
+                <td class="term-cell">
+                    <div class="term-label">Currency</div>
+                    <div class="term-value">{{ currency|default('USD', true) }}</div>
+                </td>
+                <td class="term-cell">
+                    <div class="term-label">Shipping Method</div>
+                    <div class="term-value">{{ shipping_method }}</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="term-cell">
+                    <div class="term-label">Port of Loading</div>
+                    <div class="term-value">{{ port_of_loading|default('Shanghai, China', true) }}</div>
+                </td>
+                <td class="term-cell">
+                    <div class="term-label">Port of Discharge</div>
+                    <div class="term-value">{{ port_of_discharge|default('Los Angeles, USA', true) }}</div>
+                </td>
+                <td class="term-cell">
+                    <div class="term-label">Delivery Date</div>
+                    <div class="term-value">{{ requested_delivery_date }}</div>
+                </td>
+                <td class="term-cell">
+                    <div class="term-label">ETD/ETA</div>
+                    <div class="term-value">{{ etd_eta|default('TBD', true) }}</div>
+                </td>
+            </tr>
+        </table>
+        {% else %}
+        <!-- Compact Header - Continuation Pages -->
+        <div style="border-bottom: 2px solid #FF6600; padding: 15px 0; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <strong style="font-size: 16px;">{{ buyer_company }}</strong> | 
+                    <span style="color: #666;">PO #{{ po_number }}</span>
+                </div>
+                <div style="color: #666;">Page {{ _page_number }} of {{ _total_pages }}</div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Freight Forwarder Information -->
+        {% if freight_forwarder or notify_party %}
+        <table class="freight-section">
+            <tr>
+                <td class="freight-cell">
+                    <div class="freight-label">Freight Forwarder</div>
+                    <div class="freight-content">
+                        {{ freight_forwarder|default('To be advised', true) }}
+                    </div>
+                </td>
+                <td class="freight-cell">
+                    <div class="freight-label">Notify Party</div>
+                    <div class="freight-content">
+                        {{ notify_party|default('Same as consignee', true) }}
+                    </div>
+                </td>
+            </tr>
+        </table>
+        {% endif %}
+
+        <!-- Line Items Table with International Columns -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-line">Line</th>
+                    <th class="col-sku">SKU / Part #</th>
+                    <th class="col-description">Description / HS Code</th>
+                    <th class="col-qty">Qty</th>
+                    <th class="col-moq">MOQ</th>
+                    <th class="col-uom">UOM</th>
+                    <th class="col-lead-time">Lead Time</th>
+                    <th class="col-unit-price">Unit Cost</th>
+                    <th class="col-total">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items|default(line_items, true) %}
+                <tr class="item-row {% if loop.index % 2 == 0 %}row-even{% else %}row-odd{% endif %}">
+                    <td class="col-line">{{ item.line_number }}</td>
+                    <td class="col-sku">{{ item.supplier_sku }}</td>
+                    <td class="col-description">
+                        <strong>{{ item.product_name }}</strong>
+                        {% if item.brand %}
+                        <div class="item-brand">Brand: {{ item.brand }}</div>
+                        {% endif %}
+                        {% if item.hs_code %}
+                        <div class="item-hs-code">HS Code: {{ item.hs_code }}</div>
+                        {% endif %}
+                        {% if item.product_category %}
+                        <div class="item-category">{{ item.product_category }}</div>
+                        {% endif %}
+                    </td>
+                    <td class="col-qty">{{ item.quantity_ordered|default(item.quantity)|default(1) }}</td>
+                    <td class="col-moq">
+                        {% if item.moq %}
+                        {{ item.moq }} {{ item.unit_of_measure|default(item.uom)|default('units') }}
+                        {% else %}
+                        -
+                        {% endif %}
+                    </td>
+                    <td class="col-uom">{{ item.unit_of_measure|default(item.uom)|default('Each') }}</td>
+                    <td class="col-lead-time">
+                        {% if item.lead_time_days %}
+                        {{ item.lead_time_days }} days
+                        {% else %}
+                        -
+                        {% endif %}
+                    </td>
+                    <td class="col-unit-price">${{ "%.2f"|format(item.unit_cost|default(item.unit_price)|to_float) }}</td>
+                    <td class="col-total">${{ "%.2f"|format((item.line_total|default(item.amount)|default(item.quantity * (item.unit_cost|default(item.unit_price)|to_float)))|to_float) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if _is_last_page|default(true) %}
+        <!-- Totals Section - Last Page Only -->
+        <table class="totals-section">
+            <tr>
+                <td class="totals-label">Subtotal ({{ currency|default('USD', true) }}):</td>
+                <td class="totals-value">${{ "%.2f"|format(subtotal|to_float) }}</td>
+            </tr>
+            {% if discount and (discount|to_float) > 0 %}
+            <tr>
+                <td class="totals-label">Discount ({{ discount_percent|default(0) }}%):</td>
+                <td class="totals-value discount">-${{ "%.2f"|format(discount|to_float) }}</td>
+            </tr>
+            {% endif %}
+            {% if shipping_cost and (shipping_cost|to_float) > 0 %}
+            <tr>
+                <td class="totals-label">Freight & Insurance:</td>
+                <td class="totals-value">${{ "%.2f"|format(shipping_cost|to_float) }}</td>
+            </tr>
+            {% endif %}
+            {% if tax and (tax|to_float) > 0 %}
+            <tr>
+                <td class="totals-label">Import Duty/Tax ({{ tax_rate }}):</td>
+                <td class="totals-value">${{ "%.2f"|format(tax_amount|default(tax)|to_float) }}</td>
+            </tr>
+            {% endif %}
+            <tr class="totals-final">
+                <td class="totals-label">Total Order Value:</td>
+                <td class="totals-value">${{ "%.2f"|format(total_amount|to_float) }}</td>
+            </tr>
+        </table>
+
+        <!-- Special Instructions (International) -->
+        {% if special_instructions or packing_instructions %}
+        <div class="notes-section">
+            <div class="notes-title">Special Instructions & Requirements</div>
+            <div class="notes-content">
+                {% if special_instructions %}
+                {{ special_instructions }}
+                {% endif %}
+                {% if packing_instructions %}
+                <br><strong>Packing:</strong> {{ packing_instructions }}
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- International Compliance Notes -->
+        <div class="compliance-section">
+            <div class="compliance-title">Important Notes for International Trade</div>
+            <div class="compliance-content">
+                <ul class="compliance-list">
+                    <li>Supplier must provide commercial invoice, packing list, and certificate of origin</li>
+                    <li>All items must comply with destination country import regulations</li>
+                    <li>Pre-shipment inspection may be required before final payment release</li>
+                    <li>Supplier responsible for export customs clearance at origin</li>
+                    <li>Buyer responsible for import customs clearance at destination</li>
+                    {% if quality_inspection %}
+                    <li>Quality inspection required: {{ quality_inspection }}</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Signatures Section -->
+        <table class="signatures-section">
+            <tr>
+                <td class="signature-block">
+                    <div class="signature-label">Buyer Authorization</div>
+                    <div class="signature-line"></div>
+                    <div class="signature-info">
+                        <div class="signature-name">{{ buyer_contact_name }}</div>
+                        <div class="signature-title">{{ buyer_contact_title|default('Purchasing Manager', true) }}</div>
+                        <div class="signature-date">Date: _________________</div>
+                    </div>
+                </td>
+                <td class="signature-block">
+                    <div class="signature-label">Supplier Acceptance</div>
+                    <div class="signature-line"></div>
+                    <div class="signature-info">
+                        <div class="signature-name">_______________________________</div>
+                        <div class="signature-title">Authorized Representative</div>
+                        <div class="signature-date">Date: _________________</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Footer -->
+        <div class="po-footer">
+            <div class="footer-text">
+                {{ buyer_company }} | {{ buyer_address }}, {{ buyer_city }}, {{ buyer_state }} {{ buyer_zip }}
+                {% if buyer_phone %} | Phone: {{ buyer_phone }}{% endif %}
+                {% if buyer_email %} | Email: {{ buyer_email }}{% endif %}
+            </div>
+            <div class="footer-page">{% if _page_number|default(none) %}Page {{ _page_number }} of {{ _total_pages }}{% endif %}</div>
+        </div>
+        {% else %}
+        <!-- Continuation Notice -->
+        <div style="text-align: right; color: #666; font-style: italic; margin-top: 20px;">
+            Continued on page {{ (_page_number|default(1)) + 1 }}...
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

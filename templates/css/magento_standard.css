@@ -1,0 +1,574 @@
+/* Magento Standard Invoice Template */
+/* Adobe Commerce / Magento 2 Styling - Orange Branding (#f26322) */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    color: #333333;
+    background: #f5f5f5;
+    line-height: 1.5;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 40px;
+    margin: 0 auto;
+    background: #ffffff;
+}
+
+/* Main Header */
+.main-header {
+    margin-bottom: 20px;
+}
+
+.header-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.header-left {
+    width: 50%;
+    vertical-align: top;
+    padding-right: 20px;
+}
+
+.header-right {
+    width: 50%;
+    vertical-align: top;
+    text-align: right;
+}
+
+/* Logo */
+.store-logo {
+    height: 50px;
+    width: auto;
+    max-width: 180px;
+    display: block;
+    margin-bottom: 12px;
+    object-fit: contain;
+}
+
+.logo-placeholder {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: #f26322;  /* was: linear-gradient(135deg, #f26322 0%, #e85515 100%...) */
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 50px;
+}
+
+/* Store Info */
+.store-info {
+    margin-top: 8px;
+}
+
+.store-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 4px;
+}
+
+.store-address {
+    font-size: 10px;
+    color: #666666;
+    margin-bottom: 2px;
+    line-height: 1.4;
+}
+
+.store-contact {
+    font-size: 10px;
+    color: #666666;
+    margin-bottom: 2px;
+}
+
+/* Invoice Badge */
+.invoice-badge {
+    display: inline-block;
+    background: #f26322;  /* was: linear-gradient(135deg, #f26322 0%, #e85515 100%...) */
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 8px 24px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.invoice-number {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 12px;
+}
+
+.invoice-meta {
+    text-align: right;
+}
+
+.meta-row {
+    margin-bottom: 5px;
+    font-size: 10px;
+}
+
+.meta-label {
+    color: #666666;
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.meta-value {
+    color: #333333;
+    font-weight: 400;
+}
+
+/* Orange Accent Bar */
+.accent-bar {
+    height: 4px;
+    background: #f26322;  /* was: linear-gradient(to right, #f26322 0%, #ff8547 100%...) */
+    margin-bottom: 25px;
+}
+
+.accent-bar-thin {
+    height: 2px;
+    background: #f26322;  /* was: linear-gradient(to right, #f26322 0%, #ff8547 100%...) */
+    margin-bottom: 20px;
+}
+
+/* Customer Section */
+.customer-section {
+    margin-bottom: 25px;
+}
+
+.customer-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 12px 0;
+    table-layout: fixed;
+}
+
+.customer-col {
+    width: 33.33%;
+    vertical-align: top;
+}
+
+.info-box {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.box-header {
+    background: #f5f5f5;  /* was: linear-gradient(135deg, #f5f5f5 0%, #ebebeb 100%...) */
+    color: #333333;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 10px 12px;
+    border-bottom: 2px solid #f26322;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.box-content {
+    padding: 12px;
+    min-height: 90px;
+}
+
+.customer-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 6px;
+}
+
+.customer-detail {
+    font-size: 10px;
+    color: #666666;
+    margin-bottom: 3px;
+    line-height: 1.4;
+}
+
+.payment-method {
+    font-size: 11px;
+    color: #333333;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.payment-status-row {
+    margin-top: 8px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-paid {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #66bb6a;
+}
+
+.status-pending {
+    background: #fff8e1;
+    color: #f57f17;
+    border: 1px solid #ffb300;
+}
+
+.status-processing {
+    background: #e3f2fd;
+    color: #1565c0;
+    border: 1px solid #42a5f5;
+}
+
+.status-refunded {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #e57373;
+}
+
+/* Continuation Header */
+.continuation-header {
+    margin-bottom: 15px;
+}
+
+.cont-header-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.cont-logo {
+    width: 30%;
+    vertical-align: middle;
+}
+
+.logo-small {
+    height: 35px;
+    width: auto;
+    max-width: 120px;
+}
+
+.cont-details {
+    width: 70%;
+    vertical-align: middle;
+    text-align: right;
+}
+
+.cont-invoice {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 3px;
+}
+
+.cont-page {
+    font-size: 10px;
+    color: #666666;
+}
+
+/* Items Table */
+.items-section {
+    margin-bottom: 25px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border: 1px solid #d9d9d9;
+}
+
+.items-table thead {
+    background: #f5f5f5;  /* was: linear-gradient(135deg, #f5f5f5 0%, #ebebeb 100%...) */
+    border-bottom: 2px solid #f26322;
+}
+
+.items-table th {
+    padding: 12px 10px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #333333;
+}
+
+.col-product {
+    width: 32%;
+}
+
+.col-sku {
+    width: 15%;
+}
+
+.col-qty {
+    width: 8%;
+    text-align: center;
+}
+
+.col-price {
+    width: 15%;
+    text-align: right;
+}
+
+.col-tax {
+    width: 12%;
+    text-align: right;
+}
+
+.col-subtotal {
+    width: 18%;
+    text-align: right;
+}
+
+.item-row {
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.item-row:nth-child(odd) {
+    background: #fafafa;
+}
+
+.item-row:nth-child(even) {
+    background: #ffffff;
+}
+
+.items-table td {
+    padding: 12px 10px;
+    font-size: 10px;
+    color: #333333;
+    vertical-align: middle;
+    word-wrap: break-word;
+    max-width: 0;
+}
+
+.item-product {
+    font-weight: 600;
+}
+
+.product-name {
+    color: #333333;
+    line-height: 1.4;
+}
+
+.item-sku {
+    color: #666666;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 9px;
+}
+
+.item-qty {
+    text-align: center;
+    font-weight: 700;
+    color: #f26322;
+}
+
+.item-price {
+    text-align: right;
+    color: #666666;
+}
+
+.item-tax {
+    text-align: right;
+    color: #666666;
+}
+
+.item-subtotal {
+    text-align: right;
+    font-weight: 700;
+    color: #333333;
+}
+
+/* Totals Section */
+.totals-section {
+    margin-bottom: 25px;
+}
+
+.totals-wrapper {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.totals-spacer {
+    width: 55%;
+}
+
+.totals-content {
+    width: 45%;
+    vertical-align: top;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #d9d9d9;
+    table-layout: fixed;
+}
+
+.total-row td {
+    padding: 10px 15px;
+    font-size: 11px;
+    border-bottom: 1px solid #e8e8e8;
+    background: #fafafa;
+}
+
+.total-label {
+    text-align: left;
+    color: #666666;
+    font-weight: 600;
+    width: 55%;
+}
+
+.total-value {
+    text-align: right;
+    font-weight: 700;
+    color: #333333;
+    width: 45%;
+}
+
+.total-discount {
+    color: #d32f2f;
+}
+
+.total-row-grand td {
+    padding: 14px 15px;
+    font-size: 14px;
+    background: #f26322;  /* was: linear-gradient(135deg, #f26322 0%, #e85515 100%...) */
+    color: #ffffff;
+    border-bottom: none;
+}
+
+.total-label-grand {
+    text-align: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 55%;
+}
+
+.total-value-grand {
+    text-align: right;
+    font-weight: 700;
+    font-size: 16px;
+    width: 45%;
+}
+
+/* Notes Section */
+.notes-section {
+    margin-bottom: 25px;
+}
+
+.notes-box {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.notes-header {
+    background: #f5f5f5;  /* was: linear-gradient(135deg, #f5f5f5 0%, #ebebeb 100%...) */
+    color: #333333;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 10px 12px;
+    border-bottom: 2px solid #f26322;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.notes-content {
+    padding: 12px;
+    font-size: 10px;
+    color: #666666;
+    line-height: 1.6;
+    background: #fafafa;
+    white-space: pre-line;
+}
+
+/* Footer */
+.footer-section {
+    margin-top: 40px;
+}
+
+.footer-divider {
+    height: 2px;
+    background: #f26322;  /* was: linear-gradient(to right, #f26322 0%, #ff8547 100%...) */
+    margin-bottom: 15px;
+}
+
+.footer-content {
+    text-align: center;
+}
+
+.footer-text {
+    font-size: 9px;
+    color: #999999;
+    line-height: 1.8;
+    margin-bottom: 3px;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    margin-top: 30px;
+}
+
+.cont-divider {
+    height: 1px;
+    background: #f26322;  /* was: linear-gradient(to right, #f26322 0%, #ff8547 100%...) */
+    margin-bottom: 10px;
+}
+
+.cont-footer-text {
+    text-align: center;
+    font-size: 9px;
+    color: #666666;
+    font-style: italic;
+}
+
+/* Page Number */
+.page-number {
+    position: absolute;
+    bottom: 20px;
+    right: 40px;
+    font-size: 9px;
+    color: #999999;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: #ffffff;
+    }
+    
+    .invoice-page {
+        padding: 20px;
+    }
+    
+    .page-number {
+        display: block;
+    }
+}

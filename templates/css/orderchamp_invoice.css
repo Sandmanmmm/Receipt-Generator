@@ -1,0 +1,497 @@
+/* Orderchamp Invoice - European B2B Wholesale Marketplace Style
+ * Clean, modern design with Dutch business conventions
+ * Colors: Orderchamp Purple (#6C63FF), Dark (#1A1A2E), Light Gray (#F5F5F7)
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    line-height: 1.5;
+    color: #1A1A2E;
+    background-color: #ffffff;
+}
+
+.invoice-page {
+    width: 816px;
+    min-height: 1056px;
+    padding: 40px 50px;
+    background-color: #ffffff;
+    position: relative;
+}
+
+/* Header Section */
+.header {
+    margin-bottom: 25px;
+}
+
+.logo-section {
+    display: table;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.orderchamp-logo {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.logo-icon {
+    display: inline-block;
+    font-size: 24px;
+    color: #6C63FF;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.logo-text {
+    display: inline-block;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1A1A2E;
+    letter-spacing: -0.5px;
+    vertical-align: middle;
+}
+
+.invoice-badge {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: 600;
+    color: #6C63FF;
+    letter-spacing: 2px;
+}
+
+/* Details Row */
+.details-row {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #F5F5F7;
+    border-radius: 6px;
+}
+
+.details-row td {
+    padding: 12px 15px;
+    border-right: 1px solid #E0E0E0;
+}
+
+.details-row td:last-child {
+    border-right: none;
+}
+
+.detail-block {
+    width: 25%;
+}
+
+.detail-label {
+    font-size: 9px;
+    color: #666666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.detail-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1A1A2E;
+}
+
+/* Parties Section */
+.parties-section {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 25px;
+}
+
+.party-column {
+    width: 33.33%;
+    vertical-align: top;
+    padding: 15px;
+    background-color: #FAFAFA;
+    border-right: 1px solid #E8E8E8;
+}
+
+.party-column:last-child {
+    border-right: none;
+}
+
+.party-header {
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.party-icon {
+    font-size: 14px;
+    margin-right: 6px;
+}
+
+.party-title {
+    font-size: 10px;
+    font-weight: 600;
+    color: #6C63FF;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.party-content {
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+.party-name {
+    font-weight: 600;
+    color: #1A1A2E;
+    margin-bottom: 4px;
+}
+
+.party-line {
+    color: #444444;
+}
+
+.party-vat,
+.party-kvk {
+    margin-top: 6px;
+    font-size: 9px;
+    color: #666666;
+}
+
+/* Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    table-layout: fixed;
+}
+
+.items-table thead {
+    background-color: #1A1A2E;
+}
+
+.items-table th {
+    padding: 10px 8px;
+    font-size: 9px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.items-table th.col-qty,
+.items-table th.col-price,
+.items-table th.col-vat,
+.items-table th.col-total {
+    text-align: right;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #E8E8E8;
+}
+
+.items-table tbody tr:hover {
+    background-color: #FAFAFA;
+}
+
+.items-table td {
+    padding: 12px 8px;
+    font-size: 10px;
+    color: #333333;
+    vertical-align: top;
+}
+
+.items-table td.col-qty,
+.items-table td.col-price,
+.items-table td.col-vat,
+.items-table td.col-total {
+    text-align: right;
+}
+
+/* Column Widths */
+.col-product {
+    width: 35%;
+}
+
+.col-sku {
+    width: 18%;
+}
+
+.col-qty {
+    width: 10%;
+}
+
+.col-price {
+    width: 13%;
+}
+
+.col-vat {
+    width: 10%;
+}
+
+.col-total {
+    width: 14%;
+}
+
+/* Product Info */
+.product-name {
+    font-weight: 500;
+    color: #1A1A2E;
+    margin-bottom: 2px;
+}
+
+.product-variant {
+    font-size: 9px;
+    color: #666666;
+}
+
+.product-attrs {
+    font-size: 9px;
+    color: #888888;
+    margin-top: 3px;
+}
+
+.sku-value {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 9px;
+    color: #444444;
+}
+
+.ean-value {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 8px;
+    color: #888888;
+    margin-top: 2px;
+}
+
+/* Totals Section */
+.totals-section {
+    margin-bottom: 25px;
+}
+
+.totals-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.totals-spacer {
+    width: 55%;
+}
+
+.totals-content {
+    width: 45%;
+}
+
+.totals-inner {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #F5F5F7;
+    border-radius: 6px;
+}
+
+.totals-inner td {
+    padding: 8px 15px;
+}
+
+.total-label {
+    font-size: 10px;
+    color: #444444;
+    text-align: left;
+}
+
+.total-value {
+    font-size: 10px;
+    color: #1A1A2E;
+    text-align: right;
+    font-weight: 500;
+}
+
+.discount-row .total-label,
+.discount-row .total-value {
+    color: #27AE60;
+}
+
+.discount-value {
+    font-weight: 600;
+}
+
+.grand-total-row {
+    border-top: 2px solid #6C63FF;
+}
+
+.grand-total-row td {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.grand-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1A1A2E;
+}
+
+.grand-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: #6C63FF;
+}
+
+/* Payment Section */
+.payment-section {
+    background-color: #FAFAFA;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 25px;
+}
+
+.payment-header {
+    font-size: 10px;
+    font-weight: 600;
+    color: #1A1A2E;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+.payment-details {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.payment-block {
+    padding-right: 20px;
+}
+
+.payment-label {
+    font-size: 9px;
+    color: #666666;
+    margin-bottom: 3px;
+}
+
+.payment-value {
+    font-size: 10px;
+    font-weight: 600;
+    color: #1A1A2E;
+}
+
+/* Footer */
+.footer {
+    position: absolute;
+    bottom: 40px;
+    left: 50px;
+    right: 50px;
+    text-align: center;
+    padding-top: 15px;
+    border-top: 1px solid #E0E0E0;
+}
+
+.footer-note {
+    font-size: 9px;
+    color: #888888;
+    margin-bottom: 5px;
+}
+
+.footer-links {
+    font-size: 9px;
+    color: #666666;
+}
+
+.footer-links .separator {
+    margin: 0 8px;
+    color: #CCCCCC;
+}
+
+.page-number {
+    margin-top: 8px;
+    font-size: 9px;
+    color: #999999;
+}
+
+/* Continuation Header */
+.continuation-header {
+    display: table;
+    width: 100%;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #E8E8E8;
+}
+
+.cont-logo {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.logo-icon-small {
+    display: inline-block;
+    font-size: 16px;
+    color: #6C63FF;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.logo-text-small {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1A1A2E;
+    vertical-align: middle;
+}
+
+.cont-info {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+    font-size: 10px;
+    color: #666666;
+}
+
+.cont-info .separator {
+    margin: 0 10px;
+    color: #CCCCCC;
+}
+
+/* Continuation Footer */
+.continuation-footer {
+    position: absolute;
+    bottom: 40px;
+    left: 50px;
+    right: 50px;
+    display: table;
+    width: calc(100% - 100px);
+    padding-top: 15px;
+    border-top: 1px solid #E0E0E0;
+    font-size: 10px;
+    color: #666666;
+}
+
+.continuation-footer span:first-child {
+    display: table-cell;
+    text-align: left;
+}
+
+.continuation-footer .page-number {
+    display: table-cell;
+    text-align: right;
+    margin-top: 0;
+}
+
+/* Print Styles */
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .invoice-page {
+        padding: 30px 40px;
+        page-break-after: always;
+    }
+}

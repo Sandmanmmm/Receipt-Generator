@@ -363,13 +363,19 @@ def generate_single_invoice(args):
                     item['dimensions'] = f'{random.randint(5, 50)}x{random.randint(5, 50)}x{random.randint(5, 50)} in'
                     item['country_of_origin'] = random.choice(['China', 'USA', 'Mexico', 'Vietnam', 'Germany'])
                     item['hs_code'] = f'{random.randint(1000, 9999)}.{random.randint(10, 99)}.{random.randint(10, 99)}'
+                    
+                    # Ensure unit_price exists (required by supply_chain templates)
+                    if 'unit_price' not in item:
+                        if 'price' in item:
+                            item['unit_price'] = item['price']
+                        elif 'amount' in item and 'quantity' in item and item['quantity'] > 0:
+                            item['unit_price'] = round(float(str(item['amount']).replace('$', '').replace(',', '')) / item['quantity'], 2)
+                        else:
+                            item['unit_price'] = round(random.uniform(5, 200), 2)
+                    
                     # Add unit_cost for templates that need it
-                    if 'unit_price' in item:
-                        item['unit_cost'] = item['unit_price']
-                    elif 'amount' in item and 'quantity' in item and item['quantity'] > 0:
-                        item['unit_cost'] = round(float(str(item['amount']).replace('$', '').replace(',', '')) / item['quantity'], 2)
-                    else:
-                        item['unit_cost'] = round(random.uniform(5, 200), 2)
+                    if 'unit_cost' not in item:
+                        item['unit_cost'] = item.get('unit_price', round(random.uniform(5, 200), 2))
                     item['transfer_qty'] = item.get('quantity', 1)
         
         # Add supplier_name for ecommerce templates

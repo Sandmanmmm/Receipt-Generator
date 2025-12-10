@@ -527,6 +527,12 @@ class ImageAugmenter:
         
         output = image.copy()
         
+        # Check image size - OpenCV functions fail if dimensions exceed SHRT_MAX (32767)
+        height, width = output.shape[:2]
+        if height > 30000 or width > 30000:
+            # Skip augmentation for very large images to avoid OpenCV errors
+            return output
+        
         # Noise
         if self.config.add_noise and random.random() < self.config.noise_probability:
             intensity = random.uniform(*self.config.noise_intensity)

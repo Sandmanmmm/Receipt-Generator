@@ -6,6 +6,7 @@
     <title>Fashion Wholesale Purchase Order - {{ po_number }}</title>
     <link rel="stylesheet" href="../css/purchase_order_base.css">
     <link rel="stylesheet" href="../css/po_fashion_wholesale.css">
+    <link rel="stylesheet" href="../css/signature_fonts.css">
 </head>
 <body>
     <div class="po-page">
@@ -211,12 +212,12 @@
             <table class="totals-table">
                 <tr>
                     <td class="totals-label">Subtotal ({{ item_count|default((items|default(line_items, true))|length) }} styles)</td>
-                    <td class="totals-value">${{ "{:,.2f}".format(subtotal|default(sub_total, true)|default(0)) }}</td>
+                    <td class="totals-value">${{ "%.2f"|format(subtotal|default(sub_total, true)|default(0)|to_float) }}</td>
                 </tr>
-                {% if ((volume_discount|default(0))|float) > 0 %}
+                {% if ((volume_discount|default(0))|to_float) > 0 %}
                 <tr>
                     <td class="totals-label">Volume Discount ({{ volume_discount_percentage|default(0) }}%)</td>
-                    <td class="totals-value discount">-${{ "{:,.2f}".format(volume_discount) }}</td>
+                    <td class="totals-value discount">-${{ "%.2f"|format(volume_discount|to_float) }}</td>
                 </tr>
                 {% endif %}
                 {% if ((shipping_cost|default(shipping, true)|default(0))|float) > 0 %}
@@ -313,18 +314,30 @@
                         <tr>
                             <td class="approval-col">
                                 <div class="approval-label">Buyer Authorization:</div>
-                                <div class="signature-line"></div>
+                                <div class="signature-line">
+                                    {% if has_signature|default(true) %}
+                                    <span class="signature-handwritten" style="font-family: '{{ signature_font }}', cursive; color: {{ signature_ink_color }}; transform: rotate({{ signature_rotation }}deg) scale({{ signature_scale }}); display: inline-block;">
+                                        {{ buyer_signature_name|default(buyer_contact)|default('Authorized Buyer') }}
+                                    </span>
+                                    {% endif %}
+                                </div>
                                 <div class="signature-info">
-                                    <span>{{ buyer_contact or 'Authorized Buyer' }}</span>
-                                    <span class="date-field">Date: ___________</span>
+                                    <span>{{ buyer_signature_name|default(buyer_contact)|default('Authorized Buyer') }}</span>
+                                    <span class="date-field">Date: {{ buyer_signature_date|default(invoice_date) }}</span>
                                 </div>
                             </td>
                             <td class="approval-col">
                                 <div class="approval-label">Supplier Acceptance:</div>
-                                <div class="signature-line"></div>
+                                <div class="signature-line">
+                                    {% if has_signature|default(true) %}
+                                    <span class="signature-handwritten" style="font-family: '{{ signature_font }}', cursive; color: {{ signature_ink_color }}; transform: rotate({{ signature_rotation|default(0) * -0.8 }}deg) scale({{ signature_scale }}); display: inline-block;">
+                                        {{ supplier_signature_name|default(supplier_contact)|default('Authorized Representative') }}
+                                    </span>
+                                    {% endif %}
+                                </div>
                                 <div class="signature-info">
-                                    <span>{{ supplier_contact or 'Authorized Representative' }}</span>
-                                    <span class="date-field">Date: ___________</span>
+                                    <span>{{ supplier_signature_name|default(supplier_contact)|default('Authorized Representative') }}</span>
+                                    <span class="date-field">Date: {{ supplier_signature_date|default(invoice_date) }}</span>
                                 </div>
                             </td>
                         </tr>

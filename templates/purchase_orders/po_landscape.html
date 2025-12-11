@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Purchase Order - {{ po_number }}</title>
     <link rel="stylesheet" href="../css/po_landscape.css">
+    <link rel="stylesheet" href="../css/signature_fonts.css">
 </head>
 <body>
     <div class="page-container">
@@ -267,9 +268,15 @@
                 </div>
                 <div class="footer-right">
                     <div class="signature-box">
-                        <div class="signature-line"></div>
+                        <div class="signature-line">
+                            {% if has_signature|default(true) %}
+                            <span class="signature-handwritten" style="font-family: '{{ signature_font }}', cursive; color: {{ signature_ink_color }}; transform: rotate({{ signature_rotation }}deg) scale({{ signature_scale }}); display: inline-block;">
+                                {{ buyer_signature_name|default(buyer_contact_name) }}
+                            </span>
+                            {% endif %}
+                        </div>
                         <div class="signature-label">Authorized Signature</div>
-                        <div class="signature-date">Date: _________________</div>
+                        <div class="signature-date">Date: {{ buyer_signature_date|default(invoice_date) }}</div>
                     </div>
                 </div>
             </div>

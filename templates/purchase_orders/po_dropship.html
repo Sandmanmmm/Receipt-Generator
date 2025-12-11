@@ -6,6 +6,7 @@
     <title>Dropship Purchase Order - {{ po_number }}</title>
     <link rel="stylesheet" href="../css/purchase_order_base.css">
     <link rel="stylesheet" href="../css/po_dropship.css">
+    <link rel="stylesheet" href="../css/signature_fonts.css">
 </head>
 <body>
     <div class="page-container">
@@ -262,20 +263,32 @@
             <tr>
                 <td class="signature-block">
                     <div class="signature-label">Buyer Authorization</div>
-                    <div class="signature-line"></div>
+                    <div class="signature-line">
+                        {% if has_signature|default(true) %}
+                        <span class="signature-handwritten" style="font-family: '{{ signature_font }}', cursive; color: {{ signature_ink_color }}; transform: rotate({{ signature_rotation }}deg) scale({{ signature_scale }}); display: inline-block;">
+                            {{ buyer_signature_name|default(buyer_contact_name) }}
+                        </span>
+                        {% endif %}
+                    </div>
                     <div class="signature-info">
-                        <div class="signature-name">{{ buyer_contact_name }}</div>
-                        <div class="signature-title">{{ buyer_contact_title|default('Operations Manager', true) }}</div>
-                        <div class="signature-date">Date: _________________</div>
+                        <div class="signature-name">{{ buyer_signature_name|default(buyer_contact_name) }}</div>
+                        <div class="signature-title">{{ buyer_signature_title|default(buyer_contact_title)|default('Operations Manager', true) }}</div>
+                        <div class="signature-date">Date: {{ buyer_signature_date|default(invoice_date) }}</div>
                     </div>
                 </td>
                 <td class="signature-block">
                     <div class="signature-label">Fulfillment Center Acknowledgment</div>
-                    <div class="signature-line"></div>
+                    <div class="signature-line">
+                        {% if has_signature|default(true) %}
+                        <span class="signature-handwritten" style="font-family: '{{ signature_font }}', cursive; color: {{ signature_ink_color }}; transform: rotate({{ signature_rotation|default(0) * -0.8 }}deg) scale({{ signature_scale }}); display: inline-block;">
+                            {{ supplier_signature_name }}
+                        </span>
+                        {% endif %}
+                    </div>
                     <div class="signature-info">
-                        <div class="signature-name">_______________________________</div>
-                        <div class="signature-title">Warehouse Manager</div>
-                        <div class="signature-date">Date: _________________</div>
+                        <div class="signature-name">{{ supplier_signature_name }}</div>
+                        <div class="signature-title">{{ supplier_signature_title|default('Warehouse Manager') }}</div>
+                        <div class="signature-date">Date: {{ supplier_signature_date|default(invoice_date) }}</div>
                     </div>
                 </td>
             </tr>

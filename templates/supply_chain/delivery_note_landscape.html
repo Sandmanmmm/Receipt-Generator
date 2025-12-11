@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delivery Note - {{ invoice_number }}</title>
     <link rel="stylesheet" href="../css/delivery_note_landscape.css">
+    <link rel="stylesheet" href="../css/signature_fonts.css">
 </head>
 <body>
     <div class="invoice-page">
@@ -253,26 +254,38 @@
                             <tr>
                                 <td class="signature-box">
                                     <div class="sig-title">Delivered By</div>
-                                    <div class="sig-line"></div>
+                                    <div class="sig-line">
+                                        {% if has_signature|default(true) %}
+                                        <span class="signature-handwritten" style="font-family: '{{ signature_font }}', cursive; color: {{ signature_ink_color }}; transform: rotate({{ signature_rotation }}deg) scale({{ signature_scale }}); display: inline-block;">
+                                            {{ driver_signature_name }}
+                                        </span>
+                                        {% endif %}
+                                    </div>
                                     <div class="sig-meta">
                                         <span class="sig-label">Driver:</span>
-                                        <span class="sig-blank">_______________</span>
+                                        <span class="sig-blank">{{ driver_signature_name }}</span>
                                     </div>
                                     <div class="sig-meta">
                                         <span class="sig-label">Date/Time:</span>
-                                        <span class="sig-blank">_______________</span>
+                                        <span class="sig-blank">{{ buyer_signature_date|default(invoice_date) }}</span>
                                     </div>
                                 </td>
                                 <td class="signature-box">
                                     <div class="sig-title">Received By</div>
-                                    <div class="sig-line"></div>
+                                    <div class="sig-line">
+                                        {% if has_signature|default(true) %}
+                                        <span class="signature-handwritten" style="font-family: '{{ signature_font }}', cursive; color: {{ signature_ink_color }}; transform: rotate({{ signature_rotation }}deg) scale({{ signature_scale }}); display: inline-block;">
+                                            {{ recipient_signature_name }}
+                                        </span>
+                                        {% endif %}
+                                    </div>
                                     <div class="sig-meta">
                                         <span class="sig-label">Name:</span>
-                                        <span class="sig-blank">_______________</span>
+                                        <span class="sig-blank">{{ recipient_signature_name }}</span>
                                     </div>
                                     <div class="sig-meta">
                                         <span class="sig-label">Date/Time:</span>
-                                        <span class="sig-blank">_______________</span>
+                                        <span class="sig-blank">{{ buyer_signature_date|default(invoice_date) }}</span>
                                     </div>
                                 </td>
                             </tr>

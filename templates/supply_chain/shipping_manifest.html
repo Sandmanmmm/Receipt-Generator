@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shipping Manifest - {{ manifest_number }}</title>
     <link rel="stylesheet" href="../css/shipping_manifest.css">
+    <link rel="stylesheet" href="../css/signature_fonts.css">
 </head>
 <body>
     <div class="manifest-container">
@@ -320,34 +321,58 @@
             <div class="verification-grid">
                 <div class="verification-block">
                     <div class="verification-label">Packed By</div>
-                    <div class="signature-line"></div>
+                    <div class="signature-line">
+                        {% if has_signature|default(true) %}
+                        <span class="signature-handwritten" style="font-family: '{{ signature_font }}', cursive; color: {{ signature_ink_color }}; transform: rotate({{ signature_rotation }}deg) scale({{ signature_scale }}); display: inline-block;">
+                            {{ authorized_signature_name }}
+                        </span>
+                        {% endif %}
+                    </div>
                     <div class="signature-fields">
-                        <span class="signature-name">{{ packed_by|default('________________') }}</span>
-                        <span class="signature-date">Date: {{ pack_date|default('___/___/______') }}</span>
+                        <span class="signature-name">{{ packed_by|default(authorized_signature_name) }}</span>
+                        <span class="signature-date">Date: {{ pack_date|default(buyer_signature_date) }}</span>
                     </div>
                 </div>
                 <div class="verification-block">
                     <div class="verification-label">Verified By (QC)</div>
-                    <div class="signature-line"></div>
+                    <div class="signature-line">
+                        {% if has_signature|default(true) %}
+                        <span class="signature-handwritten" style="font-family: '{{ signature_font }}', cursive; color: {{ signature_ink_color }}; transform: rotate({{ signature_rotation }}deg) scale({{ signature_scale }}); display: inline-block;">
+                            {{ buyer_signature_name }}
+                        </span>
+                        {% endif %}
+                    </div>
                     <div class="signature-fields">
-                        <span class="signature-name">{{ verified_by|default('________________') }}</span>
-                        <span class="signature-date">Date: {{ verify_date|default('___/___/______') }}</span>
+                        <span class="signature-name">{{ verified_by|default(buyer_signature_name) }}</span>
+                        <span class="signature-date">Date: {{ verify_date|default(buyer_signature_date) }}</span>
                     </div>
                 </div>
                 <div class="verification-block">
                     <div class="verification-label">Loaded By / Driver</div>
-                    <div class="signature-line"></div>
+                    <div class="signature-line">
+                        {% if has_signature|default(true) %}
+                        <span class="signature-handwritten" style="font-family: '{{ signature_font }}', cursive; color: {{ signature_ink_color }}; transform: rotate({{ signature_rotation }}deg) scale({{ signature_scale }}); display: inline-block;">
+                            {{ driver_signature_name }}
+                        </span>
+                        {% endif %}
+                    </div>
                     <div class="signature-fields">
-                        <span class="signature-name">{{ loaded_by|default('________________') }}</span>
-                        <span class="signature-date">Date: {{ load_date|default('___/___/______') }}</span>
+                        <span class="signature-name">{{ loaded_by|default(driver_signature_name) }}</span>
+                        <span class="signature-date">Date: {{ load_date|default(buyer_signature_date) }}</span>
                     </div>
                 </div>
                 <div class="verification-block">
                     <div class="verification-label">Received By</div>
-                    <div class="signature-line"></div>
+                    <div class="signature-line">
+                        {% if has_signature|default(true) %}
+                        <span class="signature-handwritten" style="font-family: '{{ signature_font }}', cursive; color: {{ signature_ink_color }}; transform: rotate({{ signature_rotation }}deg) scale({{ signature_scale }}); display: inline-block;">
+                            {{ recipient_signature_name }}
+                        </span>
+                        {% endif %}
+                    </div>
                     <div class="signature-fields">
-                        <span class="signature-name">________________</span>
-                        <span class="signature-date">Date: ___/___/______</span>
+                        <span class="signature-name">{{ recipient_signature_name }}</span>
+                        <span class="signature-date">Date: {{ buyer_signature_date }}</span>
                     </div>
                 </div>
             </div>

@@ -2867,6 +2867,52 @@ class RetailDataGenerator:
             'customer_reg_number': '',  # Prevents placeholder text
             'buyer_company': receipt.buyer_name,  # B2B company name alias
             
+            # Signature fields for authorized signatures on POs, delivery notes, etc.
+            # Uses handwriting-style rendering in templates with Google Fonts
+            # Available fonts: Dancing Script, Great Vibes, Caveat, Satisfy, Pacifico, 
+            #                  Sacramento, Allura, Alex Brush, Tangerine, Homemade Apple
+            'signature_font': random.choice([
+                'Dancing Script',   # Casual, bouncy script
+                'Great Vibes',      # Elegant, flowing cursive  
+                'Caveat',           # Natural handwriting style
+                'Satisfy',          # Retro, brush-like
+                'Pacifico',         # Casual surf-style
+                'Sacramento',       # Thin, elegant script
+                'Allura',           # Formal calligraphy
+                'Alex Brush',       # Quick brush strokes
+                'Tangerine',        # Delicate, thin cursive
+                'Homemade Apple',   # Authentic handwritten look
+            ]),
+            # Ink colors - dark blues, blacks, and occasional dark greens for realism
+            'signature_ink_color': random.choice([
+                '#000033',  # Near black with blue tint
+                '#1a1a4a',  # Dark navy
+                '#0d0d26',  # Very dark blue
+                '#000066',  # Dark blue
+                '#00001a',  # Almost black
+                '#0a0a20',  # Deep midnight blue
+                '#1a0a0a',  # Dark reddish-black (old ink)
+                '#0a1a0a',  # Dark green-black
+                '#000000',  # Pure black
+                '#191970',  # Midnight blue
+            ]),
+            'buyer_signature_name': f"{self.fake.first_name()} {self.fake.last_name()}",
+            'buyer_signature_title': random.choice(['Purchasing Manager', 'Operations Director', 'CEO', 'CFO', 'Procurement Lead', 'VP Operations']),
+            'buyer_signature_date': datetime.now().strftime('%m/%d/%Y'),
+            'supplier_signature_name': f"{self.fake.first_name()} {self.fake.last_name()}",
+            'supplier_signature_title': random.choice(['Sales Manager', 'Account Executive', 'VP Sales', 'Regional Director', 'Customer Success Manager']),
+            'supplier_signature_date': datetime.now().strftime('%m/%d/%Y'),
+            'driver_signature_name': f"{self.fake.first_name()} {self.fake.last_name()[0]}.",
+            'recipient_signature_name': f"{self.fake.first_name()} {self.fake.last_name()}",
+            'authorized_signature_name': f"{self.fake.first_name()} {self.fake.last_name()}",
+            'authorized_signature_title': random.choice(['Manager', 'Director', 'Supervisor', 'Lead', 'Coordinator']),
+            # Rotation for signature variety (-8 to +3 degrees, slight left slant is more natural)
+            'signature_rotation': round(random.uniform(-8, 3), 1),
+            # Scale variation (0.9 to 1.1)
+            'signature_scale': round(random.uniform(0.9, 1.1), 2),
+            # Whether to show signature (80% of the time for variety)
+            'has_signature': random.random() < 0.8,
+            
             # Membership/Loyalty fields (used by wholesale, bookstore, dollar store)
             'member_id': receipt.customer_id or f"M{random.randint(100000, 999999)}",
             'member_name': receipt.buyer_name,
@@ -2945,7 +2991,7 @@ class RetailDataGenerator:
             'shipping_amount_raw': receipt.shipping_cost if hasattr(receipt, 'shipping_cost') else 0.0,  # NUMERIC alias
             'shipping': f"${receipt.shipping_cost:,.2f}" if hasattr(receipt, 'shipping_cost') and receipt.shipping_cost > 0 else "FREE",  # FORMATTED for display
             'shipping_fee': f"${receipt.shipping_cost:,.2f}" if hasattr(receipt, 'shipping_cost') and receipt.shipping_cost > 0 else "FREE",
-            'shipping_charge': f"${receipt.shipping_cost:,.2f}" if hasattr(receipt, 'shipping_cost') and receipt.shipping_cost > 0 else "FREE"
+            'shipping_charge': f"${receipt.shipping_cost:,.2f}" if hasattr(receipt, 'shipping_cost') and receipt.shipping_cost > 0 else "FREE",
             
             # Item count
             'item_count': len(receipt.line_items),

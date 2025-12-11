@@ -522,6 +522,26 @@ body {
     border-bottom: 2px solid #2563eb;
     height: 40px;
     margin-bottom: 6px;
+    display: table-cell;
+    vertical-align: bottom;
+    padding-bottom: 2px;
+}
+
+/* Handwritten signature style */
+.signature-handwritten {
+    font-family: 'Brush Script MT', 'Segoe Script', 'Bradley Hand', cursive;
+    font-size: 20px;
+    color: #1a365d;
+    letter-spacing: 0.5px;
+    display: inline;
+    line-height: 1;
+}
+
+/* Printed name (typed style) */
+.signature-print-name {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 10px;
+    color: #1a1a1a;
 }
 
 .signature-label {

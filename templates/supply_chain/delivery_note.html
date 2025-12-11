@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delivery Note - {{ invoice_number }}</title>
     <link rel="stylesheet" href="../css/delivery_note.css">
+    <link rel="stylesheet" href="../css/signature_fonts.css">
 </head>
 <body>
     <div class="invoice-page">
@@ -218,17 +219,29 @@
                 <tr>
                     <td class="signature-box">
                         <div class="signature-title">Delivered By</div>
-                        <div class="signature-line"></div>
+                        <div class="signature-line">
+                            {% if has_signature|default(true) %}
+                            <span class="signature-handwritten" style="font-family: '{{ signature_font }}', cursive; color: {{ signature_ink_color }}; transform: rotate({{ signature_rotation }}deg) scale({{ signature_scale }}); display: inline-block;">
+                                {{ driver_signature_name }}
+                            </span>
+                            {% endif %}
+                        </div>
                         <div class="signature-label">Driver Signature</div>
-                        <div class="signature-date">Date: _____________</div>
-                        <div class="signature-name">Name: _____________</div>
+                        <div class="signature-date">Date: {{ buyer_signature_date|default(invoice_date) }}</div>
+                        <div class="signature-name">Name: {{ driver_signature_name }}</div>
                     </td>
                     <td class="signature-box">
                         <div class="signature-title">Received By</div>
-                        <div class="signature-line"></div>
+                        <div class="signature-line">
+                            {% if has_signature|default(true) %}
+                            <span class="signature-handwritten" style="font-family: '{{ signature_font }}', cursive; color: {{ signature_ink_color }}; transform: rotate({{ signature_rotation|default(0) * -0.8 }}deg) scale({{ signature_scale }}); display: inline-block;">
+                                {{ recipient_signature_name }}
+                            </span>
+                            {% endif %}
+                        </div>
                         <div class="signature-label">Recipient Signature</div>
-                        <div class="signature-date">Date: _____________</div>
-                        <div class="signature-name">Name: _____________</div>
+                        <div class="signature-date">Date: {{ buyer_signature_date|default(invoice_date) }}</div>
+                        <div class="signature-name">Name: {{ recipient_signature_name }}</div>
                     </td>
                 </tr>
             </table>

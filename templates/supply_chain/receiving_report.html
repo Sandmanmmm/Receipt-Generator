@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Receiving Report</title>
     <link rel="stylesheet" href="../css/receiving_report.css">
+    <link rel="stylesheet" href="../css/signature_fonts.css">
 </head>
 <body>
     <div class="page">
@@ -281,30 +282,36 @@
             <tr>
                 <td class="signature-box">
                     <div class="signature-line">
-                        {% if receiver_signature %}
-                        <span class="signature-text">{{ receiver_signature }}</span>
+                        {% if has_signature|default(true) %}
+                        <span class="signature-handwritten" style="font-family: '{{ signature_font }}', cursive; color: {{ signature_ink_color }}; transform: rotate({{ signature_rotation }}deg) scale({{ signature_scale }}); display: inline-block;">
+                            {{ recipient_signature_name }}
+                        </span>
                         {% endif %}
                     </div>
                     <div class="signature-label">Receiver Signature</div>
-                    <div class="signature-info">{{ received_by|default('Name') }} - {{ received_date|default('Date') }}</div>
+                    <div class="signature-info">{{ received_by|default(recipient_signature_name) }} - {{ received_date|default(buyer_signature_date) }}</div>
                 </td>
                 <td class="signature-box">
                     <div class="signature-line">
-                        {% if inspector_signature %}
-                        <span class="signature-text">{{ inspector_signature }}</span>
+                        {% if has_signature|default(true) %}
+                        <span class="signature-handwritten" style="font-family: '{{ signature_font }}', cursive; color: {{ signature_ink_color }}; transform: rotate({{ signature_rotation }}deg) scale({{ signature_scale }}); display: inline-block;">
+                            {{ authorized_signature_name }}
+                        </span>
                         {% endif %}
                     </div>
                     <div class="signature-label">Quality Inspector</div>
-                    <div class="signature-info">{{ inspector_name|default('_____________') }} - {{ inspection_date|default('Date: ________') }}</div>
+                    <div class="signature-info">{{ inspector_name|default(authorized_signature_name) }} - {{ inspection_date|default(buyer_signature_date) }}</div>
                 </td>
                 <td class="signature-box">
                     <div class="signature-line">
-                        {% if manager_signature %}
-                        <span class="signature-text">{{ manager_signature }}</span>
+                        {% if has_signature|default(true) %}
+                        <span class="signature-handwritten" style="font-family: '{{ signature_font }}', cursive; color: {{ signature_ink_color }}; transform: rotate({{ signature_rotation }}deg) scale({{ signature_scale }}); display: inline-block;">
+                            {{ buyer_signature_name }}
+                        </span>
                         {% endif %}
                     </div>
                     <div class="signature-label">Warehouse Manager</div>
-                    <div class="signature-info">{{ manager_name|default('_____________') }} - {{ approval_date|default('Date: ________') }}</div>
+                    <div class="signature-info">{{ manager_name|default(buyer_signature_name) }} - {{ approval_date|default(buyer_signature_date) }}</div>
                 </td>
             </tr>
         </table>

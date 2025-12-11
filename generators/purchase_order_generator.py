@@ -45,7 +45,7 @@ class PurchaseOrderItem:
             self.unit_price = self.unit_cost
         
         if self.total == 0.0:
-            self.total = self.quantity * self.unit_price
+            self.total = round(self.quantity * self.unit_price, 2)
         if self.amount == 0.0:
             self.amount = self.total
 
@@ -474,14 +474,14 @@ class PurchaseOrderGenerator(SyntheticDataGenerator):
         num_items = random.randint(min_items, max_items)
         line_items = [self._generate_po_item(i + 1, data_po_type, industry) for i in range(num_items)]
         
-        # Calculate totals
-        subtotal = sum(item['total'] for item in line_items)
+        # Calculate totals - round to avoid floating point errors
+        subtotal = round(sum(item['total'] for item in line_items), 2)
         discount_percent = random.choice([0, 5, 10, 15])
-        discount = subtotal * (discount_percent / 100) if discount_percent > 0 else 0
+        discount = round(subtotal * (discount_percent / 100), 2) if discount_percent > 0 else 0
         tax_rate_percent = 0  # Wholesale POs often don't include tax
         tax = 0
         shipping_cost = round(random.uniform(50, 500), 2) if random.random() > 0.3 else 0
-        total = subtotal - discount + tax + shipping_cost
+        total = round(subtotal - discount + tax + shipping_cost, 2)
         
         # Base PO data
         po_data = {

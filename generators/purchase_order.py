@@ -80,8 +80,8 @@ class PurchaseOrderLineItem:
         if not isinstance(self.unit_cost, Decimal):
             self.unit_cost = Decimal(str(self.unit_cost))
         
-        # Calculate line total
-        self.line_total = self.unit_cost * Decimal(str(self.quantity_ordered))
+        # Calculate line total with rounding to avoid floating point errors
+        self.line_total = round(self.unit_cost * Decimal(str(self.quantity_ordered)), 2)
     
     def validate(self, po_type: POType) -> List[str]:
         """
@@ -188,20 +188,20 @@ class PurchaseOrder:
     
     def calculate_totals(self):
         """Calculate subtotal, tax, and total"""
-        # Subtotal
-        self.subtotal = sum(
+        # Subtotal - round to avoid floating point errors
+        self.subtotal = round(sum(
             item.line_total for item in self.line_items
-        )
+        ), 2)
         
         # Tax amount
         if not isinstance(self.tax_rate, Decimal):
             self.tax_rate = Decimal(str(self.tax_rate))
-        self.tax_amount = self.subtotal * self.tax_rate
+        self.tax_amount = round(self.subtotal * self.tax_rate, 2)
         
         # Total
         if not isinstance(self.shipping_cost, Decimal):
             self.shipping_cost = Decimal(str(self.shipping_cost))
-        self.total_amount = self.subtotal + self.tax_amount + self.shipping_cost
+        self.total_amount = round(self.subtotal + self.tax_amount + self.shipping_cost, 2)
     
     def validate(self) -> List[str]:
         """

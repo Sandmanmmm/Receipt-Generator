@@ -25,7 +25,7 @@ class ModernInvoiceItem(InvoiceItem):
         if self.unit_price == 0.0 and self.rate != 0.0:
             self.unit_price = self.rate
         if self.total == 0.0:
-            self.total = self.quantity * self.unit_price
+            self.total = round(self.quantity * self.unit_price, 2)
 
 @dataclass
 class ModernInvoiceData(InvoiceData):

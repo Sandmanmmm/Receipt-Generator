@@ -20,7 +20,7 @@ class InvoiceItem:
     @property
     def amount(self) -> float:
         """Calculate item total amount"""
-        return self.quantity * self.rate
+        return round(self.quantity * self.rate, 2)
 
 
 @dataclass

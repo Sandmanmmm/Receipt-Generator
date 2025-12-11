@@ -20,7 +20,7 @@ class InvoiceItem:
     @property
     def amount(self) -> float:
         """Calculate item total amount"""
-        return self.quantity * self.rate
+        return round(self.quantity * self.rate, 2)
 
 
 @dataclass
@@ -68,17 +68,17 @@ class InvoiceData:
     
     def calculate_totals(self):
         """Calculate all invoice totals"""
-        self.subtotal = sum(item.amount for item in self.items)
+        self.subtotal = round(sum(item.amount for item in self.items), 2)
         
         if self.discount_percent > 0:
-            self.discount = self.subtotal * (self.discount_percent / 100)
+            self.discount = round(self.subtotal * (self.discount_percent / 100), 2)
         
-        taxable_amount = self.subtotal - self.discount
+        taxable_amount = round(self.subtotal - self.discount, 2)
         
         if self.tax_rate > 0:
-            self.tax = taxable_amount * (self.tax_rate / 100)
+            self.tax = round(taxable_amount * (self.tax_rate / 100), 2)
         
-        self.total = taxable_amount + self.tax + self.shipping
+        self.total = round(taxable_amount + self.tax + self.shipping, 2)
 
 
 class SyntheticDataGenerator:

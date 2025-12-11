@@ -1096,9 +1096,9 @@ class RetailDataGenerator:
         # Calculate totals
         item.total_units = item.units_per_case * item.case_quantity
         item.quantity = item.total_units
-        item.line_total = item.price_per_case * item.case_quantity
+        item.line_total = round(item.price_per_case * item.case_quantity, 2)
         if item.volume_discount_amount:
-            item.line_total -= item.volume_discount_amount
+            item.line_total = round(item.line_total - item.volume_discount_amount, 2)
         item.total = item.line_total
         
         return item

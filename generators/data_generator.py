@@ -67,18 +67,18 @@ class InvoiceData:
     terms: Optional[str] = None
     
     def calculate_totals(self):
-        """Calculate all invoice totals"""
-        self.subtotal = sum(item.amount for item in self.items)
+        """Calculate all invoice totals (with rounding to avoid floating point errors)"""
+        self.subtotal = round(sum(item.amount for item in self.items), 2)
         
         if self.discount_percent > 0:
-            self.discount = self.subtotal * (self.discount_percent / 100)
+            self.discount = round(self.subtotal * (self.discount_percent / 100), 2)
         
-        taxable_amount = self.subtotal - self.discount
+        taxable_amount = round(self.subtotal - self.discount, 2)
         
         if self.tax_rate > 0:
-            self.tax = taxable_amount * (self.tax_rate / 100)
+            self.tax = round(taxable_amount * (self.tax_rate / 100), 2)
         
-        self.total = taxable_amount + self.tax + self.shipping
+        self.total = round(taxable_amount + self.tax + self.shipping, 2)
 
 
 class SyntheticDataGenerator:

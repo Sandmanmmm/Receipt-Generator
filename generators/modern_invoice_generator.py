@@ -87,7 +87,7 @@ class ModernInvoiceGenerator(SyntheticDataGenerator):
             description = random.choice(self.products)
             quantity = random.randint(1, 10)
             price = round(random.uniform(50, 2000), 2)
-            amount = quantity * price
+            amount = round(quantity * price, 2)  # Round to avoid floating point errors
             subtotal += amount
             
             items.append({
@@ -99,11 +99,14 @@ class ModernInvoiceGenerator(SyntheticDataGenerator):
                 'tax_rate': 0.0,  # Simplified for now
                 'attributes': None  # Optional product attributes for ecommerce templates
             })
+        
+        # Round subtotal to avoid floating point precision errors (e.g., 959.5600000000001)
+        subtotal = round(subtotal, 2)
             
         # Calculate totals
         tax_rate = 0.08
-        tax = subtotal * tax_rate
-        total = subtotal + tax
+        tax = round(subtotal * tax_rate, 2)
+        total = round(subtotal + tax, 2)
         
         # Generate banking info
         bank_name = self.fake.company() + " Bank"

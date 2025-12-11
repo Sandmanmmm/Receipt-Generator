@@ -1766,9 +1766,9 @@ class RetailDataGenerator:
             
             receipt.line_items.append(item)
         
-        # Calculate totals
-        receipt.subtotal = sum(item.total for item in receipt.line_items)  # SUBTOTAL
-        receipt.discount = sum(item.discount for item in receipt.line_items)  # DISCOUNT
+        # Calculate totals (round to avoid floating point precision errors like 959.5600000000001)
+        receipt.subtotal = round(sum(item.total for item in receipt.line_items), 2)  # SUBTOTAL
+        receipt.discount = round(sum(item.discount for item in receipt.line_items), 2)  # DISCOUNT
         receipt.total_discount = receipt.discount
         
         # TAX_RATE, TAX_AMOUNT
@@ -1960,11 +1960,11 @@ class RetailDataGenerator:
             
             receipt.line_items.append(item)
         
-        # Calculate totals
-        receipt.subtotal = sum(item.total for item in receipt.line_items)
-        receipt.discount = sum(item.discount for item in receipt.line_items)
+        # Calculate totals (round to avoid floating point precision errors like 959.5600000000001)
+        receipt.subtotal = round(sum(item.total for item in receipt.line_items), 2)
+        receipt.discount = round(sum(item.discount for item in receipt.line_items), 2)
         receipt.total_discount = receipt.discount
-        
+
         receipt.tax_rate = random.choice([6.5, 7.5, 8.0, 8.25, 9.0])
         taxable_amount = receipt.subtotal - receipt.discount
         receipt.tax_amount = round(taxable_amount * (receipt.tax_rate / 100), 2)

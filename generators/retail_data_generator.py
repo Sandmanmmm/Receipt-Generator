@@ -3367,12 +3367,13 @@ class RetailDataGenerator:
         }
         
         # Detect if this is a grocery order and organize items by temperature zone
-        # Check if any line item has grocery fields (organic, expiration_date, weight_unit)
+        # Check if any line item has meaningful grocery field values (not just defaults)
         has_grocery_items = any(
-            hasattr(item, 'organic') or 
-            hasattr(item, 'expiration_date') or 
-            hasattr(item, 'weight_unit') or
-            hasattr(item, 'locally_grown')
+            getattr(item, 'organic', False) == True or 
+            getattr(item, 'expiration_date', None) is not None or 
+            getattr(item, 'weight_unit', None) is not None or
+            getattr(item, 'locally_grown', False) == True or
+            getattr(item, 'substituted', False) == True
             for item in receipt.line_items
         ) if receipt.line_items else False
         

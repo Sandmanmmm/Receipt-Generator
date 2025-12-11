@@ -300,7 +300,14 @@ def generate_single_invoice(args):
             "ecommerce/premium_minimalist_invoice.html": "premium_minimalist_invoice",
             "ecommerce/nordic_statement_invoice.html": "nordic_statement_invoice",
             "ecommerce/amazon_style_order.html": "amazon_style_order",
-            "ecommerce/tech_gradient_template.html": "tech_gradient_template"
+            "ecommerce/tech_gradient_template.html": "tech_gradient_template",
+            # Online order templates
+            "retail/online_order_grocery.html": "online_order_grocery",
+            "retail/online_order_fashion.html": "online_order_fashion",
+            "retail/online_order_digital.html": "online_order_digital",
+            "retail/online_order_home_improvement.html": "online_order_home_improvement",
+            "retail/online_order_marketplace.html": "online_order_marketplace",
+            "retail/online_order_wholesale.html": "online_order_wholesale",
         }
         
         retail_gen = RetailDataGenerator()

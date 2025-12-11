@@ -211,6 +211,19 @@ templates:
     secondary: [jewelry, accessories, beauty]
     weights: [0.50, 0.25, 0.15, 0.10]
 
+  # === ONLINE ORDER SPECIALIZED TEMPLATES ===
+  # Grocery template - uses grocery_delivery category for zone-organized items
+  online_order_grocery:
+    primary: grocery_delivery
+    secondary: [food_beverage]
+    weights: [0.80, 0.20]
+
+  # Fashion template
+  online_order_fashion:
+    primary: fashion
+    secondary: [accessories, beauty]
+    weights: [0.70, 0.20, 0.10]
+
 # Category descriptions for reference
 category_info:
   fashion: "Clothing, shoes, apparel"
@@ -223,6 +236,7 @@ category_info:
   books_media: "Books, magazines, DVDs, music"
   toys_games: "Children's toys, board games, puzzles"
   food_beverage: "Groceries, snacks, beverages"
+  grocery_delivery: "Fresh produce, frozen, refrigerated, pantry items"
   health_wellness: "Vitamins, supplements, health products"
   electronics: "Tech gadgets, computers, phones, accessories"
   wholesale_general: "Mixed wholesale products"
@@ -231,3 +245,9 @@ category_info:
   wholesale_fashion: "Bulk clothing and apparel"
   marketplace_handmade: "Handcrafted artisan products"
   marketplace_vintage: "Vintage and antique items"
+
+# Wholesale template
+online_order_wholesale:
+  primary: wholesale_general
+  secondary: [wholesale_food, wholesale_electronics]
+  weights: [0.50, 0.30, 0.20]

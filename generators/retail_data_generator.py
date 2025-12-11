@@ -969,7 +969,7 @@ class RetailDataGenerator:
         
         # ITEM_SKU (UPC)
         upc = self.fake.ean13()
-        sku = self.fake.bothify(text='SKU-######')
+        sku = self.fake.bothify(text='SKU#####')  # Short SKU format (8 chars max)
         
         # ITEM_TAX
         tax_rate = random.choice([0.0, 6.5, 7.5, 8.25, 9.0])
@@ -2995,7 +2995,7 @@ class RetailDataGenerator:
                     'total': f"${item.total:,.2f}",  # Formatted with currency
                     'total_raw': item.total,  # RAW for calculations
                     'upc': item.upc,
-                    'sku': item.sku or f"SKU-{random.randint(10000, 99999)}",  # Ensure SKU is never empty
+                    'sku': item.sku or f"SKU{random.randint(10000, 99999)}",  # Short SKU (max 9 chars)
                     'unit': item.unit,
                     'tax_rate': item.tax_rate,
                     'tax_amount': f"${item.tax_amount:,.2f}" if item.tax_amount else "$0.00",  # Formatted
@@ -3192,7 +3192,7 @@ class RetailDataGenerator:
                     'total': item.total,
                     'total_price': f"${item.total:.2f}",  # Formatted alias for wholesale templates
                     'upc': item.upc,
-                    'sku': item.sku,
+                    'sku': item.sku or f"SKU{random.randint(10000, 99999)}",  # Short SKU format (max 9 chars)
                     'unit': item.unit,
                     'tax_rate': item.tax_rate,
                     'tax_amount': item.tax_amount,
@@ -3356,9 +3356,19 @@ class RetailDataGenerator:
             'purchase_date': datetime.now().strftime('%B %d, %Y'),
             'refund_window': random.choice(['7 days', '14 days', '30 days']),
             
-            # Bank details (for blue_wave_invoice)
-            'bank_name': random.choice(['Chase Bank', 'Bank of America', 'Wells Fargo', 'Citibank', 'US Bank']),
+            # Bank details (for business invoices and payments)
+            'bank_name': random.choice(['Chase Bank', 'Bank of America', 'Wells Fargo', 'Citibank', 'US Bank', 'PNC Bank', 'TD Bank']),
             'bank_account': f"****{random.randint(1000, 9999)}",
+            'bank_account_number': f"****{random.randint(1000, 9999)}",
+            'account_holder_name': receipt.supplier_name,  # Account holder is the supplier
+            'routing_number': f"{random.randint(100000000, 999999999)}",
+            'swift_code': f"{''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=4))}US{random.randint(10, 99)}",
+            'iban': f"US{random.randint(10, 99)}{''.join([str(random.randint(0, 9)) for _ in range(20)])}",
+            
+            # Payment terms (numeric and text versions)
+            'payment_days': random.choice([7, 14, 15, 30, 45, 60]),
+            'late_fee_percent': random.choice([1.5, 2.0, 2.5, 3.0]),
+            'payment_due_date': (datetime.now() + timedelta(days=30)).strftime('%B %d, %Y'),
             
             # Social media
             'social_media': f"@{self.fake.user_name()}",

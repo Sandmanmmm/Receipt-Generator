@@ -121,8 +121,8 @@
             </tr>
             <tr>
                 <td class="totals-spacer"></td>
-                <td class="totals-label-light">Tax</td>
-                <td class="totals-value-light">{{ tax_rate }}</td>
+                <td class="totals-label-light">Tax ({{ tax_rate|default('') }})</td>
+                <td class="totals-value-light">{{ tax_amount }}</td>
             </tr>
             <tr>
                 <td class="totals-spacer"></td>
@@ -139,14 +139,14 @@
             <tr>
                 <td class="payment-details">
                     <div class="pay-to-label">PAY TO:</div>
-                    <div class="bank-name">{{ bank_name }}</div>
-                    <div class="bank-line">Account Name: {{ account_name }}</div>
-                    <div class="bank-line">Account No.: {{ account_number }}</div>
-                    <div class="bank-line">Bank Code: {{ bank_code }}</div>
+                    <div class="bank-name">{{ bank_name|default(supplier_name) }}</div>
+                    <div class="bank-line">Account Name: {{ account_holder_name|default(supplier_name) }}</div>
+                    <div class="bank-line">Account No.: {{ bank_account_number|default(bank_account) }}</div>
+                    <div class="bank-line">Bank Code: {{ routing_number|default('N/A') }}</div>
                 </td>
                 <td class="payment-due-cell">
                     <div class="payment-due-label">PAYMENT DUE:</div>
-                    <div class="payment-due-date">{{ payment_due_date }}</div>
+                    <div class="payment-due-date">{{ payment_due_date|default(due_date) }}</div>
                 </td>
             </tr>
         </table>
@@ -154,7 +154,7 @@
         <!-- Footer Note -->
         <div class="footer-note">
             Payment accepted via debit card, credit card or<br>
-            PayPal within {{ payment_terms }} days. Late invoices subject to {{ late_fee }}% fee.
+            PayPal within {{ payment_days|default('30') }} days. Late invoices subject to {{ late_fee_percent|default('1.5') }}% fee.
         </div>
         {% else %}
         <!-- Continuation Footer -->

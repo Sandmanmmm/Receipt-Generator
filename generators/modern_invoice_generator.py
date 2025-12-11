@@ -221,11 +221,21 @@ class ModernInvoiceGenerator(SyntheticDataGenerator):
             if items_key in data and isinstance(data[items_key], list):
                 for item in data[items_key]:
                     if isinstance(item, dict):
+                        # Add name/product_name aliases for description (used by many templates)
+                        if 'description' in item:
+                            if 'name' not in item:
+                                item['name'] = item['description']
+                            if 'product_name' not in item:
+                                item['product_name'] = item['description']
+                        
                         # Add unit_price alias for rate
                         if 'rate' in item and 'unit_price' not in item:
                             item['unit_price'] = item['rate']
                         if 'unit_price' in item and 'price' not in item:
                             item['price'] = item['unit_price']
+                        # Add unit_cost alias for PO and supply_chain templates
+                        if 'unit_cost' not in item:
+                            item['unit_cost'] = item.get('unit_price', item.get('rate', item.get('price', 0)))
                         
                         # Calculate total/amount if missing
                         if 'total' not in item and 'amount' not in item:
@@ -241,6 +251,10 @@ class ModernInvoiceGenerator(SyntheticDataGenerator):
                         # Add line_total alias (used by some templates)
                         if 'line_total' not in item:
                             item['line_total'] = item.get('total', item.get('amount', 0))
+                        
+                        # Add subtotal alias for item-level subtotal (some templates use this)
+                        if 'subtotal' not in item:
+                            item['subtotal'] = item.get('total', item.get('amount', 0))
         
         # Ensure line_items alias exists
         if 'items' in data and 'line_items' not in data:

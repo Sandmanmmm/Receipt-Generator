@@ -175,8 +175,8 @@
                     </td>
                     <td class="col-color">{{ item.color|default(item.variant)|default('--') }}</td>
                     <td class="col-qty">{{ item.quantity }}</td>
-                    <td class="col-price">${{ item.unit_price }}</td>
-                    <td class="col-total">${{ item.total }}</td>
+                    <td class="col-price">${{ "%.2f"|format(item.unit_price_raw|default(0)) }}</td>
+                    <td class="col-total">${{ "%.2f"|format(item.total_raw|default(0)) }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -224,22 +224,22 @@
                     <table class="totals-table">
                         <tr>
                             <td class="total-label">Subtotal:</td>
-                            <td class="total-value">${{ subtotal }}</td>
+                            <td class="total-value">${{ "%.2f"|format(subtotal|to_float) }}</td>
                         </tr>
-                        {% if discount_amount %}
+                        {% if discount_amount and (discount_amount|to_float) > 0 %}
                         <tr class="discount-row">
                             <td class="total-label">Business Discount ({{ discount_percent|default('10%') }}):</td>
-                            <td class="total-value discount">-${{ discount_amount }}</td>
+                            <td class="total-value discount">-${{ "%.2f"|format(discount_amount|to_float) }}</td>
                         </tr>
                         {% endif %}
                         <tr>
                             <td class="total-label">Shipping:</td>
-                            <td class="total-value">${{ shipping_amount|default('0.00') }}</td>
+                            <td class="total-value">${{ "%.2f"|format(shipping_amount|default(0)|to_float) }}</td>
                         </tr>
-                        {% if tax_amount and tax_amount != '0.00' %}
+                        {% if tax_amount and (tax_amount|to_float) > 0 %}
                         <tr>
                             <td class="total-label">Sales Tax ({{ tax_rate|default('') }}):</td>
-                            <td class="total-value">${{ tax_amount }}</td>
+                            <td class="total-value">${{ "%.2f"|format(tax_amount|to_float) }}</td>
                         </tr>
                         {% endif %}
                         {% if surcharge_amount %}
@@ -250,7 +250,7 @@
                         {% endif %}
                         <tr class="grand-total">
                             <td class="total-label">Invoice Total:</td>
-                            <td class="total-value">${{ total }}</td>
+                            <td class="total-value">${{ "%.2f"|format(total_amount|to_float) }}</td>
                         </tr>
                     </table>
 

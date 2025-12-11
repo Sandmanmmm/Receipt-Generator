@@ -59,10 +59,10 @@
                     <div class="section-title">SHIP TO</div>
                     <div class="detail-content">
                         <div class="name-line">{{ buyer_name }}</div>
-                        <div class="address-line">{{ buyer_address.street|default('') }}</div>
-                        <div class="address-line">{{ buyer_address.city|default('') }}, {{ buyer_address.state|default('') }} {{ buyer_address.zip|default('') }}</div>
-                        {% if buyer_address.country %}
-                        <div class="address-line">{{ buyer_address.country }}</div>
+                        <div class="address-line">{{ buyer_address_struct.street|default(buyer_address) }}</div>
+                        <div class="address-line">{{ buyer_address_struct.city|default('') }}, {{ buyer_address_struct.state|default('') }} {{ buyer_address_struct.zip|default('') }}</div>
+                        {% if buyer_address_struct.country %}
+                        <div class="address-line">{{ buyer_address_struct.country }}</div>
                         {% endif %}
                         {% if buyer_phone %}
                         <div class="contact-line">Phone: {{ buyer_phone }}</div>
@@ -76,10 +76,10 @@
                     <div class="section-title">SHIP FROM</div>
                     <div class="detail-content">
                         <div class="name-line">{{ supplier_name }}</div>
-                        <div class="address-line">{{ supplier_address.street|default('') }}</div>
-                        <div class="address-line">{{ supplier_address.city|default('') }}, {{ supplier_address.state|default('') }} {{ supplier_address.zip|default('') }}</div>
-                        {% if supplier_address.country %}
-                        <div class="address-line">{{ supplier_address.country }}</div>
+                        <div class="address-line">{{ supplier_address_struct.street|default(supplier_address) }}</div>
+                        <div class="address-line">{{ supplier_address_struct.city|default('') }}, {{ supplier_address_struct.state|default('') }} {{ supplier_address_struct.zip|default('') }}</div>
+                        {% if supplier_address_struct.country %}
+                        <div class="address-line">{{ supplier_address_struct.country }}</div>
                         {% endif %}
                         <div class="contact-line">Returns: {{ supplier_phone|default(supplier_email) }}</div>
                     </div>

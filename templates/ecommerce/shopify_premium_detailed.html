@@ -261,7 +261,7 @@
                             <td class="amount discount">-{{ currency_symbol }}{{ "%.2f"|format(discount|to_float) }}</td>
                         </tr>
                         {% endif %}
-                        {% if shipping_cost and shipping_cost > 0 %}
+                        {% if shipping_cost and (shipping_cost|to_float) > 0 %}
                         <tr>
                             <td>Shipping</td>
                             <td class="amount">{{ currency_symbol }}{{ "%.2f"|format(shipping_cost) }}</td>

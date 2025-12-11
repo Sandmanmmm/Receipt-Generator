@@ -2613,6 +2613,48 @@ class RetailDataGenerator:
         
         return zones
     
+    def _parse_address_to_struct(self, address_str: str) -> Dict[str, str]:
+        """Parse a flat address string into a structured object for templates.
+        
+        Handles formats like:
+        - "123 Main St, City, ST 12345"
+        - "Apt 5, 123 Main St, City, ST 12345"
+        - "Unit 8077 Box 5510, DPO AP 68661"
+        
+        Returns dict with: street, city, state, zip, country
+        """
+        if not address_str:
+            return {'street': '', 'city': '', 'state': '', 'zip': '', 'country': ''}
+        
+        parts = [p.strip() for p in address_str.split(',')]
+        
+        result = {
+            'street': '',
+            'city': '',
+            'state': '',
+            'zip': '',
+            'country': ''
+        }
+        
+        if len(parts) >= 1:
+            result['street'] = parts[0]
+        
+        if len(parts) >= 2:
+            result['city'] = parts[1]
+        
+        if len(parts) >= 3:
+            # Last part usually has "STATE ZIP" or just state
+            state_zip = parts[2].strip().split()
+            if len(state_zip) >= 1:
+                result['state'] = state_zip[0]
+            if len(state_zip) >= 2:
+                result['zip'] = state_zip[1]
+        
+        if len(parts) >= 4:
+            result['country'] = parts[3]
+        
+        return result
+    
     def to_dict(self, receipt: RetailReceiptData) -> Dict[str, Any]:
         """Convert RetailReceiptData to dictionary for template rendering"""
         base_dict = {
@@ -2623,16 +2665,20 @@ class RetailDataGenerator:
             'doc_type': receipt.doc_type,
             'document_type': receipt.doc_type,  # Alias for templates
             'invoice_number': receipt.invoice_number,
+            'order_number': receipt.invoice_number,  # Alias for packing slips
             'invoice_date': receipt.invoice_date,
             'order_date': receipt.order_date,
+            'ship_date': receipt.invoice_date,  # Ship date defaults to invoice date
             
             # Merchant
             'supplier_name': receipt.supplier_name,
             'supplier_logo': receipt.supplier_logo,
             'supplier_address': receipt.supplier_address,
+            'supplier_address_struct': self._parse_address_to_struct(receipt.supplier_address),  # Structured address for packing_slip
             'supplier_phone': receipt.supplier_phone,
             'supplier_email': receipt.supplier_email,
             'store_website': receipt.store_website,
+            'supplier_website': receipt.store_website,  # Alias for packing slip template
             # Premium receipt template aliases
             'supplier_initials': ''.join(word[0].upper() for word in receipt.supplier_name.split()[:2]) if receipt.supplier_name else '',
             'store_location': receipt.supplier_address,
@@ -2800,6 +2846,7 @@ class RetailDataGenerator:
             # Customer
             'buyer_name': receipt.buyer_name,
             'buyer_address': receipt.buyer_address,
+            'buyer_address_struct': self._parse_address_to_struct(receipt.buyer_address),  # Structured address for packing_slip
             'buyer_phone': receipt.buyer_phone,
             'buyer_email': receipt.buyer_email,
             'customer_id': receipt.customer_id,
@@ -2807,6 +2854,7 @@ class RetailDataGenerator:
             'customer_company': receipt.buyer_name,  # Company name for B2B
             'customer_phone': receipt.buyer_phone,  # Alias for buyer_phone
             'customer_address': receipt.buyer_address,  # Alias for buyer_address
+            'customer_address_struct': self._parse_address_to_struct(receipt.buyer_address),  # Structured alias
             'customer_gst': f"GST{random.randint(100000000, 999999999)}",  # Customer GST ID for B2B
             'customer_reg': f"REG{random.randint(100000, 999999)}",  # Customer registration
             'account_number': receipt.account_number,
@@ -2841,24 +2889,29 @@ class RetailDataGenerator:
             'promo': random.choice(['SAVE10', 'WEEKEND', 'MEMBER', None]),
             'exchange_policy': 'Items may be exchanged within 14 days with receipt',
             
-            # Financial totals (RAW numeric values for templates that format themselves)
+            # Financial totals (FORMATTED values for display, |to_float filter strips $ and ,)
+            # Templates using ${{"%.2f"|format(subtotal|to_float)}} work because to_float strips $
+            # Templates using {{ subtotal }} directly now get "$1,234.56" format
             'currency': receipt.currency,
             'currency_symbol': receipt.currency,  # Alias for templates
-            'subtotal': receipt.subtotal,  # RAW numeric
-            'subtotal_raw': receipt.subtotal,  # For calculations
-            'sub_total': receipt.subtotal,  # RAW numeric alias
-            'tax_amount': receipt.tax_amount if receipt.tax_amount else 0.0,  # RAW numeric
-            'tax_amount_raw': receipt.tax_amount,  # For calculations
-            'tax': receipt.tax_amount if receipt.tax_amount else 0.0,  # RAW numeric alias
-            'sales_tax': receipt.tax_amount if receipt.tax_amount else 0.0,  # RAW numeric
+            'subtotal': f"${receipt.subtotal:,.2f}",  # FORMATTED for display (to_float strips $)
+            'subtotal_raw': receipt.subtotal,  # NUMERIC for calculations
+            'sub_total': f"${receipt.subtotal:,.2f}",  # FORMATTED alias
+            'tax_amount': f"${receipt.tax_amount:,.2f}" if receipt.tax_amount else "$0.00",  # FORMATTED
+            'tax_amount_raw': receipt.tax_amount,  # NUMERIC for calculations
+            'tax': f"${receipt.tax_amount:,.2f}" if receipt.tax_amount else "$0.00",  # FORMATTED alias
+            'sales_tax': f"${receipt.tax_amount:,.2f}" if receipt.tax_amount else "$0.00",  # FORMATTED alias
             'tax_rate': receipt.tax_rate,
-            'total_amount': receipt.total_amount,  # RAW numeric
-            'total_amount_raw': receipt.total_amount,  # For calculations
-            'total': receipt.total_amount,  # RAW numeric alias
-            'discount': receipt.discount if receipt.discount > 0 else 0.0,  # RAW numeric
-            'discount_raw': receipt.discount,  # For calculations
-            'total_discount': receipt.total_discount if receipt.total_discount > 0 else 0.0,  # RAW numeric
-            'total_discount_raw': receipt.total_discount,  # For calculations
+            'total_amount': f"${receipt.total_amount:,.2f}",  # FORMATTED for display
+            'total_amount_raw': receipt.total_amount,  # NUMERIC for calculations
+            'total': f"${receipt.total_amount:,.2f}",  # FORMATTED alias
+            'total_raw': receipt.total_amount,  # NUMERIC alias
+            'discount': f"${receipt.discount:,.2f}" if receipt.discount > 0 else "$0.00",  # FORMATTED
+            'discount_raw': receipt.discount,  # NUMERIC for calculations
+            'discount_amount': f"${receipt.discount:,.2f}" if receipt.discount > 0 else "$0.00",  # FORMATTED for display
+            'discount_amount_raw': receipt.discount,  # NUMERIC for calculations
+            'total_discount': f"${receipt.total_discount:,.2f}" if receipt.total_discount > 0 else "$0.00",  # FORMATTED
+            'total_discount_raw': receipt.total_discount,  # NUMERIC for calculations
             'total_savings': f"${receipt.total_discount:.2f}" if receipt.total_discount > 0 else (f"${receipt.discount:.2f}" if receipt.discount > 0 else None),  # Alias for total_discount
             
             # Coupon fields (for online orders and retail)
@@ -2881,12 +2934,18 @@ class RetailDataGenerator:
             'bag_charge': f"${random.choice([0.05, 0.10, 0.00]):.2f}",
             'bag_count': random.randint(0, 5),
             
-            'tip_amount': receipt.tip_amount if receipt.tip_amount > 0 else 0.0,  # RAW numeric
-            'tip_amount_raw': receipt.tip_amount,  # For calculations
-            'shipping_cost': receipt.shipping_cost if hasattr(receipt, 'shipping_cost') and receipt.shipping_cost > 0 else 0.0,  # RAW numeric
-            'shipping_cost_raw': receipt.shipping_cost if hasattr(receipt, 'shipping_cost') else 0.0,  # For calculations
-            'shipping': receipt.shipping_cost if hasattr(receipt, 'shipping_cost') else 0.0,  # RAW numeric alias
-            'shipping_fee': receipt.shipping_cost if hasattr(receipt, 'shipping_cost') else 0.0,  # RAW numeric alias
+            'tip_amount': receipt.tip_amount if receipt.tip_amount > 0 else 0.0,  # NUMERIC for conditionals
+            'tip_amount_raw': receipt.tip_amount,  # NUMERIC alias
+            'tip_amount_formatted': f"${receipt.tip_amount:,.2f}" if receipt.tip_amount > 0 else "$0.00",  # Formatted
+            # shipping_cost must be NUMERIC because templates use `{% if shipping_cost > 0 %}`
+            'shipping_cost': receipt.shipping_cost if hasattr(receipt, 'shipping_cost') else 0.0,  # NUMERIC
+            'shipping_cost_raw': receipt.shipping_cost if hasattr(receipt, 'shipping_cost') else 0.0,  # NUMERIC alias
+            'shipping_cost_formatted': f"${receipt.shipping_cost:,.2f}" if hasattr(receipt, 'shipping_cost') and receipt.shipping_cost > 0 else "FREE",
+            'shipping_amount': receipt.shipping_cost if hasattr(receipt, 'shipping_cost') else 0.0,  # NUMERIC
+            'shipping_amount_raw': receipt.shipping_cost if hasattr(receipt, 'shipping_cost') else 0.0,  # NUMERIC alias
+            'shipping': f"${receipt.shipping_cost:,.2f}" if hasattr(receipt, 'shipping_cost') and receipt.shipping_cost > 0 else "FREE",  # FORMATTED for display
+            'shipping_fee': f"${receipt.shipping_cost:,.2f}" if hasattr(receipt, 'shipping_cost') and receipt.shipping_cost > 0 else "FREE",
+            'shipping_charge': f"${receipt.shipping_cost:,.2f}" if hasattr(receipt, 'shipping_cost') and receipt.shipping_cost > 0 else "FREE"
             
             # Item count
             'item_count': len(receipt.line_items),
@@ -2896,8 +2955,9 @@ class RetailDataGenerator:
             # Payment
             'payment_method': receipt.payment_method,
             'payment_terms': receipt.payment_terms,
-            'card_type': receipt.card_type,
-            'card_last_four': receipt.card_last_four,
+            'card_type': receipt.card_type or '',  # Empty string if None (for template conditionals)
+            'card_last_four': receipt.card_last_four or '',  # Empty string if None
+            'has_card_info': bool(receipt.card_type and receipt.card_last_four),  # Helper for templates
             'approval_code': receipt.approval_code,
             'transaction_id': receipt.transaction_id,
             'cash_tendered': receipt.cash_tendered if receipt.cash_tendered else 0.0,  # RAW numeric
@@ -2930,23 +2990,27 @@ class RetailDataGenerator:
                     'description': item.description,
                     'name': item.name or item.description,  # Alias
                     'quantity': item.quantity,
-                    'unit_price': item.unit_price,  # RAW numeric value for templates that format themselves
-                    'total': item.total,  # RAW numeric value for templates that format themselves
+                    'unit_price': f"${item.unit_price:,.2f}",  # Formatted with currency
+                    'unit_price_raw': item.unit_price,  # RAW for calculations
+                    'total': f"${item.total:,.2f}",  # Formatted with currency
+                    'total_raw': item.total,  # RAW for calculations
                     'upc': item.upc,
-                    'sku': item.sku,
+                    'sku': item.sku or f"SKU-{random.randint(10000, 99999)}",  # Ensure SKU is never empty
                     'unit': item.unit,
                     'tax_rate': item.tax_rate,
-                    'tax_amount': item.tax_amount if item.tax_amount else 0.0,  # RAW numeric
+                    'tax_amount': f"${item.tax_amount:,.2f}" if item.tax_amount else "$0.00",  # Formatted
+                    'tax_amount_raw': item.tax_amount if item.tax_amount else 0.0,  # RAW
                     
-                    # Legacy field aliases for backward compatibility
+                    # Legacy field aliases for backward compatibility (now formatted)
                     'qty': item.quantity,  # Alias for quantity
-                    'rate': item.unit_price,  # RAW numeric (some templates format themselves)
-                    'price': item.unit_price,  # RAW numeric
-                    'unit_cost': item.unit_price,  # RAW numeric
-                    'amount': item.total,  # RAW numeric
-                    'total_price': item.total,  # RAW numeric (wholesale template)
-                    'discount': item.discount if item.discount > 0 else 0.0,  # RAW numeric
-                    'discount_amount': item.discount if item.discount > 0 else 0.0,  # RAW numeric
+                    'rate': f"${item.unit_price:,.2f}",  # Formatted
+                    'price': f"${item.unit_price:,.2f}",  # Formatted
+                    'unit_cost': f"${item.unit_price:,.2f}",  # Formatted
+                    'amount': f"${item.total:,.2f}",  # Formatted
+                    'total_price': f"${item.total:,.2f}",  # Formatted (wholesale template)
+                    'discount': f"${item.discount:,.2f}" if item.discount > 0 else "$0.00",  # Formatted
+                    'discount_amount': f"${item.discount:,.2f}" if item.discount > 0 else "$0.00",  # Formatted
+                    'discount_raw': item.discount if item.discount > 0 else 0.0,  # RAW for calculations
                     'discount_percent': f"{int((item.discount / item.total * 100) if item.total > 0 and item.discount > 0 else 0)}%",
                     
                     # Item identification aliases
@@ -3264,6 +3328,7 @@ class RetailDataGenerator:
             
             # E-commerce
             'shipping_method': receipt.shipping_method,
+            'shipping_carrier': random.choice(['UPS', 'FedEx', 'USPS', 'DHL', 'OnTrac', 'Standard Shipping']),  # Carrier for packing slips
             'delivery_estimate': receipt.delivery_estimate,
             'gift_message': receipt.gift_message,
             'gift_wrap_charge': f"${random.uniform(2.99, 7.99):.2f}" if random.random() < 0.2 else None,

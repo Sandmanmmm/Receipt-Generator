@@ -151,7 +151,7 @@
                 <span class="total-value discount">-${{ "%.2f"|format(discount_amount|to_float) }}</span>
             </div>
             {% endif %}
-            {% if shipping_cost and shipping_cost > 0 %}
+            {% if shipping_cost and (shipping_cost|to_float) > 0 %}
             <div class="total-line">
                 <span class="total-label">Shipping:</span>
                 <span class="total-value">${{ "%.2f"|format(shipping_cost) }}</span>

@@ -85,15 +85,15 @@
         </table>
         {% else %}
         <!-- Compact Header - Continuation Pages -->
-        <div style="border-bottom: 2px solid #2c5f7d; padding: 15px 0; margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <strong style="font-size: 16px;">{{ buyer_company }}</strong> | 
+        <table class="continuation-header">
+            <tr>
+                <td class="left">
+                    <strong>{{ buyer_company }}</strong> | 
                     <span style="color: #666;">PO #{{ po_number }}</span>
-                </div>
-                <div style="color: #666;">Page {{ _page_number }} of {{ _total_pages }}</div>
-            </div>
-        </div>
+                </td>
+                <td class="right">Page {{ _page_number }} of {{ _total_pages }}</td>
+            </tr>
+        </table>
         {% endif %}
 
         <!-- Line Items Table -->
@@ -139,7 +139,7 @@
                 <td class="totals-label">Subtotal:</td>
                 <td class="totals-value">${{ "%.2f"|format(subtotal|to_float) }}</td>
             </tr>
-            {% if shipping_cost and shipping_cost > 0 %}
+            {% if shipping_cost and (shipping_cost|to_float) > 0 %}
             <tr>
                 <td class="totals-label">Shipping & Handling:</td>
                 <td class="totals-value">${{ "%.2f"|format(shipping_cost) }}</td>

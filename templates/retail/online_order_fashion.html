@@ -171,8 +171,8 @@
             <h3 class="summary-title">Order Summary</h3>
             <div class="summary-table">
                 <div class="summary-row">
-                    <span class="summary-label">Subtotal ({{ total_items }} items):</span>
-                    <span class="summary-value">{{ subtotal }}</span>
+                    <span class="summary-label">Subtotal ({{ total_items|default(item_count)|default(0) }} items):</span>
+                    <span class="summary-value">${{ "%.2f"|format(subtotal|default(0)) }}</span>
                 </div>
                 {% if item_discounts and item_discounts|float > 0 %}
                 <div class="summary-row discount-row">
@@ -192,9 +192,15 @@
                     <span class="summary-value discount-value">-{{ loyalty_discount }}</span>
                 </div>
                 {% endif %}
+                {% if discount and discount|float > 0 %}
+                <div class="summary-row discount-row">
+                    <span class="summary-label">Discount:</span>
+                    <span class="summary-value discount-value">-${{ "%.2f"|format(discount) }}</span>
+                </div>
+                {% endif %}
                 <div class="summary-row">
-                    <span class="summary-label">Shipping ({{ shipping_method }}):</span>
-                    <span class="summary-value">{{ shipping_charge }}</span>
+                    <span class="summary-label">Shipping{% if shipping_method %} ({{ shipping_method }}){% endif %}:</span>
+                    <span class="summary-value">{{ shipping_charge|default('$0.00') }}</span>
                 </div>
                 {% if gift_wrap %}
                 <div class="summary-row">
@@ -204,11 +210,11 @@
                 {% endif %}
                 <div class="summary-row">
                     <span class="summary-label">Tax:</span>
-                    <span class="summary-value">{{ tax_amount }}</span>
+                    <span class="summary-value">${{ "%.2f"|format(tax_amount|default(0)) }}</span>
                 </div>
                 <div class="summary-row total-row">
                     <span class="summary-label total-label">Total:</span>
-                    <span class="summary-value total-value">{{ total_amount }}</span>
+                    <span class="summary-value total-value">${{ "%.2f"|format(total_amount|default(0)) }}</span>
                 </div>
                 {% if total_savings and total_savings|float > 0 %}
                 <div class="savings-banner">
@@ -225,9 +231,9 @@
             <div class="payment-details">
                 <div class="payment-method">
                     <span class="payment-icon"></span>
-                    <span class="payment-type">{{ payment_method }}</span>
-                    <span class="card-type">{{ card_type }}</span>
-                    <span class="card-number">ending in {{ card_last_four }}</span>
+                    <span class="payment-type">{{ payment_method|default('Credit Card') }}</span>
+                    {% if card_type %}<span class="card-type">{{ card_type }}</span>{% endif %}
+                    {% if card_last_four %}<span class="card-number">ending in {{ card_last_four }}</span>{% endif %}
                 </div>
                 <div class="payment-status">
                     <span class="status-badge paid">PAID</span>
@@ -274,13 +280,13 @@
             <div class="returns-policy">
                 <p class="policy-text">
                     <span class="policy-icon">🔄</span>
-                    Free returns and exchanges within {{ return_window }} days of delivery.
+                    Free returns and exchanges within {{ return_window|default(30) }} days of delivery.
                     Items must have original tags attached and be unworn/unwashed.
                 </p>
                 {% if return_deadline %}
                 <p class="return-deadline">Return by: <strong>{{ return_deadline }}</strong></p>
                 {% endif %}
-                <p class="policy-link">Visit {{ returns_url }} to start your return.</p>
+                <p class="policy-link">Visit {{ returns_url|default(store_website)|default('our website') }} to start your return.</p>
             </div>
         </div>
 
@@ -288,8 +294,8 @@
         <div class="invoice-footer">
             <div class="footer-section">
                 <h4>Need Help?</h4>
-                <p>Customer Service: {{ supplier_phone }}</p>
-                <p>Email: {{ supplier_email }}</p>
+                <p>Customer Service: {{ supplier_phone|default('See website') }}</p>
+                <p>Email: {{ supplier_email|default('support@store.com') }}</p>
             </div>
             <div class="footer-section">
                 <h4>Follow Us</h4>

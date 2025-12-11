@@ -50,6 +50,7 @@ class InvoiceRenderer:
         # Add custom filters for safe numeric handling
         self.env.filters['to_float'] = self._to_float_filter
         self.env.filters['safe_format'] = self._safe_format_filter
+        self.env.filters['currency'] = self._currency_filter
         
         # Template config manager for multipage support
         self.config_manager = get_template_config_manager()
@@ -87,6 +88,32 @@ class InvoiceRenderer:
         """
         num_value = InvoiceRenderer._to_float_filter(value, default)
         return format_spec % num_value
+    
+    @staticmethod
+    def _currency_filter(value, symbol="$", default=0.0):
+        """
+        Jinja2 filter to format a numeric value as currency.
+        Handles already-formatted strings (passes through if already has symbol).
+        Usage: {{ subtotal|currency }}
+               {{ total_amount|currency("€") }}
+        """
+        if value is None:
+            return f"{symbol}{default:,.2f}"
+        
+        # If already a formatted string with currency symbol, pass through
+        if isinstance(value, str):
+            value_stripped = value.strip()
+            if value_stripped.startswith(('$', '€', '£')) or 'FREE' in value_stripped.upper():
+                return value_stripped
+            # Try to convert to float and format
+            num_value = InvoiceRenderer._to_float_filter(value_stripped, default)
+            return f"{symbol}{num_value:,.2f}"
+        
+        # Numeric value - format it
+        if isinstance(value, (int, float)):
+            return f"{symbol}{value:,.2f}"
+        
+        return f"{symbol}{default:,.2f}"
     
     def _get_html_renderer(self):
         """Lazy load HTMLToPNGRenderer"""

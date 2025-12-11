@@ -105,15 +105,15 @@
         </table>
         {% else %}
         <!-- Compact Header - Continuation Pages -->
-        <div style="border-bottom: 2px solid #FF6600; padding: 15px 0; margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <strong style="font-size: 16px;">{{ buyer_company }}</strong> | 
+        <table class="continuation-header">
+            <tr>
+                <td class="left">
+                    <strong>{{ buyer_company }}</strong> | 
                     <span style="color: #666;">PO #{{ po_number }}</span>
-                </div>
-                <div style="color: #666;">Page {{ _page_number }} of {{ _total_pages }}</div>
-            </div>
-        </div>
+                </td>
+                <td class="right">Page {{ _page_number }} of {{ _total_pages }}</td>
+            </tr>
+        </table>
         {% endif %}
 
         <!-- Freight Forwarder Information -->

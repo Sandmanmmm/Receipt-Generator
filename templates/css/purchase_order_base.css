@@ -1,0 +1,349 @@
+/* Purchase Order Base Styles - wkhtmltoimage Compatible */
+/* Used by: po_dropship, po_alibaba, po_manufacturer_direct, po_domestic_distributor, po_fashion_wholesale */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 10px;
+    line-height: 1.4;
+    color: #1a1a1a;
+    background: #ffffff;
+}
+
+/* Page Container - Fixed width for consistent rendering */
+.page-container {
+    width: 816px;
+    min-height: 1056px;
+    max-width: 816px;
+    margin: 0 auto;
+    padding: 25px;
+    position: relative;
+    background: #ffffff;
+}
+
+/* Header Table Layout (wkhtmltoimage compatible - NO flexbox) */
+.po-header {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+.po-header td {
+    vertical-align: top;
+    padding: 0;
+}
+
+.header-logo {
+    width: 200px;
+}
+
+.header-info {
+    text-align: right;
+}
+
+.company-logo {
+    max-width: 180px;
+    max-height: 70px;
+    object-fit: contain;
+}
+
+.po-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #2563eb;
+}
+
+.po-number {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.po-date {
+    font-size: 11px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.po-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-approved {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-draft {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+/* Address Sections - Table Layout */
+.addresses-section {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+.addresses-section td {
+    width: 50%;
+    vertical-align: top;
+    padding: 0 10px 0 0;
+}
+
+.addresses-section td:last-child {
+    padding: 0 0 0 10px;
+}
+
+.address-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 12px 15px;
+}
+
+.address-label {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.address-company {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.address-details {
+    font-size: 10px;
+    color: #475569;
+    line-height: 1.5;
+}
+
+/* Items Table */
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+.items-table thead {
+    background: #f1f5f9;
+}
+
+.items-table th {
+    padding: 10px 8px;
+    text-align: left;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #475569;
+    border-bottom: 2px solid #cbd5e1;
+}
+
+.items-table th.text-right,
+.items-table td.text-right {
+    text-align: right;
+}
+
+.items-table th.text-center,
+.items-table td.text-center {
+    text-align: center;
+}
+
+.items-table tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.items-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.items-table td {
+    padding: 10px 8px;
+    font-size: 10px;
+    vertical-align: top;
+}
+
+.item-sku {
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+    color: #64748b;
+}
+
+.item-description {
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.item-notes {
+    font-size: 9px;
+    color: #64748b;
+    margin-top: 3px;
+}
+
+/* Totals Section */
+.totals-section {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.totals-table {
+    width: 300px;
+    margin-left: auto;
+    border-collapse: collapse;
+}
+
+.totals-table td {
+    padding: 6px 10px;
+    font-size: 10px;
+}
+
+.totals-table .label {
+    text-align: right;
+    color: #64748b;
+}
+
+.totals-table .value {
+    text-align: right;
+    font-weight: 500;
+    width: 100px;
+}
+
+.totals-table .grand-total {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+    border-top: 2px solid #cbd5e1;
+    padding-top: 10px;
+}
+
+/* Terms and Conditions */
+.terms-section {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.terms-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.terms-content {
+    font-size: 9px;
+    color: #475569;
+    line-height: 1.6;
+}
+
+.terms-list {
+    margin: 8px 0 0 15px;
+    padding: 0;
+}
+
+.terms-list li {
+    margin-bottom: 5px;
+}
+
+/* Signature Section */
+.signature-section {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: collapse;
+}
+
+.signature-section td {
+    width: 50%;
+    padding: 20px;
+    vertical-align: bottom;
+}
+
+.signature-line {
+    border-top: 1px solid #1a1a1a;
+    padding-top: 5px;
+    margin-top: 40px;
+}
+
+.signature-label {
+    font-size: 9px;
+    color: #64748b;
+}
+
+/* Footer */
+.page-footer {
+    position: absolute;
+    bottom: 20px;
+    left: 25px;
+    right: 25px;
+    padding-top: 10px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 8px;
+    color: #94a3b8;
+    text-align: center;
+}
+
+/* Continuation Header for Multi-page */
+.continuation-header {
+    width: 100%;
+    border-bottom: 2px solid #2563eb;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+.continuation-header td {
+    padding: 0;
+    vertical-align: middle;
+}
+
+.continuation-header .left {
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.continuation-header .center {
+    text-align: center;
+    color: #64748b;
+}
+
+.continuation-header .right {
+    text-align: right;
+    color: #64748b;
+    font-size: 10px;
+}
+
+/* Utility Classes */
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.font-bold { font-weight: 700; }
+.text-sm { font-size: 9px; }
+.text-muted { color: #64748b; }

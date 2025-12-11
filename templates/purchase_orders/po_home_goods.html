@@ -233,7 +233,7 @@
                         <td class="totals-value discount">-${{ "%.2f"|format(discount_amount|to_float) }}</td>
                     </tr>
                     {% endif %}
-                    {% if shipping_cost and shipping_cost > 0 %}
+                    {% if shipping_cost and (shipping_cost|to_float) > 0 %}
                     <tr>
                         <td class="totals-label">Freight Charges:</td>
                         <td class="totals-value">${{ "%.2f"|format(shipping_cost) }}</td>

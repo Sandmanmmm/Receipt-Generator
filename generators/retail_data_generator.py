@@ -2810,6 +2810,14 @@ class RetailDataGenerator:
             'customer_gst': f"GST{random.randint(100000000, 999999999)}",  # Customer GST ID for B2B
             'customer_reg': f"REG{random.randint(100000, 999999)}",  # Customer registration
             'account_number': receipt.account_number,
+            # Additional aliases for template compatibility
+            'billing_name': receipt.buyer_name,  # Alias for billing templates
+            'delivery_name': receipt.buyer_name,  # Alias for delivery/shipping templates
+            'buyer_contact': receipt.buyer_email,  # Contact alias
+            'customer_contact': receipt.buyer_email,  # Contact alias
+            'buyer_reg_number': '',  # Prevents placeholder text
+            'customer_reg_number': '',  # Prevents placeholder text
+            'buyer_company': receipt.buyer_name,  # B2B company name alias
             
             # Membership/Loyalty fields (used by wholesale, bookstore, dollar store)
             'member_id': receipt.customer_id or f"M{random.randint(100000, 999999)}",
@@ -3293,6 +3301,7 @@ class RetailDataGenerator:
             # Shipping address fields (for online orders)
             'shipping_name': receipt.buyer_name,
             'shipping_address': receipt.buyer_address,
+            'shipping_street': receipt.buyer_address,  # Alias for shipping_street
             'shipping_street_address': receipt.buyer_address.split(',')[0] if receipt.buyer_address and ',' in receipt.buyer_address else receipt.buyer_address,
             'shipping_city': receipt.buyer_address.split(',')[1].strip() if receipt.buyer_address and ',' in receipt.buyer_address and len(receipt.buyer_address.split(',')) > 1 else '',
             'shipping_state': receipt.buyer_address.split(',')[2].split()[0] if receipt.buyer_address and ',' in receipt.buyer_address and len(receipt.buyer_address.split(',')) > 2 else '',
@@ -3302,6 +3311,10 @@ class RetailDataGenerator:
             'expected_delivery': (datetime.now() + timedelta(days=random.randint(2, 7))).strftime('%B %d, %Y'),
             'estimated_delivery': (datetime.now() + timedelta(days=random.randint(2, 7))).strftime('%B %d, %Y'),
             'estimated_delivery_date': (datetime.now() + timedelta(days=random.randint(2, 7))).strftime('%Y-%m-%d'),
+            # Buyer/Customer city aliases (parsed from buyer_address)
+            'buyer_city': receipt.buyer_address.split(',')[1].strip() if receipt.buyer_address and ',' in receipt.buyer_address and len(receipt.buyer_address.split(',')) > 1 else '',
+            'customer_city': receipt.buyer_address.split(',')[1].strip() if receipt.buyer_address and ',' in receipt.buyer_address and len(receipt.buyer_address.split(',')) > 1 else '',
+            'billing_address': receipt.buyer_address,  # Alias for billing templates
             
             # Delivery fields (for grocery/food delivery)
             'delivery_address': receipt.buyer_address,

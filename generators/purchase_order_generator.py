@@ -593,7 +593,7 @@ class PurchaseOrderGenerator(SyntheticDataGenerator):
     
     def to_dict(self, purchase_order: dict) -> dict:
         """
-        Convert purchase order data to dictionary (passthrough for compatibility)
+        Convert purchase order data to dictionary with template field aliases
         
         Args:
             purchase_order: Purchase order dict or PurchaseOrderData instance
@@ -601,16 +601,92 @@ class PurchaseOrderGenerator(SyntheticDataGenerator):
         Returns:
             dict: Dictionary representation suitable for template rendering
         """
-        # If already a dict, return as-is
+        # If already a dict, use it
         if isinstance(purchase_order, dict):
-            return purchase_order
-        
-        # If it's a dataclass instance, convert to dict
-        if hasattr(purchase_order, '__dataclass_fields__'):
+            data = purchase_order.copy()
+        elif hasattr(purchase_order, '__dataclass_fields__'):
             from dataclasses import asdict
-            return asdict(purchase_order)
+            data = asdict(purchase_order)
+        else:
+            data = dict(purchase_order)
         
-        # Fallback: assume it's dict-like
-        return dict(purchase_order)
+        # Add buyer/customer aliases from supplier/vendor fields
+        if 'supplier_name' in data and 'company_name' not in data:
+            data['company_name'] = data['supplier_name']
+        if 'company_name' in data and 'supplier_name' not in data:
+            data['supplier_name'] = data['company_name']
         
-        return po_data
+        # Add buyer/customer name aliases
+        buyer_name = data.get('buyer_name') or data.get('customer_name') or data.get('ship_to_name', '')
+        if buyer_name:
+            data['buyer_name'] = buyer_name
+            data['customer_name'] = buyer_name
+            data['billing_name'] = buyer_name
+            data['delivery_name'] = buyer_name
+            data['shipping_name'] = buyer_name
+            data['buyer_company'] = buyer_name
+        
+        # Add buyer/customer address aliases
+        buyer_address = data.get('buyer_address') or data.get('customer_address') or data.get('ship_to_address', '')
+        if buyer_address:
+            data['buyer_address'] = buyer_address
+            data['customer_address'] = buyer_address
+            data['billing_address'] = buyer_address
+            data['shipping_address'] = buyer_address
+            data['shipping_street'] = buyer_address
+        
+        # Add contact aliases
+        contact = data.get('buyer_contact') or data.get('customer_contact') or data.get('buyer_email', '')
+        if contact:
+            data['buyer_contact'] = contact
+            data['customer_contact'] = contact
+        
+        # Add registration number placeholders (prevents placeholder text)
+        if 'buyer_reg_number' not in data:
+            data['buyer_reg_number'] = data.get('tax_id', '')
+        if 'customer_reg_number' not in data:
+            data['customer_reg_number'] = data.get('tax_id', '')
+        
+        # Add financial field aliases
+        if 'subtotal' in data and 'subtotal_amount' not in data:
+            data['subtotal_amount'] = data['subtotal']
+        if 'tax' in data and 'tax_amount' not in data:
+            data['tax_amount'] = data['tax']
+        if 'total' in data and 'total_amount' not in data:
+            data['total_amount'] = data['total']
+        if 'discount' in data and 'discount_amount' not in data:
+            data['discount_amount'] = data['discount']
+        if 'shipping' in data and 'shipping_cost' not in data:
+            data['shipping_cost'] = data['shipping']
+        
+        # Add item field aliases
+        for items_key in ['items', 'line_items']:
+            if items_key in data and isinstance(data[items_key], list):
+                for item in data[items_key]:
+                    if isinstance(item, dict):
+                        # Add name/product_name aliases
+                        if 'description' in item:
+                            if 'name' not in item:
+                                item['name'] = item['description']
+                            if 'product_name' not in item:
+                                item['product_name'] = item['description']
+                        
+                        # Add price aliases
+                        price = item.get('unit_price') or item.get('rate') or item.get('price', 0)
+                        item['unit_price'] = price
+                        item['price'] = price
+                        item['unit_cost'] = price
+                        item['rate'] = price
+                        
+                        # Add total aliases
+                        total = item.get('total') or item.get('amount') or item.get('line_total', 0)
+                        item['total'] = total
+                        item['amount'] = total
+                        item['line_total'] = total
+                        item['subtotal'] = total
+        
+        # Ensure line_items alias exists
+        if 'items' in data and 'line_items' not in data:
+            data['line_items'] = data['items']
+        
+        return data

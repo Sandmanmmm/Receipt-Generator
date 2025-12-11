@@ -106,7 +106,11 @@ class ModernInvoiceGenerator(SyntheticDataGenerator):
         # Calculate totals
         tax_rate = 0.08
         tax = round(subtotal * tax_rate, 2)
-        total = round(subtotal + tax, 2)
+        
+        # Add shipping cost (random, can be 0 for free shipping)
+        shipping = round(random.choice([0.0, 0.0, 4.99, 5.99, 7.99, 9.99, 12.99, 14.99]), 2)
+        
+        total = round(subtotal + tax + shipping, 2)
         
         # Generate banking info
         bank_name = self.fake.company() + " Bank"
@@ -145,7 +149,8 @@ class ModernInvoiceGenerator(SyntheticDataGenerator):
             # Client
             'client_name': client['client_name'],
             'client_address': client['client_address'],
-            'client_contact': client.get('client_email', ''),
+            'client_contact': client.get('client_email') or self.fake.email(),  # Always provide an email
+            'client_email': client.get('client_email') or self.fake.email(),
             'client_city': self.fake.city() + ", " + self.fake.state_abbr() + " " + self.fake.zipcode(),
             'ship_to': client.get('ship_to', None),
             
@@ -162,6 +167,8 @@ class ModernInvoiceGenerator(SyntheticDataGenerator):
             'subtotal': subtotal,
             'tax_rate': f"{tax_rate*100:.0f}%",
             'tax': tax,
+            'shipping': shipping,
+            'shipping_cost': shipping,  # Alias
             'total': total,
             'currency_symbol': self.currencies.get(self.locale, '$'),
             
@@ -206,6 +213,73 @@ class ModernInvoiceGenerator(SyntheticDataGenerator):
             data['supplier_name'] = data['company_name']
         if 'company_address' in data and 'supplier_address' not in data:
             data['supplier_address'] = data['company_address']
+        
+        # Buyer/customer aliases (templates use buyer_* or customer_*, we have client_*)
+        if 'client_name' in data:
+            if 'buyer_name' not in data:
+                data['buyer_name'] = data['client_name']
+            if 'customer_name' not in data:
+                data['customer_name'] = data['client_name']
+        if 'client_address' in data:
+            if 'buyer_address' not in data:
+                data['buyer_address'] = data['client_address']
+            if 'customer_address' not in data:
+                data['customer_address'] = data['client_address']
+        
+        # Contact email aliases (check both client_contact and client_email)
+        # Use empty string if None to prevent placeholder text in templates
+        contact_email = data.get('client_contact') or data.get('client_email') or ''
+        if 'buyer_contact' not in data:
+            data['buyer_contact'] = contact_email
+        if 'customer_contact' not in data:
+            data['customer_contact'] = contact_email
+        if 'buyer_email' not in data:
+            data['buyer_email'] = contact_email
+        if 'customer_email' not in data:
+            data['customer_email'] = contact_email
+        
+        # City aliases (generate if not present)
+        client_city = data.get('client_city', '')
+        if not client_city and 'client_address' in data:
+            # Try to extract city from address
+            addr_parts = data['client_address'].split(',')
+            if len(addr_parts) >= 2:
+                client_city = addr_parts[1].strip()
+        if client_city:
+            if 'buyer_city' not in data:
+                data['buyer_city'] = client_city
+            if 'customer_city' not in data:
+                data['customer_city'] = client_city
+            if 'shipping_city' not in data:
+                data['shipping_city'] = client_city
+        
+        # Shipping address aliases (use client info as shipping by default)
+        if 'shipping_name' not in data and 'client_name' in data:
+            data['shipping_name'] = data['client_name']
+        if 'shipping_street' not in data and 'client_address' in data:
+            data['shipping_street'] = data['client_address']
+        if 'shipping_city' not in data:
+            data['shipping_city'] = data.get('buyer_city', data.get('customer_city', ''))
+        if 'shipping_address' not in data and 'client_address' in data:
+            data['shipping_address'] = data['client_address']
+        
+        # Billing address alias
+        if 'billing_address' not in data and 'client_address' in data:
+            data['billing_address'] = data['client_address']
+        if 'billing_name' not in data and 'client_name' in data:
+            data['billing_name'] = data['client_name']
+        if 'delivery_name' not in data and 'client_name' in data:
+            data['delivery_name'] = data['client_name']
+        
+        # B2B company name alias
+        if 'buyer_company' not in data and 'client_name' in data:
+            data['buyer_company'] = data['client_name']
+        
+        # Registration number placeholder (some templates expect this)
+        if 'buyer_reg_number' not in data:
+            data['buyer_reg_number'] = data.get('tax_id', '')
+        if 'customer_reg_number' not in data:
+            data['customer_reg_number'] = data.get('tax_id', '')
         
         # Some templates use _amount suffix for financial fields
         if 'subtotal' in data and 'subtotal_amount' not in data:

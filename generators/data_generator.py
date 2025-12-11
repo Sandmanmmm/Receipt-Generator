@@ -342,43 +342,97 @@ class SyntheticDataGenerator:
     
     def invoice_to_dict(self, invoice: InvoiceData) -> Dict[str, Any]:
         """Convert InvoiceData to dictionary for template rendering"""
-        return {
+        # Build items with comprehensive field aliases
+        items = []
+        for item in invoice.items:
+            item_dict = {
+                'description': item.description,
+                'name': item.description,  # Alias for templates using 'name'
+                'product_name': item.description,  # Alias for ecommerce templates
+                'quantity': item.quantity,
+                'rate': item.rate,
+                'unit_price': item.rate,  # Alias for unit_price
+                'price': item.rate,  # Alias for price
+                'unit_cost': item.rate,  # Alias for PO templates
+                'tax_rate': item.tax_rate,
+                'amount': item.amount,
+                'total': item.amount,  # Alias for total
+                'line_total': item.amount,  # Alias for line_total
+                'subtotal': item.amount,  # Item-level subtotal alias
+            }
+            items.append(item_dict)
+        
+        data = {
+            # Company/Supplier info
             'company_name': invoice.company_name,
+            'supplier_name': invoice.company_name,  # Alias for ecommerce templates
             'company_address': invoice.company_address,
+            'supplier_address': invoice.company_address,  # Alias
             'company_phone': invoice.company_phone,
             'company_email': invoice.company_email,
             'company_tax_id': invoice.company_tax_id,
+            
+            # Invoice details
             'invoice_number': invoice.invoice_number,
             'invoice_date': invoice.invoice_date,
             'due_date': invoice.due_date,
+            
+            # Client/Buyer/Customer info (with comprehensive aliases)
             'client_name': invoice.client_name,
+            'buyer_name': invoice.client_name,  # Alias for buyer_name
+            'customer_name': invoice.client_name,  # Alias for customer_name
+            'billing_name': invoice.client_name,  # Alias for billing_name
+            'delivery_name': invoice.client_name,  # Alias for delivery_name
             'client_address': invoice.client_address,
+            'buyer_address': invoice.client_address,  # Alias
+            'customer_address': invoice.client_address,  # Alias
+            'billing_address': invoice.client_address,  # Alias
             'client_phone': invoice.client_phone,
+            'buyer_phone': invoice.client_phone,  # Alias
+            'customer_phone': invoice.client_phone,  # Alias
             'client_email': invoice.client_email,
+            'buyer_email': invoice.client_email,  # Alias
+            'customer_email': invoice.client_email,  # Alias
+            'buyer_contact': invoice.client_email,  # Alias for contact
+            'customer_contact': invoice.client_email,  # Alias
+            
+            # Shipping info (default to client info if not provided)
             'ship_to': invoice.ship_to,
-            'items': [
-                {
-                    'description': item.description,
-                    'quantity': item.quantity,
-                    'rate': item.rate,
-                    'tax_rate': item.tax_rate,
-                    'amount': item.amount
-                }
-                for item in invoice.items
-            ],
+            'shipping_name': invoice.client_name,
+            'shipping_address': invoice.client_address,
+            'shipping_street': invoice.client_address,
+            
+            # Items
+            'items': items,
+            'line_items': items,  # Alias for line_items
+            
+            # Financial totals (with aliases)
             'currency_symbol': invoice.currency_symbol,
             'subtotal': invoice.subtotal,
+            'subtotal_amount': invoice.subtotal,  # Alias
             'discount': invoice.discount,
+            'discount_amount': invoice.discount,  # Alias
             'discount_percent': invoice.discount_percent,
             'tax': invoice.tax,
+            'tax_amount': invoice.tax,  # Alias
             'tax_rate': invoice.tax_rate,
             'shipping': invoice.shipping,
+            'shipping_cost': invoice.shipping,  # Alias
             'total': invoice.total,
+            'total_amount': invoice.total,  # Alias
+            
+            # Additional fields
             'include_tax': invoice.include_tax,
             'payment_info': invoice.payment_info,
             'notes': invoice.notes,
-            'terms': invoice.terms
+            'terms': invoice.terms,
+            
+            # Registration numbers (empty by default, prevents placeholder text)
+            'buyer_reg_number': '',
+            'customer_reg_number': '',
+            'buyer_company': invoice.client_name,  # Company name for B2B
         }
+        return data
 
 
 if __name__ == '__main__':
